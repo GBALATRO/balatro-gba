@@ -134,6 +134,8 @@ void card_object_set_sprite(CardObject* card_object, int layer)
         &card_tiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
+    // Create a new sprite with the specified layer. Since sprite layers are tied to
+    // OAM indices which can't be swapped, sprites must be recreated when z-order changes.
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,

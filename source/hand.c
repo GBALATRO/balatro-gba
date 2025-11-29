@@ -167,38 +167,70 @@ void swap_cards_in_hand(int idx_a, int idx_b)
     hand.cards[idx_b] = temp;
 }
 
-static inline void sort_hand_by_suit(void)
+// Compare two cards for sorting by suit (primary) and rank (secondary)
+// Returns true if card_a should come before card_b
+static bool card_compare_by_suit(void* a, void* b)
 {
-    for (int idx_a = 0; idx_a < hand.hand_top; idx_a++)
+    CardObject* card_a = (CardObject*)a;
+    CardObject* card_b = (CardObject*)b;
+
+    if (card_a == NULL)
     {
-        for (int idx_b = idx_a + 1; idx_b <= hand.hand_top; idx_b++)
+        return false;
+    }
+    if (card_b == NULL)
+    {
+        return true;
+    }
+    if (card_a->card->suit != card_b->card->suit)
+        return card_a->card->suit < card_b->card->suit;
+    return card_a->card->rank < card_b->card->rank;
+}
+
+// Compare two cards for sorting by rank only
+// Returns true if card_a should come before card_b
+static bool card_compare_by_rank(void* a, void* b)
+{
+    CardObject* card_a = (CardObject*)a;
+    CardObject* card_b = (CardObject*)b;
+
+    if (card_a == NULL)
+    {
+        return false;
+    }
+    if (card_b == NULL)
+    {
+        return true;
+    }
+    return card_a->card->rank < card_b->card->rank;
+}
+
+static void insertion_sort(SortArgs args)
+{
+    for (int i = 1; i < args.size; i++)
+    {
+        void* key = args.array[i];
+        int j;
+
+        // Shift elements that don't satisfy the comparison
+        for (j = i - 1; j >= 0 && !args.compare(args.array[j], key); j--)
         {
-            if (hand.cards[idx_a] == NULL ||
-                (hand.cards[idx_b] != NULL &&
-                 (hand.cards[idx_a]->card->suit > hand.cards[idx_b]->card->suit ||
-                  (hand.cards[idx_a]->card->suit == hand.cards[idx_b]->card->suit &&
-                   hand.cards[idx_a]->card->rank > hand.cards[idx_b]->card->rank))))
-            {
-                swap_cards_in_hand(idx_a, idx_b);
-            }
+            args.array[j + 1] = args.array[j];
         }
+        args.array[j + 1] = key;
     }
 }
 
-static inline void sort_hand_by_rank(void)
+static void sort_hand_by_suit(void)
 {
-    for (int idx_a = 0; idx_a < hand.hand_top; idx_a++)
-    {
-        for (int idx_b = idx_a + 1; idx_b <= hand.hand_top; idx_b++)
-        {
-            if (hand.cards[idx_a] == NULL ||
-                (hand.cards[idx_b] != NULL &&
-                 hand.cards[idx_a]->card->rank > hand.cards[idx_b]->card->rank))
-            {
-                swap_cards_in_hand(idx_a, idx_b);
-            }
-        }
-    }
+    SortArgs args = {(void**)hand, hand_top + 1, card_compare_by_suit};
+    insertion_sort(args);
+}
+
+static void sort_hand_by_rank(void)
+{
+    SortArgs args = {(void**)hand, hand_top + 1, card_compare_by_rank};
+    insertion_sort(args);
 }
 
 static inline bool shift_null_card_to_end(int null_card_idx)
