@@ -12,10 +12,12 @@
 #include <string.h>
 #include <tonc.h>
 
-#define JOKER_SCORE_TEXT_Y         48
-#define HELD_CARD_SCORE_TEXT_Y     108
-#define MAX_CARD_SCORE_STR_LEN     2
-#define NUM_JOKERS_PER_SPRITESHEET 2
+#include "pool.h"
+
+#define JOKER_SCORE_TEXT_Y 48
+#define HELD_CARD_SCORE_TEXT_Y 108
+#define MAX_CARD_SCORE_STR_LEN 2
+#define MAX_NUM_JOKERS_SPRITESHEETS 75 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 
 static const unsigned int* joker_gfxTiles[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Tiles,
@@ -49,15 +51,35 @@ static bool _used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for 
 
 // Maps the spritesheet index to the palette bank index allocated to it.
 // Spritesheets that were not allocated are
-static int _joker_spritesheet_pb_map[(MAX_DEFINABLE_JOKERS + 1) / NUM_JOKERS_PER_SPRITESHEET];
-static int _joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
+static int _joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
+static int _joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = { 0 };
 
-static int s_get_num_spritesheets(void);
+// Map of Joker ID -> Spritesheet idx
+static int _joker_id_to_sprite_map[] = {
+    0, 0, 1, 1, 2, 2, 3, 3, 4, 4,
+    5, 5, 6, 6, 7, 7, 8, 8, 9, 9,
+    10, 10, 11, 11, 12, 12, 13, 13, 14, 14,
+    15, 15, 16, 16, 17, 17, 18, 18, 19, 19,
+    20, 20, 21, 21, 22, 22, 23, 23, 24, 24,
+    25, 25
+};
+// Map of Joker ID -> Sprite idx in sheet
+static int _joker_id_to_sprite_position_map[] = {
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+    0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+    0, 1
+};
+
+static int s_get_num_spritesheets();
 static int s_joker_get_spritesheet_idx(u8 joker_id);
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
-static int s_get_unused_joker_pb(void);
+static int s_get_unused_joker_pb();
 static int s_allocate_pb_if_needed(u8 joker_id);
 
 void joker_init()
@@ -143,9 +165,9 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->sprite_object = sprite_object_new();
 
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
-
+    
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
-    int joker_idx = joker->id % NUM_JOKERS_PER_SPRITESHEET;
+    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
@@ -354,13 +376,17 @@ int joker_get_random_rarity()
 
 static int s_get_num_spritesheets()
 {
-    return (get_joker_registry_size() + NUM_JOKERS_PER_SPRITESHEET - 1) /
-           NUM_JOKERS_PER_SPRITESHEET;
+    return MAX_NUM_JOKERS_SPRITESHEETS;
 }
 
 static int s_joker_get_spritesheet_idx(u8 joker_id)
 {
-    return joker_id / NUM_JOKERS_PER_SPRITESHEET;
+    return _joker_id_to_sprite_map[joker_id];
+}
+
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
+{
+    return _joker_id_to_sprite_position_map[joker_id];
 }
 
 static void s_joker_pb_add_sprite_user(int pb)
