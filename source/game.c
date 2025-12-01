@@ -428,11 +428,6 @@ static const BG_POINT HAND_PLAY_POS         = {120,     70};
 static const BG_POINT MAIN_MENU_ACE_T       = {88,      26};
 // clang-format on
 
-// Joker Testing
-static void add_to_held_jokers(JokerObject* joker_object);
-#define NB_TESTED_JOKERS 5
-static u8 test_jokers[NB_TESTED_JOKERS] = {0, 1, 2, 3, 4};
-
 static uint rng_seed = 0;
 
 typedef void (*SubStateActionFn)(void);
