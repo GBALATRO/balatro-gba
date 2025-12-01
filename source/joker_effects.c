@@ -343,8 +343,12 @@ static u32 sock_and_buskin_joker_effect(
 const JokerInfo joker_registry[] = 
 {
     { COMMON_JOKER,    2, default_joker_effect              }, // DEFAULT_JOKER_ID = 0
-    { COMMON_JOKER,    5, greedy_joker_effect               }, // GREEDY_JOKER_ID  = 1
-    { COMMON_JOKER,    5, lusty_joker_effect                }, // etc...  2
+    { COMMON_JOKER,    4, abstract_joker_effect             }, // 1
+    { COMMON_JOKER,    5, half_joker_effect                 }, // 2
+    { COMMON_JOKER,    4, misprint_joker_effect             }, // 3
+
+    { COMMON_JOKER,    5, greedy_joker_effect               }, // 2
+    { COMMON_JOKER,    5, lusty_joker_effect                }, // 3
     { COMMON_JOKER,    5, wrathful_joker_effect             }, // 3
     { COMMON_JOKER,    5, gluttonous_joker_effect           }, // 4
     { COMMON_JOKER,    3, jolly_joker_effect                }, // 5
@@ -357,14 +361,12 @@ const JokerInfo joker_registry[] =
     { COMMON_JOKER,    4, clever_joker_effect               }, // 12
     { COMMON_JOKER,    4, devious_joker_effect              }, // 13 
     { COMMON_JOKER,    4, crafty_joker_effect               }, // 14
-    { COMMON_JOKER,    5, half_joker_effect                 }, // 15
     { UNCOMMON_JOKER,  8, joker_stencil_effect              }, // 16
     { COMMON_JOKER,    5, photograph_joker_effect,          }, // 17
     { COMMON_JOKER,    4, walkie_talkie_joker_effect        }, // 18
     { COMMON_JOKER,    5, banner_joker_effect               }, // 19
     { UNCOMMON_JOKER,  6, blackboard_joker_effect           }, // 20
     { COMMON_JOKER,    5, mystic_summit_joker_effect        }, // 21
-    { COMMON_JOKER,    4, misprint_joker_effect             }, // 22
     { COMMON_JOKER,    4, even_steven_joker_effect          }, // 23
     { COMMON_JOKER,    5, blue_joker_effect                 }, // 24
     { COMMON_JOKER,    4, odd_todd_joker_effect             }, // 25
@@ -374,7 +376,6 @@ const JokerInfo joker_registry[] =
     { UNCOMMON_JOKER,  7, bootstraps_joker_effect           }, // 29
     { UNCOMMON_JOKER,  5, joker_effect_noop                 }, // 30 Pareidolia
     { COMMON_JOKER,    6, reserved_parking_joker_effect     }, // 31
-    { COMMON_JOKER,    4, abstract_joker_effect             }, // 32
     { UNCOMMON_JOKER,  6, bull_joker_effect                 }, // 33
     { RARE_JOKER,      8, the_duo_joker_effect              }, // 34
     { RARE_JOKER,      8, the_trio_joker_effect             }, // 35
