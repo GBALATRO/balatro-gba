@@ -85,13 +85,13 @@ enum JokerEvent
 
 // Jokers in the game
 #define DEFAULT_JOKER_ID 0
-#define GREEDY_JOKER_ID 12
-#define BRAINSTORM_JOKER_ID 35
-#define STENCIL_JOKER_ID 36
-#define SHORTCUT_JOKER_ID 38
-#define PAREIDOLIA_JOKER_ID 42
-#define BLUEPRINT_JOKER_ID 51
+#define STENCIL_JOKER_ID 15
+#define GREEDY_JOKER_ID 17
+#define SHORTCUT_JOKER_ID 37
+#define BRAINSTORM_JOKER_ID 40
+#define PAREIDOLIA_JOKER_ID 45
 #define FOUR_FINGERS_JOKER_ID 49
+#define BLUEPRINT_JOKER_ID 51
 
 typedef struct
 {
