@@ -340,6 +340,7 @@ static u32 sock_and_buskin_joker_effect(
  * (and put together in the matching spritesheet) to share a color palette.
  * Otherwise the order is similar to the wiki.
  */
+// clang-format off
 const JokerInfo joker_registry[] = 
 {
     // Spritesheet 0
@@ -360,56 +361,55 @@ const JokerInfo joker_registry[] =
     { COMMON_JOKER,    4, hanging_chad_joker_effect         }, // 14
     { UNCOMMON_JOKER,  8, stencil_joker_effect              }, // 15
     { COMMON_JOKER,    5, banner_joker_effect               }, // 16
+    { COMMON_JOKER,    5, shoot_the_moon_joker_effect,      }, // 17
     // Spritesheet 1 
-    { COMMON_JOKER,    5, greedy_joker_effect               }, // 17
-    { COMMON_JOKER,    5, lusty_joker_effect                }, // 18
+    { COMMON_JOKER,    5, greedy_joker_effect               }, // 18
+    { COMMON_JOKER,    5, lusty_joker_effect                }, // 19
     // Spritesheet 2
-    { COMMON_JOKER,    5, wrathful_joker_effect             }, // 19
-    { COMMON_JOKER,    5, gluttonous_joker_effect           }, // 20
+    { COMMON_JOKER,    5, wrathful_joker_effect             }, // 20
+    { COMMON_JOKER,    5, gluttonous_joker_effect           }, // 21
     // Spritesheet 3
-    { COMMON_JOKER,    4, crazy_joker_effect                }, // 21
-    { COMMON_JOKER,    4, mad_joker_effect                  }, // 22
-    { COMMON_JOKER,    4, clever_joker_effect               }, // 23
-    { COMMON_JOKER,    4, devious_joker_effect              }, // 24
-    { COMMON_JOKER,    4, even_steven_joker_effect          }, // 25
+    { COMMON_JOKER,    4, crazy_joker_effect                }, // 22
+    { COMMON_JOKER,    4, mad_joker_effect                  }, // 23
+    { COMMON_JOKER,    4, clever_joker_effect               }, // 24
+    { COMMON_JOKER,    4, devious_joker_effect              }, // 25
+    { COMMON_JOKER,    4, even_steven_joker_effect          }, // 26
     // Spritesheet 4
-    { UNCOMMON_JOKER,  6, blackboard_joker_effect           }, // 26
-    { COMMON_JOKER,    5, mystic_summit_joker_effect        }, // 27
-    { COMMON_JOKER,    4, walkie_talkie_joker_effect        }, // 28
-    { COMMON_JOKER,    4, zany_joker_effect                 }, // 29
-    { COMMON_JOKER,    4, wily_joker_effect                 }, // 30
+    { UNCOMMON_JOKER,  6, blackboard_joker_effect           }, // 27
+    { COMMON_JOKER,    5, mystic_summit_joker_effect        }, // 28
+    { COMMON_JOKER,    4, walkie_talkie_joker_effect        }, // 29
+    { COMMON_JOKER,    4, zany_joker_effect                 }, // 30
+    { COMMON_JOKER,    4, wily_joker_effect                 }, // 31
     // Spritesheet 5
-    { COMMON_JOKER,    3, sly_joker_effect                  }, // 31
-    { COMMON_JOKER,    3, jolly_joker_effect                }, // 32
-    { COMMON_JOKER,    5, blue_joker_effect                 }, // 33
-    { COMMON_JOKER,    4, odd_todd_joker_effect             }, // 34
+    { COMMON_JOKER,    3, sly_joker_effect                  }, // 32
+    { COMMON_JOKER,    3, jolly_joker_effect                }, // 33
+    { COMMON_JOKER,    5, blue_joker_effect                 }, // 34
+    { COMMON_JOKER,    4, odd_todd_joker_effect             }, // 35
     // Spritesheet 6
-    { RARE_JOKER,      8, the_duo_joker_effect              }, // 35
-    { RARE_JOKER,      8, the_trio_joker_effect             }, // 36
-    { RARE_JOKER,      8, the_order_joker_effect            }, // 37
-    { RARE_JOKER,      8, the_tribe_joker_effect            }, // 38
+    { RARE_JOKER,      8, the_duo_joker_effect              }, // 36
+    { RARE_JOKER,      8, the_trio_joker_effect             }, // 37
+    { RARE_JOKER,      8, the_order_joker_effect            }, // 38
+    { RARE_JOKER,      8, the_tribe_joker_effect            }, // 39
     // Spritesheet 7
-    { RARE_JOKER,      8, the_family_joker_effect           }, // 39
-    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 40 Brainstorm
+    { RARE_JOKER,      8, the_family_joker_effect           }, // 40
+    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 41 Brainstorm
     // Spritesheet 8
-    { COMMON_JOKER,    4, smiley_face_joker_effect          }, // 41
-    { UNCOMMON_JOKER,  6, bull_joker_effect                 }, // 42
+    { COMMON_JOKER,    4, smiley_face_joker_effect          }, // 42
+    { UNCOMMON_JOKER,  6, bull_joker_effect                 }, // 43
     // Individual Jokers (for now :3)
-    { COMMON_JOKER,    5, photograph_joker_effect,          }, // 43
-    { UNCOMMON_JOKER,  6, hack_joker_effect                 }, // 44
-    { UNCOMMON_JOKER,  5, joker_effect_noop                 }, // 45 Pareidolia
-    { UNCOMMON_JOKER,  7, bootstraps_joker_effect           }, // 46
-    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 37 Shortcut
-    { UNCOMMON_JOKER,  5, dusk_joker_effect                 }, // 48
-    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 49 Four Fingers
-    { UNCOMMON_JOKER,  6, seltzer_joker_effect,             }, // 50
-    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 51 Blueprint
+    { COMMON_JOKER,    5, photograph_joker_effect,          }, // 44
+    { UNCOMMON_JOKER,  6, hack_joker_effect                 }, // 45
+    { UNCOMMON_JOKER,  5, joker_effect_noop                 }, // 46 Pareidolia
+    { UNCOMMON_JOKER,  7, bootstraps_joker_effect           }, // 47
+    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 48 Shortcut
+    { UNCOMMON_JOKER,  5, dusk_joker_effect                 }, // 49
+    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 50 Four Fingers
+    { UNCOMMON_JOKER,  6, seltzer_joker_effect,             }, // 51
+    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 52 Blueprint
 
     // The following jokers don't have sprites yet,
     // uncomment them when their sprites are added.
 #if 0
-
-    { COMMON_JOKER,   5, shoot_the_moon_joker_effect,   },
 #endif
 };
 // clang-format on
@@ -1405,10 +1405,6 @@ static u32 bootstraps_joker_effect(
     return effect_flags_ret;
 }
 
-// Using GBAL_UNUSED, aka __attribute__((unused)), for jokers with no sprites yet to avoid warning
-// Remove the attribute once they have sprites
-// no graphics available but ready to be used if wanted when graphics available
-GBAL_UNUSED
 static u32 shoot_the_moon_joker_effect(
     Joker* joker,
     Card* scored_card,
