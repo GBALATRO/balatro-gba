@@ -12,11 +12,9 @@
 #include <string.h>
 #include <tonc.h>
 
-#include "pool.h"
-
-#define JOKER_SCORE_TEXT_Y 48
-#define HELD_CARD_SCORE_TEXT_Y 108
-#define MAX_CARD_SCORE_STR_LEN 2
+#define JOKER_SCORE_TEXT_Y          48
+#define HELD_CARD_SCORE_TEXT_Y      108
+#define MAX_CARD_SCORE_STR_LEN      2
 #define MAX_NUM_JOKERS_SPRITESHEETS 75 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 
 static const unsigned int* joker_gfxTiles[] = {
@@ -24,7 +22,6 @@ static const unsigned int* joker_gfxTiles[] = {
 #include "../include/def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
 };
-
 static const unsigned short* joker_gfxPal[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
 #include "def_joker_gfx_table.h"
@@ -189,28 +186,22 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->sprite_object = sprite_object_new();
 
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
-    
+
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
-    memcpy32(
-        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
-        TILE_SIZE * JOKER_SPRITE_OFFSET
-    );
+    memcpy32(&tile_mem[4][tile_index],
+             &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
+             TILE_SIZE * JOKER_SPRITE_OFFSET);
 
-    sprite_object_set_sprite(
-        joker_object->sprite_object,
-        sprite_new(
-            ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
-            ATTR1_SIZE_32,
-            tile_index,
-            joker_pb,
-            JOKER_STARTING_LAYER + layer
-        )
-    );
+    sprite_object_set_sprite(joker_object->sprite_object,
+                             sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+                                        ATTR1_SIZE_32,
+                                        tile_index,
+                                        joker_pb,
+                                        JOKER_STARTING_LAYER + layer));
 
     return joker_object;
 }
