@@ -576,6 +576,7 @@ enum BlindTokens
 };
 static Sprite* blind_select_tokens[NB_BLINDS_PER_ANTE] = {NULL};
 
+//static int next_boss_blind = BLIND_TYPE_HOOK;
 static int current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given

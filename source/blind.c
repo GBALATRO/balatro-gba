@@ -15,14 +15,13 @@ static const unsigned int *blind_gfxTiles[] =
 #include "../include/def_blind_gfx_table.h"
 #undef DEF_BLIND_GFX
 };
-/*
+
 static const unsigned short *blind_gfxPal[] = 
 {
 #define DEF_BLIND_GFX(idx) blind_gfx##idx##Pal,
 #include "../include/def_blind_gfx_table.h"
 #undef DEF_BLIND_GFX
 };
-*/
 
 // Bitfields storing blinds we have yet to beat during the current run
 static List unbeaten_boss_blinds;
@@ -84,14 +83,37 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
 };
 // clang-format on
 
-static void s_blind_gfx_init(enum BlindType type);
+static u32 get_blind_tid(enum BlindType type)
+{
+    return BLIND_BASE_TID + type * BLIND_SPRITE_OFFSET;
+}
+
+static u32 get_blind_pb(enum BlindType type)
+{
+    return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
+}
+
+void apply_boss_blind_palette(enum BlindType type)
+{
+    // copy colors for the token sprite
+
+    // copy colors for the background
+}
 
 void blind_init()
 {
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    // Set up all token tiles
+    for (int type = 0; type < BLIND_TYPE_MAX; type++)
     {
-        s_blind_gfx_init(i);
+        // TODO: Re-add grit copy. You need to decouple the blind graphics first.
+        // This will allow this function to change the boss graphics info
+        // GRIT_CPY(&tile_mem[4][_blind_type_map[type].pal_info.tid], tiles);
+        memcpy32(&tile_mem[4][get_blind_tid(type)], &blind_gfxTiles[get_blind_pb(type)-1][type * TILE_SIZE * BLIND_SPRITE_OFFSET], BLIND_SPRITE_COPY_SIZE);
     }
+
+    // Set up the two palettes used by these tokens
+    memcpy16(&pal_obj_bank[NORMAL_BLIND_PB], blind_gfxPal[0], NUM_ELEM_IN_ARR(blind_gfx0Pal));
+    memcpy16(&pal_obj_bank[BOSS_BLIND_PB],   blind_gfxPal[1], NUM_ELEM_IN_ARR(blind_gfx0Pal));
 
     return;
 }
@@ -168,16 +190,6 @@ void set_blind_beaten(enum BlindType type)
     }
 }
 
-static u32 get_blind_tid(enum BlindType type)
-{
-    return BLIND_BASE_TID + type * BLIND_SPRITE_OFFSET;
-}
-
-static u32 get_blind_pb(enum BlindType type)
-{
-    return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
-}
-
 Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
 {
     u16 a0 = ATTR0_SQUARE | ATTR0_4BPP;
@@ -191,20 +203,4 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
     sprite_position(sprite, x, y);
 
     return sprite;
-}
-
-static void s_blind_gfx_init(enum BlindType type)
-{
-    // TODO: Re-add grit copy. You need to decouple the blind graphics first.
-    // This will allow this function to change the boss graphics info
-    // GRIT_CPY(&tile_mem[4][_blind_type_map[type].pal_info.tid], tiles);
-    memcpy32(&tile_mem[4][get_blind_tid(type)], &blind_gfxTiles[get_blind_pb(type)-1][type * TILE_SIZE * BLIND_SPRITE_OFFSET], BLIND_SPRITE_COPY_SIZE);
-
-    // Small and Big Blinds are already colored as they should, only need to
-    // swap the palette for Boss and Showdown Blinds
-    if (type > BLIND_TYPE_BIG)
-    {
-        memcpy16(&pal_obj_bank[get_blind_pb(type)], blind_token_palettes[type], PAL_ROW_LEN);
-    }
-    
 }
