@@ -22,9 +22,9 @@ enum BlindColorIndex
     BLIND_HIGHLIGHT_COLOR_INDEX = 7,
     BLIND_MAIN_COLOR_INDEX = 8,
     // not in the file's palette, it's free space we'll use for the Boss blinds' background
-    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 10,
-    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 11,
-    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 12,
+    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 11,
+    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 12,
+    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 13,
 };
 
 // clang-format off
@@ -82,11 +82,6 @@ typedef struct
     FIXED score_req_multipler;
     s32 reward;
 } Blind;
-
-#define BLIND_TYPE_INFO_TABLE                     \
-    BLIND_INFO(SMALL, FIX_ONE,          3) \
-    BLIND_INFO(BIG,  (FIX_ONE * 3) / 2, 4) \
-    BLIND_INFO(WALL,  FIX_ONE * 2,      5)
 
 void blind_init();
 

@@ -576,8 +576,8 @@ enum BlindTokens
 };
 static Sprite* blind_select_tokens[NB_BLINDS_PER_ANTE] = {NULL};
 
-//static int next_boss_blind = BLIND_TYPE_HOOK;
-static int current_blind = BLIND_TYPE_SMALL;
+static enum BlindType next_boss_blind = BLIND_TYPE_HOOK;
+static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
@@ -743,6 +743,8 @@ static void blind_tokens_init(void)
     sprite_destroy(&blind_select_tokens[BIG_BLIND]);
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
+    next_boss_blind = roll_blind_type(false);
+
     blind_select_tokens[SMALL_BLIND] = blind_token_new(
         BLIND_TYPE_SMALL,
         CUR_BLIND_TOKEN_POS.x,
@@ -756,7 +758,7 @@ static void blind_tokens_init(void)
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 4
     );
     blind_select_tokens[BOSS_BLIND] = blind_token_new(
-        roll_blind_type(false),
+        next_boss_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
@@ -1906,7 +1908,7 @@ static int deck_get_max_size(void)
 static void increment_blind(enum BlindState increment_reason)
 {
     current_blind++;
-    if (current_blind >= NB_BLINDS_PER_ANTE)
+    if ((int)current_blind >= NB_BLINDS_PER_ANTE)
     {
         current_blind = 0;
         blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one

@@ -72,14 +72,36 @@ static const u16 blind_token_palettes[BLIND_TYPE_MAX][PAL_ROW_LEN] = {
 };
 
 static Blind _blind_type_map[BLIND_TYPE_MAX] = {
-#define BLIND_INFO(NAME, multi, _reward) \
-    {                                    \
-        .type = BLIND_TYPE_##NAME,       \
-        .score_req_multipler = multi,    \
-        .reward = _reward,               \
-},
-    BLIND_TYPE_INFO_TABLE
-#undef BLIND_INFO
+    {BLIND_TYPE_SMALL,   FIX_ONE,          3},
+    {BLIND_TYPE_BIG,    (FIX_ONE * 3) / 2, 4},
+    {BLIND_TYPE_HOOK,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_OX,      FIX_ONE * 2,      5},
+    {BLIND_TYPE_HOUSE,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_WALL,    FIX_ONE * 4,      5},
+    {BLIND_TYPE_WHEEL,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_ARM,     FIX_ONE * 2,      5},
+    {BLIND_TYPE_CLUB,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_FISH,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_PSYCHIC, FIX_ONE * 2,      5},
+    {BLIND_TYPE_GOAD,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_WATER,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_WINDOW,  FIX_ONE * 2,      5},
+    {BLIND_TYPE_MANACLE, FIX_ONE * 2,      5},
+    {BLIND_TYPE_EYE,     FIX_ONE * 2,      5},
+    {BLIND_TYPE_MOUTH,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_PLANT,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_SERPENT, FIX_ONE * 2,      5},
+    {BLIND_TYPE_PILLAR,  FIX_ONE * 2,      5},
+    {BLIND_TYPE_NEEDLE,  FIX_ONE,          5},
+    {BLIND_TYPE_HEAD,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_TOOTH,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_FLINT,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_MARK,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_ACORN,   FIX_ONE * 2,      8},
+    {BLIND_TYPE_LEAF,    FIX_ONE * 2,      8},
+    {BLIND_TYPE_VESSEL,  FIX_ONE * 6,      8},
+    {BLIND_TYPE_HEART,   FIX_ONE * 2,      8},
+    {BLIND_TYPE_BELL,    FIX_ONE * 2,      8}
 };
 // clang-format on
 
@@ -147,13 +169,14 @@ enum BlindType roll_blind_type(bool showdown)
         unbeaten_boss_blinds = list_create();
     }
     List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
-    int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
-    int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
 
     // Fill the list with all blinds if it is empty
     // (happens on startup or if we have beaten all blinds)
     if (list_is_empty(p_unbeaten_blinds))
     {
+        int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
+        int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
+
         for (int i = lower_blind; i <= upper_blind; i++)
         {
             list_push_back(p_unbeaten_blinds, &_blind_type_map[i]);
@@ -162,7 +185,11 @@ enum BlindType roll_blind_type(bool showdown)
 
     // roll a random blind among the unbeaten ones
     int random_blind_idx = rand() % list_get_len(p_unbeaten_blinds);
-    return ((Blind*)list_get_at_idx(p_unbeaten_blinds, random_blind_idx))->type;
+    Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
+
+    tte_printf("#{P:0,8; cx:0x%X000}%d", TTE_YELLOW_PB, random_blind->type);
+
+    return random_blind->type;
 }
 
 void set_blind_beaten(enum BlindType type)
@@ -198,8 +225,27 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
     u32 tid = get_blind_tid(type);
     u32 pb = get_blind_pb(type);
 
-    Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
+    tte_printf("#{P:0,0; cx:0x%X000}%d", TTE_RED_PB, type);
 
+    // copy the blind tiles to memory
+    bool showdown = type > BLIND_TYPE_BIG;
+    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
+    memcpy32(&tile_mem[4][tid], &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET], TILE_SIZE * BLIND_SPRITE_OFFSET);
+
+    if (type > BLIND_TYPE_BIG)
+    {
+        // copy the right colors to the sprite's palette
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
+            &(blind_token_palettes[type][1]), 1);
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_SHADOW_COLOR_INDEX],
+            &(blind_token_palettes[type][2]), 1);
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_HIGHLIGHT_COLOR_INDEX],
+            &(blind_token_palettes[type][3]), 1);
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_MAIN_COLOR_INDEX],
+            &(blind_token_palettes[type][4]), 1);
+    }
+    
+    Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
     sprite_position(sprite, x, y);
 
     return sprite;
