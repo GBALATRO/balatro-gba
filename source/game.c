@@ -1907,18 +1907,28 @@ static int deck_get_max_size(void)
 
 static void increment_blind(enum BlindState increment_reason)
 {
-    current_blind++;
-    if ((int)current_blind >= NB_BLINDS_PER_ANTE)
+    // cannot do blind++ anymore, we need to go SMALL->BIG->next_boss->SMALL...
+    switch (current_blind)
     {
-        current_blind = 0;
-        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-    }
-    else
-    {
-        blinds_states[current_blind] = BLIND_STATE_CURRENT;
-        blinds_states[current_blind - 1] = increment_reason;
+        // defeated small blind: go to big
+        case BLIND_TYPE_SMALL:
+            current_blind = BLIND_TYPE_BIG;
+            blinds[SMALL_BLIND] = increment_reason;
+            blinds[BIG_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated big blind: go to next boss
+        case BLIND_TYPE_BIG:
+            current_blind = next_boss_blind;
+            blinds[BIG_BLIND] = increment_reason;
+            blinds[BOSS_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated a boss: reset everything
+        default:
+            current_blind = BLIND_TYPE_SMALL;
+            blinds[SMALL_BLIND] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
+            blinds[BIG_BLIND]   = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+            blinds[BOSS_BLIND]  = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+            break;
     }
 }
 

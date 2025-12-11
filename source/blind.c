@@ -115,11 +115,15 @@ static u32 get_blind_pb(enum BlindType type)
     return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
 }
 
-void apply_boss_blind_palette(enum BlindType type)
+static inline void copy_blind_toker_tiles(enum BlindType type, int tid, int pb)
 {
-    // copy colors for the token sprite
-
-    // copy colors for the background
+    // copy the blind tiles to memory
+    bool showdown = type > BLIND_TYPE_BIG;
+    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
+    memcpy32(
+        &tile_mem[4][tid],
+        &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET],
+        TILE_SIZE * BLIND_SPRITE_OFFSET);
 }
 
 void blind_init()
@@ -130,7 +134,7 @@ void blind_init()
         // TODO: Re-add grit copy. You need to decouple the blind graphics first.
         // This will allow this function to change the boss graphics info
         // GRIT_CPY(&tile_mem[4][_blind_type_map[type].pal_info.tid], tiles);
-        memcpy32(&tile_mem[4][get_blind_tid(type)], &blind_gfxTiles[get_blind_pb(type)-1][type * TILE_SIZE * BLIND_SPRITE_OFFSET], BLIND_SPRITE_COPY_SIZE);
+        copy_blind_toker_tiles(type, get_blind_tid(type), get_blind_pb(type));
     }
 
     // Set up the two palettes used by these tokens
@@ -227,23 +231,29 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
 
     tte_printf("#{P:0,0; cx:0x%X000}%d", TTE_RED_PB, type);
 
-    // copy the blind tiles to memory
-    bool showdown = type > BLIND_TYPE_BIG;
-    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
-    memcpy32(&tile_mem[4][tid], &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET], TILE_SIZE * BLIND_SPRITE_OFFSET);
+    copy_blind_toker_tiles(type, tid, pb);
 
-    if (type > BLIND_TYPE_BIG)
-    {
-        // copy the right colors to the sprite's palette
+    // copy the right colors to the sprite's palette if it's a boss blind
+    if (type > BLIND_TYPE_HOOK)
+    {   
         memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
-            &(blind_token_palettes[type][1]), 1);
+            &blind_token_palettes[type][1], 1);
         memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_SHADOW_COLOR_INDEX],
-            &(blind_token_palettes[type][2]), 1);
+            &blind_token_palettes[type][2], 1);
         memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_HIGHLIGHT_COLOR_INDEX],
-            &(blind_token_palettes[type][3]), 1);
+            &blind_token_palettes[type][3], 1);
         memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_MAIN_COLOR_INDEX],
-            &(blind_token_palettes[type][4]), 1);
+            &blind_token_palettes[type][4], 1);
+        
+        // and the background colors too
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_MAIN_COLOR_INDEX],
+            &blind_token_palettes[type][5], 1);
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SECONDARY_COLOR_INDEX],
+            &blind_token_palettes[type][6], 1);
+        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SHADOW_COLOR_INDEX],
+            &blind_token_palettes[type][7], 1);
     }
+    
     
     Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
     sprite_position(sprite, x, y);
