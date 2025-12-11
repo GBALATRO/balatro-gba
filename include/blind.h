@@ -2,6 +2,9 @@
 #define BLIND_H
 
 #include "sprite.h"
+
+#include "game.h"
+
 // The GBA's max uint value is around 4 billion, so we're going to not add endless mode for
 // simplicity's sake
 #define MAX_ANTE 8
@@ -9,7 +12,7 @@
 #define NORMAL_BLIND_PB 1
 #define BOSS_BLIND_PB   2
 
-#define BLIND_BASE_TID         960
+#define BLIND_BASE_LAYER       (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
 #define BLIND_SPRITE_OFFSET    16
 #define BLIND_SPRITE_COPY_SIZE BLIND_SPRITE_OFFSET * 8 // 8 ints per tile
 

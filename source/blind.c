@@ -105,38 +105,8 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
 };
 // clang-format on
 
-static u32 get_blind_tid(enum BlindType type)
-{
-    return BLIND_BASE_TID + type * BLIND_SPRITE_OFFSET;
-}
-
-static u32 get_blind_pb(enum BlindType type)
-{
-    return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
-}
-
-static inline void copy_blind_toker_tiles(enum BlindType type, int tid, int pb)
-{
-    // copy the blind tiles to memory
-    bool showdown = type > BLIND_TYPE_BIG;
-    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
-    memcpy32(
-        &tile_mem[4][tid],
-        &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET],
-        TILE_SIZE * BLIND_SPRITE_OFFSET);
-}
-
 void blind_init()
 {
-    // Set up all token tiles
-    for (int type = 0; type < BLIND_TYPE_MAX; type++)
-    {
-        // TODO: Re-add grit copy. You need to decouple the blind graphics first.
-        // This will allow this function to change the boss graphics info
-        // GRIT_CPY(&tile_mem[4][_blind_type_map[type].pal_info.tid], tiles);
-        copy_blind_toker_tiles(type, get_blind_tid(type), get_blind_pb(type));
-    }
-
     // Set up the two palettes used by these tokens
     memcpy16(&pal_obj_bank[NORMAL_BLIND_PB], blind_gfxPal[0], NUM_ELEM_IN_ARR(blind_gfx0Pal));
     memcpy16(&pal_obj_bank[BOSS_BLIND_PB],   blind_gfxPal[1], NUM_ELEM_IN_ARR(blind_gfx0Pal));
@@ -221,12 +191,28 @@ void set_blind_beaten(enum BlindType type)
     }
 }
 
-Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
+static u32 get_blind_pb(enum BlindType type)
+{
+    return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
+}
+
+static inline void copy_blind_toker_tiles(enum BlindType type, int tid, int pb)
+{
+    // copy the blind tiles to memory
+    bool showdown = type > BLIND_TYPE_BIG;
+    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
+    memcpy32(
+        &tile_mem[4][tid],
+        &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET],
+        TILE_SIZE * BLIND_SPRITE_OFFSET);
+}
+
+Sprite* blind_token_new(enum BlindType type, int x, int y, int layer_offset)
 {
     u16 a0 = ATTR0_SQUARE | ATTR0_4BPP;
     u16 a1 = ATTR1_SIZE_32x32;
     // All Blind sprites are store sequentially and correspond to their IDs
-    u32 tid = get_blind_tid(type);
+    u32 tid = (BLIND_BASE_LAYER + layer_offset) * BLIND_SPRITE_OFFSET;
     u32 pb = get_blind_pb(type);
 
     tte_printf("#{P:0,0; cx:0x%X000}%d", TTE_RED_PB, type);
@@ -255,7 +241,7 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
     }
     
     
-    Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
+    Sprite* sprite = sprite_new(a0, a1, tid, pb, BLIND_BASE_LAYER + layer_offset);
     sprite_position(sprite, x, y);
 
     return sprite;
