@@ -18,6 +18,9 @@
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
+extern const TFont sys8_customFont;
+extern const unsigned int sys8_customGlyphs[192];
+
 void init()
 {
     irq_init(NULL);
@@ -31,7 +34,7 @@ void init()
         0,
         CLR_WHITE,
         TTE_BIT_UNPACK_OFFSET,
-        NULL,
+        &sys8_customFont,
         NULL
     );
     tte_erase_screen();
