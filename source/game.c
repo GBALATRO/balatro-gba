@@ -737,32 +737,38 @@ static inline void jokers_available_to_shop_init(void)
     reset_shop_jokers();
 }
 
-static void blind_tokens_init(void)
+static void reroll_boss_blind()
+{
+    // Showdown blinds only show up on ante 8, 16, etc...
+    next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
+    blind_select_tokens[BOSS_BLIND] = blind_token_new(
+        next_boss_blind,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        4
+    );
+}
+
+static void blind_tokens_init()
 {
     sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
     sprite_destroy(&blind_select_tokens[BIG_BLIND]);
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
-    next_boss_blind = roll_blind_type(false);
-
     blind_select_tokens[SMALL_BLIND] = blind_token_new(
         BLIND_TYPE_SMALL,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
-        3
+        2
     );
     blind_select_tokens[BIG_BLIND] = blind_token_new(
         BLIND_TYPE_BIG,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
-        4
+        3
     );
-    blind_select_tokens[BOSS_BLIND] = blind_token_new(
-        next_boss_blind,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        5
-    );
+    
+    reroll_boss_blind();
 
     for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
     {
@@ -1595,12 +1601,12 @@ static void change_background(enum BackgroundId id)
         // Copy boss blind colors to blind select palette
         memset16(
             &pal_bg_mem[1],
-            blind_get_color(current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
+            blind_get_color(next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
             1
         );
         memset16(
             &pal_bg_mem[7],
-            blind_get_color(current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
+            blind_get_color(next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
             1
         );
 
@@ -1953,7 +1959,7 @@ static void game_round_on_init()
         current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
-        1
+        0
     ); // Create the blind token sprite at the top left corner
     // TODO: Hide blind token and display it after sliding blind rect animation
     // if (playing_blind_token != NULL)
@@ -1964,7 +1970,7 @@ static void game_round_on_init()
         current_blind,
         81,
         86,
-        2
+        1
     ); // Create the blind token sprite for round end
 
     if (round_end_blind_token != NULL)
@@ -2398,6 +2404,16 @@ static inline void game_playing_handle_round_over(void)
             if (ante < MAX_ANTE)
             {
                 display_ante(++ante);
+                // roll next boss blind now, but copy the last boss' colors to
+                // not show the new ones on the old token
+                enum BlindType prev_boss_blind = next_boss_blind;
+                reroll_boss_blind();
+                blind_select_tokens[BOSS_BLIND] = blind_token_new(
+                    prev_boss_blind,
+                    CUR_BLIND_TOKEN_POS.x,
+                    CUR_BLIND_TOKEN_POS.y,
+                    4
+                );
             }
             else
             {

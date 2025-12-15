@@ -3,8 +3,8 @@
 #include "blind_gfx.h"
 #include "graphic_utils.h"
 #include "list.h"
-#include "util.h"
 #include "stdbool.h"
+#include "util.h"
 
 #include <stdlib.h>
 #include <tonc.h>
@@ -109,7 +109,7 @@ void blind_init()
 {
     // Set up the two palettes used by these tokens
     memcpy16(&pal_obj_bank[NORMAL_BLIND_PB], blind_gfxPal[0], NUM_ELEM_IN_ARR(blind_gfx0Pal));
-    memcpy16(&pal_obj_bank[BOSS_BLIND_PB],   blind_gfxPal[1], NUM_ELEM_IN_ARR(blind_gfx0Pal));
+    memcpy16(&pal_obj_bank[BOSS_BLIND_PB], blind_gfxPal[1], NUM_ELEM_IN_ARR(blind_gfx0Pal));
 
     return;
 }
@@ -130,7 +130,33 @@ int blind_get_reward(enum BlindType type)
 
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
 {
-    return blind_token_palettes[type][index];
+    // Do a little translation of palette idx -> custom array idx
+    u32 color_idx = 0;
+    switch (index)
+    {
+        case BLIND_TEXT_COLOR_INDEX:
+            color_idx = 1;
+            break;
+        case BLIND_SHADOW_COLOR_INDEX:
+            color_idx = 2;
+            break;
+        case BLIND_HIGHLIGHT_COLOR_INDEX:
+            color_idx = 3;
+            break;
+        case BLIND_MAIN_COLOR_INDEX:
+            color_idx = 4;
+            break;
+        case BLIND_BACKGROUND_MAIN_COLOR_INDEX:
+            color_idx = 5;
+            break;
+        case BLIND_BACKGROUND_SECONDARY_COLOR_INDEX:
+            color_idx = 6;
+            break;
+        case BLIND_BACKGROUND_SHADOW_COLOR_INDEX:
+            color_idx = 7;
+            break;
+    }
+    return blind_token_palettes[type][color_idx];
 }
 
 enum BlindType roll_blind_type(bool showdown)
@@ -160,8 +186,6 @@ enum BlindType roll_blind_type(bool showdown)
     // roll a random blind among the unbeaten ones
     int random_blind_idx = rand() % list_get_len(p_unbeaten_blinds);
     Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
-
-    tte_printf("#{P:0,8; cx:0x%X000}%d", TTE_YELLOW_PB, random_blind->type);
 
     return random_blind->type;
 }
@@ -196,52 +220,69 @@ static u32 get_blind_pb(enum BlindType type)
     return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
 }
 
-static inline void copy_blind_toker_tiles(enum BlindType type, int tid, int pb)
+Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
 {
-    // copy the blind tiles to memory
-    bool showdown = type > BLIND_TYPE_BIG;
-    u32 tiles_offset = showdown ? type - BLIND_TYPE_HOOK : type;
-    memcpy32(
-        &tile_mem[4][tid],
-        &blind_gfxTiles[pb-1][tiles_offset * TILE_SIZE * BLIND_SPRITE_OFFSET],
-        TILE_SIZE * BLIND_SPRITE_OFFSET);
-}
-
-Sprite* blind_token_new(enum BlindType type, int x, int y, int layer_offset)
-{
-    u16 a0 = ATTR0_SQUARE | ATTR0_4BPP;
-    u16 a1 = ATTR1_SIZE_32x32;
     // All Blind sprites are store sequentially and correspond to their IDs
-    u32 tid = (BLIND_BASE_LAYER + layer_offset) * BLIND_SPRITE_OFFSET;
+    u32 tile_index = (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
     u32 pb = get_blind_pb(type);
 
-    tte_printf("#{P:0,0; cx:0x%X000}%d", TTE_RED_PB, type);
+    bool is_boss = type >= BLIND_TYPE_HOOK;
+    u32 tile_offset = is_boss ? type - BLIND_TYPE_HOOK : type;
+    memcpy32(
+        &tile_mem[4][tile_index],
+        &blind_gfxTiles[pb-1][tile_offset * BLIND_SPRITE_COPY_SIZE],
+        BLIND_SPRITE_COPY_SIZE
+    );
 
-    copy_blind_toker_tiles(type, tid, pb);
-
-    // copy the right colors to the sprite's palette if it's a boss blind
-    if (type > BLIND_TYPE_HOOK)
-    {   
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
-            &blind_token_palettes[type][1], 1);
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_SHADOW_COLOR_INDEX],
-            &blind_token_palettes[type][2], 1);
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_HIGHLIGHT_COLOR_INDEX],
-            &blind_token_palettes[type][3], 1);
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_MAIN_COLOR_INDEX],
-            &blind_token_palettes[type][4], 1);
-        
-        // and the background colors too
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_MAIN_COLOR_INDEX],
-            &blind_token_palettes[type][5], 1);
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SECONDARY_COLOR_INDEX],
-            &blind_token_palettes[type][6], 1);
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SHADOW_COLOR_INDEX],
-            &blind_token_palettes[type][7], 1);
+    // swap the sprite's palette if it's a boss blind
+    if (is_boss)
+    {
+        memcpy16(
+            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
+            &blind_token_palettes[type][1],
+            1
+        );
+        memcpy16(
+            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_SHADOW_COLOR_INDEX],
+            &blind_token_palettes[type][2],
+            1
+        );
+        memcpy16(
+            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_HIGHLIGHT_COLOR_INDEX],
+            &blind_token_palettes[type][3],
+            1
+        );
+        memcpy16(
+            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_MAIN_COLOR_INDEX],
+            &blind_token_palettes[type][4],
+            1
+        );
     }
-    
-    
-    Sprite* sprite = sprite_new(a0, a1, tid, pb, BLIND_BASE_LAYER + layer_offset);
+
+    // but always refresh the background colors
+    memcpy16(
+        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_MAIN_COLOR_INDEX],
+        &blind_token_palettes[type][5],
+        1
+    );
+    memcpy16(
+        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SECONDARY_COLOR_INDEX],
+        &blind_token_palettes[type][6],
+        1
+    );
+    memcpy16(
+        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SHADOW_COLOR_INDEX],
+        &blind_token_palettes[type][7],
+        1
+    );
+
+    Sprite* sprite = sprite_new(
+        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+        ATTR1_SIZE_32x32,
+        tile_index,
+        pb,
+        BLIND_BASE_LAYER + layer
+    );
     sprite_position(sprite, x, y);
 
     return sprite;

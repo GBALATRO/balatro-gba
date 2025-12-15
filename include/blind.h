@@ -25,9 +25,9 @@ enum BlindColorIndex
     BLIND_HIGHLIGHT_COLOR_INDEX = 7,
     BLIND_MAIN_COLOR_INDEX = 8,
     // not in the file's palette, it's free space we'll use for the Boss blinds' background
-    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 11,
-    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 12,
-    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 13,
+    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 10,
+    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 11,
+    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 12,
 };
 
 // clang-format off

@@ -14,21 +14,19 @@
 
 #define MAX_DEFINABLE_JOKERS 150
 
-// Tile ID for the starting index in the tile memory
-#define JOKER_TID           (MAX_HAND_SIZE + MAX_SELECTION_SIZE) * JOKER_SPRITE_OFFSET
 #define JOKER_SPRITE_OFFSET 16 // Offset for the joker sprites
-#define JOKER_BASE_PB       4  // The starting palette index for the jokers
-#define JOKER_LAST_PB       (NUM_PALETTES - 1)
+#define JOKER_STARTING_LAYER 26
+#define JOKER_TID JOKER_STARTING_LAYER * JOKER_SPRITE_OFFSET // Tile ID for the starting index in the tile memory
+#define JOKER_BASE_PB 3 // The starting palette index for the jokers
+#define JOKER_LAST_PB (NUM_PALETTES - 1) 
 // Currently allocating the rest of the palettes for the jokers.
 // This number needs to be decreased once we need to allocated palettes for other sprites
 // such as planet cards etc.
 
-#define JOKER_STARTING_LAYER 27
-
-#define BASE_EDITION     0
-#define FOIL_EDITION     1
-#define HOLO_EDITION     2
-#define POLY_EDITION     3
+#define BASE_EDITION 0
+#define FOIL_EDITION 1
+#define HOLO_EDITION 2
+#define POLY_EDITION 3
 #define NEGATIVE_EDITION 4
 
 #define MAX_EDITIONS 5
