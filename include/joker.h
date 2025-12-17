@@ -84,14 +84,14 @@ enum JokerEvent
 #define MAX_JOKER_OBJECTS 32 // The maximum number of joker objects that can be created at once
 
 // Jokers in the game
-#define DEFAULT_JOKER_ID 0
-#define STENCIL_JOKER_ID 15
-#define GREEDY_JOKER_ID 18
-#define SHORTCUT_JOKER_ID 38
-#define BRAINSTORM_JOKER_ID 41
-#define PAREIDOLIA_JOKER_ID 46
+#define DEFAULT_JOKER_ID      0
+#define STENCIL_JOKER_ID      15
+#define GREEDY_JOKER_ID       18
+#define SHORTCUT_JOKER_ID     38
+#define BRAINSTORM_JOKER_ID   41
+#define PAREIDOLIA_JOKER_ID   46
 #define FOUR_FINGERS_JOKER_ID 50
-#define BLUEPRINT_JOKER_ID 52
+#define BLUEPRINT_JOKER_ID    52
 
 typedef struct
 {

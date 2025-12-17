@@ -97,6 +97,7 @@ static int _joker_id_to_sprite_position_map[] = {
     0,
     0
 };
+// clang-format on
 
 static int s_get_num_spritesheets();
 static int s_joker_get_spritesheet_idx(u8 joker_id);
