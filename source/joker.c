@@ -18,14 +18,12 @@
 #define MAX_NUM_JOKERS_SPRITESHEETS \
     75 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 
-static const unsigned int *joker_gfxTiles[] =
-{
+static const unsigned int* joker_gfxTiles[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Tiles,
 #include "../include/def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
 };
-static const unsigned short *joker_gfxPal[] = 
-{
+static const unsigned short* joker_gfxPal[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
 #include "def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
@@ -52,7 +50,7 @@ static bool _used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for 
 // Maps the spritesheet index to the palette bank index allocated to it.
 // Spritesheets that were not allocated are
 static int _joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
-static int _joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = { 0 };
+static int _joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
 // Map of Joker ID -> Spritesheet idx
 // clang-format off
