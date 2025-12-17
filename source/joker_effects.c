@@ -1427,7 +1427,6 @@ static u32 shoot_the_moon_joker_effect(
     return effect_flags_ret;
 }
 
-GBAL_UNUSED
 static u32 photograph_joker_effect(
     Joker* joker,
     Card* scored_card,
