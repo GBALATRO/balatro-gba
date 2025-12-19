@@ -196,7 +196,7 @@ JokerObject* joker_object_new(Joker* joker)
     s_joker_pb_add_sprite_user(joker_pb);
 
     memcpy32(
-        &tile_mem[4][tile_index],
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
         TILE_SIZE * JOKER_SPRITE_OFFSET
     );
