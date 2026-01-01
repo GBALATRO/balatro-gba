@@ -9,15 +9,13 @@
 #include <stdlib.h>
 #include <tonc.h>
 
-static const unsigned int *blind_gfxTiles[] =
-{
+static const unsigned int* blind_gfxTiles[] = {
 #define DEF_BLIND_GFX(idx) blind_gfx##idx##Tiles,
 #include "../include/def_blind_gfx_table.h"
 #undef DEF_BLIND_GFX
 };
 
-static const unsigned short *blind_gfxPal[] = 
-{
+static const unsigned short* blind_gfxPal[] = {
 #define DEF_BLIND_GFX(idx) blind_gfx##idx##Pal,
 #include "../include/def_blind_gfx_table.h"
 #undef DEF_BLIND_GFX
