@@ -1588,9 +1588,9 @@ static void change_background(enum BackgroundId id)
         // is shifted down by
         const int default_y = 89 + (TILE_SIZE * 12);
         // TODO refactor magic numbers '80/120/160' into a map to loop with
-        sprite_position(blind_select_tokens[0], 80, default_y);
-        sprite_position(blind_select_tokens[1], 120, default_y);
-        sprite_position(blind_select_tokens[2], 160, default_y);
+        sprite_position(blind_select_tokens[SMALL_BLIND],  80, default_y);
+        sprite_position(blind_select_tokens[BIG_BLIND],   120, default_y);
+        sprite_position(blind_select_tokens[BOSS_BLIND],  160, default_y);
 
         toggle_windows(false, true);
 
@@ -2406,14 +2406,16 @@ static inline void game_playing_handle_round_over(void)
                 display_ante(++ante);
                 // roll next boss blind now, but copy the last boss' colors to
                 // not show the new ones on the old token
-                enum BlindType prev_boss_blind = next_boss_blind;
-                reroll_boss_blind();
-                blind_select_tokens[BOSS_BLIND] = blind_token_new(
-                    prev_boss_blind,
-                    CUR_BLIND_TOKEN_POS.x,
-                    CUR_BLIND_TOKEN_POS.y,
-                    4
-                );
+                //enum BlindType prev_boss_blind = next_boss_blind;
+                //reroll_boss_blind();
+
+                //sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
+                //blind_select_tokens[BOSS_BLIND] = blind_token_new(
+                //    prev_boss_blind,
+                //    CUR_BLIND_TOKEN_POS.x,
+                //    CUR_BLIND_TOKEN_POS.y,
+                //    4
+                //);
             }
             else
             {
