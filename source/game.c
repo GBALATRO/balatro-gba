@@ -2406,16 +2406,16 @@ static inline void game_playing_handle_round_over(void)
                 display_ante(++ante);
                 // roll next boss blind now, but copy the last boss' colors to
                 // not show the new ones on the old token
-                //enum BlindType prev_boss_blind = next_boss_blind;
-                //reroll_boss_blind();
+                enum BlindType prev_boss_blind = next_boss_blind;
+                reroll_boss_blind();
 
-                //sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
-                //blind_select_tokens[BOSS_BLIND] = blind_token_new(
-                //    prev_boss_blind,
-                //    CUR_BLIND_TOKEN_POS.x,
-                //    CUR_BLIND_TOKEN_POS.y,
-                //    4
-                //);
+                sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
+                blind_select_tokens[BOSS_BLIND] = blind_token_new(
+                    prev_boss_blind,
+                    CUR_BLIND_TOKEN_POS.x,
+                    CUR_BLIND_TOKEN_POS.y,
+                    4
+                );
             }
             else
             {
