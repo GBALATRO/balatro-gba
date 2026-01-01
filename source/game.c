@@ -1475,8 +1475,8 @@ static void change_background(enum BackgroundId id)
             {
                 main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
 
-                affine_background_set_color(blind_get_color(current_blind,
-                    BLIND_SHADOW_COLOR_INDEX)
+                affine_background_set_color(blind_get_color(current_blind, BLIND_SHADOW_COLOR_INDEX
+                    )
                 );
             }
 
