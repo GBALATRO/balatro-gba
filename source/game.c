@@ -741,12 +741,8 @@ static void reroll_boss_blind()
 {
     // Showdown blinds only show up on ante 8, 16, etc...
     next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
-    blind_select_tokens[BOSS_BLIND] = blind_token_new(
-        next_boss_blind,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        4
-    );
+    blind_select_tokens[BOSS_BLIND] =
+        blind_token_new(next_boss_blind, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
 }
 
 static void blind_tokens_init()
@@ -755,19 +751,11 @@ static void blind_tokens_init()
     sprite_destroy(&blind_select_tokens[BIG_BLIND]);
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
-    blind_select_tokens[SMALL_BLIND] = blind_token_new(
-        BLIND_TYPE_SMALL,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        2
-    );
-    blind_select_tokens[BIG_BLIND] = blind_token_new(
-        BLIND_TYPE_BIG,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        3
-    );
-    
+    blind_select_tokens[SMALL_BLIND] =
+        blind_token_new(BLIND_TYPE_SMALL, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 2);
+    blind_select_tokens[BIG_BLIND] =
+        blind_token_new(BLIND_TYPE_BIG, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 3);
+
     reroll_boss_blind();
 
     for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
@@ -1588,9 +1576,9 @@ static void change_background(enum BackgroundId id)
         // is shifted down by
         const int default_y = 89 + (TILE_SIZE * 12);
         // TODO refactor magic numbers '80/120/160' into a map to loop with
-        sprite_position(blind_select_tokens[SMALL_BLIND],  80, default_y);
-        sprite_position(blind_select_tokens[BIG_BLIND],   120, default_y);
-        sprite_position(blind_select_tokens[BOSS_BLIND],  160, default_y);
+        sprite_position(blind_select_tokens[SMALL_BLIND], 80, default_y);
+        sprite_position(blind_select_tokens[BIG_BLIND], 120, default_y);
+        sprite_position(blind_select_tokens[BOSS_BLIND], 160, default_y);
 
         toggle_windows(false, true);
 
@@ -1931,9 +1919,9 @@ static void increment_blind(enum BlindState increment_reason)
         // defeated a boss: reset everything
         default:
             current_blind = BLIND_TYPE_SMALL;
-            blinds[SMALL_BLIND] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-            blinds[BIG_BLIND]   = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-            blinds[BOSS_BLIND]  = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+            blinds[SMALL_BLIND] = BLIND_STATE_CURRENT; // Reset the blinds to the first one
+            blinds[BIG_BLIND] = BLIND_STATE_UPCOMING;  // Set the next blind to upcoming
+            blinds[BOSS_BLIND] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
             break;
     }
 }

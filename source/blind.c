@@ -230,7 +230,7 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
     u32 tile_offset = is_boss ? type - BLIND_TYPE_HOOK : type;
     memcpy32(
         &tile_mem[4][tile_index],
-        &blind_gfxTiles[pb-1][tile_offset * BLIND_SPRITE_COPY_SIZE],
+        &blind_gfxTiles[pb - 1][tile_offset * BLIND_SPRITE_COPY_SIZE],
         BLIND_SPRITE_COPY_SIZE
     );
 
