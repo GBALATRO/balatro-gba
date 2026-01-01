@@ -144,7 +144,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
     
-    int joker_spritesheet_idx = joker_get_spritesheet_idx(joker->id);
+    int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = joker->id % NUM_JOKERS_PER_SPRITESHEET;
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);

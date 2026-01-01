@@ -2737,6 +2737,65 @@ static inline bool game_round_is_over(void)
     return hands == 0 || score >= blind_get_requirement(current_blind, ante);
 }
 
+// Basically a copy of HAND_DISCARD
+// returns true if the current card has been discarded
+static bool play_ended_played_cards_update(int played_idx)
+{
+    if (!discarded_card && timer > FRAMES(40))
+    {
+        // play the sound only once per card, when it is pushed off-screen to the right
+        if (!sound_played)
+        {
+            play_sfx(
+                SFX_CARD_DRAW,
+                MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DISCARD_SFX,
+                SFX_DEFAULT_VOLUME
+            );
+            sound_played = true;
+        }
+
+        // card has exited the screen, now discard it and set it to NULL
+        if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
+        {
+            discard_push(played[played_idx]->card); // Push the card to the discard pile
+            card_object_destroy(&played[played_idx]);
+
+            // played_top--;
+            cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
+            sound_played = false; // Allow for the sound for the next card to be played
+
+            // we reached hand_top, all cards have been discarded
+            if (played_idx == played_top)
+            {
+                if (game_round_is_over())
+                {
+                    hand_state = HAND_SHUFFLING;
+                }
+                else
+                {
+                    hand_state = HAND_DRAW;
+                }
+
+                play_state = PLAY_STARTING;
+                cards_drawn = 0;
+                hand_selections = 0;
+                played_top = -1; // Reset the played stack
+                scored_card_index = 0;
+                _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+                timer = TM_ZERO;
+            }
+
+            return true; // return early to avoid accessing played[played_idx] == NULL
+        }
+
+        // put target X position off screen to the right
+        played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
+        discarded_card = true;
+    }
+
+    return false;
+}
+
 static inline void play_starting_played_cards_update(int played_idx)
 {
     bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
@@ -2999,61 +3058,6 @@ static inline void play_ending_played_cards_update(int played_idx)
     {
         played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
     }
-}
-
-// Basically a copy of HAND_DISCARD
-// returns true if the current card has been discarded
-static bool play_ended_played_cards_update(int played_idx)
-{
-    if (!discarded_card && timer > FRAMES(40))
-    {
-        // play the sound only once per card, when it is pushed off-screen to the right
-        if (!sound_played)
-        {
-            play_sfx(SFX_CARD_DRAW, MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DISCARD_SFX);
-            sound_played = true;
-        }
-
-        // card has exited the screen, now discard it and set it to NULL
-        if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
-        {
-            discard_push(played[played_idx]->card); // Push the card to the discard pile
-            card_object_destroy(&played[played_idx]);
-
-            // played_top--;
-            cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
-            sound_played = false; // Allow for the sound for the next card to be played
-
-            // we reached hand_top, all cards have been discarded
-            if (played_idx == played_top)
-            {
-                if (game_round_is_over())
-                {
-                    hand_state = HAND_SHUFFLING;
-                }
-                else
-                {
-                    hand_state = HAND_DRAW;
-                }
-
-                play_state = PLAY_STARTING;
-                cards_drawn = 0;
-                hand_selections = 0;
-                played_top = -1; // Reset the played stack
-                scored_card_index = 0;
-                _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-                timer = TM_ZERO;
-            }
-
-            return true; // return early to avoid accessing played[played_idx] == NULL
-        }
-
-        // put target X position off screen to the right
-        played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
-        discarded_card = true;
-    }
-
-    return false;
 }
 
 static inline void played_cards_update_loop(void)
