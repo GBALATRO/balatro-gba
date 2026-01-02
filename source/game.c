@@ -738,15 +738,20 @@ static inline void jokers_available_to_shop_init(void)
     reset_shop_jokers();
 }
 
-static void reroll_boss_blind()
+static void reroll_boss_blind(bool no_tiles)
 {
     // Showdown blinds only show up on ante 8, 16, etc...
     next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
-    apply_blind_tiles(next_boss_blind, 4);
+    if (!no_tiles)
+    {
+        apply_blind_tiles(next_boss_blind, 4);
+    }
 }
 
 static void blind_tokens_init()
 {
+    reroll_boss_blind(true);
+
     sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
     sprite_destroy(&blind_select_tokens[BIG_BLIND]);
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
@@ -756,9 +761,7 @@ static void blind_tokens_init()
     blind_select_tokens[BIG_BLIND] =
         blind_token_new(BLIND_TYPE_BIG, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 3);
     blind_select_tokens[BOSS_BLIND] =
-        blind_token_new(BLIND_TYPE_HOOK, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
-
-    reroll_boss_blind();
+        blind_token_new(next_boss_blind, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
 
     for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
     {
@@ -1577,7 +1580,7 @@ static void change_background(enum BackgroundId id)
         if (!boss_rolled_this_ante)
         {
             boss_rolled_this_ante = true;
-            reroll_boss_blind();
+            reroll_boss_blind(false);
         }
 
         for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)

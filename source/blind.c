@@ -129,7 +129,7 @@ int blind_get_reward(enum BlindType type)
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
 {
     // Do a little translation of palette idx -> custom array idx
-    u32 color_idx = 0;
+    u32 color_idx;
     switch (index)
     {
         case BLIND_TEXT_COLOR_INDEX:
@@ -152,6 +152,9 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
             break;
         case BLIND_BACKGROUND_SHADOW_COLOR_INDEX:
             color_idx = 7;
+            break;
+        default:
+            color_idx = 0;
             break;
     }
     return blind_token_palettes[type][color_idx];
@@ -302,7 +305,7 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
     apply_blind_tiles(type, layer);
 
     Sprite* sprite = sprite_new(
-        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_REG,
+        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32x32,
         get_layer_tile_index(layer),
         get_blind_pb(type),
