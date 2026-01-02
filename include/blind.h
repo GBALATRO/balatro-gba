@@ -17,6 +17,8 @@
 
 // Only applies to Boss/Showdown Blinds.
 // Normal Blinds do not need to be palette swapped and we don't need to get their colors
+// These should not be used in any ordered fashion, they are arranged in a logical, arbitrary order
+// as their values are subject to change until the palette is fixed in Asperite
 enum BlindColorIndex
 {
     BLIND_TEXT_COLOR_INDEX = 9,

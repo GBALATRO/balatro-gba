@@ -284,7 +284,7 @@ void apply_blind_colors(enum BlindType type)
 
 static u32 get_layer_tile_index(int layer)
 {
-    // All Blind sprites are store sequentially and correspond to their IDs
+    // All Blind sprites are stored sequentially and correspond to their IDs
     return (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
 }
 

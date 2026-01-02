@@ -796,6 +796,7 @@ void game_init()
     // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available
     init_unbeaten_blinds_list(false);
     init_unbeaten_blinds_list(true);
+    boss_rolled_this_ante = false;
 
     blind_tokens_init();
 }
