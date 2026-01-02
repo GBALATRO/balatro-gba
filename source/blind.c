@@ -218,22 +218,12 @@ static u32 get_blind_pb(enum BlindType type)
     return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
 }
 
-Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
+void apply_blind_colors(enum BlindType type)
 {
-    // All Blind sprites are store sequentially and correspond to their IDs
-    u32 tile_index = (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
     u32 pb = get_blind_pb(type);
 
-    bool is_boss = type >= BLIND_TYPE_HOOK;
-    u32 tile_offset = is_boss ? type - BLIND_TYPE_HOOK : type;
-    memcpy32(
-        &tile_mem[4][tile_index],
-        &blind_gfxTiles[pb - 1][tile_offset * BLIND_SPRITE_COPY_SIZE],
-        BLIND_SPRITE_COPY_SIZE
-    );
-
-    // swap the sprite's palette if it's a boss blind
-    if (is_boss)
+    // swap the sprite's palette only if it's a boss blind
+    if (type >= BLIND_TYPE_HOOK)
     {
         memcpy16(
             &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
@@ -273,12 +263,35 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
         &blind_token_palettes[type][7],
         1
     );
+}
+
+static u32 get_layer_tile_index(int layer)
+{
+    // All Blind sprites are store sequentially and correspond to their IDs
+    return (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
+}
+
+void apply_blind_tiles(enum BlindType type, int layer)
+{
+    u32 tile_offset = (type >= BLIND_TYPE_HOOK) ? type - BLIND_TYPE_HOOK : type;
+    memcpy32(
+        &tile_mem[4][get_layer_tile_index(layer)],
+        &blind_gfxTiles[get_blind_pb(type) - 1][tile_offset * BLIND_SPRITE_COPY_SIZE],
+        BLIND_SPRITE_COPY_SIZE
+    );
+
+    apply_blind_colors(type);
+}
+
+Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
+{
+    apply_blind_tiles(type, layer);
 
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32x32,
-        tile_index,
-        pb,
+        get_layer_tile_index(layer),
+        get_blind_pb(type),
         BLIND_BASE_LAYER + layer
     );
     sprite_position(sprite, x, y);

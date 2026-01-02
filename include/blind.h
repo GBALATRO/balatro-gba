@@ -96,6 +96,8 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index);
 enum BlindType roll_blind_type(bool showdown);
 void set_blind_beaten(enum BlindType type);
 
+void apply_blind_colors(enum BlindType type);
+void apply_blind_tiles(enum BlindType type, int layer);
 Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index);
 
 #endif // BLIND_H

@@ -741,8 +741,7 @@ static void reroll_boss_blind()
 {
     // Showdown blinds only show up on ante 8, 16, etc...
     next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
-    blind_select_tokens[BOSS_BLIND] =
-        blind_token_new(next_boss_blind, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
+    apply_blind_tiles(next_boss_blind, 4);
 }
 
 static void blind_tokens_init()
@@ -755,6 +754,8 @@ static void blind_tokens_init()
         blind_token_new(BLIND_TYPE_SMALL, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 2);
     blind_select_tokens[BIG_BLIND] =
         blind_token_new(BLIND_TYPE_BIG, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 3);
+    blind_select_tokens[BOSS_BLIND] =
+        blind_token_new(BLIND_TYPE_HOOK, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
 
     reroll_boss_blind();
 
@@ -1596,6 +1597,9 @@ static void change_background(enum BackgroundId id)
             1
         );
 
+        // Make sure the Boss Blind token is the right color
+        apply_blind_colors(next_boss_blind);
+
         // Disable the button highlight colors
         // Select button PID is 15 and the outline is 18
         memcpy16(
@@ -2394,14 +2398,7 @@ static inline void game_playing_handle_round_over(void)
                 // not show the new ones on the old token
                 enum BlindType prev_boss_blind = next_boss_blind;
                 reroll_boss_blind();
-
-                sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
-                blind_select_tokens[BOSS_BLIND] = blind_token_new(
-                    prev_boss_blind,
-                    CUR_BLIND_TOKEN_POS.x,
-                    CUR_BLIND_TOKEN_POS.y,
-                    4
-                );
+                apply_blind_colors(prev_boss_blind);
             }
             else
             {
