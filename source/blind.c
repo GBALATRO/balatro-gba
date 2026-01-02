@@ -288,7 +288,7 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
     apply_blind_tiles(type, layer);
 
     Sprite* sprite = sprite_new(
-        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_REG,
         ATTR1_SIZE_32x32,
         get_layer_tile_index(layer),
         get_blind_pb(type),
