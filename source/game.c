@@ -576,6 +576,7 @@ enum BlindTokens
 };
 static Sprite* blind_select_tokens[NB_BLINDS_PER_ANTE] = {NULL};
 
+static bool boss_rolled_this_ante = false;
 static enum BlindType next_boss_blind = BLIND_TYPE_HOOK;
 static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
@@ -1566,6 +1567,15 @@ static void change_background(enum BackgroundId id)
     }
     else if (id == BG_BLIND_SELECT)
     {
+        // If this is the first time we see this menu this Ante, roll a boss blind
+        // This check is there for future safety, if we have any kind of pause menu
+        // so we don't reroll the boss blind every time this menu is opened
+        if (!boss_rolled_this_ante)
+        {
+            boss_rolled_this_ante = true;
+            reroll_boss_blind();
+        }
+
         for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
         {
             obj_unhide(blind_select_tokens[i]->obj, 0);
@@ -1596,9 +1606,6 @@ static void change_background(enum BackgroundId id)
             blind_get_color(next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
             1
         );
-
-        // Make sure the Boss Blind token is the right color
-        apply_blind_colors(next_boss_blind);
 
         // Disable the button highlight colors
         // Select button PID is 15 and the outline is 18
@@ -2394,11 +2401,10 @@ static inline void game_playing_handle_round_over(void)
             if (ante < MAX_ANTE)
             {
                 display_ante(++ante);
-                // roll next boss blind now, but copy the last boss' colors to
-                // not show the new ones on the old token
-                enum BlindType prev_boss_blind = next_boss_blind;
-                reroll_boss_blind();
-                apply_blind_colors(prev_boss_blind);
+
+                // mark current boss blind as beaten and allow for reroll
+                set_blind_beaten(next_boss_blind);
+                boss_rolled_this_ante = false;
             }
             else
             {
