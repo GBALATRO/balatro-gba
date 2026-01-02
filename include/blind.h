@@ -93,6 +93,7 @@ u32 blind_get_requirement(enum BlindType type, int ante);
 int blind_get_reward(enum BlindType type);
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index);
 
+void init_unbeaten_blinds_list(bool showdown);
 enum BlindType roll_blind_type(bool showdown);
 void set_blind_beaten(enum BlindType type);
 

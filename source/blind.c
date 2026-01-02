@@ -157,8 +157,11 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
     return blind_token_palettes[type][color_idx];
 }
 
-enum BlindType roll_blind_type(bool showdown)
+// Fills the unbeaten boss blinds lists
+// This must be called at the beginning of a run
+void init_unbeaten_blinds_list(bool showdown)
 {
+    // create the lists when calling for the first time
     static bool init = false;
     if (!init)
     {
@@ -166,19 +169,30 @@ enum BlindType roll_blind_type(bool showdown)
         unbeaten_showdown_blinds = list_create();
         unbeaten_boss_blinds = list_create();
     }
+
+    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+
+    // empty the list just to be sure
+    list_clear(p_unbeaten_blinds);
+
+    int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
+    int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
+
+    for (int i = lower_blind; i <= upper_blind; i++)
+    {
+        list_push_back(p_unbeaten_blinds, &_blind_type_map[i]);
+    }
+}
+
+enum BlindType roll_blind_type(bool showdown)
+{
     List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
 
     // Fill the list with all blinds if it is empty
     // (happens on startup or if we have beaten all blinds)
     if (list_is_empty(p_unbeaten_blinds))
     {
-        int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
-        int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
-
-        for (int i = lower_blind; i <= upper_blind; i++)
-        {
-            list_push_back(p_unbeaten_blinds, &_blind_type_map[i]);
-        }
+        init_unbeaten_blinds_list(showdown);
     }
 
     // roll a random blind among the unbeaten ones
