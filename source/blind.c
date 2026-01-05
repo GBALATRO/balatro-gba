@@ -75,7 +75,7 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
     {BLIND_TYPE_HOOK,    FIX_ONE * 2,      5},
     {BLIND_TYPE_OX,      FIX_ONE * 2,      5},
     {BLIND_TYPE_HOUSE,   FIX_ONE * 2,      5},
-    {BLIND_TYPE_WALL,    FIX_ONE * 4,      5},
+    {BLIND_TYPE_WALL,    FIX_ONE * 2,      5}, // x4 score requirement will be part of the effect
     {BLIND_TYPE_WHEEL,   FIX_ONE * 2,      5},
     {BLIND_TYPE_ARM,     FIX_ONE * 2,      5},
     {BLIND_TYPE_CLUB,    FIX_ONE * 2,      5},
@@ -97,7 +97,7 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
     {BLIND_TYPE_MARK,    FIX_ONE * 2,      5},
     {BLIND_TYPE_ACORN,   FIX_ONE * 2,      8},
     {BLIND_TYPE_LEAF,    FIX_ONE * 2,      8},
-    {BLIND_TYPE_VESSEL,  FIX_ONE * 6,      8},
+    {BLIND_TYPE_VESSEL,  FIX_ONE * 2,      8}, // Save as the Wall
     {BLIND_TYPE_HEART,   FIX_ONE * 2,      8},
     {BLIND_TYPE_BELL,    FIX_ONE * 2,      8}
 };
@@ -217,7 +217,7 @@ void set_blind_beaten(enum BlindType type)
 
     while ((beaten_blind = list_itr_next(&itr)))
     {
-        if (beaten_blind != NULL && beaten_blind->type == type)
+        if (beaten_blind->type == type)
         {
             break;
         }
@@ -292,7 +292,7 @@ void apply_blind_tiles(enum BlindType type, int layer)
 {
     u32 tile_offset = (type >= BLIND_TYPE_HOOK) ? type - BLIND_TYPE_HOOK : type;
     memcpy32(
-        &tile_mem[4][get_layer_tile_index(layer)],
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
         &blind_gfxTiles[get_blind_pb(type) - 1][tile_offset * BLIND_SPRITE_COPY_SIZE],
         BLIND_SPRITE_COPY_SIZE
     );

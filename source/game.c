@@ -572,9 +572,9 @@ enum BlindTokens
     SMALL_BLIND,
     BIG_BLIND,
     BOSS_BLIND,
-    NB_BLINDS_PER_ANTE
+    NUM_BLINDS_PER_ANTE
 };
-static Sprite* blind_select_tokens[NB_BLINDS_PER_ANTE] = {NULL};
+static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
 static bool boss_rolled_this_ante = false;
 static enum BlindType next_boss_blind = BLIND_TYPE_HOOK;
@@ -582,7 +582,7 @@ static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
-static enum BlindState blinds[NB_BLINDS_PER_ANTE] = {
+static enum BlindState blinds[NUM_BLINDS_PER_ANTE] = {
     BLIND_STATE_CURRENT,
     BLIND_STATE_UPCOMING,
     BLIND_STATE_UPCOMING
@@ -763,7 +763,7 @@ static void blind_tokens_init()
     blind_select_tokens[BOSS_BLIND] =
         blind_token_new(next_boss_blind, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
 
-    for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
         obj_hide(blind_select_tokens[i]->obj);
     }
@@ -1584,7 +1584,7 @@ static void change_background(enum BackgroundId id)
             reroll_boss_blind(false);
         }
 
-        for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             obj_unhide(blind_select_tokens[i]->obj, 0);
         }
@@ -1632,7 +1632,7 @@ static void change_background(enum BackgroundId id)
             1
         );
 
-        for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             Rect curr_blind_rect = SINGLE_BLIND_SELECT_RECT;
 
@@ -4689,7 +4689,7 @@ static void game_blind_select_start_anim_seq()
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
-    for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
         sprite_position(
             blind_select_tokens[i],
@@ -4750,7 +4750,7 @@ static void game_blind_select_handle_input()
                 main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
             }
 
-            for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+            for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
             {
                 sprite_position(
                     blind_select_tokens[i],
@@ -4793,7 +4793,7 @@ static void game_blind_select_selected_anim_seq()
         blinds_rect.top -= 1; // Because of the raised blind
         main_bg_se_move_rect_1_tile_vert(blinds_rect, SCREEN_DOWN);
 
-        for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             sprite_position(
                 blind_select_tokens[i],
@@ -4804,7 +4804,7 @@ static void game_blind_select_selected_anim_seq()
     }
     else if (timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
-        for (int i = 0; i < NB_BLINDS_PER_ANTE; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             obj_hide(blind_select_tokens[i]->obj);
         }
