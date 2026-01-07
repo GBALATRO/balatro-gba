@@ -177,6 +177,16 @@ enum BlindSelectStates
     BLIND_SELECT_MAX
 };
 
+// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
+// There are only 3 blinds per Ante, so we don't need more sprites than that
+enum BlindTokens
+{
+    SMALL_BLIND,
+    BIG_BLIND,
+    BOSS_BLIND,
+    NUM_BLINDS_PER_ANTE
+};
+
 typedef struct
 {
     u32 chips;
@@ -222,7 +232,7 @@ static void game_blind_select_start_anim_seq(void);
 static void game_blind_select_handle_input(void);
 static void game_blind_select_selected_anim_seq(void);
 static void game_blind_select_display_blind_panel(void);
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind);
+static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind);
 static void game_blind_select_print_blinds_reqs_and_rewards(void);
 static void game_round_end_start(void);
 static void game_round_end_start_expand_popup(void);
@@ -565,15 +575,6 @@ static Sprite* playing_blind_token = NULL;
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 static Sprite* round_end_blind_token = NULL;
 
-// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
-// There are only 3 blinds per Ante, so we don't need more sprites than that
-enum BlindTokens
-{
-    SMALL_BLIND,
-    BIG_BLIND,
-    BOSS_BLIND,
-    NUM_BLINDS_PER_ANTE
-};
 static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
 static bool boss_rolled_this_ante = false;
@@ -582,7 +583,7 @@ static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
-static enum BlindState blinds[NUM_BLINDS_PER_ANTE] = {
+static enum BlindState blinds_states[NUM_BLINDS_PER_ANTE] = {
     BLIND_STATE_CURRENT,
     BLIND_STATE_UPCOMING,
     BLIND_STATE_UPCOMING
@@ -1924,21 +1925,21 @@ static void increment_blind(enum BlindState increment_reason)
         // defeated small blind: go to big
         case BLIND_TYPE_SMALL:
             current_blind = BLIND_TYPE_BIG;
-            blinds[SMALL_BLIND] = increment_reason;
-            blinds[BIG_BLIND] = BLIND_STATE_CURRENT;
+            blinds_states[SMALL_BLIND] = increment_reason;
+            blinds_states[BIG_BLIND] = BLIND_STATE_CURRENT;
             break;
         // defeated big blind: go to next boss
         case BLIND_TYPE_BIG:
             current_blind = next_boss_blind;
-            blinds[BIG_BLIND] = increment_reason;
-            blinds[BOSS_BLIND] = BLIND_STATE_CURRENT;
+            blinds_states[BIG_BLIND] = increment_reason;
+            blinds_states[BOSS_BLIND] = BLIND_STATE_CURRENT;
             break;
         // defeated a boss: reset everything
         default:
             current_blind = BLIND_TYPE_SMALL;
-            blinds[SMALL_BLIND] = BLIND_STATE_CURRENT; // Reset the blinds to the first one
-            blinds[BIG_BLIND] = BLIND_STATE_UPCOMING;  // Set the next blind to upcoming
-            blinds[BOSS_BLIND] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+            blinds_states[SMALL_BLIND] = BLIND_STATE_CURRENT; // Reset the blinds to the first one
+            blinds_states[BIG_BLIND] = BLIND_STATE_UPCOMING;  // Set the next blind to upcoming
+            blinds_states[BOSS_BLIND] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
             break;
     }
 }
@@ -4612,7 +4613,25 @@ static inline void game_blind_select_erase_blind_reqs_and_rewards()
     }
 }
 
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
+static enum BlindType get_blind_type_from_token(enum BlindTokens blind)
+{
+    enum BlindType blind_type;
+    switch (blind)
+    {
+        case SMALL_BLIND:
+            blind_type = BLIND_TYPE_SMALL;
+            break;
+        case BIG_BLIND:
+            blind_type = BLIND_TYPE_BIG;
+            break;
+        default:
+            blind_type = next_boss_blind;
+            break;
+    }
+    return blind_type;
+}
+
+static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind)
 {
     Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
@@ -4629,11 +4648,11 @@ static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
     return blind_req_score_rect;
 }
 
-static inline void game_blind_select_print_blind_req(enum BlindType blind)
+static inline void game_blind_select_print_blind_req(enum BlindTokens blind)
 {
     Rect blind_req_score_rect = game_blind_select_get_req_score_rect(blind);
 
-    u32 blind_req = blind_get_requirement(blind, ante);
+    u32 blind_req = blind_get_requirement(get_blind_type_from_token(blind), ante);
 
     char blind_req_str_buff[UINT_MAX_DIGITS + 1];
     truncate_uint_to_suffixed_str(
@@ -4653,9 +4672,9 @@ static inline void game_blind_select_print_blind_req(enum BlindType blind)
     );
 }
 
-static inline void game_blind_select_print_blind_reward(enum BlindType blind)
+static inline void game_blind_select_print_blind_reward(enum BlindTokens blind)
 {
-    int blind_reward = blind_get_reward(blind);
+    int blind_reward = blind_get_reward(get_blind_type_from_token(blind));
     Rect blind_reward_rect = game_blind_select_get_req_score_rect(blind);
 
     // The reward is right below the score.
@@ -4678,7 +4697,7 @@ static inline void game_blind_select_print_blind_reward(enum BlindType blind)
 
 static void game_blind_select_print_blinds_reqs_and_rewards(void)
 {
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    for (enum BlindTokens curr_blind = 0; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
         game_blind_select_print_blind_req(curr_blind);
         game_blind_select_print_blind_reward(curr_blind);
