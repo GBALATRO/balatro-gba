@@ -4593,7 +4593,7 @@ static void game_blind_select_on_update()
 
 static inline void game_blind_select_erase_blind_reqs_and_rewards()
 {
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    for (enum BlindTokens curr_blind = SMALL_BLIND; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
         Rect blind_req_and_reward_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
