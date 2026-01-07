@@ -91,7 +91,7 @@
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
 #define BOSS_BLIND_PRIMARY_PID               1
-#define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    2
+#define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    3
 #define REROLL_BTN_PID                       3
 #define BLIND_SKIP_BTN_PID                   5
 #define MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID 5
