@@ -1,3 +1,4 @@
+// clang-format off
 #ifndef BLIND_GFX_H
 #define BLIND_GFX_H
 
@@ -21,3 +22,4 @@
 #include "blind_gfx17.h"
 
 #endif
+// clang-format on
