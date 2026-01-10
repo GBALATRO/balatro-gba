@@ -30,6 +30,7 @@ static List unbeaten_showdown_blinds;
 // Ante 0 is also there in case it is ever reached.
 static const u32 ante_lut[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};
 
+// clang-format off
 static Blind _blind_type_map[BLIND_TYPE_MAX] = {
     {BLIND_TYPE_SMALL,   FIX_ONE,          3},
     {BLIND_TYPE_BIG,    (FIX_ONE * 3) / 2, 4},
