@@ -15,20 +15,16 @@
 #define BLIND_SPRITE_OFFSET    16
 #define BLIND_SPRITE_COPY_SIZE BLIND_SPRITE_OFFSET * 8 // 8 ints per tile
 
-// Only applies to Boss/Showdown Blinds.
-// Normal Blinds do not need to be palette swapped and we don't need to get their colors
-// These should not be used in any ordered fashion, they are arranged in a logical, arbitrary order
-// as their values are subject to change until the palette is fixed in Asperite
+// Order of the Blind sprites' colors as encoded in the files' palettes with Aseprite
 enum BlindColorIndex
 {
-    BLIND_TEXT_COLOR_INDEX = 9,
-    BLIND_SHADOW_COLOR_INDEX = 2,
-    BLIND_HIGHLIGHT_COLOR_INDEX = 7,
-    BLIND_MAIN_COLOR_INDEX = 8,
-    // not in the file's palette, it's free space we'll use for the Boss blinds' background
-    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 10,
-    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 11,
-    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 12,
+    BLIND_TEXT_COLOR_INDEX = 1,
+    BLIND_SHADOW_COLOR_INDEX,
+    BLIND_HIGHLIGHT_COLOR_INDEX,
+    BLIND_MAIN_COLOR_INDEX,
+    BLIND_BACKGROUND_MAIN_COLOR_INDEX,
+    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX,
+    BLIND_BACKGROUND_SHADOW_COLOR_INDEX,
 };
 
 // clang-format off

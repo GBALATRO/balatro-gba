@@ -66,9 +66,9 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
 
 void blind_init()
 {
-    // Set up the two palettes used by these tokens
+    // Set up the palette used by normal blind tokens.
+    // We will never need to edit it ever again.
     memcpy16(&pal_obj_bank[NORMAL_BLIND_PB], blind_gfxPal[0], NUM_ELEM_IN_ARR(blind_gfx0Pal));
-    memcpy16(&pal_obj_bank[BOSS_BLIND_PB], blind_gfxPal[1], NUM_ELEM_IN_ARR(blind_gfx0Pal));
 
     return;
 }
@@ -85,40 +85,6 @@ u32 blind_get_requirement(enum BlindType type, int ante)
 int blind_get_reward(enum BlindType type)
 {
     return _blind_type_map[type].reward;
-}
-
-u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
-{
-    // Do a little translation of palette idx -> custom array idx
-    u32 color_idx;
-    switch (index)
-    {
-        case BLIND_TEXT_COLOR_INDEX:
-            color_idx = 1;
-            break;
-        case BLIND_SHADOW_COLOR_INDEX:
-            color_idx = 2;
-            break;
-        case BLIND_HIGHLIGHT_COLOR_INDEX:
-            color_idx = 3;
-            break;
-        case BLIND_MAIN_COLOR_INDEX:
-            color_idx = 4;
-            break;
-        case BLIND_BACKGROUND_MAIN_COLOR_INDEX:
-            color_idx = 5;
-            break;
-        case BLIND_BACKGROUND_SECONDARY_COLOR_INDEX:
-            color_idx = 6;
-            break;
-        case BLIND_BACKGROUND_SHADOW_COLOR_INDEX:
-            color_idx = 7;
-            break;
-        default:
-            color_idx = 0;
-            break;
-    }
-    return blind_token_palettes[type][color_idx];
 }
 
 // Fills the unbeaten boss blinds lists
@@ -196,50 +162,66 @@ static u32 get_blind_pb(enum BlindType type)
     return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
 }
 
-void apply_blind_colors(enum BlindType type)
+static u32 get_blind_spritesheet_idx(enum BlindType type)
 {
-    u32 pb = get_blind_pb(type);
+    // See comment below in blind_get_color why we differenciate before/after the Mark
+    return (type < BLIND_TYPE_MARK) ? type / 2 : BLIND_TYPE_MARK / 2 + type - BLIND_TYPE_MARK;
+}
 
-    // swap the sprite's palette only if it's a boss blind
-    if (type >= BLIND_TYPE_HOOK)
+u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
+{
+    // Do a little translation of palette idx -> custom array idx
+    u32 color_idx;
+    // All blinds before the Mark are arranged in pairs with their palettte split in two
+    // | XX |  1 |  2 |  3 |  4 |  5 |  6 |  7 | -> first sprite
+    // | XX |  9 | 10 | 11 | 12 | 13 | 14 | 15 | -> second sprite
+    // so we need to offset the color indices by 8 for blinds with an odd type
+    // From the Mark onwards, all sprites are alone in their spritesheet, so no need to offset
+    u8 offset = (type < BLIND_TYPE_MARK) ? 8 * (type % 2) : 0;
+    switch (index)
     {
-        memcpy16(
-            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_TEXT_COLOR_INDEX],
-            &blind_token_palettes[type][1],
-            1
-        );
-        memcpy16(
-            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_SHADOW_COLOR_INDEX],
-            &blind_token_palettes[type][2],
-            1
-        );
-        memcpy16(
-            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_HIGHLIGHT_COLOR_INDEX],
-            &blind_token_palettes[type][3],
-            1
-        );
-        memcpy16(
-            &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_MAIN_COLOR_INDEX],
-            &blind_token_palettes[type][4],
-            1
-        );
+        case BLIND_TEXT_COLOR_INDEX:
+            color_idx = 1 + offset;
+            break;
+        case BLIND_SHADOW_COLOR_INDEX:
+            color_idx = 2 + offset;
+            break;
+        case BLIND_HIGHLIGHT_COLOR_INDEX:
+            color_idx = 3 + offset;
+            break;
+        case BLIND_MAIN_COLOR_INDEX:
+            color_idx = 4 + offset;
+            break;
+        case BLIND_BACKGROUND_MAIN_COLOR_INDEX:
+            color_idx = 5 + offset;
+            break;
+        case BLIND_BACKGROUND_SECONDARY_COLOR_INDEX:
+            color_idx = 6 + offset;
+            break;
+        case BLIND_BACKGROUND_SHADOW_COLOR_INDEX:
+            color_idx = 7 + offset;
+            break;
+        default:
+            color_idx = 0;
+            break;
     }
 
-    // but always refresh the background colors
+    return blind_gfxPal[get_blind_spritesheet_idx(type)][color_idx];
+}
+
+void apply_blind_colors(enum BlindType type)
+{
+    // No need to update normal blind palette
+    if (type < BLIND_TYPE_HOOK)
+    {
+        return;
+    }
+
+    // Just copy the palette as is to the sprite palette bank
     memcpy16(
-        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_MAIN_COLOR_INDEX],
-        &blind_token_palettes[type][5],
-        1
-    );
-    memcpy16(
-        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SECONDARY_COLOR_INDEX],
-        &blind_token_palettes[type][6],
-        1
-    );
-    memcpy16(
-        &pal_obj_mem[PAL_ROW_LEN * pb + BLIND_BACKGROUND_SHADOW_COLOR_INDEX],
-        &blind_token_palettes[type][7],
-        1
+        &pal_obj_bank[BOSS_BLIND_PB],
+        blind_gfxPal[get_blind_spritesheet_idx(type)],
+        NUM_ELEM_IN_ARR(blind_gfx0Pal)
     );
 }
 
@@ -251,10 +233,11 @@ static u32 get_layer_tile_index(int layer)
 
 void apply_blind_tiles(enum BlindType type, int layer)
 {
-    u32 tile_offset = (type >= BLIND_TYPE_HOOK) ? type - BLIND_TYPE_HOOK : type;
+    u32 spritesheet_idx = get_blind_spritesheet_idx(type);
+    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type / 2 : 0;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
-        &blind_gfxTiles[get_blind_pb(type) - 1][tile_offset * BLIND_SPRITE_COPY_SIZE],
+        &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
         BLIND_SPRITE_COPY_SIZE
     );
 
