@@ -1,45 +1,69 @@
 #ifndef BLIND_H
 #define BLIND_H
 
+#include "game.h"
 #include "sprite.h"
+
 // The GBA's max uint value is around 4 billion, so we're going to not add endless mode for
 // simplicity's sake
 #define MAX_ANTE 8
 
-#define SMALL_BLIND_PB 1
-#define BIG_BLIND_PB   2
-#define BOSS_BLIND_PB  3
+#define NORMAL_BLIND_PB 1
+#define BOSS_BLIND_PB   2
 
+#define BLIND_BASE_LAYER       (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
 #define BLIND_SPRITE_OFFSET    16
-#define BLIND_SPRITE_COPY_SIZE BLIND_SPRITE_OFFSET * 8 // 8 ints per tile
-#define SMALL_BLIND_TID        960
-#define BIG_BLIND_TID          (BLIND_SPRITE_OFFSET + SMALL_BLIND_TID)
-#define BOSS_BLIND_TID         (BLIND_SPRITE_OFFSET + BIG_BLIND_TID)
+#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_OFFSET * TILE_SIZE)
 
+// Order of the Blind sprites' colors as encoded in the files' palettes with Aseprite
 enum BlindColorIndex
 {
     BLIND_TEXT_COLOR_INDEX = 1,
-    BLIND_SHADOW_COLOR_INDEX = 2,
-    BLIND_HIGHLIGHT_COLOR_INDEX = 3,
-    BLIND_MAIN_COLOR_INDEX = 4,
-    BLIND_BACKGROUND_MAIN_COLOR_INDEX = 5,
-    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX = 6,
-    BLIND_BACKGROUND_SHADOW_COLOR_INDEX = 7,
+    BLIND_SHADOW_COLOR_INDEX,
+    BLIND_HIGHLIGHT_COLOR_INDEX,
+    BLIND_MAIN_COLOR_INDEX,
+    BLIND_BACKGROUND_MAIN_COLOR_INDEX,
+    BLIND_BACKGROUND_SECONDARY_COLOR_INDEX,
+    BLIND_BACKGROUND_SHADOW_COLOR_INDEX,
 };
-
-#define BLIND_TYPE_INFO_TABLE                  \
-    BLIND_INFO(SMALL, small, FIX_ONE, 3)       \
-    BLIND_INFO(BIG, big, (FIX_ONE * 3) / 2, 4) \
-    BLIND_INFO(BOSS, boss, FIX_ONE * 2, 5)
 
 // clang-format off
 enum BlindType
 {
-#define BLIND_INFO(NAME, name, multi, reward) \
-    BLIND_TYPE_##NAME,
-    BLIND_TYPE_INFO_TABLE
-#undef BLIND_INFO
-    BLIND_TYPE_MAX,
+    // Normal Blinds
+    BLIND_TYPE_SMALL,
+    BLIND_TYPE_BIG,
+    // Boss Blinds
+    BLIND_TYPE_HOOK,
+    BLIND_TYPE_OX,
+    BLIND_TYPE_HOUSE,
+    BLIND_TYPE_WALL,
+    BLIND_TYPE_WHEEL,
+    BLIND_TYPE_ARM,
+    BLIND_TYPE_CLUB,
+    BLIND_TYPE_FISH,
+    BLIND_TYPE_PSYCHIC,
+    BLIND_TYPE_GOAD,
+    BLIND_TYPE_WATER,
+    BLIND_TYPE_WINDOW,
+    BLIND_TYPE_MANACLE,
+    BLIND_TYPE_EYE,
+    BLIND_TYPE_MOUTH,
+    BLIND_TYPE_PLANT,
+    BLIND_TYPE_SERPENT,
+    BLIND_TYPE_PILLAR,
+    BLIND_TYPE_NEEDLE,
+    BLIND_TYPE_HEAD,
+    BLIND_TYPE_TOOTH,
+    BLIND_TYPE_FLINT,
+    BLIND_TYPE_MARK,
+    // Showdown Blinds
+    BLIND_TYPE_ACORN,
+    BLIND_TYPE_LEAF,
+    BLIND_TYPE_VESSEL,
+    BLIND_TYPE_HEART,
+    BLIND_TYPE_BELL,
+    BLIND_TYPE_MAX
 };
 // clang-format on
 
@@ -52,19 +76,9 @@ enum BlindState
     BLIND_STATE_MAX,
 };
 
-// TODO: Move this to a common interface for other palettes
-typedef struct
-{
-    const unsigned int* tiles;
-    const u16* palette;
-    u32 tid;
-    u32 pb;
-} BlindGfxInfo;
-
 typedef struct
 {
     enum BlindType type;
-    BlindGfxInfo gfx_info;
     FIXED score_req_multipler;
     s32 reward;
 } Blind;
@@ -77,6 +91,12 @@ u32 blind_get_requirement(enum BlindType type, int ante);
 int blind_get_reward(enum BlindType type);
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index);
 
+void init_unbeaten_blinds_list(bool showdown);
+enum BlindType roll_blind_type(bool showdown);
+void set_blind_beaten(enum BlindType type);
+
+void apply_blind_colors(enum BlindType type);
+void apply_blind_tiles(enum BlindType type, int layer);
 Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index);
 
 #endif // BLIND_H

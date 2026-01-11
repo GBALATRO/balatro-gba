@@ -142,7 +142,7 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->joker = joker;
     joker_object->sprite_object = sprite_object_new();
 
-    int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
+    int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = joker->id % NUM_JOKERS_PER_SPRITESHEET;

@@ -1,72 +1,75 @@
 #include "blind.h"
 
-#include "big_blind_gfx.h"
-#include "boss_blind_gfx.h"
+#include "blind_gfx.h"
 #include "graphic_utils.h"
-#include "small_blind_gfx.h"
+#include "list.h"
+#include "stdbool.h"
 #include "util.h"
 
+#include <stdlib.h>
 #include <tonc.h>
+
+static const unsigned int* blind_gfxTiles[] = {
+#define DEF_BLIND_GFX(idx) blind_gfx##idx##Tiles,
+#include "../include/def_blind_gfx_table.h"
+#undef DEF_BLIND_GFX
+};
+
+static const unsigned short* blind_gfxPal[] = {
+#define DEF_BLIND_GFX(idx) blind_gfx##idx##Pal,
+#include "../include/def_blind_gfx_table.h"
+#undef DEF_BLIND_GFX
+};
+
+// Bitfields storing blinds we have yet to beat during the current run
+static List unbeaten_boss_blinds;
+static List unbeaten_showdown_blinds;
 
 // Maps the ante number to the base blind requirement for that ante.
 // The game starts at ante 1 which is at index 1 for base requirement 300.
 // Ante 0 is also there in case it is ever reached.
 static const u32 ante_lut[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};
 
-// Palettes for the blinds (Transparency, Text Color, Shadow, Highlight, Main Color) Use this:
-// http://www.budmelvin.com/dev/15bitconverter.html
-static const u16 small_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x7FFF, 0x34A1, 0x5DCB, 0x5104, 0x55A0, 0x2D01, 0x34E0};
-static const u16 big_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x2527, 0x15F5, 0x36FC, 0x1E9C, 0x01B4, 0x0D0A, 0x010E};
-// This variable is temporary, each boss blind will have its own unique palette
-static const u16 boss_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x2CC9, 0x3D0D, 0x5E14, 0x5171, 0x4D0F, 0x2CC8, 0x3089};
-
 // clang-format off
 static Blind _blind_type_map[BLIND_TYPE_MAX] = {
-#define BLIND_INFO(NAME, name, multi, _reward)         \
-    {                                                  \
-        .type = BLIND_TYPE_##NAME,                     \
-        .gfx_info =                                    \
-        {                                              \
-                .tiles = name##_blind_gfxTiles,        \
-                .palette = name##_blind_token_palette, \
-                .tid = NAME##_BLIND_TID,               \
-                .pb = NAME##_BLIND_PB,                 \
-        },                                             \
-        .score_req_multipler = multi,                  \
-        .reward = _reward,                             \
-},
-    BLIND_TYPE_INFO_TABLE
-#undef BLIND_INFO
+    {BLIND_TYPE_SMALL,   FIX_ONE,          3},
+    {BLIND_TYPE_BIG,    (FIX_ONE * 3) / 2, 4},
+    {BLIND_TYPE_HOOK,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_OX,      FIX_ONE * 2,      5},
+    {BLIND_TYPE_HOUSE,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_WALL,    FIX_ONE * 2,      5}, // x4 score requirement will be part of the effect
+    {BLIND_TYPE_WHEEL,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_ARM,     FIX_ONE * 2,      5},
+    {BLIND_TYPE_CLUB,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_FISH,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_PSYCHIC, FIX_ONE * 2,      5},
+    {BLIND_TYPE_GOAD,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_WATER,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_WINDOW,  FIX_ONE * 2,      5},
+    {BLIND_TYPE_MANACLE, FIX_ONE * 2,      5},
+    {BLIND_TYPE_EYE,     FIX_ONE * 2,      5},
+    {BLIND_TYPE_MOUTH,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_PLANT,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_SERPENT, FIX_ONE * 2,      5},
+    {BLIND_TYPE_PILLAR,  FIX_ONE * 2,      5},
+    {BLIND_TYPE_NEEDLE,  FIX_ONE,          5},
+    {BLIND_TYPE_HEAD,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_TOOTH,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_FLINT,   FIX_ONE * 2,      5},
+    {BLIND_TYPE_MARK,    FIX_ONE * 2,      5},
+    {BLIND_TYPE_ACORN,   FIX_ONE * 2,      8},
+    {BLIND_TYPE_LEAF,    FIX_ONE * 2,      8},
+    {BLIND_TYPE_VESSEL,  FIX_ONE * 2,      8}, // Save as the Wall
+    {BLIND_TYPE_HEART,   FIX_ONE * 2,      8},
+    {BLIND_TYPE_BELL,    FIX_ONE * 2,      8}
 };
 // clang-format on
 
-static void s_blind_gfx_init(enum BlindType type);
-
-GBAL_UNUSED
-void blind_set_boss_graphics(const unsigned int* tiles, const u16* palette)
-{
-    // TODO: This function is unused and not fully fleshed out.
-    // We need to support more boss blind graphics in the future.
-    // The idea here is that we can call this function to set the boss up to
-    // render new tiles
-    //
-    // This will eventually be in it's own map mapping graphic data to
-    // boss types.
-
-    _blind_type_map[BLIND_TYPE_BOSS].gfx_info.tiles = tiles;
-    _blind_type_map[BLIND_TYPE_BOSS].gfx_info.palette = palette;
-    s_blind_gfx_init(BLIND_TYPE_BOSS);
-}
-
 void blind_init()
 {
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
-    {
-        s_blind_gfx_init(i);
-    }
+    // Set up the palette used by normal blind tokens.
+    // We will never need to edit it ever again.
+    memcpy16(&pal_obj_bank[NORMAL_BLIND_PB], blind_gfxPal[0], NUM_ELEM_IN_ARR(blind_gfx0Pal));
 
     return;
 }
@@ -85,34 +88,152 @@ int blind_get_reward(enum BlindType type)
     return _blind_type_map[type].reward;
 }
 
-u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
+// Fills the unbeaten boss blinds lists
+// This must be called at the beginning of a run
+void init_unbeaten_blinds_list(bool showdown)
 {
-    return _blind_type_map[type].gfx_info.palette[index];
+    // create the lists when calling for the first time
+    static bool init = false;
+    if (!init)
+    {
+        init = true;
+        unbeaten_showdown_blinds = list_create();
+        unbeaten_boss_blinds = list_create();
+    }
+
+    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+
+    // empty the list just to be sure
+    list_clear(p_unbeaten_blinds);
+
+    int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
+    int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
+
+    for (int i = lower_blind; i <= upper_blind; i++)
+    {
+        list_push_back(p_unbeaten_blinds, &_blind_type_map[i]);
+    }
 }
 
-Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
+enum BlindType roll_blind_type(bool showdown)
 {
-    u16 a0 = ATTR0_SQUARE | ATTR0_4BPP;
-    u16 a1 = ATTR1_SIZE_32x32;
-    u32 tid = _blind_type_map[type].gfx_info.tid, pb = _blind_type_map[type].gfx_info.pb;
+    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
 
-    Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
+    // Fill the list with all blinds if it is empty
+    // (happens on startup or if we have beaten all blinds)
+    if (list_is_empty(p_unbeaten_blinds))
+    {
+        init_unbeaten_blinds_list(showdown);
+    }
 
+    // roll a random blind among the unbeaten ones
+    int random_blind_idx = rand() % list_get_len(p_unbeaten_blinds);
+    Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
+
+    return random_blind->type;
+}
+
+void set_blind_beaten(enum BlindType type)
+{
+    bool showdown = (type >= BLIND_TYPE_ACORN);
+    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+
+    // find the beaten blind idx in the list
+    int beaten_idx = 0;
+    Blind* beaten_blind = NULL;
+    ListItr itr = list_itr_create(p_unbeaten_blinds);
+
+    while ((beaten_blind = list_itr_next(&itr)))
+    {
+        if (beaten_blind->type == type)
+        {
+            break;
+        }
+        beaten_idx++;
+    }
+
+    if (beaten_idx < list_get_len(p_unbeaten_blinds))
+    {
+        list_remove_at_idx(p_unbeaten_blinds, beaten_idx);
+    }
+}
+
+static u32 get_blind_pb(enum BlindType type)
+{
+    return (type <= BLIND_TYPE_BIG) ? NORMAL_BLIND_PB : BOSS_BLIND_PB;
+}
+
+static u32 get_blind_spritesheet_idx(enum BlindType type)
+{
+    // See comment below in blind_get_color why we differenciate before/after the Mark
+    return (type < BLIND_TYPE_MARK) ? type / 2 : BLIND_TYPE_MARK / 2 + type - BLIND_TYPE_MARK;
+}
+
+u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
+{
+    // Do a little translation of palette idx -> custom array idx
+    // All blinds before the Mark are arranged in pairs with their palettte split in two
+    // | XX |  1 |  2 |  3 |  4 |  5 |  6 |  7 | -> first sprite
+    // | XX |  9 | 10 | 11 | 12 | 13 | 14 | 15 | -> second sprite
+    // so we need to offset the color indices by 8 for blinds with an odd type
+    // From the Mark onwards, all sprites are alone in their spritesheet, so no need to offset
+    u32 color_idx = index + ((type < BLIND_TYPE_MARK) ? 8 * (type % 2) : 0);
+    return blind_gfxPal[get_blind_spritesheet_idx(type)][color_idx];
+}
+
+void apply_blind_colors(enum BlindType type)
+{
+    // keep track of active boss blind spritesheet to copy colors only when changing
+    static u32 active_boss_spritesheet = BLIND_TYPE_MAX;
+    u32 new_spritesheet = get_blind_spritesheet_idx(type);
+
+    // No need to update normal blind palette
+    if (type < BLIND_TYPE_HOOK || active_boss_spritesheet == new_spritesheet)
+    {
+        return;
+    }
+
+    active_boss_spritesheet = new_spritesheet;
+
+    // Just copy the palette as is to the sprite palette bank
+    memcpy16(
+        &pal_obj_bank[BOSS_BLIND_PB],
+        blind_gfxPal[active_boss_spritesheet],
+        NUM_ELEM_IN_ARR(blind_gfx0Pal)
+    );
+}
+
+static u32 get_layer_tile_index(int layer)
+{
+    // All Blind sprites are stored sequentially and correspond to their IDs
+    return (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
+}
+
+void apply_blind_tiles(enum BlindType type, int layer)
+{
+    u32 spritesheet_idx = get_blind_spritesheet_idx(type);
+    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % 2 : 0;
+    memcpy32(
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
+        &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
+        BLIND_SPRITE_COPY_SIZE
+    );
+
+    apply_blind_colors(type);
+}
+
+Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
+{
+    apply_blind_tiles(type, layer);
+
+    Sprite* sprite = sprite_new(
+        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+        ATTR1_SIZE_32x32,
+        get_layer_tile_index(layer),
+        get_blind_pb(type),
+        BLIND_BASE_LAYER + layer
+    );
     sprite_position(sprite, x, y);
 
     return sprite;
-}
-
-static void s_blind_gfx_init(enum BlindType type)
-{
-    // TODO: Re-add grit copy. You need to decouple the blind graphics first.
-    // This will allow this function to change the boss graphics info
-    // GRIT_CPY(&tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][_blind_type_map[type].pal_info.tid], tiles);
-    BlindGfxInfo* p_gfx = &_blind_type_map[type].gfx_info;
-    memcpy32(
-        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][p_gfx->tid],
-        p_gfx->tiles,
-        BLIND_SPRITE_COPY_SIZE
-    );
-    memcpy16(&pal_obj_bank[p_gfx->pb], p_gfx->palette, PAL_ROW_LEN);
 }
