@@ -12,17 +12,17 @@
 #include <string.h>
 #include <tonc.h>
 
-#define JOKER_SCORE_TEXT_Y         48
-#define HELD_CARD_SCORE_TEXT_Y     108
-#define MAX_CARD_SCORE_STR_LEN     2
-#define NUM_JOKERS_PER_SPRITESHEET 2
+#define JOKER_SCORE_TEXT_Y     48
+#define HELD_CARD_SCORE_TEXT_Y 108
+#define MAX_CARD_SCORE_STR_LEN 2
+// what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
+#define MAX_NUM_JOKERS_SPRITESHEETS 75
 
 static const unsigned int* joker_gfxTiles[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Tiles,
 #include "../include/def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
 };
-
 static const unsigned short* joker_gfxPal[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
 #include "def_joker_gfx_table.h"
@@ -44,20 +44,66 @@ const static u8 edition_price_lut[MAX_EDITIONS] = {
    logic. But I'm going to use a simpler approach for the joker objects since I'm lazy and sorting
    them wouldn't look good enough to warrant the effort.
 */
-static bool _used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for joker sprites
+static bool used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for joker sprites
 // TODO: Refactor sorting into SpriteObject?
 
 // Maps the spritesheet index to the palette bank index allocated to it.
 // Spritesheets that were not allocated are
-static int _joker_spritesheet_pb_map[(MAX_DEFINABLE_JOKERS + 1) / NUM_JOKERS_PER_SPRITESHEET];
-static int _joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
+static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
+static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
-static int s_get_num_spritesheets(void);
+// Map of Joker ID -> Spritesheet idx
+// clang-format off
+static int joker_id_to_sprite_map[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1,
+    2, 2,
+    3, 3, 3, 3, 3,
+    4, 4, 4, 4, 4,
+    5, 5, 5, 5,
+    6, 6, 6, 6,
+    7, 7,
+    8, 8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+};
+// Map of Joker ID -> Sprite idx in sheet
+static int joker_id_to_sprite_position_map[] = {
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+    0, 1,
+    0, 1,
+    0, 1, 2, 3, 4,
+    0, 1, 2, 3, 4,
+    0, 1, 2, 3,
+    0, 1, 2, 3,
+    0, 1,
+    0, 1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+};
+// clang-format on
+
+static int s_get_num_spritesheets();
 static int s_joker_get_spritesheet_idx(u8 joker_id);
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
-static int s_get_unused_joker_pb(void);
+static int s_get_unused_joker_pb();
 static int s_allocate_pb_if_needed(u8 joker_id);
 
 void joker_init()
@@ -67,7 +113,7 @@ void joker_init()
 
     for (int i = 0; i < num_spritesheets; i++)
     {
-        _joker_spritesheet_pb_map[i] = UNDEFINED;
+        joker_spritesheet_pb_map[i] = UNDEFINED;
     }
 }
 
@@ -131,10 +177,10 @@ JokerObject* joker_object_new(Joker* joker)
     int layer = 0;
     for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
     {
-        if (!_used_layers[i])
+        if (!used_layers[i])
         {
             layer = i;
-            _used_layers[i] = true; // Mark this layer as used
+            used_layers[i] = true; // Mark this layer as used
             break;
         }
     }
@@ -145,7 +191,7 @@ JokerObject* joker_object_new(Joker* joker)
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
 
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
-    int joker_idx = joker->id % NUM_JOKERS_PER_SPRITESHEET;
+    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
@@ -175,12 +221,12 @@ void joker_object_destroy(JokerObject** joker_object)
         return;
 
     int layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) - JOKER_STARTING_LAYER;
-    _used_layers[layer] = false;
+    used_layers[layer] = false;
     s_joker_pb_remove_sprite_user(sprite_get_pb(joker_object_get_sprite(*joker_object)));
     if (s_joker_pb_get_num_sprite_users((sprite_get_pb(joker_object_get_sprite(*joker_object)))) ==
         0)
     {
-        _joker_spritesheet_pb_map[s_joker_get_spritesheet_idx((*joker_object)->joker->id)] =
+        joker_spritesheet_pb_map[s_joker_get_spritesheet_idx((*joker_object)->joker->id)] =
             UNDEFINED;
     }
 
@@ -354,36 +400,40 @@ int joker_get_random_rarity()
 
 static int s_get_num_spritesheets()
 {
-    return (get_joker_registry_size() + NUM_JOKERS_PER_SPRITESHEET - 1) /
-           NUM_JOKERS_PER_SPRITESHEET;
+    return MAX_NUM_JOKERS_SPRITESHEETS;
 }
 
 static int s_joker_get_spritesheet_idx(u8 joker_id)
 {
-    return joker_id / NUM_JOKERS_PER_SPRITESHEET;
+    return joker_id_to_sprite_map[joker_id];
+}
+
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
+{
+    return joker_id_to_sprite_position_map[joker_id];
 }
 
 static void s_joker_pb_add_sprite_user(int pb)
 {
-    _joker_pb_num_sprite_users[pb - JOKER_BASE_PB]++;
+    joker_pb_num_sprite_users[pb - JOKER_BASE_PB]++;
 }
 
 static void s_joker_pb_remove_sprite_user(int pb)
 {
-    int num_sprite_users = _joker_pb_num_sprite_users[pb - JOKER_BASE_PB];
-    _joker_pb_num_sprite_users[pb - JOKER_BASE_PB] = max(0, num_sprite_users - 1);
+    int num_sprite_users = joker_pb_num_sprite_users[pb - JOKER_BASE_PB];
+    joker_pb_num_sprite_users[pb - JOKER_BASE_PB] = max(0, num_sprite_users - 1);
 }
 
 static int s_joker_pb_get_num_sprite_users(int joker_pb)
 {
-    return _joker_pb_num_sprite_users[joker_pb - JOKER_BASE_PB];
+    return joker_pb_num_sprite_users[joker_pb - JOKER_BASE_PB];
 }
 
 static int s_get_unused_joker_pb()
 {
-    for (int i = 0; i < NUM_ELEM_IN_ARR(_joker_pb_num_sprite_users); i++)
+    for (int i = 0; i < NUM_ELEM_IN_ARR(joker_pb_num_sprite_users); i++)
     {
-        if (_joker_pb_num_sprite_users[i] == 0)
+        if (joker_pb_num_sprite_users[i] == 0)
         {
             return (i + JOKER_BASE_PB);
         }
@@ -395,7 +445,7 @@ static int s_get_unused_joker_pb()
 static int s_allocate_pb_if_needed(u8 joker_id)
 {
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker_id);
-    int joker_pb = _joker_spritesheet_pb_map[joker_spritesheet_idx];
+    int joker_pb = joker_spritesheet_pb_map[joker_spritesheet_idx];
     if (joker_pb != UNDEFINED)
     {
         // Already allocated
@@ -412,7 +462,7 @@ static int s_allocate_pb_if_needed(u8 joker_id)
     }
     else
     {
-        _joker_spritesheet_pb_map[joker_spritesheet_idx] = joker_pb;
+        joker_spritesheet_pb_map[joker_spritesheet_idx] = joker_pb;
         memcpy16(
             &pal_obj_mem[PAL_ROW_LEN * joker_pb],
             joker_gfxPal[joker_spritesheet_idx],

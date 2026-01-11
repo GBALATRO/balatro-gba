@@ -20,14 +20,6 @@
 #include "joker_gfx15.h"
 #include "joker_gfx16.h"
 #include "joker_gfx17.h"
-#include "joker_gfx18.h"
-#include "joker_gfx19.h"
-#include "joker_gfx20.h"
-#include "joker_gfx21.h"
-#include "joker_gfx22.h"
-#include "joker_gfx23.h"
-#include "joker_gfx24.h"
-#include "joker_gfx25.h"
 
 #endif
 // clang-format on
