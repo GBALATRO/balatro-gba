@@ -13,7 +13,7 @@
 
 #define BLIND_BASE_LAYER       (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
 #define BLIND_SPRITE_OFFSET    16
-#define BLIND_SPRITE_COPY_SIZE BLIND_SPRITE_OFFSET * 8 // 8 ints per tile
+#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_OFFSET * TILE_SIZE)
 
 // Order of the Blind sprites' colors as encoded in the files' palettes with Aseprite
 enum BlindColorIndex

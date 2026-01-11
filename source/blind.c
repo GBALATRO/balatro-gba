@@ -172,41 +172,12 @@ static u32 get_blind_spritesheet_idx(enum BlindType type)
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
 {
     // Do a little translation of palette idx -> custom array idx
-    u32 color_idx;
     // All blinds before the Mark are arranged in pairs with their palettte split in two
     // | XX |  1 |  2 |  3 |  4 |  5 |  6 |  7 | -> first sprite
     // | XX |  9 | 10 | 11 | 12 | 13 | 14 | 15 | -> second sprite
     // so we need to offset the color indices by 8 for blinds with an odd type
     // From the Mark onwards, all sprites are alone in their spritesheet, so no need to offset
-    u8 offset = (type < BLIND_TYPE_MARK) ? 8 * (type % 2) : 0;
-    switch (index)
-    {
-        case BLIND_TEXT_COLOR_INDEX:
-            color_idx = 1 + offset;
-            break;
-        case BLIND_SHADOW_COLOR_INDEX:
-            color_idx = 2 + offset;
-            break;
-        case BLIND_HIGHLIGHT_COLOR_INDEX:
-            color_idx = 3 + offset;
-            break;
-        case BLIND_MAIN_COLOR_INDEX:
-            color_idx = 4 + offset;
-            break;
-        case BLIND_BACKGROUND_MAIN_COLOR_INDEX:
-            color_idx = 5 + offset;
-            break;
-        case BLIND_BACKGROUND_SECONDARY_COLOR_INDEX:
-            color_idx = 6 + offset;
-            break;
-        case BLIND_BACKGROUND_SHADOW_COLOR_INDEX:
-            color_idx = 7 + offset;
-            break;
-        default:
-            color_idx = 0;
-            break;
-    }
-
+    u32 color_idx = index + ((type < BLIND_TYPE_MARK) ? 8 * (type % 2) : 0);
     return blind_gfxPal[get_blind_spritesheet_idx(type)][color_idx];
 }
 
@@ -235,7 +206,7 @@ static u32 get_layer_tile_index(int layer)
 void apply_blind_tiles(enum BlindType type, int layer)
 {
     u32 spritesheet_idx = get_blind_spritesheet_idx(type);
-    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type / 2 : 0;
+    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % 2 : 0;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
         &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
