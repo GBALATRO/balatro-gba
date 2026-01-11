@@ -37,9 +37,10 @@ typedef struct SelectionGrid SelectionGrid;
  *                       Contains the previous cursor position
  * @param new_selection Pointer to the Selection state after the change occurred.
  *                      Contains the new cursor position
+ * @return false if the selection change needs to be aborted, true if can proceed.
  *
  */
-typedef void (*RowOnSelectionChangedFunc)(
+typedef bool (*RowOnSelectionChangedFunc)(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -72,6 +73,18 @@ typedef int (*RowGetSizeFunc)();
 typedef void (*RowOnKeyTransitFunc)(SelectionGrid* selection_grid, Selection* selection);
 
 /**
+ * @brief A set of attributes to the selection grid row affecting selection grid behavior.
+ */
+typedef struct
+{
+
+    /**
+     * @brief Whether to wrap selection when it passes the end of the row.
+     */
+    bool wrap;
+} SelGridRowAttributes;
+
+/**
  * @brief A single row in the selection grid, defined by its callback functions.
  *
  * @var row_idx is used to easily identify the row within the callbacks.
@@ -82,6 +95,7 @@ struct SelectionGridRow
     RowGetSizeFunc get_size;
     RowOnSelectionChangedFunc on_selection_changed;
     RowOnKeyTransitFunc on_key_transit;
+    SelGridRowAttributes attributes;
 };
 
 /**
