@@ -183,16 +183,22 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
 
 void apply_blind_colors(enum BlindType type)
 {
+    // keep track of active boss blind spritesheet to copy colors only when changing
+    static u32 active_boss_spritesheet = BLIND_TYPE_MAX;
+    u32 new_spritesheet = get_blind_spritesheet_idx(type);
+
     // No need to update normal blind palette
-    if (type < BLIND_TYPE_HOOK)
+    if (type < BLIND_TYPE_HOOK || active_boss_spritesheet == new_spritesheet)
     {
         return;
     }
 
+    active_boss_spritesheet = new_spritesheet;
+
     // Just copy the palette as is to the sprite palette bank
     memcpy16(
         &pal_obj_bank[BOSS_BLIND_PB],
-        blind_gfxPal[get_blind_spritesheet_idx(type)],
+        blind_gfxPal[active_boss_spritesheet],
         NUM_ELEM_IN_ARR(blind_gfx0Pal)
     );
 }
