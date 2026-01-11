@@ -30,6 +30,10 @@ typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
 
+typedef struct
+{
+} GameVariables;
+
 enum BackgroundId
 {
     BG_NONE,
@@ -98,9 +102,9 @@ enum HandType
 typedef struct
 {
     int substate;
-    void (*on_init)();
-    void (*on_update)();
-    void (*on_exit)();
+    void (*on_init)(GameVariables* vars);
+    void (*on_update)(GameVariables* vars);
+    void (*on_exit)(GameVariables* vars);
 } StateInfo;
 
 // Game functions
