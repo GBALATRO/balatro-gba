@@ -121,7 +121,8 @@
 /* This needs to stay a power of 2 and small enough
  * for the lerping to be done before the next hand is drawn.
  */
-#define NUM_SCORE_LERP_STEPS 32
+#define NUM_SCORE_LERP_STEPS   16
+#define TM_SCORE_LERP_INTERVAL 2
 
 // Shop
 #define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
@@ -2980,7 +2981,7 @@ static inline void game_playing_process_input_and_state(void)
             );
         }
     }
-    else if (play_state == PLAY_ENDED)
+    else if (play_state == PLAY_ENDED && timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
     {
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
