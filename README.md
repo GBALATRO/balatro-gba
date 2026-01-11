@@ -43,7 +43,7 @@ This **tech-demo/proof of concept** is strictly limited in content to a minimal 
 
 (L: Sell Joker)
 
-(R: Sort Suit/Rank)
+(SELECT: Toggle Sort Suit/Rank)
 
 (D-Pad: Navigation) 
 

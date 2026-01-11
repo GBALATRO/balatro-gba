@@ -18,7 +18,7 @@
 #define SELECT_CARD    KEY_A
 #define DESELECT_CARDS KEY_B
 #define PEEK_DECK      KEY_L // Not implemented
-#define SORT_HAND      KEY_R
+#define SORT_HAND      KEY_SELECT
 #define PAUSE_GAME     KEY_START // Not implemented
 #define SELL_KEY       KEY_L
 
