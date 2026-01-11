@@ -471,6 +471,7 @@ static enum HandState hand_state = HAND_DRAW;
 static enum PlayState play_state = PLAY_STARTING;
 
 static enum HandType hand_type = NONE;
+static ContainedHandTypes _contained_hands = {0};
 
 static CardObject* main_menu_ace = NULL;
 
@@ -852,15 +853,6 @@ bool is_joker_owned(int joker_id)
     return false;
 }
 
-bool card_is_face(Card* card)
-{
-    // Card is a face card, or Pareidolia is present
-    return (
-        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
-        is_joker_owned(PAREIDOLIA_JOKER_ID)
-    );
-}
-
 List* get_jokers_list(void)
 {
     return &_owned_jokers_list;
@@ -1050,6 +1042,11 @@ void display_mult(void)
     check_flaming_score();
 }
 
+ContainedHandTypes* get_contained_hands(void)
+{
+    return &_contained_hands;
+}
+
 // idx_a and idx_b are assumed to be valid indexes within the hand array
 // no checks will be performed here for performance's sake
 static inline void swap_cards_in_hand(int idx_a, int idx_b)
@@ -1172,6 +1169,128 @@ static void sort_cards(void)
     }
 
     reorder_card_sprites_layers();
+}
+
+void hand_get_type(void)
+{
+    // resetting all hand info
+    hand_type = NONE;
+    memset16(&_contained_hands, 0, 1);
+
+    // Idk if this is how Balatro does it but this is how I'm doing it
+    if (hand_selections == 0 || hand_state == HAND_DISCARD)
+    {
+        hand_type = NONE;
+        return;
+    }
+
+    hand_type = HIGH_CARD;
+    _contained_hands.HIGH_CARD = 1;
+
+    u8 suits[NUM_SUITS];
+    u8 ranks[NUM_RANKS];
+    get_hand_distribution(ranks, suits);
+
+    // The following can be optimized better but not sure how much it matters
+    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
+
+    // Pair and 2 Pair
+    if (n_of_a_kind >= 2)
+    {
+        hand_type = PAIR;
+        _contained_hands.PAIR = 1;
+
+        if (hand_contains_two_pair(ranks))
+        {
+            hand_type = TWO_PAIR;
+            _contained_hands.TWO_PAIR = 1;
+        }
+    }
+
+    // 3 OAK
+    if (n_of_a_kind >= 3)
+    {
+        hand_type = THREE_OF_A_KIND;
+        _contained_hands.THREE_OF_A_KIND = 1;
+    }
+
+    // Straight
+    if (hand_contains_straight(ranks))
+    {
+        hand_type = STRAIGHT;
+        _contained_hands.STRAIGHT = 1;
+    }
+
+    // Flush
+    if (hand_contains_flush(suits))
+    {
+        hand_type = FLUSH;
+        _contained_hands.FLUSH = 1;
+    }
+
+    // Full House
+    if (n_of_a_kind >= 3 && hand_contains_full_house(ranks))
+    {
+        hand_type = FULL_HOUSE;
+        _contained_hands.FULL_HOUSE = 1;
+    }
+
+    // 4 OAK
+    if (n_of_a_kind >= 4)
+    {
+        hand_type = FOUR_OF_A_KIND;
+        _contained_hands.FOUR_OF_A_KIND = 1;
+    }
+
+    // Straight Flush
+    if (_contained_hands.STRAIGHT && _contained_hands.FLUSH)
+    {
+        hand_type = STRAIGHT_FLUSH;
+        _contained_hands.STRAIGHT_FLUSH = 1;
+    }
+
+    // Royal Flush
+    if (_contained_hands.STRAIGHT_FLUSH)
+    {
+        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
+        {
+            hand_type = ROYAL_FLUSH;
+            _contained_hands.ROYAL_FLUSH = 1;
+        }
+    }
+
+    // 5 OAK
+    if (n_of_a_kind >= 5)
+    {
+        hand_type = FIVE_OF_A_KIND;
+        _contained_hands.FIVE_OF_A_KIND = 1;
+    }
+
+    // Flush House and Five
+    if (_contained_hands.FLUSH)
+    {
+        if (_contained_hands.FULL_HOUSE)
+        {
+            hand_type = FLUSH_HOUSE;
+            _contained_hands.FLUSH_HOUSE = 1;
+        }
+
+        if (_contained_hands.FIVE_OF_A_KIND)
+        {
+            hand_type = FLUSH_FIVE;
+            _contained_hands.FLUSH_FIVE = 1;
+        }
+    }
+}
+
+// Returns true if the card is *considered* a face card
+bool card_is_face(Card* card)
+{
+    // Card is a face card, or Pareidolia is present
+    return (
+        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
+        is_joker_owned(PAREIDOLIA_JOKER_ID)
+    );
 }
 
 /* Copies the appropriate item into the top left panel (blind/shop icon)
@@ -1605,97 +1724,6 @@ static void display_discards(int value)
     );
 }
 
-static inline enum HandType hand_get_type(void)
-{
-    enum HandType res_hand_type = NONE;
-
-    // Idk if this is how Balatro does it but this is how I'm doing it
-    if (hand_selections == 0 || hand_state == HAND_DISCARD)
-    {
-        res_hand_type = NONE;
-        return res_hand_type;
-    }
-
-    res_hand_type = HIGH_CARD;
-
-    u8 suits[NUM_SUITS];
-    u8 ranks[NUM_RANKS];
-    get_hand_distribution(ranks, suits);
-
-    // Check for flush
-    if (hand_contains_flush(suits))
-        res_hand_type = FLUSH;
-
-    // Check for straight
-    if (hand_contains_straight(ranks))
-    {
-        if (res_hand_type == FLUSH)
-            res_hand_type = STRAIGHT_FLUSH;
-        else
-            res_hand_type = STRAIGHT;
-    }
-
-    // The following can be optimized better but not sure how much it matters
-    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
-
-    if (n_of_a_kind >= 5)
-    {
-        if (res_hand_type == FLUSH)
-        {
-            return FLUSH_FIVE;
-        }
-        return FIVE_OF_A_KIND;
-    }
-
-    // Check for royal flush vs regular straight flush
-    if (res_hand_type == STRAIGHT_FLUSH)
-    {
-        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
-            return ROYAL_FLUSH;
-        return STRAIGHT_FLUSH;
-    }
-
-    if (n_of_a_kind == 4)
-    {
-        return FOUR_OF_A_KIND;
-    }
-
-    if (n_of_a_kind == 3 && hand_contains_full_house(ranks))
-    {
-        return FULL_HOUSE;
-    }
-
-    // Flush and Straight are more valuable than the remaining hand types, so return them now
-    if (res_hand_type == FLUSH)
-    {
-        if (n_of_a_kind >= 5)
-        {
-            return FLUSH_HOUSE;
-        }
-        return FLUSH;
-    }
-    if (res_hand_type == STRAIGHT)
-    {
-        return STRAIGHT;
-    }
-
-    if (n_of_a_kind == 3)
-    {
-        return THREE_OF_A_KIND;
-    }
-
-    if (n_of_a_kind == 2)
-    {
-        if (hand_contains_two_pair(ranks))
-        {
-            return TWO_PAIR;
-        }
-        return PAIR;
-    }
-
-    return res_hand_type; // should be HIGH_CARD
-}
-
 static void print_hand_type(const char* hand_type_str)
 {
     if (hand_type_str == NULL)
@@ -1712,7 +1740,7 @@ static void print_hand_type(const char* hand_type_str)
 static void set_hand(void)
 {
     tte_erase_rect_wrapper(HAND_TYPE_RECT);
-    hand_type = hand_get_type();
+    hand_get_type();
 
     HandValues hand = hand_base_values[hand_type];
 
