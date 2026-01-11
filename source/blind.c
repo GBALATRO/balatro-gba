@@ -13,16 +13,6 @@
 // Ante 0 is also there in case it is ever reached.
 static const u32 ante_lut[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};
 
-// Palettes for the blinds (Transparency, Text Color, Shadow, Highlight, Main Color) Use this:
-// http://www.budmelvin.com/dev/15bitconverter.html
-static const u16 small_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x7FFF, 0x34A1, 0x5DCB, 0x5104, 0x55A0, 0x2D01, 0x34E0};
-static const u16 big_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x2527, 0x15F5, 0x36FC, 0x1E9C, 0x01B4, 0x0D0A, 0x010E};
-// This variable is temporary, each boss blind will have its own unique palette
-static const u16 boss_blind_token_palette[PAL_ROW_LEN] =
-    {0x0000, 0x2CC9, 0x3D0D, 0x5E14, 0x5171, 0x4D0F, 0x2CC8, 0x3089};
-
 // clang-format off
 static Blind _blind_type_map[BLIND_TYPE_MAX] = {
 #define BLIND_INFO(NAME, name, multi, _reward)         \
@@ -31,7 +21,7 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
         .gfx_info =                                    \
         {                                              \
                 .tiles = name##_blind_gfxTiles,        \
-                .palette = name##_blind_token_palette, \
+                .palette = name##_blind_gfxPal,        \
                 .tid = NAME##_BLIND_TID,               \
                 .pb = NAME##_BLIND_PB,                 \
         },                                             \
