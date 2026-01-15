@@ -3,6 +3,7 @@
 #include "affine_background.h"
 #include "audio_utils.h"
 #include "background_main_menu_gfx.h"
+#include "button.h"
 #include "card.h"
 #include "game.h"
 #include "game/palette.h"
