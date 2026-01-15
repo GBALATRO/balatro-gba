@@ -109,7 +109,7 @@ void game_main_menu_on_update(void)
 
     if (selection_x == MAIN_MENU_PLAY_BTN_IDX)
     {
-        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], HIGHLIGHT_COLOR, 1);
+        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], BTN_HIGHLIGHT_COLOR, 1);
 
         if (key_hit(SELECT_CARD))
         {
