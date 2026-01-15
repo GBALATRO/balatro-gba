@@ -47,8 +47,8 @@ typedef void (*SubStateActionFn)(void);
 
 // Forward declarations
 void game_shop_intro(void);
-void game_shop_process_user_input(void);
-void game_shop_outro(void);
+static void game_shop_process_user_input(void);
+static void game_shop_outro(void);
 void game_shop_create_items(void);
 static void game_shop_lights_anim_frame(void);
 int jokers_sel_row_get_size(void);
@@ -578,7 +578,7 @@ static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Select
 }
 
 // Shop menu input and selection
-void game_shop_process_user_input()
+static void game_shop_process_user_input()
 {
     if (timer == TM_SHOP_PRC_INPUT_START)
     {
@@ -601,7 +601,7 @@ void game_shop_process_user_input()
 }
 
 // Outro sequence (menu and shop icon going out of frame)
-void game_shop_outro()
+static void game_shop_outro()
 {
     // Shift the shop panel
     main_bg_se_move_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_DOWN);
