@@ -466,3 +466,17 @@ static void game_round_end_dismiss_round_end_panel()
         state_info[game_state].substate = ROUND_END_EXIT;
     }
 }
+
+void game_round_end_change_background(enum BackgroundId current_background)
+{
+    if (current_background != BG_CARD_SELECTING && current_background != BG_CARD_PLAYING)
+    {
+        change_background(BG_CARD_SELECTING);
+    }
+
+    // Disable window 0 so it doesn't make the cashout menu transparent
+    toggle_windows(false, true);
+
+    main_bg_se_clear_rect(ROUND_END_MENU_RECT);
+    tte_erase_rect_wrapper(HAND_SIZE_RECT);
+}

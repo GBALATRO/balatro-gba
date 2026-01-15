@@ -914,25 +914,15 @@ void change_background(enum BackgroundId id)
     }
     else if (id == BG_CARD_SELECTING)
     {
-        game_selecting_change_background(id);
+        game_selecting_change_background(background);
     }
     else if (id == BG_CARD_PLAYING)
     {
-        game_playing_change_background(id);
+        game_playing_change_background(background);
     }
     else if (id == BG_ROUND_END)
     {
-        if (background != BG_CARD_SELECTING && background != BG_CARD_PLAYING)
-        {
-            change_background(BG_CARD_SELECTING);
-            background = BG_ROUND_END;
-        }
-
-        // Disable window 0 so it doesn't make the cashout menu transparent
-        toggle_windows(false, true);
-
-        main_bg_se_clear_rect(ROUND_END_MENU_RECT);
-        tte_erase_rect_wrapper(HAND_SIZE_RECT);
+        game_round_end_change_background(background);
     }
     else if (id == BG_SHOP)
     {

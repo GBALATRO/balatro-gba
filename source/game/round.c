@@ -1683,9 +1683,9 @@ static inline void game_playing_process_flaming_score(void)
     }
 }
 
-void game_playing_change_background(enum BackgroundId id)
+void game_playing_change_background(enum BackgroundId current_background)
 {
-    if (background != BG_CARD_SELECTING)
+    if (current_background != BG_CARD_SELECTING)
     {
         change_background(BG_CARD_SELECTING);
         background = BG_CARD_PLAYING;
@@ -1702,12 +1702,12 @@ void game_playing_change_background(enum BackgroundId id)
     tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
 }
 
-void game_selecting_change_background(enum BackgroundId id)
+void game_selecting_change_background(enum BackgroundId current_background)
 {
     tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
     REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
 
-    if (background == BG_CARD_PLAYING)
+    if (current_background == BG_CARD_PLAYING)
     {
         int offset = 11;
         memcpy16(
