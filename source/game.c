@@ -19,6 +19,7 @@
 #include "game/selection.h"
 #include "game/shop.h"
 #include "game/timer.h"
+#include "game/win_lose.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
@@ -118,11 +119,6 @@ static void noop(void)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-static void game_lose_on_init(void);
-static void game_lose_on_update(void);
-static void game_over_on_exit(void);
-static void game_win_on_init(void);
-static void game_win_on_update(void);
 
 void change_background(enum BackgroundId id);
 void display_temp_score(u32 value);
@@ -135,8 +131,6 @@ void set_hand(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
 void increment_blind(enum BlindState increment_reason);
-static void game_over_init(void);
-static void game_over_anim_frame(void);
 
 static void game_playing_discard_on_pressed(void);
 static void game_playing_play_hand_on_pressed(void);
@@ -327,7 +321,7 @@ int selection_y = 0;
 
 List _owned_jokers_list;
 List _discarded_jokers_list;
-static List _expired_jokers_list;
+List _expired_jokers_list;
 
 BITSET_DEFINE(_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
 static List _shop_jokers_list;
@@ -1219,28 +1213,6 @@ void deck_shuffle(void)
     }
 }
 
-static void game_over_init(void)
-{
-    // Clears the round end menu
-    main_bg_se_clear_rect(POP_MENU_ANIM_RECT);
-    main_bg_se_copy_expand_3x3_rect(GAME_OVER_DIALOG_DEST_RECT, GAME_OVER_SRC_RECT_3X3_POS);
-    main_bg_se_copy_rect(NEW_RUN_BTN_SRC_RECT, NEW_RUN_BTN_DEST_POS);
-}
-
-static void game_lose_on_init()
-{
-    game_over_init();
-    // Using the text color to match the "Game Over" text
-    affine_background_set_color(TEXT_CLR_RED);
-}
-
-static void game_win_on_init()
-{
-    game_over_init();
-    // Using the text color to match the "You Win" text
-    affine_background_set_color(TEXT_CLR_BLUE);
-}
-
 // General functions
 static inline void set_seed(int seed)
 {
@@ -1407,106 +1379,4 @@ void game_start(void)
     ); // Ante
 
     game_change_state(GAME_STATE_BLIND_SELECT);
-}
-
-static void game_over_anim_frame(void)
-{
-    main_bg_se_move_rect_1_tile_vert(GAME_OVER_ANIM_RECT, SCREEN_UP);
-}
-
-static inline void game_over_process_user_input()
-{
-    if (key_hit(SELECT_CARD))
-    {
-        play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-        game_change_state(GAME_STATE_BLIND_SELECT);
-    }
-}
-
-static void game_lose_on_update()
-{
-    if (timer < GAME_OVER_ANIM_FRAMES)
-    {
-        game_over_anim_frame();
-    }
-    else if (timer == GAME_OVER_ANIM_FRAMES)
-    {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}GAME OVER",
-            GAME_LOSE_MSG_TEXT_RECT.left,
-            GAME_LOSE_MSG_TEXT_RECT.top,
-            TTE_RED_PB
-        );
-    }
-
-    game_over_process_user_input();
-}
-
-// This function isn't set in stone. This is just a placeholder
-// allowing the player to restart the game. Thought it would be nice to have
-// util we decide what we want to do after a game over.
-static void game_over_on_exit()
-{
-    while (list_get_len(&_owned_jokers_list) > 0)
-    {
-        JokerObject* joker_object = list_get_at_idx(&_owned_jokers_list, 0);
-        remove_owned_joker(0);
-        joker_object_destroy(&joker_object);
-    }
-
-    tte_erase_screen();
-
-    // For some reason that I haven't figured out yet,
-    // if I don't destroy the blind tokens they won't
-    // show up on the next run.
-    sprite_destroy(&playing_blind_token);
-    sprite_destroy(&round_end_blind_token);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_SMALL]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BIG]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BOSS]);
-
-    list_clear(&_owned_jokers_list);
-    list_clear(&_discarded_jokers_list);
-    list_clear(&_expired_jokers_list);
-
-    game_init();
-
-    display_round(game_round);
-    display_score(score);
-    display_chips();
-    display_mult();
-    display_hands(hands);
-    display_discards(discards);
-    display_money();
-    // Ante
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d#{cx:0x%X000}/%d",
-        ANTE_TEXT_RECT.left,
-        ANTE_TEXT_RECT.top,
-        TTE_YELLOW_PB,
-        ante,
-        TTE_WHITE_PB,
-        MAX_ANTE
-    );
-
-    affine_background_load_palette(affine_background_gfxPal);
-}
-
-static void game_win_on_update()
-{
-    if (timer < GAME_OVER_ANIM_FRAMES)
-    {
-        game_over_anim_frame();
-    }
-    else if (timer == GAME_OVER_ANIM_FRAMES)
-    {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}YOU WIN",
-            GAME_WIN_MSG_TEXT_RECT.left,
-            GAME_WIN_MSG_TEXT_RECT.top,
-            TTE_BLUE_PB
-        );
-    }
-
-    game_over_process_user_input();
 }
