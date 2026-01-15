@@ -104,9 +104,11 @@ typedef struct
 } StateInfo;
 
 // Game functions
+void game_start();
 void game_init();
 void game_update();
 void game_change_state(enum GameState new_game_state);
+void change_background(enum BackgroundId id);
 
 CardObject** get_hand_array(void);
 int get_hand_top(void);
@@ -136,6 +138,10 @@ void set_retrigger(bool new_retrigger);
 
 int get_game_speed(void);
 void set_game_speed(int new_game_speed);
+
+int get_timer(void);
+void incr_rng_seed(void);
+void mult_rng_seed(int factor);
 
 // joker specific functions
 bool is_shortcut_joker_active(void);

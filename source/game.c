@@ -1312,6 +1312,21 @@ int game_shop_get_rand_available_joker_id(void)
     return selected_joker_id;
 }
 
+int get_timer(void)
+{
+    return timer;
+}
+
+void incr_rng_seed(void)
+{
+    rng_seed++;
+}
+
+void mult_rng_seed(int factor)
+{
+    rng_seed *= factor;
+}
+
 void game_start(void)
 {
     game_main_menu_cleanup();

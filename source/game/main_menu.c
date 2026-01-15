@@ -31,19 +31,11 @@
 #define MAIN_MENU_ACE_T_X 88
 #define MAIN_MENU_ACE_T_Y 26
 
-// Forward declarations from game.c
-extern unsigned int timer;
-extern int game_speed;
-extern enum BackgroundId background;
-extern unsigned int rng_seed;
-extern int selection_x;
-
-// External functions from game.c
-extern void change_background(enum BackgroundId id);
-extern void game_start(void);
-
 // Main menu sprite - the ace of spades
 static CardObject* main_menu_ace = NULL;
+
+// Current selected button index
+static int selection_x = 0;
 
 void game_main_menu_on_init(void)
 {
@@ -58,6 +50,7 @@ void game_main_menu_on_init(void)
     main_menu_ace->sprite_object->ty = int2fx(MAIN_MENU_ACE_T_Y);
     main_menu_ace->sprite_object->y = main_menu_ace->sprite_object->ty;
     main_menu_ace->sprite_object->tscale = float2fx(0.8f);
+    selection_x = 0;
 }
 
 void game_main_menu_change_background(void)
@@ -82,15 +75,15 @@ void game_main_menu_on_update(void)
     change_background(BG_MAIN_MENU);
 
     card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((timer << 8) / 2) / 3;
+    main_menu_ace->sprite_object->trotation = lu_sin((get_timer() << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
 
     // Seed randomization
-    rng_seed++;
+    incr_rng_seed();
     // If the keys have changed, make it more pseudo-random
     if (key_curr_state() != key_prev_state())
     {
-        rng_seed *= 2;
+        mult_rng_seed(2);
     }
 
     if (key_hit(KEY_LEFT))
