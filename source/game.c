@@ -4507,6 +4507,8 @@ static void game_blind_select_handle_input()
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             increment_blind(BLIND_STATE_SKIPPED);
 
+            selection_y = 0; // Reset selection to first option
+
             background = UNDEFINED; // Force refresh of the background
             change_background(BG_BLIND_SELECT);
 
