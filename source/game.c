@@ -118,20 +118,11 @@ static void noop(void)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-extern void game_round_on_init(void);
-extern void game_playing_on_update(void);
-extern void game_round_end_on_update(void);
-extern void game_round_end_on_exit(void);
-extern void game_shop_on_update(void);
-extern void game_shop_on_exit(void);
 static void game_lose_on_init(void);
 static void game_lose_on_update(void);
 static void game_over_on_exit(void);
 static void game_win_on_init(void);
 static void game_win_on_update(void);
-extern void game_shop_intro(void);
-extern void game_shop_process_user_input(void);
-extern void game_shop_outro(void);
 
 void change_background(enum BackgroundId id);
 void display_temp_score(u32 value);
