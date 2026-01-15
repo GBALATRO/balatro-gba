@@ -21,6 +21,7 @@ extern int game_round;
 extern uint timer;
 extern int game_speed;
 extern enum BackgroundId background;
+extern int selection_x;
 extern int selection_y;
 extern enum GameState game_state;
 
@@ -73,6 +74,8 @@ static inline int blind_select_rect_width(const Rect* rect)
 void game_blind_select_on_init(void)
 {
     change_background(BG_BLIND_SELECT);
+    selection_x = 0;
+    selection_y = 0;
     play_sfx(SFX_POP, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
 }
 
@@ -422,7 +425,6 @@ static void blind_select_handle_input()
 
     if (selection_y == 0)
     {
-        // 5 is the multiplier palette color and the skip button color
         memset16(&pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID], 0xFFFF, 1);
         memcpy16(
             &pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID],
@@ -432,7 +434,6 @@ static void blind_select_handle_input()
     }
     else
     {
-        // 15 is the select button color
         memcpy16(
             &pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID],
             &pal_bg_mem[BLIND_SELECT_BTN_PID],
