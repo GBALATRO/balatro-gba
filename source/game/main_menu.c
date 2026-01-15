@@ -59,6 +59,23 @@ void game_main_menu_on_init(void)
     main_menu_ace->sprite_object->tscale = float2fx(0.8f);
 }
 
+void game_main_menu_change_background(void)
+{
+    toggle_windows(false, false);
+
+    tte_erase_screen();
+    GRIT_CPY(pal_bg_mem, background_main_menu_gfxPal);
+    GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_main_menu_gfxTiles);
+    GRIT_CPY(&se_mem[MAIN_BG_SBB], background_main_menu_gfxMap);
+
+    // Disable the button highlight colors
+    memcpy16(
+        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
+        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
+        1
+    );
+}
+
 void game_main_menu_on_update(void)
 {
     change_background(BG_MAIN_MENU);

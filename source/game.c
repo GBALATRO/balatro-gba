@@ -3,9 +3,7 @@
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "audio_utils.h"
-#include "background_blind_select_gfx.h"
 #include "background_gfx.h"
-#include "background_main_menu_gfx.h"
 #include "background_shop_gfx.h"
 #include "bitset.h"
 #include "blind.h"
@@ -1185,185 +1183,11 @@ void change_background(enum BackgroundId id)
     }
     else if (id == BG_BLIND_SELECT)
     {
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
-        {
-            obj_unhide(blind_select_tokens[i]->obj, 0);
-        }
-
-        // Default y position for the blind select tokens. 12 is the amount of tiles the background
-        // is shifted down by
-        const int default_y = 89 + (TILE_SIZE * 12);
-        // TODO refactor magic numbers '80/120/160' into a map to loop with
-        sprite_position(blind_select_tokens[BLIND_TYPE_SMALL], 80, default_y);
-        sprite_position(blind_select_tokens[BLIND_TYPE_BIG], 120, default_y);
-        sprite_position(blind_select_tokens[BLIND_TYPE_BOSS], 160, default_y);
-
-        toggle_windows(false, true);
-
-        GRIT_CPY(pal_bg_mem, background_blind_select_gfxPal);
-        GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_blind_select_gfxTiles);
-        GRIT_CPY(&se_mem[MAIN_BG_SBB], background_blind_select_gfxMap);
-
-        // Copy boss blind colors to blind select palette
-        memset16(
-            &pal_bg_mem[1],
-            blind_get_color(BLIND_TYPE_BOSS, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
-            1
-        );
-        memset16(
-            &pal_bg_mem[7],
-            blind_get_color(BLIND_TYPE_BOSS, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
-            1
-        );
-
-        // Disable the button highlight colors
-        // Select button PID is 15 and the outline is 18
-        memcpy16(
-            &pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID],
-            &pal_bg_mem[BLIND_SELECT_BTN_PID],
-            1
-        );
-        // It seems the skip button (and score multiplier and deck) PB idx is
-        // actually 5, not 10. 10 is the selected border color
-        // Setting this palette value though doesn't seem to have an
-        // effect.
-        memcpy16(
-            &pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID],
-            &pal_bg_mem[BLIND_SKIP_BTN_PID],
-            1
-        );
-
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
-        {
-            Rect curr_blind_rect = SINGLE_BLIND_SELECT_RECT;
-
-            // There's no gap between them
-            curr_blind_rect.left += i * rect_width(&SINGLE_BLIND_SELECT_RECT);
-            curr_blind_rect.right += i * rect_width(&SINGLE_BLIND_SELECT_RECT);
-
-            if (blinds_states[i] != BLIND_STATE_CURRENT &&
-                (i == BLIND_TYPE_SMALL || i == BLIND_TYPE_BIG)) // Make the skip button gray
-            {
-                BG_POINT skip_blind_btn_pos_dest = {
-                    BLIND_SKIP_BTN_PREANIM_DEST_RECT.left,
-                    BLIND_SKIP_BTN_PREANIM_DEST_RECT.top
-                };
-                skip_blind_btn_pos_dest.x = curr_blind_rect.left;
-
-                Rect skip_blind_btn_rect_src = BLIND_SKIP_BTN_GRAY_RECT;
-                skip_blind_btn_rect_src.top += i * rect_height(&BLIND_SKIP_BTN_GRAY_RECT);
-                skip_blind_btn_rect_src.bottom += i * rect_height(&BLIND_SKIP_BTN_GRAY_RECT);
-
-                main_bg_se_copy_rect(skip_blind_btn_rect_src, skip_blind_btn_pos_dest);
-            }
-
-            switch (blinds_states[i])
-            {
-                case BLIND_STATE_CURRENT: // Raise the blind panel up a bit
-                {
-                    // TODO: Replace copies with main_bg_se_copy_rect() of named rects
-                    int x_from = 0;
-                    int y_from = 27;
-
-                    main_bg_se_copy_rect_1_tile_vert(curr_blind_rect, SCREEN_UP);
-
-                    int x_to = curr_blind_rect.left;
-                    int y_to = 31;
-
-                    if (i == BLIND_TYPE_BIG)
-                    {
-                        y_from = 31;
-                    }
-                    else if (i == BLIND_TYPE_BOSS)
-                    {
-                        x_from = x_to;
-                        y_from = 30;
-                    }
-
-                    // Copy plain tiles onto the bottom of the raised blind panel to fill the gap
-                    // created by the raise
-                    Rect gap_fill_rect = {
-                        x_from,
-                        y_from,
-                        x_from + rect_width(&SINGLE_BLIND_SELECT_RECT) - 1,
-                        y_from
-                    };
-                    BG_POINT gap_fill_point = {x_to, y_to};
-                    main_bg_se_copy_rect(gap_fill_rect, gap_fill_point);
-
-                    // Move token up by a tile
-                    sprite_position(
-                        blind_select_tokens[i],
-                        blind_select_tokens[i]->pos.x,
-                        blind_select_tokens[i]->pos.y - TILE_SIZE
-                    );
-                    break;
-                }
-                case BLIND_STATE_UPCOMING: // Change the select icon to "NEXT"
-                {
-                    int x_from = 0;
-                    int y_from = 20;
-
-                    int x_to = 10 + (i * rect_width(&SINGLE_BLIND_SELECT_RECT));
-                    int y_to = 20;
-
-                    memcpy16(
-                        &se_mem[MAIN_BG_SBB][x_to + 32 * y_to],
-                        &se_mem[MAIN_BG_SBB][x_from + 32 * y_from],
-                        3
-                    );
-                    break;
-                }
-                case BLIND_STATE_SKIPPED: // Change the select icon to "SKIP"
-                {
-                    int x_from = 3;
-                    int y_from = 20;
-
-                    int x_to = 10 + (i * 5);
-                    int y_to = 20;
-
-                    memcpy16(
-                        &se_mem[MAIN_BG_SBB][x_to + 32 * y_to],
-                        &se_mem[MAIN_BG_SBB][x_from + 32 * y_from],
-                        3
-                    );
-                    break;
-                }
-                case BLIND_STATE_DEFEATED: // Change the select icon to "DEFEATED"
-                {
-                    int x_from = 6;
-                    int y_from = 20;
-
-                    int x_to = 10 + (i * 5);
-                    int y_to = 20;
-
-                    memcpy16(
-                        &se_mem[MAIN_BG_SBB][x_to + 32 * y_to],
-                        &se_mem[MAIN_BG_SBB][x_from + 32 * y_from],
-                        3
-                    );
-                    break;
-                }
-                default:
-                    break;
-            }
-        }
+        game_blind_select_change_background();
     }
     else if (id == BG_MAIN_MENU)
     {
-        toggle_windows(false, false);
-
-        tte_erase_screen();
-        GRIT_CPY(pal_bg_mem, background_main_menu_gfxPal);
-        GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_main_menu_gfxTiles);
-        GRIT_CPY(&se_mem[MAIN_BG_SBB], background_main_menu_gfxMap);
-
-        // Disable the button highlight colors
-        memcpy16(
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
-            1
-        );
+        game_main_menu_change_background();
     }
     else
     {

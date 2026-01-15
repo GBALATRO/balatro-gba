@@ -4,6 +4,9 @@
 // Main menu state initialization
 void game_main_menu_on_init(void);
 
+// Change the main menu background
+void game_main_menu_change_background(void);
+
 // Main menu state update
 void game_main_menu_on_update(void);
 
