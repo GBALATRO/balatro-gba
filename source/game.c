@@ -17,6 +17,7 @@
 #include "game/round.h"
 #include "game/round_end.h"
 #include "game/selection.h"
+#include "game/shop.h"
 #include "game/timer.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
@@ -950,30 +951,7 @@ void change_background(enum BackgroundId id)
     }
     else if (id == BG_SHOP)
     {
-        toggle_windows(false, true);
-
-        GRIT_CPY(pal_bg_mem, background_shop_gfxPal);
-        GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_shop_gfxTiles);
-        GRIT_CPY(&se_mem[MAIN_BG_SBB], background_shop_gfxMap);
-
-        // Set the outline colors for the shop background. This is used for the alternate shop
-        // palettes when opening packs
-        memset16(&pal_bg_mem[SHOP_BOTTOM_PANEL_BORDER_PID], 0x213D, 1);
-        memset16(&pal_bg_mem[SHOP_PANEL_SHADOW_PID], 0x10B4, 1);
-
-        // Reset the shop lights to correct colors
-        memset16(&pal_bg_mem[SHOP_LIGHTS_2_PID], SHOP_LIGHTS_2_CLR, 1);
-        memset16(&pal_bg_mem[SHOP_LIGHTS_3_PID], SHOP_LIGHTS_3_CLR, 1);
-        memset16(&pal_bg_mem[SHOP_LIGHTS_4_PID], SHOP_LIGHTS_4_CLR, 1);
-        memset16(&pal_bg_mem[SHOP_LIGHTS_1_PID], SHOP_LIGHTS_1_CLR, 1);
-
-        // Disable the button highlight colors
-        memcpy16(&pal_bg_mem[REROLL_BTN_SELECTED_BORDER_PID], &pal_bg_mem[REROLL_BTN_PID], 1);
-        memcpy16(
-            &pal_bg_mem[NEXT_ROUND_BTN_SELECTED_BORDER_PID],
-            &pal_bg_mem[NEXT_ROUND_BTN_PID],
-            1
-        );
+        game_shop_change_background();
     }
     else if (id == BG_BLIND_SELECT)
     {
