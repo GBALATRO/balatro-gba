@@ -5,6 +5,7 @@
 #include "background_main_menu_gfx.h"
 #include "card.h"
 #include "game.h"
+#include "game/palette.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
 #include "sprite.h"
@@ -18,9 +19,6 @@
 #define MAIN_MENU_BUTTONS             2
 #define MAIN_MENU_IMPLEMENTED_BUTTONS 1 // Remove this once all buttons are implemented
 #define MAIN_MENU_PLAY_BTN_IDX        0
-
-#define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    2
-#define MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID 5
 
 #define HIGHLIGHT_COLOR 0xFFFF
 

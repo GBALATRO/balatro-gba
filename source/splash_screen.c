@@ -2,13 +2,13 @@
 
 #include "font.h"
 #include "game.h"
+#include "game/rect.h"
 #include "graphic_utils.h"
 #include "maxmod.h"
 #include "soundbank.h"
 
 #include <tonc.h>
 
-static const Rect COUNTDOWN_TIMER_RECT = {208, 144, 240, 152};
 static uint timer = 0;
 
 void splash_screen_on_init()
