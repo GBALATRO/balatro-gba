@@ -1,19 +1,19 @@
 #include "game/main_menu.h"
-#include "game.h"
 
 #include "affine_background.h"
 #include "audio_utils.h"
 #include "background_main_menu_gfx.h"
 #include "card.h"
+#include "game.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
 #include "sprite.h"
 #include "util.h"
 
+#include <stdint.h>
 #include <tonc.h>
 #include <tonc_math.h>
 #include <tonc_memdef.h>
-#include <stdint.h>
 
 #define MAIN_MENU_BUTTONS             2
 #define MAIN_MENU_IMPLEMENTED_BUTTONS 1 // Remove this once all buttons are implemented
@@ -45,7 +45,6 @@ extern void game_start(void);
 
 // Main menu sprite - the ace of spades
 static CardObject* main_menu_ace = NULL;
-
 
 void game_main_menu_on_init(void)
 {
