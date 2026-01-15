@@ -8,6 +8,9 @@ endif
 
 include $(DEVKITARM)/gba_rules
 
+# Include local overrides if they exist
+-include local.mk
+
 #---------------------------------------------------------------------------------
 # the LIBGBA path is defined in gba_rules, but we have to define LIBTONC ourselves
 #---------------------------------------------------------------------------------

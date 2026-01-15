@@ -13,3 +13,4 @@ doc
 tests/util/.vscode
 tests/util/build
 audio/*.bak
+local.mk
