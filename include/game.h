@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "blind.h"
+
 #include <tonc.h>
 
 #define MAX_HAND_SIZE        16
@@ -29,17 +31,6 @@ typedef struct List List;
 typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
-
-enum BackgroundId
-{
-    BG_NONE,
-    BG_CARD_SELECTING,
-    BG_CARD_PLAYING,
-    BG_ROUND_END,
-    BG_SHOP,
-    BG_BLIND_SELECT,
-    BG_MAIN_MENU
-};
 
 // Enum value names in ../include/def_state_info_table.h
 enum GameState
@@ -108,7 +99,6 @@ void game_start();
 void game_init();
 void game_update();
 void game_change_state(enum GameState new_game_state);
-void change_background(enum BackgroundId id);
 
 CardObject** get_hand_array(void);
 int get_hand_top(void);
@@ -139,9 +129,29 @@ void set_retrigger(bool new_retrigger);
 int get_game_speed(void);
 void set_game_speed(int new_game_speed);
 
-int get_timer(void);
+uint get_timer(void);
+void reset_timer(void);
 void incr_rng_seed(void);
 void mult_rng_seed(int factor);
+int get_ante(void);
+int increment_round(void);
+
+enum GameState* get_game_state_ptr(void);
+StateInfo* get_state_info_ptr(void);
+int get_substate(void);
+void set_substate(int new_substate);
+
+Sprite* get_blind_select_token(enum BlindType blind_type);
+void hide_all_blind_select_tokens(void);
+void hide_blind_select_token(enum BlindType blind_type);
+void unhide_blind_select_token(enum BlindType blind_type);
+void unhide_all_blind_select_tokens(void);
+void move_blind_select_token(enum BlindType blind_type, int x, int y);
+void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y);
+void increment_blind(enum BlindState increment_reason);
+enum BlindState get_blinds_state(enum BlindType blind_type);
+int get_current_blind(void);
+int get_round(void);
 
 // joker specific functions
 bool is_shortcut_joker_active(void);

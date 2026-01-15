@@ -7,6 +7,7 @@
 #include "blind.h"
 #include "button.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/palette.h"
 #include "game/point.h"
 #include "game/rect.h"

@@ -2,6 +2,7 @@
 #define GAME_ROUND_END_H
 
 #include "game.h"
+#include "game/common_ui.h"
 
 void game_round_end_on_init(void);
 void game_round_end_on_update(void);

@@ -3,6 +3,7 @@
 #include "affine_background_gfx.h"
 #include "blind.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/palette.h"
 #include "game/rect.h"
 #include "game/timer.h"

@@ -6,6 +6,7 @@
 #include "button.h"
 #include "card.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/palette.h"
 #include "graphic_utils.h"
 #include "soundbank.h"

@@ -2,6 +2,7 @@
 #define __INCLUDE_GAME_ROUND_H__
 
 #include "game.h"
+#include "game/common_ui.h"
 
 #include <tonc.h>
 

@@ -10,6 +10,7 @@
 #include "button.h"
 #include "card.h"
 #include "game/blind_select.h"
+#include "game/common_ui.h"
 #include "game/main_menu.h"
 #include "game/palette.h"
 #include "game/point.h"
@@ -119,18 +120,14 @@ static void noop(void)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-
-void change_background(enum BackgroundId id);
 void display_temp_score(u32 value);
 void display_score(u32 value);
 static void check_flaming_score(void);
-void display_round(int value);
 void display_hands(int value);
 void display_discards(int value);
 void set_hand(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
-void increment_blind(enum BlindState increment_reason);
 
 static void game_playing_discard_on_pressed(void);
 static void game_playing_play_hand_on_pressed(void);
@@ -190,7 +187,6 @@ uint timer = 0; // This might already exist in libtonc but idk so i'm just makin
 // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the game
 // aspects that should be sped up by speed, as in the original game.
 int game_speed = 1;
-enum BackgroundId background = BG_NONE;
 
 StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -896,54 +892,6 @@ bool shift_null_card_to_end(int null_card_idx)
     return true;
 }
 
-// Resets bottom row bg tiles of the top left panel (shop/blind) after
-// it is dismissed to match the rest of the game panel background.
-void reset_top_left_panel_bottom_row()
-{
-    BG_POINT top_left_panel_bottom_row_pos = TOP_LEFT_PANEL_POINT;
-    // Use the source rect height to offset to the bottom row point
-    top_left_panel_bottom_row_pos.y += rect_height(&TOP_LEFT_ITEM_SRC_RECT) - 1;
-    main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
-}
-
-void change_background(enum BackgroundId id)
-{
-    if (background == id)
-    {
-        return;
-    }
-    else if (id == BG_CARD_SELECTING)
-    {
-        game_selecting_change_background(background);
-    }
-    else if (id == BG_CARD_PLAYING)
-    {
-        game_playing_change_background(background);
-    }
-    else if (id == BG_ROUND_END)
-    {
-        game_round_end_change_background(background);
-    }
-    else if (id == BG_SHOP)
-    {
-        game_shop_change_background();
-    }
-    else if (id == BG_BLIND_SELECT)
-    {
-        game_blind_select_change_background();
-    }
-    else if (id == BG_MAIN_MENU)
-    {
-        game_main_menu_change_background();
-    }
-    else
-    {
-        return; // Invalid background ID
-    }
-
-    background = id;
-}
-
 void display_temp_score(u32 value)
 {
     char temp_score_str_buff[UINT_MAX_DIGITS + 1];
@@ -1008,18 +956,6 @@ static void check_flaming_score(void)
         reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
         main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
     }
-}
-
-void display_round(int value)
-{
-    // tte_erase_rect_wrapper(ROUND_TEXT_RECT);
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d",
-        ROUND_TEXT_RECT.left,
-        ROUND_TEXT_RECT.top,
-        TTE_YELLOW_PB,
-        game_round
-    );
 }
 
 void display_hands(int value)
@@ -1175,23 +1111,6 @@ int deck_get_max_size(void)
     return hand_top + played_top + deck_top + discard_top + 4;
 }
 
-void increment_blind(enum BlindState increment_reason)
-{
-    current_blind++;
-    if (current_blind >= BLIND_TYPE_MAX)
-    {
-        current_blind = 0;
-        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-    }
-    else
-    {
-        blinds_states[current_blind] = BLIND_STATE_CURRENT;
-        blinds_states[current_blind - 1] = increment_reason;
-    }
-}
-
 void deck_shuffle(void)
 {
     for (int i = deck_top; i > 0; i--)
@@ -1312,9 +1231,13 @@ int game_shop_get_rand_available_joker_id(void)
     return selected_joker_id;
 }
 
-int get_timer(void)
+uint get_timer(void)
 {
     return timer;
+}
+void reset_timer(void)
+{
+    timer = TM_ZERO;
 }
 
 void incr_rng_seed(void)
@@ -1325,6 +1248,143 @@ void incr_rng_seed(void)
 void mult_rng_seed(int factor)
 {
     rng_seed *= factor;
+}
+
+int get_ante(void)
+{
+    return ante;
+}
+
+int increment_round(void)
+{
+    return ++game_round;
+}
+
+enum GameState* get_game_state_ptr(void)
+{
+    return &game_state;
+}
+
+StateInfo* get_state_info_ptr(void)
+{
+    return &state_info[game_state];
+}
+
+int get_substate(void)
+{
+    return state_info[game_state].substate;
+}
+
+void set_substate(int new_substate)
+{
+    state_info[game_state].substate = new_substate;
+}
+
+Sprite* get_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return NULL;
+    }
+    return blind_select_tokens[blind_type];
+}
+
+void hide_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    obj_hide(token_sprite->obj);
+}
+
+void hide_all_blind_select_tokens(void)
+{
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    {
+        hide_blind_select_token((enum BlindType)i);
+    }
+}
+
+void unhide_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    obj_unhide(token_sprite->obj, 0);
+}
+
+void unhide_all_blind_select_tokens(void)
+{
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    {
+        unhide_blind_select_token((enum BlindType)i);
+    }
+}
+
+void move_blind_select_token(enum BlindType blind_type, int x, int y)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    sprite_position(token_sprite, x, y);
+}
+
+void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y)
+{
+    if (!x || !y)
+        return;
+
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        *x = -1;
+        *y = -1;
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    *x = token_sprite->pos.x;
+    *y = token_sprite->pos.y;
+}
+
+void increment_blind(enum BlindState increment_reason)
+{
+    current_blind++;
+    if (current_blind >= BLIND_TYPE_MAX)
+    {
+        current_blind = 0;
+        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
+        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+    }
+    else
+    {
+        blinds_states[current_blind] = BLIND_STATE_CURRENT;
+        blinds_states[current_blind - 1] = increment_reason;
+    }
+}
+
+enum BlindState get_blinds_state(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return 0;
+    }
+    return blinds_states[blind_type];
+}
+
+int get_current_blind(void)
+{
+    return current_blind;
+}
+
+int get_round(void)
+{
+    return game_round;
 }
 
 void game_start(void)
