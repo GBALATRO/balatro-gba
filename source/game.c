@@ -10,6 +10,7 @@
 #include "bitset.h"
 #include "blind.h"
 #include "card.h"
+#include "game/main_menu.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
@@ -36,10 +37,6 @@
 
 // SE sizes
 #define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
-
-#define MAIN_MENU_BUTTONS             2
-#define MAIN_MENU_IMPLEMENTED_BUTTONS 1 // Remove this once all buttons are implemented
-#define MAIN_MENU_PLAY_BTN_IDX        0
 
 // TODO: Properly define and use
 #define MENU_POP_OUT_ANIM_FRAMES 20
@@ -198,8 +195,6 @@ static void noop(void)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-static void game_main_menu_on_init(void);
-static void game_main_menu_on_update(void);
 static void game_round_on_init(void);
 static void game_playing_on_update(void);
 static void game_round_end_on_update(void);
@@ -234,7 +229,7 @@ static void game_round_end_display_cashout(void);
 static void game_round_end_dismiss_round_end_panel(void);
 
 static void sort_cards(void);
-static void change_background(enum BackgroundId id);
+void change_background(enum BackgroundId id);
 static void display_temp_score(u32 value);
 static void display_score(u32 value);
 static void check_flaming_score(void);
@@ -384,18 +379,17 @@ static const BG_POINT CUR_BLIND_TOKEN_POS   = {8,       18};
 static const BG_POINT CARD_DISCARD_PNT      = {240,     70};
 static const BG_POINT HAND_START_POS        = {120,     90};
 static const BG_POINT HAND_PLAY_POS         = {120,     70};
-static const BG_POINT MAIN_MENU_ACE_T       = {88,      26};
 // clang-format on
 
-static uint rng_seed = 0;
+uint rng_seed = 0;
 
 typedef void (*SubStateActionFn)(void);
 
-static uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
+uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
 // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the game
 // aspects that should be sped up by speed, as in the original game.
-static int game_speed = 1;
-static enum BackgroundId background = BG_NONE;
+int game_speed = 1;
+enum BackgroundId background = BG_NONE;
 
 static StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -473,8 +467,6 @@ static enum PlayState play_state = PLAY_STARTING;
 
 static enum HandType hand_type = NONE;
 
-static CardObject* main_menu_ace = NULL;
-
 // The sprite that displays the blind when in "GAME_PLAYING/GAME_ROUND_END" state
 static Sprite* playing_blind_token = NULL;
 
@@ -536,7 +528,7 @@ static ListItr _joker_scored_itr;
 static ListItr _joker_card_scored_end_itr;
 static ListItr _joker_round_end_itr;
 
-static int selection_x = 0;
+int selection_x = 0;
 static int selection_y = 0;
 
 static bool sort_by_suit = false;
@@ -1193,7 +1185,7 @@ static inline void reset_top_left_panel_bottom_row()
     main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }
 
-static void change_background(enum BackgroundId id)
+void change_background(enum BackgroundId id)
 {
     if (background == id)
     {
@@ -1856,21 +1848,6 @@ static void game_round_on_init()
     ); // Blind reward
 
     deck_shuffle(); // Shuffle the deck at the start of the round
-}
-
-static void game_main_menu_on_init()
-{
-    affine_background_change_background(AFFINE_BG_MAIN_MENU);
-    change_background(BG_MAIN_MENU);
-    main_menu_ace = card_object_new(card_new(SPADES, ACE));
-    card_object_set_sprite(main_menu_ace, 0); // Set the sprite for the ace of spades
-    main_menu_ace->sprite_object->sprite->obj->attr0 |=
-        ATTR0_AFF_DBL; // Make the sprite double sized
-    main_menu_ace->sprite_object->tx = int2fx(MAIN_MENU_ACE_T.x);
-    main_menu_ace->sprite_object->x = main_menu_ace->sprite_object->tx;
-    main_menu_ace->sprite_object->ty = int2fx(MAIN_MENU_ACE_T.y);
-    main_menu_ace->sprite_object->y = main_menu_ace->sprite_object->ty;
-    main_menu_ace->sprite_object->tscale = float2fx(0.8f);
 }
 
 static void game_over_init(void)
@@ -4630,17 +4607,14 @@ static void game_blind_select_on_exit()
     background = UNDEFINED;
 }
 
-static inline void game_start(void)
+void game_start(void)
 {
+    game_main_menu_cleanup();
+
     set_seed(rng_seed);
     // set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
-
-    // Normally I would just cache these and hide/unhide but I didn't feel like dealing with
-    // defining a layer for it
-    card_destroy(&main_menu_ace->card);
-    card_object_destroy(&main_menu_ace);
 
     hands = max_hands;
     discards = max_discards;
@@ -4690,57 +4664,6 @@ static inline void game_start(void)
     ); // Ante
 
     game_change_state(GAME_STATE_BLIND_SELECT);
-}
-
-static void game_main_menu_on_update()
-{
-    change_background(BG_MAIN_MENU);
-
-    card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((timer << 8) / 2) / 3;
-    main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
-
-    // Seed randomization
-    rng_seed++;
-    // If the keys have changed, make it more pseudo-random
-    if (key_curr_state() != key_prev_state())
-    {
-        rng_seed *= 2;
-    }
-
-    if (key_hit(KEY_LEFT))
-    {
-        if (selection_x > 0)
-        {
-            selection_x--;
-        }
-    }
-    else if (key_hit(KEY_RIGHT))
-    {
-        if (selection_x < MAIN_MENU_IMPLEMENTED_BUTTONS - 1)
-        {
-            selection_x++;
-        }
-    }
-
-    if (selection_x == MAIN_MENU_PLAY_BTN_IDX)
-    {
-        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], HIGHLIGHT_COLOR, 1);
-
-        if (key_hit(SELECT_CARD))
-        {
-            play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-            game_start();
-        }
-    }
-    else
-    {
-        memcpy16(
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
-            1
-        );
-    }
 }
 
 static void game_over_anim_frame(void)
