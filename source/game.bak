@@ -1,5 +1,3 @@
-#include "game.h"
-
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "audio_utils.h"
@@ -9,6 +7,7 @@
 #include "blind.h"
 #include "button.h"
 #include "card.h"
+#include "game.h"
 #include "game/blind_select.h"
 #include "game/main_menu.h"
 #include "game/palette.h"
@@ -17,6 +16,7 @@
 #include "game/round.h"
 #include "game/round_end.h"
 #include "game/selection.h"
+#include "game/shop.h"
 #include "game/timer.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
@@ -60,11 +60,6 @@
 
 // Naming the stage where cards return from the discard pile to the deck "undiscard"
 
-// Shop
-#define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
-
-#define NEXT_ROUND_BTN_SEL_X 0
-
 #define GAME_PLAYING_BUTTONS_SEL_Y   2
 #define GAME_PLAYING_NUM_BOTTOM_BTNS 2
 
@@ -72,14 +67,6 @@
 #define REROLL_BTN_PAL_IDX       3
 
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
-
-enum GameShopStates
-{
-    GAME_SHOP_INTRO,
-    GAME_SHOP_ACTIVE,
-    GAME_SHOP_EXIT,
-    GAME_SHOP_MAX
-};
 
 enum GameRoundEndStates
 {
@@ -128,9 +115,6 @@ static void game_lose_on_update(void);
 static void game_over_on_exit(void);
 static void game_win_on_init(void);
 static void game_win_on_update(void);
-extern void game_shop_intro(void);
-extern void game_shop_process_user_input(void);
-extern void game_shop_outro(void);
 
 void change_background(enum BackgroundId id);
 void display_temp_score(u32 value);
@@ -171,15 +155,17 @@ extern bool game_playing_hand_row_on_selection_changed(
 
 static int game_playing_hand_row_get_size(void);
 
-extern void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-extern bool jokers_sel_row_on_selection_changed(
+static int jokers_sel_row_get_size(void);
+static bool jokers_sel_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
     const Selection* new_selection
 );
-extern int jokers_sel_row_get_size(void);
-extern void game_shop_create_items(void);
+static void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+
+void erase_price_under_sprite_object(SpriteObject* sprite_object);
+void print_price_under_sprite_object(SpriteObject* sprite_object, int price);
 
 void remove_owned_joker(int owned_joker_idx);
 
@@ -338,7 +324,6 @@ List _discarded_jokers_list;
 static List _expired_jokers_list;
 
 BITSET_DEFINE(_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
-static List _shop_jokers_list;
 
 // Stacks
 CardObject* played[MAX_SELECTION_SIZE] = {NULL};
@@ -354,27 +339,21 @@ Card* discard_pile[MAX_DECK_SIZE] = {NULL};
 int discard_top = -1;
 
 // Joker Special Variables
-int shortcut_joker_count = 0;
+static int shortcut_joker_count = 0;
 
-int four_fingers_joker_count = 0;
-
-GBAL_UNUSED
-static inline bool is_shop_joker_avail(int joker_id)
-{
-    return bitset_get_idx(&_avail_jokers_bitset, joker_id);
-}
+static int four_fingers_joker_count = 0;
 
 void set_shop_joker_avail(int joker_id, bool avail)
 {
     bitset_set_idx(&_avail_jokers_bitset, joker_id, avail);
 }
 
-static inline int get_num_shop_jokers_avail(void)
+int get_num_shop_jokers_avail(void)
 {
     return bitset_num_set_bits(&_avail_jokers_bitset);
 }
 
-static inline void reset_shop_jokers(void)
+void reset_shop_jokers(void)
 {
     int num_jokers = get_joker_registry_size();
     bitset_clear(&_avail_jokers_bitset);
@@ -387,6 +366,11 @@ static inline void reset_shop_jokers(void)
 bool no_avail_jokers(void)
 {
     return bitset_is_empty(&_avail_jokers_bitset);
+}
+
+bool is_shop_joker_avail(int joker_id)
+{
+    return bitset_get_idx(&_avail_jokers_bitset, joker_id);
 }
 
 void played_push(CardObject* card_object)
@@ -442,7 +426,6 @@ void game_init()
     _owned_jokers_list = list_create();
     _discarded_jokers_list = list_create();
     _expired_jokers_list = list_create();
-    _shop_jokers_list = list_create();
     // TODO: Move this to an initialization of the play scoring states
     _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 
@@ -675,6 +658,24 @@ int get_straight_and_flush_size(void)
                                         : STRAIGHT_AND_FLUSH_SIZE_DEFAULT;
 }
 
+void add_joker(JokerObject* joker_object)
+{
+    list_push_back(&_owned_jokers_list, joker_object);
+
+    // TODO: Extract to on_joker_added() callback
+    // In case the player gets multiple Four Fingers Jokers,
+    // only change size when the first one is added
+    if (joker_object->joker->id == FOUR_FINGERS_JOKER_ID)
+    {
+        four_fingers_joker_count++;
+    }
+
+    if (joker_object->joker->id == SHORTCUT_JOKER_ID)
+    {
+        shortcut_joker_count++;
+    }
+}
+
 void remove_owned_joker(int owned_joker_idx)
 {
     // TODO: Extract to on_joker_removed() callback
@@ -693,6 +694,118 @@ void remove_owned_joker(int owned_joker_idx)
 
     set_shop_joker_avail(joker_object->joker->id, true);
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
+}
+
+// Joker selection row functions (shared between game_playing and shop)
+static int jokers_sel_row_get_size(void)
+{
+    return list_get_len(&_owned_jokers_list);
+}
+
+static bool jokers_sel_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
+{
+    // swap Jokers if the A button is held down and all Jokers are on the same row
+    bool swapping =
+        key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
+
+    if (prev_selection->y == row_idx)
+    {
+        JokerObject* joker_object =
+            (JokerObject*)list_get_at_idx(&_owned_jokers_list, prev_selection->x);
+        // Don't change focus from current Joker if swapping
+        if (joker_object != NULL && !swapping)
+        {
+            erase_price_under_sprite_object(joker_object->sprite_object);
+            sprite_object_set_focus(joker_object->sprite_object, false);
+        }
+    }
+
+    if (new_selection->y == row_idx)
+    {
+        JokerObject* joker_object =
+            (JokerObject*)list_get_at_idx(&_owned_jokers_list, new_selection->x);
+        if (joker_object != NULL)
+        {
+            if (!swapping)
+            {
+                sprite_object_set_focus(joker_object->sprite_object, true);
+            }
+            // If we land on this row while the A button is being held, we are in swapping mode
+            // This means that we need to hide the price, whether we were already
+            // on this row or if we come from another
+            if (!key_is_down(SELECT_CARD))
+            {
+                print_price_under_sprite_object(
+                    joker_object->sprite_object,
+                    joker_get_sell_value(joker_object->joker)
+                );
+            }
+        }
+    }
+
+    if (swapping)
+    {
+        list_swap(
+            &_owned_jokers_list,
+            (unsigned int)prev_selection->x,
+            (unsigned int)new_selection->x
+        );
+    }
+
+    return true;
+}
+
+static inline void joker_start_discard_animation(JokerObject* joker_object)
+{
+    joker_object->sprite_object->tx = int2fx(JOKER_DISCARD_TARGET.x);
+    joker_object->sprite_object->ty = int2fx(JOKER_DISCARD_TARGET.y);
+    list_push_back(&_discarded_jokers_list, joker_object);
+}
+
+static void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+{
+    JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_owned_jokers_list, selection->x);
+    if (joker_object != NULL)
+    {
+        if (key_hit(SELECT_CARD))
+        {
+            erase_price_under_sprite_object(joker_object->sprite_object);
+        }
+        else if (key_released(SELECT_CARD))
+        {
+            print_price_under_sprite_object(
+                joker_object->sprite_object,
+                joker_get_sell_value(joker_object->joker)
+            );
+        }
+    }
+
+    if (key_hit(SELL_KEY))
+    {
+        int sold_joker_idx = selection->x;
+
+        // Move the selection away from the jokers so it doesn't point to an invalid place
+        // Do this before selling the joker so valid row sizes are used
+        selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN);
+
+        // Sell the joker
+        if (sold_joker_idx < 0 || sold_joker_idx >= list_get_len(&_owned_jokers_list))
+            return;
+
+        JokerObject* joker_obj = (JokerObject*)list_get_at_idx(&_owned_jokers_list, sold_joker_idx);
+        money += joker_get_sell_value(joker_obj->joker);
+        display_money();
+        erase_price_under_sprite_object(joker_obj->sprite_object);
+
+        remove_owned_joker(sold_joker_idx);
+
+        joker_start_discard_animation(joker_obj);
+    }
 }
 
 int get_deck_top(void)
@@ -1342,6 +1455,29 @@ Rect get_text_rect_under_sprite_object(SpriteObject* sprite_object)
     ret_rect.bottom = ret_rect.top + TTE_CHAR_SIZE;
 
     return ret_rect;
+}
+
+void print_price_under_sprite_object(SpriteObject* sprite_object, int price)
+{
+    Rect price_rect = get_text_rect_under_sprite_object(sprite_object);
+
+    char price_str_buff[INT_MAX_DIGITS + 2]; // + 2 for null-terminator and "$"
+
+    snprintf(price_str_buff, sizeof(price_str_buff), "$%d", price);
+
+    update_text_rect_to_center_str(&price_rect, price_str_buff, SCREEN_LEFT);
+
+    tte_printf("#{P:%d,%d; cx:0x%X000}$%d", price_rect.left, price_rect.top, TTE_YELLOW_PB, price);
+}
+
+void erase_price_under_sprite_object(SpriteObject* sprite_object)
+{
+    Rect price_rect = get_text_rect_under_sprite_object(sprite_object);
+
+    // Add SPRITE_FOCUS_RAISE_PX to cover the focused case
+    price_rect.bottom = price_rect.bottom + SPRITE_FOCUS_RAISE_PX;
+
+    tte_erase_rect_wrapper(price_rect);
 }
 
 int game_shop_get_rand_available_joker_id(void)
