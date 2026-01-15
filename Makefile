@@ -81,14 +81,15 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 
 export OUTPUT	:=	$(CURDIR)/$(BUILD)/$(TARGET)
 
-export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
+export VPATH	:=	$(CURDIR)/source \
+			$(CURDIR)/source/game \
 			$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir)) \
 			$(foreach dir,$(FONT),$(CURDIR)/$(dir)) \
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
-CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
+CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c $(dir)/**/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
@@ -127,6 +128,7 @@ export OFILES := $(OFILES_BIN) $(OFILES_SOURCES) $(OFILES_GRAPHICS) $(OFILES_FON
 export HFILES := $(addsuffix .h,$(subst .,_,$(BINFILES))) $(PNGFILES:.png=.h)
 
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-iquote $(CURDIR)/$(dir)) \
+					-iquote $(CURDIR)/include/game \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					-I$(CURDIR)/$(BUILD)
 
