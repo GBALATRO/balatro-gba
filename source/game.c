@@ -2143,6 +2143,8 @@ static bool game_playing_button_row_on_selection_changed(
 {
     // The selection grid system only guarantees that the new selection is within bounds
     // but not the previous one...
+    // As of writing (PR #348), this check is not strictly needed for this row but it is 
+    // left in, in case that ever changes. It can be reconsidered and removed.
     if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
         prev_selection->x < game_playing_button_row_get_size())
     {
