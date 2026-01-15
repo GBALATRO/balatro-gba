@@ -261,6 +261,12 @@ void main_bg_se_copy_expand_3x3_rect(Rect se_rect_dest, BG_POINT se_rect_src_3x3
 void main_bg_se_move_rect_1_tile_vert(Rect se_rect, enum ScreenVertDir direction);
 
 /**
+ * @brief Copies the appropriate item into the top left panel (blind/shop icon)
+ * from where it was put outside the screenview
+ */
+void bg_copy_current_item_to_top_left_panel(void);
+
+/**
  * @brief A wrapper for tte_erase_rect that would use the rect struct
  *
  * @param rect rectangle to erase

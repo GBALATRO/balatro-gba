@@ -382,3 +382,8 @@ void main_bg_se_clear_rect(Rect se_rect)
         memset16(&(se_mat[MAIN_BG_SBB][y][se_rect.left]), 0x0000, rect_width(&se_rect));
     }
 }
+
+void bg_copy_current_item_to_top_left_panel(void)
+{
+    main_bg_se_copy_rect(TOP_LEFT_ITEM_SRC_RECT, TOP_LEFT_PANEL_POINT);
+}

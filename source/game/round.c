@@ -1,6 +1,8 @@
 #include "game/round.h"
 
+#include "affine_background.h"
 #include "audio_utils.h"
+#include "background_gfx.h"
 #include "blind.h"
 #include "button.h"
 #include "card.h"
@@ -1677,6 +1679,87 @@ static inline void game_playing_process_flaming_score(void)
             frame_rect.left += SCORE_FLAME_FRAME_WIDTH;
             frame_rect.right += SCORE_FLAME_FRAME_WIDTH;
             main_bg_se_copy_rect(frame_rect, SCORE_FLAME_MULT_POS);
+        }
+    }
+}
+
+void game_playing_change_background(enum BackgroundId id)
+{
+    if (background != BG_CARD_SELECTING)
+    {
+        change_background(BG_CARD_SELECTING);
+        background = BG_CARD_PLAYING;
+    }
+
+    REG_WIN0V = (REG_WIN0V << 8) | 0xA0; // Set window 0 bottom to 160
+    toggle_windows(true, true);
+
+    for (int i = 0; i <= 2; i++)
+    {
+        main_bg_se_move_rect_1_tile_vert(HAND_BG_RECT_SELECTING, SCREEN_DOWN);
+    }
+
+    tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
+}
+
+void game_selecting_change_background(enum BackgroundId id)
+{
+    tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
+    REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
+
+    if (background == BG_CARD_PLAYING)
+    {
+        int offset = 11;
+        memcpy16(
+            &se_mem[MAIN_BG_SBB][SE_ROW_LEN * offset],
+            &background_gfxMap[SE_ROW_LEN * offset],
+            SE_ROW_LEN * 8
+        );
+    }
+    else
+    {
+        toggle_windows(true, true); // Enable window 0 for the hand shadow
+
+        // Load the tiles and palette
+        // Background
+        GRIT_CPY(pal_bg_mem, background_gfxPal);
+        GRIT_CPY(&tile8_mem[MAIN_BG_CBB], background_gfxTiles);
+        GRIT_CPY(&se_mem[MAIN_BG_SBB], background_gfxMap);
+
+        if (current_blind == BLIND_TYPE_BIG) // Change text and palette depending on blind type
+        {
+            main_bg_se_copy_rect(BIG_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
+        }
+        else if (current_blind == BLIND_TYPE_BOSS)
+        {
+            main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
+
+            affine_background_set_color(blind_get_color(BLIND_TYPE_BOSS, BLIND_SHADOW_COLOR_INDEX));
+        }
+
+        bg_copy_current_item_to_top_left_panel();
+
+        // This would change the palette of the background to match the blind, but the backgroun
+        // doesn't use the blind token's exact colors so a different approach is required
+        memset16(
+            &pal_bg_mem[BLIND_BG_PRIMARY_PID],
+            blind_get_color(current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
+            1
+        );
+        memset16(
+            &pal_bg_mem[BLIND_BG_SECONDARY_PID],
+            blind_get_color(current_blind, BLIND_BACKGROUND_SECONDARY_COLOR_INDEX),
+            1
+        );
+        memset16(
+            &pal_bg_mem[BLIND_BG_SHADOW_PID],
+            blind_get_color(current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
+            1
+        );
+
+        for (int i = 0; i < game_playing_button_row_get_size(); i++)
+        {
+            button_set_highlight(&game_playing_buttons[i], false);
         }
     }
 }
