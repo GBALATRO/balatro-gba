@@ -319,8 +319,7 @@ int shortcut_joker_count = 0;
 
 int four_fingers_joker_count = 0;
 
-GBAL_UNUSED
-static inline bool is_shop_joker_avail(int joker_id)
+bool is_shop_joker_avail(int joker_id)
 {
     return bitset_get_idx(&_avail_jokers_bitset, joker_id);
 }
@@ -330,12 +329,12 @@ void set_shop_joker_avail(int joker_id, bool avail)
     bitset_set_idx(&_avail_jokers_bitset, joker_id, avail);
 }
 
-static inline int get_num_shop_jokers_avail(void)
+int get_num_shop_jokers_avail(void)
 {
     return bitset_num_set_bits(&_avail_jokers_bitset);
 }
 
-static inline void reset_shop_jokers(void)
+void reset_shop_jokers(void)
 {
     int num_jokers = get_joker_registry_size();
     bitset_clear(&_avail_jokers_bitset);
@@ -618,6 +617,11 @@ List* get_jokers_list(void)
     return &_owned_jokers_list;
 }
 
+List* get_discarded_jokers_list(void)
+{
+    return &_discarded_jokers_list;
+}
+
 List* get_expired_jokers_list(void)
 {
     return &_expired_jokers_list;
@@ -708,6 +712,13 @@ void increase_money(int amount)
 {
     int _money = get_money();
     _money += amount;
+    set_money(_money);
+}
+
+void decrease_money(int amount)
+{
+    int _money = get_money();
+    _money -= amount;
     set_money(_money);
 }
 
@@ -979,6 +990,16 @@ void remove_owned_joker(int owned_joker_idx)
 
     set_shop_joker_avail(joker_object->joker->id, true);
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
+}
+
+void increment_four_fingers_joker_count(void)
+{
+    four_fingers_joker_count++;
+}
+
+void increment_shortcut_joker_count(void)
+{
+    shortcut_joker_count++;
 }
 
 // ============================================================================

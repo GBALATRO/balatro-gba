@@ -119,14 +119,26 @@ int get_scored_card_index(void);
 // Joker and Card Query Functions
 // ============================================================================
 
+// Shop functions
+bool is_shop_joker_avail(int joker_id);
+int get_num_shop_jokers_avail(void);
+void reset_shop_jokers(void);
+bool no_avail_jokers(void);
+int game_shop_get_rand_available_joker_id(void);
+void set_shop_joker_avail(int joker_id, bool avail);
+
+// Others
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
 List* get_jokers_list(void);
+List* get_discarded_jokers_list(void);
 List* get_expired_jokers_list(void);
 bool is_shortcut_joker_active(void);
 int get_straight_and_flush_size(void);
 void clear_joker_lists(void);
 void remove_owned_joker(int owned_joker_idx);
+void increment_four_fingers_joker_count(void);
+void increment_shortcut_joker_count(void);
 
 // ============================================================================
 // Deck Getters
@@ -147,6 +159,7 @@ void display_mult(void);
 int get_money(void);
 void set_money(int new_money);
 void increase_money(int amount);
+void decrease_money(int amount);
 void display_money(void);
 void set_retrigger(bool new_retrigger);
 
