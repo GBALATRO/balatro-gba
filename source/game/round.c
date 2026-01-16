@@ -84,7 +84,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // Global variables from game.c
-extern CardObject* hand[MAX_HAND_SIZE];
 extern int hand_top;
 extern CardObject* played[MAX_SELECTION_SIZE];
 extern int played_top;
@@ -299,10 +298,11 @@ void sort_hand_by_suit(void)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
         {
-            if (hand[idx_a] == NULL ||
-                (hand[idx_b] != NULL && (hand[idx_a]->card->suit > hand[idx_b]->card->suit ||
-                                         (hand[idx_a]->card->suit == hand[idx_b]->card->suit &&
-                                          hand[idx_a]->card->rank > hand[idx_b]->card->rank))))
+            CardObject* card_a = get_hand_card_at(idx_a);
+            CardObject* card_b = get_hand_card_at(idx_b);
+            if (card_a == NULL || (card_b != NULL && (card_a->card->suit > card_b->card->suit ||
+                                                      (card_a->card->suit == card_b->card->suit &&
+                                                       card_a->card->rank > card_b->card->rank))))
             {
                 swap_cards_in_hand(idx_a, idx_b);
             }
@@ -316,8 +316,9 @@ void sort_hand_by_rank(void)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
         {
-            if (hand[idx_a] == NULL ||
-                (hand[idx_b] != NULL && hand[idx_a]->card->rank > hand[idx_b]->card->rank))
+            CardObject* card_a = get_hand_card_at(idx_a);
+            CardObject* card_b = get_hand_card_at(idx_b);
+            if (card_a == NULL || (card_b != NULL && card_a->card->rank > card_b->card->rank))
             {
                 swap_cards_in_hand(idx_a, idx_b);
             }
@@ -454,7 +455,7 @@ static void reorder_card_sprites_layers(void)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
         // before. Any NULL CardObject will be sent to the end by shifting all elements forward
-        if (hand[i] == NULL)
+        if (get_hand_card_at(i) == NULL)
         {
             if (!shift_null_card_to_end(i))
             {
@@ -463,20 +464,21 @@ static void reorder_card_sprites_layers(void)
         }
 
         // card_object_get_sprite() will not work here since we need the address
-        sprite_destroy(&(hand[i]->sprite_object->sprite));
+        sprite_destroy(&(get_hand_card_at(i)->sprite_object->sprite));
     }
 
     // Recreate the sprites for the remaining non NULL cards, in order
     for (int i = 0; i <= hand_top; i++)
     {
-        if (hand[i] != NULL)
+        CardObject* card_object = get_hand_card_at(i);
+        if (card_object != NULL)
         {
             // Set the sprite for the card object
-            card_object_set_sprite(hand[i], i);
+            card_object_set_sprite(card_object, i);
             sprite_position(
-                card_object_get_sprite(hand[i]),
-                fx2int(hand[i]->sprite_object->x),
-                fx2int(hand[i]->sprite_object->y)
+                card_object_get_sprite(card_object),
+                fx2int(card_object->sprite_object->x),
+                fx2int(card_object->sprite_object->y)
             );
         }
     }
@@ -729,9 +731,10 @@ static void hand_deselect_all_cards(void)
     bool any_cards_deselected = false;
     for (int i = 0; i <= get_hand_top(); i++)
     {
-        if (card_object_is_selected(hand[i]))
+        CardObject* card_object = get_hand_card_at(i);
+        if (card_object_is_selected(card_object))
         {
-            card_object_set_selected(hand[i], false);
+            card_object_set_selected(card_object, false);
             hand_selections--;
             any_cards_deselected = true;
         }
@@ -779,18 +782,19 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
 
 static void hand_select_card(int index)
 {
-    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || hand[index] == NULL)
+    CardObject* card_object = get_hand_card_at(index);
+    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || card_object == NULL)
         return;
 
-    if (card_object_is_selected(hand[index]))
+    if (card_object_is_selected(card_object))
     {
-        card_object_set_selected(hand[index], false);
+        card_object_set_selected(card_object, false);
         hand_selections--;
         play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
     else if (hand_selections < MAX_SELECTION_SIZE)
     {
-        card_object_set_selected(hand[index], true);
+        card_object_set_selected(card_object, true);
         hand_selections++;
         play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
@@ -815,7 +819,8 @@ static inline void card_draw(void)
     card_object->sprite_object->x = deck_x;
     card_object->sprite_object->y = deck_y;
 
-    hand[++hand_top] = card_object;
+    int hand_top = increment_hand_top();
+    set_hand_card_at(hand_top, card_object);
 
     // Sort the hand after drawing a card
     sort_cards();
@@ -867,7 +872,8 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
     }
 
     *break_loop = false;
-    if (card_object_is_selected(hand[card_idx]) || hand_state == HAND_SHUFFLING)
+    CardObject* card_object = get_hand_card_at(card_idx);
+    if (card_object_is_selected(card_object) || hand_state == HAND_SHUFFLING)
     {
         if (!discarded_card)
         {
@@ -884,10 +890,10 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 sound_played = true;
             }
 
-            if (hand[card_idx]->sprite_object->x >= *hand_x)
+            if (card_object->sprite_object->x >= *hand_x)
             {
-                discard_push(hand[card_idx]->card);
-                card_object_destroy(&hand[card_idx]);
+                discard_push(card_object->card);
+                card_object_destroy(&card_object);
                 reorder_card_sprites_layers();
 
                 hand_top--;
@@ -896,8 +902,8 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 sound_played = false;
                 reset_timer();
 
-                *hand_y = hand[card_idx]->sprite_object->y;
-                *hand_x = hand[card_idx]->sprite_object->x;
+                *hand_y = card_object->sprite_object->y;
+                *hand_x = card_object->sprite_object->x;
             }
 
             discarded_card = true;
@@ -1384,13 +1390,14 @@ static inline bool play_scoring_held_cards_update(int played_idx)
         // Go through all held cards and see if they activate Jokers
         for (; scored_card_index >= 0; scored_card_index--)
         {
+            CardObject* card_object = get_hand_card_at(scored_card_index);
             if (check_and_score_joker_for_event(
                     &_joker_scored_itr,
-                    hand[scored_card_index],
+                    card_object,
                     JOKER_EVENT_ON_CARD_HELD
                 ))
             {
-                card_object_shake(hand[scored_card_index], SFX_CARD_SELECT);
+                card_object_shake(card_object, SFX_CARD_SELECT);
                 return true;
             }
             _joker_scored_itr = list_itr_create(&_owned_jokers_list);
@@ -1779,7 +1786,8 @@ static inline void cards_in_hand_update_loop(void)
     // Start from the end of the hand and work backwards because that's how Balatro does it
     for (int i = hand_top + 1; i >= 0; i--)
     {
-        if (hand[i] != NULL)
+        CardObject* card_object = get_hand_card_at(i);
+        if (card_object != NULL)
         {
             FIXED hand_x = int2fx(HAND_START_POS.x);
             FIXED hand_y = int2fx(HAND_START_POS.y);
@@ -1795,7 +1803,7 @@ static inline void cards_in_hand_update_loop(void)
                         (i == selected_card_idx &&
                          game_playing_selection_grid.selection.y == GAME_PLAYING_HAND_SEL_Y);
 
-                    bool is_selected = card_object_is_selected(hand[i]);
+                    bool is_selected = card_object_is_selected(card_object);
                     if (is_focused && !is_selected)
                     {
                         hand_y -= int2fx(CARD_FOCUSED_UNSEL_Y);
@@ -1809,10 +1817,10 @@ static inline void cards_in_hand_update_loop(void)
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
 
-                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
+                    if (i != selected_card_idx && card_object->sprite_object->y > hand_y)
                     {
-                        hand[i]->sprite_object->y = hand_y;
-                        hand[i]->sprite_object->vy = 0;
+                        card_object->sprite_object->y = hand_y;
+                        card_object->sprite_object->vy = 0;
                     }
 
                     hand_x =
@@ -1840,13 +1848,13 @@ static inline void cards_in_hand_update_loop(void)
                     hand_y += int2fx(24);
                     uint timer = get_timer();
 
-                    if (card_object_is_selected(hand[i]) && discarded_card == false &&
+                    if (card_object_is_selected(card_object) && discarded_card == false &&
                         timer % FRAMES(10) == 0)
                     {
-                        card_object_set_selected(hand[i], false);
-                        played_push(hand[i]);
-                        sprite_destroy(&hand[i]->sprite_object->sprite);
-                        hand[i] = NULL;
+                        card_object_set_selected(card_object, false);
+                        played_push(card_object);
+                        sprite_destroy(&card_object->sprite_object->sprite);
+                        set_hand_card_at(i, NULL);
                         reorder_card_sprites_layers();
 
                         play_sfx(
@@ -1882,9 +1890,9 @@ static inline void cards_in_hand_update_loop(void)
                     break;
             }
 
-            hand[i]->sprite_object->tx = hand_x;
-            hand[i]->sprite_object->ty = hand_y;
-            card_object_update(hand[i]);
+            card_object->sprite_object->tx = hand_x;
+            card_object->sprite_object->ty = hand_y;
+            card_object_update(card_object);
         }
     }
 }

@@ -153,6 +153,7 @@ CardObject** get_hand_array(void);
 CardObject* get_hand_card_at(int idx);
 void set_hand_card_at(int idx, CardObject* card_object);
 int get_hand_top(void);
+int increment_hand_top(void);
 int hand_get_size(void);
 int deck_get_size(void);
 int deck_get_max_size(void);

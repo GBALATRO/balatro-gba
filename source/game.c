@@ -192,6 +192,11 @@ int get_hand_top(void)
     return hand_top;
 }
 
+int increment_hand_top(void)
+{
+    return ++hand_top;
+}
+
 int hand_get_size(void)
 {
     return hand_top + 1;
