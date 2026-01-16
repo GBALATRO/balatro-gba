@@ -85,7 +85,6 @@ extern enum GameState game_state;
 extern unsigned int timer;
 extern int ante;
 extern int money;
-extern int game_speed;
 extern int shortcut_joker_count;
 extern int four_fingers_joker_count;
 extern List _owned_jokers_list;

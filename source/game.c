@@ -120,11 +120,6 @@ static void noop(void)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-void display_temp_score(u32 value);
-void display_score(u32 value);
-static void check_flaming_score(void);
-void display_hands(int value);
-void display_discards(int value);
 void set_hand(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
@@ -169,24 +164,11 @@ void remove_owned_joker(int owned_joker_idx);
 extern bool can_play_hand(void);
 static bool can_discard_hand(void);
 
-// Consts
-
-// clang-format off
-// disable clang-format here to preserve the organization here
-// Flaming score animation frames
-#define SCORE_FLAMES_ANIM_FREQ  5 // animation will run at 12FPS
-#define NUM_SCORE_FLAMES_FRAMES 8 // Chips and Mult flame frames are next to one another
-#define SCORE_FLAME_FRAME_WIDTH 3 // so we only need to offset to get the next ones
-// clang-format on
-
 uint rng_seed = 0;
 
 typedef void (*SubStateActionFn)(void);
 
 uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
-// BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the game
-// aspects that should be sped up by speed, as in the original game.
-int game_speed = 1;
 
 StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -288,7 +270,7 @@ int ante = 0;
 int money = 0;
 u32 score = 0;
 u32 temp_score = 0; // This is the score that shows in the same spot as the hand type.
-bool score_flames_active = false;
+
 FIXED lerped_score = 0;
 FIXED lerped_temp_score = 0;
 
@@ -582,6 +564,11 @@ void game_change_state(enum GameState new_game_state)
     }
 }
 
+// ============================================================================
+// Getter and Setter Functions
+// ============================================================================
+
+// Hand and Deck Getters
 CardObject** get_hand_array(void)
 {
     return hand;
@@ -612,6 +599,312 @@ int get_scored_card_index(void)
     return scored_card_index;
 }
 
+int get_deck_top(void)
+{
+    return deck_top;
+}
+
+int deck_get_size(void)
+{
+    return deck_top + 1;
+}
+
+int deck_get_max_size(void)
+{
+    // This is the max amount of cards that the player currently has in their possession
+    return hand_top + played_top + deck_top + discard_top + 4;
+}
+
+// Joker List Getters
+List* get_jokers_list(void)
+{
+    return &_owned_jokers_list;
+}
+
+List* get_expired_jokers_list(void)
+{
+    return &_expired_jokers_list;
+}
+
+// Game State Getters/Setters
+enum GameState* get_game_state_ptr(void)
+{
+    return &game_state;
+}
+
+StateInfo* get_state_info_ptr(void)
+{
+    return &state_info[game_state];
+}
+
+int get_substate(void)
+{
+    return state_info[game_state].substate;
+}
+
+void set_substate(int new_substate)
+{
+    state_info[game_state].substate = new_substate;
+}
+
+// Timer Functions
+uint get_timer(void)
+{
+    return timer;
+}
+
+void set_timer(uint new_time)
+{
+    timer = new_time;
+}
+
+void reset_timer(void)
+{
+    set_timer(TM_ZERO);
+}
+
+// Chips and Mult
+u32 get_chips(void)
+{
+    return chips;
+}
+
+void set_chips(u32 new_chips)
+{
+    chips = new_chips;
+}
+
+u32 get_mult(void)
+{
+    return mult;
+}
+
+void set_mult(u32 new_mult)
+{
+    mult = new_mult;
+}
+
+void set_retrigger(bool new_retrigger)
+{
+    retrigger = new_retrigger;
+}
+
+// Money Functions
+int get_money(void)
+{
+    return money;
+}
+
+void set_money(int new_money)
+{
+    money = new_money;
+}
+
+void increase_money(int amount)
+{
+    int _money = get_money();
+    _money += amount;
+    set_money(_money);
+}
+
+// Hands and Discards
+int get_num_hands_remaining(void)
+{
+    return hands;
+}
+
+int get_hands(void)
+{
+    return hands;
+}
+
+void reset_hands(void)
+{
+    hands = max_hands;
+}
+
+int get_num_discards_remaining(void)
+{
+    return discards;
+}
+
+int get_discards(void)
+{
+    return discards;
+}
+
+void reset_discards(void)
+{
+    discards = max_discards;
+}
+
+// Round and Ante
+int get_round(void)
+{
+    return game_round;
+}
+
+int increment_round(void)
+{
+    return ++game_round;
+}
+
+int get_ante(void)
+{
+    return ante;
+}
+
+// Score management
+u32 get_score(void)
+{
+    return score;
+}
+void set_score(u32 new_score)
+{
+    score = new_score;
+}
+void reset_score(void)
+{
+    set_score(0);
+}
+
+// Blind Management
+Sprite* get_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return NULL;
+    }
+    return blind_select_tokens[blind_type];
+}
+
+Sprite* get_playing_blind_token(void)
+{
+    return playing_blind_token;
+}
+
+Sprite* get_round_end_blind_token(void)
+{
+    return round_end_blind_token;
+}
+
+void destroy_playing_and_round_end_blind_tokens(void)
+{
+    sprite_destroy(&playing_blind_token);
+    sprite_destroy(&round_end_blind_token);
+}
+
+void hide_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    obj_hide(token_sprite->obj);
+}
+
+void hide_all_blind_select_tokens(void)
+{
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    {
+        hide_blind_select_token((enum BlindType)i);
+    }
+}
+
+void unhide_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    obj_unhide(token_sprite->obj, 0);
+}
+
+void unhide_all_blind_select_tokens(void)
+{
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    {
+        unhide_blind_select_token((enum BlindType)i);
+    }
+}
+
+void move_blind_select_token(enum BlindType blind_type, int x, int y)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    sprite_position(token_sprite, x, y);
+}
+
+void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y)
+{
+    if (!x || !y)
+        return;
+
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        *x = -1;
+        *y = -1;
+        return;
+    }
+    Sprite* token_sprite = get_blind_select_token(blind_type);
+    *x = token_sprite->pos.x;
+    *y = token_sprite->pos.y;
+}
+
+enum BlindState get_blinds_state(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return 0;
+    }
+    return blinds_states[blind_type];
+}
+
+int get_current_blind(void)
+{
+    return current_blind;
+}
+
+void increment_blind(enum BlindState increment_reason)
+{
+    current_blind++;
+    if (current_blind >= BLIND_TYPE_MAX)
+    {
+        current_blind = 0;
+        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
+        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+    }
+    else
+    {
+        blinds_states[current_blind] = BLIND_STATE_CURRENT;
+        blinds_states[current_blind - 1] = increment_reason;
+    }
+}
+
+// RNG Functions
+void incr_rng_seed(void)
+{
+    rng_seed++;
+}
+
+void mult_rng_seed(int factor)
+{
+    rng_seed *= factor;
+}
+
+// End of Getter and Setter Functions
+// ============================================================================
+
+// ============================================================================
+// Joker Query Functions
+// ============================================================================
+
 bool is_joker_owned(int joker_id)
 {
     ListItr itr = list_itr_create(&_owned_jokers_list);
@@ -627,25 +920,6 @@ bool is_joker_owned(int joker_id)
     return false;
 }
 
-bool card_is_face(Card* card)
-{
-    // Card is a face card, or Pareidolia is present
-    return (
-        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
-        is_joker_owned(PAREIDOLIA_JOKER_ID)
-    );
-}
-
-List* get_jokers_list(void)
-{
-    return &_owned_jokers_list;
-}
-
-List* get_expired_jokers_list(void)
-{
-    return &_expired_jokers_list;
-}
-
 bool is_shortcut_joker_active(void)
 {
     return shortcut_joker_count > 0;
@@ -655,6 +929,15 @@ int get_straight_and_flush_size(void)
 {
     return four_fingers_joker_count > 0 ? STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS
                                         : STRAIGHT_AND_FLUSH_SIZE_DEFAULT;
+}
+
+bool card_is_face(Card* card)
+{
+    // Card is a face card, or Pareidolia is present
+    return (
+        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
+        is_joker_owned(PAREIDOLIA_JOKER_ID)
+    );
 }
 
 void remove_owned_joker(int owned_joker_idx)
@@ -677,146 +960,9 @@ void remove_owned_joker(int owned_joker_idx)
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
 }
 
-int get_deck_top(void)
-{
-    return deck_top;
-}
-
-int get_num_discards_remaining(void)
-{
-    return discards;
-}
-
-int get_num_hands_remaining(void)
-{
-    return hands;
-}
-
-int get_game_speed(void)
-{
-    return game_speed;
-}
-
-// for the future when a menu actually lets this variable be changed.
-void set_game_speed(int new_game_speed)
-{
-    game_speed = new_game_speed;
-}
-
-u32 get_chips(void)
-{
-    return chips;
-}
-
-void set_chips(u32 new_chips)
-{
-    chips = new_chips;
-}
-
-u32 get_mult(void)
-{
-    return mult;
-}
-
-void set_mult(u32 new_mult)
-{
-    mult = new_mult;
-}
-
-int get_money(void)
-{
-    return money;
-}
-
-void set_money(int new_money)
-{
-    money = new_money;
-}
-
-void set_retrigger(bool new_retrigger)
-{
-    retrigger = new_retrigger;
-}
-
-void display_money()
-{
-    Rect money_text_rect = MONEY_TEXT_RECT;
-    tte_erase_rect_wrapper(MONEY_TEXT_RECT);
-
-    char money_str_buff[INT_MAX_DIGITS + 2]; // + 2 for null terminator and "$" sign
-    snprintf(money_str_buff, sizeof(money_str_buff), "$%d", money);
-
-    // Bias left so the number is centered and the "$" sign is on the left
-    update_text_rect_to_center_str(&money_text_rect, money_str_buff, SCREEN_LEFT);
-
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        money_text_rect.left,
-        money_text_rect.top,
-        TTE_YELLOW_PB,
-        money_str_buff
-    );
-}
-
-void display_chips(void)
-{
-    Rect chips_text_rect = CHIPS_TEXT_RECT;
-
-    // In case of overflow, the rect overflow left by 1 char
-    Rect chips_text_overflow_rect = chips_text_rect;
-    chips_text_overflow_rect.left -= TTE_CHAR_SIZE;
-    tte_erase_rect_wrapper(chips_text_overflow_rect);
-
-    char chips_str_buff[UINT_MAX_DIGITS + 1];
-    truncate_uint_to_suffixed_str(
-        chips,
-        rect_width(&chips_text_rect) / TTE_CHAR_SIZE,
-        chips_str_buff
-    );
-
-    update_text_rect_to_right_align_str(&chips_text_rect, chips_str_buff, OVERFLOW_LEFT);
-
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000;}%s",
-        chips_text_rect.left,
-        chips_text_rect.top,
-        TTE_WHITE_PB,
-        chips_str_buff
-    );
-    check_flaming_score();
-}
-
-void display_mult(void)
-{
-    Rect mult_text_overflow_rect = MULT_TEXT_RECT;
-    // In case of overflow the rect will overflow right by 1 char
-    mult_text_overflow_rect.right += TTE_CHAR_SIZE;
-    tte_erase_rect_wrapper(mult_text_overflow_rect);
-
-    char mult_str_buff[UINT_MAX_DIGITS + 1];
-    truncate_uint_to_suffixed_str(mult, rect_width(&MULT_TEXT_RECT) / TTE_CHAR_SIZE, mult_str_buff);
-
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000;}%s",
-        MULT_TEXT_RECT.left,
-        MULT_TEXT_RECT.top,
-        TTE_WHITE_PB,
-        mult_str_buff
-    );
-
-    check_flaming_score();
-}
-
-static inline void display_ante(int value)
-{
-    tte_printf(
-        "#{P:%d,%d; cx:0xC000}%d#{cx:0xF000}/%d",
-        ANTE_TEXT_RECT.left,
-        ANTE_TEXT_RECT.top,
-        value,
-        MAX_ANTE
-    );
-}
+// ============================================================================
+// Hand Management Functions
+// ============================================================================
 
 // idx_a and idx_b are assumed to be valid indexes within the hand array
 // no checks will be performed here for performance's sake
@@ -892,89 +1038,9 @@ bool shift_null_card_to_end(int null_card_idx)
     return true;
 }
 
-void display_temp_score(u32 value)
-{
-    char temp_score_str_buff[UINT_MAX_DIGITS + 1];
-    Rect temp_score_rect = TEMP_SCORE_RECT;
-    truncate_uint_to_suffixed_str(
-        value,
-        rect_width(&temp_score_rect) / TTE_CHAR_SIZE,
-        temp_score_str_buff
-    );
-    update_text_rect_to_center_str(&temp_score_rect, temp_score_str_buff, SCREEN_RIGHT);
-
-    tte_erase_rect_wrapper(TEMP_SCORE_RECT);
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        temp_score_rect.left,
-        temp_score_rect.top,
-        TTE_WHITE_PB,
-        temp_score_str_buff
-    );
-}
-
-void display_score(u32 value)
-{
-    Rect score_rect = SCORE_RECT;
-    // Clear the existing text before redrawing
-    tte_erase_rect_wrapper(SCORE_RECT);
-
-    char score_str_buff[UINT_MAX_DIGITS + 1];
-
-    truncate_uint_to_suffixed_str(value, rect_width(&score_rect) / TTE_CHAR_SIZE, score_str_buff);
-    update_text_rect_to_center_str(&score_rect, score_str_buff, SCREEN_RIGHT);
-
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        score_rect.left,
-        score_rect.top,
-        TTE_WHITE_PB,
-        score_str_buff
-    );
-}
-
-// Show/Hide flaming score effect if we will score
-// more than the required amount or not
-static void check_flaming_score(void)
-{
-    u32 curr_score = u32_protected_mult(chips, mult);
-    u32 required_score = blind_get_requirement(current_blind, ante);
-    if (curr_score >= required_score && !score_flames_active)
-    {
-        // start flaming score
-        score_flames_active = true;
-        return;
-    }
-    if (curr_score < required_score && score_flames_active)
-    {
-        // stop flaming score and clear rect
-        score_flames_active = false;
-
-        Rect reset_rect = SCORE_FLAME_RESET;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_CHIPS_POS);
-        reset_rect.left += SCORE_FLAME_FRAME_WIDTH;
-        reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
-    }
-}
-
-void display_hands(int value)
-{
-    // tte_erase_rect_wrapper(HANDS_TEXT_RECT);
-    tte_printf("#{P:%d,%d; cx:0xD000}%d", HANDS_TEXT_RECT.left, HANDS_TEXT_RECT.top, hands); // Hand
-}
-
-void display_discards(int value)
-{
-    // tte_erase_rect_wrapper(DISCARDS_TEXT_RECT);
-    // Discard
-    tte_printf(
-        "#{P:%d,%d; cx:0xE000}%d",
-        DISCARDS_TEXT_RECT.left,
-        DISCARDS_TEXT_RECT.top,
-        discards
-    );
-}
+// ============================================================================
+// Hand Type Detection and Card Evaluation
+// ============================================================================
 
 static inline enum HandType hand_get_type(void)
 {
@@ -1100,16 +1166,9 @@ static bool can_discard_hand(void)
     return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
-int deck_get_size(void)
-{
-    return deck_top + 1;
-}
-
-int deck_get_max_size(void)
-{
-    // This is the max amount of cards that the player currently has in their possession
-    return hand_top + played_top + deck_top + discard_top + 4;
-}
+// ============================================================================
+// Deck Management Functions
+// ============================================================================
 
 void deck_shuffle(void)
 {
@@ -1122,7 +1181,10 @@ void deck_shuffle(void)
     }
 }
 
-// General functions
+// ============================================================================
+// Game Initialization and Core Functions
+// ============================================================================
+
 static inline void set_seed(int seed)
 {
     rng_seed = seed;
@@ -1172,28 +1234,6 @@ int game_playing_button_row_get_size(void)
     return NUM_ELEM_IN_ARR(game_playing_buttons);
 }
 
-Rect get_text_rect_under_sprite_object(SpriteObject* sprite_object)
-{
-    int height = 0;
-    int width = 0;
-
-    if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
-    {
-        // fallback
-        height = CARD_SPRITE_SIZE;
-        width = CARD_SPRITE_SIZE;
-    }
-
-    Rect ret_rect = {0};
-
-    ret_rect.left = fx2int(sprite_object->tx);
-    ret_rect.top = fx2int(sprite_object->ty) + height + TILE_SIZE;
-    ret_rect.right = ret_rect.left + width;
-    ret_rect.bottom = ret_rect.top + TTE_CHAR_SIZE;
-
-    return ret_rect;
-}
-
 int game_shop_get_rand_available_joker_id(void)
 {
     // Roll for what rarity the joker will be
@@ -1229,162 +1269,6 @@ int game_shop_get_rand_available_joker_id(void)
         (match_count > 0) ? matching_joker_ids[random() % match_count] : fallback_random_joker_id;
 
     return selected_joker_id;
-}
-
-uint get_timer(void)
-{
-    return timer;
-}
-void reset_timer(void)
-{
-    timer = TM_ZERO;
-}
-
-void incr_rng_seed(void)
-{
-    rng_seed++;
-}
-
-void mult_rng_seed(int factor)
-{
-    rng_seed *= factor;
-}
-
-int get_ante(void)
-{
-    return ante;
-}
-
-int increment_round(void)
-{
-    return ++game_round;
-}
-
-enum GameState* get_game_state_ptr(void)
-{
-    return &game_state;
-}
-
-StateInfo* get_state_info_ptr(void)
-{
-    return &state_info[game_state];
-}
-
-int get_substate(void)
-{
-    return state_info[game_state].substate;
-}
-
-void set_substate(int new_substate)
-{
-    state_info[game_state].substate = new_substate;
-}
-
-Sprite* get_blind_select_token(enum BlindType blind_type)
-{
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        return NULL;
-    }
-    return blind_select_tokens[blind_type];
-}
-
-void hide_blind_select_token(enum BlindType blind_type)
-{
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        return;
-    }
-    Sprite* token_sprite = get_blind_select_token(blind_type);
-    obj_hide(token_sprite->obj);
-}
-
-void hide_all_blind_select_tokens(void)
-{
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
-    {
-        hide_blind_select_token((enum BlindType)i);
-    }
-}
-
-void unhide_blind_select_token(enum BlindType blind_type)
-{
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        return;
-    }
-    Sprite* token_sprite = get_blind_select_token(blind_type);
-    obj_unhide(token_sprite->obj, 0);
-}
-
-void unhide_all_blind_select_tokens(void)
-{
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
-    {
-        unhide_blind_select_token((enum BlindType)i);
-    }
-}
-
-void move_blind_select_token(enum BlindType blind_type, int x, int y)
-{
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        return;
-    }
-    Sprite* token_sprite = get_blind_select_token(blind_type);
-    sprite_position(token_sprite, x, y);
-}
-
-void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y)
-{
-    if (!x || !y)
-        return;
-
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        *x = -1;
-        *y = -1;
-        return;
-    }
-    Sprite* token_sprite = get_blind_select_token(blind_type);
-    *x = token_sprite->pos.x;
-    *y = token_sprite->pos.y;
-}
-
-void increment_blind(enum BlindState increment_reason)
-{
-    current_blind++;
-    if (current_blind >= BLIND_TYPE_MAX)
-    {
-        current_blind = 0;
-        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-    }
-    else
-    {
-        blinds_states[current_blind] = BLIND_STATE_CURRENT;
-        blinds_states[current_blind - 1] = increment_reason;
-    }
-}
-
-enum BlindState get_blinds_state(enum BlindType blind_type)
-{
-    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
-    {
-        return 0;
-    }
-    return blinds_states[blind_type];
-}
-
-int get_current_blind(void)
-{
-    return current_blind;
-}
-
-int get_round(void)
-{
-    return game_round;
 }
 
 void game_start(void)

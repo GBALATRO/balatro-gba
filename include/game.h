@@ -10,7 +10,8 @@
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_JOKERS      2 // TODO: Make this dynamic and allow for other items besides jokers
 #define MAX_SELECTION_SIZE   5
-#define FRAMES(x)            (((x) + game_speed - 1) / game_speed)
+#define GAME_SPEED           1
+#define FRAMES(x)            (((x) + GAME_SPEED - 1) / GAME_SPEED)
 
 // TODO: Can make these dynamic to support interest-related jokers and vouchers
 #define MAX_INTEREST   5
@@ -94,11 +95,18 @@ typedef struct
     void (*on_exit)();
 } StateInfo;
 
-// Game functions
-void game_start();
-void game_init();
-void game_update();
+// ============================================================================
+// Game Core Functions
+// ============================================================================
+
+void game_start(void);
+void game_init(void);
+void game_update(void);
 void game_change_state(enum GameState new_game_state);
+
+// ============================================================================
+// Hand and Card Getters
+// ============================================================================
 
 CardObject** get_hand_array(void);
 int get_hand_top(void);
@@ -106,55 +114,97 @@ int hand_get_size(void);
 CardObject** get_played_array(void);
 int get_played_top(void);
 int get_scored_card_index(void);
+
+// ============================================================================
+// Joker and Card Query Functions
+// ============================================================================
+
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
+bool is_shortcut_joker_active(void);
+int get_straight_and_flush_size(void);
+
+// ============================================================================
+// Deck Getters
+// ============================================================================
 
 int get_deck_top(void);
-int get_num_discards_remaining(void);
-int get_num_hands_remaining(void);
+
+// ============================================================================
+// Chips, Mult, and Money Functions
+// ============================================================================
 
 u32 get_chips(void);
 void set_chips(u32 new_chips);
-void display_chips();
+void display_chips(void);
 u32 get_mult(void);
 void set_mult(u32 new_mult);
-void display_mult();
+void display_mult(void);
 int get_money(void);
 void set_money(int new_money);
-void display_money();
+void increase_money(int amount);
+void display_money(void);
 void set_retrigger(bool new_retrigger);
 
-int get_game_speed(void);
-void set_game_speed(int new_game_speed);
+// ============================================================================
+// Timer and RNG Functions
+// ============================================================================
 
 uint get_timer(void);
+void set_timer(uint new_time);
 void reset_timer(void);
 void incr_rng_seed(void);
 void mult_rng_seed(int factor);
+
+// ============================================================================
+// Hands, Discards, and Round Getters/Setters
+// ============================================================================
+
 int get_ante(void);
+int get_hands(void);
+void reset_hands(void);
+int get_num_hands_remaining(void);
+int get_discards(void);
+void reset_discards(void);
+int get_num_discards_remaining(void);
+int get_round(void);
 int increment_round(void);
+
+// ============================================================================
+// Score Getters/Setters
+// ============================================================================
+
+u32 get_score(void);
+void set_score(u32 new_score);
+void reset_score(void);
+
+// ============================================================================
+// Game State Getters/Setters
+// ============================================================================
 
 enum GameState* get_game_state_ptr(void);
 StateInfo* get_state_info_ptr(void);
 int get_substate(void);
 void set_substate(int new_substate);
 
+// ============================================================================
+// Blind Management Functions
+// ============================================================================
+
 Sprite* get_blind_select_token(enum BlindType blind_type);
-void hide_all_blind_select_tokens(void);
+Sprite* get_playing_blind_token(void);
+Sprite* get_round_end_blind_token(void);
+void destroy_playing_and_round_end_blind_tokens(void);
 void hide_blind_select_token(enum BlindType blind_type);
+void hide_all_blind_select_tokens(void);
 void unhide_blind_select_token(enum BlindType blind_type);
 void unhide_all_blind_select_tokens(void);
 void move_blind_select_token(enum BlindType blind_type, int x, int y);
 void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y);
-void increment_blind(enum BlindState increment_reason);
-enum BlindState get_blinds_state(enum BlindType blind_type);
 int get_current_blind(void);
-int get_round(void);
-
-// joker specific functions
-bool is_shortcut_joker_active(void);
-int get_straight_and_flush_size(void);
+enum BlindState get_blinds_state(enum BlindType blind_type);
+void increment_blind(enum BlindState increment_reason);
 
 #endif // GAME_H

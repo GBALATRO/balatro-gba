@@ -105,7 +105,6 @@ extern void main_bg_se_clear_rect(Rect rect);
 extern void tte_erase_rect_wrapper(Rect rect);
 extern void tte_erase_screen(void);
 extern void play_sfx(mm_word id, mm_word rate, mm_byte volume);
-extern int get_game_speed(void);
 extern u32 u32_protected_add(u32 a, u32 b);
 extern u32 u32_protected_mult(u32 a, u32 b);
 extern void card_object_shake(CardObject* card_object, mm_word sound_id);
@@ -121,18 +120,6 @@ extern const Rect HAND_SIZE_RECT_PLAYING;
 extern const Rect SCORE_FLAME_FRAMES_START;
 extern const BG_POINT SCORE_FLAME_CHIPS_POS;
 extern const BG_POINT SCORE_FLAME_MULT_POS;
-
-// Static inline utility function
-static inline void display_ante(int value)
-{
-    tte_printf(
-        "#{P:%d,%d; cx:0xC000}%d#{cx:0xF000}/%d",
-        ANTE_TEXT_RECT.left,
-        ANTE_TEXT_RECT.top,
-        value,
-        MAX_ANTE
-    );
-}
 
 // Global variables from game.c
 extern enum BackgroundId background;
@@ -174,7 +161,6 @@ extern int max_hands;
 extern int max_discards;
 extern int shortcut_joker_count;
 extern int four_fingers_joker_count;
-extern int game_speed;
 extern List _owned_jokers_list;
 extern ListItr _joker_scored_itr;
 extern ListItr _joker_card_scored_end_itr;
@@ -1353,10 +1339,10 @@ static inline void game_playing_process_input_and_state(void)
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
          * The operation is equivalent to
-         * fxdiv(int2fx(temp_score * get_game_speed()), int2fx(NUM_SCORE_LERP_STEPS))
+         * fxdiv(int2fx(temp_score * GAME_SPEED), int2fx(NUM_SCORE_LERP_STEPS))
          */
-        lerped_temp_score -= int2fx(temp_score * get_game_speed()) / NUM_SCORE_LERP_STEPS;
-        lerped_score += int2fx(temp_score * get_game_speed()) / NUM_SCORE_LERP_STEPS;
+        lerped_temp_score -= int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
+        lerped_score += int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
 
         if (lerped_temp_score > 0)
         {
