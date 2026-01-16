@@ -18,7 +18,9 @@ enum BackgroundId
 };
 
 // Background functions
+void set_background(enum BackgroundId id);
 void reset_background();
+enum BackgroundId get_background(void);
 void change_background(enum BackgroundId id);
 
 // Flaming score animation frames

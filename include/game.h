@@ -106,21 +106,11 @@ void game_update(void);
 void game_change_state(enum GameState new_game_state);
 
 // ============================================================================
-// Hand and Card Getters
+// Getters and Setters
 // ============================================================================
 
-CardObject** get_hand_array(void);
-int get_hand_top(void);
-int hand_get_size(void);
-CardObject** get_played_array(void);
-int get_played_top(void);
-int get_scored_card_index(void);
-
-// ============================================================================
 // Joker and Card Query Functions
-// ============================================================================
 
-// Others
 Bitset* get_avail_jokers_bitset_ptr(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
@@ -134,15 +124,7 @@ void remove_owned_joker(int owned_joker_idx);
 void increment_four_fingers_joker_count(void);
 void increment_shortcut_joker_count(void);
 
-// ============================================================================
-// Deck Getters
-// ============================================================================
-
-int get_deck_top(void);
-
-// ============================================================================
 // Chips, Mult, and Money Functions
-// ============================================================================
 
 u32 get_chips(void);
 void set_chips(u32 new_chips);
@@ -157,9 +139,7 @@ void decrease_money(int amount);
 void display_money(void);
 void set_retrigger(bool new_retrigger);
 
-// ============================================================================
 // Timer and RNG Functions
-// ============================================================================
 
 uint get_timer(void);
 void set_timer(uint new_time);
@@ -167,36 +147,56 @@ void reset_timer(void);
 void incr_rng_seed(void);
 void mult_rng_seed(int factor);
 
-// ============================================================================
-// Hands, Discards, and Round Getters/Setters
-// ============================================================================
+// Hand and Deck
+
+CardObject** get_hand_array(void);
+CardObject* get_hand_card_at(int idx);
+void set_hand_card_at(int idx, CardObject* card_object);
+int get_hand_top(void);
+int hand_get_size(void);
+int deck_get_size(void);
+int deck_get_max_size(void);
+CardObject** get_played_array(void);
+int get_played_top(void);
+int get_scored_card_index(void);
+int get_deck_top(void);
+int increment_deck_top(void);
+int get_played_top(void);
+int increment_played_top(void);
+void set_played_card_at(int idx, CardObject* card_object);
+CardObject* get_played_card_at(int idx);
+
+// Hands, Discards, and Round
 
 int get_ante(void);
 int get_hands(void);
 void reset_hands(void);
+int decrement_hands(void);
 int get_num_hands_remaining(void);
 int get_discards(void);
 void reset_discards(void);
+int decrement_discards(void);
 int get_num_discards_remaining(void);
 int get_round(void);
 int increment_round(void);
 
-// ============================================================================
-// Score Getters/Setters
-// ============================================================================
+// Score
 
 u32 get_score(void);
 void set_score(u32 new_score);
 void reset_score(void);
 
-// ============================================================================
-// Game State Getters/Setters
-// ============================================================================
+// Game State
 
 enum GameState* get_game_state_ptr(void);
 StateInfo* get_state_info_ptr(void);
 int get_substate(void);
 void set_substate(int new_substate);
+
+// Hand state
+
+void set_hand_state(enum HandState new_hand_state);
+enum HandState get_hand_state(void);
 
 // ============================================================================
 // Blind Management Functions
@@ -217,5 +217,14 @@ void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y);
 int get_current_blind(void);
 enum BlindState get_blinds_state(enum BlindType blind_type);
 void increment_blind(enum BlindState increment_reason);
+
+// Round.c helpers
+
+void played_push(CardObject* card_object);
+CardObject* played_pop(void);
+void deck_push(Card* card);
+Card* deck_pop(void);
+void discard_push(Card* card);
+Card* discard_pop(void);
 
 #endif // GAME_H

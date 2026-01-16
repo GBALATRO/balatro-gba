@@ -13,10 +13,21 @@
 
 enum BackgroundId background = BG_NONE;
 
+void set_background(enum BackgroundId id)
+{
+    background = id;
+}
+
 void reset_background()
 {
-    background = UNDEFINED;
+    set_background(UNDEFINED);
 }
+
+enum BackgroundId get_background(void)
+{
+    return background;
+}
+
 void change_background(enum BackgroundId id)
 {
     if (background == id)
