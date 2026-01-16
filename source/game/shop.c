@@ -36,6 +36,9 @@
 #define REROLL_BASE_COST     5
 #define NEXT_ROUND_BTN_SEL_X 0
 
+#define REROLL_BTN_FRAME_PAL_IDX 7
+#define REROLL_BTN_PAL_IDX       3
+
 enum GameShopStates
 {
     GAME_SHOP_INTRO,
@@ -95,6 +98,79 @@ static const SubStateActionFn shop_state_actions[] = {
     game_shop_process_user_input,
     game_shop_outro
 };
+
+static int get_num_shop_jokers_avail(void)
+{
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    return bitset_num_set_bits(avail_jokers_bitset);
+}
+
+static bool __attribute((unused)) is_shop_joker_avail(int joker_id)
+{
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    return bitset_get_idx(avail_jokers_bitset, joker_id);
+}
+
+void set_shop_joker_avail(int joker_id, bool avail)
+{
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    bitset_set_idx(avail_jokers_bitset, joker_id, avail);
+}
+
+static bool no_avail_jokers(void)
+{
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    return bitset_is_empty(avail_jokers_bitset);
+}
+
+void reset_shop_jokers(void)
+{
+    int num_jokers = get_joker_registry_size();
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    bitset_clear(avail_jokers_bitset);
+    for (int i = 0; i < num_jokers; i++)
+    {
+        bitset_set_idx(avail_jokers_bitset, i, true);
+    }
+}
+
+int game_shop_get_rand_available_joker_id(void)
+{
+    // Roll for what rarity the joker will be
+    int joker_rarity = joker_get_random_rarity();
+
+    // Now determine how many jokers are available based on the rarity
+    int jokers_avail_size = get_num_shop_jokers_avail();
+
+    if (jokers_avail_size == 0)
+        return UNDEFINED;
+
+    int matching_joker_ids[jokers_avail_size];
+    int fallback_random_idx = random() % jokers_avail_size;
+    int fallback_random_joker_id = UNDEFINED;
+    int match_count = 0;
+
+    Bitset* avail_jokers_bitset = get_avail_jokers_bitset_ptr();
+    BitsetItr itr = bitset_itr_create(avail_jokers_bitset);
+
+    int i = 0;
+    int joker_id = UNDEFINED;
+    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
+    {
+        if (i++ == fallback_random_idx)
+            fallback_random_joker_id = joker_id;
+        const JokerInfo* info = get_joker_registry_entry(joker_id);
+        if (info->rarity == joker_rarity)
+        {
+            matching_joker_ids[match_count++] = joker_id;
+        }
+    }
+
+    int selected_joker_id =
+        (match_count > 0) ? matching_joker_ids[random() % match_count] : fallback_random_joker_id;
+
+    return selected_joker_id;
+}
 
 static void erase_price_under_sprite_object(SpriteObject* sprite_object)
 {

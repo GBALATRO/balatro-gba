@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "bitset.h"
 #include "blind.h"
 
 #include <tonc.h>
@@ -119,15 +120,8 @@ int get_scored_card_index(void);
 // Joker and Card Query Functions
 // ============================================================================
 
-// Shop functions
-bool is_shop_joker_avail(int joker_id);
-int get_num_shop_jokers_avail(void);
-void reset_shop_jokers(void);
-bool no_avail_jokers(void);
-int game_shop_get_rand_available_joker_id(void);
-void set_shop_joker_avail(int joker_id, bool avail);
-
 // Others
+Bitset* get_avail_jokers_bitset_ptr(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
 List* get_jokers_list(void);

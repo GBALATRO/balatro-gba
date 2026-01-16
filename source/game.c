@@ -39,63 +39,12 @@
 #define STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS 4
 #define STRAIGHT_AND_FLUSH_SIZE_DEFAULT      5
 
-// Pixel sizes
-#define ITEM_SHOP_Y               71
-#define ROUND_END_REWARD_AMOUNT_X 168
-#define ROUND_END_REWARD_TEXT_X   88
-
-// SE sizes
-#define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
-
-// TODO: Properly define and use
-#define MENU_POP_OUT_ANIM_FRAMES 20
-
-#define SHOP_LIGHTS_1_CLR 0xFFFF
-#define SHOP_LIGHTS_2_CLR 0x32BE
-#define SHOP_LIGHTS_3_CLR 0x4B5F
-#define SHOP_LIGHTS_4_CLR 0x5F9F
-
 #define STARTING_ROUND 0
 #define STARTING_ANTE  1
 #define STARTING_MONEY 4
 #define STARTING_SCORE 0
 
-// Naming the stage where cards return from the discard pile to the deck "undiscard"
-
-// Shop
-#define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
-
-#define NEXT_ROUND_BTN_SEL_X 0
-
-#define GAME_PLAYING_BUTTONS_SEL_Y   2
-#define GAME_PLAYING_NUM_BOTTOM_BTNS 2
-
-#define REROLL_BTN_FRAME_PAL_IDX 7
-#define REROLL_BTN_PAL_IDX       3
-
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
-
-enum GameShopStates
-{
-    GAME_SHOP_INTRO,
-    GAME_SHOP_ACTIVE,
-    GAME_SHOP_EXIT,
-    GAME_SHOP_MAX
-};
-
-enum GameRoundEndStates
-{
-    ROUND_END_START,
-    START_EXPAND_POPUP,
-    DISPLAY_FINISHED_BLIND,
-    DISPLAY_SCORE_MIN,
-    UPDATE_BLIND_REWARD,
-    BLIND_PANEL_EXIT,
-    DISPLAY_REWARDS,
-    DISPLAY_CASHOUT,
-    DISMISS_ROUND_END_PANEL,
-    ROUND_END_EXIT
-};
 
 typedef struct
 {
@@ -113,58 +62,7 @@ static void noop(void)
 {
 }
 
-// These functions need to be forward declared
-// so they're visible to the state_info array,
-// and the sub-state function tables.
-// This could be done, and maybe should be done,
-// with an X macro, but I'll leave that to the
-// reviewer(s).
-void set_hand(void);
-int deck_get_size(void);
-int deck_get_max_size(void);
-
-static void game_playing_discard_on_pressed(void);
-static void game_playing_play_hand_on_pressed(void);
-int game_playing_button_row_get_size(void);
-extern bool game_playing_button_row_on_selection_changed(
-    SelectionGrid* selection_grid,
-    int row_idx,
-    const Selection* prev_selection,
-    const Selection* new_selection
-);
-extern void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection);
-
-extern void game_playing_hand_row_on_key_transit(
-    SelectionGrid* selection_grid,
-    Selection* selection
-);
-
-extern bool game_playing_hand_row_on_selection_changed(
-    SelectionGrid* selection_grid,
-    int row_idx,
-    const Selection* prev_selection,
-    const Selection* new_selection
-);
-
-static int game_playing_hand_row_get_size(void);
-
-extern void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-extern bool jokers_sel_row_on_selection_changed(
-    SelectionGrid* selection_grid,
-    int row_idx,
-    const Selection* prev_selection,
-    const Selection* new_selection
-);
-extern int jokers_sel_row_get_size(void);
-extern void game_shop_create_items(void);
-
-extern bool can_play_hand(void);
-static bool can_discard_hand(void);
-
 uint rng_seed = 0;
-
-typedef void (*SubStateActionFn)(void);
-
 uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
 
 StateInfo state_info[] = {
@@ -173,6 +71,36 @@ StateInfo state_info[] = {
 #include "../include/def_state_info_table.h"
 #undef DEF_STATE_INFO
 };
+
+extern int jokers_sel_row_get_size(void);
+extern bool jokers_sel_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+extern void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+
+static int game_playing_hand_row_get_size(void);
+extern bool game_playing_hand_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+extern void game_playing_hand_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection
+);
+
+int game_playing_button_row_get_size(void);
+extern bool game_playing_button_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+extern void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection);
 
 // clang-format off
 SelectionGridRow game_playing_selection_rows[] = {
@@ -206,6 +134,10 @@ SelectionGrid game_playing_selection_grid = {
     GAME_PLAYING_INIT_SEL
 };
 
+static void game_playing_play_hand_on_pressed(void);
+static void game_playing_discard_on_pressed(void);
+extern bool can_play_hand(void);
+static bool can_discard_hand(void);
 // Array of buttons by horizontal selection index (x)
 Button game_playing_buttons[] = {
     {PLAY_HAND_BTN_BORDER_PID, PLAY_HAND_BTN_PID, game_playing_play_hand_on_pressed, can_play_hand   },
@@ -319,35 +251,12 @@ int shortcut_joker_count = 0;
 
 int four_fingers_joker_count = 0;
 
-bool is_shop_joker_avail(int joker_id)
+Bitset* get_avail_jokers_bitset_ptr(void)
 {
-    return bitset_get_idx(&_avail_jokers_bitset, joker_id);
+    return &_avail_jokers_bitset;
 }
 
-void set_shop_joker_avail(int joker_id, bool avail)
-{
-    bitset_set_idx(&_avail_jokers_bitset, joker_id, avail);
-}
-
-int get_num_shop_jokers_avail(void)
-{
-    return bitset_num_set_bits(&_avail_jokers_bitset);
-}
-
-void reset_shop_jokers(void)
-{
-    int num_jokers = get_joker_registry_size();
-    bitset_clear(&_avail_jokers_bitset);
-    for (int i = 0; i < num_jokers; i++)
-    {
-        bitset_set_idx(&_avail_jokers_bitset, i, true);
-    }
-}
-
-bool no_avail_jokers(void)
-{
-    return bitset_is_empty(&_avail_jokers_bitset);
-}
+// Round.c
 
 void played_push(CardObject* card_object)
 {
@@ -389,175 +298,6 @@ Card* discard_pop()
     if (discard_top < 0)
         return NULL;
     return discard_pile[discard_top--];
-}
-
-static inline void jokers_available_to_shop_init(void)
-{
-    reset_shop_jokers();
-}
-
-void game_init()
-{
-    // Initialize all jokers list once
-    _owned_jokers_list = list_create();
-    _discarded_jokers_list = list_create();
-    _expired_jokers_list = list_create();
-    _shop_jokers_list = list_create();
-    // TODO: Move this to an initialization of the play scoring states
-    _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-
-    jokers_available_to_shop_init();
-
-    hands = max_hands;
-    discards = max_discards;
-    timer = TM_ZERO;
-    current_blind = BLIND_TYPE_SMALL;
-    blinds_states[0] = BLIND_STATE_CURRENT;
-    blinds_states[1] = BLIND_STATE_UPCOMING;
-    blinds_states[2] = BLIND_STATE_UPCOMING;
-    ante = STARTING_ANTE;
-    money = STARTING_MONEY;
-    score = STARTING_SCORE;
-
-    blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
-        BLIND_TYPE_SMALL,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 3
-    );
-    blind_select_tokens[BLIND_TYPE_BIG] = blind_token_new(
-        BLIND_TYPE_BIG,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 4
-    );
-    blind_select_tokens[BLIND_TYPE_BOSS] = blind_token_new(
-        BLIND_TYPE_BOSS,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
-    );
-
-    obj_hide(blind_select_tokens[BLIND_TYPE_SMALL]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BIG]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BOSS]->obj);
-}
-
-static inline void discarded_jokers_update_loop(void)
-{
-    if (list_is_empty(&_discarded_jokers_list))
-    {
-        return;
-    }
-
-    ListItr itr = list_itr_create(&_discarded_jokers_list);
-    JokerObject* joker_object;
-
-    while ((joker_object = list_itr_next(&itr)))
-    {
-        joker_object_update(joker_object);
-        if (joker_object->sprite_object->x == joker_object->sprite_object->tx &&
-            joker_object->sprite_object->y == joker_object->sprite_object->ty)
-        {
-            list_itr_remove_current_node(&itr);
-            joker_object_destroy(&joker_object);
-        }
-    }
-}
-
-static inline void held_jokers_update_loop(void)
-{
-    const int spacing_lut[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {
-        {0,  0,   0,   0,   0  },
-        {13, -13, 0,   0,   0  },
-        {26, 0,   -26, 0,   0  },
-        {39, 13,  -13, -39, 0  },
-        {40, 20,  0,   -20, -40}
-    };
-
-    FIXED hand_x = int2fx(HELD_JOKERS_POS.x);
-
-    ListItr itr = list_itr_create(&_owned_jokers_list);
-    JokerObject* joker;
-    int jokers_top = list_get_len(&_owned_jokers_list) - 1;
-    int i = 0;
-    while ((joker = list_itr_next(&itr)))
-    {
-        joker->sprite_object->tx = hand_x - int2fx(spacing_lut[jokers_top][i++]);
-
-        joker_object_update(joker);
-    }
-}
-
-static inline void expired_jokers_update_loop(void)
-{
-    if (list_is_empty(&_expired_jokers_list))
-    {
-        return;
-    }
-
-    ListItr itr = list_itr_create(&_expired_jokers_list);
-    JokerObject* joker_object;
-
-    while ((joker_object = list_itr_next(&itr)))
-    {
-        joker_object_update(joker_object);
-
-        // let just enough frames pass that we see it rotating and shrinking
-        if (timer % FRAMES(EXPIRE_ANIMATION_FRAME_COUNT) == 0)
-        {
-            // get joker idx
-            int expired_joker_idx = 0;
-            ListItr joker_itr = list_itr_create(&_owned_jokers_list);
-            JokerObject* expired_joker;
-            while ((expired_joker = list_itr_next(&joker_itr)) && expired_joker != joker_object)
-            {
-                expired_joker_idx++;
-            }
-
-            // Removing expired Jokers here, instead of immediately like ones we
-            // sell or discard allow us to have a small shrink animation without
-            // the other owned Jokers rearranging themselves to fill the newly
-            // freed space, therefore obscuring the animation
-            remove_owned_joker(expired_joker_idx);
-            list_itr_remove_current_node(&itr);
-            joker_object_destroy(&joker_object);
-        }
-    }
-}
-
-static inline void jokers_update_loop(void)
-{
-    held_jokers_update_loop();
-    discarded_jokers_update_loop();
-    expired_jokers_update_loop();
-}
-
-void game_update()
-{
-    timer++;
-
-    jokers_update_loop();
-
-    state_info[game_state].on_update();
-}
-
-void game_change_state(enum GameState new_game_state)
-{
-    timer = TM_ZERO; // Reset the timer
-
-    if (game_state >= 0 && game_state < GAME_STATE_MAX)
-    {
-        state_info[game_state].substate = 0;
-        state_info[game_state].on_exit();
-    }
-
-    if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
-    {
-        state_info[new_game_state].on_init();
-
-        game_state = new_game_state;
-    }
 }
 
 // ============================================================================
@@ -1227,6 +967,170 @@ void deck_shuffle(void)
 // Game Initialization and Core Functions
 // ============================================================================
 
+void game_init()
+{
+    // Initialize all jokers list once
+    _owned_jokers_list = list_create();
+    _discarded_jokers_list = list_create();
+    _expired_jokers_list = list_create();
+    _shop_jokers_list = list_create();
+    // TODO: Move this to an initialization of the play scoring states
+    _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+
+    reset_shop_jokers();
+
+    hands = max_hands;
+    discards = max_discards;
+    timer = TM_ZERO;
+    current_blind = BLIND_TYPE_SMALL;
+    blinds_states[0] = BLIND_STATE_CURRENT;
+    blinds_states[1] = BLIND_STATE_UPCOMING;
+    blinds_states[2] = BLIND_STATE_UPCOMING;
+    ante = STARTING_ANTE;
+    money = STARTING_MONEY;
+    score = STARTING_SCORE;
+
+    blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
+        BLIND_TYPE_SMALL,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 3
+    );
+    blind_select_tokens[BLIND_TYPE_BIG] = blind_token_new(
+        BLIND_TYPE_BIG,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 4
+    );
+    blind_select_tokens[BLIND_TYPE_BOSS] = blind_token_new(
+        BLIND_TYPE_BOSS,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
+    );
+
+    obj_hide(blind_select_tokens[BLIND_TYPE_SMALL]->obj);
+    obj_hide(blind_select_tokens[BLIND_TYPE_BIG]->obj);
+    obj_hide(blind_select_tokens[BLIND_TYPE_BOSS]->obj);
+}
+
+static inline void discarded_jokers_update_loop(void)
+{
+    if (list_is_empty(&_discarded_jokers_list))
+    {
+        return;
+    }
+
+    ListItr itr = list_itr_create(&_discarded_jokers_list);
+    JokerObject* joker_object;
+
+    while ((joker_object = list_itr_next(&itr)))
+    {
+        joker_object_update(joker_object);
+        if (joker_object->sprite_object->x == joker_object->sprite_object->tx &&
+            joker_object->sprite_object->y == joker_object->sprite_object->ty)
+        {
+            list_itr_remove_current_node(&itr);
+            joker_object_destroy(&joker_object);
+        }
+    }
+}
+
+static inline void held_jokers_update_loop(void)
+{
+    const int spacing_lut[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {
+        {0,  0,   0,   0,   0  },
+        {13, -13, 0,   0,   0  },
+        {26, 0,   -26, 0,   0  },
+        {39, 13,  -13, -39, 0  },
+        {40, 20,  0,   -20, -40}
+    };
+
+    FIXED hand_x = int2fx(HELD_JOKERS_POS.x);
+
+    ListItr itr = list_itr_create(&_owned_jokers_list);
+    JokerObject* joker;
+    int jokers_top = list_get_len(&_owned_jokers_list) - 1;
+    int i = 0;
+    while ((joker = list_itr_next(&itr)))
+    {
+        joker->sprite_object->tx = hand_x - int2fx(spacing_lut[jokers_top][i++]);
+
+        joker_object_update(joker);
+    }
+}
+
+static inline void expired_jokers_update_loop(void)
+{
+    if (list_is_empty(&_expired_jokers_list))
+    {
+        return;
+    }
+
+    ListItr itr = list_itr_create(&_expired_jokers_list);
+    JokerObject* joker_object;
+
+    while ((joker_object = list_itr_next(&itr)))
+    {
+        joker_object_update(joker_object);
+
+        // let just enough frames pass that we see it rotating and shrinking
+        if (timer % FRAMES(EXPIRE_ANIMATION_FRAME_COUNT) == 0)
+        {
+            // get joker idx
+            int expired_joker_idx = 0;
+            ListItr joker_itr = list_itr_create(&_owned_jokers_list);
+            JokerObject* expired_joker;
+            while ((expired_joker = list_itr_next(&joker_itr)) && expired_joker != joker_object)
+            {
+                expired_joker_idx++;
+            }
+
+            // Removing expired Jokers here, instead of immediately like ones we
+            // sell or discard allow us to have a small shrink animation without
+            // the other owned Jokers rearranging themselves to fill the newly
+            // freed space, therefore obscuring the animation
+            remove_owned_joker(expired_joker_idx);
+            list_itr_remove_current_node(&itr);
+            joker_object_destroy(&joker_object);
+        }
+    }
+}
+
+static inline void jokers_update_loop(void)
+{
+    held_jokers_update_loop();
+    discarded_jokers_update_loop();
+    expired_jokers_update_loop();
+}
+
+void game_update()
+{
+    timer++;
+
+    jokers_update_loop();
+
+    state_info[game_state].on_update();
+}
+
+void game_change_state(enum GameState new_game_state)
+{
+    reset_timer(); // Reset the timer
+
+    if (game_state >= 0 && game_state < GAME_STATE_MAX)
+    {
+        state_info[game_state].substate = 0;
+        state_info[game_state].on_exit();
+    }
+
+    if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
+    {
+        state_info[new_game_state].on_init();
+
+        game_state = new_game_state;
+    }
+}
+
 static inline void set_seed(int seed)
 {
     rng_seed = seed;
@@ -1240,7 +1144,7 @@ static void game_playing_discard_on_pressed(void)
         return;
 
     hand_state = HAND_DISCARD;
-    --discards;
+    discards--;
     display_hands();
     set_hand();
     tte_printf(
@@ -1276,43 +1180,6 @@ static int game_playing_hand_row_get_size(void)
 int game_playing_button_row_get_size(void)
 {
     return NUM_ELEM_IN_ARR(game_playing_buttons);
-}
-
-int game_shop_get_rand_available_joker_id(void)
-{
-    // Roll for what rarity the joker will be
-    int joker_rarity = joker_get_random_rarity();
-
-    // Now determine how many jokers are available based on the rarity
-    int jokers_avail_size = get_num_shop_jokers_avail();
-
-    if (jokers_avail_size == 0)
-        return UNDEFINED;
-
-    int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = random() % jokers_avail_size;
-    int fallback_random_joker_id = UNDEFINED;
-    int match_count = 0;
-
-    BitsetItr itr = bitset_itr_create(&_avail_jokers_bitset);
-
-    int i = 0;
-    int joker_id = UNDEFINED;
-    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
-    {
-        if (i++ == fallback_random_idx)
-            fallback_random_joker_id = joker_id;
-        const JokerInfo* info = get_joker_registry_entry(joker_id);
-        if (info->rarity == joker_rarity)
-        {
-            matching_joker_ids[match_count++] = joker_id;
-        }
-    }
-
-    int selected_joker_id =
-        (match_count > 0) ? matching_joker_ids[random() % match_count] : fallback_random_joker_id;
-
-    return selected_joker_id;
 }
 
 void game_start(void)
