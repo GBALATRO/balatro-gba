@@ -3,6 +3,7 @@
 #include "blind.h"
 #include "button.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/rect.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
@@ -17,34 +18,6 @@
 #include <tonc.h>
 
 #define GAME_OVER_ANIM_FRAMES 15
-
-// Extern declarations from game.c
-extern int timer;
-extern List _owned_jokers_list;
-extern List _discarded_jokers_list;
-extern List _expired_jokers_list;
-extern int hands;
-extern int discards;
-extern int game_round;
-extern int score;
-extern void remove_owned_joker(int owned_joker_idx);
-extern void joker_object_destroy(JokerObject** joker_object);
-extern void tte_erase_screen(void);
-extern void tte_erase_rect_wrapper(Rect rect);
-extern void game_init(void);
-extern void display_round(int round);
-extern void display_score(int score_val);
-extern void display_chips(void);
-extern void display_mult(void);
-extern void display_hands(int hands_val);
-extern void display_discards(int discards_val);
-extern void display_money(void);
-extern void game_change_state(enum GameState new_game_state);
-extern Sprite* playing_blind_token;
-extern Sprite* round_end_blind_token;
-extern Sprite** blind_select_tokens;
-extern void main_bg_se_clear_rect(Rect rect);
-extern void affine_background_set_color(u16 color);
 
 static void game_over_init(void)
 {
@@ -84,6 +57,7 @@ static inline void game_over_process_user_input()
 
 void game_lose_on_update()
 {
+    uint timer = get_timer();
     if (timer < GAME_OVER_ANIM_FRAMES)
     {
         game_over_anim_frame();
@@ -103,6 +77,7 @@ void game_lose_on_update()
 
 void game_win_on_update()
 {
+    uint timer = get_timer();
     if (timer < GAME_OVER_ANIM_FRAMES)
     {
         game_over_anim_frame();
@@ -125,9 +100,10 @@ void game_win_on_update()
 // util we decide what we want to do after a game over.
 void game_over_on_exit()
 {
-    while (list_get_len(&_owned_jokers_list) > 0)
+    List* jokers_list = get_jokers_list();
+    while (list_get_len(jokers_list) > 0)
     {
-        JokerObject* joker_object = list_get_at_idx(&_owned_jokers_list, 0);
+        JokerObject* joker_object = list_get_at_idx(jokers_list, 0);
         remove_owned_joker(0);
         joker_object_destroy(&joker_object);
     }
@@ -137,23 +113,18 @@ void game_over_on_exit()
     // For some reason that I haven't figured out yet,
     // if I don't destroy the blind tokens they won't
     // show up on the next run.
-    sprite_destroy(&playing_blind_token);
-    sprite_destroy(&round_end_blind_token);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_SMALL]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BIG]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BOSS]);
+    destroy_playing_and_round_end_blind_tokens();
+    destroy_all_blind_select_tokens();
 
-    list_clear(&_owned_jokers_list);
-    list_clear(&_discarded_jokers_list);
-    list_clear(&_expired_jokers_list);
+    clear_joker_lists();
 
     game_init();
 
-    display_round(game_round);
-    display_score(score);
+    display_round(get_round());
+    display_score(get_score());
     display_chips();
     display_mult();
-    display_hands(hands);
-    display_discards(discards);
+    display_hands();
+    display_discards();
     display_money();
 }

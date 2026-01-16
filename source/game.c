@@ -49,7 +49,6 @@
 
 // TODO: Properly define and use
 #define MENU_POP_OUT_ANIM_FRAMES 20
-#define GAME_OVER_ANIM_FRAMES    15
 
 #define SHOP_LIGHTS_1_CLR 0xFFFF
 #define SHOP_LIGHTS_2_CLR 0x32BE
@@ -158,8 +157,6 @@ extern bool jokers_sel_row_on_selection_changed(
 );
 extern int jokers_sel_row_get_size(void);
 extern void game_shop_create_items(void);
-
-void remove_owned_joker(int owned_joker_idx);
 
 extern bool can_play_hand(void);
 static bool can_discard_hand(void);
@@ -626,6 +623,13 @@ List* get_expired_jokers_list(void)
     return &_expired_jokers_list;
 }
 
+void clear_joker_lists(void)
+{
+    list_clear(&_owned_jokers_list);
+    list_clear(&_discarded_jokers_list);
+    list_clear(&_expired_jokers_list);
+}
+
 // Game State Getters/Setters
 enum GameState* get_game_state_ptr(void)
 {
@@ -792,6 +796,23 @@ void destroy_playing_and_round_end_blind_tokens(void)
 {
     sprite_destroy(&playing_blind_token);
     sprite_destroy(&round_end_blind_token);
+}
+
+void destroy_blind_select_token(enum BlindType blind_type)
+{
+    if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
+    {
+        return;
+    }
+    sprite_destroy(&blind_select_tokens[blind_type]);
+}
+
+void destroy_all_blind_select_tokens(void)
+{
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    {
+        destroy_blind_select_token((enum BlindType)i);
+    }
 }
 
 void hide_blind_select_token(enum BlindType blind_type)
@@ -1198,7 +1219,8 @@ static void game_playing_discard_on_pressed(void)
         return;
 
     hand_state = HAND_DISCARD;
-    display_hands(--discards);
+    --discards;
+    display_hands();
     set_hand();
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%d",
@@ -1218,7 +1240,8 @@ static void game_playing_play_hand_on_pressed(void)
         return;
 
     hand_state = HAND_PLAY;
-    display_hands(--hands);
+    hands--;
+    display_hands();
 
     // Move back to hand selection
     selection_grid_move_selection_vert(&game_playing_selection_grid, -1);
@@ -1312,8 +1335,8 @@ void game_start(void)
     display_chips(); // Set the chips display
     display_mult();  // Set the multiplier display
 
-    display_hands(hands);       // Hand
-    display_discards(discards); // Discard
+    display_hands();    // Hand
+    display_discards(); // Discard
 
     display_money(); // Set the money display
 

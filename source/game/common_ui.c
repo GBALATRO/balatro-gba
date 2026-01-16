@@ -221,7 +221,7 @@ void display_score(u32 value)
     );
 }
 
-void display_hands(int value)
+void display_hands()
 {
     // tte_erase_rect_wrapper(HANDS_TEXT_RECT);
     tte_printf(
@@ -232,7 +232,7 @@ void display_hands(int value)
     ); // Hand
 }
 
-void display_discards(int value)
+void display_discards()
 {
     // tte_erase_rect_wrapper(DISCARDS_TEXT_RECT);
     // Discard

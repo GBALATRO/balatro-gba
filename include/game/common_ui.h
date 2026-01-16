@@ -34,8 +34,8 @@ void display_mult(void);
 void display_ante(int value);
 void display_temp_score(u32 value);
 void display_score(u32 value);
-void display_hands(int value);
-void display_discards(int value);
+void display_hands();
+void display_discards();
 
 Rect get_text_rect_under_sprite_object(SpriteObject* sprite_object);
 void reset_top_left_panel_bottom_row();

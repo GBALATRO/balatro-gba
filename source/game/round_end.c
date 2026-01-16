@@ -392,17 +392,16 @@ static void game_round_end_display_rewards()
 static void game_round_end_cashout(void)
 {
     int hands = get_hands();
-    int discards = get_discards();
     int current_blind = get_current_blind();
 
     // Reward the player
     increase_money(hands + blind_get_reward(current_blind) + calculate_interest_reward());
     display_money();
 
-    reset_hands();              // Reset the hands to the maximum
-    reset_discards();           // Reset the discards to the maximum
-    display_hands(hands);       // Set the hands display
-    display_discards(discards); // Set the discards display
+    reset_hands();      // Reset the hands to the maximum
+    reset_discards();   // Reset the discards to the maximum
+    display_hands();    // Set the hands display
+    display_discards(); // Set the discards display
 
     reset_score();              // Reset the score to 0
     display_score(get_score()); // Set the score display

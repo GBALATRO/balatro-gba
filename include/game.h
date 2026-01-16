@@ -125,6 +125,8 @@ List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
 bool is_shortcut_joker_active(void);
 int get_straight_and_flush_size(void);
+void clear_joker_lists(void);
+void remove_owned_joker(int owned_joker_idx);
 
 // ============================================================================
 // Deck Getters
@@ -197,6 +199,8 @@ Sprite* get_blind_select_token(enum BlindType blind_type);
 Sprite* get_playing_blind_token(void);
 Sprite* get_round_end_blind_token(void);
 void destroy_playing_and_round_end_blind_tokens(void);
+void destroy_blind_select_token(enum BlindType blind_type);
+void destroy_all_blind_select_tokens(void);
 void hide_blind_select_token(enum BlindType blind_type);
 void hide_all_blind_select_tokens(void);
 void unhide_blind_select_token(enum BlindType blind_type);
