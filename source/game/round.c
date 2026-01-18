@@ -99,13 +99,28 @@ enum PlayState play_state = PLAY_STARTING;
 
 enum HandType hand_type = NONE;
 
-// Global variables from game.c
-extern int shortcut_joker_count;
-extern int four_fingers_joker_count;
-extern List _owned_jokers_list;
-extern ListItr _joker_scored_itr;
-extern ListItr _joker_card_scored_end_itr;
-extern ListItr _joker_round_end_itr;
+static bool sort_by_suit = false;
+
+// Keeping track of what Jokers are scored at each step
+ListItr _joker_scored_itr;
+ListItr _joker_card_scored_end_itr;
+ListItr _joker_round_end_itr;
+
+// card moving logic
+
+// true if and only if we are currently moving a card around
+static bool moving_card = false;
+
+// This will prevent us from moving cards around if we selected one
+// by moving too fast after pressing the A button
+static bool card_moved_too_fast = false;
+static bool card_selected_instead_of_moved = false;
+
+// After pressing A, if we press Left/Right too fast, we should select the card
+// and change focus to the next one, instead of swapping them
+// This should fix inputs sometimes not registering when quickly selecting cards
+static const int card_swap_time_threshold = 6;
+static uint selection_hit_timer = TM_ZERO;
 
 // Forward declarations for static functions defined later in this file
 static void set_hand(void);
@@ -438,8 +453,6 @@ static void set_hand(void)
     display_mult();
 }
 
-static bool sort_by_suit = false;
-
 static void reorder_card_sprites_layers(void)
 {
     // Update the sprites in the hand by destroying them and creating new ones in the correct order
@@ -559,22 +572,6 @@ void game_round_on_init()
      */
     game_playing_selection_grid.selection = GAME_PLAYING_INIT_SEL;
 }
-
-// card moving logic
-
-// true if and only if we are currently moving a card around
-static bool moving_card = false;
-
-// This will prevent us from moving cards around if we selected one
-// by moving too fast after pressing the A button
-static bool card_moved_too_fast = false;
-static bool card_selected_instead_of_moved = false;
-
-// After pressing A, if we press Left/Right too fast, we should select the card
-// and change focus to the next one, instead of swapping them
-// This should fix inputs sometimes not registering when quickly selecting cards
-static const int card_swap_time_threshold = 6;
-static uint selection_hit_timer = TM_ZERO;
 
 static bool game_playing_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -758,6 +755,11 @@ static bool can_discard_hand(void)
 {
     int discards = get_discards();
     return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
+}
+
+void reset_joker_scored_itr(void)
+{
+    _joker_scored_itr = list_itr_create(get_jokers_list());
 }
 
 /**
@@ -1244,7 +1246,7 @@ static bool play_ended_played_cards_update(int played_idx)
                 hand_selections = 0;
                 reset_played_top();
                 scored_card_index = 0;
-                _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+                _joker_scored_itr = list_itr_create(get_jokers_list());
                 reset_timer();
             }
 
@@ -1273,7 +1275,7 @@ static inline void play_starting_played_cards_update(int played_idx)
 
         if (scored_card_index == 0)
         {
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
             reset_timer();
             play_state = PLAY_BEFORE_SCORING;
         }
@@ -1325,7 +1327,7 @@ static inline bool play_scoring_cards_update(void)
         if (scored_card_index > played_top)
         {
             // reuse these variables for held cards
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
             scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
@@ -1360,8 +1362,8 @@ static inline bool play_scoring_cards_update(void)
             display_chips();
 
             // Allow Joker scoring
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            _joker_card_scored_end_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
+            _joker_card_scored_end_itr = list_itr_create(get_jokers_list());
         }
 
         play_state = PLAY_SCORING_CARD_JOKERS;
@@ -1441,11 +1443,11 @@ static inline bool play_scoring_held_cards_update(int played_idx)
                 card_object_shake(card_object, SFX_CARD_SELECT);
                 return true;
             }
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
         }
 
         scored_card_index = 0;
-        _joker_round_end_itr = list_itr_create(&_owned_jokers_list);
+        _joker_round_end_itr = list_itr_create(get_jokers_list());
         play_state = PLAY_SCORING_INDEPENDENT_JOKERS;
     }
 

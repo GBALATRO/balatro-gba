@@ -107,11 +107,6 @@ u32 chips = 0;
 u32 mult = 0;
 bool retrigger = false;
 
-// Keeping track of what Jokers are scored at each step
-ListItr _joker_scored_itr;
-ListItr _joker_card_scored_end_itr;
-ListItr _joker_round_end_itr;
-
 int selection_x = 0;
 int selection_y = 0;
 
@@ -880,7 +875,7 @@ void game_init()
     _expired_jokers_list = list_create();
     _shop_jokers_list = list_create();
     // TODO: Move this to an initialization of the play scoring states
-    _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+    reset_joker_scored_itr();
 
     reset_shop_jokers();
 

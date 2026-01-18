@@ -15,5 +15,6 @@ void game_playing_change_background(enum BackgroundId current_background);
 void game_selecting_change_background(enum BackgroundId current_background);
 
 int get_scored_card_index(void);
+void reset_joker_scored_itr(void);
 
 #endif
