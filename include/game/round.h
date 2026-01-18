@@ -6,6 +6,14 @@
 
 #include <tonc.h>
 
+typedef struct
+{
+    uint timer;
+    int substate;
+    int money;
+    List* owned_jokers_list;
+} RoundProps;
+
 // Main round state functions
 void game_round_on_init(void* ctx);
 void game_playing_on_update(void* ctx);

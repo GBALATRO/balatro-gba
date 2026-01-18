@@ -52,8 +52,12 @@ static inline int blind_select_rect_width(const Rect* rect)
 static int selection_x;
 static int selection_y;
 
-void game_blind_select_on_init(void* _)
+void game_blind_select_on_init(void* ctx)
 {
+    BlindSelectProps* props = (BlindSelectProps*)ctx;
+    props->timer = TM_ZERO;
+    props->substate = START_ANIM_SEQ;
+
     change_background(BG_BLIND_SELECT);
     selection_x = 0;
     selection_y = 0;
@@ -230,28 +234,6 @@ void game_blind_select_on_update(void* ctx)
     blind_select_state_actions[substate](props);
 }
 
-static inline void blind_select_erase_blind_reqs_and_rewards()
-{
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
-    {
-        Rect blind_req_and_reward_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
-
-        // To account for both raised blind and reward
-        blind_req_and_reward_rect.top -= TILE_SIZE;
-        blind_req_and_reward_rect.bottom += TILE_SIZE;
-
-        // To account for overflow
-        blind_req_and_reward_rect.right += TILE_SIZE;
-
-        blind_req_and_reward_rect.left +=
-            curr_blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
-        blind_req_and_reward_rect.right +=
-            curr_blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
-
-        tte_erase_rect_wrapper(blind_req_and_reward_rect);
-    }
-}
-
 static Rect blind_select_get_req_score_rect(BlindSelectProps* props, enum BlindType blind)
 {
     Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
@@ -267,6 +249,22 @@ static Rect blind_select_get_req_score_rect(BlindSelectProps* props, enum BlindT
     }
 
     return blind_req_score_rect;
+}
+
+static inline void blind_select_erase_blind_reqs_and_rewards(BlindSelectProps* props)
+{
+    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    {
+        Rect blind_req_and_reward_rect = blind_select_get_req_score_rect(props, curr_blind);
+
+        // To account for reward below requirement
+        blind_req_and_reward_rect.bottom += TILE_SIZE;
+
+        // To account for overflow
+        blind_req_and_reward_rect.right += TILE_SIZE;
+
+        tte_erase_rect_wrapper(blind_req_and_reward_rect);
+    }
 }
 
 static inline void blind_select_print_blind_req(BlindSelectProps* props, enum BlindType blind)
@@ -336,7 +334,7 @@ static void blind_select_start_anim_seq(BlindSelectProps* props)
         move_blind_select_token((enum BlindType)i, sprite_pos_x, sprite_pos_y - TILE_SIZE);
     }
 
-    if (props->timer == TM_END_ANIM_SEQ)
+    if (props->timer >= TM_END_ANIM_SEQ)
     {
         blind_select_print_blinds_reqs_and_rewards(props);
         props->substate = BLIND_SELECT;
@@ -362,7 +360,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
     }
     else if (key_hit(SELECT_CARD))
     {
-        blind_select_erase_blind_reqs_and_rewards();
+        blind_select_erase_blind_reqs_and_rewards(props);
 
         if (selection_y == 0) // Blind selected
         {

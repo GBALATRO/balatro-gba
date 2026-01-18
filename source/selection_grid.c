@@ -1,12 +1,12 @@
 #include "selection_grid.h"
 
-static void selection_grid_process_directional_input(SelectionGrid* selection_grid)
+static void selection_grid_process_directional_input(SelectionGrid* selection_grid, void* ctx)
 {
     int horz_tri_input = bit_tribool(key_hit(KEY_ANY), KI_RIGHT, KI_LEFT);
 
     if (horz_tri_input != 0)
     {
-        selection_grid_move_selection_horz(selection_grid, horz_tri_input);
+        selection_grid_move_selection_horz(selection_grid, horz_tri_input, ctx);
         /* Avoid handling both vertical and horizontal input at the same time,
          * it creates all sorts of difficult edge cases.
          */
@@ -17,11 +17,15 @@ static void selection_grid_process_directional_input(SelectionGrid* selection_gr
 
     if (vert_tri_input != 0)
     {
-        selection_grid_move_selection_vert(selection_grid, vert_tri_input);
+        selection_grid_move_selection_vert(selection_grid, vert_tri_input, ctx);
     }
 }
 
-void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direction_tribool)
+void selection_grid_move_selection_horz(
+    SelectionGrid* selection_grid,
+    int direction_tribool,
+    void* ctx
+)
 {
     if (selection_grid == NULL || selection_grid->selection.y < 0 ||
         selection_grid->selection.y >= selection_grid->num_rows)
@@ -31,7 +35,7 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
 
     Selection new_selection = selection_grid->selection;
     new_selection.x += direction_tribool;
-    int row_size = selection_grid->rows[new_selection.y].get_size();
+    int row_size = selection_grid->rows[new_selection.y].get_size(ctx);
     bool wrap_enabled = selection_grid->rows[new_selection.y].attributes.wrap;
 
     if (wrap_enabled)
@@ -45,7 +49,8 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
             selection_grid,
             new_selection.y,
             &selection_grid->selection,
-            &new_selection
+            &new_selection,
+            ctx
         );
 
         if (proceed_selection)
@@ -55,7 +60,11 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
     }
 }
 
-void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direction_tribool)
+void selection_grid_move_selection_vert(
+    SelectionGrid* selection_grid,
+    int direction_tribool,
+    void* ctx
+)
 {
     if (selection_grid == NULL)
         return;
@@ -66,12 +75,11 @@ void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direc
 
     if (new_selection.y >= 0 && new_selection.y < selection_grid->num_rows)
     {
-        int new_row_size = selection_grid->rows[new_selection.y].get_size();
+        int new_row_size = selection_grid->rows[new_selection.y].get_size(ctx);
         if (new_row_size <= 0)
             return;
 
-        int old_row_size = selection_grid->rows[selection.y].get_size();
-
+        int old_row_size = selection_grid->rows[selection.y].get_size(ctx);
         // Branchless set to 1 if 0 to avoid division by 0
         old_row_size += (old_row_size == 0);
 
@@ -83,9 +91,13 @@ void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direc
 
         if (selection.y >= 0 && selection.y < selection_grid->num_rows)
         {
-            proceed_selection =
-                selection_grid->rows[selection.y]
-                    .on_selection_changed(selection_grid, selection.y, &selection, &new_selection);
+            proceed_selection = selection_grid->rows[selection.y].on_selection_changed(
+                selection_grid,
+                selection.y,
+                &selection,
+                &new_selection,
+                ctx
+            );
         }
 
         if (proceed_selection)
@@ -94,7 +106,8 @@ void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direc
                 selection_grid,
                 new_selection.y,
                 &selection,
-                &new_selection
+                &new_selection,
+                ctx
             );
         }
 
@@ -105,18 +118,18 @@ void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direc
     }
 }
 
-void selection_grid_process_input(SelectionGrid* selection_grid)
+void selection_grid_process_input(SelectionGrid* selection_grid, void* ctx)
 {
     if (selection_grid == NULL || selection_grid->rows == NULL)
         return;
 
-    selection_grid_process_directional_input(selection_grid);
+    selection_grid_process_directional_input(selection_grid, ctx);
 
     u32 non_directional_key = KEY_ANY & ~KEY_DIR;
     if (key_transit(non_directional_key))
     {
         // To make the next line shorter and more readable
         Selection* selection = &selection_grid->selection;
-        selection_grid->rows[selection->y].on_key_transit(selection_grid, selection);
+        selection_grid->rows[selection->y].on_key_transit(selection_grid, selection, ctx);
     }
 }

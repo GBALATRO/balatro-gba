@@ -389,6 +389,7 @@ static void game_round_end_cashout(RoundEndProps* props)
     // Reward the player
     props->money += props->hands + blind_get_reward(props->current_blind) +
                     calculate_interest_reward(props->money);
+    update_game_state_ctx(GAME_STATE_ROUND_END); // Sync the global state with the updated context
     display_money();
 
     props->hands = props->max_hands;       // Reset the hands to the maximum

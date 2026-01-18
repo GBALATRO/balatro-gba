@@ -958,8 +958,14 @@ void set_game_state_ctx(enum GameState game_state)
             case GAME_STATE_BLIND_SELECT:
                 ctx = malloc(sizeof(BlindSelectProps));
                 break;
+            case GAME_STATE_PLAYING:
+                ctx = malloc(sizeof(RoundProps));
+                break;
             case GAME_STATE_ROUND_END:
                 ctx = malloc(sizeof(RoundEndProps));
+                break;
+            case GAME_STATE_SHOP:
+                ctx = malloc(sizeof(ShopProps));
                 break;
             case GAME_STATE_LOSE:
             case GAME_STATE_WIN:
@@ -991,6 +997,15 @@ void set_game_state_ctx(enum GameState game_state)
             props->ante = ante;
             break;
         }
+        case GAME_STATE_PLAYING:
+        {
+            RoundProps* props = (RoundProps*)ctx;
+            props->timer = timer;
+            props->substate = state_info[game_state].substate;
+            props->money = money;
+            props->owned_jokers_list = &_owned_jokers_list;
+            break;
+        }
         case GAME_STATE_ROUND_END:
         {
             RoundEndProps* props = (RoundEndProps*)ctx;
@@ -1004,6 +1019,19 @@ void set_game_state_ctx(enum GameState game_state)
             props->ante = ante;
             props->current_blind = current_blind;
             props->score = score;
+            break;
+        }
+        case GAME_STATE_SHOP:
+        {
+            ShopProps* props = (ShopProps*)ctx;
+            props->timer = timer;
+            props->substate = state_info[game_state].substate;
+            props->money = money;
+            for (int i = 0; i < BLIND_TYPE_MAX; i++)
+                props->blinds_states[i] = blinds_states[i];
+            props->current_blind = current_blind;
+            props->owned_jokers_list = &_owned_jokers_list;
+            props->discarded_jokers_list = &_discarded_jokers_list;
             break;
         }
         case GAME_STATE_LOSE:
@@ -1047,6 +1075,15 @@ void update_game_state_ctx(enum GameState game_state)
             ante = props->ante;
             break;
         }
+        case GAME_STATE_PLAYING:
+        {
+            RoundProps* props = (RoundProps*)ctx;
+            timer = props->timer;
+            state_info[game_state].substate = props->substate;
+            money = props->money;
+            // Joker lists are not updated here since they are pointers to the global lists
+            break;
+        }
         case GAME_STATE_ROUND_END:
         {
             RoundEndProps* props = (RoundEndProps*)ctx;
@@ -1062,6 +1099,18 @@ void update_game_state_ctx(enum GameState game_state)
             score = props->score;
             break;
         }
+        case GAME_STATE_SHOP:
+        {
+            ShopProps* props = (ShopProps*)ctx;
+            timer = props->timer;
+            state_info[game_state].substate = props->substate;
+            money = props->money;
+            for (int i = 0; i < BLIND_TYPE_MAX; i++)
+                blinds_states[i] = props->blinds_states[i];
+            current_blind = props->current_blind;
+            // Joker lists are not updated here since they are pointers to the global lists
+            break;
+        }
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
@@ -1069,7 +1118,7 @@ void update_game_state_ctx(enum GameState game_state)
             timer = props->timer;
             game_round = props->game_round;
             score = props->score;
-            // Owned jokers list is not updated here since it is a pointer to the global list
+            // Joker lists are not updated here since they are pointers to the global lists
             break;
         }
         default:
@@ -1090,21 +1139,29 @@ void game_update()
 
 void game_change_state(enum GameState new_game_state)
 {
-    ctx = NULL;      // Reset context pointer
     timer = TM_ZERO; // Reset the timer
 
     if (game_state >= 0 && game_state < GAME_STATE_MAX)
     {
         state_info[game_state].substate = 0;
         state_info[game_state].on_exit(state_info[game_state].ctx);
+        ctx = NULL; // Reset context pointer
     }
 
     if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
     {
+        // Sync global state to the new state's context before on_init
+        // so that on_init can read any updates made in the previous state's on_exit
+        set_game_state_ctx(new_game_state);
         state_info[new_game_state].on_init(state_info[new_game_state].ctx);
 
         game_state = new_game_state;
     }
+}
+
+enum GameState get_game_state(void)
+{
+    return game_state;
 }
 
 static inline void set_seed(int seed)
@@ -1118,7 +1175,7 @@ void game_start(void)
     game_main_menu_cleanup();
 
     set_seed(rng_seed);
-    // set_seed(9); // 9 is a full house
+    set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
 

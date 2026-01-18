@@ -169,26 +169,33 @@ Button game_playing_buttons[] = {
     {DISCARD_BTN_BORDER_PID,   DISCARD_BTN_PID,   game_playing_discard_on_pressed,   can_discard_hand},
 };
 
-static int game_playing_hand_row_get_size(void);
+static int game_playing_hand_row_get_size(void*);
 static bool game_playing_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
 static void game_playing_hand_row_on_key_transit(
     SelectionGrid* selection_grid,
-    Selection* selection
+    Selection* selection,
+    void* ctx
 );
 
-static int game_playing_button_row_get_size(void);
+static int game_playing_button_row_get_size(void*);
 static bool game_playing_button_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
-static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection);
+static void game_playing_button_row_on_key_hit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+);
 
 // clang-format off
 SelectionGridRow game_playing_selection_rows[] = {
@@ -224,7 +231,7 @@ SelectionGrid game_playing_selection_grid = {
     GAME_PLAYING_INIT_SEL
 };
 
-static int game_playing_hand_row_get_size(void)
+static int game_playing_hand_row_get_size(void* _)
 {
     return hand_get_size();
 }
@@ -239,7 +246,7 @@ static void game_playing_play_hand_on_pressed(void)
     display_hands();
 
     // Move back to hand selection
-    selection_grid_move_selection_vert(&game_playing_selection_grid, -1);
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, NULL);
 }
 
 // Playing state functions
@@ -261,10 +268,10 @@ static void game_playing_discard_on_pressed(void)
     );
 
     // Move back to hand selection
-    selection_grid_move_selection_vert(&game_playing_selection_grid, -1);
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, NULL);
 }
 
-static int game_playing_button_row_get_size(void)
+static int game_playing_button_row_get_size(void* _)
 {
     return NUM_ELEM_IN_ARR(game_playing_buttons);
 }
@@ -609,7 +616,8 @@ static bool game_playing_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 )
 {
     int prev_card_idx = UNDEFINED;
@@ -683,7 +691,8 @@ static bool game_playing_hand_row_on_selection_changed(
 
 static void game_playing_hand_row_on_key_transit(
     SelectionGrid* selection_grid,
-    Selection* selection
+    Selection* selection,
+    void* ctx
 )
 {
     if (key_hit(SELECT_CARD))
@@ -721,7 +730,8 @@ static bool game_playing_button_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 )
 {
     // The selection grid system only guarantees that the new selection is within bounds
@@ -729,7 +739,7 @@ static bool game_playing_button_row_on_selection_changed(
     // As of writing (PR #348), this check is not strictly needed for this row but it is
     // left in, in case that ever changes. It can be reconsidered and removed.
     if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
-        prev_selection->x < game_playing_button_row_get_size())
+        prev_selection->x < game_playing_button_row_get_size(NULL))
     {
         game_playing_button_set_highlight(prev_selection->x, false);
     }
@@ -742,7 +752,11 @@ static bool game_playing_button_row_on_selection_changed(
     return true;
 }
 
-static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection)
+static void game_playing_button_row_on_key_hit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+)
 {
     if (key_hit(SELECT_CARD))
     {
@@ -829,9 +843,16 @@ static void hand_select_card(int index)
     set_hand();
 }
 
-static inline void game_playing_process_hand_select_input(void)
+static inline void game_playing_process_hand_select_input(RoundProps* props)
 {
-    selection_grid_process_input(&game_playing_selection_grid);
+    JokerSellProps joker_sell_props = {
+        .owned_jokers_list = props->owned_jokers_list,
+        .money = &props->money,
+        .substate = &props->substate,
+        .timer = &props->timer
+    };
+    void* ctx = (void*)&joker_sell_props;
+    selection_grid_process_input(&game_playing_selection_grid, ctx);
 }
 
 static inline void card_draw(void)
@@ -1677,11 +1698,11 @@ static inline int hand_get_max_size(void)
     return hand_size;
 }
 
-static inline void game_playing_process_input_and_state(void)
+static inline void game_playing_process_input_and_state(RoundProps* props)
 {
     if (hand_state == HAND_SELECT)
     {
-        game_playing_process_hand_select_input();
+        game_playing_process_hand_select_input(props);
     }
     else if (play_state == PLAY_ENDING)
     {
@@ -2134,7 +2155,7 @@ void game_selecting_change_background(enum BackgroundId current_background)
             1
         );
 
-        for (int i = 0; i < game_playing_button_row_get_size(); i++)
+        for (int i = 0; i < game_playing_button_row_get_size(NULL); i++)
         {
             button_set_highlight(&game_playing_buttons[i], false);
         }
@@ -2153,7 +2174,9 @@ void game_playing_on_update(void* ctx)
         change_background(BG_CARD_PLAYING);
     }
 
-    game_playing_process_input_and_state();
+    RoundProps* props = (RoundProps*)ctx;
+
+    game_playing_process_input_and_state(props);
 
     // Card logic
 

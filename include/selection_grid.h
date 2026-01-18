@@ -44,7 +44,8 @@ typedef bool (*RowOnSelectionChangedFunc)(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
 
 /**
@@ -55,7 +56,7 @@ typedef bool (*RowOnSelectionChangedFunc)(
  *
  * @return int The number of elements in the row.
  */
-typedef int (*RowGetSizeFunc)();
+typedef int (*RowGetSizeFunc)(void* ctx);
 
 /**
  * @brief Callback function type for handling non-directional key presses in a selection grid row.
@@ -70,7 +71,7 @@ typedef int (*RowGetSizeFunc)();
  * @param selection_grid Pointer to the SelectionGrid that contains the row receiving the key event
  * @param selection Pointer to the Selection (row) that is handling the key transition.
  */
-typedef void (*RowOnKeyTransitFunc)(SelectionGrid* selection_grid, Selection* selection);
+typedef void (*RowOnKeyTransitFunc)(SelectionGrid* selection_grid, Selection* selection, void* ctx);
 
 /**
  * @brief A set of attributes to the selection grid row affecting selection grid behavior.
@@ -121,7 +122,7 @@ struct SelectionGrid
  * @param selection_grid Pointer to the SelectionGrid structure to process input for.
  *                       Must not be NULL. NULL-checks are in place and will return early.
  */
-void selection_grid_process_input(SelectionGrid* selection_grid);
+void selection_grid_process_input(SelectionGrid* selection_grid, void* ctx);
 
 /**
  * @brief Moves the selection horizontally within the selection grid.
@@ -138,7 +139,11 @@ void selection_grid_process_input(SelectionGrid* selection_grid);
  *                          - Zero: no movement
  *                          - Positive value: move right
  */
-void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direction_tribool);
+void selection_grid_move_selection_horz(
+    SelectionGrid* selection_grid,
+    int direction_tribool,
+    void* ctx
+);
 
 /**
  * @brief Moves the selection vertically within the selection grid.
@@ -154,6 +159,10 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
  *                          - Zero: no movement
  *                          - Positive value: move down
  */
-void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direction_tribool);
+void selection_grid_move_selection_vert(
+    SelectionGrid* selection_grid,
+    int direction_tribool,
+    void* ctx
+);
 
 #endif

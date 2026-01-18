@@ -11,6 +11,7 @@
 #include "game/palette.h"
 #include "game/point.h"
 #include "game/rect.h"
+#include "game/round.h"
 #include "game/timer.h"
 #include "graphic_utils.h"
 #include "joker.h"
@@ -51,30 +52,41 @@ enum GameShopStates
 static int reroll_cost = REROLL_BASE_COST;
 static List _shop_jokers_list;
 
-int jokers_sel_row_get_size(void);
+int jokers_sel_row_get_size(void* ctx);
 bool jokers_sel_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
-void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-static int shop_top_row_get_size(void);
+void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection, void* ctx);
+static int shop_top_row_get_size(void* ctx);
 static bool shop_top_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
-static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-static int shop_reroll_row_get_size(void);
+static void shop_top_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+);
+static int shop_reroll_row_get_size(void* ctx);
 static bool shop_reroll_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 );
-static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+static void shop_reroll_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+);
 static SelectionGridRow shop_selection_rows[] = {
     {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit,  {.wrap = false}},
     {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit,    {.wrap = false}},
@@ -89,10 +101,10 @@ SelectionGrid shop_selection_grid = {
     SHOP_INIT_SEL
 };
 
-void game_shop_intro(void);
-static void game_shop_process_user_input(void);
-static void game_shop_outro(void);
-typedef void (*SubStateActionFn)(void);
+void game_shop_intro(ShopProps* props);
+static void game_shop_process_user_input(ShopProps* props);
+static void game_shop_outro(ShopProps* props);
+typedef void (*SubStateActionFn)(ShopProps*);
 static const SubStateActionFn shop_state_actions[] = {
     game_shop_intro,
     game_shop_process_user_input,
@@ -195,9 +207,8 @@ static void print_price_under_sprite_object(SpriteObject* sprite_object, int pri
     tte_printf("#{P:%d,%d; cx:0x%X000}$%d", price_rect.left, price_rect.top, TTE_YELLOW_PB, price);
 }
 
-static void add_joker(JokerObject* joker_object)
+static void add_joker(JokerObject* joker_object, List* owned_jokers_list)
 {
-    List* owned_jokers_list = get_jokers_list();
     list_push_back(owned_jokers_list, joker_object);
 
     // TODO: Extract to on_joker_added() callback
@@ -271,12 +282,11 @@ void game_shop_create_items(void)
 }
 
 // Intro sequence (menu and shop icon coming into frame)
-void game_shop_intro()
+void game_shop_intro(ShopProps* props)
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
-    uint timer = get_timer();
-
+    uint timer = props->timer;
     if (timer == TM_CREATE_SHOP_ITEMS_WAIT)
     {
         game_shop_create_items();
@@ -301,31 +311,33 @@ void game_shop_intro()
 
     if (timer == TM_END_GAME_SHOP_INTRO)
     {
-        set_substate(GAME_SHOP_ACTIVE);
-        reset_timer();
+        props->substate = GAME_SHOP_ACTIVE;
+        props->timer = TM_ZERO;
     }
 }
 
-int jokers_sel_row_get_size(void)
+int jokers_sel_row_get_size(void* ctx)
 {
-    List* owned_jokers_list = get_jokers_list();
-    return list_get_len(owned_jokers_list);
+    JokerSellProps* props = (JokerSellProps*)ctx;
+    return list_get_len(props->owned_jokers_list);
 }
 
 bool jokers_sel_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 )
 {
     // swap Jokers if the A button is held down and all Jokers are on the same row
+    JokerSellProps* props = (JokerSellProps*)ctx;
+    List* owned_jokers_list = props->owned_jokers_list;
     bool swapping =
         key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
 
     if (prev_selection->y == row_idx)
     {
-        List* owned_jokers_list = get_jokers_list();
         JokerObject* joker_object =
             (JokerObject*)list_get_at_idx(owned_jokers_list, prev_selection->x);
         // Don't change focus from current Joker if swapping
@@ -338,7 +350,6 @@ bool jokers_sel_row_on_selection_changed(
 
     if (new_selection->y == row_idx)
     {
-        List* owned_jokers_list = get_jokers_list();
         JokerObject* joker_object =
             (JokerObject*)list_get_at_idx(owned_jokers_list, new_selection->x);
         if (joker_object != NULL)
@@ -362,7 +373,6 @@ bool jokers_sel_row_on_selection_changed(
 
     if (swapping)
     {
-        List* owned_jokers_list = get_jokers_list();
         list_swap(
             owned_jokers_list,
             (unsigned int)prev_selection->x,
@@ -382,14 +392,13 @@ static inline void joker_start_discard_animation(JokerObject* joker_object)
     list_push_back(discarded_jokers_list, joker_object);
 }
 
-static inline void game_sell_joker(int joker_idx)
+static inline void game_sell_joker(int joker_idx, int* money, List* owned_jokers_list)
 {
-    List* owned_jokers_list = get_jokers_list();
     if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
         return;
 
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
-    increase_money(joker_get_sell_value(joker_object->joker));
+    *money += joker_get_sell_value(joker_object->joker);
     display_money();
     erase_price_under_sprite_object(joker_object->sprite_object);
 
@@ -398,9 +407,12 @@ static inline void game_sell_joker(int joker_idx)
     joker_start_discard_animation(joker_object);
 }
 
-void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection, void* ctx)
 {
-    List* owned_jokers_list = get_jokers_list();
+    JokerSellProps* props = (JokerSellProps*)ctx;
+    List* owned_jokers_list = props->owned_jokers_list;
+    int* money = props->money;
+
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, selection->x);
     if (joker_object != NULL)
     {
@@ -423,40 +435,49 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
 
         // Move the selection away from the jokers so it doesn't point to an invalid place
         // Do this before selling the joker so valid row sizes are used
-        selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN);
+        selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN, ctx);
 
-        game_sell_joker(sold_joker_idx);
+        game_sell_joker(sold_joker_idx, money, owned_jokers_list);
     }
 }
 
 // Shop input
-static int shop_top_row_get_size(void)
+static int shop_top_row_get_size(void* _)
 {
     // + 1 to account for next round button
     return list_get_len(&_shop_jokers_list) + 1;
 }
 
-static inline void add_to_held_jokers(JokerObject* joker_object)
+static inline void add_to_held_jokers(JokerObject* joker_object, List* owned_jokers_list)
 {
     joker_object->sprite_object->ty = int2fx(HELD_JOKERS_POS.y);
-    add_joker(joker_object);
+    add_joker(joker_object, owned_jokers_list);
 }
 
-static inline void game_shop_buy_joker(int shop_joker_idx)
+static inline void game_shop_buy_joker(int shop_joker_idx, int* money, List* owned_jokers_list)
 {
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, shop_joker_idx);
 
-    decrease_money(joker_object->joker->value); // Deduct the money spent on the joker
-    display_money();                            // Update the money display
+    *money -= joker_object->joker->value;   // Deduct the money spent on the joker
+    update_game_state_ctx(GAME_STATE_SHOP); // Sync the global state with the updated context
+    display_money();                        // Update the money display
     erase_price_under_sprite_object(joker_object->sprite_object);
     sprite_object_set_focus(joker_object->sprite_object, false);
-    add_to_held_jokers(joker_object);
+    add_to_held_jokers(joker_object, owned_jokers_list);
     list_remove_at_idx(&_shop_jokers_list, shop_joker_idx); // Remove the joker from the shop
 }
 
-static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+static void shop_top_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+)
 {
     if (!key_hit(SELECT_CARD))
+        return;
+
+    JokerSellProps* props = (JokerSellProps*)ctx;
+    if (!props)
         return;
 
     if (selection->x == NEXT_ROUND_BTN_SEL_X)
@@ -464,8 +485,9 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
         play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
 
         // Go to next blind selection game state
-        set_substate(GAME_SHOP_EXIT);
-        reset_timer();
+        *props->substate = GAME_SHOP_EXIT;
+        *props->timer = TM_ZERO;
+
         reroll_cost = REROLL_BASE_COST;
 
         memcpy16(
@@ -484,18 +506,18 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
         int shop_joker_idx = selection->x - 1; // - 1 to account for next round button
         JokerObject* joker_object =
             (JokerObject*)list_get_at_idx(&_shop_jokers_list, shop_joker_idx);
-        List* owned_jokers_list = get_jokers_list();
-        if (joker_object == NULL || list_get_len(owned_jokers_list) >= MAX_JOKERS_HELD_SIZE ||
-            get_money() < joker_object->joker->value)
+        if (joker_object == NULL ||
+            list_get_len(props->owned_jokers_list) >= MAX_JOKERS_HELD_SIZE ||
+            *props->money < joker_object->joker->value)
         {
             return;
         }
 
-        game_shop_buy_joker(shop_joker_idx);
+        game_shop_buy_joker(shop_joker_idx, props->money, props->owned_jokers_list);
 
         // In Balatro the selection actually stays on the purchased joker it's easier to just move
         // it left
-        selection_grid_move_selection_horz(selection_grid, -1);
+        selection_grid_move_selection_horz(selection_grid, -1, ctx);
     }
 }
 
@@ -503,14 +525,15 @@ static bool shop_top_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 )
 {
     // The selection grid system only guarantees that the new selection is within bounds
     // but not the previous one...
     // This allows using INIT_SEL = {-1, 1} and move to set the initial selection in a hacky way...
     if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
-        prev_selection->x < shop_top_row_get_size())
+        prev_selection->x < shop_top_row_get_size(ctx))
     {
         if (prev_selection->x == NEXT_ROUND_BTN_SEL_X)
         {
@@ -547,7 +570,7 @@ static bool shop_top_row_on_selection_changed(
     return true;
 }
 
-static int shop_reroll_row_get_size()
+static int shop_reroll_row_get_size(void* _)
 {
     return 1; // Only the reroll button
 }
@@ -556,7 +579,8 @@ static bool shop_reroll_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
-    const Selection* new_selection
+    const Selection* new_selection,
+    void* ctx
 )
 {
     if (row_idx == prev_selection->y)
@@ -572,9 +596,9 @@ static bool shop_reroll_row_on_selection_changed(
     return true;
 }
 
-static inline void game_shop_reroll(int* reroll_cost)
+static inline void game_shop_reroll(int* reroll_cost, int* money)
 {
-    decrease_money(*reroll_cost);
+    money -= *reroll_cost;
     display_money(); // Update the money display
 
     ListItr itr = list_itr_create(&_shop_jokers_list);
@@ -618,31 +642,41 @@ static inline void game_shop_reroll(int* reroll_cost)
     );
 }
 
-static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+static void shop_reroll_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection,
+    void* ctx
+)
 {
     if (!key_hit(SELECT_CARD))
     {
         return;
     }
 
-    if (get_money() >= reroll_cost)
+    JokerSellProps* props = (JokerSellProps*)ctx;
+    if (!props)
+        return;
+
+    if (*props->money >= reroll_cost)
     {
         // TODO: Add money sound effect
         play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-        game_shop_reroll(&reroll_cost);
+        game_shop_reroll(&reroll_cost, props->money);
+        update_game_state_ctx(GAME_STATE_SHOP); // Sync the updated money to the global state
     }
 }
 
 // Shop menu input and selection
-static void game_shop_process_user_input()
+static void game_shop_process_user_input(ShopProps* props)
 {
-    if (get_timer() == TM_SHOP_PRC_INPUT_START)
+    void* ctx = (void*)(props);
+    if (props->timer == TM_SHOP_PRC_INPUT_START)
     {
         // TODO: Move to on_init?
         // The selection grid is initialized outside of bounds and moved
         // to trigger the selection change so the initial selection is visible
         shop_selection_grid.selection = SHOP_INIT_SEL;
-        selection_grid_move_selection_horz(&shop_selection_grid, 1);
+        selection_grid_move_selection_horz(&shop_selection_grid, 1, ctx);
         tte_printf(
             "#{P:%d,%d; cx:0x%X000}$%d",
             SHOP_REROLL_RECT.left,
@@ -653,18 +687,25 @@ static void game_shop_process_user_input()
     }
 
     // Shop input logic
-    selection_grid_process_input(&shop_selection_grid);
+    JokerSellProps jokers_sell_props = {
+        .owned_jokers_list = props->owned_jokers_list,
+        .money = &props->money,
+        .substate = &props->substate,
+        .timer = &props->timer
+    };
+    void* joker_ctx = (void*)&jokers_sell_props;
+    selection_grid_process_input(&shop_selection_grid, joker_ctx);
 }
 
 // Outro sequence (menu and shop icon going out of frame)
-static void game_shop_outro()
+static void game_shop_outro(ShopProps* props)
 {
     // Shift the shop panel
     main_bg_se_move_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_DOWN);
 
     main_bg_se_copy_rect_1_tile_vert(TOP_LEFT_PANEL_ANIM_RECT, SCREEN_UP);
 
-    uint timer = get_timer();
+    uint timer = props->timer;
 
     // TODO: make heads or tails of what's going on here and replace
     // magic numbers.
@@ -694,8 +735,8 @@ static void game_shop_outro()
 
     if (timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
-        set_substate(GAME_SHOP_MAX);
-        reset_timer();
+        props->substate = GAME_SHOP_MAX;
+        props->timer = TM_ZERO;
     }
 }
 
@@ -727,6 +768,7 @@ static inline void game_shop_lights_anim_frame(void)
 
 void game_shop_on_update(void* ctx)
 {
+    ShopProps* props = (ShopProps*)ctx;
     change_background(BG_SHOP);
 
     if (!list_is_empty(&_shop_jokers_list))
@@ -742,25 +784,24 @@ void game_shop_on_update(void* ctx)
         }
     }
 
-    if (get_timer() % 20 == 0)
+    if (props->timer % 20 == 0)
     {
         game_shop_lights_anim_frame();
     }
 
-    int substate = get_substate();
+    int substate = props->substate;
     if (substate == GAME_SHOP_MAX)
     {
         game_change_state(GAME_STATE_BLIND_SELECT);
         return;
     }
 
-    substate = get_substate();
-
-    shop_state_actions[substate]();
+    shop_state_actions[substate](props);
 }
 
 void game_shop_on_exit(void* ctx)
 {
+    ShopProps* props = (ShopProps*)ctx;
     ListItr itr = list_itr_create(&_shop_jokers_list);
     JokerObject* joker_object;
 
@@ -776,14 +817,14 @@ void game_shop_on_exit(void* ctx)
 
     list_clear(&_shop_jokers_list);
 
-    enum BlindState* states = get_blinds_states();
-    int current_blind = get_current_blind();
     increment_blind(
-        states,
-        &current_blind,
+        props->blinds_states,
+        &props->current_blind,
         BLIND_STATE_DEFEATED
     ); // TODO: Move to game_round_end()?
-    set_current_blind(current_blind);
+
+    // Sync updated blind state to global context before leaving Shop
+    update_game_state_ctx(GAME_STATE_SHOP);
 }
 
 void game_shop_change_background()

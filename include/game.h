@@ -108,6 +108,7 @@ void game_start(void);
 void game_init(void);
 void game_update(void);
 void game_change_state(enum GameState new_game_state);
+enum GameState get_game_state(void);
 
 // ============================================================================
 // Getters and Setters
