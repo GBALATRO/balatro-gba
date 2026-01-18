@@ -342,7 +342,7 @@ static void blind_select_start_anim_seq(BlindSelectProps* props)
     {
         blind_select_print_blinds_reqs_and_rewards();
         set_substate(BLIND_SELECT);
-        reset_timer();
+        props->timer = TM_ZERO;
     }
 }
 
@@ -372,7 +372,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             set_substate(BLIND_SELECTED_ANIM_SEQ);
-            reset_timer();
+            props->timer = TM_ZERO;
             display_round(increment_round());
         }
         else if (current_blind != BLIND_TYPE_BOSS)
@@ -446,7 +446,7 @@ static void blind_select_selected_anim_seq(BlindSelectProps* props)
     {
         hide_all_blind_select_tokens();
         set_substate(DISPLAY_BLIND_PANEL); // Reset the state
-        reset_timer();                     // Reset the timer
+        props->timer = TM_ZERO;            // Reset the timer
     }
 }
 

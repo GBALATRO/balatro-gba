@@ -930,7 +930,7 @@ void set_game_state_ctx(enum GameState game_state)
             if (ctx)
             {
                 MainMenuProps* props = (MainMenuProps*)ctx;
-                props->timer = get_timer();
+                props->timer = timer;
                 props->rng_seed = rng_seed;
             }
             break;
@@ -941,7 +941,7 @@ void set_game_state_ctx(enum GameState game_state)
             if (ctx)
             {
                 BlindSelectProps* props = (BlindSelectProps*)ctx;
-                props->timer = get_timer();
+                props->timer = timer;
             }
             break;
         }
@@ -961,7 +961,14 @@ void retrieve_game_state_ctx(enum GameState game_state)
         case GAME_STATE_MAIN_MENU:
         {
             MainMenuProps* props = (MainMenuProps*)ctx;
+            timer = props->timer;
             rng_seed = props->rng_seed;
+            break;
+        }
+        case GAME_STATE_BLIND_SELECT:
+        {
+            BlindSelectProps* props = (BlindSelectProps*)ctx;
+            timer = props->timer;
             break;
         }
         default:
