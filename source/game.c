@@ -107,9 +107,6 @@ u32 chips = 0;
 u32 mult = 0;
 bool retrigger = false;
 
-int selection_x = 0;
-int selection_y = 0;
-
 List _owned_jokers_list;
 List _discarded_jokers_list;
 List _expired_jokers_list;
