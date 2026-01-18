@@ -99,7 +99,6 @@ typedef struct
 
 void set_game_state_ctx(enum GameState game_state);
 void update_game_state_ctx(enum GameState game_state);
-void* get_game_state_ctx_ptr(enum GameState game_state);
 
 // ============================================================================
 // Game Core Functions
