@@ -1688,9 +1688,9 @@ static inline void game_playing_process_input_and_state(void)
         {
             // protect against score overflow
             u32 score = get_score();
-            u32 temp_score = get_temp_score();
+            u32 temp_score = u32_protected_mult(chips, mult);
+            set_temp_score(temp_score);
 
-            temp_score = mult_temp_score_by(mult);
             set_lerped_temp_score(int2fx(temp_score));
             set_lerped_score(int2fx(score));
 
