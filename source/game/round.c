@@ -100,10 +100,6 @@ enum PlayState play_state = PLAY_STARTING;
 enum HandType hand_type = NONE;
 
 // Global variables from game.c
-extern int hands;
-extern int discards;
-extern int max_hands;
-extern int max_discards;
 extern int shortcut_joker_count;
 extern int four_fingers_joker_count;
 extern List _owned_jokers_list;
@@ -214,7 +210,7 @@ static void game_playing_discard_on_pressed(void)
         DISCARDS_TEXT_RECT.left,
         DISCARDS_TEXT_RECT.top,
         TTE_RED_PB,
-        discards
+        get_discards()
     );
 
     // Move back to hand selection
@@ -853,7 +849,7 @@ static inline void game_playing_handle_round_over(void)
             }
         }
     }
-    else if (hands == 0)
+    else if (get_hands() == 0)
     {
         next_state = GAME_STATE_LOSE;
     }
@@ -1197,6 +1193,7 @@ static inline bool game_round_is_over(void)
     int current_blind = get_current_blind();
     int ante = get_ante();
     u32 score = get_score();
+    int hands = get_hands();
 
     return hands == 0 || score >= blind_get_requirement(current_blind, ante);
 }
