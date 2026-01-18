@@ -834,11 +834,21 @@ static inline void expired_jokers_update_loop(void)
         // let just enough frames pass that we see it rotating and shrinking
         if (timer % FRAMES(EXPIRE_ANIMATION_FRAME_COUNT) == 0)
         {
-            // get joker idx
-            int expired_joker_idx = 0;
-            ListItr joker_itr = list_itr_create(&_owned_jokers_list);
-            JokerObject* expired_joker;
-            while ((expired_joker = list_itr_next(&joker_itr)) && expired_joker != joker_object)
+            play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
+            increment_blind(BLIND_STATE_SKIPPED);
+
+            selection_y = 0; // Reset selection to first option
+
+            background = UNDEFINED; // Force refresh of the background
+            change_background(BG_BLIND_SELECT);
+
+            // TODO: Create a generic vertical move by any number of tiles to avoid for loops?
+            for (int i = 0; i < 12; i++)
+            {
+                main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
+            }
+
+            for (int i = 0; i < BLIND_TYPE_MAX; i++)
             {
                 expired_joker_idx++;
             }
