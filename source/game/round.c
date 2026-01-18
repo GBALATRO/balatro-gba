@@ -1748,7 +1748,7 @@ static inline void game_playing_process_input_and_state(void)
 
 static inline void game_playing_process_card_draw()
 {
-    if (hand_state == HAND_DRAW && cards_drawn < hand_get_size())
+    if (hand_state == HAND_DRAW && cards_drawn < hand_size)
     {
         if (get_timer() % FRAMES(10) == 0) // Draw a card every 10 frames
         {
