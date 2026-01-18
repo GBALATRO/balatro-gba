@@ -11,6 +11,9 @@ void game_blind_select_on_init(void);
 void game_blind_select_on_update(void);
 void game_blind_select_on_exit(void);
 
+// Background change function
+void game_blind_select_change_background(void);
+
 // Internal functions
 void game_blind_select_init(void);
 void blind_select_update(void);

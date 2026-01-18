@@ -3,8 +3,10 @@
 #include "affine_background.h"
 #include "audio_utils.h"
 #include "background_main_menu_gfx.h"
+#include "button.h"
 #include "card.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/palette.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
@@ -30,19 +32,11 @@
 #define MAIN_MENU_ACE_T_X 88
 #define MAIN_MENU_ACE_T_Y 26
 
-// Forward declarations from game.c
-extern unsigned int timer;
-extern int game_speed;
-extern enum BackgroundId background;
-extern unsigned int rng_seed;
-extern int selection_x;
-
-// External functions from game.c
-extern void change_background(enum BackgroundId id);
-extern void game_start(void);
-
 // Main menu sprite - the ace of spades
 static CardObject* main_menu_ace = NULL;
+
+// Current selected button index
+static int selection_x = 0;
 
 void game_main_menu_on_init(void)
 {
@@ -57,6 +51,24 @@ void game_main_menu_on_init(void)
     main_menu_ace->sprite_object->ty = int2fx(MAIN_MENU_ACE_T_Y);
     main_menu_ace->sprite_object->y = main_menu_ace->sprite_object->ty;
     main_menu_ace->sprite_object->tscale = float2fx(0.8f);
+    selection_x = 0;
+}
+
+void game_main_menu_change_background(void)
+{
+    toggle_windows(false, false);
+
+    tte_erase_screen();
+    GRIT_CPY(pal_bg_mem, background_main_menu_gfxPal);
+    GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_main_menu_gfxTiles);
+    GRIT_CPY(&se_mem[MAIN_BG_SBB], background_main_menu_gfxMap);
+
+    // Disable the button highlight colors
+    memcpy16(
+        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
+        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
+        1
+    );
 }
 
 void game_main_menu_on_update(void)
@@ -64,15 +76,15 @@ void game_main_menu_on_update(void)
     change_background(BG_MAIN_MENU);
 
     card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((timer << 8) / 2) / 3;
+    main_menu_ace->sprite_object->trotation = lu_sin((get_timer() << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
 
     // Seed randomization
-    rng_seed++;
+    incr_rng_seed();
     // If the keys have changed, make it more pseudo-random
     if (key_curr_state() != key_prev_state())
     {
-        rng_seed *= 2;
+        mult_rng_seed(2);
     }
 
     if (key_hit(KEY_LEFT))
@@ -92,7 +104,7 @@ void game_main_menu_on_update(void)
 
     if (selection_x == MAIN_MENU_PLAY_BTN_IDX)
     {
-        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], HIGHLIGHT_COLOR, 1);
+        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], BTN_HIGHLIGHT_COLOR, 1);
 
         if (key_hit(SELECT_CARD))
         {
