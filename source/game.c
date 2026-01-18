@@ -68,8 +68,6 @@ StateInfo state_info[] = {
 // The current game state, this is used to determine what the game is doing at any given time
 enum GameState game_state = GAME_STATE_UNDEFINED;
 
-enum HandType hand_type = NONE;
-
 // The sprite that displays the blind when in "GAME_PLAYING/GAME_ROUND_END" state
 Sprite* playing_blind_token = NULL;
 
@@ -587,9 +585,45 @@ Sprite* get_playing_blind_token(void)
     return playing_blind_token;
 }
 
+void set_playing_blind_token(Sprite* sprite)
+{
+    playing_blind_token = sprite;
+}
+
+bool playing_blind_token_exists(void)
+{
+    return playing_blind_token != NULL;
+}
+
+void hide_playing_blind_token(void)
+{
+    if (playing_blind_token_exists())
+    {
+        obj_hide(playing_blind_token->obj);
+    }
+}
+
 Sprite* get_round_end_blind_token(void)
 {
     return round_end_blind_token;
+}
+
+void set_round_end_blind_token(Sprite* sprite)
+{
+    round_end_blind_token = sprite;
+}
+
+bool round_end_blind_token_exists(void)
+{
+    return round_end_blind_token != NULL;
+}
+
+void hide_round_end_blind_token(void)
+{
+    if (round_end_blind_token_exists())
+    {
+        obj_hide(round_end_blind_token->obj);
+    }
 }
 
 void destroy_playing_and_round_end_blind_tokens(void)

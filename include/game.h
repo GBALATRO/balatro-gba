@@ -239,8 +239,17 @@ void set_substate(int new_substate);
 
 Sprite* get_blind_select_token(enum BlindType blind_type);
 Sprite* get_playing_blind_token(void);
+void set_playing_blind_token(Sprite* sprite);
+bool playing_blind_token_exists(void);
+void hide_playing_blind_token(void);
+
 Sprite* get_round_end_blind_token(void);
+void set_round_end_blind_token(Sprite* sprite);
+bool round_end_blind_token_exists(void);
+void hide_round_end_blind_token(void);
+
 void destroy_playing_and_round_end_blind_tokens(void);
+
 void destroy_blind_select_token(enum BlindType blind_type);
 void destroy_all_blind_select_tokens(void);
 void hide_blind_select_token(enum BlindType blind_type);

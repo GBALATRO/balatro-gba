@@ -97,10 +97,9 @@ static int scored_card_index = 0;
 enum HandState hand_state = HAND_DRAW;
 enum PlayState play_state = PLAY_STARTING;
 
+enum HandType hand_type = NONE;
+
 // Global variables from game.c
-extern enum HandType hand_type;
-extern Sprite* playing_blind_token;
-extern Sprite* round_end_blind_token;
 extern int hands;
 extern int discards;
 extern int max_hands;
@@ -507,28 +506,25 @@ void game_round_on_init()
     int current_blind = get_current_blind();
     int ante = get_ante();
 
-    playing_blind_token = blind_token_new(
+    Sprite* playing_blind_token_sprite = blind_token_new(
         current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 1
     ); // Create the blind token sprite at the top left corner
+    set_playing_blind_token(playing_blind_token_sprite);
+
     // TODO: Hide blind token and display it after sliding blind rect animation
-    // if (playing_blind_token != NULL)
-    //{
-    //    obj_hide(playing_blind_token->obj); // Hide the blind token sprite for now
-    //}
-    round_end_blind_token = blind_token_new(
+    // hide_playing_blind_token();
+
+    Sprite* round_end_blind_token_sprite = blind_token_new(
         current_blind,
         81,
         86,
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 2
     ); // Create the blind token sprite for round end
-
-    if (round_end_blind_token != NULL)
-    {
-        obj_hide(round_end_blind_token->obj); // Hide the blind token sprite for now
-    }
+    set_round_end_blind_token(round_end_blind_token_sprite);
+    hide_round_end_blind_token();
 
     Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
     u32 blind_requirement = blind_get_requirement(current_blind, ante);
