@@ -83,16 +83,21 @@ static const HandValues hand_base_values[] = {
     {.chips = 160, .mult = 16, .display_name = "FLUSH 5"}  // FLUSH_FIVE
 };
 
+static int hand_size = 8;
+static int cards_drawn = 0;
+
+// discarded cards specific
+bool sound_played = false;
+bool discarded_card = false;
+
+// Keeping track of cards scored
+static int scored_card_index = 0;
+
+// The current game state
+enum HandState hand_state = HAND_DRAW;
+enum PlayState play_state = PLAY_STARTING;
+
 // Global variables from game.c
-extern bool retrigger;
-extern int hand_size;
-extern int cards_drawn;
-extern int scored_card_index;
-extern bool sound_played;
-extern bool discarded_card;
-extern bool score_flames_active;
-extern enum HandState hand_state;
-extern enum PlayState play_state;
 extern enum HandType hand_type;
 extern Sprite* playing_blind_token;
 extern Sprite* round_end_blind_token;
@@ -187,7 +192,7 @@ static void game_playing_play_hand_on_pressed(void)
     if (!can_play_hand())
         return;
 
-    set_hand_state(HAND_PLAY);
+    hand_state = HAND_PLAY;
     decrement_hands();
     display_hands();
 
@@ -201,7 +206,7 @@ static void game_playing_discard_on_pressed(void)
     if (!can_discard_hand())
         return;
 
-    set_hand_state(HAND_DISCARD);
+    hand_state = HAND_DISCARD;
     decrement_discards();
     display_hands();
     set_hand();
@@ -220,6 +225,11 @@ static void game_playing_discard_on_pressed(void)
 static int game_playing_button_row_get_size(void)
 {
     return NUM_ELEM_IN_ARR(game_playing_buttons);
+}
+
+int get_scored_card_index(void)
+{
+    return scored_card_index;
 }
 
 // idx_a and idx_b are assumed to be valid indexes within the hand array
@@ -755,7 +765,6 @@ static bool can_play_hand(void)
 static bool can_discard_hand(void)
 {
     int discards = get_discards();
-    enum HandState hand_state = get_hand_state();
     return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
@@ -1402,9 +1411,9 @@ static inline bool play_scoring_card_jokers_update(void)
             // If we just scored a retrigger, return early and go back to the
             // previous state score the same card again without incrementing
             // scored_card_index to score the current card again
-            if (retrigger)
+            if (get_retrigger())
             {
-                retrigger = false;
+                toggle_retrigger();
                 play_state = PLAY_SCORING_CARDS;
             }
             return true;
@@ -1714,7 +1723,7 @@ static inline void game_playing_process_input_and_state(void)
 
 static inline void game_playing_process_card_draw()
 {
-    if (hand_state == HAND_DRAW && cards_drawn < hand_size)
+    if (hand_state == HAND_DRAW && cards_drawn < hand_get_size())
     {
         if (get_timer() % FRAMES(10) == 0) // Draw a card every 10 frames
         {
@@ -2001,7 +2010,7 @@ static inline void game_playing_process_flaming_score(void)
 {
     static u8 flame_score_frame = 0;
 
-    if (score_flames_active)
+    if (are_score_flames_active())
     {
         if (get_timer() % SCORE_FLAMES_ANIM_FREQ == 0)
         {

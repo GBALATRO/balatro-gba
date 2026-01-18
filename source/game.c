@@ -67,8 +67,6 @@ StateInfo state_info[] = {
 
 // The current game state, this is used to determine what the game is doing at any given time
 enum GameState game_state = GAME_STATE_UNDEFINED;
-enum HandState hand_state = HAND_DRAW;
-enum PlayState play_state = PLAY_STARTING;
 
 enum HandType hand_type = NONE;
 
@@ -110,16 +108,6 @@ FIXED lerped_temp_score = 0;
 u32 chips = 0;
 u32 mult = 0;
 bool retrigger = false;
-
-int hand_size = 8; // Default hand size is 8
-int cards_drawn = 0;
-
-// Keeping track of cards scored
-int scored_card_index = 0;
-
-// discarded cards specific
-bool sound_played = false;
-bool discarded_card = false;
 
 // Keeping track of what Jokers are scored at each step
 ListItr _joker_scored_itr;
@@ -273,11 +261,6 @@ int hand_get_size(void)
     return hand_top + 1;
 }
 
-int get_scored_card_index(void)
-{
-    return scored_card_index;
-}
-
 int deck_get_size(void)
 {
     return deck_top + 1;
@@ -388,9 +371,20 @@ void reset_mult(void)
     set_mult(0);
 }
 
+bool get_retrigger(void)
+{
+    return retrigger;
+}
+
 void set_retrigger(bool new_retrigger)
 {
     retrigger = new_retrigger;
+}
+
+bool toggle_retrigger(void)
+{
+    retrigger = !retrigger;
+    return retrigger;
 }
 
 // Money Functions
@@ -723,18 +717,6 @@ void incr_rng_seed(void)
 void mult_rng_seed(int factor)
 {
     rng_seed *= factor;
-}
-
-// Hand state
-
-void set_hand_state(enum HandState new_hand_state)
-{
-    hand_state = new_hand_state;
-}
-
-enum HandState get_hand_state(void)
-{
-    return hand_state;
 }
 
 // ============================================================================

@@ -144,7 +144,9 @@ void increase_money(int amount);
 void decrease_money(int amount);
 void display_money(void);
 
+bool get_retrigger(void);
 void set_retrigger(bool new_retrigger);
+bool toggle_retrigger(void);
 
 // Timer and RNG Functions
 
@@ -180,7 +182,6 @@ int get_discard_top(void);
 int hand_get_size(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
-int get_scored_card_index(void);
 
 // Hands, Discards, and Round
 
@@ -231,11 +232,6 @@ enum GameState* get_game_state_ptr(void);
 StateInfo* get_state_info_ptr(void);
 int get_substate(void);
 void set_substate(int new_substate);
-
-// Hand state
-
-void set_hand_state(enum HandState new_hand_state);
-enum HandState get_hand_state(void);
 
 // ============================================================================
 // Blind Management Functions

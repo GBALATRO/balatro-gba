@@ -28,6 +28,8 @@ void change_background(enum BackgroundId id);
 #define NUM_SCORE_FLAMES_FRAMES 8 // Chips and Mult flame frames are next to one another
 #define SCORE_FLAME_FRAME_WIDTH 3 // so we only need to offset to get the next ones
 
+bool are_score_flames_active(void);
+
 // Display functions
 void display_round(int value);
 void display_money();

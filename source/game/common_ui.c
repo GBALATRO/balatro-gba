@@ -94,6 +94,11 @@ static void check_flaming_score(void)
     }
 }
 
+bool are_score_flames_active(void)
+{
+    return score_flames_active;
+}
+
 void display_round(int value)
 {
     int game_round = get_round();

@@ -14,4 +14,6 @@ void game_playing_on_update(void);
 void game_playing_change_background(enum BackgroundId current_background);
 void game_selecting_change_background(enum BackgroundId current_background);
 
+int get_scored_card_index(void);
+
 #endif
