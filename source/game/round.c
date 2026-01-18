@@ -84,8 +84,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // Global variables from game.c
-extern CardObject* played[MAX_SELECTION_SIZE];
-extern int played_top;
 extern Card* deck[MAX_DECK_SIZE];
 extern int deck_top;
 extern Card* discard_pile[MAX_DECK_SIZE];
@@ -952,6 +950,9 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
 static inline void select_flush_and_straight_cards_in_played_hand(void)
 {
+    CardObject** played = get_played_array();
+    int played_top = get_played_top();
+
     // Special handling because Four Fingers might be active
     bool final_selection[MAX_SELECTION_SIZE] = {false};
 
@@ -1003,9 +1004,11 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
 
 static inline void select_all_five_cards_in_played_hand(void)
 {
+    int played_top = get_played_top();
     for (int i = 0; i <= played_top; i++)
     {
-        card_object_set_selected(played[i], true);
+        CardObject* card_object = get_played_card_at(i);
+        card_object_set_selected(card_object, true);
     }
 }
 
@@ -1014,14 +1017,18 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     // find four cards with the same rank
     // If there are 5 cards selected we just need to find the one card that doesn't match, and
     // select the others
+    int played_top = get_played_top();
     if (played_top >= 3)
     {
         int unmatched_index = -1;
 
         for (int i = 0; i <= played_top; i++)
         {
-            if (played[i]->card->rank != played[(i + 1) % played_top]->card->rank &&
-                played[i]->card->rank != played[(i + 2) % played_top]->card->rank)
+            CardObject* card_a = get_played_card_at(i);
+            CardObject* card_b = get_played_card_at((i + 1) % (played_top + 1));
+            CardObject* card_c = get_played_card_at((i + 2) % (played_top + 1));
+            if (card_a->card->rank != card_b->card->rank &&
+                card_a->card->rank != card_c->card->rank)
             {
                 unmatched_index = i;
                 break;
@@ -1032,7 +1039,8 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
         {
             if (i != unmatched_index)
             {
-                card_object_set_selected(played[i], true);
+                CardObject* card_object = get_played_card_at(i);
+                card_object_set_selected(card_object, true);
             }
         }
     }
@@ -1040,7 +1048,8 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     {
         for (int i = 0; i <= played_top; i++)
         {
-            card_object_set_selected(played[i], true);
+            CardObject* card_object = get_played_card_at(i);
+            card_object_set_selected(card_object, true);
         }
     }
 }
@@ -1048,21 +1057,26 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
 static inline void select_three_of_a_kind_cards_in_played_hand(void)
 {
     // find three cards with the same rank
+    int played_top = get_played_top();
+
     for (int i = 0; i <= played_top - 1; i++)
     {
+        CardObject* card_a = get_played_card_at(i);
         for (int j = i + 1; j <= played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            CardObject* card_b = get_played_card_at(j);
+            if (card_a->card->rank == card_b->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(card_a, true);
+                card_object_set_selected(card_b, true);
 
                 for (int k = j + 1; k <= played_top; k++)
                 {
-                    if (played[i]->card->rank == played[k]->card->rank &&
-                        !card_object_is_selected(played[k]))
+                    CardObject* card_c = get_played_card_at(k);
+                    if (card_a->card->rank == card_c->card->rank &&
+                        !card_object_is_selected(card_c))
                     {
-                        card_object_set_selected(played[k], true);
+                        card_object_set_selected(card_c, true);
                         break;
                     }
                 }
@@ -1071,7 +1085,7 @@ static inline void select_three_of_a_kind_cards_in_played_hand(void)
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(card_a))
             break;
     }
 }
@@ -1080,21 +1094,23 @@ static inline void select_two_pair_cards_in_played_hand(void)
 {
     // find two pairs of cards with the same rank
     int i;
+    int played_top = get_played_top();
 
     for (i = 0; i <= played_top - 1; i++)
     {
+        CardObject* card_a = get_played_card_at(i);
         for (int j = i + 1; j <= played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            CardObject* card_b = get_played_card_at(j);
+            if (card_a->card->rank == card_b->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
-
+                card_object_set_selected(card_a, true);
+                card_object_set_selected(card_b, true);
                 break;
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(card_a))
             break;
     }
 
@@ -1102,11 +1118,13 @@ static inline void select_two_pair_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank &&
-                !card_object_is_selected(played[i]) && !card_object_is_selected(played[j]))
+            CardObject* card_a = get_played_card_at(i);
+            CardObject* card_b = get_played_card_at(j);
+            if (card_a->card->rank == card_b->card->rank && !card_object_is_selected(card_a) &&
+                !card_object_is_selected(card_b))
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(card_a, true);
+                card_object_set_selected(card_b, true);
                 break;
             }
         }
@@ -1116,19 +1134,22 @@ static inline void select_two_pair_cards_in_played_hand(void)
 static inline void select_pair_cards_in_played_hand(void)
 {
     // find two cards with the same rank
+    int played_top = get_played_top();
     for (int i = 0; i <= played_top - 1; i++)
     {
+        CardObject* card_a = get_played_card_at(i);
         for (int j = i + 1; j <= played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            CardObject* card_b = get_played_card_at(j);
+            if (card_a->card->rank == card_b->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(card_a, true);
+                card_object_set_selected(card_b, true);
                 break;
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(card_a))
             break;
     }
 }
@@ -1137,16 +1158,19 @@ static inline void select_highcard_cards_in_played_hand(void)
 {
     // find the card with the highest rank in the hand
     int highest_rank_index = 0;
+    int played_top = get_played_top();
 
     for (int i = 0; i <= played_top; i++)
     {
-        if (played[i]->card->rank > played[highest_rank_index]->card->rank)
+        CardObject* card_object = get_played_card_at(i);
+        CardObject* highest_rank_card_object = get_played_card_at(highest_rank_index);
+        if (card_object->card->rank > highest_rank_card_object->card->rank)
         {
             highest_rank_index = i;
         }
     }
 
-    card_object_set_selected(played[highest_rank_index], true);
+    card_object_set_selected(get_played_card_at(highest_rank_index), true);
 }
 
 // returns true if a joker was scored, false otherwise
@@ -1191,17 +1215,19 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // card has exited the screen, now discard it and set it to NULL
-        if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
+        CardObject* card_object = get_played_card_at(played_idx);
+        if (card_object->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
         {
-            discard_push(played[played_idx]->card); // Push the card to the discard pile
-            card_object_destroy(&played[played_idx]);
+            discard_push(card_object->card); // Push the card to the discard pile
+            card_object_destroy(&card_object);
+            set_played_card_at(played_idx, card_object);
 
             // played_top--;
             cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
             sound_played = false; // Allow for the sound for the next card to be played
 
             // we reached hand_top, all cards have been discarded
-            if (played_idx == played_top)
+            if (played_idx == get_played_top())
             {
                 if (game_round_is_over())
                 {
@@ -1215,7 +1241,7 @@ static bool play_ended_played_cards_update(int played_idx)
                 play_state = PLAY_STARTING;
                 cards_drawn = 0;
                 hand_selections = 0;
-                played_top = -1; // Reset the played stack
+                reset_played_top();
                 scored_card_index = 0;
                 _joker_scored_itr = list_itr_create(&_owned_jokers_list);
                 reset_timer();
@@ -1225,7 +1251,7 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // put target X position off screen to the right
-        played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
+        card_object->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
         discarded_card = true;
     }
 
@@ -1234,7 +1260,10 @@ static bool play_ended_played_cards_update(int played_idx)
 
 static inline void play_starting_played_cards_update(int played_idx)
 {
-    bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
+    int played_top = get_played_top();
+    CardObject* card_to_query_selected = get_played_card_at(played_top - scored_card_index);
+    bool card_selected = card_object_is_selected(card_to_query_selected);
+
     uint timer = get_timer();
     if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
         timer > FRAMES(40))
@@ -1249,14 +1278,15 @@ static inline void play_starting_played_cards_update(int played_idx)
         }
     }
 
-    played[played_idx]->sprite_object->tx =
+    CardObject* card_object = get_played_card_at(played_idx);
+    card_object->sprite_object->tx =
         int2fx(HAND_PLAY_POS.x) + (int2fx(played_top - played_idx) - int2fx(played_top) / 2) * -27;
-    played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+    card_object->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
 
-    card_selected = card_object_is_selected(played[played_idx]);
+    card_selected = card_object_is_selected(card_object);
     if (card_selected && played_top - played_idx >= scored_card_index)
     {
-        played[played_idx]->sprite_object->ty -= int2fx(10);
+        card_object->sprite_object->ty -= int2fx(10);
     }
 }
 
@@ -1277,15 +1307,17 @@ static inline bool play_before_scoring_cards_update(void)
 static inline bool play_scoring_cards_update(void)
 {
     uint timer = get_timer();
+    int played_top = get_played_top();
+    CardObject* scored_card_object = get_played_card_at(scored_card_index);
+
     if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
     {
         // We are about to score played Cards.
         // Start from the current card index
         // and seek the next scoring card
-        while (scored_card_index <= played_top &&
-               !card_object_is_selected(played[scored_card_index]))
+        while (scored_card_index <= played_top && !card_object_is_selected(scored_card_object))
         {
-            scored_card_index++;
+            scored_card_object = get_played_card_at(++scored_card_index);
         }
 
         // go to the next state if there are no cards left to score
@@ -1301,8 +1333,6 @@ static inline bool play_scoring_cards_update(void)
         }
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
-
-        CardObject* scored_card_object = played[scored_card_index];
 
         if (card_object_is_selected(scored_card_object))
         {
@@ -1345,6 +1375,8 @@ static inline bool play_scoring_cards_update(void)
 static inline bool play_scoring_card_jokers_update(void)
 {
     uint timer = get_timer();
+    CardObject* scored_card_object = get_played_card_at(scored_card_index);
+
     if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
     {
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
@@ -1353,7 +1385,7 @@ static inline bool play_scoring_card_jokers_update(void)
         // scored_card_index is guaranteed to be a scoring card
         if (check_and_score_joker_for_event(
                 &_joker_scored_itr,
-                played[scored_card_index],
+                scored_card_object,
                 JOKER_EVENT_ON_CARD_SCORED
             ))
         {
@@ -1364,7 +1396,7 @@ static inline bool play_scoring_card_jokers_update(void)
         // (e.g. retriggers) after activating all the other scored_card Jokers normally
         if (check_and_score_joker_for_event(
                 &_joker_card_scored_end_itr,
-                played[scored_card_index],
+                scored_card_object,
                 JOKER_EVENT_ON_CARD_SCORED_END
             ))
         {
@@ -1380,7 +1412,7 @@ static inline bool play_scoring_card_jokers_update(void)
         }
 
         // increment index to start seeking the next scoring card from the next card
-        scored_card_index++;
+        scored_card_object = get_played_card_at(++scored_card_index);
         play_state = PLAY_SCORING_CARDS;
     }
 
@@ -1435,7 +1467,7 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
         }
 
         scored_card_index =
-            played_top + 1; // Reset the scored card index to the top of the played stack
+            get_played_top() + 1; // Reset the scored card index to the top of the played stack
 
         play_state = PLAY_SCORING_HAND_SCORED_END;
     }
@@ -1475,7 +1507,9 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
 static inline void play_ending_played_cards_update(int played_idx)
 {
     uint timer = get_timer();
-    bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
+    int played_top = get_played_top();
+    CardObject* card_to_query_selected = get_played_card_at(played_top - scored_card_index);
+    bool card_selected = card_object_is_selected(card_to_query_selected);
     if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
         timer > FRAMES(40))
     {
@@ -1498,9 +1532,10 @@ static inline void play_ending_played_cards_update(int played_idx)
         }
     }
 
-    if (card_object_is_selected(played[played_idx]) && played_top - played_idx >= scored_card_index)
+    CardObject* card_object = get_played_card_at(played_idx);
+    if (card_object_is_selected(card_object) && played_top - played_idx >= scored_card_index)
     {
-        played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+        card_object->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
     }
 }
 
@@ -1509,17 +1544,19 @@ static inline void played_cards_update_loop(void)
     // So this one is a bit fucking weird because I have to work kinda backwards for everything
     // because of the order of the pushed cards from the hand to the play stack (also crazy that the
     // company that published Balatro is called "Playstack" and this is a play stack, but I digress)
+    int played_top = get_played_top();
     for (int played_idx = 0; played_idx <= played_top; played_idx++)
     {
-        if (played[played_idx] == NULL)
+        CardObject* card_object = get_played_card_at(played_idx);
+        if (card_object == NULL)
         {
             continue;
         }
 
-        if (card_object_get_sprite(played[played_idx]) == NULL)
+        if (card_object_get_sprite(card_object) == NULL)
         {
             // Set the sprite for the played card object
-            card_object_set_sprite(played[played_idx], played_idx + MAX_HAND_SIZE);
+            card_object_set_sprite(card_object, played_idx + MAX_HAND_SIZE);
         }
 
         switch (play_state)
@@ -1595,8 +1632,8 @@ static inline void played_cards_update_loop(void)
                 break;
         }
 
-        played[played_idx]->sprite_object->tscale = FIX_ONE;
-        card_object_update(played[played_idx]);
+        card_object->sprite_object->tscale = FIX_ONE;
+        card_object_update(card_object);
     }
 }
 
@@ -1885,7 +1922,7 @@ static inline void cards_in_hand_update_loop(void)
                         cards_drawn = 0;
                         hand_selections = 0;
                         reset_timer();
-                        scored_card_index = played_top + 1;
+                        scored_card_index = get_played_top() + 1;
 
                         select_cards_in_played_hand();
                     }

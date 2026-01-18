@@ -202,14 +202,27 @@ int decrement_hand_top(void)
     return --hand_top;
 }
 
-int hand_get_size(void)
-{
-    return hand_top + 1;
-}
-
 CardObject** get_played_array(void)
 {
     return played;
+}
+
+CardObject* get_played_card_at(int idx)
+{
+    if (idx < 0 || idx >= MAX_SELECTION_SIZE)
+    {
+        return NULL;
+    }
+    return played[idx];
+}
+
+void set_played_card_at(int idx, CardObject* card_object)
+{
+    if (idx < 0 || idx >= MAX_SELECTION_SIZE)
+    {
+        return;
+    }
+    played[idx] = card_object;
 }
 
 int get_played_top(void)
@@ -217,9 +230,14 @@ int get_played_top(void)
     return played_top;
 }
 
-int increment_played_top(void)
+void reset_played_top(void)
 {
-    return ++played_top;
+    played_top = -1;
+}
+
+int hand_get_size(void)
+{
+    return hand_top + 1;
 }
 
 int get_scored_card_index(void)
@@ -253,20 +271,6 @@ int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
     return hand_top + played_top + deck_top + discard_top + 4;
-}
-
-void set_played_card_at(int idx, CardObject* card_object)
-{
-    if (idx < 0 || idx >= MAX_SELECTION_SIZE)
-        return;
-    played[idx] = card_object;
-}
-
-CardObject* get_played_card_at(int idx)
-{
-    if (idx < 0 || idx >= MAX_SELECTION_SIZE)
-        return NULL;
-    return played[idx];
 }
 
 // Joker List Getters
