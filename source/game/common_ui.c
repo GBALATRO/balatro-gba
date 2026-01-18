@@ -2,12 +2,12 @@
 
 #include "game.h"
 #include "game/blind_select.h"
+#include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/rect.h"
 #include "game/round.h"
 #include "game/round_end.h"
 #include "game/shop.h"
-#include "game/win_lose.h"
 
 #include <tonc.h>
 

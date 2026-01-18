@@ -11,6 +11,7 @@
 #include "card.h"
 #include "game/blind_select.h"
 #include "game/common_ui.h"
+#include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/palette.h"
 #include "game/point.h"
@@ -20,7 +21,6 @@
 #include "game/selection.h"
 #include "game/shop.h"
 #include "game/timer.h"
-#include "game/win_lose.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
@@ -960,6 +960,20 @@ void set_game_state_ctx(enum GameState game_state)
             }
             break;
         }
+        case GAME_STATE_LOSE:
+        case GAME_STATE_WIN:
+        {
+            ctx = malloc(sizeof(GameOverProps));
+            if (ctx)
+            {
+                GameOverProps* props = (GameOverProps*)ctx;
+                props->timer = timer;
+                props->game_round = game_round;
+                props->score = score;
+                props->owned_jokers_list = &_owned_jokers_list;
+            }
+            break;
+        }
         default:
             break;
     }
@@ -989,6 +1003,16 @@ void update_game_state_ctx(enum GameState game_state)
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 blinds_states[i] = props->blinds_states[i];
             ante = props->ante;
+            break;
+        }
+        case GAME_STATE_LOSE:
+        case GAME_STATE_WIN:
+        {
+            GameOverProps* props = (GameOverProps*)ctx;
+            timer = props->timer;
+            game_round = props->game_round;
+            score = props->score;
+            // Owned jokers list is not updated here since it is a pointer to the global list
             break;
         }
         default:
