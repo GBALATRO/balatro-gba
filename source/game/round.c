@@ -11,7 +11,6 @@
 #include "game/palette.h"
 #include "game/point.h"
 #include "game/rect.h"
-#include "game/selection.h"
 #include "game/shop.h"
 #include "game/timer.h"
 #include "graphic_utils.h"
@@ -216,6 +215,8 @@ SelectionGridRow game_playing_selection_rows[] = {
     }
 };
 // clang-format on
+
+static const Selection GAME_PLAYING_INIT_SEL = {0, 1};
 
 SelectionGrid game_playing_selection_grid = {
     game_playing_selection_rows,
