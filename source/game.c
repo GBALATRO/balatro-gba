@@ -103,10 +103,6 @@ u32 temp_score = 0; // This is the score that shows in the same spot as the hand
 FIXED lerped_score = 0;
 FIXED lerped_temp_score = 0;
 
-u32 chips = 0;
-u32 mult = 0;
-bool retrigger = false;
-
 List _owned_jokers_list;
 List _discarded_jokers_list;
 List _expired_jokers_list;
@@ -129,7 +125,6 @@ int discard_top = -1;
 
 // Joker Special Variables
 int shortcut_joker_count = 0;
-
 int four_fingers_joker_count = 0;
 
 Bitset* get_avail_jokers_bitset_ptr(void)
@@ -236,11 +231,6 @@ int get_deck_top(void)
     return deck_top;
 }
 
-int increment_deck_top(void)
-{
-    return ++deck_top;
-}
-
 int get_discard_top(void)
 {
     return discard_top;
@@ -285,17 +275,7 @@ void clear_joker_lists(void)
     list_clear(&_expired_jokers_list);
 }
 
-// Game State Getters/Setters
-enum GameState* get_game_state_ptr(void)
-{
-    return &game_state;
-}
-
-StateInfo* get_state_info_ptr(void)
-{
-    return &state_info[game_state];
-}
-
+// Game substates
 int get_substate(void)
 {
     return state_info[game_state].substate;
@@ -320,61 +300,6 @@ void set_timer(uint new_time)
 void reset_timer(void)
 {
     set_timer(TM_ZERO);
-}
-
-// Chips and Mult
-u32 get_chips(void)
-{
-    return chips;
-}
-
-void set_chips(u32 new_chips)
-{
-    chips = new_chips;
-}
-
-void reset_chips(void)
-{
-    set_chips(0);
-}
-
-u32 increase_chips_by(u32 amount)
-{
-    u32 _chips = get_chips();
-    _chips = u32_protected_add(_chips, amount);
-    set_chips(_chips);
-    return _chips;
-}
-
-u32 get_mult(void)
-{
-    return mult;
-}
-
-void set_mult(u32 new_mult)
-{
-    mult = new_mult;
-}
-
-void reset_mult(void)
-{
-    set_mult(0);
-}
-
-bool get_retrigger(void)
-{
-    return retrigger;
-}
-
-void set_retrigger(bool new_retrigger)
-{
-    retrigger = new_retrigger;
-}
-
-bool toggle_retrigger(void)
-{
-    retrigger = !retrigger;
-    return retrigger;
 }
 
 // Money Functions
@@ -876,7 +801,7 @@ void game_init()
 
     reset_shop_jokers();
 
-    hands = max_hands;
+    reset_hands();
     discards = max_discards;
     timer = TM_ZERO;
     current_blind = BLIND_TYPE_SMALL;
@@ -1043,7 +968,7 @@ void game_start(void)
 
     affine_background_change_background(AFFINE_BG_GAME);
 
-    hands = max_hands;
+    reset_hands();
     discards = max_discards;
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system

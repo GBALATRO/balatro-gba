@@ -86,6 +86,10 @@ static const HandValues hand_base_values[] = {
 static int hand_size = 8;
 static int cards_drawn = 0;
 
+u32 chips = 0;
+u32 mult = 0;
+bool retrigger = false;
+
 // discarded cards specific
 bool sound_played = false;
 bool discarded_card = false;
@@ -121,6 +125,33 @@ static bool card_selected_instead_of_moved = false;
 // This should fix inputs sometimes not registering when quickly selecting cards
 static const int card_swap_time_threshold = 6;
 static uint selection_hit_timer = TM_ZERO;
+
+// Getters/Setters
+
+void set_retrigger(bool value)
+{
+    retrigger = value;
+}
+
+u32 get_chips(void)
+{
+    return chips;
+}
+
+void set_chips(u32 new_chips)
+{
+    chips = new_chips;
+}
+
+u32 get_mult(void)
+{
+    return mult;
+}
+
+void set_mult(u32 new_mult)
+{
+    mult = new_mult;
+}
 
 // Forward declarations for static functions defined later in this file
 static void set_hand(void);
@@ -445,8 +476,8 @@ static void set_hand(void)
 
     HandValues hand = hand_base_values[hand_type];
 
-    set_chips(hand.chips);
-    set_mult(hand.mult);
+    chips = hand.chips;
+    mult = hand.mult;
 
     print_hand_type(hand.display_name);
     display_chips();
@@ -1358,7 +1389,7 @@ static inline bool play_scoring_cards_update(void)
             card_object_shake(scored_card_object, SFX_CHIPS_CARD);
 
             // Relocated card scoring logic here
-            increase_chips_by(card_value);
+            chips = u32_protected_add(chips, card_value);
             display_chips();
 
             // Allow Joker scoring
@@ -1406,9 +1437,9 @@ static inline bool play_scoring_card_jokers_update(void)
             // If we just scored a retrigger, return early and go back to the
             // previous state score the same card again without incrementing
             // scored_card_index to score the current card again
-            if (get_retrigger())
+            if (retrigger)
             {
-                toggle_retrigger();
+                retrigger = false;
                 play_state = PLAY_SCORING_CARDS;
             }
             return true;
@@ -1653,7 +1684,6 @@ static inline void game_playing_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDING)
     {
-        u32 mult = get_mult();
         if (mult > 0)
         {
             // protect against score overflow
@@ -1666,8 +1696,8 @@ static inline void game_playing_process_input_and_state(void)
 
             display_temp_score(temp_score);
 
-            reset_chips();
-            reset_mult();
+            chips = 0;
+            mult = 0;
             display_mult();
             display_chips();
 

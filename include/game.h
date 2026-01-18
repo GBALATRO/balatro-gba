@@ -125,28 +125,11 @@ void increment_four_fingers_joker_count(void);
 void increment_shortcut_joker_count(void);
 
 // Chips, Mult, and Money Functions
-
-u32 get_chips(void);
-void set_chips(u32 new_chips);
-void reset_chips(void);
-u32 increase_chips_by(u32 amount);
-void display_chips(void);
-
-u32 get_mult(void);
-void set_mult(u32 new_mult);
-void reset_mult(void);
-u32 increase_mult_by(u32 amount);
-void display_mult(void);
-
 int get_money(void);
 void set_money(int new_money);
 void increase_money(int amount);
 void decrease_money(int amount);
 void display_money(void);
-
-bool get_retrigger(void);
-void set_retrigger(bool new_retrigger);
-bool toggle_retrigger(void);
 
 // Timer and RNG Functions
 
@@ -226,10 +209,7 @@ void set_lerped_temp_score(FIXED new_lerped_temp_score);
 void reset_lerped_temp_score(void);
 FIXED decrease_lerped_temp_score_by(FIXED amount);
 
-// Game State
-
-enum GameState* get_game_state_ptr(void);
-StateInfo* get_state_info_ptr(void);
+// Game substates
 int get_substate(void);
 void set_substate(int new_substate);
 
