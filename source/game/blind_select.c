@@ -401,7 +401,8 @@ static void blind_select_handle_input(BlindSelectProps* props)
 
             blind_select_print_blinds_reqs_and_rewards();
 
-            reset_timer();
+            props->timer = TM_ZERO;
+            selection_y = 0;
         }
     }
 
