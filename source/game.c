@@ -18,7 +18,6 @@
 #include "game/rect.h"
 #include "game/round.h"
 #include "game/round_end.h"
-#include "game/selection.h"
 #include "game/shop.h"
 #include "game/timer.h"
 #include "graphic_utils.h"
@@ -515,6 +514,14 @@ void hide_playing_blind_token(void)
     }
 }
 
+void unhide_playing_blind_token(void)
+{
+    if (playing_blind_token_exists())
+    {
+        obj_unhide(playing_blind_token->obj, 0);
+    }
+}
+
 Sprite* get_round_end_blind_token(void)
 {
     return round_end_blind_token;
@@ -535,6 +542,14 @@ void hide_round_end_blind_token(void)
     if (round_end_blind_token_exists())
     {
         obj_hide(round_end_blind_token->obj);
+    }
+}
+
+void unhide_round_end_blind_token(void)
+{
+    if (round_end_blind_token_exists())
+    {
+        obj_unhide(round_end_blind_token->obj, 0);
     }
 }
 
@@ -960,6 +975,25 @@ void set_game_state_ctx(enum GameState game_state)
             }
             break;
         }
+        case GAME_STATE_ROUND_END:
+        {
+            ctx = malloc(sizeof(RoundEndProps));
+            if (ctx)
+            {
+                RoundEndProps* props = (RoundEndProps*)ctx;
+                props->timer = timer;
+                props->substate = state_info[game_state].substate;
+                props->money = money;
+                props->hands = hands;
+                props->max_hands = max_hands;
+                props->discards = discards;
+                props->max_discards = max_discards;
+                props->ante = ante;
+                props->current_blind = current_blind;
+                props->score = score;
+            }
+            break;
+        }
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
@@ -1003,6 +1037,21 @@ void update_game_state_ctx(enum GameState game_state)
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 blinds_states[i] = props->blinds_states[i];
             ante = props->ante;
+            break;
+        }
+        case GAME_STATE_ROUND_END:
+        {
+            RoundEndProps* props = (RoundEndProps*)ctx;
+            timer = props->timer;
+            state_info[game_state].substate = props->substate;
+            money = props->money;
+            hands = props->hands;
+            max_hands = props->max_hands;
+            discards = props->discards;
+            max_discards = props->max_discards;
+            ante = props->ante;
+            current_blind = props->current_blind;
+            score = props->score;
             break;
         }
         case GAME_STATE_LOSE:

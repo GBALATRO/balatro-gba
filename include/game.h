@@ -226,11 +226,13 @@ Sprite* get_playing_blind_token(void);
 void set_playing_blind_token(Sprite* sprite);
 bool playing_blind_token_exists(void);
 void hide_playing_blind_token(void);
+void unhide_playing_blind_token(void);
 
 Sprite* get_round_end_blind_token(void);
 void set_round_end_blind_token(Sprite* sprite);
 bool round_end_blind_token_exists(void);
 void hide_round_end_blind_token(void);
+void unhide_round_end_blind_token(void);
 
 void destroy_playing_and_round_end_blind_tokens(void);
 

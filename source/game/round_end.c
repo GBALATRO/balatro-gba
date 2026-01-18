@@ -41,17 +41,17 @@ static int interest_to_count = 0;
 static int interest_start_time = UNDEFINED;
 
 // Forward declarations
-static void game_round_end_start(void);
-static void game_round_end_start_expand_popup(void);
-static void game_round_end_display_finished_blind(void);
-static void game_round_end_display_score_min(void);
-static void game_round_end_update_blind_reward(void);
-static void game_round_end_panel_exit(void);
-static void game_round_end_display_rewards(void);
-static void game_round_end_display_cashout(void);
-static void game_round_end_dismiss_round_end_panel(void);
+static void game_round_end_start(RoundEndProps* props);
+static void game_round_end_start_expand_popup(RoundEndProps* props);
+static void game_round_end_display_finished_blind(RoundEndProps* props);
+static void game_round_end_display_score_min(RoundEndProps* props);
+static void game_round_end_update_blind_reward(RoundEndProps* props);
+static void game_round_end_panel_exit(RoundEndProps* props);
+static void game_round_end_display_rewards(RoundEndProps* props);
+static void game_round_end_display_cashout(RoundEndProps* props);
+static void game_round_end_dismiss_round_end_panel(RoundEndProps* props);
 
-typedef void (*SubStateActionFn)(void);
+typedef void (*SubStateActionFn)(RoundEndProps* props);
 static const SubStateActionFn round_end_state_actions[] = {
     game_round_end_start,
     game_round_end_start_expand_popup,
@@ -64,9 +64,9 @@ static const SubStateActionFn round_end_state_actions[] = {
     game_round_end_dismiss_round_end_panel
 };
 
-int calculate_interest_reward(void)
+int calculate_interest_reward(int money)
 {
-    int reward = (get_money() / 5) * INTEREST_PER_5;
+    int reward = (money / 5) * INTEREST_PER_5;
     if (reward > MAX_INTEREST)
         reward = MAX_INTEREST;
     return reward;
@@ -85,41 +85,42 @@ void game_round_end_on_exit(void* ctx)
 
 void game_round_end_on_update(void* ctx)
 {
-    int substate = get_substate();
+    RoundEndProps* props = (RoundEndProps*)ctx;
+    int substate = props->substate;
+
     if (substate == ROUND_END_EXIT)
     {
         game_change_state(GAME_STATE_SHOP);
         return;
     }
 
-    substate = get_substate();
-    round_end_state_actions[substate]();
+    round_end_state_actions[substate](props);
 }
 
-static void game_round_end_start()
+static void game_round_end_start(RoundEndProps* props)
 {
     // Reset static variables to default values upon re-entering the round end state
-    if (get_timer() == TM_RESET_STATIC_VARS)
+    if (props->timer == TM_RESET_STATIC_VARS)
     {
-        change_background(BG_ROUND_END);  // Change the background to the round end background
-        set_substate(START_EXPAND_POPUP); // Change the state to the next one
-        reset_timer();                    // Reset the timer
-        blind_reward = blind_get_reward(get_current_blind());
-        hand_reward = get_hands();
-        interest_reward = calculate_interest_reward();
+        change_background(BG_ROUND_END); // Change the background to the round end background
+        props->substate = START_EXPAND_POPUP;
+        props->timer = TM_ZERO; // Reset the timer
+        blind_reward = blind_get_reward(props->current_blind);
+        hand_reward = props->hands;
+        interest_reward = calculate_interest_reward(props->money);
         interest_to_count = interest_reward;
         interest_start_time = UNDEFINED;
     }
 }
 
-static void game_round_end_start_expand_popup()
+static void game_round_end_start_expand_popup(RoundEndProps* props)
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
-    if (get_timer() == TM_END_POP_MENU_ANIM)
+    if (props->timer == TM_END_POP_MENU_ANIM)
     {
-        set_substate(DISPLAY_FINISHED_BLIND);
-        reset_timer();
+        props->substate = DISPLAY_FINISHED_BLIND;
+        props->timer = TM_ZERO;
     }
 }
 
@@ -131,20 +132,16 @@ static void game_round_end_extend_black_panel_down(int black_panel_bottom)
     main_bg_se_copy_rect_1_tile_vert(single_line_rect, SCREEN_DOWN);
 }
 
-static void game_round_end_display_finished_blind()
+static void game_round_end_display_finished_blind(RoundEndProps* props)
 {
-    Sprite* round_end_blind_token = get_round_end_blind_token();
-    obj_unhide(round_end_blind_token->obj, 0);
-
-    int current_ante = get_ante();
-    int current_blind = get_current_blind();
+    unhide_round_end_blind_token();
 
     // Beating the boss blind increases the ante, so we need to display the previous ante value
-    if (current_blind == BLIND_TYPE_BOSS)
-        current_ante--;
+    if (props->current_blind == BLIND_TYPE_BOSS)
+        props->ante--;
 
     Rect blind_req_rect = ROUND_END_BLIND_REQ_RECT;
-    u32 blind_req = blind_get_requirement(current_blind, current_ante);
+    u32 blind_req = blind_get_requirement(props->current_blind, props->ante);
 
     /* Not bothering to truncate here because there are 8 tiles
      * and the blind requirement will not increase past ante 8
@@ -163,21 +160,21 @@ static void game_round_end_display_finished_blind()
         blind_req_str_buff
     );
 
-    if (get_timer() == TM_START_ROUND_END_REWARDS_ANIM)
+    if (props->timer == TM_START_ROUND_END_REWARDS_ANIM)
     {
         game_round_end_extend_black_panel_down(ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE);
     }
 
-    if (get_timer() >= TM_END_DISPLAY_FIN_BLIND)
+    if (props->timer >= TM_END_DISPLAY_FIN_BLIND)
     {
-        set_substate(DISPLAY_SCORE_MIN);
-        reset_timer();
+        props->substate = DISPLAY_SCORE_MIN;
+        props->timer = TM_ZERO;
     }
 }
 
-static void game_round_end_display_score_min()
+static void game_round_end_display_score_min(RoundEndProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     const int timer_offset = timer - 1;
     const int x_from = 0;
     const int y_from = 29;
@@ -192,14 +189,14 @@ static void game_round_end_display_score_min()
 
     if (timer >= TM_END_DISPLAY_SCORE_MIN)
     {
-        set_substate(UPDATE_BLIND_REWARD);
-        reset_timer();
+        props->substate = UPDATE_BLIND_REWARD;
+        props->timer = TM_ZERO;
     }
 }
 
-static void game_round_end_update_blind_reward()
+static void game_round_end_update_blind_reward(RoundEndProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
 
     if (timer % FRAMES(20) != 0)
         return;
@@ -221,26 +218,25 @@ static void game_round_end_update_blind_reward()
             ROUND_END_BLIND_REWARD_RECT.left,
             ROUND_END_BLIND_REWARD_RECT.top,
             TTE_YELLOW_PB,
-            blind_get_reward(get_current_blind()) - blind_reward
+            blind_get_reward(props->current_blind) - blind_reward
         );
     }
     else if (timer > FRAMES(20))
     {
         tte_erase_rect_wrapper(BLIND_REWARD_RECT);
         tte_erase_rect_wrapper(BLIND_REQ_TEXT_RECT);
-        Sprite* playing_blind_token = get_playing_blind_token();
-        obj_hide(playing_blind_token->obj);
+        hide_playing_blind_token();
         affine_background_load_palette(affine_background_gfxPal);
-        set_substate(BLIND_PANEL_EXIT);
-        reset_timer();
+        props->substate = BLIND_PANEL_EXIT;
+        props->timer = TM_ZERO;
     }
 }
 
-static void game_round_end_panel_exit()
+static void game_round_end_panel_exit(RoundEndProps* props)
 {
     // TODO: make heads or tails of what's going on here and replace
     // magic numbers.
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (timer < 8)
     {
         main_bg_se_copy_rect_1_tile_vert(TOP_LEFT_PANEL_ANIM_RECT, SCREEN_UP);
@@ -261,24 +257,24 @@ static void game_round_end_panel_exit()
     else if (timer > FRAMES(20))
     {
         memset16(&pal_bg_mem[REWARD_PANEL_BORDER_PID], 0x1483, 1);
-        set_substate(DISPLAY_REWARDS);
-        reset_timer();
+        props->substate = DISPLAY_REWARDS;
+        props->timer = TM_ZERO;
     }
 }
 
-static void game_round_end_print_separator_ellipsis(void)
+static void game_round_end_print_separator_ellipsis(uint timer)
 {
-    int x = (ROUND_END_REWARDS_ELLIPSIS_POS.x + get_timer() - TM_REWARDS_ELLIPSIS_PRINT_START) *
-            TILE_SIZE;
+    int x =
+        (ROUND_END_REWARDS_ELLIPSIS_POS.x + timer - TM_REWARDS_ELLIPSIS_PRINT_START) * TILE_SIZE;
     int y = (ROUND_END_REWARDS_ELLIPSIS_POS.y) * TILE_SIZE;
 
     tte_printf("#{P:%d,%d; cx:0x%X000}.", x, y, TTE_WHITE_PB);
 }
 
 // TODO: Allow for more generic rewards and consolidate with game_round_end_print_interest_reward()
-static void game_round_end_print_hand_reward(int hand_y_offset)
+static void game_round_end_print_hand_reward(RoundEndProps* props, int hand_y_offset)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     int hand_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + hand_y_offset;
     if (timer == TM_DISPLAY_REWARDS_CONT_WAIT)
     {
@@ -302,7 +298,7 @@ static void game_round_end_print_hand_reward(int hand_y_offset)
             ROUND_END_REWARD_AMOUNT_X,
             hand_y * TILE_SIZE,
             TTE_YELLOW_PB,
-            get_hands() - hand_reward
+            props->hands - hand_reward
         );
         if (hand_reward == 0)
         {
@@ -311,9 +307,8 @@ static void game_round_end_print_hand_reward(int hand_y_offset)
     }
 }
 
-static void game_round_end_print_interest_reward(int interest_y_offset)
+static void game_round_end_print_interest_reward(uint timer, int interest_y_offset)
 {
-    uint timer = get_timer();
     int interest_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + interest_y_offset;
 
     if (timer == interest_start_time)
@@ -344,13 +339,13 @@ static void game_round_end_print_interest_reward(int interest_y_offset)
     }
 }
 
-static void game_round_end_display_rewards()
+static void game_round_end_display_rewards(RoundEndProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     int hand_y_offset = 0;
     int interest_y_offset = 0;
 
-    if (get_hands() > 0)
+    if (props->hands > 0)
     {
         hand_y_offset = 1;
     }
@@ -367,8 +362,8 @@ static void game_round_end_display_rewards()
     // Once all rewards are accounted for go to the next state
     if (hand_reward <= 0 && interest_to_count <= 0)
     {
-        reset_timer();
-        set_substate(DISPLAY_CASHOUT);
+        props->timer = TM_ZERO;
+        props->substate = DISPLAY_CASHOUT;
     }
     else if (timer == TM_START_ROUND_END_REWARDS_ANIM)
     {
@@ -376,47 +371,47 @@ static void game_round_end_display_rewards()
     }
     else if (timer < TM_REWARDS_ELLIPSIS_PRINT_END)
     {
-        game_round_end_print_separator_ellipsis();
+        game_round_end_print_separator_ellipsis(props->timer);
     }
     else if (timer >= TM_DISPLAY_REWARDS_CONT_WAIT && hand_reward > 0)
     {
-        game_round_end_print_hand_reward(hand_y_offset);
+        game_round_end_print_hand_reward(props, hand_y_offset);
     }
     else if (interest_start_time != UNDEFINED && timer >= interest_start_time &&
              interest_to_count > 0)
     {
-        game_round_end_print_interest_reward(interest_y_offset);
+        game_round_end_print_interest_reward(props->timer, interest_y_offset);
     }
 }
 
-static void game_round_end_cashout(void)
+static void game_round_end_cashout(RoundEndProps* props)
 {
-    int hands = get_hands();
-    int current_blind = get_current_blind();
-
     // Reward the player
-    increase_money(hands + blind_get_reward(current_blind) + calculate_interest_reward());
+    increase_money(
+        props->hands + blind_get_reward(props->current_blind) +
+        calculate_interest_reward(props->money)
+    );
     display_money();
 
-    reset_hands();      // Reset the hands to the maximum
-    reset_discards();   // Reset the discards to the maximum
-    display_hands();    // Set the hands display
-    display_discards(); // Set the discards display
+    props->hands = props->max_hands;       // Reset the hands to the maximum
+    props->discards = props->max_discards; // Reset the discards to the maximum
+    display_hands();                       // Set the hands display
+    display_discards();                    // Set the discards display
 
-    reset_score();              // Reset the score to 0
-    display_score(get_score()); // Set the score display
+    props->score = 0;            // Reset the score to 0
+    display_score(props->score); // Set the score display
 }
 
-static void game_round_end_display_cashout()
+static void game_round_end_display_cashout(RoundEndProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (timer == FRAMES(40))
     {
         // Put the "cash out" button onto the round end panel
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
 
-        int cashout_amount =
-            get_hands() + blind_get_reward(get_current_blind()) + calculate_interest_reward();
+        int cashout_amount = props->hands + blind_get_reward(props->current_blind) +
+                             calculate_interest_reward(props->money);
 
         bool omit_space = cashout_amount >= 10;
         tte_printf(
@@ -432,27 +427,26 @@ static void game_round_end_display_cashout()
     // Wait until the player presses A to cash out
     else if (timer > FRAMES(40) && key_hit(SELECT_CARD))
     {
-        game_round_end_cashout();
+        game_round_end_cashout(props);
 
-        set_substate(DISMISS_ROUND_END_PANEL); // Go to the next state
-        reset_timer();                         // Reset the timer
+        props->substate = DISMISS_ROUND_END_PANEL; // Go to the next state
+        props->timer = TM_ZERO;                    // Reset the timer
 
-        Sprite* round_end_blind_token = get_round_end_blind_token();
-        obj_hide(round_end_blind_token->obj);          // Hide the blind token object
+        hide_round_end_blind_token();                  // Hide the blind token object
         tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT); // Erase the blind token text
     }
 }
 
-static void game_round_end_dismiss_round_end_panel()
+static void game_round_end_dismiss_round_end_panel(RoundEndProps* props)
 {
     Rect round_end_down = ROUND_END_MENU_RECT;
     round_end_down.top--;
     main_bg_se_copy_rect_1_tile_vert(round_end_down, SCREEN_DOWN);
 
-    if (get_timer() >= TM_DISMISS_ROUND_END_TM)
+    if (props->timer >= TM_DISMISS_ROUND_END_TM)
     {
-        reset_timer();
-        set_substate(ROUND_END_EXIT);
+        props->timer = TM_ZERO;
+        props->substate = ROUND_END_EXIT;
     }
 }
 
