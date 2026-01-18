@@ -623,6 +623,11 @@ void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y)
     *y = token_sprite->pos.y;
 }
 
+enum BlindState* get_blinds_states(void)
+{
+    return blinds_states;
+}
+
 enum BlindState get_blinds_state(enum BlindType blind_type)
 {
     if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
@@ -637,20 +642,25 @@ int get_current_blind(void)
     return current_blind;
 }
 
-void increment_blind(enum BlindState increment_reason)
+void set_current_blind(int new_current_blind)
 {
-    current_blind++;
-    if (current_blind >= BLIND_TYPE_MAX)
+    current_blind = new_current_blind;
+}
+
+void increment_blind(enum BlindState* states, int* current_blind, enum BlindState increment_reason)
+{
+    (*current_blind)++;
+    if (*current_blind >= BLIND_TYPE_MAX)
     {
-        current_blind = 0;
-        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        *current_blind = 0;
+        states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
+        states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
     }
     else
     {
-        blinds_states[current_blind] = BLIND_STATE_CURRENT;
-        blinds_states[current_blind - 1] = increment_reason;
+        states[*current_blind] = BLIND_STATE_CURRENT;
+        states[*current_blind - 1] = increment_reason;
     }
 }
 
@@ -943,6 +953,10 @@ void set_game_state_ctx(enum GameState game_state)
                 BlindSelectProps* props = (BlindSelectProps*)ctx;
                 props->timer = timer;
                 props->substate = state_info[game_state].substate;
+                props->current_blind = current_blind;
+                for (int i = 0; i < BLIND_TYPE_MAX; i++)
+                    props->blinds_states[i] = blinds_states[i];
+                props->ante = ante;
             }
             break;
         }
@@ -952,7 +966,7 @@ void set_game_state_ctx(enum GameState game_state)
     state_info[game_state].ctx = ctx;
 }
 
-void retrieve_game_state_ctx(enum GameState game_state)
+void update_game_state_ctx(enum GameState game_state)
 {
     void* ctx = state_info[game_state].ctx;
     if (!ctx)
@@ -971,6 +985,10 @@ void retrieve_game_state_ctx(enum GameState game_state)
             BlindSelectProps* props = (BlindSelectProps*)ctx;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
+            current_blind = props->current_blind;
+            for (int i = 0; i < BLIND_TYPE_MAX; i++)
+                blinds_states[i] = props->blinds_states[i];
+            ante = props->ante;
             break;
         }
         default:
@@ -978,6 +996,11 @@ void retrieve_game_state_ctx(enum GameState game_state)
     }
     free(ctx);
     state_info[game_state].ctx = NULL;
+}
+
+void* get_game_state_ctx_ptr(enum GameState game_state)
+{
+    return state_info[game_state].ctx;
 }
 
 void game_update()
@@ -988,7 +1011,7 @@ void game_update()
 
     set_game_state_ctx(game_state);
     state_info[game_state].on_update(state_info[game_state].ctx);
-    retrieve_game_state_ctx(game_state);
+    update_game_state_ctx(game_state);
 }
 
 void game_change_state(enum GameState new_game_state)

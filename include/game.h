@@ -97,6 +97,10 @@ typedef struct
     void* ctx;
 } StateInfo;
 
+void set_game_state_ctx(enum GameState game_state);
+void update_game_state_ctx(enum GameState game_state);
+void* get_game_state_ctx_ptr(enum GameState game_state);
+
 // ============================================================================
 // Game Core Functions
 // ============================================================================
@@ -238,9 +242,12 @@ void unhide_blind_select_token(enum BlindType blind_type);
 void unhide_all_blind_select_tokens(void);
 void move_blind_select_token(enum BlindType blind_type, int x, int y);
 void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y);
+
 int get_current_blind(void);
+void set_current_blind(int new_current_blind);
+enum BlindState* get_blinds_states(void);
 enum BlindState get_blinds_state(enum BlindType blind_type);
-void increment_blind(enum BlindState increment_reason);
+void increment_blind(enum BlindState* states, int* current_blind, enum BlindState increment_reason);
 
 // Round.c helpers
 

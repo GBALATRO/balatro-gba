@@ -776,7 +776,14 @@ void game_shop_on_exit(void* ctx)
 
     list_clear(&_shop_jokers_list);
 
-    increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
+    enum BlindState* states = get_blinds_states();
+    int current_blind = get_current_blind();
+    increment_blind(
+        states,
+        &current_blind,
+        BLIND_STATE_DEFEATED
+    ); // TODO: Move to game_round_end()?
+    set_current_blind(current_blind);
 }
 
 void game_shop_change_background()

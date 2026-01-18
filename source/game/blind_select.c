@@ -252,14 +252,14 @@ static inline void blind_select_erase_blind_reqs_and_rewards()
     }
 }
 
-static Rect blind_select_get_req_score_rect(enum BlindType blind)
+static Rect blind_select_get_req_score_rect(BlindSelectProps* props, enum BlindType blind)
 {
     Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
     blind_req_score_rect.left += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
     blind_req_score_rect.right += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
 
-    if (get_blinds_state(blind) == BLIND_STATE_CURRENT)
+    if (props->blinds_states[blind] == BLIND_STATE_CURRENT)
     {
         // Current blind is raised
         blind_req_score_rect.top -= TILE_SIZE;
@@ -269,12 +269,11 @@ static Rect blind_select_get_req_score_rect(enum BlindType blind)
     return blind_req_score_rect;
 }
 
-static inline void blind_select_print_blind_req(enum BlindType blind)
+static inline void blind_select_print_blind_req(BlindSelectProps* props, enum BlindType blind)
 {
-    Rect blind_req_score_rect = blind_select_get_req_score_rect(blind);
+    Rect blind_req_score_rect = blind_select_get_req_score_rect(props, blind);
 
-    u32 blind_req = blind_get_requirement(blind, get_ante());
-
+    u32 blind_req = blind_get_requirement(blind, props->ante);
     char blind_req_str_buff[UINT_MAX_DIGITS + 1];
     truncate_uint_to_suffixed_str(
         blind_req,
@@ -293,10 +292,10 @@ static inline void blind_select_print_blind_req(enum BlindType blind)
     );
 }
 
-static inline void blind_select_print_blind_reward(enum BlindType blind)
+static inline void blind_select_print_blind_reward(BlindSelectProps* props, enum BlindType blind)
 {
     int blind_reward = blind_get_reward(blind);
-    Rect blind_reward_rect = blind_select_get_req_score_rect(blind);
+    Rect blind_reward_rect = blind_select_get_req_score_rect(props, blind);
 
     // The reward is right below the score.
     blind_reward_rect.top += TILE_SIZE;
@@ -316,12 +315,12 @@ static inline void blind_select_print_blind_reward(enum BlindType blind)
     );
 }
 
-static void blind_select_print_blinds_reqs_and_rewards(void)
+static void blind_select_print_blinds_reqs_and_rewards(BlindSelectProps* props)
 {
     for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
     {
-        blind_select_print_blind_req(curr_blind);
-        blind_select_print_blind_reward(curr_blind);
+        blind_select_print_blind_req(props, curr_blind);
+        blind_select_print_blind_reward(props, curr_blind);
     }
 }
 
@@ -339,7 +338,7 @@ static void blind_select_start_anim_seq(BlindSelectProps* props)
 
     if (props->timer == TM_END_ANIM_SEQ)
     {
-        blind_select_print_blinds_reqs_and_rewards();
+        blind_select_print_blinds_reqs_and_rewards(props);
         props->substate = BLIND_SELECT;
         props->timer = TM_ZERO;
     }
@@ -347,9 +346,7 @@ static void blind_select_start_anim_seq(BlindSelectProps* props)
 
 static void blind_select_handle_input(BlindSelectProps* props)
 {
-    int current_blind = get_current_blind();
-
-    if (props->timer == TM_BLIND_SELECT_START && current_blind == BLIND_TYPE_BOSS)
+    if (props->timer == TM_BLIND_SELECT_START && props->current_blind == BLIND_TYPE_BOSS)
     {
         selection_y = 0;
     }
@@ -359,7 +356,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
     {
         selection_y = 0;
     }
-    else if (key_hit(KEY_DOWN) && current_blind != BLIND_TYPE_BOSS)
+    else if (key_hit(KEY_DOWN) && props->current_blind != BLIND_TYPE_BOSS)
     {
         selection_y = 1;
     }
@@ -374,12 +371,13 @@ static void blind_select_handle_input(BlindSelectProps* props)
             props->timer = TM_ZERO;
             display_round(increment_round());
         }
-        else if (current_blind != BLIND_TYPE_BOSS)
+        else if (props->current_blind != BLIND_TYPE_BOSS)
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-            increment_blind(BLIND_STATE_SKIPPED);
+            increment_blind(props->blinds_states, &props->current_blind, BLIND_STATE_SKIPPED);
 
             reset_background(); // Force refresh of the background
+            update_game_state_ctx(GAME_STATE_BLIND_SELECT);
             change_background(BG_BLIND_SELECT);
 
             // TODO: Create a generic vertical move by any number of tiles to avoid for loops?
@@ -399,7 +397,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
                 );
             }
 
-            blind_select_print_blinds_reqs_and_rewards();
+            blind_select_print_blinds_reqs_and_rewards(props);
 
             props->timer = TM_ZERO;
             selection_y = 0;
@@ -453,6 +451,7 @@ static void blind_select_selected_anim_seq(BlindSelectProps* props)
 static void blind_select_display_blind_panel(BlindSelectProps* props)
 {
     uint timer = props->timer;
+
     if (timer >= TM_DISP_BLIND_PANEL_FINISH)
     {
         props->substate = BLIND_SELECT_MAX;

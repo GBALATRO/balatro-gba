@@ -10,6 +10,9 @@ typedef struct
 {
     uint timer;
     int substate;
+    int current_blind;
+    enum BlindState blinds_states[BLIND_TYPE_MAX];
+    int ante;
 } BlindSelectProps;
 
 // State callbacks for state machine
