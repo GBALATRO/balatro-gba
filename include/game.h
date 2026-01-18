@@ -164,11 +164,16 @@ void set_played_card_at(int idx, CardObject* card_object);
 int get_played_top(void);
 void reset_played_top(void);
 
+// Deck Array
+Card* get_deck_at(int idx);
+void set_deck_at(int idx, Card* card);
+int get_deck_top(void);
+
+int get_discard_top(void);
 int hand_get_size(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
 int get_scored_card_index(void);
-int get_deck_top(void);
 
 // Hands, Discards, and Round
 

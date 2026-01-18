@@ -235,14 +235,22 @@ void reset_played_top(void)
     played_top = -1;
 }
 
-int hand_get_size(void)
+Card* get_deck_at(int idx)
 {
-    return hand_top + 1;
+    if (idx < 0 || idx > deck_top)
+    {
+        return NULL;
+    }
+    return deck[idx];
 }
 
-int get_scored_card_index(void)
+void set_deck_at(int idx, Card* card)
 {
-    return scored_card_index;
+    if (idx < 0 || idx > MAX_DECK_SIZE - 1)
+    {
+        return;
+    }
+    deck[idx] = card;
 }
 
 int get_deck_top(void)
@@ -255,11 +263,19 @@ int increment_deck_top(void)
     return ++deck_top;
 }
 
-void set_deck_at(int idx, Card* card)
+int get_discard_top(void)
 {
-    if (idx < 0 || idx > MAX_DECK_SIZE - 1)
-        return;
-    deck[idx] = card;
+    return discard_top;
+}
+
+int hand_get_size(void)
+{
+    return hand_top + 1;
+}
+
+int get_scored_card_index(void)
+{
+    return scored_card_index;
 }
 
 int deck_get_size(void)

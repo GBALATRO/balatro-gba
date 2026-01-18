@@ -84,10 +84,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // Global variables from game.c
-extern Card* deck[MAX_DECK_SIZE];
-extern int deck_top;
-extern Card* discard_pile[MAX_DECK_SIZE];
-extern int discard_top;
 extern SelectionGrid game_playing_selection_grid;
 extern Button game_playing_buttons[];
 extern int current_blind;
@@ -240,9 +236,10 @@ static int game_playing_button_row_get_size(void)
 // no checks will be performed here for performance's sake
 static void swap_cards_in_hand(int idx_a, int idx_b)
 {
-    CardObject* temp = get_hand_card_at(idx_a);
-    set_hand_card_at(idx_a, get_hand_card_at(idx_b));
-    set_hand_card_at(idx_b, temp);
+    CardObject* card_object_a = get_hand_card_at(idx_a);
+    CardObject* card_object_b = get_hand_card_at(idx_b);
+    set_hand_card_at(idx_a, card_object_b);
+    set_hand_card_at(idx_b, card_object_a);
 }
 
 static bool shift_null_card_to_end(int null_card_idx)
@@ -281,12 +278,13 @@ static bool shift_null_card_to_end(int null_card_idx)
 
 void deck_shuffle(void)
 {
-    for (int i = deck_top; i > 0; i--)
+    for (int i = get_deck_top(); i > 0; i--)
     {
         int j = rand() % (i + 1);
-        Card* temp = deck[i];
-        deck[i] = deck[j];
-        deck[j] = temp;
+        Card* card_i = get_deck_at(i);
+        Card* card_j = get_deck_at(j);
+        set_deck_at(i, card_j);
+        set_deck_at(j, card_i);
     }
 }
 
@@ -810,7 +808,7 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
-    int hand_top = get_hand_top();
+    int hand_top = get_hand_top(), deck_top = get_deck_top();
     if (deck_top < 0 || hand_top >= hand_size - 1 || hand_top >= MAX_HAND_SIZE - 1)
         return;
 
@@ -1728,6 +1726,7 @@ static inline void game_playing_process_card_draw()
 static inline void game_playing_discarded_cards_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
+    int discard_top = get_discard_top();
     if (hand_get_size() == 0 && hand_state == HAND_SHUFFLING && discard_top >= -1 &&
         get_timer() > FRAMES(10))
     {
