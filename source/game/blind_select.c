@@ -16,7 +16,6 @@
 #include <stdint.h>
 #include <string.h>
 
-// Forward declarations - extern variables (game.h and other included headers provide these)
 #define TILE_SIZE         8
 #define BUTTON_SFX_VOLUME 154 // 60% of MM_FULL_VOLUME
 #define UINT_MAX_DIGITS   10
