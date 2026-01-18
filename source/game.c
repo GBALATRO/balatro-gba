@@ -942,6 +942,7 @@ void set_game_state_ctx(enum GameState game_state)
             {
                 BlindSelectProps* props = (BlindSelectProps*)ctx;
                 props->timer = timer;
+                props->substate = state_info[game_state].substate;
             }
             break;
         }
@@ -969,6 +970,7 @@ void retrieve_game_state_ctx(enum GameState game_state)
         {
             BlindSelectProps* props = (BlindSelectProps*)ctx;
             timer = props->timer;
+            state_info[game_state].substate = props->substate;
             break;
         }
         default:

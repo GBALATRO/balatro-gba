@@ -9,6 +9,7 @@
 typedef struct
 {
     uint timer;
+    int substate;
 } BlindSelectProps;
 
 // State callbacks for state machine

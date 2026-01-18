@@ -219,15 +219,14 @@ void game_blind_select_change_background(void)
 void game_blind_select_on_update(void* ctx)
 {
     BlindSelectProps* props = (BlindSelectProps*)ctx;
+    int substate = props->substate;
 
-    int substate = get_substate();
     if (substate == BLIND_SELECT_MAX)
     {
         game_change_state(GAME_STATE_PLAYING);
         return;
     }
 
-    substate = get_substate();
     blind_select_state_actions[substate](props);
 }
 
@@ -341,7 +340,7 @@ static void blind_select_start_anim_seq(BlindSelectProps* props)
     if (props->timer == TM_END_ANIM_SEQ)
     {
         blind_select_print_blinds_reqs_and_rewards();
-        set_substate(BLIND_SELECT);
+        props->substate = BLIND_SELECT;
         props->timer = TM_ZERO;
     }
 }
@@ -371,7 +370,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
         if (selection_y == 0) // Blind selected
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-            set_substate(BLIND_SELECTED_ANIM_SEQ);
+            props->substate = BLIND_SELECTED_ANIM_SEQ;
             props->timer = TM_ZERO;
             display_round(increment_round());
         }
@@ -445,8 +444,8 @@ static void blind_select_selected_anim_seq(BlindSelectProps* props)
     else if (timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
         hide_all_blind_select_tokens();
-        set_substate(DISPLAY_BLIND_PANEL); // Reset the state
-        props->timer = TM_ZERO;            // Reset the timer
+        props->substate = DISPLAY_BLIND_PANEL; // Reset the state
+        props->timer = TM_ZERO;                // Reset the timer
     }
 }
 
@@ -455,7 +454,7 @@ static void blind_select_display_blind_panel(BlindSelectProps* props)
     uint timer = props->timer;
     if (timer >= TM_DISP_BLIND_PANEL_FINISH)
     {
-        set_substate(BLIND_SELECT_MAX);
+        props->substate = BLIND_SELECT_MAX;
         return;
     }
 
