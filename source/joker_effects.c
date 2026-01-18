@@ -902,11 +902,11 @@ static u32 banner_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if (get_num_discards_remaining() > 0)
+    if (get_discards() > 0)
     {
         *joker_effect = &shared_joker_effect;
 
-        (*joker_effect)->chips = 30 * get_num_discards_remaining();
+        (*joker_effect)->chips = 30 * get_discards();
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
     }
 
@@ -924,7 +924,7 @@ static u32 mystic_summit_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if (get_num_discards_remaining() == 0)
+    if (get_discards() == 0)
     {
         *joker_effect = &shared_joker_effect;
 

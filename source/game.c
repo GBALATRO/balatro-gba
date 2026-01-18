@@ -348,11 +348,6 @@ int decrement_hands(void)
     return --hands;
 }
 
-int get_num_discards_remaining(void)
-{
-    return discards;
-}
-
 int get_discards(void)
 {
     return discards;
@@ -797,13 +792,13 @@ void game_init()
     _expired_jokers_list = list_create();
     _shop_jokers_list = list_create();
     // TODO: Move this to an initialization of the play scoring states
+
     reset_joker_scored_itr();
-
     reset_shop_jokers();
-
     reset_hands();
-    discards = max_discards;
-    timer = TM_ZERO;
+    reset_discards();
+    reset_timer();
+
     current_blind = BLIND_TYPE_SMALL;
     blinds_states[0] = BLIND_STATE_CURRENT;
     blinds_states[1] = BLIND_STATE_UPCOMING;
@@ -831,9 +826,7 @@ void game_init()
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
     );
 
-    obj_hide(blind_select_tokens[BLIND_TYPE_SMALL]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BIG]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BOSS]->obj);
+    hide_all_blind_select_tokens();
 }
 
 static inline void discarded_jokers_update_loop(void)
@@ -969,7 +962,7 @@ void game_start(void)
     affine_background_change_background(AFFINE_BG_GAME);
 
     reset_hands();
-    discards = max_discards;
+    reset_discards();
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
     // that allows for different decks and card types.

@@ -177,7 +177,6 @@ int get_num_hands_remaining(void);
 int get_discards(void);
 void reset_discards(void);
 int decrement_discards(void);
-int get_num_discards_remaining(void);
 int get_round(void);
 int increment_round(void);
 
