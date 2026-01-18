@@ -83,29 +83,75 @@ static const HandValues hand_base_values[] = {
     {.chips = 160, .mult = 16, .display_name = "FLUSH 5"}  // FLUSH_FIVE
 };
 
-// Global variables from game.c
-extern bool retrigger;
-extern int hand_size;
-extern int cards_drawn;
-extern int scored_card_index;
-extern bool sound_played;
-extern bool discarded_card;
-extern bool score_flames_active;
-extern enum HandState hand_state;
-extern enum PlayState play_state;
-extern enum HandType hand_type;
-extern Sprite* playing_blind_token;
-extern Sprite* round_end_blind_token;
-extern int hands;
-extern int discards;
-extern int max_hands;
-extern int max_discards;
-extern int shortcut_joker_count;
-extern int four_fingers_joker_count;
-extern List _owned_jokers_list;
-extern ListItr _joker_scored_itr;
-extern ListItr _joker_card_scored_end_itr;
-extern ListItr _joker_round_end_itr;
+static int hand_size = 8;
+static int cards_drawn = 0;
+
+u32 chips = 0;
+u32 mult = 0;
+bool retrigger = false;
+
+// discarded cards specific
+bool sound_played = false;
+bool discarded_card = false;
+
+// Keeping track of cards scored
+static int scored_card_index = 0;
+
+// The current game state
+enum HandState hand_state = HAND_DRAW;
+enum PlayState play_state = PLAY_STARTING;
+
+enum HandType hand_type = NONE;
+
+static bool sort_by_suit = false;
+
+// Keeping track of what Jokers are scored at each step
+ListItr _joker_scored_itr;
+ListItr _joker_card_scored_end_itr;
+ListItr _joker_round_end_itr;
+
+// card moving logic
+
+// true if and only if we are currently moving a card around
+static bool moving_card = false;
+
+// This will prevent us from moving cards around if we selected one
+// by moving too fast after pressing the A button
+static bool card_moved_too_fast = false;
+static bool card_selected_instead_of_moved = false;
+
+// After pressing A, if we press Left/Right too fast, we should select the card
+// and change focus to the next one, instead of swapping them
+// This should fix inputs sometimes not registering when quickly selecting cards
+static const int card_swap_time_threshold = 6;
+static uint selection_hit_timer = TM_ZERO;
+
+// Getters/Setters
+
+void set_retrigger(bool value)
+{
+    retrigger = value;
+}
+
+u32 get_chips(void)
+{
+    return chips;
+}
+
+void set_chips(u32 new_chips)
+{
+    chips = new_chips;
+}
+
+u32 get_mult(void)
+{
+    return mult;
+}
+
+void set_mult(u32 new_mult)
+{
+    mult = new_mult;
+}
 
 // Forward declarations for static functions defined later in this file
 static void set_hand(void);
@@ -187,7 +233,7 @@ static void game_playing_play_hand_on_pressed(void)
     if (!can_play_hand())
         return;
 
-    set_hand_state(HAND_PLAY);
+    hand_state = HAND_PLAY;
     decrement_hands();
     display_hands();
 
@@ -201,7 +247,7 @@ static void game_playing_discard_on_pressed(void)
     if (!can_discard_hand())
         return;
 
-    set_hand_state(HAND_DISCARD);
+    hand_state = HAND_DISCARD;
     decrement_discards();
     display_hands();
     set_hand();
@@ -210,7 +256,7 @@ static void game_playing_discard_on_pressed(void)
         DISCARDS_TEXT_RECT.left,
         DISCARDS_TEXT_RECT.top,
         TTE_RED_PB,
-        discards
+        get_discards()
     );
 
     // Move back to hand selection
@@ -220,6 +266,11 @@ static void game_playing_discard_on_pressed(void)
 static int game_playing_button_row_get_size(void)
 {
     return NUM_ELEM_IN_ARR(game_playing_buttons);
+}
+
+int get_scored_card_index(void)
+{
+    return scored_card_index;
 }
 
 // idx_a and idx_b are assumed to be valid indexes within the hand array
@@ -425,15 +476,13 @@ static void set_hand(void)
 
     HandValues hand = hand_base_values[hand_type];
 
-    set_chips(hand.chips);
-    set_mult(hand.mult);
+    chips = hand.chips;
+    mult = hand.mult;
 
     print_hand_type(hand.display_name);
     display_chips();
     display_mult();
 }
-
-static bool sort_by_suit = false;
 
 static void reorder_card_sprites_layers(void)
 {
@@ -497,28 +546,25 @@ void game_round_on_init()
     int current_blind = get_current_blind();
     int ante = get_ante();
 
-    playing_blind_token = blind_token_new(
+    Sprite* playing_blind_token_sprite = blind_token_new(
         current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 1
     ); // Create the blind token sprite at the top left corner
+    set_playing_blind_token(playing_blind_token_sprite);
+
     // TODO: Hide blind token and display it after sliding blind rect animation
-    // if (playing_blind_token != NULL)
-    //{
-    //    obj_hide(playing_blind_token->obj); // Hide the blind token sprite for now
-    //}
-    round_end_blind_token = blind_token_new(
+    // hide_playing_blind_token();
+
+    Sprite* round_end_blind_token_sprite = blind_token_new(
         current_blind,
         81,
         86,
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 2
     ); // Create the blind token sprite for round end
-
-    if (round_end_blind_token != NULL)
-    {
-        obj_hide(round_end_blind_token->obj); // Hide the blind token sprite for now
-    }
+    set_round_end_blind_token(round_end_blind_token_sprite);
+    hide_round_end_blind_token();
 
     Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
     u32 blind_requirement = blind_get_requirement(current_blind, ante);
@@ -557,22 +603,6 @@ void game_round_on_init()
      */
     game_playing_selection_grid.selection = GAME_PLAYING_INIT_SEL;
 }
-
-// card moving logic
-
-// true if and only if we are currently moving a card around
-static bool moving_card = false;
-
-// This will prevent us from moving cards around if we selected one
-// by moving too fast after pressing the A button
-static bool card_moved_too_fast = false;
-static bool card_selected_instead_of_moved = false;
-
-// After pressing A, if we press Left/Right too fast, we should select the card
-// and change focus to the next one, instead of swapping them
-// This should fix inputs sometimes not registering when quickly selecting cards
-static const int card_swap_time_threshold = 6;
-static uint selection_hit_timer = TM_ZERO;
 
 static bool game_playing_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -755,8 +785,12 @@ static bool can_play_hand(void)
 static bool can_discard_hand(void)
 {
     int discards = get_discards();
-    enum HandState hand_state = get_hand_state();
     return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
+}
+
+void reset_joker_scored_itr(void)
+{
+    _joker_scored_itr = list_itr_create(get_jokers_list());
 }
 
 /**
@@ -848,7 +882,7 @@ static inline void game_playing_handle_round_over(void)
             }
         }
     }
-    else if (hands == 0)
+    else if (get_hands() == 0)
     {
         next_state = GAME_STATE_LOSE;
     }
@@ -1192,6 +1226,7 @@ static inline bool game_round_is_over(void)
     int current_blind = get_current_blind();
     int ante = get_ante();
     u32 score = get_score();
+    int hands = get_hands();
 
     return hands == 0 || score >= blind_get_requirement(current_blind, ante);
 }
@@ -1242,7 +1277,7 @@ static bool play_ended_played_cards_update(int played_idx)
                 hand_selections = 0;
                 reset_played_top();
                 scored_card_index = 0;
-                _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+                _joker_scored_itr = list_itr_create(get_jokers_list());
                 reset_timer();
             }
 
@@ -1271,7 +1306,7 @@ static inline void play_starting_played_cards_update(int played_idx)
 
         if (scored_card_index == 0)
         {
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
             reset_timer();
             play_state = PLAY_BEFORE_SCORING;
         }
@@ -1323,7 +1358,7 @@ static inline bool play_scoring_cards_update(void)
         if (scored_card_index > played_top)
         {
             // reuse these variables for held cards
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
             scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
@@ -1354,12 +1389,12 @@ static inline bool play_scoring_cards_update(void)
             card_object_shake(scored_card_object, SFX_CHIPS_CARD);
 
             // Relocated card scoring logic here
-            increase_chips_by(card_value);
+            chips = u32_protected_add(chips, card_value);
             display_chips();
 
             // Allow Joker scoring
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            _joker_card_scored_end_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
+            _joker_card_scored_end_itr = list_itr_create(get_jokers_list());
         }
 
         play_state = PLAY_SCORING_CARD_JOKERS;
@@ -1439,11 +1474,11 @@ static inline bool play_scoring_held_cards_update(int played_idx)
                 card_object_shake(card_object, SFX_CARD_SELECT);
                 return true;
             }
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            _joker_scored_itr = list_itr_create(get_jokers_list());
         }
 
         scored_card_index = 0;
-        _joker_round_end_itr = list_itr_create(&_owned_jokers_list);
+        _joker_round_end_itr = list_itr_create(get_jokers_list());
         play_state = PLAY_SCORING_INDEPENDENT_JOKERS;
     }
 
@@ -1649,8 +1684,6 @@ static inline void game_playing_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDING)
     {
-        u32 chips = get_chips();
-        u32 mult = get_mult();
         if (mult > 0)
         {
             // protect against score overflow
@@ -1663,8 +1696,8 @@ static inline void game_playing_process_input_and_state(void)
 
             display_temp_score(temp_score);
 
-            reset_chips();
-            reset_mult();
+            chips = 0;
+            mult = 0;
             display_mult();
             display_chips();
 
@@ -1715,7 +1748,7 @@ static inline void game_playing_process_input_and_state(void)
 
 static inline void game_playing_process_card_draw()
 {
-    if (hand_state == HAND_DRAW && cards_drawn < hand_size)
+    if (hand_state == HAND_DRAW && cards_drawn < hand_get_size())
     {
         if (get_timer() % FRAMES(10) == 0) // Draw a card every 10 frames
         {
@@ -2002,7 +2035,7 @@ static inline void game_playing_process_flaming_score(void)
 {
     static u8 flame_score_frame = 0;
 
-    if (score_flames_active)
+    if (are_score_flames_active())
     {
         if (get_timer() % SCORE_FLAMES_ANIM_FREQ == 0)
         {

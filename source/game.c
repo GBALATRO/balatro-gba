@@ -67,10 +67,6 @@ StateInfo state_info[] = {
 
 // The current game state, this is used to determine what the game is doing at any given time
 enum GameState game_state = GAME_STATE_UNDEFINED;
-enum HandState hand_state = HAND_DRAW;
-enum PlayState play_state = PLAY_STARTING;
-
-enum HandType hand_type = NONE;
 
 // The sprite that displays the blind when in "GAME_PLAYING/GAME_ROUND_END" state
 Sprite* playing_blind_token = NULL;
@@ -107,28 +103,6 @@ u32 temp_score = 0; // This is the score that shows in the same spot as the hand
 FIXED lerped_score = 0;
 FIXED lerped_temp_score = 0;
 
-u32 chips = 0;
-u32 mult = 0;
-bool retrigger = false;
-
-int hand_size = 8; // Default hand size is 8
-int cards_drawn = 0;
-
-// Keeping track of cards scored
-int scored_card_index = 0;
-
-// discarded cards specific
-bool sound_played = false;
-bool discarded_card = false;
-
-// Keeping track of what Jokers are scored at each step
-ListItr _joker_scored_itr;
-ListItr _joker_card_scored_end_itr;
-ListItr _joker_round_end_itr;
-
-int selection_x = 0;
-int selection_y = 0;
-
 List _owned_jokers_list;
 List _discarded_jokers_list;
 List _expired_jokers_list;
@@ -151,7 +125,6 @@ int discard_top = -1;
 
 // Joker Special Variables
 int shortcut_joker_count = 0;
-
 int four_fingers_joker_count = 0;
 
 Bitset* get_avail_jokers_bitset_ptr(void)
@@ -258,11 +231,6 @@ int get_deck_top(void)
     return deck_top;
 }
 
-int increment_deck_top(void)
-{
-    return ++deck_top;
-}
-
 int get_discard_top(void)
 {
     return discard_top;
@@ -271,11 +239,6 @@ int get_discard_top(void)
 int hand_get_size(void)
 {
     return hand_top + 1;
-}
-
-int get_scored_card_index(void)
-{
-    return scored_card_index;
 }
 
 int deck_get_size(void)
@@ -312,17 +275,7 @@ void clear_joker_lists(void)
     list_clear(&_expired_jokers_list);
 }
 
-// Game State Getters/Setters
-enum GameState* get_game_state_ptr(void)
-{
-    return &game_state;
-}
-
-StateInfo* get_state_info_ptr(void)
-{
-    return &state_info[game_state];
-}
-
+// Game substates
 int get_substate(void)
 {
     return state_info[game_state].substate;
@@ -347,50 +300,6 @@ void set_timer(uint new_time)
 void reset_timer(void)
 {
     set_timer(TM_ZERO);
-}
-
-// Chips and Mult
-u32 get_chips(void)
-{
-    return chips;
-}
-
-void set_chips(u32 new_chips)
-{
-    chips = new_chips;
-}
-
-void reset_chips(void)
-{
-    set_chips(0);
-}
-
-u32 increase_chips_by(u32 amount)
-{
-    u32 _chips = get_chips();
-    _chips = u32_protected_add(_chips, amount);
-    set_chips(_chips);
-    return _chips;
-}
-
-u32 get_mult(void)
-{
-    return mult;
-}
-
-void set_mult(u32 new_mult)
-{
-    mult = new_mult;
-}
-
-void reset_mult(void)
-{
-    set_mult(0);
-}
-
-void set_retrigger(bool new_retrigger)
-{
-    retrigger = new_retrigger;
 }
 
 // Money Functions
@@ -437,11 +346,6 @@ void reset_hands(void)
 int decrement_hands(void)
 {
     return --hands;
-}
-
-int get_num_discards_remaining(void)
-{
-    return discards;
 }
 
 int get_discards(void)
@@ -593,9 +497,45 @@ Sprite* get_playing_blind_token(void)
     return playing_blind_token;
 }
 
+void set_playing_blind_token(Sprite* sprite)
+{
+    playing_blind_token = sprite;
+}
+
+bool playing_blind_token_exists(void)
+{
+    return playing_blind_token != NULL;
+}
+
+void hide_playing_blind_token(void)
+{
+    if (playing_blind_token_exists())
+    {
+        obj_hide(playing_blind_token->obj);
+    }
+}
+
 Sprite* get_round_end_blind_token(void)
 {
     return round_end_blind_token;
+}
+
+void set_round_end_blind_token(Sprite* sprite)
+{
+    round_end_blind_token = sprite;
+}
+
+bool round_end_blind_token_exists(void)
+{
+    return round_end_blind_token != NULL;
+}
+
+void hide_round_end_blind_token(void)
+{
+    if (round_end_blind_token_exists())
+    {
+        obj_hide(round_end_blind_token->obj);
+    }
 }
 
 void destroy_playing_and_round_end_blind_tokens(void)
@@ -725,18 +665,6 @@ void mult_rng_seed(int factor)
     rng_seed *= factor;
 }
 
-// Hand state
-
-void set_hand_state(enum HandState new_hand_state)
-{
-    hand_state = new_hand_state;
-}
-
-enum HandState get_hand_state(void)
-{
-    return hand_state;
-}
-
 // ============================================================================
 // Round.c helpers
 // ============================================================================
@@ -864,13 +792,13 @@ void game_init()
     _expired_jokers_list = list_create();
     _shop_jokers_list = list_create();
     // TODO: Move this to an initialization of the play scoring states
-    _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 
+    reset_joker_scored_itr();
     reset_shop_jokers();
+    reset_hands();
+    reset_discards();
+    reset_timer();
 
-    hands = max_hands;
-    discards = max_discards;
-    timer = TM_ZERO;
     current_blind = BLIND_TYPE_SMALL;
     blinds_states[0] = BLIND_STATE_CURRENT;
     blinds_states[1] = BLIND_STATE_UPCOMING;
@@ -898,9 +826,7 @@ void game_init()
         MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
     );
 
-    obj_hide(blind_select_tokens[BLIND_TYPE_SMALL]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BIG]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BOSS]->obj);
+    hide_all_blind_select_tokens();
 }
 
 static inline void discarded_jokers_update_loop(void)
@@ -1035,8 +961,8 @@ void game_start(void)
 
     affine_background_change_background(AFFINE_BG_GAME);
 
-    hands = max_hands;
-    discards = max_discards;
+    reset_hands();
+    reset_discards();
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
     // that allows for different decks and card types.

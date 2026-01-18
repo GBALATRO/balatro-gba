@@ -125,26 +125,11 @@ void increment_four_fingers_joker_count(void);
 void increment_shortcut_joker_count(void);
 
 // Chips, Mult, and Money Functions
-
-u32 get_chips(void);
-void set_chips(u32 new_chips);
-void reset_chips(void);
-u32 increase_chips_by(u32 amount);
-void display_chips(void);
-
-u32 get_mult(void);
-void set_mult(u32 new_mult);
-void reset_mult(void);
-u32 increase_mult_by(u32 amount);
-void display_mult(void);
-
 int get_money(void);
 void set_money(int new_money);
 void increase_money(int amount);
 void decrease_money(int amount);
 void display_money(void);
-
-void set_retrigger(bool new_retrigger);
 
 // Timer and RNG Functions
 
@@ -180,7 +165,6 @@ int get_discard_top(void);
 int hand_get_size(void);
 int deck_get_size(void);
 int deck_get_max_size(void);
-int get_scored_card_index(void);
 
 // Hands, Discards, and Round
 
@@ -193,7 +177,6 @@ int get_num_hands_remaining(void);
 int get_discards(void);
 void reset_discards(void);
 int decrement_discards(void);
-int get_num_discards_remaining(void);
 int get_round(void);
 int increment_round(void);
 
@@ -225,17 +208,9 @@ void set_lerped_temp_score(FIXED new_lerped_temp_score);
 void reset_lerped_temp_score(void);
 FIXED decrease_lerped_temp_score_by(FIXED amount);
 
-// Game State
-
-enum GameState* get_game_state_ptr(void);
-StateInfo* get_state_info_ptr(void);
+// Game substates
 int get_substate(void);
 void set_substate(int new_substate);
-
-// Hand state
-
-void set_hand_state(enum HandState new_hand_state);
-enum HandState get_hand_state(void);
 
 // ============================================================================
 // Blind Management Functions
@@ -243,8 +218,17 @@ enum HandState get_hand_state(void);
 
 Sprite* get_blind_select_token(enum BlindType blind_type);
 Sprite* get_playing_blind_token(void);
+void set_playing_blind_token(Sprite* sprite);
+bool playing_blind_token_exists(void);
+void hide_playing_blind_token(void);
+
 Sprite* get_round_end_blind_token(void);
+void set_round_end_blind_token(Sprite* sprite);
+bool round_end_blind_token_exists(void);
+void hide_round_end_blind_token(void);
+
 void destroy_playing_and_round_end_blind_tokens(void);
+
 void destroy_blind_select_token(enum BlindType blind_type);
 void destroy_all_blind_select_tokens(void);
 void hide_blind_select_token(enum BlindType blind_type);
