@@ -944,22 +944,21 @@ void set_game_state_ctx(enum GameState game_state)
 void retrieve_game_state_ctx(enum GameState game_state)
 {
     void* ctx = state_info[game_state].ctx;
+    if (!ctx)
+        return;
     switch (game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            if (ctx)
-            {
-                struct MainMenuProps* props = (struct MainMenuProps*)ctx;
-                rng_seed = props->rng_seed;
-                free(ctx);
-                state_info[game_state].ctx = NULL;
-            }
+            struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+            rng_seed = props->rng_seed;
             break;
         }
         default:
             break;
     }
+    free(ctx);
+    state_info[game_state].ctx = NULL;
 }
 
 void game_update()
