@@ -128,15 +128,22 @@ void increment_shortcut_joker_count(void);
 
 u32 get_chips(void);
 void set_chips(u32 new_chips);
+void reset_chips(void);
+u32 increase_chips_by(u32 amount);
 void display_chips(void);
+
 u32 get_mult(void);
 void set_mult(u32 new_mult);
+void reset_mult(void);
+u32 increase_mult_by(u32 amount);
 void display_mult(void);
+
 int get_money(void);
 void set_money(int new_money);
 void increase_money(int amount);
 void decrease_money(int amount);
 void display_money(void);
+
 void set_retrigger(bool new_retrigger);
 
 // Timer and RNG Functions
@@ -178,6 +185,7 @@ int get_scored_card_index(void);
 // Hands, Discards, and Round
 
 int get_ante(void);
+int increment_ante(void);
 int get_hands(void);
 void reset_hands(void);
 int decrement_hands(void);
@@ -194,6 +202,28 @@ int increment_round(void);
 u32 get_score(void);
 void set_score(u32 new_score);
 void reset_score(void);
+u32 increase_score_by(u32 amount);
+
+// Temp score
+
+u32 get_temp_score(void);
+void set_temp_score(u32 new_temp_score);
+void reset_temp_score(void);
+u32 mult_temp_score_by(u32 factor);
+
+// Lerped score
+
+FIXED get_lerped_score(void);
+void set_lerped_score(FIXED new_lerped_score);
+void reset_lerped_score(void);
+FIXED increase_lerped_score_by(FIXED amount);
+
+// Temp lerped score
+
+FIXED get_lerped_temp_score(void);
+void set_lerped_temp_score(FIXED new_lerped_temp_score);
+void reset_lerped_temp_score(void);
+FIXED decrease_lerped_temp_score_by(FIXED amount);
 
 // Game State
 

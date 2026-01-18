@@ -360,6 +360,19 @@ void set_chips(u32 new_chips)
     chips = new_chips;
 }
 
+void reset_chips(void)
+{
+    set_chips(0);
+}
+
+u32 increase_chips_by(u32 amount)
+{
+    u32 _chips = get_chips();
+    _chips = u32_protected_add(_chips, amount);
+    set_chips(_chips);
+    return _chips;
+}
+
 u32 get_mult(void)
 {
     return mult;
@@ -368,6 +381,11 @@ u32 get_mult(void)
 void set_mult(u32 new_mult)
 {
     mult = new_mult;
+}
+
+void reset_mult(void)
+{
+    set_mult(0);
 }
 
 void set_retrigger(bool new_retrigger)
@@ -457,18 +475,107 @@ int get_ante(void)
     return ante;
 }
 
+int increment_ante(void)
+{
+    return ++ante;
+}
+
 // Score management
 u32 get_score(void)
 {
     return score;
 }
+
 void set_score(u32 new_score)
 {
     score = new_score;
 }
+
 void reset_score(void)
 {
     set_score(0);
+}
+
+u32 increase_score_by(u32 amount)
+{
+    u32 _score = get_score();
+    _score = u32_protected_add(_score, amount);
+    set_score(_score);
+    return _score;
+}
+
+// Temp score
+u32 get_temp_score(void)
+{
+    return temp_score;
+}
+
+void set_temp_score(u32 new_temp_score)
+{
+    temp_score = new_temp_score;
+}
+
+void reset_temp_score(void)
+{
+    set_temp_score(0);
+}
+
+u32 mult_temp_score_by(u32 factor)
+{
+    u32 _temp_score = get_temp_score();
+    _temp_score = u32_protected_mult(_temp_score, factor);
+    set_temp_score(_temp_score);
+    return _temp_score;
+}
+
+// Lerped score
+
+FIXED get_lerped_score(void)
+{
+    return lerped_score;
+}
+
+void set_lerped_score(FIXED new_lerped_score)
+{
+    lerped_score = new_lerped_score;
+}
+
+void reset_lerped_score(void)
+{
+    set_lerped_score(0);
+}
+
+FIXED increase_lerped_score_by(FIXED amount)
+{
+    FIXED _lerped_score = get_lerped_score();
+    _lerped_score += amount;
+    set_lerped_score(_lerped_score);
+    return lerped_score;
+}
+
+// Temp lerped score
+
+FIXED get_lerped_temp_score(void)
+{
+    return lerped_temp_score;
+}
+
+void set_lerped_temp_score(FIXED new_lerped_temp_score)
+{
+    lerped_temp_score = new_lerped_temp_score;
+}
+
+void reset_lerped_temp_score(void)
+{
+    set_lerped_temp_score(0);
+}
+
+FIXED decrease_lerped_temp_score_by(FIXED amount)
+{
+    FIXED _lerped_temp_score = get_lerped_temp_score();
+    _lerped_temp_score -= amount;
+    set_lerped_temp_score(_lerped_temp_score);
+    return lerped_temp_score;
 }
 
 // Blind Management

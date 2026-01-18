@@ -84,16 +84,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // Global variables from game.c
-extern SelectionGrid game_playing_selection_grid;
-extern Button game_playing_buttons[];
-extern int current_blind;
-extern int ante;
-extern u32 score;
-extern u32 temp_score;
-extern u32 chips;
-extern u32 mult;
-extern FIXED lerped_score;
-extern FIXED lerped_temp_score;
 extern bool retrigger;
 extern int hand_size;
 extern int cards_drawn;
@@ -435,8 +425,8 @@ static void set_hand(void)
 
     HandValues hand = hand_base_values[hand_type];
 
-    chips = hand.chips;
-    mult = hand.mult;
+    set_chips(hand.chips);
+    set_mult(hand.mult);
 
     print_hand_type(hand.display_name);
     display_chips();
@@ -503,6 +493,9 @@ void game_round_on_init()
     hand_state = HAND_DRAW;
     cards_drawn = 0;
     hand_selections = 0;
+
+    int current_blind = get_current_blind();
+    int ante = get_ante();
 
     playing_blind_token = blind_token_new(
         current_blind,
@@ -837,13 +830,17 @@ static inline void game_playing_handle_round_over(void)
 {
     enum GameState next_state = GAME_STATE_ROUND_END;
 
+    int current_blind = get_current_blind();
+    int ante = get_ante();
+    u32 score = get_score();
+
     if (score >= blind_get_requirement(current_blind, ante))
     {
         if (current_blind == BLIND_TYPE_BOSS)
         {
             if (ante < MAX_ANTE)
             {
-                display_ante(++ante);
+                display_ante(increment_ante());
             }
             else
             {
@@ -1192,6 +1189,10 @@ static bool check_and_score_joker_for_event(
 
 static inline bool game_round_is_over(void)
 {
+    int current_blind = get_current_blind();
+    int ante = get_ante();
+    u32 score = get_score();
+
     return hands == 0 || score >= blind_get_requirement(current_blind, ante);
 }
 
@@ -1353,7 +1354,7 @@ static inline bool play_scoring_cards_update(void)
             card_object_shake(scored_card_object, SFX_CHIPS_CARD);
 
             // Relocated card scoring logic here
-            chips = u32_protected_add(chips, card_value);
+            increase_chips_by(card_value);
             display_chips();
 
             // Allow Joker scoring
@@ -1648,17 +1649,21 @@ static inline void game_playing_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDING)
     {
+        u32 mult = get_mult();
         if (mult > 0)
         {
             // protect against score overflow
-            temp_score = u32_protected_mult(chips, mult);
-            lerped_temp_score = int2fx(temp_score);
-            lerped_score = int2fx(score);
+            u32 score = get_score();
+            u32 temp_score = get_temp_score();
+
+            temp_score = mult_temp_score_by(mult);
+            set_lerped_temp_score(int2fx(temp_score));
+            set_lerped_score(int2fx(score));
 
             display_temp_score(temp_score);
 
-            chips = 0;
-            mult = 0;
+            reset_chips();
+            reset_mult();
             display_mult();
             display_chips();
 
@@ -1675,13 +1680,15 @@ static inline void game_playing_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDED && get_timer() % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
     {
+        u32 temp_score = get_temp_score();
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
          * The operation is equivalent to
          * fxdiv(int2fx(temp_score * GAME_SPEED), int2fx(NUM_SCORE_LERP_STEPS))
          */
-        lerped_temp_score -= int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
-        lerped_score += int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
+        FIXED lerped_score_offset = int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
+        FIXED lerped_temp_score = decrease_lerped_temp_score_by(lerped_score_offset);
+        FIXED lerped_score = increase_lerped_score_by(lerped_score_offset);
 
         if (lerped_temp_score > 0)
         {
@@ -1693,10 +1700,10 @@ static inline void game_playing_process_input_and_state(void)
         }
         else
         {
-            score = u32_protected_add(score, temp_score);
-            temp_score = 0;
-            lerped_temp_score = 0;
-            lerped_score = 0;
+            u32 score = increase_score_by(temp_score);
+            reset_temp_score();
+            reset_lerped_temp_score();
+            reset_lerped_score();
 
             tte_erase_rect_wrapper(TEMP_SCORE_RECT); // Just erase the temp score
 
@@ -2058,6 +2065,8 @@ void game_selecting_change_background(enum BackgroundId current_background)
         GRIT_CPY(pal_bg_mem, background_gfxPal);
         GRIT_CPY(&tile8_mem[MAIN_BG_CBB], background_gfxTiles);
         GRIT_CPY(&se_mem[MAIN_BG_SBB], background_gfxMap);
+
+        int current_blind = get_current_blind();
 
         if (current_blind == BLIND_TYPE_BIG) // Change text and palette depending on blind type
         {
