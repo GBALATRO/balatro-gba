@@ -84,7 +84,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // Global variables from game.c
-extern int hand_top;
 extern CardObject* played[MAX_SELECTION_SIZE];
 extern int played_top;
 extern Card* deck[MAX_DECK_SIZE];
@@ -253,6 +252,7 @@ static bool shift_null_card_to_end(int null_card_idx)
     // Start by searching any non NULL cards after the NULL one
     // don't start at null_card_idx+1 to avoid potential illegal array access
     int non_null_card_idx = null_card_idx;
+    int hand_top = get_hand_top();
     for (; non_null_card_idx <= hand_top; non_null_card_idx++)
     {
         if (get_hand_card_at(non_null_card_idx) != NULL)
@@ -294,6 +294,7 @@ void deck_shuffle(void)
 
 void sort_hand_by_suit(void)
 {
+    int hand_top = get_hand_top();
     for (int idx_a = 0; idx_a < hand_top; idx_a++)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
@@ -312,6 +313,7 @@ void sort_hand_by_suit(void)
 
 void sort_hand_by_rank(void)
 {
+    int hand_top = get_hand_top();
     for (int idx_a = 0; idx_a < hand_top; idx_a++)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
@@ -451,6 +453,7 @@ static void reorder_card_sprites_layers(void)
 {
     // Update the sprites in the hand by destroying them and creating new ones in the correct order
     // (This feels like a diabolical solution but like literally how else would you do this)
+    int hand_top = get_hand_top();
     for (int i = 0; i <= hand_top; i++)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
@@ -809,6 +812,7 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
+    int hand_top = get_hand_top();
     if (deck_top < 0 || hand_top >= hand_size - 1 || hand_top >= MAX_HAND_SIZE - 1)
         return;
 
@@ -820,7 +824,7 @@ static inline void card_draw(void)
     card_object->sprite_object->x = deck_x;
     card_object->sprite_object->y = deck_y;
 
-    int hand_top = increment_hand_top();
+    hand_top = increment_hand_top();
     set_hand_card_at(hand_top, card_object);
 
     // Sort the hand after drawing a card
@@ -874,6 +878,8 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
     *break_loop = false;
     CardObject* card_object = get_hand_card_at(card_idx);
+    int hand_top = get_hand_top();
+
     if (card_object_is_selected(card_object) || hand_state == HAND_SHUFFLING)
     {
         if (!discarded_card)
@@ -898,7 +904,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 set_hand_card_at(card_idx, card_object);
                 reorder_card_sprites_layers();
 
-                hand_top--;
+                hand_top = decrement_hand_top();
                 // This technically isn't drawing cards, I'm just reusing the variable
                 cards_drawn++;
                 sound_played = false;
@@ -1287,7 +1293,7 @@ static inline bool play_scoring_cards_update(void)
         {
             // reuse these variables for held cards
             _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            scored_card_index = hand_top;
+            scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
 
@@ -1786,6 +1792,7 @@ static inline void cards_in_hand_update_loop(void)
 
     // TODO: Break this function up into smaller ones, Gods be good
     // Start from the end of the hand and work backwards because that's how Balatro does it
+    int hand_top = get_hand_top();
     for (int i = hand_top + 1; i >= 0; i--)
     {
         CardObject* card_object = get_hand_card_at(i);
@@ -1865,7 +1872,7 @@ static inline void cards_in_hand_update_loop(void)
                             SFX_DEFAULT_VOLUME
                         );
 
-                        hand_top--;
+                        hand_top = decrement_hand_top();
                         hand_selections--;
                         cards_drawn++;
 
