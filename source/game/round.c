@@ -455,7 +455,8 @@ static void reorder_card_sprites_layers(void)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
         // before. Any NULL CardObject will be sent to the end by shifting all elements forward
-        if (get_hand_card_at(i) == NULL)
+        CardObject* card_object = get_hand_card_at(i);
+        if (card_object == NULL)
         {
             if (!shift_null_card_to_end(i))
             {
@@ -464,7 +465,7 @@ static void reorder_card_sprites_layers(void)
         }
 
         // card_object_get_sprite() will not work here since we need the address
-        sprite_destroy(&(get_hand_card_at(i)->sprite_object->sprite));
+        sprite_destroy(&(card_object->sprite_object->sprite));
     }
 
     // Recreate the sprites for the remaining non NULL cards, in order
@@ -894,6 +895,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
             {
                 discard_push(card_object->card);
                 card_object_destroy(&card_object);
+                set_hand_card_at(card_idx, card_object);
                 reorder_card_sprites_layers();
 
                 hand_top--;
