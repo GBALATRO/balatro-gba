@@ -8,6 +8,8 @@
 #include <tonc_math.h>
 #include <tonc_tte.h>
 
+const Rect FULL_SCREENBLOCK_RECT = {0, 0, SE_ROW_LEN - 1, SE_COL_LEN - 1};
+
 static void clip_se_rect_to_screenblock(Rect* rect);
 static void bg_se_copy_or_move_rect_1_tile_vert(
     u16 bg_sbb,

@@ -3,6 +3,8 @@
 
 #include "graphic_utils.h"
 
+// clang-format off
+
 // Game rects - Screenblock rects (in tiles)
 // Round end/shop menus
 static const Rect ROUND_END_MENU_RECT       = {9,       7,      24,     20 };
@@ -50,8 +52,5 @@ static const Rect HAND_TYPE_RECT            = {8,       64,     64,     72  };
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  };
 static const Rect SCORE_RECT                = {24,      48,     64,     56  };
 
-// Other rects
-static const Rect FULL_SCREENBLOCK_RECT     = {0,       0,      30,     31  };
-static const Rect COUNTDOWN_TIMER_RECT      = {208,     144,    240,    152 };
-
+// clang-format on
 #endif // RECT_H
