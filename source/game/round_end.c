@@ -387,10 +387,8 @@ static void game_round_end_display_rewards(RoundEndProps* props)
 static void game_round_end_cashout(RoundEndProps* props)
 {
     // Reward the player
-    increase_money(
-        props->hands + blind_get_reward(props->current_blind) +
-        calculate_interest_reward(props->money)
-    );
+    props->money += props->hands + blind_get_reward(props->current_blind) +
+                    calculate_interest_reward(props->money);
     display_money();
 
     props->hands = props->max_hands;       // Reset the hands to the maximum
