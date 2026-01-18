@@ -7,8 +7,8 @@
 #include <tonc.h>
 
 // Main round state functions
-void game_round_on_init(void);
-void game_playing_on_update(void);
+void game_round_on_init(void* ctx);
+void game_playing_on_update(void* ctx);
 
 // Background change functions
 void game_playing_change_background(enum BackgroundId current_background);

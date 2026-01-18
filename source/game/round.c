@@ -537,7 +537,7 @@ static void sort_cards(void)
     reorder_card_sprites_layers();
 }
 
-void game_round_on_init()
+void game_round_on_init(void* ctx)
 {
     hand_state = HAND_DRAW;
     cards_drawn = 0;
@@ -2140,7 +2140,7 @@ void game_selecting_change_background(enum BackgroundId current_background)
     }
 }
 
-void game_playing_on_update(void)
+void game_playing_on_update(void* ctx)
 {
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
     if (hand_state == HAND_DRAW || hand_state == HAND_DISCARD || hand_state == HAND_SELECT)

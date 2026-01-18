@@ -52,7 +52,7 @@ static inline int blind_select_rect_width(const Rect* rect)
 static int selection_x;
 static int selection_y;
 
-void game_blind_select_on_init(void)
+void game_blind_select_on_init(void* _)
 {
     change_background(BG_BLIND_SELECT);
     selection_x = 0;
@@ -216,7 +216,7 @@ void game_blind_select_change_background(void)
     }
 }
 
-void game_blind_select_on_update(void)
+void game_blind_select_on_update(void* ctx)
 {
     int substate = get_substate();
     if (substate == BLIND_SELECT_MAX)
@@ -491,7 +491,7 @@ static void blind_select_display_blind_panel()
     }
 }
 
-void game_blind_select_on_exit(void)
+void game_blind_select_on_exit(void* _)
 {
     selection_y = 0;
     reset_background();

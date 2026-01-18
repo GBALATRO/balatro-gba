@@ -38,7 +38,7 @@ static CardObject* main_menu_ace = NULL;
 // Current selected button index
 static int selection_x = 0;
 
-void game_main_menu_on_init(void)
+void game_main_menu_on_init(void* _)
 {
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU);
@@ -71,20 +71,22 @@ void game_main_menu_change_background(void)
     );
 }
 
-void game_main_menu_on_update(void)
+void game_main_menu_on_update(void* ctx)
 {
+    struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+
     change_background(BG_MAIN_MENU);
 
     card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((get_timer() << 8) / 2) / 3;
+    main_menu_ace->sprite_object->trotation = lu_sin((props->timer << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
 
     // Seed randomization
-    incr_rng_seed();
+    props->rng_seed++;
     // If the keys have changed, make it more pseudo-random
     if (key_curr_state() != key_prev_state())
     {
-        mult_rng_seed(2);
+        props->rng_seed *= 2;
     }
 
     if (key_hit(KEY_LEFT))

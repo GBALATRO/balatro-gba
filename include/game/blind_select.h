@@ -7,9 +7,9 @@
 #include <tonc.h>
 
 // State callbacks for state machine
-void game_blind_select_on_init(void);
-void game_blind_select_on_update(void);
-void game_blind_select_on_exit(void);
+void game_blind_select_on_init(void* ctx);
+void game_blind_select_on_update(void* ctx);
+void game_blind_select_on_exit(void* ctx);
 
 // Background change function
 void game_blind_select_change_background(void);

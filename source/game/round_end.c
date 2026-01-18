@@ -72,7 +72,7 @@ int calculate_interest_reward(void)
     return reward;
 }
 
-void game_round_end_on_exit()
+void game_round_end_on_exit(void* ctx)
 {
     // Cleanup blind tokens from this round to avoid accumulating
     // allocated blind sprites each round
@@ -83,7 +83,7 @@ void game_round_end_on_exit()
     // TODO: Reuse sprites for blind selection?
 }
 
-void game_round_end_on_update()
+void game_round_end_on_update(void* ctx)
 {
     int substate = get_substate();
     if (substate == ROUND_END_EXIT)

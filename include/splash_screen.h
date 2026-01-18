@@ -23,16 +23,16 @@
 /**
  * @brief Initialize the splash screen by printing the splash screen text.
  */
-void splash_screen_on_init(void);
+void splash_screen_on_init(void* ctx);
 
 /**
  * @brief Update splash screen timers and print the remaining time accordingly.
  */
-void splash_screen_on_update(void);
+void splash_screen_on_update(void* ctx);
 
 /**
  * @brief Exit the splash screen
  */
-void splash_screen_on_exit(void);
+void splash_screen_on_exit(void* ctx);
 
 #endif // SPLASH_SCREEN_H

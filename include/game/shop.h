@@ -3,8 +3,8 @@
 
 #include "selection_grid.h"
 
-void game_shop_on_update(void);
-void game_shop_on_exit(void);
+void game_shop_on_update(void* ctx);
+void game_shop_on_exit(void* ctx);
 
 void reset_shop_jokers(void);
 void set_shop_joker_avail(int joker_id, bool avail);

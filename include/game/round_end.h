@@ -4,9 +4,9 @@
 #include "game.h"
 #include "game/common_ui.h"
 
-void game_round_end_on_init(void);
-void game_round_end_on_update(void);
-void game_round_end_on_exit(void);
+void game_round_end_on_init(void* ctx);
+void game_round_end_on_update(void* ctx);
+void game_round_end_on_exit(void* ctx);
 int calculate_interest_reward(void);
 
 void game_round_end_change_background(enum BackgroundId current_background);

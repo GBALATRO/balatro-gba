@@ -91,9 +91,10 @@ enum HandType
 typedef struct
 {
     int substate;
-    void (*on_init)();
-    void (*on_update)();
-    void (*on_exit)();
+    void (*on_init)(void*);
+    void (*on_update)(void*);
+    void (*on_exit)(void*);
+    void* ctx;
 } StateInfo;
 
 // ============================================================================

@@ -51,7 +51,7 @@
 // efficient. Well, this is the answer.
 // Thanks!
 // https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
-static void noop(void)
+static void noop(void* _)
 {
 }
 
@@ -60,7 +60,7 @@ uint timer = 0; // This might already exist in libtonc but idk so i'm just makin
 
 StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
-    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn, .substate = 0},
+    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn, .substate = 0, .ctx = NULL},
 #include "../include/def_state_info_table.h"
 #undef DEF_STATE_INFO
 };
@@ -919,13 +919,58 @@ static inline void jokers_update_loop(void)
     expired_jokers_update_loop();
 }
 
+void set_game_state_ctx(enum GameState game_state)
+{
+    void* ctx = NULL;
+    switch (game_state)
+    {
+        case GAME_STATE_MAIN_MENU:
+        {
+            ctx = malloc(sizeof(struct MainMenuProps));
+            if (ctx)
+            {
+                struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+                props->timer = get_timer();
+                props->rng_seed = rng_seed;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    state_info[game_state].ctx = ctx;
+}
+
+void retrieve_game_state_ctx(enum GameState game_state)
+{
+    void* ctx = state_info[game_state].ctx;
+    switch (game_state)
+    {
+        case GAME_STATE_MAIN_MENU:
+        {
+            if (ctx)
+            {
+                struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+                rng_seed = props->rng_seed;
+                free(ctx);
+                state_info[game_state].ctx = NULL;
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 void game_update()
 {
     timer++;
 
     jokers_update_loop();
 
-    state_info[game_state].on_update();
+    set_game_state_ctx(game_state);
+    state_info[game_state].on_update(state_info[game_state].ctx);
+    retrieve_game_state_ctx(game_state);
 }
 
 void game_change_state(enum GameState new_game_state)
@@ -935,12 +980,12 @@ void game_change_state(enum GameState new_game_state)
     if (game_state >= 0 && game_state < GAME_STATE_MAX)
     {
         state_info[game_state].substate = 0;
-        state_info[game_state].on_exit();
+        state_info[game_state].on_exit(state_info[game_state].ctx);
     }
 
     if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
     {
-        state_info[new_game_state].on_init();
+        state_info[new_game_state].on_init(state_info[new_game_state].ctx);
 
         game_state = new_game_state;
     }
@@ -964,8 +1009,8 @@ void game_start(void)
     reset_hands();
     reset_discards();
 
-    // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
-    // that allows for different decks and card types.
+    // Fill the deck with all the cards. Later on this can be replaced with a more dynamic
+    // system that allows for different decks and card types.
     for (int suit = 0; suit < NUM_SUITS; suit++)
     {
         for (int rank = 0; rank < NUM_RANKS; rank++)

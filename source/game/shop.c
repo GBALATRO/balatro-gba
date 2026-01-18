@@ -725,7 +725,7 @@ static inline void game_shop_lights_anim_frame(void)
     memcpy16(&pal_bg_mem[SHOP_LIGHTS_1_PID], &shifted_palette[3], 1);
 }
 
-void game_shop_on_update()
+void game_shop_on_update(void* ctx)
 {
     change_background(BG_SHOP);
 
@@ -759,7 +759,7 @@ void game_shop_on_update()
     shop_state_actions[substate]();
 }
 
-void game_shop_on_exit()
+void game_shop_on_exit(void* ctx)
 {
     ListItr itr = list_itr_create(&_shop_jokers_list);
     JokerObject* joker_object;
