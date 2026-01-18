@@ -21,11 +21,11 @@
 #define UINT_MAX_DIGITS   10
 #define OVERFLOW_RIGHT    0
 
-static void blind_select_start_anim_seq();
-static void blind_select_handle_input();
-static void blind_select_selected_anim_seq();
-static void blind_select_display_blind_panel();
-typedef void (*SubStateActionFn)(void);
+static void blind_select_start_anim_seq(BlindSelectProps* props);
+static void blind_select_handle_input(BlindSelectProps* props);
+static void blind_select_selected_anim_seq(BlindSelectProps* props);
+static void blind_select_display_blind_panel(BlindSelectProps* props);
+typedef void (*SubStateActionFn)(BlindSelectProps* props);
 static const SubStateActionFn blind_select_state_actions[] = {
     blind_select_start_anim_seq,
     blind_select_handle_input,
@@ -218,6 +218,8 @@ void game_blind_select_change_background(void)
 
 void game_blind_select_on_update(void* ctx)
 {
+    BlindSelectProps* props = (BlindSelectProps*)ctx;
+
     int substate = get_substate();
     if (substate == BLIND_SELECT_MAX)
     {
@@ -226,7 +228,7 @@ void game_blind_select_on_update(void* ctx)
     }
 
     substate = get_substate();
-    blind_select_state_actions[substate]();
+    blind_select_state_actions[substate](props);
 }
 
 static inline void blind_select_erase_blind_reqs_and_rewards()
@@ -325,7 +327,7 @@ static void blind_select_print_blinds_reqs_and_rewards(void)
 }
 
 // Sub-state action functions
-static void blind_select_start_anim_seq()
+static void blind_select_start_anim_seq(BlindSelectProps* props)
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
@@ -336,7 +338,7 @@ static void blind_select_start_anim_seq()
         move_blind_select_token((enum BlindType)i, sprite_pos_x, sprite_pos_y - TILE_SIZE);
     }
 
-    if (get_timer() == TM_END_ANIM_SEQ)
+    if (props->timer == TM_END_ANIM_SEQ)
     {
         blind_select_print_blinds_reqs_and_rewards();
         set_substate(BLIND_SELECT);
@@ -344,11 +346,11 @@ static void blind_select_start_anim_seq()
     }
 }
 
-static void blind_select_handle_input()
+static void blind_select_handle_input(BlindSelectProps* props)
 {
     int current_blind = get_current_blind();
 
-    if (get_timer() == TM_BLIND_SELECT_START && current_blind == BLIND_TYPE_BOSS)
+    if (props->timer == TM_BLIND_SELECT_START && current_blind == BLIND_TYPE_BOSS)
     {
         selection_y = 0;
     }
@@ -424,9 +426,9 @@ static void blind_select_handle_input()
     }
 }
 
-static void blind_select_selected_anim_seq()
+static void blind_select_selected_anim_seq(BlindSelectProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (timer < 15)
     {
         Rect blinds_rect = POP_MENU_ANIM_RECT;
@@ -448,9 +450,9 @@ static void blind_select_selected_anim_seq()
     }
 }
 
-static void blind_select_display_blind_panel()
+static void blind_select_display_blind_panel(BlindSelectProps* props)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (timer >= TM_DISP_BLIND_PANEL_FINISH)
     {
         set_substate(BLIND_SELECT_MAX);

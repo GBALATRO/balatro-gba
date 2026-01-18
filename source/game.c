@@ -926,12 +926,22 @@ void set_game_state_ctx(enum GameState game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            ctx = malloc(sizeof(struct MainMenuProps));
+            ctx = malloc(sizeof(MainMenuProps));
             if (ctx)
             {
-                struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+                MainMenuProps* props = (MainMenuProps*)ctx;
                 props->timer = get_timer();
                 props->rng_seed = rng_seed;
+            }
+            break;
+        }
+        case GAME_STATE_BLIND_SELECT:
+        {
+            ctx = malloc(sizeof(BlindSelectProps));
+            if (ctx)
+            {
+                BlindSelectProps* props = (BlindSelectProps*)ctx;
+                props->timer = get_timer();
             }
             break;
         }
@@ -950,7 +960,7 @@ void retrieve_game_state_ctx(enum GameState game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+            MainMenuProps* props = (MainMenuProps*)ctx;
             rng_seed = props->rng_seed;
             break;
         }

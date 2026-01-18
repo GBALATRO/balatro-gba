@@ -3,11 +3,11 @@
 
 #include <tonc.h>
 
-struct MainMenuProps
+typedef struct
 {
     uint timer;
     uint rng_seed;
-};
+} MainMenuProps;
 
 // Main menu state initialization
 void game_main_menu_on_init(void* ctx);

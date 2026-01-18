@@ -73,7 +73,7 @@ void game_main_menu_change_background(void)
 
 void game_main_menu_on_update(void* ctx)
 {
-    struct MainMenuProps* props = (struct MainMenuProps*)ctx;
+    MainMenuProps* props = (MainMenuProps*)ctx;
 
     change_background(BG_MAIN_MENU);
 

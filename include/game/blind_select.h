@@ -6,6 +6,11 @@
 
 #include <tonc.h>
 
+typedef struct
+{
+    uint timer;
+} BlindSelectProps;
+
 // State callbacks for state machine
 void game_blind_select_on_init(void* ctx);
 void game_blind_select_on_update(void* ctx);
