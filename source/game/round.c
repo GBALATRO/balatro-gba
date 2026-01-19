@@ -154,15 +154,15 @@ void set_mult(u32 new_mult)
 
 // Forward declarations for static functions defined later in this file
 static void set_hand(void);
-static void hand_deselect_all_cards(void);
-static void hand_change_sort(void);
-static void hand_select_card(int index);
-static inline int hand_sel_idx_to_card_idx(int selection_index);
+static void hand_deselect_all_cards(RoundProps* props);
+static void hand_change_sort(RoundProps* props);
+static void hand_select_card(RoundProps* props, int index);
+static inline int hand_sel_idx_to_card_idx(int hand_top, int selection_index);
 
-static void game_playing_play_hand_on_pressed(void);
-static void game_playing_discard_on_pressed(void);
-static bool can_play_hand(void);
-static bool can_discard_hand(void);
+static void game_playing_play_hand_on_pressed(void* ctx);
+static void game_playing_discard_on_pressed(void* ctx);
+static bool can_play_hand(void* ctx);
+static bool can_discard_hand(void* ctx);
 // Array of buttons by horizontal selection index (x)
 Button game_playing_buttons[] = {
     {PLAY_HAND_BTN_BORDER_PID, PLAY_HAND_BTN_PID, game_playing_play_hand_on_pressed, can_play_hand   },
@@ -231,32 +231,35 @@ SelectionGrid game_playing_selection_grid = {
     GAME_PLAYING_INIT_SEL
 };
 
-static int game_playing_hand_row_get_size(void* _)
+static int game_playing_hand_row_get_size(void* ctx)
 {
-    return hand_get_size();
+    RoundProps* props = (RoundProps*)ctx;
+    return props->hand_top + 1;
 }
 
-static void game_playing_play_hand_on_pressed(void)
+static void game_playing_play_hand_on_pressed(void* ctx)
 {
-    if (!can_play_hand())
+    RoundProps* props = (RoundProps*)ctx;
+
+    if (!can_play_hand(ctx))
         return;
 
     hand_state = HAND_PLAY;
-    decrement_hands();
+    props->hands--;
     display_hands();
 
-    // Move back to hand selection
-    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, NULL);
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, props);
 }
 
 // Playing state functions
-static void game_playing_discard_on_pressed(void)
+static void game_playing_discard_on_pressed(void* ctx)
 {
-    if (!can_discard_hand())
+    RoundProps* props = (RoundProps*)ctx;
+    if (!can_discard_hand(props))
         return;
 
     hand_state = HAND_DISCARD;
-    decrement_discards();
+    props->discards--;
     display_hands();
     set_hand();
     tte_printf(
@@ -264,11 +267,11 @@ static void game_playing_discard_on_pressed(void)
         DISCARDS_TEXT_RECT.left,
         DISCARDS_TEXT_RECT.top,
         TTE_RED_PB,
-        get_discards()
+        props->discards
     );
 
     // Move back to hand selection
-    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, NULL);
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1, props);
 }
 
 static int game_playing_button_row_get_size(void* _)
@@ -283,23 +286,23 @@ int get_scored_card_index(void)
 
 // idx_a and idx_b are assumed to be valid indexes within the hand array
 // no checks will be performed here for performance's sake
-static void swap_cards_in_hand(int idx_a, int idx_b)
+static void swap_cards_in_hand(RoundProps* props, int idx_a, int idx_b)
 {
-    CardObject* card_object_a = get_hand_card_at(idx_a);
-    CardObject* card_object_b = get_hand_card_at(idx_b);
-    set_hand_card_at(idx_a, card_object_b);
-    set_hand_card_at(idx_b, card_object_a);
+    CardObject* card_object_a = props->hand[idx_a];
+    CardObject* card_object_b = props->hand[idx_b];
+    props->hand[idx_a] = card_object_b;
+    props->hand[idx_b] = card_object_a;
 }
 
-static bool shift_null_card_to_end(int null_card_idx)
+static bool shift_null_card_to_end(RoundProps* props, int null_card_idx)
 {
     // Start by searching any non NULL cards after the NULL one
     // don't start at null_card_idx+1 to avoid potential illegal array access
     int non_null_card_idx = null_card_idx;
-    int hand_top = get_hand_top();
+    int hand_top = props->hand_top;
     for (; non_null_card_idx <= hand_top; non_null_card_idx++)
     {
-        if (get_hand_card_at(non_null_card_idx) != NULL)
+        if (props->hand[non_null_card_idx] != NULL)
         {
             break;
         }
@@ -319,55 +322,55 @@ static bool shift_null_card_to_end(int null_card_idx)
     // the code, so I'll be elaving it here until someone figures it out ^^'
     for (int j = 0; j <= hand_top - non_null_card_idx + 1; j++)
     {
-        set_hand_card_at(null_card_idx + j, get_hand_card_at(non_null_card_idx + j));
+        props->hand[non_null_card_idx + j] = props->hand[null_card_idx + j];
     }
 
     return true;
 }
 
-void deck_shuffle(void)
+void deck_shuffle(RoundProps* props)
 {
-    for (int i = get_deck_top(); i > 0; i--)
+    for (int i = props->deck_top; i > 0; i--)
     {
         int j = rand() % (i + 1);
-        Card* card_i = get_deck_at(i);
-        Card* card_j = get_deck_at(j);
-        set_deck_at(i, card_j);
-        set_deck_at(j, card_i);
+        Card* card_i = props->deck[i];
+        Card* card_j = props->deck[j];
+        props->deck[i] = card_j;
+        props->deck[j] = card_i;
     }
 }
 
-void sort_hand_by_suit(void)
+void sort_hand_by_suit(RoundProps* props)
 {
-    int hand_top = get_hand_top();
+    int hand_top = props->hand_top;
     for (int idx_a = 0; idx_a < hand_top; idx_a++)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
         {
-            CardObject* card_a = get_hand_card_at(idx_a);
-            CardObject* card_b = get_hand_card_at(idx_b);
+            CardObject* card_a = props->hand[idx_a];
+            CardObject* card_b = props->hand[idx_b];
             if (card_a == NULL || (card_b != NULL && (card_a->card->suit > card_b->card->suit ||
                                                       (card_a->card->suit == card_b->card->suit &&
                                                        card_a->card->rank > card_b->card->rank))))
             {
-                swap_cards_in_hand(idx_a, idx_b);
+                swap_cards_in_hand(props, idx_a, idx_b);
             }
         }
     }
 }
 
-void sort_hand_by_rank(void)
+void sort_hand_by_rank(RoundProps* props)
 {
-    int hand_top = get_hand_top();
+    int hand_top = props->hand_top;
     for (int idx_a = 0; idx_a < hand_top; idx_a++)
     {
         for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
         {
-            CardObject* card_a = get_hand_card_at(idx_a);
-            CardObject* card_b = get_hand_card_at(idx_b);
+            CardObject* card_a = props->hand[idx_a];
+            CardObject* card_b = props->hand[idx_b];
             if (card_a == NULL || (card_b != NULL && card_a->card->rank > card_b->card->rank))
             {
-                swap_cards_in_hand(idx_a, idx_b);
+                swap_cards_in_hand(props, idx_a, idx_b);
             }
         }
     }
@@ -492,19 +495,19 @@ static void set_hand(void)
     display_mult();
 }
 
-static void reorder_card_sprites_layers(void)
+static void reorder_card_sprites_layers(RoundProps* props)
 {
     // Update the sprites in the hand by destroying them and creating new ones in the correct order
     // (This feels like a diabolical solution but like literally how else would you do this)
-    int hand_top = get_hand_top();
+    int hand_top = props->hand_top;
     for (int i = 0; i <= hand_top; i++)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
         // before. Any NULL CardObject will be sent to the end by shifting all elements forward
-        CardObject* card_object = get_hand_card_at(i);
+        CardObject* card_object = props->hand[i];
         if (card_object == NULL)
         {
-            if (!shift_null_card_to_end(i))
+            if (!shift_null_card_to_end(props, i))
             {
                 break;
             }
@@ -517,7 +520,7 @@ static void reorder_card_sprites_layers(void)
     // Recreate the sprites for the remaining non NULL cards, in order
     for (int i = 0; i <= hand_top; i++)
     {
-        CardObject* card_object = get_hand_card_at(i);
+        CardObject* card_object = props->hand[i];
         if (card_object != NULL)
         {
             // Set the sprite for the card object
@@ -531,28 +534,30 @@ static void reorder_card_sprites_layers(void)
     }
 }
 
-static void sort_cards(void)
+static void sort_cards(RoundProps* props)
 {
     if (sort_by_suit)
     {
-        sort_hand_by_suit();
+        sort_hand_by_suit(props);
     }
     else
     {
-        sort_hand_by_rank();
+        sort_hand_by_rank(props);
     }
 
-    reorder_card_sprites_layers();
+    reorder_card_sprites_layers(props);
 }
 
 void game_round_on_init(void* ctx)
 {
+    RoundProps* props = (RoundProps*)ctx;
+
     hand_state = HAND_DRAW;
     cards_drawn = 0;
     hand_selections = 0;
 
-    int current_blind = get_current_blind();
-    int ante = get_ante();
+    int current_blind = props->current_blind;
+    int ante = props->ante;
 
     Sprite* playing_blind_token_sprite = blind_token_new(
         current_blind,
@@ -603,7 +608,7 @@ void game_round_on_init(void* ctx)
         blind_get_reward(current_blind)
     ); // Blind reward
 
-    deck_shuffle(); // Shuffle the deck at the start of the round
+    deck_shuffle(props); // Shuffle the deck at the start of the round
 
     /* Note that since cards_in_hand_update_loop() handles card highlight there's no need
      * to call a selection changed callback to highlight the initial card, this wouldn't work
@@ -620,20 +625,21 @@ static bool game_playing_hand_row_on_selection_changed(
     void* ctx
 )
 {
+    RoundProps* props = (RoundProps*)ctx;
     int prev_card_idx = UNDEFINED;
     int next_card_idx = UNDEFINED;
 
     // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
-    card_moved_too_fast = (get_timer() - selection_hit_timer) < card_swap_time_threshold;
+    card_moved_too_fast = (props->timer - selection_hit_timer) < card_swap_time_threshold;
 
     if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
     {
-        prev_card_idx = hand_sel_idx_to_card_idx(prev_selection->x);
+        prev_card_idx = hand_sel_idx_to_card_idx(props->hand_top, prev_selection->x);
     }
 
     if (new_selection->y == GAME_PLAYING_HAND_SEL_Y)
     {
-        next_card_idx = hand_sel_idx_to_card_idx(new_selection->x);
+        next_card_idx = hand_sel_idx_to_card_idx(props->hand_top, new_selection->x);
     }
 
     bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
@@ -651,9 +657,9 @@ static bool game_playing_hand_row_on_selection_changed(
         }
         else
         {
-            swap_cards_in_hand(prev_card_idx, next_card_idx);
+            swap_cards_in_hand(props, prev_card_idx, next_card_idx);
             moving_card = true;
-            reorder_card_sprites_layers();
+            reorder_card_sprites_layers(props);
 
             /* Not calling sprite_object_set_focus() because focus is handled by
              * cards_in_hand_update_loop() based on the selection grid value...
@@ -670,7 +676,7 @@ static bool game_playing_hand_row_on_selection_changed(
         // select current card if we tried moving it too fast
         if (key_released(SELECT_CARD) || (card_moved_too_fast && !moving_card))
         {
-            hand_select_card(prev_card_idx);
+            hand_select_card(props, prev_card_idx);
             card_selected_instead_of_moved = true;
         }
         if (next_card_idx != UNDEFINED)
@@ -695,15 +701,16 @@ static void game_playing_hand_row_on_key_transit(
     void* ctx
 )
 {
+    RoundProps* props = (RoundProps*)ctx;
     if (key_hit(SELECT_CARD))
     {
-        selection_hit_timer = get_timer();
+        selection_hit_timer = props->timer;
     }
     else if (key_released(SELECT_CARD))
     {
         if (!moving_card && !card_selected_instead_of_moved)
         {
-            hand_select_card(hand_sel_idx_to_card_idx(selection->x));
+            hand_select_card(props, hand_sel_idx_to_card_idx(props->hand_top, selection->x));
         }
         moving_card = false;
         card_moved_too_fast = false;
@@ -712,12 +719,12 @@ static void game_playing_hand_row_on_key_transit(
     }
     else if (key_hit(DESELECT_CARDS))
     {
-        hand_deselect_all_cards();
+        hand_deselect_all_cards(props);
         set_hand();
     }
     else if (key_hit(SORT_HAND))
     {
-        hand_change_sort();
+        hand_change_sort(props);
     }
 }
 
@@ -760,16 +767,16 @@ static void game_playing_button_row_on_key_hit(
 {
     if (key_hit(SELECT_CARD))
     {
-        button_press(&game_playing_buttons[selection->x]);
+        button_press(&game_playing_buttons[selection->x], ctx);
     }
 }
 
-static void hand_deselect_all_cards(void)
+static void hand_deselect_all_cards(RoundProps* props)
 {
     bool any_cards_deselected = false;
-    for (int i = 0; i <= get_hand_top(); i++)
+    for (int i = 0; i <= props->hand_top; i++)
     {
-        CardObject* card_object = get_hand_card_at(i);
+        CardObject* card_object = props->hand[i];
         if (card_object_is_selected(card_object))
         {
             card_object_set_selected(card_object, false);
@@ -784,28 +791,28 @@ static void hand_deselect_all_cards(void)
     }
 }
 
-static void hand_change_sort(void)
+static void hand_change_sort(RoundProps* props)
 {
     sort_by_suit = !sort_by_suit;
-    sort_cards();
+    sort_cards(props);
 }
 
-static bool can_play_hand(void)
+static bool can_play_hand(void* _)
 {
     if (hand_state != HAND_SELECT || hand_selections == 0)
         return false;
     return true;
 }
 
-static bool can_discard_hand(void)
+static bool can_discard_hand(void* ctx)
 {
-    int discards = get_discards();
-    return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
+    RoundProps* props = (RoundProps*)ctx;
+    return (props->discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
-void reset_joker_scored_itr(void)
+void reset_joker_scored_itr(List* jokers_list)
 {
-    _joker_scored_itr = list_itr_create(get_jokers_list());
+    _joker_scored_itr = list_itr_create(jokers_list);
 }
 
 /**
@@ -814,18 +821,19 @@ void reset_joker_scored_itr(void)
  * @return The index within the hand stack array.
  * Note that the result is not valid if hand size is 0.
  */
-static inline int hand_sel_idx_to_card_idx(int selection_index)
+static inline int hand_sel_idx_to_card_idx(int hand_top, int selection_index)
 {
     // This is because the hand is drawn from right to left.
     // There is no particular reason for why that was done, it's just how it was done.
     // Maybe one day it can be reverted and made consistent so this conversion is not needed.
-    return hand_get_size() - selection_index - 1;
+    return hand_top - selection_index;
 }
 
-static void hand_select_card(int index)
+static void hand_select_card(RoundProps* props, int index)
 {
-    CardObject* card_object = get_hand_card_at(index);
-    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || card_object == NULL)
+    CardObject* card_object = props->hand[index];
+    if (index < 0 || index >= (props->hand_top + 1) || hand_state != HAND_SELECT ||
+        card_object == NULL)
         return;
 
     if (card_object_is_selected(card_object))
@@ -845,23 +853,17 @@ static void hand_select_card(int index)
 
 static inline void game_playing_process_hand_select_input(RoundProps* props)
 {
-    JokerSellProps joker_sell_props = {
-        .owned_jokers_list = props->owned_jokers_list,
-        .money = &props->money,
-        .substate = &props->substate,
-        .timer = &props->timer
-    };
-    void* ctx = (void*)&joker_sell_props;
-    selection_grid_process_input(&game_playing_selection_grid, ctx);
+    selection_grid_process_input(&game_playing_selection_grid, props);
 }
 
-static inline void card_draw(void)
+static inline void card_draw(RoundProps* props)
 {
-    int hand_top = get_hand_top(), deck_top = get_deck_top();
+    int hand_top = props->hand_top, deck_top = props->deck_top;
     if (deck_top < 0 || hand_top >= hand_size - 1 || hand_top >= MAX_HAND_SIZE - 1)
         return;
 
-    CardObject* card_object = card_object_new(deck_pop());
+    CardObject* card_object = card_object_new(deck_pop(props->deck, &props->deck_top));
+    props->deck_top--;
 
     const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
     const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
@@ -869,11 +871,10 @@ static inline void card_draw(void)
     card_object->sprite_object->x = deck_x;
     card_object->sprite_object->y = deck_y;
 
-    hand_top = increment_hand_top();
-    set_hand_card_at(hand_top, card_object);
+    props->hand[++props->hand_top] = card_object;
 
     // Sort the hand after drawing a card
-    sort_cards();
+    sort_cards(props);
 
     play_sfx(
         SFX_CARD_DRAW,
@@ -882,21 +883,19 @@ static inline void card_draw(void)
     );
 }
 
-static inline void game_playing_handle_round_over(void)
+static inline void game_playing_handle_round_over(RoundProps* props)
 {
     enum GameState next_state = GAME_STATE_ROUND_END;
+    int current_blind = props->current_blind;
+    u32 score = props->score;
 
-    int current_blind = get_current_blind();
-    int ante = get_ante();
-    u32 score = get_score();
-
-    if (score >= blind_get_requirement(current_blind, ante))
+    if (score >= blind_get_requirement(current_blind, props->ante))
     {
         if (current_blind == BLIND_TYPE_BOSS)
         {
-            if (ante < MAX_ANTE)
+            if (props->ante < MAX_ANTE)
             {
-                display_ante(increment_ante());
+                display_ante(++props->ante);
             }
             else
             {
@@ -904,7 +903,7 @@ static inline void game_playing_handle_round_over(void)
             }
         }
     }
-    else if (get_hands() == 0)
+    else if (props->hands == 0)
     {
         next_state = GAME_STATE_LOSE;
     }
@@ -913,6 +912,7 @@ static inline void game_playing_handle_round_over(void)
 }
 
 static inline void card_in_hand_loop_handle_discard_and_shuffling(
+    RoundProps* props,
     int card_idx,
     FIXED* hand_x,
     FIXED* hand_y,
@@ -926,8 +926,8 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
     }
 
     *break_loop = false;
-    CardObject* card_object = get_hand_card_at(card_idx);
-    int hand_top = get_hand_top();
+    CardObject* card_object = props->hand[card_idx];
+    int hand_top = props->hand_top;
 
     if (card_object_is_selected(card_object) || hand_state == HAND_SHUFFLING)
     {
@@ -948,16 +948,16 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
             if (card_object->sprite_object->x >= *hand_x)
             {
-                discard_push(card_object->card);
+                discard_push(props->discard_pile, &props->discard_top, card_object->card);
                 card_object_destroy(&card_object);
-                set_hand_card_at(card_idx, card_object);
-                reorder_card_sprites_layers();
+                props->hand[card_idx] = card_object;
+                reorder_card_sprites_layers(props);
 
-                hand_top = decrement_hand_top();
+                props->hand_top--;
                 // This technically isn't drawing cards, I'm just reusing the variable
                 cards_drawn++;
                 sound_played = false;
-                reset_timer();
+                props->timer = TM_ZERO;
 
                 *hand_y = card_object->sprite_object->y;
                 *hand_x = card_object->sprite_object->x;
@@ -985,7 +985,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         *hand_x = *hand_x + (int2fx(card_idx) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
     }
 
-    if (card_idx == 0 && discarded_card == false && get_timer() % FRAMES(10) == 0)
+    if (card_idx == 0 && discarded_card == false && props->timer % FRAMES(10) == 0)
     {
         // This is never reached in the case of HAND_SHUFFLING. Not sure why but that's how it's
         // supposed to be.
@@ -993,16 +993,16 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         sound_played = false;
         cards_drawn = 0;
         hand_selections = 0;
-        reset_timer();
+        props->timer = TM_ZERO;
         *break_loop = true;
         return;
     };
 }
 
-static inline void select_flush_and_straight_cards_in_played_hand(void)
+static inline void select_flush_and_straight_cards_in_played_hand(RoundProps* props)
 {
-    CardObject** played = get_played_array();
-    int played_top = get_played_top();
+    CardObject** played = props->played;
+    int played_top = props->played_top;
 
     // Special handling because Four Fingers might be active
     bool final_selection[MAX_SELECTION_SIZE] = {false};
@@ -1053,31 +1053,31 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     }
 }
 
-static inline void select_all_five_cards_in_played_hand(void)
+static inline void select_all_five_cards_in_played_hand(RoundProps* props)
 {
-    int played_top = get_played_top();
+    int played_top = props->played_top;
     for (int i = 0; i <= played_top; i++)
     {
-        CardObject* card_object = get_played_card_at(i);
+        CardObject* card_object = props->played[i];
         card_object_set_selected(card_object, true);
     }
 }
 
-static inline void select_four_of_a_kind_cards_in_played_hand(void)
+static inline void select_four_of_a_kind_cards_in_played_hand(RoundProps* props)
 {
     // find four cards with the same rank
     // If there are 5 cards selected we just need to find the one card that doesn't match, and
     // select the others
-    int played_top = get_played_top();
+    int played_top = props->played_top;
     if (played_top >= 3)
     {
         int unmatched_index = -1;
 
         for (int i = 0; i <= played_top; i++)
         {
-            CardObject* card_a = get_played_card_at(i);
-            CardObject* card_b = get_played_card_at((i + 1) % (played_top + 1));
-            CardObject* card_c = get_played_card_at((i + 2) % (played_top + 1));
+            CardObject* card_a = props->played[i];
+            CardObject* card_b = props->played[(i + 1) % (played_top + 1)];
+            CardObject* card_c = props->played[(i + 2) % (played_top + 1)];
             if (card_a->card->rank != card_b->card->rank &&
                 card_a->card->rank != card_c->card->rank)
             {
@@ -1090,7 +1090,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
         {
             if (i != unmatched_index)
             {
-                CardObject* card_object = get_played_card_at(i);
+                CardObject* card_object = props->played[i];
                 card_object_set_selected(card_object, true);
             }
         }
@@ -1099,23 +1099,23 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     {
         for (int i = 0; i <= played_top; i++)
         {
-            CardObject* card_object = get_played_card_at(i);
+            CardObject* card_object = props->played[i];
             card_object_set_selected(card_object, true);
         }
     }
 }
 
-static inline void select_three_of_a_kind_cards_in_played_hand(void)
+static inline void select_three_of_a_kind_cards_in_played_hand(RoundProps* props)
 {
     // find three cards with the same rank
-    int played_top = get_played_top();
+    int played_top = props->played_top;
 
     for (int i = 0; i <= played_top - 1; i++)
     {
-        CardObject* card_a = get_played_card_at(i);
+        CardObject* card_a = props->played[i];
         for (int j = i + 1; j <= played_top; j++)
         {
-            CardObject* card_b = get_played_card_at(j);
+            CardObject* card_b = props->played[j];
             if (card_a->card->rank == card_b->card->rank)
             {
                 card_object_set_selected(card_a, true);
@@ -1141,18 +1141,17 @@ static inline void select_three_of_a_kind_cards_in_played_hand(void)
     }
 }
 
-static inline void select_two_pair_cards_in_played_hand(void)
+static inline void select_two_pair_cards_in_played_hand(RoundProps* props)
 {
     // find two pairs of cards with the same rank
-    int i;
-    int played_top = get_played_top();
+    int i, played_top = props->played_top;
 
     for (i = 0; i <= played_top - 1; i++)
     {
-        CardObject* card_a = get_played_card_at(i);
+        CardObject* card_a = props->played[i];
         for (int j = i + 1; j <= played_top; j++)
         {
-            CardObject* card_b = get_played_card_at(j);
+            CardObject* card_b = props->played[j];
             if (card_a->card->rank == card_b->card->rank)
             {
                 card_object_set_selected(card_a, true);
@@ -1169,8 +1168,8 @@ static inline void select_two_pair_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= played_top; j++)
         {
-            CardObject* card_a = get_played_card_at(i);
-            CardObject* card_b = get_played_card_at(j);
+            CardObject* card_a = props->played[i];
+            CardObject* card_b = props->played[j];
             if (card_a->card->rank == card_b->card->rank && !card_object_is_selected(card_a) &&
                 !card_object_is_selected(card_b))
             {
@@ -1182,16 +1181,16 @@ static inline void select_two_pair_cards_in_played_hand(void)
     }
 }
 
-static inline void select_pair_cards_in_played_hand(void)
+static inline void select_pair_cards_in_played_hand(RoundProps* props)
 {
     // find two cards with the same rank
-    int played_top = get_played_top();
+    int played_top = props->played_top;
     for (int i = 0; i <= played_top - 1; i++)
     {
-        CardObject* card_a = get_played_card_at(i);
+        CardObject* card_a = props->played[i];
         for (int j = i + 1; j <= played_top; j++)
         {
-            CardObject* card_b = get_played_card_at(j);
+            CardObject* card_b = props->played[j];
             if (card_a->card->rank == card_b->card->rank)
             {
                 card_object_set_selected(card_a, true);
@@ -1205,23 +1204,23 @@ static inline void select_pair_cards_in_played_hand(void)
     }
 }
 
-static inline void select_highcard_cards_in_played_hand(void)
+static inline void select_highcard_cards_in_played_hand(RoundProps* props)
 {
     // find the card with the highest rank in the hand
     int highest_rank_index = 0;
-    int played_top = get_played_top();
+    int played_top = props->played_top;
 
     for (int i = 0; i <= played_top; i++)
     {
-        CardObject* card_object = get_played_card_at(i);
-        CardObject* highest_rank_card_object = get_played_card_at(highest_rank_index);
+        CardObject* card_object = props->played[i];
+        CardObject* highest_rank_card_object = props->played[highest_rank_index];
         if (card_object->card->rank > highest_rank_card_object->card->rank)
         {
             highest_rank_index = i;
         }
     }
 
-    card_object_set_selected(get_played_card_at(highest_rank_index), true);
+    card_object_set_selected(props->played[highest_rank_index], true);
 }
 
 // returns true if a joker was scored, false otherwise
@@ -1243,21 +1242,21 @@ static bool check_and_score_joker_for_event(
     return false;
 }
 
-static inline bool game_round_is_over(void)
+static inline bool game_round_is_over(RoundProps* props)
 {
-    int current_blind = get_current_blind();
-    int ante = get_ante();
-    u32 score = get_score();
-    int hands = get_hands();
+    int current_blind = props->current_blind;
+    int ante = props->ante;
+    u32 score = props->score;
+    int hands = props->hands;
 
     return hands == 0 || score >= blind_get_requirement(current_blind, ante);
 }
 
 // Basically a copy of HAND_DISCARD
 // returns true if the current card has been discarded
-static bool play_ended_played_cards_update(int played_idx)
+static bool play_ended_played_cards_update(RoundProps* props, int played_idx)
 {
-    if (!discarded_card && get_timer() > FRAMES(40))
+    if (!discarded_card && props->timer > FRAMES(40))
     {
         // play the sound only once per card, when it is pushed off-screen to the right
         if (!sound_played)
@@ -1271,21 +1270,25 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // card has exited the screen, now discard it and set it to NULL
-        CardObject* card_object = get_played_card_at(played_idx);
+        CardObject* card_object = props->played[played_idx];
         if (card_object->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
         {
-            discard_push(card_object->card); // Push the card to the discard pile
+            discard_push(
+                props->discard_pile,
+                &props->discard_top,
+                card_object->card
+            ); // Push the card to the discard pile
             card_object_destroy(&card_object);
-            set_played_card_at(played_idx, card_object);
+            props->played[played_idx] = card_object;
 
             // played_top--;
             cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
             sound_played = false; // Allow for the sound for the next card to be played
 
             // we reached hand_top, all cards have been discarded
-            if (played_idx == get_played_top())
+            if (played_idx == props->played_top)
             {
-                if (game_round_is_over())
+                if (game_round_is_over(props))
                 {
                     hand_state = HAND_SHUFFLING;
                 }
@@ -1297,10 +1300,10 @@ static bool play_ended_played_cards_update(int played_idx)
                 play_state = PLAY_STARTING;
                 cards_drawn = 0;
                 hand_selections = 0;
-                reset_played_top();
+                props->played_top = -1;
                 scored_card_index = 0;
-                _joker_scored_itr = list_itr_create(get_jokers_list());
-                reset_timer();
+                _joker_scored_itr = list_itr_create(props->owned_jokers_list);
+                props->timer = TM_ZERO;
             }
 
             return true; // return early to avoid accessing played[played_idx] == NULL
@@ -1314,13 +1317,14 @@ static bool play_ended_played_cards_update(int played_idx)
     return false;
 }
 
-static inline void play_starting_played_cards_update(int played_idx)
+static inline void play_starting_played_cards_update(RoundProps* props, int played_idx)
 {
-    int played_top = get_played_top();
-    CardObject* card_to_query_selected = get_played_card_at(played_top - scored_card_index);
-    bool card_selected = card_object_is_selected(card_to_query_selected);
+    int played_top = props->played_top;
+    uint timer = props->timer;
+    CardObject** played = props->played;
 
-    uint timer = get_timer();
+    bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
+
     if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
         timer > FRAMES(40))
     {
@@ -1328,13 +1332,13 @@ static inline void play_starting_played_cards_update(int played_idx)
 
         if (scored_card_index == 0)
         {
-            _joker_scored_itr = list_itr_create(get_jokers_list());
-            reset_timer();
+            _joker_scored_itr = list_itr_create(props->owned_jokers_list);
+            props->timer = TM_ZERO;
             play_state = PLAY_BEFORE_SCORING;
         }
     }
 
-    CardObject* card_object = get_played_card_at(played_idx);
+    CardObject* card_object = played[played_idx];
     card_object->sprite_object->tx =
         int2fx(HAND_PLAY_POS.x) + (int2fx(played_top - played_idx) - int2fx(played_top) / 2) * -27;
     card_object->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
@@ -1360,11 +1364,11 @@ static inline bool play_before_scoring_cards_update(void)
 }
 
 // returns true if the scoring loop has returned early
-static inline bool play_scoring_cards_update(void)
+static inline bool play_scoring_cards_update(RoundProps* props)
 {
-    uint timer = get_timer();
-    int played_top = get_played_top();
-    CardObject* scored_card_object = get_played_card_at(scored_card_index);
+    uint timer = props->timer;
+    int played_top = props->played_top;
+    CardObject* scored_card_object = props->played[scored_card_index];
 
     if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
     {
@@ -1373,15 +1377,15 @@ static inline bool play_scoring_cards_update(void)
         // and seek the next scoring card
         while (scored_card_index <= played_top && !card_object_is_selected(scored_card_object))
         {
-            scored_card_object = get_played_card_at(++scored_card_index);
+            scored_card_object = props->played[++scored_card_index];
         }
 
         // go to the next state if there are no cards left to score
         if (scored_card_index > played_top)
         {
             // reuse these variables for held cards
-            _joker_scored_itr = list_itr_create(get_jokers_list());
-            scored_card_index = get_hand_top();
+            _joker_scored_itr = list_itr_create(props->owned_jokers_list);
+            scored_card_index = props->hand_top;
 
             play_state = PLAY_SCORING_HELD_CARDS;
 
@@ -1415,8 +1419,8 @@ static inline bool play_scoring_cards_update(void)
             display_chips();
 
             // Allow Joker scoring
-            _joker_scored_itr = list_itr_create(get_jokers_list());
-            _joker_card_scored_end_itr = list_itr_create(get_jokers_list());
+            _joker_scored_itr = list_itr_create(props->owned_jokers_list);
+            _joker_card_scored_end_itr = list_itr_create(props->owned_jokers_list);
         }
 
         play_state = PLAY_SCORING_CARD_JOKERS;
@@ -1428,10 +1432,10 @@ static inline bool play_scoring_cards_update(void)
 
 // Activate "on scored" Jokers for the previous scored card if any
 // returns true if the scoring loop has returned early
-static inline bool play_scoring_card_jokers_update(void)
+static inline bool play_scoring_card_jokers_update(RoundProps* props)
 {
-    uint timer = get_timer();
-    CardObject* scored_card_object = get_played_card_at(scored_card_index);
+    uint timer = props->timer;
+    CardObject* scored_card_object = props->played[scored_card_index];
 
     if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
     {
@@ -1468,7 +1472,7 @@ static inline bool play_scoring_card_jokers_update(void)
         }
 
         // increment index to start seeking the next scoring card from the next card
-        scored_card_object = get_played_card_at(++scored_card_index);
+        scored_card_object = props->played[++scored_card_index];
         play_state = PLAY_SCORING_CARDS;
     }
 
@@ -1476,9 +1480,9 @@ static inline bool play_scoring_card_jokers_update(void)
 }
 
 // returns true if the scoring loop has returned early
-static inline bool play_scoring_held_cards_update(int played_idx)
+static inline bool play_scoring_held_cards_update(RoundProps* props, int played_idx)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
     {
         tte_erase_rect_wrapper(HELD_CARDS_SCORES_RECT);
@@ -1486,7 +1490,7 @@ static inline bool play_scoring_held_cards_update(int played_idx)
         // Go through all held cards and see if they activate Jokers
         for (; scored_card_index >= 0; scored_card_index--)
         {
-            CardObject* card_object = get_hand_card_at(scored_card_index);
+            CardObject* card_object = props->hand[scored_card_index];
             if (check_and_score_joker_for_event(
                     &_joker_scored_itr,
                     card_object,
@@ -1496,11 +1500,11 @@ static inline bool play_scoring_held_cards_update(int played_idx)
                 card_object_shake(card_object, SFX_CARD_SELECT);
                 return true;
             }
-            _joker_scored_itr = list_itr_create(get_jokers_list());
+            _joker_scored_itr = list_itr_create(props->owned_jokers_list);
         }
 
         scored_card_index = 0;
-        _joker_round_end_itr = list_itr_create(get_jokers_list());
+        _joker_round_end_itr = list_itr_create(props->owned_jokers_list);
         play_state = PLAY_SCORING_INDEPENDENT_JOKERS;
     }
 
@@ -1509,9 +1513,9 @@ static inline bool play_scoring_held_cards_update(int played_idx)
 
 // Score Jokers normally (independent)
 // returns true if the scoring loop has returned early
-static inline bool play_scoring_independent_jokers_update(int played_idx)
+static inline bool play_scoring_independent_jokers_update(RoundProps* props, int played_idx)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
     {
 
@@ -1523,7 +1527,7 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
         }
 
         scored_card_index =
-            get_played_top() + 1; // Reset the scored card index to the top of the played stack
+            props->played_top + 1; // Reset the scored card index to the top of the played stack
 
         play_state = PLAY_SCORING_HAND_SCORED_END;
     }
@@ -1532,9 +1536,9 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
 }
 
 // Trigger hand end effect for all jokers once they are done scoring
-static inline bool play_scoring_hand_scored_end_update(int played_idx)
+static inline bool play_scoring_hand_scored_end_update(RoundProps* props, int played_idx)
 {
-    uint timer = get_timer();
+    uint timer = props->timer;
     if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
     {
 
@@ -1551,7 +1555,7 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
             return true;
         }
 
-        reset_timer();
+        props->timer = TM_ZERO;
         play_state = PLAY_ENDING;
     }
 
@@ -1560,12 +1564,12 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
 
 // This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position
 // sequentially
-static inline void play_ending_played_cards_update(int played_idx)
+static inline void play_ending_played_cards_update(RoundProps* props, int played_idx)
 {
-    uint timer = get_timer();
-    int played_top = get_played_top();
-    CardObject* card_to_query_selected = get_played_card_at(played_top - scored_card_index);
-    bool card_selected = card_object_is_selected(card_to_query_selected);
+    uint timer = props->timer;
+    int played_top = props->played_top;
+    bool card_selected = card_object_is_selected(props->played[played_top - scored_card_index]);
+
     if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
         timer > FRAMES(40))
     {
@@ -1583,27 +1587,26 @@ static inline void play_ending_played_cards_update(int played_idx)
                 CHIPS_ACCUM_SFX_PITCH_RATIO * MM_BASE_PITCH_RATE,
                 SFX_DEFAULT_VOLUME
             );
-            reset_timer();
+            props->timer = TM_ZERO;
             play_state = PLAY_ENDED;
         }
     }
 
-    CardObject* card_object = get_played_card_at(played_idx);
+    CardObject* card_object = props->played[played_idx];
     if (card_object_is_selected(card_object) && played_top - played_idx >= scored_card_index)
     {
         card_object->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
     }
 }
 
-static inline void played_cards_update_loop(void)
+static inline void played_cards_update_loop(RoundProps* props)
 {
     // So this one is a bit fucking weird because I have to work kinda backwards for everything
     // because of the order of the pushed cards from the hand to the play stack (also crazy that the
     // company that published Balatro is called "Playstack" and this is a play stack, but I digress)
-    int played_top = get_played_top();
-    for (int played_idx = 0; played_idx <= played_top; played_idx++)
+    for (int played_idx = 0; played_idx <= props->played_top; played_idx++)
     {
-        CardObject* card_object = get_played_card_at(played_idx);
+        CardObject* card_object = props->played[played_idx];
         if (card_object == NULL)
         {
             continue;
@@ -1619,7 +1622,7 @@ static inline void played_cards_update_loop(void)
         {
             case PLAY_STARTING:
 
-                play_starting_played_cards_update(played_idx);
+                play_starting_played_cards_update(props, played_idx);
                 break;
 
             case PLAY_BEFORE_SCORING:
@@ -1632,7 +1635,7 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_SCORING_CARDS:
 
-                if (play_scoring_cards_update())
+                if (play_scoring_cards_update(props))
                 {
                     return;
                 }
@@ -1640,7 +1643,7 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_SCORING_CARD_JOKERS:
 
-                if (play_scoring_card_jokers_update())
+                if (play_scoring_card_jokers_update(props))
                 {
                     return;
                 }
@@ -1648,7 +1651,7 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_SCORING_HELD_CARDS:
 
-                if (play_scoring_held_cards_update(played_idx))
+                if (play_scoring_held_cards_update(props, played_idx))
                 {
                     return;
                 }
@@ -1656,7 +1659,7 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_SCORING_INDEPENDENT_JOKERS:
 
-                if (play_scoring_independent_jokers_update(played_idx))
+                if (play_scoring_independent_jokers_update(props, played_idx))
                 {
                     return;
                 }
@@ -1664,7 +1667,7 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_SCORING_HAND_SCORED_END:
 
-                if (play_scoring_hand_scored_end_update(played_idx))
+                if (play_scoring_hand_scored_end_update(props, played_idx))
                 {
                     return;
                 }
@@ -1672,12 +1675,12 @@ static inline void played_cards_update_loop(void)
 
             case PLAY_ENDING:
 
-                play_ending_played_cards_update(played_idx);
+                play_ending_played_cards_update(props, played_idx);
                 break;
 
             case PLAY_ENDED:
 
-                if (play_ended_played_cards_update(played_idx))
+                if (play_ended_played_cards_update(props, played_idx))
                 {
                     // we continue here instead of returning for performance
                     // to instantly go to the next card to discard at played_idx+1,
@@ -1709,14 +1712,11 @@ static inline void game_playing_process_input_and_state(RoundProps* props)
         if (mult > 0)
         {
             // protect against score overflow
-            u32 score = get_score();
-            u32 temp_score = u32_protected_mult(chips, mult);
-            set_temp_score(temp_score);
+            props->temp_score = u32_protected_mult(chips, mult);
+            props->lerped_temp_score = int2fx(props->temp_score);
+            props->lerped_score = int2fx(props->score);
 
-            set_lerped_temp_score(int2fx(temp_score));
-            set_lerped_score(int2fx(score));
-
-            display_temp_score(temp_score);
+            display_temp_score(props->temp_score);
 
             chips = 0;
             mult = 0;
@@ -1734,64 +1734,63 @@ static inline void game_playing_process_input_and_state(RoundProps* props)
             );
         }
     }
-    else if (play_state == PLAY_ENDED && get_timer() % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
+    else if (play_state == PLAY_ENDED && props->timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
     {
-        u32 temp_score = get_temp_score();
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
          * The operation is equivalent to
          * fxdiv(int2fx(temp_score * GAME_SPEED), int2fx(NUM_SCORE_LERP_STEPS))
          */
-        FIXED lerped_score_offset = int2fx(temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
-        FIXED lerped_temp_score = decrease_lerped_temp_score_by(lerped_score_offset);
-        FIXED lerped_score = increase_lerped_score_by(lerped_score_offset);
+        FIXED lerped_score_offset = int2fx(props->temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
+        props->lerped_temp_score -= lerped_score_offset;
+        props->lerped_score += lerped_score_offset;
 
-        if (lerped_temp_score > 0)
+        if (props->lerped_temp_score > 0)
         {
             // Set the score display first because it's more important
             // in case there isn't enough time within the frame to display both
-            display_score(fx2uint(lerped_score));
-
-            display_temp_score(fx2uint(lerped_temp_score));
+            display_score(fx2uint(props->lerped_score));
+            display_temp_score(fx2uint(props->lerped_temp_score));
         }
         else
         {
-            u32 score = increase_score_by(temp_score);
-            reset_temp_score();
-            reset_lerped_temp_score();
-            reset_lerped_score();
+            props->score += props->temp_score;
+            props->temp_score = 0;
+            props->lerped_temp_score = 0;
+            props->lerped_score = 0;
 
             tte_erase_rect_wrapper(TEMP_SCORE_RECT); // Just erase the temp score
 
-            display_score(score);
+            display_score(props->score);
         }
     }
 }
 
-static inline void game_playing_process_card_draw()
+static inline void game_playing_process_card_draw(RoundProps* props)
 {
     if (hand_state == HAND_DRAW && cards_drawn < hand_size)
     {
-        if (get_timer() % FRAMES(10) == 0) // Draw a card every 10 frames
+        if (props->timer % FRAMES(10) == 0) // Draw a card every 10 frames
         {
             cards_drawn++;
-            card_draw();
+            card_draw(props);
         }
     }
     else if (hand_state == HAND_DRAW)
     {
         hand_state = HAND_SELECT; // Change the hand state to select after drawing all the cards
         cards_drawn = 0;
-        reset_timer();
+        props->timer = TM_ZERO;
     }
 }
 
-static inline void game_playing_discarded_cards_loop(void)
+static inline void game_playing_discarded_cards_loop(RoundProps* props)
 {
     // Discarded cards loop (mainly for shuffling)
-    int discard_top = get_discard_top();
-    if (hand_get_size() == 0 && hand_state == HAND_SHUFFLING && discard_top >= -1 &&
-        get_timer() > FRAMES(10))
+    int hand_size = props->hand_top + 1;
+
+    if (hand_size == 0 && hand_state == HAND_SHUFFLING && props->discard_top >= -1 &&
+        props->timer > FRAMES(10))
     {
         // Change the background to the round end background. This is how it works in Balatro, so
         // I'm doing it this way too.
@@ -1801,7 +1800,8 @@ static inline void game_playing_discarded_cards_loop(void)
         static CardObject* discarded_card_object = NULL;
         if (discarded_card_object == NULL)
         {
-            discarded_card_object = card_object_new(discard_pop());
+            discarded_card_object =
+                card_object_new(discard_pop(props->discard_pile, &props->discard_top));
             // discarded_card_object->sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             // ATTR1_SIZE_32,
             // card_sprite_lut[discarded_card_object->card->suit][discarded_card_object->card->rank],
@@ -1823,7 +1823,11 @@ static inline void game_playing_discarded_cards_loop(void)
 
             if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
             {
-                deck_push(discarded_card_object->card); // Put the card back into the deck
+                deck_push(
+                    props->deck,
+                    &props->deck_top,
+                    discarded_card_object->card
+                ); // Put the card back into the deck
                 card_object_destroy(&discarded_card_object);
 
                 play_sfx(
@@ -1835,34 +1839,34 @@ static inline void game_playing_discarded_cards_loop(void)
         }
 
         // If there are no more discarded cards, stop shuffling
-        if (discard_top == -1 && discarded_card_object == NULL)
+        if (props->discard_top == -1 && discarded_card_object == NULL)
         {
             // After HAND_SHUFFLING the round is over
-            game_playing_handle_round_over();
+            game_playing_handle_round_over(props);
         }
     }
 }
 
-static inline void select_cards_in_played_hand()
+static inline void select_cards_in_played_hand(RoundProps* props)
 {
     switch (hand_type) // select the cards that apply to the hand type
     {
         case NONE:
             break;
         case HIGH_CARD:
-            select_highcard_cards_in_played_hand();
+            select_highcard_cards_in_played_hand(props);
             break;
         case PAIR:
-            select_pair_cards_in_played_hand();
+            select_pair_cards_in_played_hand(props);
             break;
         case TWO_PAIR:
-            select_two_pair_cards_in_played_hand();
+            select_two_pair_cards_in_played_hand(props);
             break;
         case THREE_OF_A_KIND:
-            select_three_of_a_kind_cards_in_played_hand();
+            select_three_of_a_kind_cards_in_played_hand(props);
             break;
         case FOUR_OF_A_KIND:
-            select_four_of_a_kind_cards_in_played_hand();
+            select_four_of_a_kind_cards_in_played_hand(props);
             break;
         case STRAIGHT:
             /* FALL THROUGH */
@@ -1871,7 +1875,7 @@ static inline void select_cards_in_played_hand()
         case STRAIGHT_FLUSH:
             /* FALL THROUGH */
         case ROYAL_FLUSH:
-            select_flush_and_straight_cards_in_played_hand();
+            select_flush_and_straight_cards_in_played_hand(props);
             break;
         case FULL_HOUSE:
             /* FALL THROUGH */
@@ -1880,21 +1884,23 @@ static inline void select_cards_in_played_hand()
         case FLUSH_HOUSE:
             /* FALL THROUGH */
         case FLUSH_FIVE: // Select all played cards in the hand
-            select_all_five_cards_in_played_hand();
+            select_all_five_cards_in_played_hand(props);
             break;
     }
 }
 
-static inline void cards_in_hand_update_loop(void)
+static inline void cards_in_hand_update_loop(RoundProps* props)
 {
-    int selected_card_idx = hand_sel_idx_to_card_idx(game_playing_selection_grid.selection.x);
+    int selected_card_idx =
+        hand_sel_idx_to_card_idx(props->hand_top, game_playing_selection_grid.selection.x);
 
     // TODO: Break this function up into smaller ones, Gods be good
     // Start from the end of the hand and work backwards because that's how Balatro does it
-    int hand_top = get_hand_top();
-    for (int i = hand_top + 1; i >= 0; i--)
+    CardObject** hand = props->hand;
+
+    for (int i = props->hand_top; i >= 0; i--)
     {
-        CardObject* card_object = get_hand_card_at(i);
+        CardObject* card_object = hand[i];
         if (card_object != NULL)
         {
             FIXED hand_x = int2fx(HAND_START_POS.x);
@@ -1903,8 +1909,8 @@ static inline void cards_in_hand_update_loop(void)
             switch (hand_state)
             {
                 case HAND_DRAW:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(props->hand_top) / 2) *
+                                          -HAND_SPACING_LUT[props->hand_top];
                     break;
                 case HAND_SELECT:
                     bool is_focused =
@@ -1932,15 +1938,17 @@ static inline void cards_in_hand_update_loop(void)
                     }
 
                     hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) *
-                                     -HAND_SPACING_LUT[hand_top]; // TODO: Change this later to
-                                                                  // reference a 2D LUT of positions
+                        hand_x +
+                        (int2fx(i) - int2fx(props->hand_top) / 2) *
+                            -HAND_SPACING_LUT[props->hand_top]; // TODO: Change this later to
+                                                                // reference a 2D LUT of positions
                     break;
                 case HAND_SHUFFLING:
                     /* FALL THROUGH */
                 case HAND_DISCARD: // TODO: Add sound
                     bool break_loop;
                     card_in_hand_loop_handle_discard_and_shuffling(
+                        props,
                         i,
                         &hand_x,
                         &hand_y,
@@ -1951,19 +1959,19 @@ static inline void cards_in_hand_update_loop(void)
 
                     break;
                 case HAND_PLAY:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(props->hand_top) / 2) *
+                                          -HAND_SPACING_LUT[props->hand_top];
                     hand_y += int2fx(24);
-                    uint timer = get_timer();
+                    uint timer = props->timer;
 
                     if (card_object_is_selected(card_object) && discarded_card == false &&
                         timer % FRAMES(10) == 0)
                     {
                         card_object_set_selected(card_object, false);
-                        played_push(card_object);
+                        played_push(props->played, &props->played_top, card_object);
                         sprite_destroy(&card_object->sprite_object->sprite);
-                        set_hand_card_at(i, NULL);
-                        reorder_card_sprites_layers();
+                        props->hand[i] = NULL; // Remove the card from the hand
+                        reorder_card_sprites_layers(props);
 
                         play_sfx(
                             SFX_CARD_DRAW,
@@ -1971,7 +1979,7 @@ static inline void cards_in_hand_update_loop(void)
                             SFX_DEFAULT_VOLUME
                         );
 
-                        hand_top = decrement_hand_top();
+                        props->hand_top--;
                         hand_selections--;
                         cards_drawn++;
 
@@ -1983,17 +1991,17 @@ static inline void cards_in_hand_update_loop(void)
                         hand_state = HAND_PLAYING;
                         cards_drawn = 0;
                         hand_selections = 0;
-                        reset_timer();
-                        scored_card_index = get_played_top() + 1;
+                        props->timer = TM_ZERO;
+                        scored_card_index = props->played_top + 1;
 
-                        select_cards_in_played_hand();
+                        select_cards_in_played_hand(props);
                     }
 
                     break;
                 // Don't need to do anything here, just wait for the player to select cards
                 case HAND_PLAYING:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(props->hand_top) / 2) *
+                                          -HAND_SPACING_LUT[props->hand_top];
                     hand_y += int2fx(24);
                     break;
             }
@@ -2005,13 +2013,19 @@ static inline void cards_in_hand_update_loop(void)
     }
 }
 
-static inline void game_playing_ui_text_update(void)
+static inline void game_playing_ui_text_update(RoundProps* props)
 {
     static int last_hand_size = 0;
     static int last_deck_size = 0;
+
+    int _hand_size = props->hand_top + 1;
+    int _deck_size = props->deck_top + 1;
+    int deck_max_size =
+        props->hand_top + props->played_top + props->deck_top + props->discard_top + 4;
+
     enum BackgroundId background = get_background();
 
-    if (last_hand_size != hand_get_size() || last_deck_size != deck_get_size())
+    if (last_hand_size != _hand_size || last_deck_size != deck_get_size())
     {
         if (background == BG_CARD_SELECTING)
         {
@@ -2021,7 +2035,7 @@ static inline void game_playing_ui_text_update(void)
                 HAND_SIZE_RECT_SELECT.left,
                 HAND_SIZE_RECT_SELECT.top,
                 TTE_WHITE_PB,
-                hand_get_size(),
+                _hand_size,
                 hand_get_max_size()
             );
         }
@@ -2033,7 +2047,7 @@ static inline void game_playing_ui_text_update(void)
                 HAND_SIZE_RECT_PLAYING.left,
                 HAND_SIZE_RECT_PLAYING.top,
                 TTE_WHITE_PB,
-                hand_get_size(),
+                _hand_size,
                 hand_get_max_size()
             );
         }
@@ -2044,22 +2058,22 @@ static inline void game_playing_ui_text_update(void)
             DECK_SIZE_RECT.left,
             DECK_SIZE_RECT.top,
             TTE_WHITE_PB,
-            deck_get_size(),
-            deck_get_max_size()
+            _deck_size,
+            deck_max_size
         );
 
-        last_hand_size = hand_get_size();
-        last_deck_size = deck_get_size();
+        last_hand_size = _hand_size;
+        last_deck_size = _deck_size;
     }
 }
 
-static inline void game_playing_process_flaming_score(void)
+static inline void game_playing_process_flaming_score(RoundProps* props)
 {
     static u8 flame_score_frame = 0;
 
     if (are_score_flames_active())
     {
-        if (get_timer() % SCORE_FLAMES_ANIM_FREQ == 0)
+        if (props->timer % SCORE_FLAMES_ANIM_FREQ == 0)
         {
             Rect frame_rect = SCORE_FLAME_FRAMES_START;
             flame_score_frame = (flame_score_frame + 1) % NUM_SCORE_FLAMES_FRAMES;
@@ -2180,17 +2194,17 @@ void game_playing_on_update(void* ctx)
 
     // Card logic
 
-    game_playing_process_card_draw();
+    game_playing_process_card_draw(props);
 
-    game_playing_discarded_cards_loop();
+    game_playing_discarded_cards_loop(props);
 
     discarded_card = false;
 
-    cards_in_hand_update_loop();
-    played_cards_update_loop();
+    cards_in_hand_update_loop(props);
+    played_cards_update_loop(props);
 
-    game_playing_ui_text_update();
+    game_playing_ui_text_update(props);
 
     // animate score flames if we exceed the score requirement
-    game_playing_process_flaming_score();
+    game_playing_process_flaming_score(props);
 }

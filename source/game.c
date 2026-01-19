@@ -694,46 +694,46 @@ void mult_rng_seed(int factor)
 // Round.c helpers
 // ============================================================================
 
-void played_push(CardObject* card_object)
+void played_push(CardObject** played, int* played_top, CardObject* card_object)
 {
-    if (played_top >= MAX_SELECTION_SIZE - 1)
+    if (*played_top >= MAX_SELECTION_SIZE - 1)
         return;
-    played[++played_top] = card_object;
+    played[++(*played_top)] = card_object;
 }
 
-CardObject* played_pop()
+CardObject* played_pop(CardObject** played, int* played_top)
 {
-    if (played_top < 0)
+    if (*played_top < 0)
         return NULL;
-    return played[played_top--];
+    return played[(*played_top)--];
 }
 
-void deck_push(Card* card)
+void deck_push(Card** deck, int* deck_top, Card* card)
 {
-    if (deck_top >= MAX_DECK_SIZE - 1)
+    if (*deck_top >= MAX_DECK_SIZE - 1)
         return;
-    deck[++deck_top] = card;
+    deck[++(*deck_top)] = card;
 }
 
-Card* deck_pop()
+Card* deck_pop(Card** deck, int* deck_top)
 {
-    if (deck_top < 0)
+    if (*deck_top < 0)
         return NULL;
-    return deck[deck_top--];
+    return deck[(*deck_top)--];
 }
 
-void discard_push(Card* card)
+void discard_push(Card** discard_pile, int* discard_top, Card* card)
 {
-    if (discard_top >= MAX_DECK_SIZE - 1)
+    if (*discard_top >= MAX_DECK_SIZE - 1)
         return;
-    discard_pile[++discard_top] = card;
+    discard_pile[++(*discard_top)] = card;
 }
 
-Card* discard_pop()
+Card* discard_pop(Card** discard_pile, int* discard_top)
 {
-    if (discard_top < 0)
+    if (*discard_top < 0)
         return NULL;
-    return discard_pile[discard_top--];
+    return discard_pile[(*discard_top)--];
 }
 
 // ============================================================================
@@ -818,7 +818,7 @@ void game_init()
     _shop_jokers_list = list_create();
     // TODO: Move this to an initialization of the play scoring states
 
-    reset_joker_scored_itr();
+    reset_joker_scored_itr(&_owned_jokers_list);
     reset_shop_jokers();
     reset_hands();
     reset_discards();
@@ -945,9 +945,16 @@ static inline void jokers_update_loop(void)
 }
 
 void* ctx = NULL;
+enum GameState ctx_game_state = UNDEFINED;
+
+enum GameState get_ctx_game_state(void)
+{
+    return ctx_game_state;
+}
 
 void set_game_state_ctx(enum GameState game_state)
 {
+    ctx_game_state = game_state;
     if (!ctx)
     {
         switch (game_state)
@@ -1003,7 +1010,23 @@ void set_game_state_ctx(enum GameState game_state)
             props->timer = timer;
             props->substate = state_info[game_state].substate;
             props->money = money;
+            props->ante = ante;
+            props->current_blind = current_blind;
+            props->score = score;
+            props->temp_score = temp_score;
+            props->lerped_score = lerped_score;
+            props->lerped_temp_score = lerped_temp_score;
+            props->hands = hands;
+            props->discards = discards;
             props->owned_jokers_list = &_owned_jokers_list;
+            props->played = played;
+            props->played_top = played_top;
+            props->hand = hand;
+            props->hand_top = hand_top;
+            props->deck = deck;
+            props->deck_top = deck_top;
+            props->discard_pile = discard_pile;
+            props->discard_top = discard_top;
             break;
         }
         case GAME_STATE_ROUND_END:
@@ -1081,7 +1104,22 @@ void update_game_state_ctx(enum GameState game_state)
             timer = props->timer;
             state_info[game_state].substate = props->substate;
             money = props->money;
+            ante = props->ante;
+            current_blind = props->current_blind;
+            score = props->score;
+            temp_score = props->temp_score;
+            lerped_score = props->lerped_score;
+            lerped_temp_score = props->lerped_temp_score;
+            hands = props->hands;
+            discards = props->discards;
             // Joker lists are not updated here since they are pointers to the global lists
+            // played array is not updated here since it is a pointer to the global array
+            played_top = props->played_top;
+            // hand array is not updated here since it is a pointer to the global array
+            hand_top = props->hand_top;
+            // deck array is not updated here since it is a pointer to the global array
+            deck_top = props->deck_top;
+            discard_top = props->discard_top;
             break;
         }
         case GAME_STATE_ROUND_END:
@@ -1175,7 +1213,7 @@ void game_start(void)
     game_main_menu_cleanup();
 
     set_seed(rng_seed);
-    set_seed(9); // 9 is a full house
+    // set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
 
@@ -1189,7 +1227,7 @@ void game_start(void)
         for (int rank = 0; rank < NUM_RANKS; rank++)
         {
             Card* card = card_new(suit, rank);
-            deck_push(card);
+            deck_push(deck, &deck_top, card);
         }
     }
 

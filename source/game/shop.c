@@ -316,9 +316,31 @@ void game_shop_intro(ShopProps* props)
     }
 }
 
+ShopProps* get_shop_props_from_ctx(void* ctx)
+{
+    enum GameState game_state = get_ctx_game_state();
+    if (game_state != GAME_STATE_PLAYING)
+        return NULL;
+    if (game_state == GAME_STATE_SHOP)
+    {
+        return (ShopProps*)ctx;
+    }
+    RoundProps* round_props = (RoundProps*)ctx;
+    static ShopProps shop_props;
+    shop_props.timer = round_props->timer;
+    shop_props.substate = round_props->substate;
+    shop_props.money = round_props->money;
+    shop_props.current_blind = round_props->current_blind;
+    shop_props.owned_jokers_list = round_props->owned_jokers_list;
+    shop_props.discarded_jokers_list = NULL;
+    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+        shop_props.blinds_states[i] = 0;
+    return &shop_props;
+}
+
 int jokers_sel_row_get_size(void* ctx)
 {
-    JokerSellProps* props = (JokerSellProps*)ctx;
+    ShopProps* props = get_shop_props_from_ctx(ctx);
     return list_get_len(props->owned_jokers_list);
 }
 
@@ -331,7 +353,7 @@ bool jokers_sel_row_on_selection_changed(
 )
 {
     // swap Jokers if the A button is held down and all Jokers are on the same row
-    JokerSellProps* props = (JokerSellProps*)ctx;
+    ShopProps* props = get_shop_props_from_ctx(ctx);
     List* owned_jokers_list = props->owned_jokers_list;
     bool swapping =
         key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
@@ -392,13 +414,13 @@ static inline void joker_start_discard_animation(JokerObject* joker_object)
     list_push_back(discarded_jokers_list, joker_object);
 }
 
-static inline void game_sell_joker(int joker_idx, int* money, List* owned_jokers_list)
+static inline void game_sell_joker(ShopProps* props, int joker_idx)
 {
-    if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
+    if (joker_idx < 0 || joker_idx >= list_get_len(props->owned_jokers_list))
         return;
 
-    JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
-    *money += joker_get_sell_value(joker_object->joker);
+    JokerObject* joker_object = (JokerObject*)list_get_at_idx(props->owned_jokers_list, joker_idx);
+    props->money += joker_get_sell_value(joker_object->joker);
     display_money();
     erase_price_under_sprite_object(joker_object->sprite_object);
 
@@ -409,9 +431,8 @@ static inline void game_sell_joker(int joker_idx, int* money, List* owned_jokers
 
 void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection, void* ctx)
 {
-    JokerSellProps* props = (JokerSellProps*)ctx;
+    ShopProps* props = get_shop_props_from_ctx(ctx);
     List* owned_jokers_list = props->owned_jokers_list;
-    int* money = props->money;
 
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, selection->x);
     if (joker_object != NULL)
@@ -437,7 +458,7 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         // Do this before selling the joker so valid row sizes are used
         selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN, ctx);
 
-        game_sell_joker(sold_joker_idx, money, owned_jokers_list);
+        game_sell_joker(props, sold_joker_idx);
     }
 }
 
@@ -454,16 +475,16 @@ static inline void add_to_held_jokers(JokerObject* joker_object, List* owned_jok
     add_joker(joker_object, owned_jokers_list);
 }
 
-static inline void game_shop_buy_joker(int shop_joker_idx, int* money, List* owned_jokers_list)
+static inline void game_shop_buy_joker(ShopProps* props, int shop_joker_idx)
 {
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, shop_joker_idx);
 
-    *money -= joker_object->joker->value;   // Deduct the money spent on the joker
-    update_game_state_ctx(GAME_STATE_SHOP); // Sync the global state with the updated context
-    display_money();                        // Update the money display
+    props->money -= joker_object->joker->value; // Deduct the money spent on the joker
+    update_game_state_ctx(GAME_STATE_SHOP);     // Sync the global state with the updated context
+    display_money();                            // Update the money display
     erase_price_under_sprite_object(joker_object->sprite_object);
     sprite_object_set_focus(joker_object->sprite_object, false);
-    add_to_held_jokers(joker_object, owned_jokers_list);
+    add_to_held_jokers(joker_object, props->owned_jokers_list);
     list_remove_at_idx(&_shop_jokers_list, shop_joker_idx); // Remove the joker from the shop
 }
 
@@ -476,7 +497,7 @@ static void shop_top_row_on_key_transit(
     if (!key_hit(SELECT_CARD))
         return;
 
-    JokerSellProps* props = (JokerSellProps*)ctx;
+    ShopProps* props = (ShopProps*)ctx;
     if (!props)
         return;
 
@@ -485,8 +506,8 @@ static void shop_top_row_on_key_transit(
         play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
 
         // Go to next blind selection game state
-        *props->substate = GAME_SHOP_EXIT;
-        *props->timer = TM_ZERO;
+        props->substate = GAME_SHOP_EXIT;
+        props->timer = TM_ZERO;
 
         reroll_cost = REROLL_BASE_COST;
 
@@ -508,12 +529,12 @@ static void shop_top_row_on_key_transit(
             (JokerObject*)list_get_at_idx(&_shop_jokers_list, shop_joker_idx);
         if (joker_object == NULL ||
             list_get_len(props->owned_jokers_list) >= MAX_JOKERS_HELD_SIZE ||
-            *props->money < joker_object->joker->value)
+            props->money < joker_object->joker->value)
         {
             return;
         }
 
-        game_shop_buy_joker(shop_joker_idx, props->money, props->owned_jokers_list);
+        game_shop_buy_joker(props, shop_joker_idx);
 
         // In Balatro the selection actually stays on the purchased joker it's easier to just move
         // it left
@@ -596,9 +617,9 @@ static bool shop_reroll_row_on_selection_changed(
     return true;
 }
 
-static inline void game_shop_reroll(int* reroll_cost, int* money)
+static inline void game_shop_reroll(ShopProps* props, int* reroll_cost)
 {
-    money -= *reroll_cost;
+    props->money -= *reroll_cost;
     display_money(); // Update the money display
 
     ListItr itr = list_itr_create(&_shop_jokers_list);
@@ -653,15 +674,15 @@ static void shop_reroll_row_on_key_transit(
         return;
     }
 
-    JokerSellProps* props = (JokerSellProps*)ctx;
+    ShopProps* props = (ShopProps*)ctx;
     if (!props)
         return;
 
-    if (*props->money >= reroll_cost)
+    if (props->money >= reroll_cost)
     {
         // TODO: Add money sound effect
         play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-        game_shop_reroll(&reroll_cost, props->money);
+        game_shop_reroll(props, &reroll_cost);
         update_game_state_ctx(GAME_STATE_SHOP); // Sync the updated money to the global state
     }
 }
@@ -669,14 +690,13 @@ static void shop_reroll_row_on_key_transit(
 // Shop menu input and selection
 static void game_shop_process_user_input(ShopProps* props)
 {
-    void* ctx = (void*)(props);
     if (props->timer == TM_SHOP_PRC_INPUT_START)
     {
         // TODO: Move to on_init?
         // The selection grid is initialized outside of bounds and moved
         // to trigger the selection change so the initial selection is visible
         shop_selection_grid.selection = SHOP_INIT_SEL;
-        selection_grid_move_selection_horz(&shop_selection_grid, 1, ctx);
+        selection_grid_move_selection_horz(&shop_selection_grid, 1, props);
         tte_printf(
             "#{P:%d,%d; cx:0x%X000}$%d",
             SHOP_REROLL_RECT.left,
@@ -687,14 +707,7 @@ static void game_shop_process_user_input(ShopProps* props)
     }
 
     // Shop input logic
-    JokerSellProps jokers_sell_props = {
-        .owned_jokers_list = props->owned_jokers_list,
-        .money = &props->money,
-        .substate = &props->substate,
-        .timer = &props->timer
-    };
-    void* joker_ctx = (void*)&jokers_sell_props;
-    selection_grid_process_input(&shop_selection_grid, joker_ctx);
+    selection_grid_process_input(&shop_selection_grid, props);
 }
 
 // Outro sequence (menu and shop icon going out of frame)

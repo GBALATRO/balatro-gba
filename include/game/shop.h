@@ -18,14 +18,6 @@ typedef struct
     List* discarded_jokers_list;
 } ShopProps;
 
-typedef struct
-{
-    List* owned_jokers_list;
-    int* money;
-    int* substate;
-    uint* timer;
-} JokerSellProps;
-
 void game_shop_on_update(void* ctx);
 void game_shop_on_exit(void* ctx);
 

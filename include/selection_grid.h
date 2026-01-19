@@ -13,6 +13,8 @@
 #ifndef SELECTION_GRID_H
 #define SELECTION_GRID_H
 
+#include "list.h"
+
 #include <tonc.h>
 
 typedef POINT Selection;

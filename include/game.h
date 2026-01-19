@@ -56,38 +56,6 @@ enum HandState
     HAND_PLAYING
 };
 
-enum PlayState
-{
-    PLAY_STARTING,
-    PLAY_BEFORE_SCORING,
-    PLAY_SCORING_CARDS,
-    PLAY_SCORING_CARD_JOKERS,
-    PLAY_SCORING_HELD_CARDS,
-    PLAY_SCORING_INDEPENDENT_JOKERS,
-    PLAY_SCORING_HAND_SCORED_END,
-    PLAY_ENDING,
-    PLAY_ENDED
-};
-
-// Hand types
-enum HandType
-{
-    NONE,
-    HIGH_CARD,
-    PAIR,
-    TWO_PAIR,
-    THREE_OF_A_KIND,
-    FOUR_OF_A_KIND,
-    STRAIGHT,
-    FLUSH,
-    FULL_HOUSE,
-    STRAIGHT_FLUSH,
-    ROYAL_FLUSH,
-    FIVE_OF_A_KIND,
-    FLUSH_HOUSE,
-    FLUSH_FIVE
-};
-
 typedef struct
 {
     int substate;
@@ -99,6 +67,7 @@ typedef struct
 
 void set_game_state_ctx(enum GameState game_state);
 void update_game_state_ctx(enum GameState game_state);
+enum GameState get_ctx_game_state(void);
 
 // ============================================================================
 // Game Core Functions
@@ -253,11 +222,11 @@ void increment_blind(enum BlindState* states, int* current_blind, enum BlindStat
 
 // Round.c helpers
 
-void played_push(CardObject* card_object);
-CardObject* played_pop(void);
-void deck_push(Card* card);
-Card* deck_pop(void);
-void discard_push(Card* card);
-Card* discard_pop(void);
+void played_push(CardObject** played, int* played_top, CardObject* card_object);
+CardObject* played_pop(CardObject** played, int* played_top);
+void deck_push(Card** deck, int* deck_top, Card* card);
+Card* deck_pop(Card** deck, int* deck_top);
+void discard_push(Card** discard_pile, int* discard_top, Card* card);
+Card* discard_pop(Card** discard_pile, int* discard_top);
 
 #endif // GAME_H

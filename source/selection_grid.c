@@ -1,5 +1,9 @@
 #include "selection_grid.h"
 
+#include "game.h"
+#include "round.h"
+#include "shop.h"
+
 static void selection_grid_process_directional_input(SelectionGrid* selection_grid, void* ctx)
 {
     int horz_tri_input = bit_tribool(key_hit(KEY_ANY), KI_RIGHT, KI_LEFT);

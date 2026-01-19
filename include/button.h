@@ -16,12 +16,12 @@
 /**
  * @brief The function to be called when the button is pressed
  */
-typedef void (*ButtonOnPressedFunc)(void);
+typedef void (*ButtonOnPressedFunc)(void*);
 
 /**
  * @brief Returns true if the button should be activated when pressed.
  */
-typedef bool (*ButtonCanBePressedFunc)(void);
+typedef bool (*ButtonCanBePressedFunc)(void*);
 
 /**
  * @brief A button representation
@@ -71,6 +71,6 @@ void button_set_highlight(Button* button, bool highlight);
  *
  * @param button The button being pressed. No-op on NULL.
  */
-void button_press(Button* button);
+void button_press(Button* button, void* ctx);
 
 #endif // BUTTON_H

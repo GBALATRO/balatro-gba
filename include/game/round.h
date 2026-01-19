@@ -11,8 +11,56 @@ typedef struct
     uint timer;
     int substate;
     int money;
+    int ante;
+    int current_blind;
+    u32 score;
+    u32 temp_score;
+    FIXED lerped_score;
+    FIXED lerped_temp_score;
+    int hands;
+    int discards;
     List* owned_jokers_list;
+    CardObject** played;
+    int played_top;
+    CardObject** hand;
+    int hand_top;
+    Card** deck;
+    int deck_top;
+    Card** discard_pile;
+    int discard_top;
 } RoundProps;
+
+enum PlayState
+{
+    PLAY_STARTING,
+    PLAY_BEFORE_SCORING,
+    PLAY_SCORING_CARDS,
+    PLAY_SCORING_CARD_JOKERS,
+    PLAY_SCORING_HELD_CARDS,
+    PLAY_SCORING_INDEPENDENT_JOKERS,
+    PLAY_SCORING_HAND_SCORED_END,
+    PLAY_ENDING,
+    PLAY_ENDED
+};
+
+// Hand types
+enum HandType
+{
+    NONE,
+    HIGH_CARD,
+    PAIR,
+    TWO_PAIR,
+    THREE_OF_A_KIND,
+    FOUR_OF_A_KIND,
+    STRAIGHT,
+    FLUSH,
+    FULL_HOUSE,
+    STRAIGHT_FLUSH,
+    ROYAL_FLUSH,
+    FIVE_OF_A_KIND,
+    FLUSH_HOUSE,
+    FLUSH_FIVE
+};
 
 // Main round state functions
 void game_round_on_init(void* ctx);
@@ -30,6 +78,6 @@ u32 get_mult(void);
 void set_mult(u32 new_mult);
 
 int get_scored_card_index(void);
-void reset_joker_scored_itr(void);
+void reset_joker_scored_itr(List* jokers_list);
 
 #endif
