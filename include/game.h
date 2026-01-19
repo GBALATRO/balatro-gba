@@ -138,7 +138,7 @@ int get_deck_top(void);
 int get_discard_top(void);
 int hand_get_size(void);
 int deck_get_size(void);
-int deck_get_max_size(void);
+int deck_get_max_size(int hand_top, int played_top, int deck_top, int discard_top);
 
 // Hands, Discards, and Round
 

@@ -2021,11 +2021,11 @@ static inline void game_playing_ui_text_update(RoundProps* props)
     int _hand_size = props->hand_top + 1;
     int _deck_size = props->deck_top + 1;
     int deck_max_size =
-        props->hand_top + props->played_top + props->deck_top + props->discard_top + 4;
+        deck_get_max_size(props->hand_top, props->played_top, props->deck_top, props->discard_top);
 
     enum BackgroundId background = get_background();
 
-    if (last_hand_size != _hand_size || last_deck_size != deck_get_size())
+    if (last_hand_size != _hand_size || last_deck_size != props->deck_top + 1)
     {
         if (background == BG_CARD_SELECTING)
         {

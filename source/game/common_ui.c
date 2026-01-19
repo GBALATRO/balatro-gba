@@ -101,14 +101,13 @@ bool are_score_flames_active(void)
 
 void display_round(int value)
 {
-    int game_round = get_round();
     // tte_erase_rect_wrapper(ROUND_TEXT_RECT);
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%d",
         ROUND_TEXT_RECT.left,
         ROUND_TEXT_RECT.top,
         TTE_YELLOW_PB,
-        game_round
+        value
     );
 }
 
@@ -244,7 +243,7 @@ void display_hands()
         "#{P:%d,%d; cx:0xD000}%d",
         HANDS_TEXT_RECT.left,
         HANDS_TEXT_RECT.top,
-        get_hands()
+        get_num_hands_remaining()
     ); // Hand
 }
 

@@ -367,7 +367,7 @@ static void blind_select_handle_input(BlindSelectProps* props)
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             props->substate = BLIND_SELECTED_ANIM_SEQ;
             props->timer = TM_ZERO;
-            display_round(increment_round());
+            display_round(++props->game_round);
         }
         else if (props->current_blind != BLIND_TYPE_BOSS)
         {

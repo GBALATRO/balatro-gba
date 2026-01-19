@@ -10,6 +10,7 @@ typedef struct
 {
     uint timer;
     int substate;
+    int game_round;
     int current_blind;
     enum BlindState blinds_states[BLIND_TYPE_MAX];
     int ante;

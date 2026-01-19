@@ -207,7 +207,7 @@ static void print_price_under_sprite_object(SpriteObject* sprite_object, int pri
     tte_printf("#{P:%d,%d; cx:0x%X000}$%d", price_rect.left, price_rect.top, TTE_YELLOW_PB, price);
 }
 
-static void add_joker(JokerObject* joker_object, List* owned_jokers_list)
+static void add_joker(ShopProps* props, JokerObject* joker_object, List* owned_jokers_list)
 {
     list_push_back(owned_jokers_list, joker_object);
 
@@ -216,12 +216,12 @@ static void add_joker(JokerObject* joker_object, List* owned_jokers_list)
     // only change size when the first one is added
     if (joker_object->joker->id == FOUR_FINGERS_JOKER_ID)
     {
-        increment_four_fingers_joker_count();
+        props->four_fingers_joker_count++;
     }
 
     if (joker_object->joker->id == SHORTCUT_JOKER_ID)
     {
-        increment_shortcut_joker_count();
+        props->shortcut_joker_count++;
     }
 }
 
@@ -469,10 +469,14 @@ static int shop_top_row_get_size(void* _)
     return list_get_len(&_shop_jokers_list) + 1;
 }
 
-static inline void add_to_held_jokers(JokerObject* joker_object, List* owned_jokers_list)
+static inline void add_to_held_jokers(
+    ShopProps* props,
+    JokerObject* joker_object,
+    List* owned_jokers_list
+)
 {
     joker_object->sprite_object->ty = int2fx(HELD_JOKERS_POS.y);
-    add_joker(joker_object, owned_jokers_list);
+    add_joker(props, joker_object, owned_jokers_list);
 }
 
 static inline void game_shop_buy_joker(ShopProps* props, int shop_joker_idx)
@@ -484,7 +488,7 @@ static inline void game_shop_buy_joker(ShopProps* props, int shop_joker_idx)
     display_money();                            // Update the money display
     erase_price_under_sprite_object(joker_object->sprite_object);
     sprite_object_set_focus(joker_object->sprite_object, false);
-    add_to_held_jokers(joker_object, props->owned_jokers_list);
+    add_to_held_jokers(props, joker_object, props->owned_jokers_list);
     list_remove_at_idx(&_shop_jokers_list, shop_joker_idx); // Remove the joker from the shop
 }
 

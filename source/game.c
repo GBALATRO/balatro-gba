@@ -141,37 +141,9 @@ CardObject** get_hand_array(void)
     return hand;
 }
 
-CardObject* get_hand_card_at(int idx)
-{
-    if (idx < 0 || idx > hand_top)
-    {
-        return NULL;
-    }
-    return hand[idx];
-}
-
-void set_hand_card_at(int idx, CardObject* card_object)
-{
-    if (idx < 0 || idx > hand_top)
-    {
-        return;
-    }
-    hand[idx] = card_object;
-}
-
 int get_hand_top(void)
 {
     return hand_top;
-}
-
-int increment_hand_top(void)
-{
-    return ++hand_top;
-}
-
-int decrement_hand_top(void)
-{
-    return --hand_top;
 }
 
 CardObject** get_played_array(void)
@@ -188,51 +160,14 @@ CardObject* get_played_card_at(int idx)
     return played[idx];
 }
 
-void set_played_card_at(int idx, CardObject* card_object)
-{
-    if (idx < 0 || idx >= MAX_SELECTION_SIZE)
-    {
-        return;
-    }
-    played[idx] = card_object;
-}
-
 int get_played_top(void)
 {
     return played_top;
 }
 
-void reset_played_top(void)
-{
-    played_top = -1;
-}
-
-Card* get_deck_at(int idx)
-{
-    if (idx < 0 || idx > deck_top)
-    {
-        return NULL;
-    }
-    return deck[idx];
-}
-
-void set_deck_at(int idx, Card* card)
-{
-    if (idx < 0 || idx > MAX_DECK_SIZE - 1)
-    {
-        return;
-    }
-    deck[idx] = card;
-}
-
 int get_deck_top(void)
 {
     return deck_top;
-}
-
-int get_discard_top(void)
-{
-    return discard_top;
 }
 
 int hand_get_size(void)
@@ -245,7 +180,7 @@ int deck_get_size(void)
     return deck_top + 1;
 }
 
-int deck_get_max_size(void)
+int deck_get_max_size(int hand_top, int played_top, int deck_top, int discard_top)
 {
     // This is the max amount of cards that the player currently has in their possession
     return hand_top + played_top + deck_top + discard_top + 4;
@@ -274,33 +209,6 @@ void clear_joker_lists(void)
     list_clear(&_expired_jokers_list);
 }
 
-// Game substates
-int get_substate(void)
-{
-    return state_info[game_state].substate;
-}
-
-void set_substate(int new_substate)
-{
-    state_info[game_state].substate = new_substate;
-}
-
-// Timer Functions
-uint get_timer(void)
-{
-    return timer;
-}
-
-void set_timer(uint new_time)
-{
-    timer = new_time;
-}
-
-void reset_timer(void)
-{
-    set_timer(TM_ZERO);
-}
-
 // Money Functions
 int get_money(void)
 {
@@ -312,39 +220,10 @@ void set_money(int new_money)
     money = new_money;
 }
 
-void increase_money(int amount)
-{
-    int _money = get_money();
-    _money += amount;
-    set_money(_money);
-}
-
-void decrease_money(int amount)
-{
-    int _money = get_money();
-    _money -= amount;
-    set_money(_money);
-}
-
 // Hands and Discards
 int get_num_hands_remaining(void)
 {
     return hands;
-}
-
-int get_hands(void)
-{
-    return hands;
-}
-
-void reset_hands(void)
-{
-    hands = max_hands;
-}
-
-int decrement_hands(void)
-{
-    return --hands;
 }
 
 int get_discards(void)
@@ -352,136 +231,15 @@ int get_discards(void)
     return discards;
 }
 
-void reset_discards(void)
-{
-    discards = max_discards;
-}
-
-int decrement_discards(void)
-{
-    return --discards;
-}
-
 // Round and Ante
-int get_round(void)
-{
-    return game_round;
-}
-
-int increment_round(void)
-{
-    return ++game_round;
-}
 
 int get_ante(void)
 {
     return ante;
 }
 
-int increment_ante(void)
-{
-    return ++ante;
-}
+// Blind token management
 
-// Score management
-u32 get_score(void)
-{
-    return score;
-}
-
-void set_score(u32 new_score)
-{
-    score = new_score;
-}
-
-void reset_score(void)
-{
-    set_score(0);
-}
-
-u32 increase_score_by(u32 amount)
-{
-    u32 _score = get_score();
-    _score = u32_protected_add(_score, amount);
-    set_score(_score);
-    return _score;
-}
-
-// Temp score
-u32 get_temp_score(void)
-{
-    return temp_score;
-}
-
-void set_temp_score(u32 new_temp_score)
-{
-    temp_score = new_temp_score;
-}
-
-void reset_temp_score(void)
-{
-    set_temp_score(0);
-}
-
-u32 mult_temp_score_by(u32 factor)
-{
-    u32 _temp_score = get_temp_score();
-    _temp_score = u32_protected_mult(_temp_score, factor);
-    set_temp_score(_temp_score);
-    return _temp_score;
-}
-
-// Lerped score
-
-FIXED get_lerped_score(void)
-{
-    return lerped_score;
-}
-
-void set_lerped_score(FIXED new_lerped_score)
-{
-    lerped_score = new_lerped_score;
-}
-
-void reset_lerped_score(void)
-{
-    set_lerped_score(0);
-}
-
-FIXED increase_lerped_score_by(FIXED amount)
-{
-    FIXED _lerped_score = get_lerped_score();
-    _lerped_score += amount;
-    set_lerped_score(_lerped_score);
-    return lerped_score;
-}
-
-// Temp lerped score
-
-FIXED get_lerped_temp_score(void)
-{
-    return lerped_temp_score;
-}
-
-void set_lerped_temp_score(FIXED new_lerped_temp_score)
-{
-    lerped_temp_score = new_lerped_temp_score;
-}
-
-void reset_lerped_temp_score(void)
-{
-    set_lerped_temp_score(0);
-}
-
-FIXED decrease_lerped_temp_score_by(FIXED amount)
-{
-    FIXED _lerped_temp_score = get_lerped_temp_score();
-    _lerped_temp_score -= amount;
-    set_lerped_temp_score(_lerped_temp_score);
-    return lerped_temp_score;
-}
-
-// Blind Management
 Sprite* get_blind_select_token(enum BlindType blind_type)
 {
     if (blind_type < 0 || blind_type >= BLIND_TYPE_MAX)
@@ -638,6 +396,8 @@ void get_blind_select_token_pos(enum BlindType blind_type, int* x, int* y)
     *y = token_sprite->pos.y;
 }
 
+// Blind states
+
 enum BlindState* get_blinds_states(void)
 {
     return blinds_states;
@@ -657,11 +417,6 @@ int get_current_blind(void)
     return current_blind;
 }
 
-void set_current_blind(int new_current_blind)
-{
-    current_blind = new_current_blind;
-}
-
 void increment_blind(enum BlindState* states, int* current_blind, enum BlindState increment_reason)
 {
     (*current_blind)++;
@@ -679,19 +434,8 @@ void increment_blind(enum BlindState* states, int* current_blind, enum BlindStat
     }
 }
 
-// RNG Functions
-void incr_rng_seed(void)
-{
-    rng_seed++;
-}
-
-void mult_rng_seed(int factor)
-{
-    rng_seed *= factor;
-}
-
 // ============================================================================
-// Round.c helpers
+// Deck helpers
 // ============================================================================
 
 void played_push(CardObject** played, int* played_top, CardObject* card_object)
@@ -795,16 +539,6 @@ void remove_owned_joker(int owned_joker_idx)
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
 }
 
-void increment_four_fingers_joker_count(void)
-{
-    four_fingers_joker_count++;
-}
-
-void increment_shortcut_joker_count(void)
-{
-    shortcut_joker_count++;
-}
-
 // ============================================================================
 // Game Initialization and Core Functions
 // ============================================================================
@@ -820,9 +554,10 @@ void game_init()
 
     reset_joker_scored_itr(&_owned_jokers_list);
     reset_shop_jokers();
-    reset_hands();
-    reset_discards();
-    reset_timer();
+
+    hands = max_hands;
+    discards = max_discards;
+    timer = TM_ZERO;
 
     current_blind = BLIND_TYPE_SMALL;
     blinds_states[0] = BLIND_STATE_CURRENT;
@@ -998,6 +733,7 @@ void set_game_state_ctx(enum GameState game_state)
             BlindSelectProps* props = (BlindSelectProps*)ctx;
             props->timer = timer;
             props->substate = state_info[game_state].substate;
+            props->game_round = game_round;
             props->current_blind = current_blind;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 props->blinds_states[i] = blinds_states[i];
@@ -1053,6 +789,8 @@ void set_game_state_ctx(enum GameState game_state)
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 props->blinds_states[i] = blinds_states[i];
             props->current_blind = current_blind;
+            props->shortcut_joker_count = shortcut_joker_count;
+            props->four_fingers_joker_count = four_fingers_joker_count;
             props->owned_jokers_list = &_owned_jokers_list;
             props->discarded_jokers_list = &_discarded_jokers_list;
             break;
@@ -1092,6 +830,7 @@ void update_game_state_ctx(enum GameState game_state)
             BlindSelectProps* props = (BlindSelectProps*)ctx;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
+            game_round = props->game_round;
             current_blind = props->current_blind;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 blinds_states[i] = props->blinds_states[i];
@@ -1146,6 +885,8 @@ void update_game_state_ctx(enum GameState game_state)
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
                 blinds_states[i] = props->blinds_states[i];
             current_blind = props->current_blind;
+            shortcut_joker_count = props->shortcut_joker_count;
+            four_fingers_joker_count = props->four_fingers_joker_count;
             // Joker lists are not updated here since they are pointers to the global lists
             break;
         }
@@ -1217,8 +958,8 @@ void game_start(void)
 
     affine_background_change_background(AFFINE_BG_GAME);
 
-    reset_hands();
-    reset_discards();
+    hands = max_hands;
+    discards = max_discards;
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic
     // system that allows for different decks and card types.
@@ -1240,7 +981,7 @@ void game_start(void)
         DECK_SIZE_RECT.top,
         TTE_WHITE_PB,
         deck_get_size(),
-        deck_get_max_size()
+        deck_get_max_size(hand_top, played_top, deck_top, discard_top)
     );
 
     display_round(game_round); // Set the round display

@@ -14,6 +14,8 @@ typedef struct
     int money;
     enum BlindState blinds_states[BLIND_TYPE_MAX];
     int current_blind;
+    int shortcut_joker_count;
+    int four_fingers_joker_count;
     List* owned_jokers_list;
     List* discarded_jokers_list;
 } ShopProps;
