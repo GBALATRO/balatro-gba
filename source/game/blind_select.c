@@ -52,9 +52,9 @@ static inline int blind_select_rect_width(const Rect* rect)
 static int selection_x;
 static int selection_y;
 
-void game_blind_select_on_init(void* ctx)
+void game_blind_select_on_init(GameStateCtx* ctx)
 {
-    BlindSelectProps* props = (BlindSelectProps*)ctx;
+    BlindSelectProps* props = &ctx->blind_select;
     props->timer = TM_ZERO;
     props->substate = START_ANIM_SEQ;
 
@@ -220,9 +220,9 @@ void game_blind_select_change_background(void)
     }
 }
 
-void game_blind_select_on_update(void* ctx)
+void game_blind_select_on_update(GameStateCtx* ctx)
 {
-    BlindSelectProps* props = (BlindSelectProps*)ctx;
+    BlindSelectProps* props = &ctx->blind_select;
     int substate = props->substate;
 
     if (substate == BLIND_SELECT_MAX)
@@ -490,7 +490,7 @@ static void blind_select_display_blind_panel(BlindSelectProps* props)
     }
 }
 
-void game_blind_select_on_exit(void* _)
+void game_blind_select_on_exit(GameStateCtx* ctx)
 {
     selection_y = 0;
     reset_background();

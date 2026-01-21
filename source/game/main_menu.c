@@ -38,7 +38,7 @@ static CardObject* main_menu_ace = NULL;
 // Current selected button index
 static int selection_x = 0;
 
-void game_main_menu_on_init(void* _)
+void game_main_menu_on_init(GameStateCtx* _)
 {
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU);
@@ -71,9 +71,9 @@ void game_main_menu_change_background(void)
     );
 }
 
-void game_main_menu_on_update(void* ctx)
+void game_main_menu_on_update(GameStateCtx* ctx)
 {
-    MainMenuProps* props = (MainMenuProps*)ctx;
+    MainMenuProps* props = &ctx->main_menu;
 
     change_background(BG_MAIN_MENU);
 

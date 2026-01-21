@@ -3,33 +3,10 @@
 
 #include "card.h"
 #include "game/common_ui.h"
+#include "game_state_ctx.h"
 #include "list.h"
 
 #include <tonc.h>
-
-typedef struct
-{
-    uint timer;
-    int substate;
-    int money;
-    int ante;
-    int current_blind;
-    u32 score;
-    u32 temp_score;
-    FIXED lerped_score;
-    FIXED lerped_temp_score;
-    int hands;
-    int discards;
-    List* owned_jokers_list;
-    CardObject** played;
-    int played_top;
-    CardObject** hand;
-    int hand_top;
-    Card** deck;
-    int deck_top;
-    Card** discard_pile;
-    int discard_top;
-} RoundProps;
 
 enum PlayState
 {
@@ -64,8 +41,8 @@ enum HandType
 };
 
 // Main round state functions
-void game_round_on_init(void* ctx);
-void game_playing_on_update(void* ctx);
+void game_round_on_init(GameStateCtx* ctx);
+void game_playing_on_update(GameStateCtx* ctx);
 
 // Background change functions
 void game_playing_change_background(enum BackgroundId current_background);

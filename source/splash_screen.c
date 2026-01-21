@@ -3,6 +3,7 @@
 #include "font.h"
 #include "game.h"
 #include "game/rect.h"
+#include "game_state_ctx.h"
 #include "graphic_utils.h"
 #include "maxmod.h"
 #include "soundbank.h"
@@ -12,7 +13,7 @@
 static const Rect COUNTDOWN_TIMER_RECT = {208, 144, 240, 152};
 static uint timer = 0;
 
-void splash_screen_on_init(void* _)
+void splash_screen_on_init(GameStateCtx* _)
 {
     timer = 0;
 
@@ -26,7 +27,7 @@ void splash_screen_on_init(void* _)
     tte_printf("#{P:8,144; cx:0xF000}(Press any key to skip)");
 }
 
-void splash_screen_on_update(void* _)
+void splash_screen_on_update(GameStateCtx* _)
 {
     timer++;
 
@@ -50,7 +51,7 @@ void splash_screen_on_update(void* _)
     tte_erase_screen();
 }
 
-void splash_screen_on_exit(void* _)
+void splash_screen_on_exit(GameStateCtx* _)
 {
     mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);
 }

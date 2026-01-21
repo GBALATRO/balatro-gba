@@ -783,9 +783,9 @@ static inline void game_shop_lights_anim_frame(void)
     memcpy16(&pal_bg_mem[SHOP_LIGHTS_1_PID], &shifted_palette[3], 1);
 }
 
-void game_shop_on_update(void* ctx)
+void game_shop_on_update(GameStateCtx* ctx)
 {
-    ShopProps* props = (ShopProps*)ctx;
+    ShopProps* props = &ctx->shop;
     change_background(BG_SHOP);
 
     if (!list_is_empty(&_shop_jokers_list))
@@ -816,9 +816,9 @@ void game_shop_on_update(void* ctx)
     shop_state_actions[substate](props);
 }
 
-void game_shop_on_exit(void* ctx)
+void game_shop_on_exit(GameStateCtx* ctx)
 {
-    ShopProps* props = (ShopProps*)ctx;
+    ShopProps* props = &ctx->shop;
     ListItr itr = list_itr_create(&_shop_jokers_list);
     JokerObject* joker_object;
 

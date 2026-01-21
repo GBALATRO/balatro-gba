@@ -2,26 +2,14 @@
 #define GAME_SHOP_H
 
 #include "blind.h"
+#include "game_state_ctx.h"
 #include "list.h"
 #include "selection_grid.h"
 
 #include <tonc.h>
 
-typedef struct
-{
-    uint timer;
-    int substate;
-    int money;
-    enum BlindState blinds_states[BLIND_TYPE_MAX];
-    int current_blind;
-    int shortcut_joker_count;
-    int four_fingers_joker_count;
-    List* owned_jokers_list;
-    List* discarded_jokers_list;
-} ShopProps;
-
-void game_shop_on_update(void* ctx);
-void game_shop_on_exit(void* ctx);
+void game_shop_on_update(GameStateCtx* ctx);
+void game_shop_on_exit(GameStateCtx* ctx);
 
 void reset_shop_jokers(void);
 void set_shop_joker_avail(int joker_id, bool avail);

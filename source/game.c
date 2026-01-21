@@ -50,7 +50,7 @@
 // efficient. Well, this is the answer.
 // Thanks!
 // https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
-static void noop(void* _)
+static void noop(GameStateCtx* _)
 {
 }
 
@@ -60,7 +60,7 @@ int game_speed = 1; // Can be used to fast-forward the game
 
 StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
-    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn, .substate = 0, .ctx = NULL},
+    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn, .substate = 0, .ctx = {{0}}},
 #include "../include/def_state_info_table.h"
 #undef DEF_STATE_INFO
 };
@@ -706,178 +706,185 @@ void set_game_state_ctx(enum GameState game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            MainMenuProps* props = &ctx.main_menu;
-            props->timer = timer;
-            props->rng_seed = rng_seed;
+            MainMenuProps props = ctx.main_menu;
+            props.timer = timer;
+            props.rng_seed = rng_seed;
+            ctx.main_menu = props;
             break;
         }
         case GAME_STATE_BLIND_SELECT:
         {
-            BlindSelectProps* props = &ctx.blind_select;
-            props->timer = timer;
-            props->substate = state_info[game_state].substate;
-            props->game_round = game_round;
-            props->current_blind = current_blind;
+            BlindSelectProps props = ctx.blind_select;
+            props.timer = timer;
+            props.substate = state_info[game_state].substate;
+            props.game_round = game_round;
+            props.current_blind = current_blind;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
-                props->blinds_states[i] = blinds_states[i];
-            props->ante = ante;
+                props.blinds_states[i] = blinds_states[i];
+            props.ante = ante;
+            ctx.blind_select = props;
             break;
         }
         case GAME_STATE_PLAYING:
         {
-            RoundProps* props = &ctx.playing;
-            props->timer = timer;
-            props->substate = state_info[game_state].substate;
-            props->money = money;
-            props->ante = ante;
-            props->current_blind = current_blind;
-            props->score = score;
-            props->temp_score = temp_score;
-            props->lerped_score = lerped_score;
-            props->lerped_temp_score = lerped_temp_score;
-            props->hands = hands;
-            props->discards = discards;
-            props->owned_jokers_list = &_owned_jokers_list;
-            props->played = played;
-            props->played_top = played_top;
-            props->hand = hand;
-            props->hand_top = hand_top;
-            props->deck = deck;
-            props->deck_top = deck_top;
-            props->discard_pile = discard_pile;
-            props->discard_top = discard_top;
+            RoundProps props = ctx.round;
+            props.timer = timer;
+            props.substate = state_info[game_state].substate;
+            props.money = money;
+            props.ante = ante;
+            props.current_blind = current_blind;
+            props.score = score;
+            props.temp_score = temp_score;
+            props.lerped_score = lerped_score;
+            props.lerped_temp_score = lerped_temp_score;
+            props.hands = hands;
+            props.discards = discards;
+            props.owned_jokers_list = &_owned_jokers_list;
+            props.played = played;
+            props.played_top = played_top;
+            props.hand = hand;
+            props.hand_top = hand_top;
+            props.deck = deck;
+            props.deck_top = deck_top;
+            props.discard_pile = discard_pile;
+            props.discard_top = discard_top;
+            ctx.round = props;
             break;
         }
         case GAME_STATE_ROUND_END:
         {
-            RoundEndProps* props = &ctx.round_end;
-            props->timer = timer;
-            props->substate = state_info[game_state].substate;
-            props->money = money;
-            props->hands = hands;
-            props->max_hands = max_hands;
-            props->discards = discards;
-            props->max_discards = max_discards;
-            props->ante = ante;
-            props->current_blind = current_blind;
-            props->score = score;
+            RoundEndProps props = ctx.round_end;
+            props.timer = timer;
+            props.substate = state_info[game_state].substate;
+            props.money = money;
+            props.hands = hands;
+            props.max_hands = max_hands;
+            props.discards = discards;
+            props.max_discards = max_discards;
+            props.ante = ante;
+            props.current_blind = current_blind;
+            props.score = score;
+            ctx.round_end = props;
             break;
         }
         case GAME_STATE_SHOP:
         {
-            ShopProps* props = &ctx.shop;
-            props->timer = timer;
-            props->substate = state_info[game_state].substate;
-            props->money = money;
+            ShopProps props = ctx.shop;
+            props.timer = timer;
+            props.substate = state_info[game_state].substate;
+            props.money = money;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
-                props->blinds_states[i] = blinds_states[i];
-            props->current_blind = current_blind;
-            props->shortcut_joker_count = shortcut_joker_count;
-            props->four_fingers_joker_count = four_fingers_joker_count;
-            props->owned_jokers_list = &_owned_jokers_list;
-            props->discarded_jokers_list = &_discarded_jokers_list;
+                props.blinds_states[i] = blinds_states[i];
+            props.current_blind = current_blind;
+            props.shortcut_joker_count = shortcut_joker_count;
+            props.four_fingers_joker_count = four_fingers_joker_count;
+            props.owned_jokers_list = &_owned_jokers_list;
+            props.discarded_jokers_list = &_discarded_jokers_list;
+            ctx.shop = props;
             break;
         }
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
-            GameOverProps* props = &ctx.game_over;
-            props->timer = timer;
-            props->game_round = game_round;
-            props->score = score;
-            props->owned_jokers_list = &_owned_jokers_list;
+            GameOverProps props = ctx.game_over;
+            props.timer = timer;
+            props.game_round = game_round;
+            props.score = score;
+            props.owned_jokers_list = &_owned_jokers_list;
+            ctx.game_over = props;
             break;
         }
         default:
             break;
     }
-    state_info[game_state].ctx = &ctx;
+    state_info[game_state].ctx = ctx;
 }
 
 void update_game_state_ctx(enum GameState game_state)
 {
-    GameStateCtx* ctx = state_info[game_state].ctx;
+    GameStateCtx ctx = state_info[game_state].ctx;
+    ctx_game_state = game_state;
     switch (game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            MainMenuProps* props = &ctx->main_menu;
-            timer = props->timer;
-            rng_seed = props->rng_seed;
+            MainMenuProps props = ctx.main_menu;
+            timer = props.timer;
+            rng_seed = props.rng_seed;
             break;
         }
         case GAME_STATE_BLIND_SELECT:
         {
-            BlindSelectProps* props = &ctx->blind_select;
-            timer = props->timer;
-            state_info[game_state].substate = props->substate;
-            game_round = props->game_round;
-            current_blind = props->current_blind;
+            BlindSelectProps props = ctx.blind_select;
+            timer = props.timer;
+            state_info[game_state].substate = props.substate;
+            game_round = props.game_round;
+            current_blind = props.current_blind;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
-                blinds_states[i] = props->blinds_states[i];
-            ante = props->ante;
+                blinds_states[i] = props.blinds_states[i];
+            ante = props.ante;
             break;
         }
         case GAME_STATE_PLAYING:
         {
-            RoundProps* props = &ctx->playing;
-            timer = props->timer;
-            state_info[game_state].substate = props->substate;
-            money = props->money;
-            ante = props->ante;
-            current_blind = props->current_blind;
-            score = props->score;
-            temp_score = props->temp_score;
-            lerped_score = props->lerped_score;
-            lerped_temp_score = props->lerped_temp_score;
-            hands = props->hands;
-            discards = props->discards;
+            RoundProps props = ctx.round;
+            timer = props.timer;
+            state_info[game_state].substate = props.substate;
+            money = props.money;
+            ante = props.ante;
+            current_blind = props.current_blind;
+            score = props.score;
+            temp_score = props.temp_score;
+            lerped_score = props.lerped_score;
+            lerped_temp_score = props.lerped_temp_score;
+            hands = props.hands;
+            discards = props.discards;
             // Joker lists are not updated here since they are pointers to the global lists
             // played array is not updated here since it is a pointer to the global array
-            played_top = props->played_top;
+            played_top = props.played_top;
             // hand array is not updated here since it is a pointer to the global array
-            hand_top = props->hand_top;
+            hand_top = props.hand_top;
             // deck array is not updated here since it is a pointer to the global array
-            deck_top = props->deck_top;
-            discard_top = props->discard_top;
+            deck_top = props.deck_top;
+            discard_top = props.discard_top;
             break;
         }
         case GAME_STATE_ROUND_END:
         {
-            RoundEndProps* props = &ctx->round_end;
-            timer = props->timer;
-            state_info[game_state].substate = props->substate;
-            money = props->money;
-            hands = props->hands;
-            max_hands = props->max_hands;
-            discards = props->discards;
-            max_discards = props->max_discards;
-            ante = props->ante;
-            current_blind = props->current_blind;
-            score = props->score;
+            RoundEndProps props = ctx.round_end;
+            timer = props.timer;
+            state_info[game_state].substate = props.substate;
+            money = props.money;
+            hands = props.hands;
+            max_hands = props.max_hands;
+            discards = props.discards;
+            max_discards = props.max_discards;
+            ante = props.ante;
+            current_blind = props.current_blind;
+            score = props.score;
             break;
         }
         case GAME_STATE_SHOP:
         {
-            ShopProps* props = &ctx->shop;
-            timer = props->timer;
-            state_info[game_state].substate = props->substate;
-            money = props->money;
+            ShopProps props = ctx.shop;
+            timer = props.timer;
+            state_info[game_state].substate = props.substate;
+            money = props.money;
             for (int i = 0; i < BLIND_TYPE_MAX; i++)
-                blinds_states[i] = props->blinds_states[i];
-            current_blind = props->current_blind;
-            shortcut_joker_count = props->shortcut_joker_count;
-            four_fingers_joker_count = props->four_fingers_joker_count;
+                blinds_states[i] = props.blinds_states[i];
+            current_blind = props.current_blind;
+            shortcut_joker_count = props.shortcut_joker_count;
+            four_fingers_joker_count = props.four_fingers_joker_count;
             // Joker lists are not updated here since they are pointers to the global lists
             break;
         }
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
-            GameOverProps* props = &ctx->game_over;
-            timer = props->timer;
-            game_round = props->game_round;
-            score = props->score;
+            GameOverProps props = ctx.game_over;
+            timer = props.timer;
+            game_round = props.game_round;
+            score = props.score;
             // Joker lists are not updated here since they are pointers to the global lists
             break;
         }
@@ -893,7 +900,7 @@ void game_update()
     jokers_update_loop();
 
     set_game_state_ctx(game_state);
-    state_info[game_state].on_update(state_info[game_state].ctx);
+    state_info[game_state].on_update(&state_info[game_state].ctx);
     update_game_state_ctx(game_state);
 }
 
@@ -904,7 +911,7 @@ void game_change_state(enum GameState new_game_state)
     if (game_state >= 0 && game_state < GAME_STATE_MAX)
     {
         state_info[game_state].substate = 0;
-        state_info[game_state].on_exit(state_info[game_state].ctx);
+        state_info[game_state].on_exit(&state_info[game_state].ctx);
     }
 
     if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
@@ -912,7 +919,7 @@ void game_change_state(enum GameState new_game_state)
         // Sync global state to the new state's context before on_init
         // so that on_init can read any updates made in the previous state's on_exit
         set_game_state_ctx(new_game_state);
-        state_info[new_game_state].on_init(state_info[new_game_state].ctx);
+        state_info[new_game_state].on_init(&state_info[new_game_state].ctx);
 
         game_state = new_game_state;
     }

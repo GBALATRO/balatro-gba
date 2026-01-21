@@ -548,9 +548,9 @@ static void sort_cards(RoundProps* props)
     reorder_card_sprites_layers(props);
 }
 
-void game_round_on_init(void* ctx)
+void game_round_on_init(GameStateCtx* ctx)
 {
-    RoundProps* props = (RoundProps*)ctx;
+    RoundProps* props = &ctx->round;
 
     hand_state = HAND_DRAW;
     cards_drawn = 0;
@@ -2182,7 +2182,7 @@ void game_selecting_change_background(enum BackgroundId current_background)
     }
 }
 
-void game_playing_on_update(void* ctx)
+void game_playing_on_update(GameStateCtx* ctx)
 {
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
     if (hand_state == HAND_DRAW || hand_state == HAND_DISCARD || hand_state == HAND_SELECT)
@@ -2194,7 +2194,7 @@ void game_playing_on_update(void* ctx)
         change_background(BG_CARD_PLAYING);
     }
 
-    RoundProps* props = (RoundProps*)ctx;
+    RoundProps* props = &ctx->round;
 
     game_playing_process_input_and_state(props);
 

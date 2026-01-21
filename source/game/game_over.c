@@ -29,14 +29,14 @@ static void game_over_init(void)
     main_bg_se_copy_rect(NEW_RUN_BTN_SRC_RECT, NEW_RUN_BTN_DEST_POS);
 }
 
-void game_lose_on_init(void* _)
+void game_lose_on_init(GameStateCtx* _)
 {
     game_over_init();
     // Using the text color to match the "Game Over" text
     affine_background_set_color(TEXT_CLR_RED);
 }
 
-void game_win_on_init(void* _)
+void game_win_on_init(GameStateCtx* _)
 {
     game_over_init();
     // Using the text color to match the "You Win" text
@@ -57,9 +57,9 @@ static inline void game_over_process_user_input()
     }
 }
 
-void game_lose_on_update(void* ctx)
+void game_lose_on_update(GameStateCtx* ctx)
 {
-    GameOverProps* props = (GameOverProps*)ctx;
+    GameOverProps* props = &ctx->game_over;
 
     if (props->timer < GAME_OVER_ANIM_FRAMES)
     {
@@ -78,9 +78,9 @@ void game_lose_on_update(void* ctx)
     game_over_process_user_input();
 }
 
-void game_win_on_update(void* ctx)
+void game_win_on_update(GameStateCtx* ctx)
 {
-    GameOverProps* props = (GameOverProps*)ctx;
+    GameOverProps* props = &ctx->game_over;
 
     if (props->timer < GAME_OVER_ANIM_FRAMES)
     {
@@ -102,9 +102,9 @@ void game_win_on_update(void* ctx)
 // This function isn't set in stone. This is just a placeholder
 // allowing the player to restart the game. Thought it would be nice to have
 // util we decide what we want to do after a game over.
-void game_over_on_exit(void* ctx)
+void game_over_on_exit(GameStateCtx* ctx)
 {
-    GameOverProps* props = (GameOverProps*)ctx;
+    GameOverProps* props = &ctx->game_over;
 
     List* jokers_list = props->owned_jokers_list;
     while (list_get_len(jokers_list) > 0)
