@@ -33,21 +33,22 @@ This **tech-demo/proof of concept** is strictly limited in content to a minimal 
 
 ---
 
-<!-- The Gif is a little blurry but I think it looks fine -->
-<img src="example.gif" alt="Example GIF" width="800">
+
+https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
+
 
 ### Controls: 
 (A: Pick Card/Make Selections)
 
-(B: Deselect All Cards) 
+(B: Deselect All Cards)
 
 (L: Sell Joker)
 
-(R: Sort Suit/Rank)
+(R: Toggle Sort Suit/Rank)
 
-(D-Pad: Navigation) 
+(D-Pad: Navigation)
 
-(Hold A: Swap Owned Jokers in the Shop)
+(Hold A: Swap Owned Jokers or Playing Cards in the Shop or Round)
 
 # Contributing
 
