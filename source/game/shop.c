@@ -316,32 +316,62 @@ void game_shop_intro(ShopProps* props)
     }
 }
 
-ShopProps* get_shop_props_from_ctx(void* ctx)
+static enum GameState current_game_state;
+
+ShopProps get_shop_props_from_ctx(void* ctx)
 {
-    enum GameState game_state = get_ctx_game_state();
-    if (game_state != GAME_STATE_PLAYING)
-        return NULL;
-    if (game_state == GAME_STATE_SHOP)
+    current_game_state = get_ctx_game_state();
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+
+    switch (current_game_state)
     {
-        return (ShopProps*)ctx;
+        case GAME_STATE_SHOP:
+            return game_ctx->shop;
+        case GAME_STATE_PLAYING:
+            RoundProps* round_props = &game_ctx->round;
+            ShopProps shop_props;
+            shop_props.timer = round_props->timer;
+            shop_props.substate = round_props->substate;
+            shop_props.money = round_props->money;
+            shop_props.current_blind = round_props->current_blind;
+            shop_props.owned_jokers_list = round_props->owned_jokers_list;
+            return shop_props;
+        default:
+            return (ShopProps){0};
     }
-    RoundProps* round_props = (RoundProps*)ctx;
-    static ShopProps shop_props;
-    shop_props.timer = round_props->timer;
-    shop_props.substate = round_props->substate;
-    shop_props.money = round_props->money;
-    shop_props.current_blind = round_props->current_blind;
-    shop_props.owned_jokers_list = round_props->owned_jokers_list;
-    shop_props.discarded_jokers_list = NULL;
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
-        shop_props.blinds_states[i] = 0;
-    return &shop_props;
+}
+
+void set_ctx_from_shop_props(void* ctx, ShopProps* props)
+{
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    switch (current_game_state)
+    {
+        case GAME_STATE_SHOP:
+        {
+            game_ctx->shop = *props;
+            break;
+        }
+        case GAME_STATE_PLAYING:
+        {
+            RoundProps* round_props = &game_ctx->round;
+            round_props->timer = props->timer;
+            round_props->substate = props->substate;
+            round_props->money = props->money;
+            round_props->current_blind = props->current_blind;
+            round_props->owned_jokers_list = props->owned_jokers_list;
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 int jokers_sel_row_get_size(void* ctx)
 {
-    ShopProps* props = get_shop_props_from_ctx(ctx);
-    return list_get_len(props->owned_jokers_list);
+    ShopProps props = get_shop_props_from_ctx(ctx);
+    int size = list_get_len(props.owned_jokers_list);
+    set_ctx_from_shop_props(ctx, &props);
+    return size;
 }
 
 bool jokers_sel_row_on_selection_changed(
@@ -353,8 +383,8 @@ bool jokers_sel_row_on_selection_changed(
 )
 {
     // swap Jokers if the A button is held down and all Jokers are on the same row
-    ShopProps* props = get_shop_props_from_ctx(ctx);
-    List* owned_jokers_list = props->owned_jokers_list;
+    ShopProps props = get_shop_props_from_ctx(ctx);
+    List* owned_jokers_list = props.owned_jokers_list;
     bool swapping =
         key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
 
@@ -402,6 +432,7 @@ bool jokers_sel_row_on_selection_changed(
         );
     }
 
+    set_ctx_from_shop_props(ctx, &props);
     return true;
 }
 
@@ -431,8 +462,8 @@ static inline void game_sell_joker(ShopProps* props, int joker_idx)
 
 void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection, void* ctx)
 {
-    ShopProps* props = get_shop_props_from_ctx(ctx);
-    List* owned_jokers_list = props->owned_jokers_list;
+    ShopProps props = get_shop_props_from_ctx(ctx);
+    List* owned_jokers_list = props.owned_jokers_list;
 
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, selection->x);
     if (joker_object != NULL)
@@ -458,8 +489,10 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         // Do this before selling the joker so valid row sizes are used
         selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN, ctx);
 
-        game_sell_joker(props, sold_joker_idx);
+        game_sell_joker(&props, sold_joker_idx);
     }
+
+    set_ctx_from_shop_props(ctx, &props);
 }
 
 // Shop input
@@ -523,8 +556,8 @@ static void shop_top_row_on_key_transit(
 
         // memcpy16(&pal_bg_mem[16], &pal_bg_mem[6], 1);
         // This changes the color of the button to a dark red.
-        // However, it shares a palette with the shop icon, so it will change the color of the shop
-        // icon as well. And I don't care enough to fix it right now.
+        // However, it shares a palette with the shop icon, so it will change the color of the
+        // shop icon as well. And I don't care enough to fix it right now.
     }
     else
     {
@@ -540,8 +573,8 @@ static void shop_top_row_on_key_transit(
 
         game_shop_buy_joker(props, shop_joker_idx);
 
-        // In Balatro the selection actually stays on the purchased joker it's easier to just move
-        // it left
+        // In Balatro the selection actually stays on the purchased joker it's easier to just
+        // move it left
         selection_grid_move_selection_horz(selection_grid, -1, ctx);
     }
 }
@@ -556,7 +589,8 @@ static bool shop_top_row_on_selection_changed(
 {
     // The selection grid system only guarantees that the new selection is within bounds
     // but not the previous one...
-    // This allows using INIT_SEL = {-1, 1} and move to set the initial selection in a hacky way...
+    // This allows using INIT_SEL = {-1, 1} and move to set the initial selection in a hacky
+    // way...
     if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
         prev_selection->x < shop_top_row_get_size(ctx))
     {
