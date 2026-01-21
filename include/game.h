@@ -11,8 +11,6 @@
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_JOKERS      2 // TODO: Make this dynamic and allow for other items besides jokers
 #define MAX_SELECTION_SIZE   5
-#define GAME_SPEED           1
-#define FRAMES(x)            (((x) + GAME_SPEED - 1) / GAME_SPEED)
 
 // TODO: Can make these dynamic to support interest-related jokers and vouchers
 #define MAX_INTEREST   5
@@ -82,6 +80,9 @@ enum GameState get_game_state(void);
 // ============================================================================
 // Getters and Setters
 // ============================================================================
+
+uint get_game_speed(void);
+uint logical_frames_to_real(uint logical_frames);
 
 // Joker and Card Query Functions
 

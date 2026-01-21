@@ -198,7 +198,7 @@ static void game_round_end_update_blind_reward(RoundEndProps* props)
 {
     uint timer = props->timer;
 
-    if (timer % FRAMES(20) != 0)
+    if (timer % logical_frames_to_real(20) != 0)
         return;
 
     // TODO: Add sound effect here
@@ -221,7 +221,7 @@ static void game_round_end_update_blind_reward(RoundEndProps* props)
             blind_get_reward(props->current_blind) - blind_reward
         );
     }
-    else if (timer > FRAMES(20))
+    else if (timer > logical_frames_to_real(20))
     {
         tte_erase_rect_wrapper(BLIND_REWARD_RECT);
         tte_erase_rect_wrapper(BLIND_REQ_TEXT_RECT);
@@ -254,7 +254,7 @@ static void game_round_end_panel_exit(RoundEndProps* props)
             memset16(&se_mem[MAIN_BG_SBB][8 + 32 * (y - 1)], 0x0401, 1);
         }
     }
-    else if (timer > FRAMES(20))
+    else if (timer > logical_frames_to_real(20))
     {
         memset16(&pal_bg_mem[REWARD_PANEL_BORDER_PID], 0x1483, 1);
         props->substate = DISPLAY_REWARDS;
@@ -290,7 +290,8 @@ static void game_round_end_print_hand_reward(RoundEndProps* props, int hand_y_of
         );
     }
     // Increment the hand reward text until the hand reward variable is depleted
-    else if (timer > TM_HAND_REWARD_INCR_WAIT && timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+    else if (timer > TM_HAND_REWARD_INCR_WAIT &&
+             timer % logical_frames_to_real(TM_REWARD_INCREMENT_INTERVAL) == 0)
     {
         hand_reward--;
         tte_printf(
@@ -326,7 +327,7 @@ static void game_round_end_print_interest_reward(uint timer, int interest_y_offs
     }
     // Increment the interest reward text until the interest reward variable is depleted
     else if (timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
-             timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+             timer % logical_frames_to_real(TM_REWARD_INCREMENT_INTERVAL) == 0)
     {
         interest_to_count--;
         tte_printf(
@@ -404,7 +405,7 @@ static void game_round_end_cashout(RoundEndProps* props)
 static void game_round_end_display_cashout(RoundEndProps* props)
 {
     uint timer = props->timer;
-    if (timer == FRAMES(40))
+    if (timer == logical_frames_to_real(40))
     {
         // Put the "cash out" button onto the round end panel
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
@@ -424,7 +425,7 @@ static void game_round_end_display_cashout(RoundEndProps* props)
     }
 
     // Wait until the player presses A to cash out
-    else if (timer > FRAMES(40) && key_hit(SELECT_CARD))
+    else if (timer > logical_frames_to_real(40) && key_hit(SELECT_CARD))
     {
         game_round_end_cashout(props);
 

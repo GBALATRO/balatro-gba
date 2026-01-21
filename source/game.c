@@ -55,7 +55,8 @@ static void noop(void* _)
 }
 
 uint rng_seed = 0;
-uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
+uint timer = 0;      // This might already exist in libtonc but idk so i'm just making my own
+uint game_speed = 1; // Can be used to fast-forward the game
 
 StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -134,6 +135,17 @@ Bitset* get_avail_jokers_bitset_ptr(void)
 // ============================================================================
 // Getter and Setter Functions
 // ============================================================================
+
+uint get_game_speed(void)
+{
+    return game_speed;
+}
+
+uint logical_frames_to_real(uint logical_frames)
+{
+    uint game_speed = get_game_speed();
+    return (logical_frames + game_speed - 1) / game_speed;
+}
 
 // Hand and Deck Getters
 CardObject** get_hand_array(void)
@@ -650,7 +662,7 @@ static inline void expired_jokers_update_loop(void)
         joker_object_update(joker_object);
 
         // let just enough frames pass that we see it rotating and shrinking
-        if (timer % FRAMES(EXPIRE_ANIMATION_FRAME_COUNT) == 0)
+        if (timer % logical_frames_to_real(EXPIRE_ANIMATION_FRAME_COUNT) == 0)
         {
             // get joker idx
             int expired_joker_idx = 0;

@@ -629,7 +629,7 @@ static bool game_playing_hand_row_on_selection_changed(
     int prev_card_idx = UNDEFINED;
     int next_card_idx = UNDEFINED;
 
-    // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
+    // Do not use logical_frames_to_real(x) here as we are counting real frames ignoring game speed
     card_moved_too_fast = (props->timer - selection_hit_timer) < card_swap_time_threshold;
 
     if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
@@ -985,7 +985,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         *hand_x = *hand_x + (int2fx(card_idx) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
     }
 
-    if (card_idx == 0 && discarded_card == false && props->timer % FRAMES(10) == 0)
+    if (card_idx == 0 && discarded_card == false && props->timer % logical_frames_to_real(10) == 0)
     {
         // This is never reached in the case of HAND_SHUFFLING. Not sure why but that's how it's
         // supposed to be.
@@ -1256,7 +1256,7 @@ static inline bool game_round_is_over(RoundProps* props)
 // returns true if the current card has been discarded
 static bool play_ended_played_cards_update(RoundProps* props, int played_idx)
 {
-    if (!discarded_card && props->timer > FRAMES(40))
+    if (!discarded_card && props->timer > logical_frames_to_real(40))
     {
         // play the sound only once per card, when it is pushed off-screen to the right
         if (!sound_played)
@@ -1325,8 +1325,8 @@ static inline void play_starting_played_cards_update(RoundProps* props, int play
 
     bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
 
-    if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
-        timer > FRAMES(40))
+    if (played_idx == played_top && (timer % logical_frames_to_real(10) == 0 || !card_selected) &&
+        timer > logical_frames_to_real(40))
     {
         scored_card_index--;
 
@@ -1370,7 +1370,7 @@ static inline bool play_scoring_cards_update(RoundProps* props)
     int played_top = props->played_top;
     CardObject* scored_card_object = props->played[scored_card_index];
 
-    if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
+    if (timer % logical_frames_to_real(30) == 0 && timer > logical_frames_to_real(40))
     {
         // We are about to score played Cards.
         // Start from the current card index
@@ -1437,7 +1437,7 @@ static inline bool play_scoring_card_jokers_update(RoundProps* props)
     uint timer = props->timer;
     CardObject* scored_card_object = props->played[scored_card_index];
 
-    if (timer % FRAMES(30) == 0 && timer > FRAMES(40))
+    if (timer % logical_frames_to_real(30) == 0 && timer > logical_frames_to_real(40))
     {
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
@@ -1483,7 +1483,8 @@ static inline bool play_scoring_card_jokers_update(RoundProps* props)
 static inline bool play_scoring_held_cards_update(RoundProps* props, int played_idx)
 {
     uint timer = props->timer;
-    if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
+    if (played_idx == 0 && (timer % logical_frames_to_real(30) == 0) &&
+        timer > logical_frames_to_real(40))
     {
         tte_erase_rect_wrapper(HELD_CARDS_SCORES_RECT);
 
@@ -1516,7 +1517,8 @@ static inline bool play_scoring_held_cards_update(RoundProps* props, int played_
 static inline bool play_scoring_independent_jokers_update(RoundProps* props, int played_idx)
 {
     uint timer = props->timer;
-    if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
+    if (played_idx == 0 && (timer % logical_frames_to_real(30) == 0) &&
+        timer > logical_frames_to_real(40))
     {
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
@@ -1539,7 +1541,8 @@ static inline bool play_scoring_independent_jokers_update(RoundProps* props, int
 static inline bool play_scoring_hand_scored_end_update(RoundProps* props, int played_idx)
 {
     uint timer = props->timer;
-    if (played_idx == 0 && (timer % FRAMES(30) == 0) && timer > FRAMES(40))
+    if (played_idx == 0 && (timer % logical_frames_to_real(30) == 0) &&
+        timer > logical_frames_to_real(40))
     {
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
@@ -1570,8 +1573,8 @@ static inline void play_ending_played_cards_update(RoundProps* props, int played
     int played_top = props->played_top;
     bool card_selected = card_object_is_selected(props->played[played_top - scored_card_index]);
 
-    if (played_idx == played_top && (timer % FRAMES(10) == 0 || !card_selected) &&
-        timer > FRAMES(40))
+    if (played_idx == played_top && (timer % logical_frames_to_real(10) == 0 || !card_selected) &&
+        timer > logical_frames_to_real(40))
     {
         scored_card_index--;
 
@@ -1734,14 +1737,16 @@ static inline void game_playing_process_input_and_state(RoundProps* props)
             );
         }
     }
-    else if (play_state == PLAY_ENDED && props->timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
+    else if (play_state == PLAY_ENDED &&
+             props->timer % logical_frames_to_real(TM_SCORE_LERP_INTERVAL) == 0)
     {
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
          * The operation is equivalent to
-         * fxdiv(int2fx(temp_score * GAME_SPEED), int2fx(NUM_SCORE_LERP_STEPS))
+         * fxdiv(int2fx(temp_score * game_speed), int2fx(NUM_SCORE_LERP_STEPS))
          */
-        FIXED lerped_score_offset = int2fx(props->temp_score * GAME_SPEED) / NUM_SCORE_LERP_STEPS;
+        uint game_speed = get_game_speed();
+        FIXED lerped_score_offset = int2fx(props->temp_score * game_speed) / NUM_SCORE_LERP_STEPS;
         props->lerped_temp_score -= lerped_score_offset;
         props->lerped_score += lerped_score_offset;
 
@@ -1770,7 +1775,7 @@ static inline void game_playing_process_card_draw(RoundProps* props)
 {
     if (hand_state == HAND_DRAW && cards_drawn < hand_size)
     {
-        if (props->timer % FRAMES(10) == 0) // Draw a card every 10 frames
+        if (props->timer % logical_frames_to_real(10) == 0) // Draw a card every 10 frames
         {
             cards_drawn++;
             card_draw(props);
@@ -1790,7 +1795,7 @@ static inline void game_playing_discarded_cards_loop(RoundProps* props)
     int hand_size = props->hand_top + 1;
 
     if (hand_size == 0 && hand_state == HAND_SHUFFLING && props->discard_top >= -1 &&
-        props->timer > FRAMES(10))
+        props->timer > logical_frames_to_real(10))
     {
         // Change the background to the round end background. This is how it works in Balatro, so
         // I'm doing it this way too.
@@ -1965,7 +1970,7 @@ static inline void cards_in_hand_update_loop(RoundProps* props)
                     uint timer = props->timer;
 
                     if (card_object_is_selected(card_object) && discarded_card == false &&
-                        timer % FRAMES(10) == 0)
+                        timer % logical_frames_to_real(10) == 0)
                     {
                         card_object_set_selected(card_object, false);
                         played_push(props->played, &props->played_top, card_object);
@@ -1986,7 +1991,8 @@ static inline void cards_in_hand_update_loop(RoundProps* props)
                         discarded_card = true;
                     }
 
-                    if (i == 0 && discarded_card == false && timer % FRAMES(10) == 0)
+                    if (i == 0 && discarded_card == false &&
+                        timer % logical_frames_to_real(10) == 0)
                     {
                         hand_state = HAND_PLAYING;
                         cards_drawn = 0;
