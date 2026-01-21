@@ -1,8 +1,9 @@
 #ifndef __INCLUDE_GAME_ROUND_H__
 #define __INCLUDE_GAME_ROUND_H__
 
-#include "game.h"
+#include "card.h"
 #include "game/common_ui.h"
+#include "list.h"
 
 #include <tonc.h>
 

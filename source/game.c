@@ -691,7 +691,7 @@ static inline void jokers_update_loop(void)
     expired_jokers_update_loop();
 }
 
-void* ctx = NULL;
+GameStateCtx ctx = {0};
 enum GameState ctx_game_state = UNDEFINED;
 
 enum GameState get_ctx_game_state(void)
@@ -702,47 +702,18 @@ enum GameState get_ctx_game_state(void)
 void set_game_state_ctx(enum GameState game_state)
 {
     ctx_game_state = game_state;
-    if (!ctx)
-    {
-        switch (game_state)
-        {
-            case GAME_STATE_MAIN_MENU:
-                ctx = malloc(sizeof(MainMenuProps));
-                break;
-            case GAME_STATE_BLIND_SELECT:
-                ctx = malloc(sizeof(BlindSelectProps));
-                break;
-            case GAME_STATE_PLAYING:
-                ctx = malloc(sizeof(RoundProps));
-                break;
-            case GAME_STATE_ROUND_END:
-                ctx = malloc(sizeof(RoundEndProps));
-                break;
-            case GAME_STATE_SHOP:
-                ctx = malloc(sizeof(ShopProps));
-                break;
-            case GAME_STATE_LOSE:
-            case GAME_STATE_WIN:
-                ctx = malloc(sizeof(GameOverProps));
-                break;
-            default:
-                return;
-        }
-    }
-    if (!ctx) // Check malloc success
-        return;
     switch (game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            MainMenuProps* props = (MainMenuProps*)ctx;
+            MainMenuProps* props = &ctx.main_menu;
             props->timer = timer;
             props->rng_seed = rng_seed;
             break;
         }
         case GAME_STATE_BLIND_SELECT:
         {
-            BlindSelectProps* props = (BlindSelectProps*)ctx;
+            BlindSelectProps* props = &ctx.blind_select;
             props->timer = timer;
             props->substate = state_info[game_state].substate;
             props->game_round = game_round;
@@ -754,7 +725,7 @@ void set_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_PLAYING:
         {
-            RoundProps* props = (RoundProps*)ctx;
+            RoundProps* props = &ctx.playing;
             props->timer = timer;
             props->substate = state_info[game_state].substate;
             props->money = money;
@@ -779,7 +750,7 @@ void set_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_ROUND_END:
         {
-            RoundEndProps* props = (RoundEndProps*)ctx;
+            RoundEndProps* props = &ctx.round_end;
             props->timer = timer;
             props->substate = state_info[game_state].substate;
             props->money = money;
@@ -794,7 +765,7 @@ void set_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_SHOP:
         {
-            ShopProps* props = (ShopProps*)ctx;
+            ShopProps* props = &ctx.shop;
             props->timer = timer;
             props->substate = state_info[game_state].substate;
             props->money = money;
@@ -810,7 +781,7 @@ void set_game_state_ctx(enum GameState game_state)
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
-            GameOverProps* props = (GameOverProps*)ctx;
+            GameOverProps* props = &ctx.game_over;
             props->timer = timer;
             props->game_round = game_round;
             props->score = score;
@@ -820,26 +791,24 @@ void set_game_state_ctx(enum GameState game_state)
         default:
             break;
     }
-    state_info[game_state].ctx = ctx;
+    state_info[game_state].ctx = &ctx;
 }
 
 void update_game_state_ctx(enum GameState game_state)
 {
-    void* ctx = state_info[game_state].ctx;
-    if (!ctx)
-        return;
+    GameStateCtx* ctx = state_info[game_state].ctx;
     switch (game_state)
     {
         case GAME_STATE_MAIN_MENU:
         {
-            MainMenuProps* props = (MainMenuProps*)ctx;
+            MainMenuProps* props = &ctx->main_menu;
             timer = props->timer;
             rng_seed = props->rng_seed;
             break;
         }
         case GAME_STATE_BLIND_SELECT:
         {
-            BlindSelectProps* props = (BlindSelectProps*)ctx;
+            BlindSelectProps* props = &ctx->blind_select;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
             game_round = props->game_round;
@@ -851,7 +820,7 @@ void update_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_PLAYING:
         {
-            RoundProps* props = (RoundProps*)ctx;
+            RoundProps* props = &ctx->playing;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
             money = props->money;
@@ -875,7 +844,7 @@ void update_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_ROUND_END:
         {
-            RoundEndProps* props = (RoundEndProps*)ctx;
+            RoundEndProps* props = &ctx->round_end;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
             money = props->money;
@@ -890,7 +859,7 @@ void update_game_state_ctx(enum GameState game_state)
         }
         case GAME_STATE_SHOP:
         {
-            ShopProps* props = (ShopProps*)ctx;
+            ShopProps* props = &ctx->shop;
             timer = props->timer;
             state_info[game_state].substate = props->substate;
             money = props->money;
@@ -905,7 +874,7 @@ void update_game_state_ctx(enum GameState game_state)
         case GAME_STATE_LOSE:
         case GAME_STATE_WIN:
         {
-            GameOverProps* props = (GameOverProps*)ctx;
+            GameOverProps* props = &ctx->game_over;
             timer = props->timer;
             game_round = props->game_round;
             score = props->score;
@@ -936,7 +905,6 @@ void game_change_state(enum GameState new_game_state)
     {
         state_info[game_state].substate = 0;
         state_info[game_state].on_exit(state_info[game_state].ctx);
-        ctx = NULL; // Reset context pointer
     }
 
     if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)

@@ -3,6 +3,12 @@
 
 #include "bitset.h"
 #include "blind.h"
+#include "game/blind_select.h"
+#include "game/game_over.h"
+#include "game/main_menu.h"
+#include "game/round.h"
+#include "game/round_end.h"
+#include "game/shop.h"
 
 #include <tonc.h>
 
@@ -62,6 +68,16 @@ typedef struct
     void (*on_exit)(void*);
     void* ctx;
 } StateInfo;
+
+typedef union
+{
+    MainMenuProps main_menu;
+    BlindSelectProps blind_select;
+    RoundProps playing;
+    RoundEndProps round_end;
+    ShopProps shop;
+    GameOverProps game_over;
+} GameStateCtx;
 
 void set_game_state_ctx(enum GameState game_state);
 void update_game_state_ctx(enum GameState game_state);

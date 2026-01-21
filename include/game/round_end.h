@@ -1,7 +1,6 @@
 #ifndef GAME_ROUND_END_H
 #define GAME_ROUND_END_H
 
-#include "game.h"
 #include "game/common_ui.h"
 #include "sprite.h"
 
