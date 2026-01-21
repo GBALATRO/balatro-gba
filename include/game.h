@@ -97,8 +97,8 @@ enum GameState get_game_state(void);
 // Getters and Setters
 // ============================================================================
 
-uint get_game_speed(void);
-uint logical_frames_to_real(uint logical_frames);
+int get_game_speed(void);
+int logical_frames_to_real(int logical_frames);
 
 // Joker and Card Query Functions
 

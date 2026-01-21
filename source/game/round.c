@@ -1745,7 +1745,7 @@ static inline void game_playing_process_input_and_state(RoundProps* props)
          * The operation is equivalent to
          * fxdiv(int2fx(temp_score * game_speed), int2fx(NUM_SCORE_LERP_STEPS))
          */
-        uint game_speed = get_game_speed();
+        int game_speed = get_game_speed();
         FIXED lerped_score_offset = int2fx(props->temp_score * game_speed) / NUM_SCORE_LERP_STEPS;
         props->lerped_temp_score -= lerped_score_offset;
         props->lerped_score += lerped_score_offset;

@@ -201,7 +201,7 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
 
 void sprite_object_update(SpriteObject* sprite_object)
 {
-    uint game_speed = get_game_speed();
+    int game_speed = get_game_speed();
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * game_speed) / 8;
 
