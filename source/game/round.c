@@ -233,13 +233,15 @@ SelectionGrid game_playing_selection_grid = {
 
 static int game_playing_hand_row_get_size(void* ctx)
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
     return props->hand_top + 1;
 }
 
 static void game_playing_play_hand_on_pressed(void* ctx)
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
 
     if (!can_play_hand(ctx))
         return;
@@ -254,7 +256,8 @@ static void game_playing_play_hand_on_pressed(void* ctx)
 // Playing state functions
 static void game_playing_discard_on_pressed(void* ctx)
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
     if (!can_discard_hand(props))
         return;
 
@@ -625,7 +628,8 @@ static bool game_playing_hand_row_on_selection_changed(
     void* ctx
 )
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
     int prev_card_idx = UNDEFINED;
     int next_card_idx = UNDEFINED;
 
@@ -701,7 +705,8 @@ static void game_playing_hand_row_on_key_transit(
     void* ctx
 )
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
     if (key_hit(SELECT_CARD))
     {
         selection_hit_timer = props->timer;
@@ -806,7 +811,8 @@ static bool can_play_hand(void* _)
 
 static bool can_discard_hand(void* ctx)
 {
-    RoundProps* props = (RoundProps*)ctx;
+    GameStateCtx* game_ctx = (GameStateCtx*)ctx;
+    RoundProps* props = &game_ctx->round;
     return (props->discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
