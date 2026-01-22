@@ -1359,7 +1359,8 @@ enum HandType compute_hand_type(struct ContainedHandTypes contained_types)
         // Shift the bit we want to check to the front and mask it with 1 to keep only that
         // Since the ContainedHandTypes is ordered the same way as the HandType enum, we
         // can shift right by ret-1 to have the bit we want at the front
-        if ((contained_types.value >> (ret-1)) & 0x1) {
+        if ((contained_types.value >> (ret - 1)) & 0x1)
+        {
             break;
         }
     }
