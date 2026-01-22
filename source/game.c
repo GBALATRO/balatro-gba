@@ -1351,99 +1351,25 @@ ContainedHandTypes* get_contained_hands(void)
 
 enum HandType compute_hand_type(struct ContainedHandTypes contained_types)
 {
-    // do a binary search by hand to try and be efficient instead of iterating naively
-    if (contained_types.value >= 64)
+    enum HandType ret;
+
+    // test each pit see if it's set to 1, and return the first one
+    for (ret = FLUSH_FIVE; ret > NONE; ret--)
     {
-        if (contained_types.value >= 512)
-        {
-            if (contained_types.value >= 2048)
-            {
-                if (contained_types.value >= 4096)
-                {
-                    return FLUSH_FIVE;
-                }
-                else
-                {
-                    return FLUSH_HOUSE;
-                }
-            }
-            else
-            {
-                if (contained_types.value >= 1024)
-                {
-                    return FIVE_OF_A_KIND;
-                }
-                else
-                {
-                    return ROYAL_FLUSH;
-                }
-            }
-        }
-        else
-        {
-            if (contained_types.value >= 128)
-            {
-                if (contained_types.value >= 256)
-                {
-                    return STRAIGHT_FLUSH;
-                }
-                else
-                {
-                    return FOUR_OF_A_KIND;
-                }
-            }
-            else
-            {
-                return FULL_HOUSE;
-            }
+        // Shift the bit we want to check to the front and mask it with 1 to keep only that
+        // Since the ContainedHandTypes is ordered the same way as the HandType enum, we
+        // can shift right by ret-1 to have the bit we want at the front
+        if ((contained_types.value >> (ret-1)) & 0x1) {
+            break;
         }
     }
-    else
-    {
-        if (contained_types.value >= 4)
-        {
-            if (contained_types.value >= 16)
-            {
-                if (contained_types.value >= 32)
-                {
-                    return FLUSH;
-                }
-                else
-                {
-                    return STRAIGHT;
-                }
-            }
-            else
-            {
-                if (contained_types.value >= 8)
-                {
-                    return THREE_OF_A_KIND;
-                }
-                else
-                {
-                    return TWO_PAIR;
-                }
-            }
-        }
-        else
-        {
-            if (contained_types.value >= 1)
-            {
-                if (contained_types.value >= 2)
-                {
-                    return PAIR;
-                }
-                else
-                {
-                    return HIGH_CARD;
-                }
-            }
-            else
-            {
-                return NONE;
-            }
-        }
-    }
+
+    // If we broke early, ret contains the value of the HandType enum corresponding to
+    // the position of the highest bit set to 1 in contained_types.value, which is the
+    // most powerful poker hand contained in the current Hand
+    // If not, then it contains NONE, which is what we're supposed to return when there
+    // are no Hands contained in what we played
+    return ret;
 }
 
 enum HandType* get_hand_type(void)

@@ -103,20 +103,19 @@ typedef struct ContainedHandTypes
     {
         struct
         {
-            //  NONE                 //    0
-            u16 HIGH_CARD : 1;       //    1
-            u16 PAIR : 1;            //    2
-            u16 TWO_PAIR : 1;        //    4
-            u16 THREE_OF_A_KIND : 1; //    8
-            u16 STRAIGHT : 1;        //   16
-            u16 FLUSH : 1;           //   32
-            u16 FULL_HOUSE : 1;      //   64
-            u16 FOUR_OF_A_KIND : 1;  //  128
-            u16 STRAIGHT_FLUSH : 1;  //  256
-            u16 ROYAL_FLUSH : 1;     //  512
-            u16 FIVE_OF_A_KIND : 1;  // 1024
-            u16 FLUSH_HOUSE : 1;     // 2048
-            u16 FLUSH_FIVE : 1;      // 4096
+            u16 HIGH_CARD : 1;
+            u16 PAIR : 1;
+            u16 TWO_PAIR : 1;
+            u16 THREE_OF_A_KIND : 1;
+            u16 STRAIGHT : 1;
+            u16 FLUSH : 1;
+            u16 FULL_HOUSE : 1;
+            u16 FOUR_OF_A_KIND : 1;
+            u16 STRAIGHT_FLUSH : 1;
+            u16 ROYAL_FLUSH : 1;
+            u16 FIVE_OF_A_KIND : 1;
+            u16 FLUSH_HOUSE : 1;
+            u16 FLUSH_FIVE : 1;
             u16 : 3;
         };
         u16 value;
