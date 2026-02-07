@@ -102,12 +102,6 @@ typedef struct
      * @brief Rotation velocity
      */
     FIXED vrotation;
-
-    /**
-     * @brief Flag to focus on particular sprite
-     */
-    bool focused;
-
 } SpriteObject;
 
 /**
@@ -175,25 +169,97 @@ bool sprite_get_height(Sprite* sprite, int* height);
  */
 bool sprite_get_width(Sprite* sprite, int* width);
 
-// Sprite functions
-void sprite_init(void);
-void sprite_draw(void);
+/**
+ * @brief Get the palette bank of a sprite
+ * 
+ * @param sprite pointer to @ref Sprite to extract associated palette bank.
+ *        Cannot be NULL.
+ *
+ * @return the pb of the sprite if successful, otherwise return UNDEFINED.
+ */
 int sprite_get_pb(const Sprite* sprite);
 
-// SpriteObject methods
+/**
+ * @brief Initialize GBAlatro sprite system
+ */
+void sprite_init(void);
+
+/**
+ * @brief Draw sprites, to be called once per frame
+ */
+void sprite_draw(void);
+
+/**
+ * @brief Create a pointer to a valid @ref SpriteObject
+ *
+ * @return A valid pointer to an newly allocated @ref SpriteObject
+ *         if successful, otherise return NULL.
+ */
 SpriteObject* sprite_object_new();
+
+/**
+ * @brief Destroy @ref SpriteObject
+ * 
+ *       Destroy a @ref SpriteObject by freeing it back to the pool
+ *       and releasing its associated resources
+ *
+ * @param sprite_object pointer to a pointer of @ref SpriteObject to destroy.
+ *        Cannot be NULL.
+ */
 void sprite_object_destroy(SpriteObject** sprite_object);
+
+/**
+ * @brief Set @ref Sprite to an associated @ref SpriteObject 
+ * 
+ * @param sprite_object pointer to @ref SpriteObject to associate @ref Sprite with.
+ *                      Cannot be NULL.
+ *                      
+ * @param sprite pointer to @ref Sprite to associate @ref SpriteObject with.
+ *                      Cannot be NULL.
+ */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
+
+/**
+ * @brief Reset sprite object transform back to default values.
+ * 
+ * @param sprite_object pointer to @ref SpriteObject to reset transform.
+ *                      Cannot be NULL.
+ */
 void sprite_object_reset_transform(SpriteObject* sprite_object);
+
+/**
+ * @brief Update @ref SpriteObject, to be called once per frame
+ * 
+ * @param sprite_object pointer to @ref SpriteObject to update. Cannot be NULL.
+ */
 void sprite_object_update(SpriteObject* sprite_object);
+
+/**
+ * @brief Shake @ref SpriteObject on screen and play a sound 
+ * 
+ * @param sprite_object pointer to @ref SpriteObject to shake. Cannot be NULL.
+ * @param sound_id ID of sound from maxmod to play on executing shake. No action
+ *        executed when NULL.
+ */
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
 
+/**
+ * @brief Get the associated @ref Sprite from a @ref SpriteObject
+ * 
+ * @return @ref Sprite pointer of associated sprite_object if successful,
+ *         otherwise return NULL.
+ */
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
+
+/**
+ * @brief Set the @ref SpriteObject
+ * 
+ * @param sprite_object pointer to @ref SpriteObject. Cannot be NULL.
+ */
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus);
 bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* height);
 bool sprite_object_get_height(SpriteObject* sprite_object, int* height);
 bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
-bool sprite_object_is_focused(SpriteObject* sprite_object);
 
 INLINE void sprite_position(Sprite* sprite, int x, int y)
 {
