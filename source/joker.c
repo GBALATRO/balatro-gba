@@ -320,7 +320,7 @@ bool joker_object_score(
     return true;
 }
 
-Sprite* joker_object_get_sprite(JokerObject* joker_object)
+SpriteInfo* joker_object_get_sprite(JokerObject* joker_object)
 {
     if (joker_object == NULL)
         return NULL;

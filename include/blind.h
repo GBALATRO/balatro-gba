@@ -77,6 +77,6 @@ u32 blind_get_requirement(enum BlindType type, int ante);
 int blind_get_reward(enum BlindType type);
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index);
 
-Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index);
+SpriteInfo* blind_token_new(enum BlindType type, int x, int y, int sprite_index);
 
 #endif // BLIND_H

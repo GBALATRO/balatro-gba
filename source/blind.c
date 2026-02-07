@@ -90,13 +90,13 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
     return _blind_type_map[type].gfx_info.palette[index];
 }
 
-Sprite* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
+SpriteInfo* blind_token_new(enum BlindType type, int x, int y, int sprite_index)
 {
     u16 a0 = ATTR0_SQUARE | ATTR0_4BPP;
     u16 a1 = ATTR1_SIZE_32x32;
     u32 tid = _blind_type_map[type].gfx_info.tid, pb = _blind_type_map[type].gfx_info.pb;
 
-    Sprite* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
+    SpriteInfo* sprite = sprite_new(a0, a1, tid, pb, sprite_index);
 
     sprite_position(sprite, x, y);
 

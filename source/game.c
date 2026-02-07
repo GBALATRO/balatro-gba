@@ -460,13 +460,13 @@ static enum HandType hand_type = NONE;
 static CardObject* main_menu_ace = NULL;
 
 // The sprite that displays the blind when in "GAME_PLAYING/GAME_ROUND_END" state
-static Sprite* playing_blind_token = NULL;
+static SpriteInfo* playing_blind_token = NULL;
 
 // The sprite that displays the blind when in "GAME_ROUND_END" state
-static Sprite* round_end_blind_token = NULL;
+static SpriteInfo* round_end_blind_token = NULL;
 
 // The sprites that display the blinds when in "GAME_BLIND_SELECT" state
-static Sprite* blind_select_tokens[BLIND_TYPE_MAX] = {NULL};
+static SpriteInfo* blind_select_tokens[BLIND_TYPE_MAX] = {NULL};
 
 static int current_blind = BLIND_TYPE_SMALL;
 
