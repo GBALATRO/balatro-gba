@@ -96,7 +96,7 @@ void card_object_set_sprite(CardObject* card_object, int layer)
             [_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
-    SpriteInfo* sprite = sprite_new(
+    Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,
         tile_index,
@@ -125,7 +125,7 @@ bool card_object_is_selected(CardObject* card_object)
     return card_object->selected;
 }
 
-SpriteInfo* card_object_get_sprite(CardObject* card_object)
+Sprite* card_object_get_sprite(CardObject* card_object)
 {
     if (card_object == NULL)
         return NULL;

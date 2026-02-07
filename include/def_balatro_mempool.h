@@ -3,7 +3,7 @@
 #include "list.h"
 #include "sprite.h"
 
-POOL_ENTRY(SpriteInfo, MAX_SPRITES);
+POOL_ENTRY(Sprite, MAX_SPRITES);
 POOL_ENTRY(SpriteObject, MAX_SPRITE_OBJECTS);
 POOL_ENTRY(Joker, MAX_ACTIVE_JOKERS);
 POOL_ENTRY(JokerObject, MAX_ACTIVE_JOKERS);

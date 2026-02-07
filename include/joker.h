@@ -176,7 +176,7 @@ bool joker_object_score(
     enum JokerEvent joker_event
 );
 
-SpriteInfo* joker_object_get_sprite(JokerObject* joker_object);
+Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
 
 #endif // JOKER_H

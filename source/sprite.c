@@ -14,13 +14,13 @@
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
-static SpriteInfo* free_sprites[MAX_SPRITES] = {NULL};
+static Sprite* free_sprites[MAX_SPRITES] = {NULL};
 static bool free_affines[MAX_AFFINES] = {false};
 
 // Sprite methods
-SpriteInfo* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
+Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
 {
-    SpriteInfo* sprite = POOL_GET(SpriteInfo);
+    Sprite* sprite = POOL_GET(Sprite);
 
     sprite->obj = NULL;
     sprite->aff = NULL;
@@ -31,7 +31,7 @@ SpriteInfo* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
     }
     else
     {
-        POOL_FREE(SpriteInfo, sprite);
+        POOL_FREE(Sprite, sprite);
         return NULL;
     }
 
@@ -51,7 +51,7 @@ SpriteInfo* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
 
         if (aff_index == MAX_AFFINES)
         {
-            POOL_FREE(SpriteInfo, sprite);
+            POOL_FREE(Sprite, sprite);
             return NULL;
         }
 
@@ -73,7 +73,7 @@ SpriteInfo* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
     return sprite;
 }
 
-void sprite_destroy(SpriteInfo** sprite)
+void sprite_destroy(Sprite** sprite)
 {
     if (*sprite == NULL)
         return;
@@ -87,19 +87,19 @@ void sprite_destroy(SpriteInfo** sprite)
 
     free_sprites[(*sprite)->idx] = NULL;
 
-    POOL_FREE(SpriteInfo, *sprite);
+    POOL_FREE(Sprite, *sprite);
 
     *sprite = NULL;
 }
 
-int sprite_get_layer(SpriteInfo* sprite)
+int sprite_get_layer(Sprite* sprite)
 {
     if (sprite == NULL || sprite->obj == NULL)
         return UNDEFINED;
     return sprite->obj - obj_buffer;
 }
 
-bool sprite_get_width(SpriteInfo* sprite, int* width)
+bool sprite_get_width(Sprite* sprite, int* width)
 {
     if (sprite == NULL || sprite->obj == NULL || width == NULL)
     {
@@ -110,7 +110,7 @@ bool sprite_get_width(SpriteInfo* sprite, int* width)
     return true;
 }
 
-bool sprite_get_height(SpriteInfo* sprite, int* height)
+bool sprite_get_height(Sprite* sprite, int* height)
 {
     if (sprite == NULL || sprite->obj == NULL || height == NULL)
     {
@@ -121,7 +121,7 @@ bool sprite_get_height(SpriteInfo* sprite, int* height)
     return true;
 }
 
-bool sprite_get_dimensions(SpriteInfo* sprite, int* width, int* height)
+bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 {
     if (sprite == NULL || sprite->obj == NULL || width == NULL || height == NULL)
     {
@@ -146,7 +146,7 @@ void sprite_draw()
     oam_copy(oam_mem, obj_buffer, MAX_SPRITES);
 }
 
-int sprite_get_pb(const SpriteInfo* sprite)
+int sprite_get_pb(const Sprite* sprite)
 {
     if (sprite == NULL)
     {
@@ -175,7 +175,7 @@ void sprite_object_destroy(SpriteObject** sprite_object)
     *sprite_object = NULL;
 }
 
-void sprite_object_set_sprite(SpriteObject* sprite_object, SpriteInfo* sprite)
+void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 {
     if (sprite_object == NULL)
         return;
@@ -276,7 +276,7 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
     play_sfx(sound_id, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
 
-SpriteInfo* sprite_object_get_sprite(SpriteObject* sprite_object)
+Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 {
     if (sprite_object == NULL)
         return NULL;

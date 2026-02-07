@@ -28,28 +28,13 @@
  * @{
  */
 
-/** @def MAIN_BG_SBB */
 #define MAIN_BG_SBB 31
-
-/** @def MAIN_BG_CBB */
 #define MAIN_BG_CBB 1
-
-/** @def TTE_SBB */
 #define TTE_SBB 30
-
-/** @def MAIN_BG_SBB */
 #define TTE_CBB 0
-
-/** @def AFFINE_BG_SBB */
 #define AFFINE_BG_SBB 2
-
-/** @def AFFINE_BG_CBB */
 #define AFFINE_BG_CBB 2
-
-/** @def PAL_ROW_LEN */
 #define PAL_ROW_LEN 16
-
-/** @def NUM_PALETTES */
 #define NUM_PALETTES 16
 
 /**

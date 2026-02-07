@@ -71,6 +71,6 @@ void card_object_shake(CardObject* card_object, mm_word sound_id);
 
 void card_object_set_selected(CardObject* card_object, bool selected);
 bool card_object_is_selected(CardObject* card_object);
-SpriteInfo* card_object_get_sprite(CardObject* card_object);
+Sprite* card_object_get_sprite(CardObject* card_object);
 
 #endif // CARD_H
