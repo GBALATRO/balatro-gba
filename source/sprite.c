@@ -161,6 +161,7 @@ SpriteObject* sprite_object_new()
     SpriteObject* sprite_object = POOL_GET(SpriteObject);
     sprite_object->sprite = NULL;
     sprite_object_reset_transform(sprite_object);
+    sprite_object->focused = false;
 
     return sprite_object;
 }
@@ -287,6 +288,12 @@ Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 {
+    if (sprite_object->focused == focus)
+    {
+        return;
+    }
+    sprite_object->focused = focus;
+
     play_sfx(
         SFX_CARD_FOCUS,
         MM_BASE_PITCH_RATE + rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,

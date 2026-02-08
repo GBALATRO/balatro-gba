@@ -102,6 +102,11 @@ typedef struct
      * @brief Rotation velocity
      */
     FIXED vrotation;
+
+    /**
+     * @brief Focused status (card specific, raise and lower card)
+     */
+    bool focused;
 } SpriteObject;
 
 /**
