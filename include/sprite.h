@@ -171,7 +171,7 @@ bool sprite_get_width(Sprite* sprite, int* width);
 
 /**
  * @brief Get the palette bank of a Sprite
- * 
+ *
  * @param sprite pointer to extract associated palette bank. Cannot be **NULL**.
  *
  * @return The palette bank of the Sprite if successful, otherwise return **UNDEFINED**.
@@ -198,7 +198,7 @@ SpriteObject* sprite_object_new();
 
 /**
  * @brief Destroy SpriteObject
- * 
+ *
  * Destroy a SpriteObject by freeing it back to the pool and releasing its
  * associated resources
  *
@@ -208,11 +208,11 @@ SpriteObject* sprite_object_new();
 void sprite_object_destroy(SpriteObject** sprite_object);
 
 /**
- * @brief Register a Sprite to an associated SpriteObject 
- * 
+ * @brief Register a Sprite to an associated SpriteObject
+ *
  * @param sprite_object pointer to SpriteObject to associate Sprite with.
  *                      Cannot be **NULL**.
- *                      
+ *
  * @param sprite pointer to Sprite to associate SpriteObject with.
  *                      Cannot be **NULL**.
  */
@@ -220,7 +220,7 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
 
 /**
  * @brief Reset SpriteObject's transform back to default values.
- * 
+ *
  * @param sprite_object pointer to SpriteObject to reset transform.
  *                      Cannot be **NULL**.
  */
@@ -228,14 +228,14 @@ void sprite_object_reset_transform(SpriteObject* sprite_object);
 
 /**
  * @brief Update a SpriteObject, to be called once per frame per active SpriteObject
- * 
+ *
  * @param sprite_object pointer to SpriteObject to update. Cannot be **NULL**.
  */
 void sprite_object_update(SpriteObject* sprite_object);
 
 /**
- * @brief Shake SpriteObject on screen and play a sound 
- * 
+ * @brief Shake SpriteObject on screen and play a sound
+ *
  * @param SpriteObject pointer to SpriteObject to shake. Cannot be **NULL**.
  * @param sound_id ID of sound from maxmod to play on executing shake. If **UNDEFINED**
  *        no sound will play.
@@ -244,9 +244,9 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
 
 /**
  * @brief Get a SpriteObject's registered Sprite
- * 
+ *
  * @param sprite_object pointer to SpriteObject's registered Sprite. Cannot be **NULL**.
- * 
+ *
  * @return Sprite pointer registered to `sprite_object` if successful,
  *         otherwise return **NULL**. May be successful and **NULL** if there is no
  *         Sprite registered to the SpriteObject.
@@ -256,7 +256,7 @@ Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
 /**
  * @brief Set the focus for SpriteObject (specifically for cards)
  *        TODO: This should be moved to `card.h`
- * 
+ *
  * @param sprite_object pointer to SpriteObject to set the focus of. Cannot be **NULL**.
  * @param focus **true** to focus, **false** to unfocus
  */
@@ -264,7 +264,7 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus);
 
 /**
  * @brief Get the width and height of SpriteObject's registered Sprite
- * 
+ *
  * @param sprite_object pointer to SpriteObject to get the dimensions of. Cannot be **NULL**.
  * @param width pointer to variable to be set, cannot be **NULL**
  * @param height pointer to variable to be set, cannot be **NULL**
@@ -277,7 +277,7 @@ bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* 
 
 /**
  * @brief Get a SpriteObject's height
- * 
+ *
  * @param sprite_object pointer to SpriteObject to get the height of. Cannot be **NULL**.
  * @param height pointer to variable to be set, cannot be **NULL**
  *
@@ -289,7 +289,7 @@ bool sprite_object_get_height(SpriteObject* sprite_object, int* height);
 
 /**
  * @brief Get a SpriteObject's width
- * 
+ *
  * @param sprite_object pointer to SpriteObject to get the width of. Cannot be **NULL**.
  * @param width pointer to variable to be set, cannot be **NULL**
  *
@@ -301,7 +301,7 @@ bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
 
 /**
  * @brief Set sprite position. Inlined for efficiency
- * 
+ *
  * @param sprite poitner to Sprite to adjust the position of. A **NULL** check is
  *        not performed, though the value cannot be **NULL**.
  *
