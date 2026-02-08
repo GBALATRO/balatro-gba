@@ -105,77 +105,76 @@ typedef struct
 } SpriteObject;
 
 /**
- * @brief Create a pointer to a valid Sprite
+ * @brief Allocate and retrieve a pointer to a valid Sprite
  *
- * @param a0 requested attribute 0 of OBJ_ATTR
- * @param a1 requested attribute 1 of OBJ_ATTR
+ * @param a0 attribute 0 of OBJ_ATTR
+ * @param a1 attribute 1 of OBJ_ATTR
  * @param tid base tile index of sprite, part of attribute 2
  * @param pb Palette-bank
  * @param sprite_index index in memory
  *
- * @return Valid @ref SpriteInfo if allocations are successful.
- *         Otherwise, return NULL.
+ * @return Valid Sprite if allocations are successful.
+ *         Otherwise, return **NULL**.
  */
 Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index);
 
 /**
- * @brief Destroy sprite
+ * @brief Destroy Sprite
  *
- * @param sprite pointer to a pointer of @ref Sprite
+ * @param sprite pointer to a pointer of Sprite to destroy. No action if **NULL**.
  */
 void sprite_destroy(Sprite** sprite);
 
 /**
- * @brief Get index in the object buffer
+ * @brief Get index of Sprite in the GBA object buffer
  *
- * @param sprite pointer to @Sprite, cannot be NULL
+ * @param sprite pointer to Sprite, cannot be **NULL**
  *
- * @return Index in object buffer if `sprite` is valid, otherwise UNDEFINED.
+ * @return Index of sprite in object buffer if `sprite` is valid, otherwise **UNDEFINED**.
  */
 int sprite_get_layer(Sprite* sprite);
 
 /**
- * @brief Get width and height of a sprite
+ * @brief Get a Sprite's width and height
  *
- * @param sprite pointer to @Sprite, cannot be NULL
- * @param width pointer to variable to be set, cannot be NULL
- * @param height pointer to variable to be set, cannot be NULL
+ * @param sprite pointer to Sprite, cannot be **NULL**
+ * @param width pointer to variable to be set, cannot be **NULL**
+ * @param height pointer to variable to be set, cannot be **NULL**
  *
- * @return true is successful, false if otherwise. Upon success,
- *         width and height contain valid data, otherwise, the
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `width` and `height` contain valid data, otherwise, the
  *         variables are invalid.
  */
 bool sprite_get_dimensions(Sprite* sprite, int* width, int* height);
 
 /**
- * @brief Get height of a sprite
+ * @brief Get a Sprites's height
  *
- * @param sprite pointer to @Sprite, cannot be NULL
- * @param height pointer to variable to be set, cannot be NULL
+ * @param sprite pointer to Sprite, cannot be **NULL**
+ * @param height pointer to variable to be set, cannot be **NULL**
  *
- * @return true is successful, false if otherwise. Upon success,
- *         height contain valid data, otherwise, the variables are invalid.
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `height` contains valid data, otherwise, the variables are invalid.
  */
 bool sprite_get_height(Sprite* sprite, int* height);
 
 /**
- * @brief Get width of a sprite
+ * @brief Get a Sprite's width
  *
- * @param sprite pointer to @Sprite, cannot be NULL
- * @param width pointer to variable to be set, cannot be NULL
+ * @param sprite pointer to Sprite, cannot be **NULL**
+ * @param width pointer to variable to be set, cannot be **NULL**
  *
- * @return true is successful, false if otherwise. Upon success,
- *         width contain valid data, otherwise, the variables are invalid.
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `width` contains valid data, otherwise, the variables are invalid.
  */
 bool sprite_get_width(Sprite* sprite, int* width);
 
 /**
- * @brief Get the palette bank of a sprite
+ * @brief Get the palette bank of a Sprite
  * 
- * @param sprite pointer to @ref Sprite to extract associated palette bank.
- *        Cannot be NULL.
+ * @param sprite pointer to extract associated palette bank. Cannot be **NULL**.
  *
- * @return the pb of the sprite if successful, otherwise return UNDEFINED.
+ * @return The palette bank of the Sprite if successful, otherwise return **UNDEFINED**.
  */
 int sprite_get_pb(const Sprite* sprite);
 
@@ -185,82 +184,130 @@ int sprite_get_pb(const Sprite* sprite);
 void sprite_init(void);
 
 /**
- * @brief Draw sprites, to be called once per frame
+ * @brief Draw Sprites to screen, to be called once per frame
  */
 void sprite_draw(void);
 
 /**
- * @brief Create a pointer to a valid @ref SpriteObject
+ * @brief Allocate and retrieve a pointer to a valid SpriteObject
  *
- * @return A valid pointer to an newly allocated @ref SpriteObject
- *         if successful, otherise return NULL.
+ * @return A valid pointer to an newly allocated SpriteObject
+ *         if successful, othewise return **NULL**.
  */
 SpriteObject* sprite_object_new();
 
 /**
- * @brief Destroy @ref SpriteObject
+ * @brief Destroy SpriteObject
  * 
- *       Destroy a @ref SpriteObject by freeing it back to the pool
- *       and releasing its associated resources
+ * Destroy a SpriteObject by freeing it back to the pool and releasing its
+ * associated resources
  *
- * @param sprite_object pointer to a pointer of @ref SpriteObject to destroy.
- *        Cannot be NULL.
+ * @param sprite_object pointer to a pointer of SpriteObject to destroy.
+ *        Cannot be **NULL**.
  */
 void sprite_object_destroy(SpriteObject** sprite_object);
 
 /**
- * @brief Set @ref Sprite to an associated @ref SpriteObject 
+ * @brief Register a Sprite to an associated SpriteObject 
  * 
- * @param sprite_object pointer to @ref SpriteObject to associate @ref Sprite with.
- *                      Cannot be NULL.
+ * @param sprite_object pointer to SpriteObject to associate Sprite with.
+ *                      Cannot be **NULL**.
  *                      
- * @param sprite pointer to @ref Sprite to associate @ref SpriteObject with.
- *                      Cannot be NULL.
+ * @param sprite pointer to Sprite to associate SpriteObject with.
+ *                      Cannot be **NULL**.
  */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
 
 /**
- * @brief Reset sprite object transform back to default values.
+ * @brief Reset SpriteObject's transform back to default values.
  * 
- * @param sprite_object pointer to @ref SpriteObject to reset transform.
- *                      Cannot be NULL.
+ * @param sprite_object pointer to SpriteObject to reset transform.
+ *                      Cannot be **NULL**.
  */
 void sprite_object_reset_transform(SpriteObject* sprite_object);
 
 /**
- * @brief Update @ref SpriteObject, to be called once per frame
+ * @brief Update a SpriteObject, to be called once per frame per active SpriteObject
  * 
- * @param sprite_object pointer to @ref SpriteObject to update. Cannot be NULL.
+ * @param sprite_object pointer to SpriteObject to update. Cannot be **NULL**.
  */
 void sprite_object_update(SpriteObject* sprite_object);
 
 /**
- * @brief Shake @ref SpriteObject on screen and play a sound 
+ * @brief Shake SpriteObject on screen and play a sound 
  * 
- * @param sprite_object pointer to @ref SpriteObject to shake. Cannot be NULL.
- * @param sound_id ID of sound from maxmod to play on executing shake. No action
- *        executed when NULL.
+ * @param SpriteObject pointer to SpriteObject to shake. Cannot be **NULL**.
+ * @param sound_id ID of sound from maxmod to play on executing shake. If **UNDEFINED**
+ *        no sound will play.
  */
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
 
 /**
- * @brief Get the associated @ref Sprite from a @ref SpriteObject
+ * @brief Get a SpriteObject's registered Sprite
  * 
- * @return @ref Sprite pointer of associated sprite_object if successful,
- *         otherwise return NULL.
+ * @param sprite_object pointer to SpriteObject's registered Sprite. Cannot be **NULL**.
+ * 
+ * @return Sprite pointer registered to `sprite_object` if successful,
+ *         otherwise return **NULL**. May be successful and **NULL** if there is no
+ *         Sprite registered to the SpriteObject.
  */
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
 
 /**
- * @brief Set the @ref SpriteObject
+ * @brief Set the focus for SpriteObject (specifically for cards)
+ *        TODO: This should be moved to `card.h`
  * 
- * @param sprite_object pointer to @ref SpriteObject. Cannot be NULL.
+ * @param sprite_object pointer to SpriteObject to set the focus of. Cannot be **NULL**.
+ * @param focus **true** to focus, **false** to unfocus
  */
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus);
+
+/**
+ * @brief Get the width and height of SpriteObject's registered Sprite
+ * 
+ * @param sprite_object pointer to SpriteObject to get the dimensions of. Cannot be **NULL**.
+ * @param width pointer to variable to be set, cannot be **NULL**
+ * @param height pointer to variable to be set, cannot be **NULL**
+ *
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `width` and `height` contain valid data, otherwise, the
+ *         variables are invalid.
+ */
 bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* height);
+
+/**
+ * @brief Get a SpriteObject's height
+ * 
+ * @param sprite_object pointer to SpriteObject to get the height of. Cannot be **NULL**.
+ * @param height pointer to variable to be set, cannot be **NULL**
+ *
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `height` contains valid data, otherwise, the
+ *         variables are invalid.
+ */
 bool sprite_object_get_height(SpriteObject* sprite_object, int* height);
+
+/**
+ * @brief Get a SpriteObject's width
+ * 
+ * @param sprite_object pointer to SpriteObject to get the width of. Cannot be **NULL**.
+ * @param width pointer to variable to be set, cannot be **NULL**
+ *
+ * @return **true** is successful, **false** if otherwise. Upon success,
+ *         `width` contains valid data, otherwise, the
+ *         variables are invalid.
+ */
 bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
 
+/**
+ * @brief Set sprite position. Inlined for efficiency
+ * 
+ * @param sprite poitner to Sprite to adjust the position of. A **NULL** check is
+ *        not performed, though the value cannot be **NULL**.
+ *
+ * @param x horizontal position in pixels
+ * @param y vertical position in pixels
+ */
 INLINE void sprite_position(Sprite* sprite, int x, int y)
 {
     sprite->pos.x = x;
