@@ -306,7 +306,7 @@ bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
 /**
  * @brief Get the `focused` variable from a SpriteObject
  *
- * @param sprite_object valid pointer to SpriteObject to check 
+ * @param sprite_object valid pointer to SpriteObject to check
  *
  * @return `true` if the SpriteObject is focused, `false` otherwise
  */
