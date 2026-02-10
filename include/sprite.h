@@ -146,7 +146,7 @@ int sprite_get_layer(Sprite* sprite);
  * @param width pointer to variable to be set, cannot be **NULL**
  * @param height pointer to variable to be set, cannot be **NULL**
  *
- * @return **true** is successful, **false** if otherwise. Upon success,
+ * @return **true** if successful, **false** if otherwise. Upon success,
  *         `width` and `height` contain valid data, otherwise, the
  *         variables are invalid.
  */
