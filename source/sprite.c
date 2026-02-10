@@ -331,3 +331,8 @@ bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* 
 
     return sprite_get_dimensions(sprite_object->sprite, width, height);
 }
+
+bool sprite_object_is_focused(SpriteObject* sprite_object)
+{
+    return sprite_object->focused;
+}

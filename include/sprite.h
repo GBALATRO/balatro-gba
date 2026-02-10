@@ -148,7 +148,7 @@ int sprite_get_layer(Sprite* sprite);
  *
  * @return **true** if successful, **false** if otherwise. Upon success,
  *         `width` and `height` contain valid data, otherwise, the
- *         variables are invalid.
+ *         variables are unchanged.
  */
 bool sprite_get_dimensions(Sprite* sprite, int* width, int* height);
 
@@ -159,7 +159,7 @@ bool sprite_get_dimensions(Sprite* sprite, int* width, int* height);
  * @param height pointer to variable to be set, cannot be **NULL**
  *
  * @return **true** is successful, **false** if otherwise. Upon success,
- *         `height` contains valid data, otherwise, the variables are invalid.
+ *         `height` contains valid data, otherwise, the variable is unchanged.
  */
 bool sprite_get_height(Sprite* sprite, int* height);
 
@@ -170,7 +170,7 @@ bool sprite_get_height(Sprite* sprite, int* height);
  * @param width pointer to variable to be set, cannot be **NULL**
  *
  * @return **true** is successful, **false** if otherwise. Upon success,
- *         `width` contains valid data, otherwise, the variables are invalid.
+ *         `width` contains valid data, otherwise, the variable is unchanged.
  */
 bool sprite_get_width(Sprite* sprite, int* width);
 
@@ -260,7 +260,6 @@ Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
 
 /**
  * @brief Set the focus for SpriteObject (specifically for cards)
- *        TODO: This should be moved to `card.h`
  *
  * @param sprite_object pointer to SpriteObject to set the focus of. Cannot be **NULL**.
  * @param focus **true** to focus, **false** to unfocus
@@ -276,7 +275,7 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus);
  *
  * @return **true** is successful, **false** if otherwise. Upon success,
  *         `width` and `height` contain valid data, otherwise, the
- *         variables are invalid.
+ *         variables are unchanged.
  */
 bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* height);
 
@@ -288,7 +287,7 @@ bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* 
  *
  * @return **true** is successful, **false** if otherwise. Upon success,
  *         `height` contains valid data, otherwise, the
- *         variables are invalid.
+ *         variable is unchanged.
  */
 bool sprite_object_get_height(SpriteObject* sprite_object, int* height);
 
@@ -300,9 +299,18 @@ bool sprite_object_get_height(SpriteObject* sprite_object, int* height);
  *
  * @return **true** is successful, **false** if otherwise. Upon success,
  *         `width` contains valid data, otherwise, the
- *         variables are invalid.
+ *         variable is unchanged.
  */
 bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
+
+/**
+ * @brief Get the `focused` variable from a SpriteObject
+ *
+ * @param sprite_object valid pointer to SpriteObject to check 
+ *
+ * @return `true` if the SpriteObject is focused, `false` otherwise
+ */
+bool sprite_object_is_focused(SpriteObject* sprite_object);
 
 /**
  * @brief Set sprite position. Inlined for efficiency
