@@ -259,7 +259,12 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
 
 /**
- * @brief Set the focus for SpriteObject (specifically for cards)
+ * @brief Set the focus for SpriteObject
+ * Raises the object by SPRITE_FOCUS_RAISE_PX.
+ *
+ * Note: This is currently unused by CardObject as their focus is handled in
+ * cards_in_hand_update_loop() but we may want to extract it from there and refactor them use this
+ * instead.
  *
  * @param sprite_object pointer to SpriteObject to set the focus of. Cannot be **NULL**.
  * @param focus **true** to focus, **false** to unfocus
