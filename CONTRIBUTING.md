@@ -10,7 +10,7 @@ See [the scope discussion](https://github.com/GBALATRO/balatro-gba/discussions/3
 ## Art
 Before contributing art or if you need art for a code contribution check the [existing additional art thread](https://github.com/GBALATRO/balatro-gba/discussions/131) and the [joker art discussion](https://github.com/GBALATRO/balatro-gba/discussions/69) (though as said no more jokers are currently planned).
 
-Note that there are color limitations for sprites and backgrounds resulting due to the GBA hardware. Sprites may not use more than 16 colors per sprite.
+Note that there are color limitations for sprites and backgrounds resulting due to the GBA hardware. Sprites may not use more than 16 colors per sprite including transparency.
 Backgrounds may use more colors but notice that their palette is encoded in their PNGs and new colors need to be added manually to the palette. [See relevant PR](https://github.com/GBALATRO/balatro-gba/pull/350).
 
 ## CI Checks
