@@ -11,7 +11,7 @@ This project is a non-profit fan demake of Balatro for the Game Boy Advance, mea
 
 
 
-**Please buy the official full version from these sources below:**
+### Please buy the official full version from these sources below:
 
 [![Balatro on Steam](https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Steam-194c84?logo=steam&logoColor=fff)](https://store.steampowered.com/app/2379780/Balatro/)
 [![Balatro on Google Play](https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Google%20Play-414141?logo=Google-play&logoColor=fff)](https://play.google.com/store/apps/details?id=com.playstack.balatro.android)
