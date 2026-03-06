@@ -239,7 +239,7 @@ static void change_background(enum BackgroundId id);
 static void display_temp_score(u32 value);
 static void display_score(u32 value);
 static void check_flaming_score(void);
-static void display_round(int value);
+static void display_round(void);
 static void display_hands(int value);
 static void display_discards(int value);
 static void set_hand(void);
@@ -750,6 +750,7 @@ void game_init()
     ante = STARTING_ANTE;
     money = STARTING_MONEY;
     score = STARTING_SCORE;
+    round = 0;
 
     blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
         BLIND_TYPE_SMALL,
@@ -1805,7 +1806,7 @@ static void check_flaming_score(void)
     }
 }
 
-static void display_round(int value)
+static void display_round(void)
 {
     // tte_erase_rect_wrapper(ROUND_TEXT_RECT);
     tte_printf(
@@ -4681,7 +4682,8 @@ static void game_blind_select_handle_input()
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             state_info[game_state].substate = BLIND_SELECTED_ANIM_SEQ;
             timer = TM_ZERO;
-            display_round(++round);
+            ++round;
+            display_round();
         }
         else if (current_blind != BLIND_TYPE_BOSS)
         {
@@ -4842,7 +4844,7 @@ static inline void game_start(void)
         deck_get_max_size()
     );
 
-    display_round(round); // Set the round display
+    display_round(); // Set the round display
     display_score(score); // Set the score display
 
     display_chips(); // Set the chips display
@@ -4980,7 +4982,7 @@ static void game_over_on_exit()
 
     game_init();
 
-    display_round(round);
+    display_round();
     display_score(score);
     display_chips();
     display_mult();
