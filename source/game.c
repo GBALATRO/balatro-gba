@@ -4844,7 +4844,7 @@ static inline void game_start(void)
         deck_get_max_size()
     );
 
-    display_round(); // Set the round display
+    display_round();      // Set the round display
     display_score(score); // Set the score display
 
     display_chips(); // Set the chips display
