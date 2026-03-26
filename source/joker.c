@@ -98,7 +98,7 @@ static int joker_id_to_sprite_position_map[] = {
 };
 // clang-format on
 
-static int s_get_num_spritesheets();
+static int s_get_num_spritesheets(void);
 static int s_joker_get_spritesheet_idx(u8 joker_id);
 static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
