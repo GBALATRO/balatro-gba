@@ -52,11 +52,12 @@ static bool used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for j
 static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
-// Map of Joker ID -> Spritesheet idx
-// See linked issue for context of map
+
+// See linked issue for context of maps
 // https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
 
 // clang-format off
+// Map of Joker ID -> Spritesheet idx
 static int joker_id_to_sprite_map[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     1, 1,
@@ -77,32 +78,20 @@ static int joker_id_to_sprite_map[] = {
     16,
     17,
 };
-// Map of Joker ID -> Sprite idx in sheet
-static int joker_id_to_sprite_position_map[] = {
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-    0, 1,
-    0, 1,
-    0, 1, 2, 3, 4,
-    0, 1, 2, 3, 4,
-    0, 1, 2, 3,
-    0, 1, 2, 3,
-    0, 1,
-    0, 1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
+
+// Map of Spritesheet idx -> first Joker ID in sheet
+// This is used to determine the sprite index of a Joker's sprite
+// within its spritesheet by substracting its ID to this starting ID.
+// Notice how spritesheets with only one Joker have sequential starting IDs.
+static int spritesheet_idx_to_starting_joker_id[] = {
+     0, 18, 20, 22, 27, 32, 36, 40, 42, 44,
+    45, 46, 47, 48, 49, 50, 51, 52
 };
 // clang-format on
 
 static int s_get_num_spritesheets(void);
 static int s_joker_get_spritesheet_idx(u8 joker_id);
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
@@ -194,7 +183,7 @@ JokerObject* joker_object_new(Joker* joker)
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
 
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
-    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
+    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
@@ -411,9 +400,9 @@ static int s_joker_get_spritesheet_idx(u8 joker_id)
     return joker_id_to_sprite_map[joker_id];
 }
 
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx)
 {
-    return joker_id_to_sprite_position_map[joker_id];
+    return joker_id - spritesheet_idx_to_starting_joker_id[joker_id_to_sprite_map[joker_id]];
 }
 
 static void s_joker_pb_add_sprite_user(int pb)
