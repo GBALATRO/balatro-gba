@@ -22,7 +22,6 @@
 
 static JokerEffect shared_joker_effect = {0};
 
-
 // Joker Effect functions
 
 #define REGISTER_JOKER_EFFECT_FUNC(joker_effect_name) \
@@ -31,7 +30,7 @@ static JokerEffect shared_joker_effect = {0};
         Card* scored_card,                            \
         enum JokerEvent joker_event,                  \
         JokerEffect** joker_effect                    \
-    );                                                \
+    );
 
 static u32 sinful_joker_effect(
     Card* scored_card,

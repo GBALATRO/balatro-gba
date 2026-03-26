@@ -52,7 +52,6 @@ static bool used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for j
 static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
-
 // See linked issue for context of maps
 // https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
 
