@@ -104,7 +104,7 @@ static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
-static int s_get_unused_joker_pb();
+static int s_get_unused_joker_pb(void);
 static int s_allocate_pb_if_needed(u8 joker_id);
 
 void joker_init()
