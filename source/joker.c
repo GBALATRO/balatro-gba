@@ -53,7 +53,9 @@ static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
 // Map of Joker ID -> Spritesheet idx
-// See linked issue for context of map -> https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
+// See linked issue for context of map
+// https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
+
 // clang-format off
 static int joker_id_to_sprite_map[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
