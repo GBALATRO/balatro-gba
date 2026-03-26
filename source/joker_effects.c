@@ -22,313 +22,74 @@
 
 static JokerEffect shared_joker_effect = {0};
 
+
 // Joker Effect functions
-static u32 joker_effect_noop(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 default_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
+
+#define REGISTER_JOKER_EFFECT_FUNC(joker_effect_name) \
+    static u32 joker_effect_name(                     \
+        Joker* joker,                                 \
+        Card* scored_card,                            \
+        enum JokerEvent joker_event,                  \
+        JokerEffect** joker_effect                    \
+    );                                                \
+
 static u32 sinful_joker_effect(
     Card* scored_card,
     u8 sinful_suit,
     enum JokerEvent joker_event,
     JokerEffect** joker_effect
 );
-static u32 greedy_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 lusty_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 wrathful_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 gluttonous_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 jolly_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 zany_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 mad_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 crazy_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 droll_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 sly_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 wily_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 clever_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 devious_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 crafty_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 half_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 stencil_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 misprint_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 walkie_talkie_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 fibonnaci_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 banner_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 mystic_summit_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 blackboard_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 blue_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 raised_fist_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 reserved_parking_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 business_card_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 scholar_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 scary_face_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 abstract_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 bull_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 smiley_face_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 even_steven_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 odd_todd_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 acrobat_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 hanging_chad_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 the_duo_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 the_trio_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 the_family_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 the_order_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 the_tribe_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 bootstraps_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 shoot_the_moon_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 photograph_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 dusk_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 blueprint_brainstorm_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 hack_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 seltzer_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
-static u32 sock_and_buskin_joker_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
+
+REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
+REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(lusty_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(wrathful_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(jolly_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(zany_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(mad_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(crazy_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(droll_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(sly_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(wily_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(clever_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(devious_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(crafty_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(half_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(stencil_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(misprint_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(banner_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(blackboard_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(blue_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(business_card_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(scholar_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(scary_face_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(abstract_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(bull_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(even_steven_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(acrobat_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(the_duo_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(the_trio_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(the_family_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(the_order_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(photograph_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(dusk_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 
 // clang-format off
 /* The index of a joker in the registry matches its ID.
