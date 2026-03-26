@@ -17,6 +17,7 @@
 #include "background_gfx.h"
 
 // Audio
+#include "audio_utils.h"
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
@@ -83,7 +84,7 @@ void init()
                   DCNT_WIN1;
 
     // Initialize subsystems
-    mmInitDefault((mm_addr)soundbank_bin, 12);
+    mmInitDefault((mm_addr)soundbank_bin, GBAL_MM_NUM_CHANNELS);
     affine_background_init();
     sprite_init();
     card_init();

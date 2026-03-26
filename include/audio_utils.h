@@ -41,6 +41,13 @@
 #define SFX_DEFAULT_PAN MM_PAN_CENTER
 
 /**
+ * @def GBAL_MM_NUM_CHANNELS
+ * The number of audio channels to allocate for maxmod,
+ * passed to mmInitDefault()
+ */
+#define GBAL_MM_NUM_CHANNELS 14
+
+/**
  * @brief Play a sound effect, wrapper for mmEffectEx()
  * See https://maxmod.org/ref/functions/mm_sound_effect.html
  * and https://maxmod.org/ref/functions/mmEffectEx.html
