@@ -193,7 +193,7 @@ size_t get_joker_registry_size(void)
 // Use GBAL_UNUSED, aka __attribute__((unused)), for jokers with no sprites yet to avoid warnings
 // Remove the attribute once they have sprites
 // no graphics available but ready to be used if wanted when graphics available
-//GBAL_UNUSED
+// GBAL_UNUSED
 
 static u32 joker_effect_noop(
     Joker* joker,
