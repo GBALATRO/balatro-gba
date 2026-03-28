@@ -73,6 +73,29 @@ jobs:
           gbalatro \
           sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf"
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests-e2e/package-lock.json
+
+      - name: Install E2E test dependencies
+        working-directory: tests-e2e
+        run: npm ci
+
+      - name: Run E2E tests
+        working-directory: tests-e2e
+        run: npx vitest run
+
+      - name: Upload E2E test output
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-output
+          path: tests-e2e/output/
+          retention-days: 5
+
       - name: 'Upload Artifact'
         if: ${{ inputs.upload-build-artifact }}
         uses: actions/upload-artifact@v6

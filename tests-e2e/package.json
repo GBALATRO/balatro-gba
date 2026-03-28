@@ -1,0 +1,19 @@
+{
+  "name": "balatro-gba-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "extract-addresses": "bash helpers/extract-addresses.sh",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@gba-kit/gba-node": "0.1.0",
+    "@types/node": "^25.5.0",
+    "prettier": "^3.5.3",
+    "typescript": "^6.0.2",
+    "vitest": "^3.1.1"
+  }
+}
