@@ -267,6 +267,9 @@ void sprite_object_update(SpriteObject* sprite_object)
 
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 {
+    if (sprite_object == NULL)
+        return;
+
     sprite_object->vscale = float2fx(0.3f);
     sprite_object->vrotation = float2fx(8.0f); // Rotate the card when it's scored
 

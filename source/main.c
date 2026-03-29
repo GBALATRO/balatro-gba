@@ -3,6 +3,7 @@
 #include "card.h"
 #include "font.h"
 #include "game.h"
+#include "gbalatro_sys8.h"
 #include "graphic_utils.h"
 #include "joker.h"
 #include "sprite.h"
@@ -33,7 +34,10 @@ void init()
         CLR_WHITE,
         TTE_BIT_UNPACK_OFFSET,
         &gbalatro_sys8Font,
-        NULL
+
+        // Explicitly use 8x8 tile text drawing function to improve performance
+        // See https://gbadev.net/tonc/tte.html#ssec-map-reg
+        se_drawg_w8h8
     );
     tte_erase_screen();
     tte_init_con();

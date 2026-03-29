@@ -24,6 +24,12 @@
 #define PAUSE_GAME     KEY_START // Not implemented
 #define SELL_KEY       KEY_L
 
+// Matching the position of the on-screen buttons
+#define PLAY_HAND_KEY KEY_L
+// Same value as SELL_KEY - activated on the joker row, while this is activated on the hand row
+
+#define DISCARD_HAND_KEY KEY_R
+
 struct List;
 typedef struct List List;
 
@@ -86,16 +92,44 @@ enum HandType
     PAIR,
     TWO_PAIR,
     THREE_OF_A_KIND,
-    FOUR_OF_A_KIND,
     STRAIGHT,
     FLUSH,
     FULL_HOUSE,
+    FOUR_OF_A_KIND,
     STRAIGHT_FLUSH,
     ROYAL_FLUSH,
     FIVE_OF_A_KIND,
     FLUSH_HOUSE,
     FLUSH_FIVE
 };
+
+// clang-format off
+// Store all contained hands to optimize "whole hand condition" Jokers
+typedef struct ContainedHandTypes
+{
+    union
+    {
+        struct
+        {
+            u16 HIGH_CARD : 1;
+            u16 PAIR : 1;
+            u16 TWO_PAIR : 1;
+            u16 THREE_OF_A_KIND : 1;
+            u16 STRAIGHT : 1;
+            u16 FLUSH : 1;
+            u16 FULL_HOUSE : 1;
+            u16 FOUR_OF_A_KIND : 1;
+            u16 STRAIGHT_FLUSH : 1;
+            u16 ROYAL_FLUSH : 1;
+            u16 FIVE_OF_A_KIND : 1;
+            u16 FLUSH_HOUSE : 1;
+            u16 FLUSH_FIVE : 1;
+            u16 : 3;
+        };
+        u16 value;
+    };
+} ContainedHandTypes;
+// clang-format on
 
 typedef void (*GameStateCallback)(GameVariables* gs);
 
@@ -122,6 +156,9 @@ bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
+
+ContainedHandTypes* get_contained_hands(void);
+enum HandType* get_hand_type(void);
 
 int get_deck_top(void);
 int get_num_discards_remaining(void);

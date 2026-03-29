@@ -18,7 +18,7 @@
 
 /**
  * @def AFFINE_BG_PAL_LEN
- * @brief Number of u16 colors available in the palate.
+ * @brief Number of u16 colors available in the palette.
  */
 #define AFFINE_BG_PAL_LEN 16
 

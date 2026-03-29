@@ -9,6 +9,7 @@
 #include "background_shop_gfx.h"
 #include "bitset.h"
 #include "blind.h"
+#include "button.h"
 #include "card.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
@@ -45,7 +46,6 @@
 #define MENU_POP_OUT_ANIM_FRAMES 20
 #define GAME_OVER_ANIM_FRAMES    15
 
-#define HIGHLIGHT_COLOR   0xFFFF
 #define SHOP_LIGHTS_1_CLR 0xFFFF
 #define SHOP_LIGHTS_2_CLR 0x32BE
 #define SHOP_LIGHTS_3_CLR 0x4B5F
@@ -54,8 +54,6 @@
 #define PITCH_STEP_DISCARD_SFX   (-64)
 #define PITCH_STEP_DRAW_SFX      24
 #define PITCH_STEP_UNDISCARD_SFX 2 * PITCH_STEP_DRAW_SFX
-
-#define BUTTON_SFX_VOLUME 154 // 60% of MM_FULL_VOLUME
 
 #define STARTING_ROUND 0
 #define STARTING_ANTE  1
@@ -89,6 +87,7 @@
 #define TM_BLIND_SELECT_START           1
 #define TM_END_ANIM_SEQ                 12
 
+// TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
 #define BOSS_BLIND_PRIMARY_PID               1
 #define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    2
@@ -98,14 +97,10 @@
 #define NEXT_ROUND_BTN_SELECTED_BORDER_PID   5
 #define BLIND_BG_SHADOW_PID                  5
 #define SHOP_PANEL_SHADOW_PID                6
-#define PLAY_HAND_BTN_PID                    6
 #define BOSS_BLIND_SHADOW_PID                7
-#define PLAY_HAND_BTN_BORDER_PID             7
 #define REROLL_BTN_SELECTED_BORDER_PID       7
 #define SHOP_LIGHTS_1_PID                    8
-#define DISCARD_BTN_BORDER_PID               8
 #define BLIND_SKIP_BTN_SELECTED_BORDER_PID   10
-#define DISCARD_BTN_PID                      13
 #define SHOP_LIGHTS_2_PID                    14
 #define BLIND_SELECT_BTN_PID                 15
 #define NEXT_ROUND_BTN_PID                   16
@@ -116,21 +111,31 @@
 #define REWARD_PANEL_BORDER_PID              19
 #define SHOP_LIGHTS_4_PID                    22
 #define SHOP_BOTTOM_PANEL_BORDER_PID         26
+
+#define PLAY_HAND_BTN_PID           6
+#define PLAY_HAND_BTN_BORDER_PID    7
+#define DISCARD_BTN_PID             13
+#define DISCARD_BTN_BORDER_PID      8
+#define SORT_BTNS_PID               9
+#define SORT_BY_RANK_BTN_BORDER_PID 22
+#define SORT_BY_SUIT_BTN_BORDER_PID 23
+
 // Naming the stage where cards return from the discard pile to the deck "undiscard"
 
-#define NUM_SCORE_LERP_STEPS 32
+/* This needs to stay a power of 2 and small enough
+ * for the lerping to be done before the next hand is drawn.
+ */
+#define NUM_SCORE_LERP_STEPS   16
+#define TM_SCORE_LERP_INTERVAL 2
 
 // Shop
 #define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
 
 #define NEXT_ROUND_BTN_SEL_X 0
 
-#define GAME_PLAYING_HAND_SEL_Y        0
-#define GAME_PLAYING_BUTTONS_SEL_Y     1
-#define GAME_PLAYING_PLAY_BTN_SEL_X    0
-#define GAME_PLAYING_DISCARD_BTN_SEL_X 1
-#define GAME_PLAYING_NUM_SEL_ROWS      2
-#define GAME_PLAYING_NUM_BOTTOM_BTNS   2
+#define GAME_PLAYING_HAND_SEL_Y      1
+#define GAME_PLAYING_BUTTONS_SEL_Y   2
+#define GAME_PLAYING_NUM_BOTTOM_BTNS 2
 
 #define REROLL_BTN_FRAME_PAL_IDX 7
 #define REROLL_BTN_PAL_IDX       3
@@ -217,6 +222,8 @@ static void game_blind_select_start_anim_seq(void);
 static void game_blind_select_handle_input(void);
 static void game_blind_select_selected_anim_seq(void);
 static void game_blind_select_display_blind_panel(void);
+static Rect game_blind_select_get_req_score_rect(enum BlindType blind);
+static void game_blind_select_print_blinds_reqs_and_rewards(void);
 static void game_round_end_start(void);
 static void game_round_end_start_expand_popup(void);
 static void game_round_end_display_finished_blind(void);
@@ -232,12 +239,10 @@ static void change_background(enum BackgroundId id);
 static void display_temp_score(u32 value);
 static void display_score(u32 value);
 static void check_flaming_score(void);
-static void display_round(int value);
+static void display_round(void);
 static void display_hands(int value);
 static void display_discards(int value);
 static void set_hand(void);
-static void hand_set_focus(int index);
-static bool hand_can_discard(void);
 static int deck_get_size(void);
 static int deck_get_max_size(void);
 static void increment_blind(enum BlindState increment_reason);
@@ -249,15 +254,46 @@ static bool check_and_score_joker_for_event(
 );
 static int calculate_interest_reward(void);
 static void game_over_anim_frame(void);
+
+static void game_playing_discard_on_pressed(void);
+static void game_playing_execute_discard(void);
+static void game_playing_play_hand_on_pressed(void);
+static void game_playing_execute_play_hand(void);
+static void game_playing_sort_by_rank_on_pressed(void);
+static void game_playing_sort_by_suit_on_pressed(void);
+
+static int game_playing_button_row_get_size(void);
+static bool game_playing_button_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection);
+
+static void game_playing_hand_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection
+);
+
+static bool game_playing_hand_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+
+static int game_playing_hand_row_get_size(void);
+
 static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-static void shop_reroll_row_on_selection_changed(
+static bool shop_reroll_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
     const Selection* new_selection
 );
 static int shop_reroll_row_get_size(void);
-static void shop_top_row_on_selection_changed(
+static bool shop_top_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -266,7 +302,7 @@ static void shop_top_row_on_selection_changed(
 static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 static int shop_top_row_get_size(void);
 static void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
-static void jokers_sel_row_on_selection_changed(
+static bool jokers_sel_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -274,11 +310,21 @@ static void jokers_sel_row_on_selection_changed(
 );
 static int jokers_sel_row_get_size(void);
 static void game_shop_create_items(void);
+
 static void erase_price_under_sprite_object(SpriteObject* sprite_object);
 static void print_price_under_sprite_object(SpriteObject* sprite_object, int price);
 static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
 static void remove_owned_joker(int owned_joker_idx);
+
+static int hand_sel_idx_to_card_idx(int selection_index);
+static void hand_select_card(int index);
+static void hand_toggle_sort(void);
+static void hand_change_sort(bool to_sort_by_suit);
+static void hand_deselect_all_cards(void);
+static bool can_play_hand(void);
+static bool can_discard_hand(void);
+
 // Consts
 
 // clang-format off
@@ -325,6 +371,7 @@ static const Rect GAME_OVER_ANIM_RECT       = {11,      8,       23,     28};
 static const BG_POINT NEW_RUN_BTN_DEST_POS  = {15,      26};
 static const Rect NEW_RUN_BTN_SRC_RECT      = {0,       30,      4,      31};
 static const BG_POINT ROUND_END_REWARDS_ELLIPSIS_POS = {10, 13};
+static const BG_POINT TOP_LEFT_PANEL_EMPTY_3W_ROW_POS = {29, 31};
 
 // Flaming score animation frames
 #define SCORE_FLAMES_ANIM_FREQ  5 // animation will run at 12FPS
@@ -354,11 +401,13 @@ static const Rect BLIND_REWARD_RECT         = {40,      32,     64,     40  };
 static const Rect BLIND_REQ_TEXT_RECT       = {32,      24,     64,     32  };
 static const Rect SHOP_PRICES_TEXT_RECT     = {72,      56,     192,    160 };
 
+static const Rect SINGLE_BLIND_SEL_REQ_SCORE_RECT = {80, 120,    104,     128  };
+
 // Rects with UNDEFINED are only used in tte_printf, they need to be fully defined
 // to be used with tte_erase_rect_wrapper()
 static const Rect HANDS_TEXT_RECT           = {16,      104,    UNDEFINED, UNDEFINED };
 static const Rect DISCARDS_TEXT_RECT        = {48,      104,    UNDEFINED, UNDEFINED };
-static const Rect DECK_SIZE_RECT            = {200,     152,    UNDEFINED, UNDEFINED };
+static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
 static const Rect ROUND_TEXT_RECT           = {48,      144,    UNDEFINED, UNDEFINED };
 static const Rect ANTE_TEXT_RECT            = {8,       144,    UNDEFINED, UNDEFINED };
 static const Rect ROUND_END_BLIND_REQ_RECT  = {104,     96,     136,       UNDEFINED };
@@ -383,7 +432,7 @@ static uint rng_seed = 0;
 
 typedef void (*SubStateActionFn)(void);
 
-static uint timer = 0; // This might already exist in libtonc but idk so i'm just making my own
+static int timer = 0; // This might already exist in libtonc but idk so i'm just making my own
 // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the game
 // aspects that should be sped up by speed, as in the original game.
 static int game_speed = 1;
@@ -396,10 +445,52 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
+// clang-format off
+SelectionGridRow game_playing_selection_rows[] = {
+    {
+        0,
+        jokers_sel_row_get_size,
+        jokers_sel_row_on_selection_changed,
+        jokers_sel_row_on_key_transit,
+        {.wrap = false}
+    },
+    {
+        1,
+        game_playing_hand_row_get_size,
+        game_playing_hand_row_on_selection_changed,
+        game_playing_hand_row_on_key_transit,
+        {.wrap = true}
+    },
+    {
+        2,
+        game_playing_button_row_get_size,
+        game_playing_button_row_on_selection_changed,
+        game_playing_button_row_on_key_hit,
+        {.wrap = false}
+    }
+};
+// clang-format on
+
+static const Selection GAME_PLAYING_INIT_SEL = {0, 1};
+
+SelectionGrid game_playing_selection_grid = {
+    game_playing_selection_rows,
+    NUM_ELEM_IN_ARR(game_playing_selection_rows),
+    GAME_PLAYING_INIT_SEL
+};
+
+// Array of buttons by horizontal selection index (x)
+Button game_playing_buttons[] = {
+    {PLAY_HAND_BTN_BORDER_PID,    PLAY_HAND_BTN_PID, game_playing_play_hand_on_pressed,    can_play_hand   },
+    {SORT_BY_RANK_BTN_BORDER_PID, SORT_BTNS_PID,     game_playing_sort_by_rank_on_pressed, NULL            },
+    {SORT_BY_SUIT_BTN_BORDER_PID, SORT_BTNS_PID,     game_playing_sort_by_suit_on_pressed, NULL            },
+    {DISCARD_BTN_BORDER_PID,      DISCARD_BTN_PID,   game_playing_discard_on_pressed,      can_discard_hand},
+};
+
 SelectionGridRow shop_selection_rows[] = {
-    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit },
-    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit   },
-    {2, shop_reroll_row_get_size, shop_reroll_row_on_selection_changed, shop_reroll_row_on_key_transit}
+    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit,  {.wrap = false}},
+    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit,    {.wrap = false}},
+    {2, shop_reroll_row_get_size, shop_reroll_row_on_selection_changed, shop_reroll_row_on_key_transit, {.wrap = false}}
 };
 
 static const Selection SHOP_INIT_SEL = {-1, 1};
@@ -416,19 +507,19 @@ static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
 
 static const HandValues hand_base_values[] = {
     {.chips = 0,   .mult = 0,  .display_name = NULL     }, // NONE
-    {.chips = 5,   .mult = 1,  .display_name = "HIGH C" }, // HIGH_CARD
-    {.chips = 10,  .mult = 2,  .display_name = "PAIR"   }, // PAIR
-    {.chips = 20,  .mult = 2,  .display_name = "2 PAIR" }, // TWO_PAIR
+    {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"}, // HIGH_CARD
+    {.chips = 10,  .mult = 2,  .display_name = "Pair"   }, // PAIR
+    {.chips = 20,  .mult = 2,  .display_name = "2 Pair" }, // TWO_PAIR
     {.chips = 30,  .mult = 3,  .display_name = "3 OAK"  }, // THREE_OF_A_KIND
+    {.chips = 30,  .mult = 4,  .display_name = "Strt"   }, // STRAIGHT
+    {.chips = 35,  .mult = 4,  .display_name = "Flush"  }, // FLUSH
+    {.chips = 40,  .mult = 4,  .display_name = "Full H" }, // FULL_HOUSE
     {.chips = 60,  .mult = 7,  .display_name = "4 OAK"  }, // FOUR_OF_A_KIND
-    {.chips = 30,  .mult = 4,  .display_name = "STRT"   }, // STRAIGHT
-    {.chips = 35,  .mult = 4,  .display_name = "FLUSH"  }, // FLUSH
-    {.chips = 40,  .mult = 4,  .display_name = "FULL H" }, // FULL_HOUSE
-    {.chips = 100, .mult = 8,  .display_name = "STRT F" }, // STRAIGHT_FLUSH
-    {.chips = 100, .mult = 8,  .display_name = "ROYAL F"}, // ROYAL_FLUSH
+    {.chips = 100, .mult = 8,  .display_name = "Strt F" }, // STRAIGHT_FLUSH
+    {.chips = 100, .mult = 8,  .display_name = "Royal F"}, // ROYAL_FLUSH
     {.chips = 120, .mult = 12, .display_name = "5 OAK"  }, // FIVE_OF_A_KIND
-    {.chips = 140, .mult = 14, .display_name = "FLUSH H"}, // FLUSH_HOUSE
-    {.chips = 160, .mult = 16, .display_name = "FLUSH 5"}  // FLUSH_FIVE
+    {.chips = 140, .mult = 14, .display_name = "Flush H"}, // FLUSH_HOUSE
+    {.chips = 160, .mult = 16, .display_name = "Flush 5"}  // FLUSH_FIVE
 };
 
 static const SubStateActionFn shop_state_actions[] = {
@@ -464,6 +555,7 @@ static enum HandState hand_state = HAND_DRAW;
 static enum PlayState play_state = PLAY_STARTING;
 
 static enum HandType hand_type = NONE;
+static ContainedHandTypes _contained_hands = {0};
 
 static CardObject* main_menu_ace = NULL;
 
@@ -480,7 +572,7 @@ static int current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
-static enum BlindState blinds[BLIND_TYPE_MAX] = {
+static enum BlindState blinds_states[BLIND_TYPE_MAX] = {
     BLIND_STATE_CURRENT,
     BLIND_STATE_UPCOMING,
     BLIND_STATE_UPCOMING
@@ -557,7 +649,6 @@ static int discard_top = -1;
 static int shortcut_joker_count = 0;
 
 static int four_fingers_joker_count = 0;
-static int straight_and_flush_size = STRAIGHT_AND_FLUSH_SIZE_DEFAULT;
 
 static GameVariables game_vars;
 
@@ -655,12 +746,13 @@ void game_init()
     discards = max_discards;
     timer = TM_ZERO;
     current_blind = BLIND_TYPE_SMALL;
-    blinds[0] = BLIND_STATE_CURRENT;
-    blinds[1] = BLIND_STATE_UPCOMING;
-    blinds[2] = BLIND_STATE_UPCOMING;
+    blinds_states[0] = BLIND_STATE_CURRENT;
+    blinds_states[1] = BLIND_STATE_UPCOMING;
+    blinds_states[2] = BLIND_STATE_UPCOMING;
     ante = STARTING_ANTE;
     money = STARTING_MONEY;
     score = STARTING_SCORE;
+    round = 0;
 
     blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
         BLIND_TYPE_SMALL,
@@ -848,15 +940,6 @@ bool is_joker_owned(int joker_id)
     return false;
 }
 
-bool card_is_face(Card* card)
-{
-    // Card is a face card, or Pareidolia is present
-    return (
-        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
-        is_joker_owned(PAREIDOLIA_JOKER_ID)
-    );
-}
-
 List* get_jokers_list(void)
 {
     return &_owned_jokers_list;
@@ -874,7 +957,8 @@ bool is_shortcut_joker_active(void)
 
 int get_straight_and_flush_size(void)
 {
-    return straight_and_flush_size;
+    return four_fingers_joker_count > 0 ? STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS
+                                        : STRAIGHT_AND_FLUSH_SIZE_DEFAULT;
 }
 
 static void add_joker(JokerObject* joker_object)
@@ -886,10 +970,6 @@ static void add_joker(JokerObject* joker_object)
     // only change size when the first one is added
     if (joker_object->joker->id == FOUR_FINGERS_JOKER_ID)
     {
-        if (four_fingers_joker_count == 0)
-        {
-            straight_and_flush_size = STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS;
-        }
         four_fingers_joker_count++;
     }
 
@@ -908,10 +988,6 @@ static void remove_owned_joker(int owned_joker_idx)
     if (joker_object->joker->id == FOUR_FINGERS_JOKER_ID)
     {
         four_fingers_joker_count--;
-        if (four_fingers_joker_count == 0)
-        {
-            straight_and_flush_size = STRAIGHT_AND_FLUSH_SIZE_DEFAULT;
-        }
     }
 
     if (joker_object->joker->id == SHORTCUT_JOKER_ID)
@@ -1053,6 +1129,17 @@ void display_mult(void)
     check_flaming_score();
 }
 
+static inline void display_ante(int value)
+{
+    tte_printf(
+        "#{P:%d,%d; cx:0xC000}%d#{cx:0xF000}/%d",
+        ANTE_TEXT_RECT.left,
+        ANTE_TEXT_RECT.top,
+        value,
+        MAX_ANTE
+    );
+}
+
 // idx_a and idx_b are assumed to be valid indexes within the hand array
 // no checks will be performed here for performance's sake
 static inline void swap_cards_in_hand(int idx_a, int idx_b)
@@ -1177,6 +1264,148 @@ static void sort_cards(void)
     reorder_card_sprites_layers();
 }
 
+static ContainedHandTypes compute_contained_hand_types(void)
+{
+    ContainedHandTypes hand_types = {0};
+
+    // Idk if this is how Balatro does it but this is how I'm doing it
+    if (hand_selections == 0 || hand_state == HAND_DISCARD)
+    {
+        return hand_types;
+    }
+
+    hand_types.HIGH_CARD = 1;
+
+    u8 suits[NUM_SUITS];
+    u8 ranks[NUM_RANKS];
+    get_hand_distribution(ranks, suits);
+
+    // The following can be optimized better but not sure how much it matters
+    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
+
+    // Pair and 2 Pair
+    if (n_of_a_kind >= 2)
+    {
+        hand_types.PAIR = 1;
+
+        if (hand_contains_two_pair(ranks))
+        {
+            hand_types.TWO_PAIR = 1;
+        }
+    }
+
+    // 3 OAK
+    if (n_of_a_kind >= 3)
+    {
+        hand_types.THREE_OF_A_KIND = 1;
+    }
+
+    // Straight
+    if (hand_contains_straight(ranks))
+    {
+        hand_types.STRAIGHT = 1;
+    }
+
+    // Flush
+    if (hand_contains_flush(suits))
+    {
+        hand_types.FLUSH = 1;
+    }
+
+    // Full House
+    if (n_of_a_kind >= 3 && hand_contains_full_house(ranks))
+    {
+        hand_types.FULL_HOUSE = 1;
+    }
+
+    // 4 OAK
+    if (n_of_a_kind >= 4)
+    {
+        hand_types.FOUR_OF_A_KIND = 1;
+    }
+
+    // Straight Flush
+    if (hand_types.STRAIGHT && hand_types.FLUSH)
+    {
+        hand_types.STRAIGHT_FLUSH = 1;
+    }
+
+    // Royal Flush
+    if (hand_types.STRAIGHT_FLUSH)
+    {
+        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
+        {
+            hand_types.ROYAL_FLUSH = 1;
+        }
+    }
+
+    // 5 OAK
+    if (n_of_a_kind >= 5)
+    {
+        hand_types.FIVE_OF_A_KIND = 1;
+    }
+
+    // Flush House and Five
+    if (hand_types.FLUSH)
+    {
+        if (hand_types.FULL_HOUSE)
+        {
+            hand_types.FLUSH_HOUSE = 1;
+        }
+
+        if (hand_types.FIVE_OF_A_KIND)
+        {
+            hand_types.FLUSH_FIVE = 1;
+        }
+    }
+
+    return hand_types;
+}
+
+ContainedHandTypes* get_contained_hands(void)
+{
+    return &_contained_hands;
+}
+
+enum HandType compute_hand_type(struct ContainedHandTypes contained_types)
+{
+    enum HandType ret;
+
+    // test each pit see if it's set to 1, and return the first one
+    for (ret = FLUSH_FIVE; ret > NONE; ret--)
+    {
+        // Shift the bit we want to check to the front and mask it with 1 to keep only that
+        // Since the ContainedHandTypes is ordered the same way as the HandType enum, we
+        // can shift right by ret-1 to have the bit we want at the front
+        if ((contained_types.value >> (ret - 1)) & 0x1)
+        {
+            break;
+        }
+    }
+
+    // If we broke early, ret contains the value of the HandType enum corresponding to
+    // the position of the highest bit set to 1 in contained_types.value, which is the
+    // most powerful poker hand contained in the current Hand
+    // If not, then it contains NONE, which is what we're supposed to return when there
+    // are no Hands contained in what we played
+    return ret;
+}
+
+enum HandType* get_hand_type(void)
+{
+    return &hand_type;
+}
+
+// Returns true if the card is *considered* a face card
+bool card_is_face(Card* card)
+{
+    // Card is a face card, or Pareidolia is present
+    return (
+        card->rank == JACK || card->rank == QUEEN || card->rank == KING ||
+        is_joker_owned(PAREIDOLIA_JOKER_ID)
+    );
+}
+
 /* Copies the appropriate item into the top left panel (blind/shop icon)
  * from where it was put outside the screenview
  */
@@ -1258,9 +1487,10 @@ static void change_background(enum BackgroundId id)
                 1
             );
 
-            // Copy the Play Hand and Discard button colors to their selection highlights
-            memcpy16(&pal_bg_mem[PLAY_HAND_BTN_BORDER_PID], &pal_bg_mem[PLAY_HAND_BTN_PID], 1);
-            memcpy16(&pal_bg_mem[DISCARD_BTN_BORDER_PID], &pal_bg_mem[DISCARD_BTN_PID], 1);
+            for (int i = 0; i < NUM_ELEM_IN_ARR(game_playing_buttons); i++)
+            {
+                button_set_highlight(&game_playing_buttons[i], false);
+            }
         }
     }
     else if (id == BG_CARD_PLAYING)
@@ -1380,7 +1610,7 @@ static void change_background(enum BackgroundId id)
             curr_blind_rect.left += i * rect_width(&SINGLE_BLIND_SELECT_RECT);
             curr_blind_rect.right += i * rect_width(&SINGLE_BLIND_SELECT_RECT);
 
-            if (blinds[i] != BLIND_STATE_CURRENT &&
+            if (blinds_states[i] != BLIND_STATE_CURRENT &&
                 (i == BLIND_TYPE_SMALL || i == BLIND_TYPE_BIG)) // Make the skip button gray
             {
                 BG_POINT skip_blind_btn_pos_dest = {
@@ -1396,7 +1626,7 @@ static void change_background(enum BackgroundId id)
                 main_bg_se_copy_rect(skip_blind_btn_rect_src, skip_blind_btn_pos_dest);
             }
 
-            switch (blinds[i])
+            switch (blinds_states[i])
             {
                 case BLIND_STATE_CURRENT: // Raise the blind panel up a bit
                 {
@@ -1578,7 +1808,7 @@ static void check_flaming_score(void)
     }
 }
 
-static void display_round(int value)
+static void display_round(void)
 {
     // tte_erase_rect_wrapper(ROUND_TEXT_RECT);
     tte_printf(
@@ -1608,105 +1838,17 @@ static void display_discards(int value)
     );
 }
 
-static inline enum HandType hand_get_type(void)
-{
-    enum HandType res_hand_type = NONE;
-
-    // Idk if this is how Balatro does it but this is how I'm doing it
-    if (hand_selections == 0 || hand_state == HAND_DISCARD)
-    {
-        res_hand_type = NONE;
-        return res_hand_type;
-    }
-
-    res_hand_type = HIGH_CARD;
-
-    u8 suits[NUM_SUITS];
-    u8 ranks[NUM_RANKS];
-    get_hand_distribution(ranks, suits);
-
-    // Check for flush
-    if (hand_contains_flush(suits))
-        res_hand_type = FLUSH;
-
-    // Check for straight
-    if (hand_contains_straight(ranks))
-    {
-        if (res_hand_type == FLUSH)
-            res_hand_type = STRAIGHT_FLUSH;
-        else
-            res_hand_type = STRAIGHT;
-    }
-
-    // The following can be optimized better but not sure how much it matters
-    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
-
-    if (n_of_a_kind >= 5)
-    {
-        if (res_hand_type == FLUSH)
-        {
-            return FLUSH_FIVE;
-        }
-        return FIVE_OF_A_KIND;
-    }
-
-    // Check for royal flush vs regular straight flush
-    if (res_hand_type == STRAIGHT_FLUSH)
-    {
-        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
-            return ROYAL_FLUSH;
-        return STRAIGHT_FLUSH;
-    }
-
-    if (n_of_a_kind == 4)
-    {
-        return FOUR_OF_A_KIND;
-    }
-
-    if (n_of_a_kind == 3 && hand_contains_full_house(ranks))
-    {
-        return FULL_HOUSE;
-    }
-
-    // Flush and Straight are more valuable than the remaining hand types, so return them now
-    if (res_hand_type == FLUSH)
-    {
-        if (n_of_a_kind >= 5)
-        {
-            return FLUSH_HOUSE;
-        }
-        return FLUSH;
-    }
-    if (res_hand_type == STRAIGHT)
-    {
-        return STRAIGHT;
-    }
-
-    if (n_of_a_kind == 3)
-    {
-        return THREE_OF_A_KIND;
-    }
-
-    if (n_of_a_kind == 2)
-    {
-        if (hand_contains_two_pair(ranks))
-        {
-            return TWO_PAIR;
-        }
-        return PAIR;
-    }
-
-    return res_hand_type; // should be HIGH_CARD
-}
-
 static void print_hand_type(const char* hand_type_str)
 {
     if (hand_type_str == NULL)
         return; // NULL-checking paranoia
+
+    Rect hand_type_rect = HAND_TYPE_RECT;
+    update_text_rect_to_center_str(&hand_type_rect, hand_type_str, SCREEN_LEFT);
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%s",
-        HAND_TYPE_RECT.left,
-        HAND_TYPE_RECT.top,
+        hand_type_rect.left,
+        hand_type_rect.top,
         TTE_WHITE_PB,
         hand_type_str
     );
@@ -1715,7 +1857,8 @@ static void print_hand_type(const char* hand_type_str)
 static void set_hand(void)
 {
     tte_erase_rect_wrapper(HAND_TYPE_RECT);
-    hand_type = hand_get_type();
+    _contained_hands = compute_contained_hand_types();
+    hand_type = compute_hand_type(_contained_hands);
 
     HandValues hand = hand_base_values[hand_type];
 
@@ -1727,37 +1870,9 @@ static void set_hand(void)
     display_mult();
 }
 
-static void hand_set_focus(int index)
+static bool can_discard_hand(void)
 {
-    if (hand_state != HAND_SELECT)
-        return;
-
-    // Wrap around to the other side of the hand when going out of bounds on either side
-    if (index < 0)
-    {
-        selection_x = hand_top;
-    }
-    else if (index > hand_top)
-    {
-        selection_x = 0;
-    }
-    else
-    {
-        selection_x = index;
-    }
-
-    play_sfx(
-        SFX_CARD_FOCUS,
-        MM_BASE_PITCH_RATE + rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
-        SFX_DEFAULT_VOLUME
-    );
-}
-
-static bool hand_can_discard(void)
-{
-    if (hand_state != HAND_SELECT || hand_selections == 0)
-        return false;
-    return true;
+    return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
 static int deck_get_size(void)
@@ -1777,14 +1892,14 @@ static void increment_blind(enum BlindState increment_reason)
     if (current_blind >= BLIND_TYPE_MAX)
     {
         current_blind = 0;
-        blinds[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
+        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
     }
     else
     {
-        blinds[current_blind] = BLIND_STATE_CURRENT;
-        blinds[current_blind - 1] = increment_reason;
+        blinds_states[current_blind] = BLIND_STATE_CURRENT;
+        blinds_states[current_blind - 1] = increment_reason;
     }
 }
 
@@ -1858,6 +1973,12 @@ static void game_round_on_init(GameVariables* vars)
     ); // Blind reward
 
     deck_shuffle(); // Shuffle the deck at the start of the round
+
+    /* Note that since cards_in_hand_update_loop() handles card highlight there's no need
+     * to call a selection changed callback to highlight the initial card, this wouldn't work
+     * otherwise or for the buttons.
+     */
+    game_playing_selection_grid.selection = GAME_PLAYING_INIT_SEL;
 }
 
 static void game_main_menu_on_init(GameVariables* vars)
@@ -1904,23 +2025,36 @@ static inline void set_seed(int seed)
     srand(rng_seed);
 }
 
-static inline void hand_toggle_card_selection(void)
+// Playing state functions
+static void game_playing_discard_on_pressed(void)
 {
-    if (hand_state != HAND_SELECT || hand[selection_x] == NULL)
+    if (!can_discard_hand())
         return;
 
-    if (card_object_is_selected(hand[selection_x]))
-    {
-        card_object_set_selected(hand[selection_x], false);
-        hand_selections--;
-        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    }
-    else if (hand_selections < MAX_SELECTION_SIZE)
-    {
-        card_object_set_selected(hand[selection_x], true);
-        hand_selections++;
-        play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    }
+    game_playing_execute_discard();
+
+    // Move back to hand selection
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1);
+}
+
+static void game_playing_execute_discard(void)
+{
+    if (!can_discard_hand())
+        return;
+
+    hand_state = HAND_DISCARD;
+    display_discards(--discards);
+    set_hand();
+}
+
+static void game_playing_sort_by_rank_on_pressed(void)
+{
+    hand_change_sort(false);
+}
+
+static void game_playing_sort_by_suit_on_pressed(void)
+{
+    hand_change_sort(true);
 }
 
 static void hand_deselect_all_cards(void)
@@ -1942,23 +2076,44 @@ static void hand_deselect_all_cards(void)
     }
 }
 
-static inline void hand_change_sort(void)
+static inline void hand_toggle_sort(void)
 {
     sort_by_suit = !sort_by_suit;
     sort_cards();
 }
 
-static inline bool hand_can_play(void)
+static inline void hand_change_sort(bool to_sort_by_suit)
 {
-    if (hand_state != HAND_SELECT || hand_selections == 0)
-        return false;
-    return true;
+    if (to_sort_by_suit != sort_by_suit)
+    {
+        sort_by_suit = to_sort_by_suit;
+        sort_cards();
+    }
 }
 
-static inline void select_current_card(void)
+static void game_playing_play_hand_on_pressed(void)
 {
-    hand_toggle_card_selection();
-    set_hand();
+    if (!can_play_hand())
+        return;
+
+    game_playing_execute_play_hand();
+
+    // Move back to hand selection
+    selection_grid_move_selection_vert(&game_playing_selection_grid, -1);
+}
+
+static void game_playing_execute_play_hand(void)
+{
+    if (!can_play_hand())
+        return;
+
+    hand_state = HAND_PLAY;
+    display_hands(--hands);
+}
+
+static int game_playing_hand_row_get_size(void)
+{
+    return hand_get_size();
 }
 
 // card moving logic
@@ -1975,29 +2130,59 @@ static bool card_selected_instead_of_moved = false;
 // and change focus to the next one, instead of swapping them
 // This should fix inputs sometimes not registering when quickly selecting cards
 static const int card_swap_time_threshold = 6;
-static uint selection_hit_timer = TM_ZERO;
+static int selection_hit_timer = UNDEFINED;
 
-static inline void game_playing_apply_card_movement_input(enum ScreenHorzDir move_dir)
+static bool game_playing_hand_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
 {
-    // The reason why this adds +1 (-SCREEN_LEFT) is because the hand is drawn from right to left.
-    // There is no particular reason for this, it's just how I did it.
-    int next_card = selection_x - move_dir;
+    int prev_card_idx = UNDEFINED;
+    int next_card_idx = UNDEFINED;
 
     // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
-    card_moved_too_fast = (timer - selection_hit_timer) < card_swap_time_threshold;
+    card_moved_too_fast = (selection_hit_timer != UNDEFINED) &&
+                          (timer - selection_hit_timer) < card_swap_time_threshold;
 
-    // swap cards around if A is held down when pressing D-pad keys
-    if (key_is_down(SELECT_CARD) && !card_moved_too_fast && !card_selected_instead_of_moved)
+    if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
     {
-        bool selection_not_at_border =
-            (move_dir == SCREEN_LEFT) ? selection_x < hand_top : selection_x > 0;
+        prev_card_idx = hand_sel_idx_to_card_idx(prev_selection->x);
+    }
 
-        if (selection_not_at_border)
+    if (new_selection->y == GAME_PLAYING_HAND_SEL_Y)
+    {
+        next_card_idx = hand_sel_idx_to_card_idx(new_selection->x);
+    }
+
+    bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
+
+    if (on_the_same_row && key_is_down(SELECT_CARD) && !card_moved_too_fast &&
+        !card_selected_instead_of_moved)
+    {
+        bool moved_by_one_tile = abs(new_selection->x - prev_selection->x) == 1;
+
+        // Avoid swapping when selection wraps
+        if (!moved_by_one_tile)
         {
-            swap_cards_in_hand(selection_x, next_card);
+            // Abort the selection if swapping so it doesn't wrap
+            return false;
+        }
+        else
+        {
+            swap_cards_in_hand(prev_card_idx, next_card_idx);
             moving_card = true;
             reorder_card_sprites_layers();
-            hand_set_focus(next_card);
+
+            /* Not calling sprite_object_set_focus() because focus is handled by
+             * cards_in_hand_update_loop() based on the selection grid value...
+             */
+            play_sfx(
+                SFX_CARD_FOCUS,
+                MM_BASE_PITCH_RATE + rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+                SFX_DEFAULT_VOLUME
+            );
         }
     }
     else
@@ -2005,157 +2190,147 @@ static inline void game_playing_apply_card_movement_input(enum ScreenHorzDir mov
         // select current card if we tried moving it too fast
         if (key_released(SELECT_CARD) || (card_moved_too_fast && !moving_card))
         {
-            select_current_card();
+            hand_select_card(prev_card_idx);
             card_selected_instead_of_moved = true;
         }
-        hand_set_focus(next_card);
+        if (next_card_idx != UNDEFINED)
+        {
+            /* Not calling sprite_object_set_focus() because focus is handled by
+             * cards_in_hand_update_loop() based on the selection grid value...
+             */
+            play_sfx(
+                SFX_CARD_FOCUS,
+                MM_BASE_PITCH_RATE + rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+                SFX_DEFAULT_VOLUME
+            );
+        }
+    }
+
+    return true;
+}
+
+static void game_playing_hand_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection
+)
+{
+    if (key_hit(SELECT_CARD))
+    {
+        selection_hit_timer = timer;
+    }
+    else if (key_released(SELECT_CARD))
+    {
+        if (!moving_card && !card_selected_instead_of_moved)
+        {
+            hand_select_card(hand_sel_idx_to_card_idx(selection->x));
+        }
+        moving_card = false;
+        card_moved_too_fast = false;
+        card_selected_instead_of_moved = false;
+        selection_hit_timer = UNDEFINED;
+    }
+    else if (key_hit(DESELECT_CARDS))
+    {
+        hand_deselect_all_cards();
+        set_hand();
+    }
+    else if (key_hit(PLAY_HAND_KEY))
+    {
+        game_playing_execute_play_hand();
+    }
+    else if (key_hit(DISCARD_HAND_KEY))
+    {
+        game_playing_execute_discard();
     }
 }
 
-static inline void game_playing_highlight_play_btn(void)
+static int game_playing_button_row_get_size(void)
 {
-    memset16(&pal_bg_mem[PLAY_HAND_BTN_BORDER_PID], HIGHLIGHT_COLOR, 1);
-    memcpy16(&pal_bg_mem[DISCARD_BTN_BORDER_PID], &pal_bg_mem[DISCARD_BTN_PID], 1);
+    return NUM_ELEM_IN_ARR(game_playing_buttons);
 }
 
-static inline void game_playing_highlight_discard_btn(void)
+static inline void game_playing_button_set_highlight(int btn_idx, bool highlight)
 {
-    memcpy16(&pal_bg_mem[PLAY_HAND_BTN_BORDER_PID], &pal_bg_mem[PLAY_HAND_BTN_PID], 1);
-    memset16(&pal_bg_mem[DISCARD_BTN_BORDER_PID], HIGHLIGHT_COLOR, 1);
+    button_set_highlight(&game_playing_buttons[btn_idx], highlight);
 }
 
-static inline void game_playing_unhighlight_buttons(void)
+static bool game_playing_button_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
 {
-    memcpy16(&pal_bg_mem[PLAY_HAND_BTN_BORDER_PID], &pal_bg_mem[PLAY_HAND_BTN_PID], 1);
-    memcpy16(&pal_bg_mem[DISCARD_BTN_BORDER_PID], &pal_bg_mem[DISCARD_BTN_PID], 1);
+    // The selection grid system only guarantees that the new selection is within bounds
+    // but not the previous one...
+    // As of writing (PR #348), this check is not strictly needed for this row but it is
+    // left in, in case that ever changes. It can be reconsidered and removed.
+    if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
+        prev_selection->x < game_playing_button_row_get_size())
+    {
+        game_playing_button_set_highlight(prev_selection->x, false);
+    }
+
+    if (new_selection->y == row_idx)
+    {
+        game_playing_button_set_highlight(new_selection->x, true);
+    }
+
+    return true;
 }
 
-static inline void game_playing_execute_hand_discard(void)
+static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection)
 {
-    play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
+    if (key_hit(SELECT_CARD))
+    {
+        button_press(&game_playing_buttons[selection->x]);
+    }
+}
 
-    hand_state = HAND_DISCARD;
-    selection_x = 0;
-    selection_y = 0;
-    display_hands(--discards);
+static bool can_play_hand(void)
+{
+    if (hand_state != HAND_SELECT || hand_selections == 0)
+        return false;
+    return true;
+}
+
+/**
+ * @brief Converts a selection index from the selection grid into a card index within the hand array
+ * @param selection_index The selection index from the selection grid.
+ * @return The index within the hand stack array.
+ * Note that the result is not valid if hand size is 0.
+ */
+static inline int hand_sel_idx_to_card_idx(int selection_index)
+{
+    // This is because the hand is drawn from right to left.
+    // There is no particular reason for why that was done, it's just how it was done.
+    // Maybe one day it can be reverted and made consistent so this conversion is not needed.
+    return hand_get_size() - selection_index - 1;
+}
+
+static void hand_select_card(int index)
+{
+    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || hand[index] == NULL)
+        return;
+
+    if (card_object_is_selected(hand[index]))
+    {
+        card_object_set_selected(hand[index], false);
+        hand_selections--;
+        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    }
+    else if (hand_selections < MAX_SELECTION_SIZE)
+    {
+        card_object_set_selected(hand[index], true);
+        hand_selections++;
+        play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    }
     set_hand();
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d",
-        DISCARDS_TEXT_RECT.left,
-        DISCARDS_TEXT_RECT.top,
-        TTE_RED_PB,
-        discards
-    );
-}
-
-static inline void game_playing_execute_hand_play(void)
-{
-    play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-
-    hand_state = HAND_PLAY;
-    selection_x = 0;
-    selection_y = 0;
-    display_hands(--hands);
 }
 
 static inline void game_playing_process_hand_select_input(void)
 {
-    // true = play button highlighted, false = discard button highlighted
-    static bool discard_button_highlighted = false;
-
-    if (key_hit(KEY_LEFT))
-    {
-        if (selection_y == GAME_PLAYING_HAND_SEL_Y)
-        {
-            game_playing_apply_card_movement_input(SCREEN_LEFT);
-        }
-        else if (selection_y == GAME_PLAYING_BUTTONS_SEL_Y)
-        {
-            discard_button_highlighted = false;
-        }
-    }
-    else if (key_hit(KEY_RIGHT))
-    {
-        if (selection_y == GAME_PLAYING_HAND_SEL_Y)
-        {
-            game_playing_apply_card_movement_input(SCREEN_RIGHT);
-        }
-        else if (selection_y == GAME_PLAYING_BUTTONS_SEL_Y)
-        {
-            discard_button_highlighted = true;
-        }
-    }
-    else if (key_hit(KEY_UP) && selection_y == GAME_PLAYING_BUTTONS_SEL_Y)
-    {
-        selection_y = GAME_PLAYING_HAND_SEL_Y;
-    }
-    else if (key_hit(KEY_DOWN) && selection_y == GAME_PLAYING_HAND_SEL_Y)
-    {
-        selection_y = GAME_PLAYING_BUTTONS_SEL_Y;
-
-        if (selection_x > hand_top / 2)
-        {
-            discard_button_highlighted = false; // Play button
-        }
-        else
-        {
-            discard_button_highlighted = true; // Discard button
-        }
-    }
-    else if (selection_y == GAME_PLAYING_BUTTONS_SEL_Y)
-    {
-        if (discard_button_highlighted == false) // Play button logic
-        {
-            game_playing_highlight_play_btn();
-            if (key_hit(SELECT_CARD) && hands > 0 && hand_can_play())
-            {
-                game_playing_execute_hand_play();
-            }
-        }
-        else
-        {
-            game_playing_highlight_discard_btn();
-            if (key_hit(SELECT_CARD) && discards > 0 && hand_can_discard())
-            {
-                game_playing_execute_hand_discard();
-            }
-        }
-    }
-    else if (selection_y == GAME_PLAYING_HAND_SEL_Y)
-    {
-        game_playing_unhighlight_buttons();
-
-        // Register timer when we hit A to pick a card
-        // If we try to move the picked card before card_swap_time_threshold frames,
-        // We will select it instead of moving it
-        if (key_hit(SELECT_CARD))
-        {
-            selection_hit_timer = timer;
-        }
-        // select card if we were not moving it around
-        else if (key_released(SELECT_CARD))
-        {
-            if (!moving_card && !card_selected_instead_of_moved)
-            {
-                select_current_card();
-            }
-            moving_card = false;
-            card_moved_too_fast = false;
-            card_selected_instead_of_moved = false;
-            selection_hit_timer = TM_ZERO;
-        }
-
-        if (key_hit(DESELECT_CARDS))
-        {
-            hand_deselect_all_cards();
-            set_hand();
-        }
-    }
-
-    if (key_hit(SORT_HAND))
-    {
-        hand_change_sort();
-    }
+    selection_grid_process_input(&game_playing_selection_grid);
 }
 
 static inline void card_draw(void)
@@ -2180,17 +2355,6 @@ static inline void card_draw(void)
         SFX_CARD_DRAW,
         MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DRAW_SFX,
         SFX_DEFAULT_VOLUME
-    );
-}
-
-static inline void display_ante(int value)
-{
-    tte_printf(
-        "#{P:%d,%d; cx:0xC000}%d#{cx:0xF000}/%d",
-        ANTE_TEXT_RECT.left,
-        ANTE_TEXT_RECT.top,
-        value,
-        MAX_ANTE
     );
 }
 
@@ -2950,11 +3114,6 @@ static inline int hand_get_max_size(void)
     return hand_size;
 }
 
-// TODO: Help this comment find its way back to its variable
-/* This needs to stay a power of 2 and small enough
- * for the lerping to be done before the next hand is drawn.
- */
-
 static inline void game_playing_process_input_and_state(void)
 {
     if (hand_state == HAND_SELECT)
@@ -2988,7 +3147,7 @@ static inline void game_playing_process_input_and_state(void)
             );
         }
     }
-    else if (play_state == PLAY_ENDED)
+    else if (play_state == PLAY_ENDED && timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
     {
         /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
          * then the division rounds it down to 0 and it's never added to the total.
@@ -3000,10 +3159,11 @@ static inline void game_playing_process_input_and_state(void)
 
         if (lerped_temp_score > 0)
         {
-            display_temp_score(fx2uint(lerped_temp_score));
+            // Set the score display first because it's more important
+            // in case there isn't enough time within the frame to display both
+            display_score(fx2uint(lerped_score));
 
-            // We actually don't need to erase this because the score only increases
-            display_score(fx2uint(lerped_score)); // Set the score display
+            display_temp_score(fx2uint(lerped_temp_score));
         }
         else
         {
@@ -3093,8 +3253,52 @@ static inline void game_playing_discarded_cards_loop(void)
     }
 }
 
+static inline void select_cards_in_played_hand()
+{
+    switch (hand_type) // select the cards that apply to the hand type
+    {
+        case NONE:
+            break;
+        case HIGH_CARD:
+            select_highcard_cards_in_played_hand();
+            break;
+        case PAIR:
+            select_pair_cards_in_played_hand();
+            break;
+        case TWO_PAIR:
+            select_two_pair_cards_in_played_hand();
+            break;
+        case THREE_OF_A_KIND:
+            select_three_of_a_kind_cards_in_played_hand();
+            break;
+        case FOUR_OF_A_KIND:
+            select_four_of_a_kind_cards_in_played_hand();
+            break;
+        case STRAIGHT:
+            /* FALL THROUGH */
+        case FLUSH:
+            /* FALL THROUGH */
+        case STRAIGHT_FLUSH:
+            /* FALL THROUGH */
+        case ROYAL_FLUSH:
+            select_flush_and_straight_cards_in_played_hand();
+            break;
+        case FULL_HOUSE:
+            /* FALL THROUGH */
+        case FIVE_OF_A_KIND:
+            /* FALL THROUGH */
+        case FLUSH_HOUSE:
+            /* FALL THROUGH */
+        case FLUSH_FIVE: // Select all played cards in the hand
+            select_all_five_cards_in_played_hand();
+            break;
+    }
+}
+
 static inline void cards_in_hand_update_loop(void)
 {
+    int selected_card_idx = hand_sel_idx_to_card_idx(game_playing_selection_grid.selection.x);
+
     // TODO: Break this function up into smaller ones, Gods be good
     // Start from the end of the hand and work backwards because that's how Balatro does it
     for (int i = hand_top + 1; i >= 0; i--)
@@ -3111,7 +3315,9 @@ static inline void cards_in_hand_update_loop(void)
                         hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
                     break;
                 case HAND_SELECT:
-                    bool is_focused = (i == selection_x && selection_y == 0);
+                    bool is_focused =
+                        (i == selected_card_idx &&
+                         game_playing_selection_grid.selection.y == GAME_PLAYING_HAND_SEL_Y);
 
                     if (is_focused && !card_object_is_selected(hand[i]))
                     {
@@ -3126,7 +3332,7 @@ static inline void cards_in_hand_update_loop(void)
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
 
-                    if (i != selection_x && hand[i]->sprite_object->y > hand_y)
+                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
                     {
                         hand[i]->sprite_object->y = hand_y;
                         hand[i]->sprite_object->vy = 0;
@@ -3186,45 +3392,7 @@ static inline void cards_in_hand_update_loop(void)
                         timer = TM_ZERO;
                         scored_card_index = played_top + 1;
 
-                        switch (hand_type) // select the cards that apply to the hand type
-                        {
-                            case NONE:
-                                break;
-                            case HIGH_CARD:
-                                select_highcard_cards_in_played_hand();
-                                break;
-                            case PAIR:
-                                select_pair_cards_in_played_hand();
-                                break;
-                            case TWO_PAIR:
-                                select_two_pair_cards_in_played_hand();
-                                break;
-                            case THREE_OF_A_KIND:
-                                select_three_of_a_kind_cards_in_played_hand();
-                                break;
-                            case FOUR_OF_A_KIND:
-                                select_four_of_a_kind_cards_in_played_hand();
-                                break;
-                            case STRAIGHT:
-                                /* FALL THROUGH */
-                            case FLUSH:
-                                /* FALL THROUGH */
-                            case STRAIGHT_FLUSH:
-                                /* FALL THROUGH */
-                            case ROYAL_FLUSH:
-                                select_flush_and_straight_cards_in_played_hand();
-                                break;
-                                // ELSE FALL THROUGH
-                            case FULL_HOUSE:
-                                /* FALL THROUGH */
-                            case FIVE_OF_A_KIND:
-                                /* FALL THROUGH */
-                            case FLUSH_HOUSE:
-                                /* FALL THROUGH */
-                            case FLUSH_FIVE: // Select all played cards in the hand
-                                select_all_five_cards_in_played_hand();
-                                break;
-                        }
+                        select_cards_in_played_hand();
                     }
 
                     break;
@@ -3276,6 +3444,9 @@ static inline void game_playing_ui_text_update(void)
         }
 
         // Deck size/max size
+        // TODO: the text will overflow if deck max size exceeds 99,
+        // we will need a fix at some point for this
+        tte_erase_rect_wrapper(DECK_SIZE_RECT);
         tte_printf(
             "#{P:%d,%d; cx:0x%X000}%d/%d",
             DECK_SIZE_RECT.left,
@@ -3898,7 +4069,7 @@ static int jokers_sel_row_get_size(void)
     return list_get_len(&_owned_jokers_list);
 }
 
-static void jokers_sel_row_on_selection_changed(
+static bool jokers_sel_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -3952,6 +4123,8 @@ static void jokers_sel_row_on_selection_changed(
             (unsigned int)new_selection->x
         );
     }
+
+    return true;
 }
 
 static inline void joker_start_discard_animation(JokerObject* joker_object)
@@ -3996,9 +4169,13 @@ static void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selecti
 
     if (key_hit(SELL_KEY))
     {
-        game_sell_joker(selection->x);
+        int sold_joker_idx = selection->x;
+
         // Move the selection away from the jokers so it doesn't point to an invalid place
+        // Do this before selling the joker so valid row sizes are used
         selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN);
+
+        game_sell_joker(sold_joker_idx);
     }
 }
 
@@ -4071,7 +4248,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
     }
 }
 
-static void shop_top_row_on_selection_changed(
+static bool shop_top_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -4079,6 +4256,8 @@ static void shop_top_row_on_selection_changed(
 )
 {
     // The selection grid system only guarantees that the new selection is within bounds
+    // but not the previous one...
+    // This allows using INIT_SEL = {-1, 1} and move to set the initial selection in a hacky way...
     if (prev_selection->y == row_idx && prev_selection->x >= 0 &&
         prev_selection->x < shop_top_row_get_size())
     {
@@ -4096,7 +4275,6 @@ static void shop_top_row_on_selection_changed(
             int idx = prev_selection->x - 1; // -1 to account for next round button
             JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, idx);
             sprite_object_set_focus(joker_object->sprite_object, false);
-            // -1 to account for next round button
         }
     }
 
@@ -4105,7 +4283,7 @@ static void shop_top_row_on_selection_changed(
         if (new_selection->x == NEXT_ROUND_BTN_SEL_X)
         {
             // Highlight next round button
-            memset16(&pal_bg_mem[NEXT_ROUND_BTN_SELECTED_BORDER_PID], HIGHLIGHT_COLOR, 1);
+            memset16(&pal_bg_mem[NEXT_ROUND_BTN_SELECTED_BORDER_PID], BTN_HIGHLIGHT_COLOR, 1);
         }
         else
         {
@@ -4114,6 +4292,8 @@ static void shop_top_row_on_selection_changed(
             sprite_object_set_focus(joker_object->sprite_object, true);
         }
     }
+
+    return true;
 }
 
 static int shop_reroll_row_get_size()
@@ -4121,7 +4301,7 @@ static int shop_reroll_row_get_size()
     return 1; // Only the reroll button
 }
 
-static void shop_reroll_row_on_selection_changed(
+static bool shop_reroll_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
     const Selection* prev_selection,
@@ -4135,8 +4315,10 @@ static void shop_reroll_row_on_selection_changed(
     }
     else if (row_idx == new_selection->y)
     {
-        memset16(&pal_bg_mem[REROLL_BTN_SELECTED_BORDER_PID], HIGHLIGHT_COLOR, 1);
+        memset16(&pal_bg_mem[REROLL_BTN_SELECTED_BORDER_PID], BTN_HIGHLIGHT_COLOR, 1);
     }
+
+    return true;
 }
 
 static inline void game_shop_reroll(int* reroll_cost)
@@ -4205,6 +4387,7 @@ static void game_shop_process_user_input()
 {
     if (timer == TM_SHOP_PRC_INPUT_START)
     {
+        // TODO: Move to on_init?
         // The selection grid is initialized outside of bounds and moved
         // to trigger the selection change so the initial selection is visible
         shop_selection_grid.selection = SHOP_INIT_SEL;
@@ -4345,6 +4528,8 @@ static void game_shop_on_exit(GameVariables* vars)
 static void game_blind_select_on_init(GameVariables* vars)
 {
     change_background(BG_BLIND_SELECT);
+    selection_x = 0;
+    selection_y = 0;
 
     play_sfx(SFX_POP, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
@@ -4359,6 +4544,101 @@ static void game_blind_select_on_update(GameVariables* vars)
 
     int substate = state_info[game_state].substate;
     blind_select_state_actions[substate]();
+}
+
+static inline void game_blind_select_erase_blind_reqs_and_rewards()
+{
+    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    {
+        Rect blind_req_and_reward_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
+
+        // To account for both raised blind and reward
+        blind_req_and_reward_rect.top -= TILE_SIZE;
+        blind_req_and_reward_rect.bottom += TILE_SIZE;
+
+        // To account for overflow
+        blind_req_and_reward_rect.right += TILE_SIZE;
+
+        blind_req_and_reward_rect.left +=
+            curr_blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
+        blind_req_and_reward_rect.right +=
+            curr_blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
+
+        tte_erase_rect_wrapper(blind_req_and_reward_rect);
+    }
+}
+
+static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
+{
+    Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
+
+    blind_req_score_rect.left += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
+    blind_req_score_rect.right += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
+
+    if (blinds_states[blind] == BLIND_STATE_CURRENT)
+    {
+        // Current blind is raised
+        blind_req_score_rect.top -= TILE_SIZE;
+        blind_req_score_rect.bottom -= TILE_SIZE;
+    }
+
+    return blind_req_score_rect;
+}
+
+static inline void game_blind_select_print_blind_req(enum BlindType blind)
+{
+    Rect blind_req_score_rect = game_blind_select_get_req_score_rect(blind);
+
+    u32 blind_req = blind_get_requirement(blind, ante);
+
+    char blind_req_str_buff[UINT_MAX_DIGITS + 1];
+    truncate_uint_to_suffixed_str(
+        blind_req,
+        rect_width(&blind_req_score_rect) / TTE_CHAR_SIZE,
+        blind_req_str_buff
+    );
+
+    update_text_rect_to_right_align_str(&blind_req_score_rect, blind_req_str_buff, OVERFLOW_RIGHT);
+
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        blind_req_score_rect.left,
+        blind_req_score_rect.top,
+        TTE_RED_PB,
+        blind_req_str_buff
+    );
+}
+
+static inline void game_blind_select_print_blind_reward(enum BlindType blind)
+{
+    int blind_reward = blind_get_reward(blind);
+    Rect blind_reward_rect = game_blind_select_get_req_score_rect(blind);
+
+    // The reward is right below the score.
+    blind_reward_rect.top += TILE_SIZE;
+    blind_reward_rect.bottom += TILE_SIZE;
+
+    char blind_reward_str_buff[UINT_MAX_DIGITS + 2]; // +2 for null terminator and "$"
+    snprintf(blind_reward_str_buff, sizeof(blind_reward_str_buff), "$%d", blind_reward);
+
+    update_text_rect_to_right_align_str(&blind_reward_rect, blind_reward_str_buff, OVERFLOW_RIGHT);
+
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        blind_reward_rect.left,
+        blind_reward_rect.top,
+        TTE_YELLOW_PB,
+        blind_reward_str_buff
+    );
+}
+
+static void game_blind_select_print_blinds_reqs_and_rewards(void)
+{
+    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    {
+        game_blind_select_print_blind_req(curr_blind);
+        game_blind_select_print_blind_reward(curr_blind);
+    }
 }
 
 static void game_blind_select_start_anim_seq()
@@ -4376,6 +4656,7 @@ static void game_blind_select_start_anim_seq()
 
     if (timer == TM_END_ANIM_SEQ)
     {
+        game_blind_select_print_blinds_reqs_and_rewards();
         state_info[game_state].substate = BLIND_SELECT;
         timer = TM_ZERO; // Reset the timer
     }
@@ -4399,17 +4680,22 @@ static void game_blind_select_handle_input()
     }
     else if (key_hit(SELECT_CARD))
     {
+        game_blind_select_erase_blind_reqs_and_rewards();
+
         if (selection_y == 0) // Blind selected
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             state_info[game_state].substate = BLIND_SELECTED_ANIM_SEQ;
             timer = TM_ZERO;
-            display_round(++round);
+            ++round;
+            display_round();
         }
         else if (current_blind != BLIND_TYPE_BOSS)
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             increment_blind(BLIND_STATE_SKIPPED);
+
+            selection_y = 0; // Reset selection to first option
 
             background = UNDEFINED; // Force refresh of the background
             change_background(BG_BLIND_SELECT);
@@ -4429,13 +4715,14 @@ static void game_blind_select_handle_input()
                 );
             }
 
+            game_blind_select_print_blinds_reqs_and_rewards();
+
             timer = TM_ZERO;
         }
     }
 
     if (selection_y == 0)
     {
-        // 5 is the multiplier palette color and the skip button color
         memset16(&pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID], 0xFFFF, 1);
         memcpy16(
             &pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID],
@@ -4445,7 +4732,6 @@ static void game_blind_select_handle_input()
     }
     else
     {
-        // 15 is the select button color
         memcpy16(
             &pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID],
             &pal_bg_mem[BLIND_SELECT_BTN_PID],
@@ -4499,16 +4785,8 @@ static void game_blind_select_display_blind_panel()
 
         main_bg_se_clear_rect(ROUND_END_MENU_RECT);
 
-        for (int y = 0; y < 5; y++)
-        {
-            int y_from = 28;
-            int y_to = 0 + y;
-
-            Rect from = {0, y_from, 8, y_from + 1};
-            BG_POINT to = {0, y_to};
-
-            main_bg_se_copy_rect(from, to);
-        }
+        // Need to clear the top left panel as a side effect of change_background()
+        main_bg_se_copy_expand_3w_row(TOP_LEFT_PANEL_ANIM_RECT, TOP_LEFT_PANEL_EMPTY_3W_ROW_POS);
 
         reset_top_left_panel_bottom_row();
     }
@@ -4561,6 +4839,7 @@ static inline void game_start(void)
     change_background(BG_BLIND_SELECT);
 
     // Deck size/max size
+    tte_erase_rect_wrapper(DECK_SIZE_RECT);
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%d/%d",
         DECK_SIZE_RECT.left,
@@ -4570,7 +4849,7 @@ static inline void game_start(void)
         deck_get_max_size()
     );
 
-    display_round(round); // Set the round display
+    display_round();      // Set the round display
     display_score(score); // Set the score display
 
     display_chips(); // Set the chips display
@@ -4627,7 +4906,7 @@ static void game_main_menu_on_update(GameVariables* vars)
 
     if (selection_x == MAIN_MENU_PLAY_BTN_IDX)
     {
-        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], HIGHLIGHT_COLOR, 1);
+        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], BTN_HIGHLIGHT_COLOR, 1);
 
         if (key_hit(SELECT_CARD))
         {
@@ -4683,11 +4962,10 @@ static void game_lose_on_update(GameVariables* vars)
 // util we decide what we want to do after a game over.
 static void game_over_on_exit(GameVariables* vars)
 {
-    ListItr itr = list_itr_create(&_owned_jokers_list);
-    JokerObject* joker_object;
-
-    while ((joker_object = list_itr_next(&itr)))
+    while (list_get_len(&_owned_jokers_list) > 0)
     {
+        JokerObject* joker_object = list_get_at_idx(&_owned_jokers_list, 0);
+        remove_owned_joker(0);
         joker_object_destroy(&joker_object);
     }
 
@@ -4709,7 +4987,7 @@ static void game_over_on_exit(GameVariables* vars)
 
     game_init();
 
-    display_round(round);
+    display_round();
     display_score(score);
     display_chips();
     display_mult();

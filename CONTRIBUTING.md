@@ -2,6 +2,17 @@
 
 Thank you for reading this. Below is a quick summary of expectations and tips to contribute.
 
+## Scope
+We are limiting the scope of the project in order to not compete with the original Balatro and avoid a takedown by Playstack.
+We limited the scope to 52 jokers and reached that limit so currently there is no plan to add more jokers.
+See [the scope discussion](https://github.com/GBALATRO/balatro-gba/discussions/355).
+
+## Art
+Before contributing art or if you need art for a code contribution check the [existing additional art thread](https://github.com/GBALATRO/balatro-gba/discussions/131) and the [joker art discussion](https://github.com/GBALATRO/balatro-gba/discussions/69) (though as said no more jokers are currently planned).
+
+Note that there are color limitations for sprites and backgrounds resulting due to the GBA hardware. Sprites may not use more than 16 colors per sprite including transparency.
+Backgrounds may use more colors but notice that their palette is encoded in their PNGs and new colors need to be added manually to the palette. [See relevant PR](https://github.com/GBALATRO/balatro-gba/pull/350).
+
 ## CI Checks
 On pull-requests, various checks will be performed:
 1. **Formatting**: `clang-format` will be ran on every `.c/.h` file with [this configuration](https://github.com/GBALATRO/balatro-gba/blob/main/.clang-format). Failures will cause the CI to fail.

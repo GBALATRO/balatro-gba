@@ -3,7 +3,7 @@
 #include "card.h"
 #include "game.h"
 
-void get_hand_distribution(u8* ranks_out, u8* suits_out)
+void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 {
     for (int i = 0; i < NUM_RANKS; i++)
         ranks_out[i] = 0;
@@ -22,7 +22,7 @@ void get_hand_distribution(u8* ranks_out, u8* suits_out)
     }
 }
 
-void get_played_distribution(u8* ranks_out, u8* suits_out)
+void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 {
     for (int i = 0; i < NUM_RANKS; i++)
         ranks_out[i] = 0;
@@ -33,6 +33,10 @@ void get_played_distribution(u8* ranks_out, u8* suits_out)
     int top = get_played_top();
     for (int i = 0; i <= top; i++)
     {
+        /* The difference from get_hand_distribution() (not checking if card is selected)
+         * is in line Balatro behavior,
+         * see https://github.com/GBALATRO/balatro-gba/issues/341#issuecomment-3691363488
+         */
         if (!played[i])
             continue;
         ranks_out[played[i]->card->rank]++;
