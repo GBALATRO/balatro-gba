@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "game_variables.h"
+
 #include <tonc.h>
 
 #define MAX_HAND_SIZE        16
@@ -29,10 +31,6 @@ typedef struct List List;
 typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
-
-typedef struct
-{
-} GameVariables;
 
 enum BackgroundId
 {
@@ -99,12 +97,14 @@ enum HandType
     FLUSH_FIVE
 };
 
+typedef void (*GameStateCallback)(GameVariables* gs);
+
 typedef struct
 {
     int substate;
-    void (*on_init)(GameVariables* vars);
-    void (*on_update)(GameVariables* vars);
-    void (*on_exit)(GameVariables* vars);
+    GameStateCallback on_init;
+    GameStateCallback on_update;
+    GameStateCallback on_exit;
 } StateInfo;
 
 // Game functions
