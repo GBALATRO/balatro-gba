@@ -113,8 +113,8 @@ const JokerInfo joker_registry[] =
     { UNCOMMON_JOKER,  6, acrobat_joker_effect              }, // 6
     { UNCOMMON_JOKER,  8, fibonnaci_joker_effect            }, // 7
     { COMMON_JOKER,    4, scholar_joker_effect              }, // 8
-    { COMMON_JOKER,    4, droll_joker_effect                }, // 9
-    { COMMON_JOKER,    4, crafty_joker_effect               }, // 10
+    { COMMON_JOKER,    4, crafty_joker_effect               }, // 9
+    { COMMON_JOKER,    4, droll_joker_effect                }, // 10
     { COMMON_JOKER,    5, raised_fist_joker_effect          }, // 11
     { COMMON_JOKER,    6, reserved_parking_joker_effect     }, // 12
     { COMMON_JOKER,    4, business_card_joker_effect        }, // 13
