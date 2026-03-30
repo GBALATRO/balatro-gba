@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "game/common_ui.h"
+
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "audio_utils.h"
@@ -235,7 +237,6 @@ static void game_round_end_display_cashout(void);
 static void game_round_end_dismiss_round_end_panel(void);
 
 static void sort_cards(void);
-static void change_background(enum BackgroundId id);
 static void display_temp_score(u32 value);
 static void display_score(u32 value);
 static void check_flaming_score(void);
@@ -1424,7 +1425,7 @@ static inline void reset_top_left_panel_bottom_row()
     main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }
 
-static void change_background(enum BackgroundId id)
+void change_background_legacy(enum BackgroundId id)
 {
     if (background == id)
     {

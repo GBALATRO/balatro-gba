@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "game_variables.h"
+#include "common_ui.h"
 
 #include <tonc.h>
 
@@ -37,17 +38,6 @@ typedef struct List List;
 typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
-
-enum BackgroundId
-{
-    BG_NONE,
-    BG_CARD_SELECTING,
-    BG_CARD_PLAYING,
-    BG_ROUND_END,
-    BG_SHOP,
-    BG_BLIND_SELECT,
-    BG_MAIN_MENU
-};
 
 // Enum value names in ../include/def_state_info_table.h
 enum GameState
@@ -181,5 +171,10 @@ void set_game_speed(int new_game_speed);
 // joker specific functions
 bool is_shortcut_joker_active(void);
 int get_straight_and_flush_size(void);
+
+// Temporary change for Refactor. Currently this compatibility binder is to allow
+// simultaneous integration of the new system in `common_ui` with the the existing
+// old system incrementally and without losing functionality.
+void change_background_legacy(enum BackgroundId id);
 
 #endif // GAME_H
