@@ -9,31 +9,31 @@ Copyright (c) 2021 - 2025 jothepro
 */
 html {
     /* primary theme color. This will affect the entire websites color scheme: links, arrows, labels, ... */
-    --primary-color: #1779c4;
-    --primary-dark-color: #335c80;
-    --primary-light-color: #70b1e9;
+    --primary-color: #AF7FE4;
+    --primary-dark-color: #9270E4;
+    --primary-light-color: #d2b7ef;
     --on-primary-color: #ffffff;
 
     --link-color: var(--primary-color);
 
     /* page base colors */
     --page-background-color: #ffffff;
-    --page-foreground-color: #2f4153;
-    --page-secondary-foreground-color: #6f7e8e;
+    --page-foreground-color: #2c3e50;
+    --page-secondary-foreground-color: #67727e;
 
     /* color for all separators on the website: hr, borders, ... */
     --separator-color: #dedede;
 
     /* border radius for all rounded components. Will affect many components, like dropdowns, memitems, codeblocks, ... */
-    --border-radius-large: 10px;
-    --border-radius-small: 5px;
-    --border-radius-medium: 8px;
+    --border-radius-large: 22px;
+    --border-radius-small: 9px;
+    --border-radius-medium: 14px;
 
     /* default spacings. Most components reference these values for spacing, to provide uniform spacing on the page. */
-    --spacing-small: 5px;
-    --spacing-medium: 10px;
-    --spacing-large: 16px;
-    --spacing-xlarge: 20px;
+    --spacing-small: 9px;
+    --spacing-medium: 14px;
+    --spacing-large: 19px;
+    --spacing-xlarge: 21px;
 
     /* default box shadow used for raising an element above the normal content. Used in dropdowns, search result, ... */
     --box-shadow: 0 2px 8px 0 rgba(0,0,0,.075);
@@ -236,9 +236,9 @@ html {
 html.dark-mode {
     color-scheme: dark;
 
-    --primary-color: #1982d2;
-    --primary-dark-color: #86a9c4;
-    --primary-light-color: #4779ac;
+    --primary-color: #AF7FE4;
+    --primary-dark-color: #715292;
+    --primary-light-color: #ae97c7;
 
     --box-shadow: 0 2px 8px 0 rgba(0,0,0,.30);
 
@@ -249,8 +249,9 @@ html.dark-mode {
     --page-background-color: #1C1D1F;
     --page-foreground-color: #d2dbde;
     --page-secondary-foreground-color: #859399;
-    --separator-color: #38393b;
-    --side-nav-background: #252628;
+    --separator-color: #3a3246;
+    --side-nav-background: #171D32;
+    --side-nav-foreground: #F1FDFF;
 
     --code-background: #2a2c2f;
     --section-code-background: rgba(255, 255, 255, 0.08);
