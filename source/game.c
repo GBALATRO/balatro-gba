@@ -1,7 +1,5 @@
 #include "game.h"
 
-#include "game/common_ui.h"
-
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "audio_utils.h"
@@ -13,6 +11,7 @@
 #include "blind.h"
 #include "button.h"
 #include "card.h"
+#include "game/common_ui.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
