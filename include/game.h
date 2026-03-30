@@ -3,6 +3,7 @@
 
 #include "game/common_ui.h"
 #include "game_variables.h"
+#include "common_ui.h"
 
 #include <tonc.h>
 
