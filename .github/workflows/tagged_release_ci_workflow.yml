@@ -18,7 +18,7 @@ jobs:
     needs: build-job
     steps:
       - name: Download the build output
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: build-out
           path: build

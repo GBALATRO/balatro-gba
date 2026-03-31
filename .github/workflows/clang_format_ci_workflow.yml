@@ -14,7 +14,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang-format
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Run clang-format
         run: clang-format --dry-run -Werror include/*.h source/*.c

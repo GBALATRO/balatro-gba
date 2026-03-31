@@ -12,7 +12,7 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Check and install GCC version
         run: ./ci_scripts/check_gcc_version.sh

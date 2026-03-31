@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download the build output
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: build-out
           path: build

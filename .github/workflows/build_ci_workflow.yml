@@ -34,10 +34,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get docker image cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: /tmp/docker-cache
           key: docker-images-${{ hashFiles('docker-compose.yml') }}
@@ -71,7 +71,7 @@ jobs:
 
       - name: 'Upload Artifact'
         if: ${{ inputs.upload-build-artifact }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: build-out
           path: build
