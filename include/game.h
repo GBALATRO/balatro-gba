@@ -1,8 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game_variables.h"
 #include "game/common_ui.h"
+#include "game_variables.h"
 
 #include <tonc.h>
 
