@@ -3,8 +3,8 @@
  *
  * @brief Common functions to render UI elements.
  */
-#ifndef COMMON_UI_H_
-#define COMMON_UI_H_
+#ifndef COMMON_UI_H
+#define COMMON_UI_H
 
 /**
  * @brief Enum of possible backgrounds to render with @ref change_background
@@ -27,4 +27,4 @@ enum BackgroundId
  */
 void change_background(enum BackgroundId id);
 
-#endif // COMMON_UI_H_
+#endif // COMMON_UI_H
