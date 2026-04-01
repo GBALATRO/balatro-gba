@@ -6,8 +6,6 @@
 #ifndef COMMON_UI_H_
 #define COMMON_UI_H_
 
-#include <tonc.h>
-
 /**
  * @brief Enum of possible backgrounds to render with @ref change_background
  */
