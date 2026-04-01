@@ -1,7 +1,6 @@
-#include "game.h"
 #include "game/common_ui.h"
 
-#include <tonc.h>
+#include "game.h"
 
 typedef void (*BackgroundRenderCallback)(void);
 
