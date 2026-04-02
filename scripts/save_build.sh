@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-make || exit 1
+set -e
+
+make
 timestamp=$(date +%Y%m%d_%H%M%S)
 arg=${1:-"build"}
 dir="saved_builds/${arg}_${timestamp}"
