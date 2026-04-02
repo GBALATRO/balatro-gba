@@ -30,5 +30,5 @@ else
     echo "Build files saved to $dir"
 fi
 
-
+exit $failed
 
