@@ -15,20 +15,20 @@ dir="saved_builds/${arg}_${timestamp}"
 mkdir -p "$dir"
 
 failed=0
-  for fe in elf gba map; do
-      if [ -f build/"$GAME_NAME".$fe ]; then
-          cp build/"$GAME_NAME".$fe "$dir/"
-      else
-          echo "Warning: build/$GAME_NAME.$fe not found"
-          failed=1
-      fi
-  done
+for fe in elf gba map; do
+    if [ -f build/"$GAME_NAME".$fe ]; then
+        cp build/"$GAME_NAME".$fe "$dir/"
+    else
+        echo "Warning: build/$GAME_NAME.$fe not found"
+        failed=1
+    fi
+done
 
-  if [ $failed -eq 1 ]; then
-      echo "Some files are missing, partially saved to $dir"
-  else
-      echo "Build files saved to $dir"
-  fi
+if [ $failed -eq 1 ]; then
+    echo "Some files are missing, partially saved to $dir"
+else
+    echo "Build files saved to $dir"
+fi
 
 
 
