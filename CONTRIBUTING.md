@@ -24,10 +24,12 @@ Besides the automatic formatting checks from `clang-format`, there is a looser s
 The following details the code style rules including the enforced clang-format style.
 [Link in wiki](https://github.com/GBALATRO/balatro-gba/wiki/Code-Style-Guide)
 
-## Building Documentation 
-Doxygen is used to build documentation that can be opened in browser.
+## Documentation 
+Doxygen is used to build docs that can be opened in browser. 
 
-[Link in wiki](https://github.com/GBALATRO/balatro-gba/wiki/Documentation-for-Developers)
+We host the docs for the main branch on github here: https://gbalatro.github.io/balatro-gba/index.html
+
+You can also choose to build the docs yourself [Link in wiki](https://github.com/GBALATRO/balatro-gba/wiki/Documentation-for-Developers)
 
 ## Tools
 
