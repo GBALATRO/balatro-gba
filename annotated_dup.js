@@ -1,0 +1,26 @@
+var annotated_dup =
+[
+    [ "Bitset", "structBitset.html", "structBitset" ],
+    [ "BitsetItr", "structBitsetItr.html", "structBitsetItr" ],
+    [ "Blind", "structBlind.html", null ],
+    [ "BlindGfxInfo", "structBlindGfxInfo.html", null ],
+    [ "Button", "structButton.html", "structButton" ],
+    [ "Card", "structCard.html", null ],
+    [ "CardObject", "structCardObject.html", null ],
+    [ "ContainedHandTypes", "structContainedHandTypes.html", null ],
+    [ "GameVariables", "structGameVariables.html", null ],
+    [ "HandValues", "structHandValues.html", null ],
+    [ "Joker", "structJoker.html", null ],
+    [ "JokerEffect", "structJokerEffect.html", null ],
+    [ "JokerInfo", "structJokerInfo.html", null ],
+    [ "JokerObject", "structJokerObject.html", null ],
+    [ "List", "structList.html", "structList" ],
+    [ "ListItr", "structListItr.html", "structListItr" ],
+    [ "ListNode", "structListNode.html", "structListNode" ],
+    [ "SelectionGrid", "structSelectionGrid.html", null ],
+    [ "SelectionGridRow", "structSelectionGridRow.html", null ],
+    [ "SelGridRowAttributes", "structSelGridRowAttributes.html", "structSelGridRowAttributes" ],
+    [ "Sprite", "structSprite.html", "structSprite" ],
+    [ "SpriteObject", "structSpriteObject.html", "structSpriteObject" ],
+    [ "StateInfo", "structStateInfo.html", null ]
+];

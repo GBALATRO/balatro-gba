@@ -1,0 +1,27 @@
+var sprite_8h =
+[
+    [ "Sprite", "structSprite.html", "structSprite" ],
+    [ "SpriteObject", "structSpriteObject.html", "structSpriteObject" ],
+    [ "sprite_destroy", "sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47", null ],
+    [ "sprite_draw", "sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8", null ],
+    [ "sprite_get_dimensions", "sprite_8h.html#a892674d2db5b33bb55aacffa2686632a", null ],
+    [ "sprite_get_height", "sprite_8h.html#aa9d27d44b0c3310d61bebbc88b443b4c", null ],
+    [ "sprite_get_layer", "sprite_8h.html#aa017c4226720c0aa8f4ab530a6e2f715", null ],
+    [ "sprite_get_pb", "sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d", null ],
+    [ "sprite_get_width", "sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d", null ],
+    [ "sprite_init", "sprite_8h.html#a564c9484883d28c4904b382c2eec5db9", null ],
+    [ "sprite_new", "sprite_8h.html#a5fbaf037f18d04536127b88417481eb8", null ],
+    [ "sprite_object_destroy", "sprite_8h.html#a8d34edee191f8be820d00fbb35a93c7b", null ],
+    [ "sprite_object_get_dimensions", "sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a", null ],
+    [ "sprite_object_get_height", "sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7", null ],
+    [ "sprite_object_get_sprite", "sprite_8h.html#abe95d2088cb9739deb50864189556121", null ],
+    [ "sprite_object_get_width", "sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999", null ],
+    [ "sprite_object_is_focused", "sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b", null ],
+    [ "sprite_object_new", "sprite_8h.html#a53389557010d53538f0b510ae675b003", null ],
+    [ "sprite_object_reset_transform", "sprite_8h.html#a673f791a81943a40619c246e8eed8f0f", null ],
+    [ "sprite_object_set_focus", "sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb", null ],
+    [ "sprite_object_set_sprite", "sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf", null ],
+    [ "sprite_object_shake", "sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6", null ],
+    [ "sprite_object_update", "sprite_8h.html#ad946e128b4c446118eeb14ee61a57c8f", null ],
+    [ "sprite_position", "sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e", null ]
+];

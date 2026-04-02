@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['t_20compile_20strong_0',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['t_20find_20the_20compiled_20rom_20strong_1',['2. &lt;strong&gt;I can&apos;t find the compiled rom!&lt;/strong&gt;',['../md_README.html#autotoc_md35',1,'']]],
+  ['t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_20strong_2',['4. &lt;strong&gt;It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!&lt;/strong&gt;',['../md_README.html#autotoc_md37',1,'']]],
+  ['t_20start_20strong_3',['3. &lt;strong&gt;The Game won&apos;t start!&lt;/strong&gt;',['../md_README.html#autotoc_md36',1,'']]],
+  ['tail_4',['tail',['../structList.html#abceaaefbca0a54331abe45fd7df77263',1,'List']]],
+  ['the_20compiled_20rom_20strong_5',['2. &lt;strong&gt;I can&apos;t find the compiled rom!&lt;/strong&gt;',['../md_README.html#autotoc_md35',1,'']]],
+  ['the_20game_20won_20t_20start_20strong_6',['3. &lt;strong&gt;The Game won&apos;t start!&lt;/strong&gt;',['../md_README.html#autotoc_md36',1,'']]],
+  ['the_20hand_20row_20during_20round_7',['When on the hand row during round',['../md_README.html#autotoc_md20',1,'']]],
+  ['the_20joker_20row_20in_20the_20shop_20or_20during_20round_8',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md21',1,'']]],
+  ['the_20official_20full_20version_20from_20these_20sources_20below_3a_9',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md16',1,'']]],
+  ['these_20sources_20below_3a_10',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md16',1,'']]],
+  ['tile_5fmem_5fobj_5fcharblock0_5fidx_11',['TILE_MEM_OBJ_CHARBLOCK0_IDX',['../graphic__utils_8h.html#a7e54edda39e2d955059c92e8c2ad1874',1,'graphic_utils.h']]],
+  ['tile_5fsize_12',['TILE_SIZE',['../graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7',1,'graphic_utils.h']]],
+  ['toggle_5fwindows_13',['toggle_windows',['../graphic__utils_8h.html#a3da2c63a9da5eae09966791ec4d783f7',1,'graphic_utils.c']]],
+  ['tools_14',['Tools',['../index.html#autotoc_md6',1,'']]],
+  ['trotation_15',['trotation',['../structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039',1,'SpriteObject']]],
+  ['truncate_5fuint_5fto_5fsuffixed_5fstr_16',['truncate_uint_to_suffixed_str',['../util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a',1,'util.c']]],
+  ['tscale_17',['tscale',['../structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253',1,'SpriteObject']]],
+  ['tt_20git_20tt_18',['Without &lt;tt&gt;Git&lt;/tt&gt;',['../md_README.html#autotoc_md30',1,'']]],
+  ['tt_20git_20tt_20not_20required_19',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../md_README.html#autotoc_md29',1,'']]],
+  ['tt_20git_20tt_20or_20tt_20make_20tt_20installed_20strong_20',['4. &lt;strong&gt;It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!&lt;/strong&gt;',['../md_README.html#autotoc_md37',1,'']]],
+  ['tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_20strong_21',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['tte_5fchar_5fsize_22',['TTE_CHAR_SIZE',['../graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6',1,'graphic_utils.h']]],
+  ['tte_5ferase_5frect_5fwrapper_23',['tte_erase_rect_wrapper',['../graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7',1,'graphic_utils.c']]],
+  ['tx_24',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]]
+];
