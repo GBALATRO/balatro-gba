@@ -95,6 +95,7 @@ In the repo we use custom scripts located in the [`scripts`](https://github.com/
 - **get_hash.py**: Get git hash from ROM.
 - **generate_font.py**: Generate a font manually.
 - **get_memory_map.sh**: Print the memory map of the pre-allocated pools.
+- **save_build.sh**: Save a timestamped copy of build outputs (.elf, .gba, .map).
 
 ## Debugging
 It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).
