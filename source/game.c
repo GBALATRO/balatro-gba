@@ -4321,7 +4321,7 @@ static bool shop_reroll_row_on_selection_changed(
         // Remove highlight
         memcpy16(&pal_bg_mem[REROLL_BTN_SELECTED_BORDER_PID], &pal_bg_mem[REROLL_BTN_PID], 1);
 
-        if (new_selection->y != NEXT_ROUND_BTN_SEL_X)
+        if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             // If the previous selection is the reroll button but the new selection is not the next
             // round button, then we landed on a joker, so we need to set the focus on it.
