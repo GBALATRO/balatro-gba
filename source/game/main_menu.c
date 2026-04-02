@@ -7,30 +7,21 @@
 #include "card.h"
 #include "game.h"
 #include "game/common_ui.h"
-//#include "game/palette.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
 #include "sprite.h"
-#include "util.h"
 
 #include <stdint.h>
 #include <tonc.h>
 #include <tonc_math.h>
 #include <tonc_memdef.h>
 
-#define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    2
-#define MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID 5
+static const u32 PLAY_BUTTON_OUTLINE_PID = 2;
+static const u32 PLAY_BUTTON_MAIN_COLOR_PID = 5;
 
-#define MAIN_MENU_BUTTONS             2
-#define MAIN_MENU_IMPLEMENTED_BUTTONS 1 // Remove this once all buttons are implemented
-#define MAIN_MENU_PLAY_BTN_IDX        0
-
-#define HIGHLIGHT_COLOR 0xFFFF
-
-#define BUTTON_SFX_VOLUME 154 // 60% of MM_FULL_VOLUME
-
-#define MENU_POP_OUT_ANIM_FRAMES 20
+static const u32 IMPLEMENTED_BUTTONS = 1; // Remove this once all buttons are implemented
+static const u32 PLAY_BTN_IDX = 0;
 
 // Pixel sizes
 #define MAIN_MENU_ACE_T_X 88
@@ -52,22 +43,17 @@ void game_main_menu_change_background(void)
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_main_menu_gfxMap);
 
     // Disable the button highlight colors
-    memcpy16(
-        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
-        &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
-        1
-    );
+    memcpy16(&pal_bg_mem[PLAY_BUTTON_OUTLINE_PID], &pal_bg_mem[PLAY_BUTTON_MAIN_COLOR_PID], 1);
 }
 
 void game_main_menu_on_init(GameVariables* vars)
 {
-    (void) vars;
+    (void)vars;
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU);
     main_menu_ace = card_object_new(card_new(SPADES, ACE));
-    card_object_set_sprite(main_menu_ace, 0); // Set the sprite for the ace of spades
-    main_menu_ace->sprite_object->sprite->obj->attr0 |=
-        ATTR0_AFF_DBL; // Make the sprite double sized
+    card_object_set_sprite(main_menu_ace, 0);
+    main_menu_ace->sprite_object->sprite->obj->attr0 |= ATTR0_AFF_DBL;
     main_menu_ace->sprite_object->tx = int2fx(MAIN_MENU_ACE_T_X);
     main_menu_ace->sprite_object->x = main_menu_ace->sprite_object->tx;
     main_menu_ace->sprite_object->ty = int2fx(MAIN_MENU_ACE_T_Y);
@@ -103,15 +89,15 @@ void game_main_menu_on_update(GameVariables* vars)
     }
     else if (key_hit(KEY_RIGHT))
     {
-        if (selection_x < MAIN_MENU_IMPLEMENTED_BUTTONS - 1)
+        if (selection_x < IMPLEMENTED_BUTTONS - 1)
         {
             selection_x++;
         }
     }
 
-    if (selection_x == MAIN_MENU_PLAY_BTN_IDX)
+    if (selection_x == PLAY_BTN_IDX)
     {
-        memset16(&pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID], BTN_HIGHLIGHT_COLOR, 1);
+        memset16(&pal_bg_mem[PLAY_BUTTON_OUTLINE_PID], BTN_HIGHLIGHT_COLOR, 1);
 
         if (key_hit(SELECT_CARD))
         {
@@ -121,11 +107,7 @@ void game_main_menu_on_update(GameVariables* vars)
     }
     else
     {
-        memcpy16(
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_OUTLINE_PID],
-            &pal_bg_mem[MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID],
-            1
-        );
+        memcpy16(&pal_bg_mem[PLAY_BUTTON_OUTLINE_PID], &pal_bg_mem[PLAY_BUTTON_MAIN_COLOR_PID], 1);
     }
 }
 

@@ -39,10 +39,6 @@
 // SE sizes
 #define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
 
-#define MAIN_MENU_BUTTONS             2
-#define MAIN_MENU_IMPLEMENTED_BUTTONS 1 // Remove this once all buttons are implemented
-#define MAIN_MENU_PLAY_BTN_IDX        0
-
 // TODO: Properly define and use
 #define MENU_POP_OUT_ANIM_FRAMES 20
 #define GAME_OVER_ANIM_FRAMES    15
@@ -91,10 +87,8 @@
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
 #define BOSS_BLIND_PRIMARY_PID               1
-#define MAIN_MENU_PLAY_BUTTON_OUTLINE_PID    2
 #define REROLL_BTN_PID                       3
 #define BLIND_SKIP_BTN_PID                   5
-#define MAIN_MENU_PLAY_BUTTON_MAIN_COLOR_PID 5
 #define NEXT_ROUND_BTN_SELECTED_BORDER_PID   5
 #define BLIND_BG_SHADOW_PID                  5
 #define SHOP_PANEL_SHADOW_PID                6
