@@ -82,6 +82,16 @@ typedef struct
      * @brief Whether to wrap selection when it passes the end of the row.
      */
     bool wrap;
+
+    // Does this row have an exit index
+    // (which is another index in the grid to jump to
+    // when a horizontal input is received)
+    bool has_exit_idx;
+
+    // The index to jump in grid (Now, I only did it quickly for the horizontal case as
+    // that's what was needed, but it can be extended for vertical indexes and act like a subgrid
+    // without huge refactoring)
+    u8 exit_idx;
 } SelGridRowAttributes;
 
 /**

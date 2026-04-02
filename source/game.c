@@ -488,9 +488,17 @@ Button game_playing_buttons[] = {
 };
 
 SelectionGridRow shop_selection_rows[] = {
-    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit,  {.wrap = false}},
-    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit,    {.wrap = false}},
-    {2, shop_reroll_row_get_size, shop_reroll_row_on_selection_changed, shop_reroll_row_on_key_transit, {.wrap = false}}
+    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed, jokers_sel_row_on_key_transit,  {.wrap = false}},
+    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,   shop_top_row_on_key_transit,    {.wrap = false}},
+
+    // Here, we set the reroll button's exit index to 1, which is the shop top row. So when a
+    // horizontal input is received on the reroll button row, calculations will be made from shop
+    // top row.
+    {
+     2, shop_reroll_row_get_size,
+     shop_reroll_row_on_selection_changed,                             shop_reroll_row_on_key_transit,
+     {.wrap = false, .has_exit_idx = true, .exit_idx = 1}
+    },
 };
 
 static const Selection SHOP_INIT_SEL = {-1, 1};
@@ -3773,8 +3781,10 @@ static inline void game_round_end_print_interest_reward(int interest_y_offset)
         );
     }
     // Increment the interest reward text until the interest reward variable is depleted
-    else if (timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
-             timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+    else if (
+        timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
+        timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0
+    )
     {
         interest_to_count--;
         tte_printf(
@@ -3824,8 +3834,9 @@ static void game_round_end_display_rewards()
     {
         game_round_end_print_hand_reward(hand_y_offset);
     }
-    else if (interest_start_time != UNDEFINED && timer >= interest_start_time &&
-             interest_to_count > 0)
+    else if (
+        interest_start_time != UNDEFINED && timer >= interest_start_time && interest_to_count > 0
+    )
     {
         game_round_end_print_interest_reward(interest_y_offset);
     }
@@ -4312,6 +4323,15 @@ static bool shop_reroll_row_on_selection_changed(
     {
         // Remove highlight
         memcpy16(&pal_bg_mem[REROLL_BTN_SELECTED_BORDER_PID], &pal_bg_mem[REROLL_BTN_PID], 1);
+
+        if (new_selection->y != NEXT_ROUND_BTN_SEL_X)
+        {
+            // If the previous selection is the reroll button but the new selection is not the next
+            // round button, then we landed on a joker, so we need to set the focus on it.
+            int idx = new_selection->x - 1;
+            JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, idx);
+            sprite_object_set_focus(joker_object->sprite_object, true);
+        }
     }
     else if (row_idx == new_selection->y)
     {
