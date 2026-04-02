@@ -25,9 +25,9 @@ The following details the code style rules including the enforced clang-format s
 [Link in wiki](https://github.com/GBALATRO/balatro-gba/wiki/Code-Style-Guide)
 
 ## Documentation 
-Doxygen is used to build docs that can be opened in browser. 
+Doxygen is used to build docs that can be opened in browser.
 
-We host the docs for the main branch on github here: https://gbalatro.github.io/balatro-gba/index.html
+We host the docs for the main branch on github [here](https://gbalatro.github.io/balatro-gba)
 
 You can also choose to build the docs yourself [Link in wiki](https://github.com/GBALATRO/balatro-gba/wiki/Documentation-for-Developers)
 
