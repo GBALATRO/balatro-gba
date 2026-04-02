@@ -9,6 +9,7 @@
 #include "background_shop_gfx.h"
 #include "bitset.h"
 #include "blind.h"
+#include "boss_blind_effects.h"
 #include "button.h"
 #include "card.h"
 #include "game/common_ui.h"
@@ -1974,6 +1975,18 @@ static void game_round_on_init(GameVariables* vars)
 
     deck_shuffle(); // Shuffle the deck at the start of the round
 
+    // Apply boss blind round-start modifications (hand / discard counts).
+    // These run after game_round_end_cashout() has already reset hands and
+    // discards to their maximums, so overwriting them here is intentional.
+    if (current_blind == BLIND_TYPE_BOSS)
+    {
+        enum BossBlindId boss_id = boss_blind_get_for_ante(ante);
+        boss_blind_reset();
+        boss_blind_apply_round_start(boss_id, &hands, &discards, &hand_size);
+        display_hands(hands);
+        display_discards(discards);
+    }
+
     /* Note that since cards_in_hand_update_loop() handles card highlight there's no need
      * to call a selection changed callback to highlight the initial card, this wouldn't work
      * otherwise or for the buttons.
@@ -2291,6 +2304,12 @@ static bool can_play_hand(void)
 {
     if (hand_state != HAND_SELECT || hand_selections == 0)
         return false;
+
+    // Boss blind play restrictions (The Psychic: exactly 5 cards; The Eye: no repeated hand types)
+    if (current_blind == BLIND_TYPE_BOSS &&
+        !boss_blind_validate_play(boss_blind_get_for_ante(ante), hand_selections, (int)hand_type))
+        return false;
+
     return true;
 }
 
@@ -2720,6 +2739,50 @@ static bool play_ended_played_cards_update(int played_idx)
             // we reached hand_top, all cards have been discarded
             if (played_idx == played_top)
             {
+                // ── Boss blind post-hand effects ──────────────────────────
+                // These run before played_top is reset so we still know the
+                // number of cards that were played this hand.
+                if (current_blind == BLIND_TYPE_BOSS)
+                {
+                    enum BossBlindId boss_id  = boss_blind_get_for_ante(ante);
+                    int              n_played = played_top + 1;
+
+                    // The Eye: record the hand type so it cannot be played again.
+                    boss_blind_register_hand(boss_id, (int)hand_type);
+
+                    // The Tooth: lose $1 per card played.
+                    int penalty = boss_blind_get_tooth_penalty(boss_id, n_played);
+                    if (penalty > 0)
+                    {
+                        money = (money > penalty) ? money - penalty : 0;
+                        display_money();
+                    }
+
+                    // The Ox: playing any hand drains money to $0.
+                    if (boss_blind_is_ox_active(boss_id))
+                    {
+                        money = 0;
+                        display_money();
+                    }
+
+                    // The Hook: discard the 2 topmost held cards.
+                    // TODO: Animate the removal using the HAND_DISCARD state
+                    //       and randomise which cards are chosen.
+                    int hook_count = boss_blind_get_hook_count(boss_id);
+                    for (int bh = 0; bh < hook_count; bh++)
+                    {
+                        // Skip any NULL slots left by previously played cards.
+                        while (hand_top >= 0 && hand[hand_top] == NULL)
+                            hand_top--;
+                        if (hand_top < 0)
+                            break;
+                        discard_push(hand[hand_top]->card);
+                        card_object_destroy(&hand[hand_top]);
+                        hand_top--;
+                    }
+                }
+                // ─────────────────────────────────────────────────────────
+
                 if (game_round_is_over())
                 {
                     hand_state = HAND_SHUFFLING;
