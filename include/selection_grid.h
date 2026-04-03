@@ -84,7 +84,8 @@ typedef struct
     bool wrap;
 
     /**
-     * @brief Whether this row have a horizontal exit index (a row to jump when horizontal inputs are received).
+     * @brief Whether this row have a horizontal exit index (a row to jump when horizontal inputs
+     * are received).
      */
     bool has_h_exit_idx;
 
