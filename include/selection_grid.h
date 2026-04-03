@@ -83,15 +83,15 @@ typedef struct
      */
     bool wrap;
 
-    // Does this row have an exit index
-    // (which is another index in the grid to jump to
-    // when a horizontal input is received)
-    bool has_exit_idx;
+    /**
+     * @brief Whether this row have a horizontal exit index (a row to jump when horizontal inputs are received).
+     */
+    bool has_h_exit_idx;
 
-    // The index to jump in grid (Now, I only did it quickly for the horizontal case as
-    // that's what was needed, but it can be extended for vertical indexes and act like a subgrid
-    // without huge refactoring)
-    u8 exit_idx;
+    /**
+     * @brief The index of the row to exit to when a horizontal input is received.
+     */
+    u8 h_exit_idx;
 } SelGridRowAttributes;
 
 /**

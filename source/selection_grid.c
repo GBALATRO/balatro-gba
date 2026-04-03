@@ -31,13 +31,10 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
 
     SelectionGridRow current_row = selection_grid->rows[selection_grid->selection.y];
 
-    // If the current row has an exit index, we use that as the base for
-    // our new_selection while moving horizontally.
-    // This allows for creating "subgrid" like behavior.
-    // If not, we use current selection for further calculations.
+    // Choose the horizontal exit index if it exists
     Selection new_selection =
-        current_row.attributes.has_exit_idx
-            ? (Selection){selection_grid->selection.x, current_row.attributes.exit_idx}
+        current_row.attributes.has_h_exit_idx
+            ? (Selection){selection_grid->selection.x, current_row.attributes.h_exit_idx}
             : selection_grid->selection;
 
     new_selection.x += direction_tribool;
@@ -51,13 +48,10 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
 
     if (wrap_enabled || (new_selection.x >= 0 && new_selection.x < row_size))
     {
-        // Also changed here to keep same functionality, as the new_selection doesn't have to be the
-        // previous selection now.
         bool proceed_selection =
             selection_grid->rows[selection_grid->selection.y].on_selection_changed(
                 selection_grid,
-                current_row.row_idx, // Current row's index is needed here as well (new_selection
-                                     // isn't necessarily the previous selection)
+                current_row.row_idx,
                 &selection_grid->selection,
                 &new_selection
             );

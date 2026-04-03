@@ -488,17 +488,9 @@ Button game_playing_buttons[] = {
 };
 
 SelectionGridRow shop_selection_rows[] = {
-    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed, jokers_sel_row_on_key_transit,  {.wrap = false}},
-    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,   shop_top_row_on_key_transit,    {.wrap = false}},
-
-    // Here, we set the reroll button's exit index to 1, which is the shop top row. So when a
-    // horizontal input is received on the reroll button row, calculations will be made from shop
-    // top row.
-    {
-     2, shop_reroll_row_get_size,
-     shop_reroll_row_on_selection_changed,                             shop_reroll_row_on_key_transit,
-     {.wrap = false, .has_exit_idx = true, .exit_idx = 1}
-    },
+    {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit,  {.wrap = false}                                         },
+    {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit,    {.wrap = false}                                         },
+    {2, shop_reroll_row_get_size, shop_reroll_row_on_selection_changed, shop_reroll_row_on_key_transit, {.wrap = false, .has_h_exit_idx = true, .h_exit_idx = 1}},
 };
 
 static const Selection SHOP_INIT_SEL = {-1, 1};
@@ -4323,8 +4315,6 @@ static bool shop_reroll_row_on_selection_changed(
 
         if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
-            // If the previous selection is the reroll button but the new selection is not the next
-            // round button, then we landed on a joker, so we need to set the focus on it.
             int idx = new_selection->x - 1;
             JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, idx);
             sprite_object_set_focus(joker_object->sprite_object, true);
