@@ -163,15 +163,6 @@ enum GameRoundEndStates
     ROUND_END_EXIT
 };
 
-enum BlindSelectStates
-{
-    START_ANIM_SEQ,
-    BLIND_SELECT,
-    BLIND_SELECTED_ANIM_SEQ,
-    DISPLAY_BLIND_PANEL,
-    BLIND_SELECT_MAX
-};
-
 typedef struct
 {
     u32 chips;
@@ -200,9 +191,6 @@ static void game_round_end_on_update(GameVariables* vars);
 static void game_round_end_on_exit(GameVariables* vars);
 static void game_shop_on_update(GameVariables* vars);
 static void game_shop_on_exit(GameVariables* vars);
-static void game_blind_select_on_init(GameVariables* vars);
-static void game_blind_select_on_update(GameVariables* vars);
-static void game_blind_select_on_exit(GameVariables* vars);
 static void game_lose_on_init(GameVariables* vars);
 static void game_lose_on_update(GameVariables* vars);
 static void game_over_on_exit(GameVariables* vars);
@@ -211,12 +199,6 @@ static void game_win_on_update(GameVariables* vars);
 static void game_shop_intro(void);
 static void game_shop_process_user_input(void);
 static void game_shop_outro(void);
-static void game_blind_select_start_anim_seq(void);
-static void game_blind_select_handle_input(void);
-static void game_blind_select_selected_anim_seq(void);
-static void game_blind_select_display_blind_panel(void);
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind);
-static void game_blind_select_print_blinds_reqs_and_rewards(void);
 static void game_round_end_start(void);
 static void game_round_end_start_expand_popup(void);
 static void game_round_end_display_finished_blind(void);
@@ -324,8 +306,6 @@ static bool can_discard_hand(void);
 // Rects                                       left     top     right   bottom
 // Screenblock rects
 static const Rect ROUND_END_MENU_RECT       = {9,       7,      24,     20 }; 
-
-static const Rect POP_MENU_ANIM_RECT        = {9,       7,      24,     31 };
 // The rect for popping menu animations (round end, shop, blinds) 
 // - extends beyond the visible screen to the end of the screenblock
 // It includes both the target and source position rects. 
@@ -421,8 +401,6 @@ static const BG_POINT HAND_PLAY_POS         = {120,     70};
 
 static uint rng_seed = 0;
 
-typedef void (*SubStateActionFn)(void);
-
 static GameVariables game_vars;
 
 // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the game
@@ -430,6 +408,7 @@ static GameVariables game_vars;
 static int game_speed = 1;
 static enum BackgroundId background = BG_NONE;
 
+#include "blind_select.h"
 #include "main_menu.h"
 
 static StateInfo state_info[] = {
@@ -522,13 +501,6 @@ static const SubStateActionFn shop_state_actions[] = {
     game_shop_outro
 };
 
-static const SubStateActionFn blind_select_state_actions[] = {
-    game_blind_select_start_anim_seq,
-    game_blind_select_handle_input,
-    game_blind_select_selected_anim_seq,
-    game_blind_select_display_blind_panel
-};
-
 static const SubStateActionFn round_end_state_actions[] = {
     game_round_end_start,
     game_round_end_start_expand_popup,
@@ -557,10 +529,7 @@ static Sprite* playing_blind_token = NULL;
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 static Sprite* round_end_blind_token = NULL;
 
-// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
-static Sprite* blind_select_tokens[BLIND_TYPE_MAX] = {NULL};
-
-static int current_blind = BLIND_TYPE_SMALL;
+//static int current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
@@ -735,7 +704,6 @@ void game_init()
     hands = max_hands;
     discards = max_discards;
     game_vars.timer = TM_ZERO;
-    current_blind = BLIND_TYPE_SMALL;
     blinds_states[0] = BLIND_STATE_CURRENT;
     blinds_states[1] = BLIND_STATE_UPCOMING;
     blinds_states[2] = BLIND_STATE_UPCOMING;
@@ -743,6 +711,8 @@ void game_init()
     money = STARTING_MONEY;
     score = STARTING_SCORE;
     round = 0;
+
+    game_vars.current_blind = BLIND_TYPE_SMALL;
 
     blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
         BLIND_TYPE_SMALL,
@@ -4488,27 +4458,6 @@ static void game_shop_on_exit(GameVariables* vars)
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 }
 
-static void game_blind_select_on_init(GameVariables* vars)
-{
-    change_background(BG_BLIND_SELECT);
-    selection_x = 0;
-    selection_y = 0;
-
-    play_sfx(SFX_POP, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-}
-
-static void game_blind_select_on_update(GameVariables* vars)
-{
-    if (state_info[game_state].substate == BLIND_SELECT_MAX)
-    {
-        game_change_state(GAME_STATE_PLAYING);
-        return;
-    }
-
-    int substate = state_info[game_state].substate;
-    blind_select_state_actions[substate]();
-}
-
 static inline void game_blind_select_erase_blind_reqs_and_rewards()
 {
     for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
@@ -4529,23 +4478,6 @@ static inline void game_blind_select_erase_blind_reqs_and_rewards()
 
         tte_erase_rect_wrapper(blind_req_and_reward_rect);
     }
-}
-
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
-{
-    Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
-
-    blind_req_score_rect.left += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
-    blind_req_score_rect.right += blind * rect_width(&SINGLE_BLIND_SELECT_RECT) * TILE_SIZE;
-
-    if (blinds_states[blind] == BLIND_STATE_CURRENT)
-    {
-        // Current blind is raised
-        blind_req_score_rect.top -= TILE_SIZE;
-        blind_req_score_rect.bottom -= TILE_SIZE;
-    }
-
-    return blind_req_score_rect;
 }
 
 static inline void game_blind_select_print_blind_req(enum BlindType blind)
@@ -4593,36 +4525,6 @@ static inline void game_blind_select_print_blind_reward(enum BlindType blind)
         TTE_YELLOW_PB,
         blind_reward_str_buff
     );
-}
-
-static void game_blind_select_print_blinds_reqs_and_rewards(void)
-{
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
-    {
-        game_blind_select_print_blind_req(curr_blind);
-        game_blind_select_print_blind_reward(curr_blind);
-    }
-}
-
-static void game_blind_select_start_anim_seq()
-{
-    main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
-
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
-    {
-        sprite_position(
-            blind_select_tokens[i],
-            blind_select_tokens[i]->pos.x,
-            blind_select_tokens[i]->pos.y - TILE_SIZE
-        );
-    }
-
-    if (game_vars.timer == TM_END_ANIM_SEQ)
-    {
-        game_blind_select_print_blinds_reqs_and_rewards();
-        state_info[game_state].substate = BLIND_SELECT;
-        game_vars.timer = TM_ZERO; // Reset the timer
-    }
 }
 
 static void game_blind_select_handle_input()
@@ -4765,12 +4667,6 @@ static void game_blind_select_display_blind_panel()
 
         main_bg_se_copy_rect(from, to);
     }
-}
-
-static void game_blind_select_on_exit(GameVariables* vars)
-{
-    selection_y = 0;
-    background = UNDEFINED;
 }
 
 void game_start(void)

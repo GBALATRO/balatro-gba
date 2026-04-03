@@ -132,6 +132,8 @@ typedef struct
     GameStateCallback on_exit;
 } StateInfo;
 
+typedef void (*SubStateActionFn)(void);
+
 // Game functions
 void game_init();
 void game_update();

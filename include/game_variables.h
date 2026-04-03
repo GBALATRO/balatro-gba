@@ -18,6 +18,8 @@ typedef struct
 {
     u32 timer;
     u32 rng_seed;
+
+    int current_blind;
 } GameVariables;
 
 #endif // GAME_VARIABLES_H
