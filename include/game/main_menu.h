@@ -1,5 +1,5 @@
 /**
- * @file game_main_menu.h
+ * @file main_menu.h
  *
  * @brief Common functions to render UI elements.
  */
@@ -9,22 +9,28 @@
 #include "game_variables.h"
 
 /**
- * Change the main menu background
+ * @brief Change the main menu background
  */
 void game_main_menu_change_background(void);
 
 /**
- * Main menu state initialization
+ * @brief Main menu state initialization
+ *
+ * @param vars passed @ref GameVariables struct
  */
 void game_main_menu_on_init(GameVariables* vars);
 
 /**
- * Main menu state update
+ * @brief Main menu state update
+ * 
+ * @param vars passed @ref GameVariables struct
  */
 void game_main_menu_on_update(GameVariables* vars);
 
 /**
- * Main menu cleanup (called when transitioning to game start)
+ * @brief Main menu cleanup (called when transitioning to game start)
+ * 
+ * @param vars passed @ref GameVariables struct
  */
 void game_main_menu_on_exit(GameVariables* vars);
 
