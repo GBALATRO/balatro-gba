@@ -1,17 +1,18 @@
 #include "boss_blind_effects.h"
+
 #include <assert.h>
 #include <stdio.h>
 
 /* ── Helpers ──────────────────────────────────────────────────────────────── */
 
 /* Hand type constants mirrored from game.h (kept local to avoid GBA deps). */
-#define HT_NONE          0
-#define HT_HIGH_CARD     1
-#define HT_PAIR          2
-#define HT_TWO_PAIR      3
-#define HT_THREE_OAK     4
-#define HT_STRAIGHT      5
-#define HT_FLUSH         6
+#define HT_NONE      0
+#define HT_HIGH_CARD 1
+#define HT_PAIR      2
+#define HT_TWO_PAIR  3
+#define HT_THREE_OAK 4
+#define HT_STRAIGHT  5
+#define HT_FLUSH     6
 
 /* ── boss_blind_get_for_ante ──────────────────────────────────────────────── */
 
@@ -37,9 +38,9 @@ static void test_apply_round_start_needle(void)
 {
     int hands = 4, discards = 4, hand_size = 8;
     boss_blind_apply_round_start(BOSS_THE_NEEDLE, &hands, &discards, &hand_size);
-    assert(hands     == 1);  /* The Needle caps hands to 1 */
-    assert(discards  == 4);  /* Discards untouched          */
-    assert(hand_size == 8);  /* Hand size untouched          */
+    assert(hands == 1);     /* The Needle caps hands to 1 */
+    assert(discards == 4);  /* Discards untouched          */
+    assert(hand_size == 8); /* Hand size untouched          */
     printf("test_apply_round_start_needle: PASS\n");
 }
 
@@ -47,9 +48,9 @@ static void test_apply_round_start_water(void)
 {
     int hands = 4, discards = 4, hand_size = 8;
     boss_blind_apply_round_start(BOSS_THE_WATER, &hands, &discards, &hand_size);
-    assert(hands     == 4);  /* Hands untouched              */
-    assert(discards  == 0);  /* The Water removes discards   */
-    assert(hand_size == 8);  /* Hand size untouched          */
+    assert(hands == 4);     /* Hands untouched              */
+    assert(discards == 0);  /* The Water removes discards   */
+    assert(hand_size == 8); /* Hand size untouched          */
     printf("test_apply_round_start_water: PASS\n");
 }
 
@@ -57,11 +58,11 @@ static void test_apply_round_start_no_effect(void)
 {
     int hands = 4, discards = 4, hand_size = 8;
     /* Blinds with no round-start stat change should leave everything alone. */
-    boss_blind_apply_round_start(BOSS_THE_HOOK,    &hands, &discards, &hand_size);
+    boss_blind_apply_round_start(BOSS_THE_HOOK, &hands, &discards, &hand_size);
     boss_blind_apply_round_start(BOSS_THE_PSYCHIC, &hands, &discards, &hand_size);
-    boss_blind_apply_round_start(BOSS_THE_TOOTH,   &hands, &discards, &hand_size);
-    boss_blind_apply_round_start(BOSS_THE_EYE,     &hands, &discards, &hand_size);
-    boss_blind_apply_round_start(BOSS_THE_OX,      &hands, &discards, &hand_size);
+    boss_blind_apply_round_start(BOSS_THE_TOOTH, &hands, &discards, &hand_size);
+    boss_blind_apply_round_start(BOSS_THE_EYE, &hands, &discards, &hand_size);
+    boss_blind_apply_round_start(BOSS_THE_OX, &hands, &discards, &hand_size);
     assert(hands == 4 && discards == 4 && hand_size == 8);
     printf("test_apply_round_start_no_effect: PASS\n");
 }
@@ -72,7 +73,7 @@ static void test_validate_play_psychic(void)
 {
     /* The Psychic: must play exactly 5 cards. */
     assert(!boss_blind_validate_play(BOSS_THE_PSYCHIC, 4, HT_STRAIGHT));
-    assert( boss_blind_validate_play(BOSS_THE_PSYCHIC, 5, HT_STRAIGHT));
+    assert(boss_blind_validate_play(BOSS_THE_PSYCHIC, 5, HT_STRAIGHT));
     assert(!boss_blind_validate_play(BOSS_THE_PSYCHIC, 6, HT_FLUSH));
     printf("test_validate_play_psychic: PASS\n");
 }
@@ -101,11 +102,11 @@ static void test_validate_play_eye(void)
 static void test_validate_play_others_always_true(void)
 {
     /* Blinds other than The Psychic and The Eye never block play. */
-    assert(boss_blind_validate_play(BOSS_THE_NEEDLE,  3, HT_FLUSH));
-    assert(boss_blind_validate_play(BOSS_THE_WATER,   3, HT_FLUSH));
-    assert(boss_blind_validate_play(BOSS_THE_HOOK,    3, HT_FLUSH));
-    assert(boss_blind_validate_play(BOSS_THE_TOOTH,   3, HT_FLUSH));
-    assert(boss_blind_validate_play(BOSS_THE_OX,      3, HT_FLUSH));
+    assert(boss_blind_validate_play(BOSS_THE_NEEDLE, 3, HT_FLUSH));
+    assert(boss_blind_validate_play(BOSS_THE_WATER, 3, HT_FLUSH));
+    assert(boss_blind_validate_play(BOSS_THE_HOOK, 3, HT_FLUSH));
+    assert(boss_blind_validate_play(BOSS_THE_TOOTH, 3, HT_FLUSH));
+    assert(boss_blind_validate_play(BOSS_THE_OX, 3, HT_FLUSH));
     printf("test_validate_play_others_always_true: PASS\n");
 }
 
@@ -113,13 +114,13 @@ static void test_validate_play_others_always_true(void)
 
 static void test_hook_count(void)
 {
-    assert(boss_blind_get_hook_count(BOSS_THE_HOOK)    == 2);
-    assert(boss_blind_get_hook_count(BOSS_THE_NEEDLE)  == 0);
-    assert(boss_blind_get_hook_count(BOSS_THE_WATER)   == 0);
+    assert(boss_blind_get_hook_count(BOSS_THE_HOOK) == 2);
+    assert(boss_blind_get_hook_count(BOSS_THE_NEEDLE) == 0);
+    assert(boss_blind_get_hook_count(BOSS_THE_WATER) == 0);
     assert(boss_blind_get_hook_count(BOSS_THE_PSYCHIC) == 0);
-    assert(boss_blind_get_hook_count(BOSS_THE_TOOTH)   == 0);
-    assert(boss_blind_get_hook_count(BOSS_THE_EYE)     == 0);
-    assert(boss_blind_get_hook_count(BOSS_THE_OX)      == 0);
+    assert(boss_blind_get_hook_count(BOSS_THE_TOOTH) == 0);
+    assert(boss_blind_get_hook_count(BOSS_THE_EYE) == 0);
+    assert(boss_blind_get_hook_count(BOSS_THE_OX) == 0);
     printf("test_hook_count: PASS\n");
 }
 
@@ -133,12 +134,12 @@ static void test_tooth_penalty(void)
     assert(boss_blind_get_tooth_penalty(BOSS_THE_TOOTH, 0) == 0);
 
     /* All other blinds: no penalty. */
-    assert(boss_blind_get_tooth_penalty(BOSS_THE_NEEDLE,  3) == 0);
-    assert(boss_blind_get_tooth_penalty(BOSS_THE_WATER,   3) == 0);
-    assert(boss_blind_get_tooth_penalty(BOSS_THE_HOOK,    3) == 0);
+    assert(boss_blind_get_tooth_penalty(BOSS_THE_NEEDLE, 3) == 0);
+    assert(boss_blind_get_tooth_penalty(BOSS_THE_WATER, 3) == 0);
+    assert(boss_blind_get_tooth_penalty(BOSS_THE_HOOK, 3) == 0);
     assert(boss_blind_get_tooth_penalty(BOSS_THE_PSYCHIC, 3) == 0);
-    assert(boss_blind_get_tooth_penalty(BOSS_THE_EYE,     3) == 0);
-    assert(boss_blind_get_tooth_penalty(BOSS_THE_OX,      3) == 0);
+    assert(boss_blind_get_tooth_penalty(BOSS_THE_EYE, 3) == 0);
+    assert(boss_blind_get_tooth_penalty(BOSS_THE_OX, 3) == 0);
 
     printf("test_tooth_penalty: PASS\n");
 }
@@ -147,7 +148,7 @@ static void test_tooth_penalty(void)
 
 static void test_ox_active(void)
 {
-    assert( boss_blind_is_ox_active(BOSS_THE_OX));
+    assert(boss_blind_is_ox_active(BOSS_THE_OX));
     assert(!boss_blind_is_ox_active(BOSS_THE_NEEDLE));
     assert(!boss_blind_is_ox_active(BOSS_THE_WATER));
     assert(!boss_blind_is_ox_active(BOSS_THE_HOOK));
@@ -162,11 +163,11 @@ static void test_ox_active(void)
 static void test_get_name(void)
 {
     /* Spot-check a few names (exact strings must match boss_blind_effects.c). */
-    assert(boss_blind_get_name(BOSS_THE_NEEDLE)  != 0);
-    assert(boss_blind_get_name(BOSS_THE_OX)      != 0);
+    assert(boss_blind_get_name(BOSS_THE_NEEDLE) != 0);
+    assert(boss_blind_get_name(BOSS_THE_OX) != 0);
     /* Out-of-range ID must not crash and must return a non-NULL string. */
-    assert(boss_blind_get_name((enum BossBlindId)-1) != 0);
-    assert(boss_blind_get_name(BOSS_BLIND_ID_MAX)    != 0);
+    assert(boss_blind_get_name((enum BossBlindId) - 1) != 0);
+    assert(boss_blind_get_name(BOSS_BLIND_ID_MAX) != 0);
     printf("test_get_name: PASS\n");
 }
 

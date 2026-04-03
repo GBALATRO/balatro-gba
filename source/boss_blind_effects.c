@@ -38,12 +38,7 @@ enum BossBlindId boss_blind_get_for_ante(int ante)
     return (enum BossBlindId)((ante - 1) % (int)BOSS_BLIND_ID_MAX);
 }
 
-void boss_blind_apply_round_start(
-    enum BossBlindId id,
-    int*             hands,
-    int*             discards,
-    int*             hand_size
-)
+void boss_blind_apply_round_start(enum BossBlindId id, int* hands, int* discards, int* hand_size)
 {
     (void)hand_size; /* reserved for future use (e.g. The Manacle) */
 
@@ -65,11 +60,7 @@ void boss_blind_apply_round_start(
     }
 }
 
-bool boss_blind_validate_play(
-    enum BossBlindId id,
-    int              hand_selections,
-    int              hand_type
-)
+bool boss_blind_validate_play(enum BossBlindId id, int hand_selections, int hand_type)
 {
     switch (id)
     {

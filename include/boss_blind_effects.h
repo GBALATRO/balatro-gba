@@ -31,13 +31,13 @@
  */
 enum BossBlindId
 {
-    BOSS_THE_NEEDLE  = 0, /**< Only 1 hand allowed.                          */
-    BOSS_THE_WATER   = 1, /**< Start with 0 discards.                        */
-    BOSS_THE_HOOK    = 2, /**< Discard 2 held cards after each hand scored.  */
+    BOSS_THE_NEEDLE = 0,  /**< Only 1 hand allowed.                          */
+    BOSS_THE_WATER = 1,   /**< Start with 0 discards.                        */
+    BOSS_THE_HOOK = 2,    /**< Discard 2 held cards after each hand scored.  */
     BOSS_THE_PSYCHIC = 3, /**< Must play exactly 5 cards.                    */
-    BOSS_THE_TOOTH   = 4, /**< Lose $1 per card played.                      */
-    BOSS_THE_EYE     = 5, /**< Each hand type playable only once per round.  */
-    BOSS_THE_OX      = 6, /**< Playing any hand sets money to $0.            */
+    BOSS_THE_TOOTH = 4,   /**< Lose $1 per card played.                      */
+    BOSS_THE_EYE = 5,     /**< Each hand type playable only once per round.  */
+    BOSS_THE_OX = 6,      /**< Playing any hand sets money to $0.            */
     BOSS_BLIND_ID_MAX     /**< Sentinel – do not use as a boss blind ID.     */
 };
 
@@ -60,12 +60,7 @@ enum BossBlindId boss_blind_get_for_ante(int ante);
  * @param discards  Pointer to the current discards-remaining counter.
  * @param hand_size Pointer to the current hand size.
  */
-void boss_blind_apply_round_start(
-    enum BossBlindId id,
-    int*             hands,
-    int*             discards,
-    int*             hand_size
-);
+void boss_blind_apply_round_start(enum BossBlindId id, int* hands, int* discards, int* hand_size);
 
 /**
  * @brief Validates whether playing the current selection is allowed.
@@ -76,11 +71,7 @@ void boss_blind_apply_round_start(
  * @param hand_type       Current hand type (cast from enum HandType).
  * @return                true if the play is allowed.
  */
-bool boss_blind_validate_play(
-    enum BossBlindId id,
-    int              hand_selections,
-    int              hand_type
-);
+bool boss_blind_validate_play(enum BossBlindId id, int hand_selections, int hand_type);
 
 /**
  * @brief Returns how many random held cards should be discarded after scoring.
