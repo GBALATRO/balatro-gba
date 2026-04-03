@@ -84,13 +84,13 @@ typedef struct
     bool wrap;
 
     /**
-     * @brief Whether this row have a horizontal exit index (a row to jump when horizontal inputs
-     * are received).
+     * @brief Whether this row have a horizontal exit index (a row to process horizontal inputs
+     * from).
      */
     bool has_h_exit_idx;
 
     /**
-     * @brief The index of the row to exit to when a horizontal input is received.
+     * @brief The index of the row to exit from when a horizontal input is received.
      */
     u8 h_exit_idx;
 } SelGridRowAttributes;
