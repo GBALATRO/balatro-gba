@@ -175,6 +175,9 @@ int get_straight_and_flush_size(void);
 
 void game_start(void);
 
+// Temporary change for Refactor. Currently this compatibility binder is to allow
+// simultaneous integration of the new system in `common_ui` with the the existing
+// old system incrementally and without losing functionality.
 void change_background_legacy(enum BackgroundId id);
 
 #endif // GAME_H
