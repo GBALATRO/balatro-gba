@@ -25,14 +25,13 @@ var searchData=
   ['blindgfxinfo_22',['BlindGfxInfo',['../structBlindGfxInfo.html',1,'']]],
   ['border_5fpal_5fidx_23',['border_pal_idx',['../structButton.html#abea673d241d333d2f16530ac12b36b6d',1,'Button']]],
   ['build_20instructions_3a_20strong_24',['&lt;strong&gt;Build Instructions:&lt;/strong&gt;',['../md_README.html#autotoc_md23',1,'']]],
-  ['building_20documentation_25',['Building Documentation',['../index.html#autotoc_md5',1,'']]],
-  ['button_26',['Button',['../structButton.html',1,'']]],
-  ['button_2eh_27',['button.h',['../button_8h.html',1,'']]],
-  ['button_5fpal_5fidx_28',['button_pal_idx',['../structButton.html#aaec238974eccbed85d01a5c3a87173ce',1,'Button']]],
-  ['button_5fpress_29',['button_press',['../button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db',1,'button.c']]],
-  ['button_5fset_5fhighlight_30',['button_set_highlight',['../button_8h.html#ab07bc69b92e6642e2b986debfb152e48',1,'button.c']]],
-  ['buttoncanbepressedfunc_31',['ButtonCanBePressedFunc',['../button_8h.html#a35f4dc832e5b998d6595ca06c29f7a50',1,'button.h']]],
-  ['buttononpressedfunc_32',['ButtonOnPressedFunc',['../button_8h.html#a6a588233fed69a8f3e5e69683660fedc',1,'button.h']]],
-  ['buy_20the_20official_20full_20version_20from_20these_20sources_20below_3a_33',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md16',1,'']]],
-  ['by_20step_34',['Step-by-Step',['../md_README.html#autotoc_md25',1,'']]]
+  ['button_25',['Button',['../structButton.html',1,'']]],
+  ['button_2eh_26',['button.h',['../button_8h.html',1,'']]],
+  ['button_5fpal_5fidx_27',['button_pal_idx',['../structButton.html#aaec238974eccbed85d01a5c3a87173ce',1,'Button']]],
+  ['button_5fpress_28',['button_press',['../button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db',1,'button.c']]],
+  ['button_5fset_5fhighlight_29',['button_set_highlight',['../button_8h.html#ab07bc69b92e6642e2b986debfb152e48',1,'button.c']]],
+  ['buttoncanbepressedfunc_30',['ButtonCanBePressedFunc',['../button_8h.html#a35f4dc832e5b998d6595ca06c29f7a50',1,'button.h']]],
+  ['buttononpressedfunc_31',['ButtonOnPressedFunc',['../button_8h.html#a6a588233fed69a8f3e5e69683660fedc',1,'button.h']]],
+  ['buy_20the_20official_20full_20version_20from_20these_20sources_20below_3a_32',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md16',1,'']]],
+  ['by_20step_33',['Step-by-Step',['../md_README.html#autotoc_md25',1,'']]]
 ];

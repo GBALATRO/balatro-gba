@@ -8,7 +8,7 @@ var searchData=
   ['disabling_20formatting_5',['Disabling Formatting',['../index.html#autotoc_md10',1,'']]],
   ['disclaimer_6',['Disclaimer',['../md_README.html#autotoc_md15',1,'']]],
   ['docker_20strong_7',['&lt;strong&gt;-Docker-&lt;/strong&gt;',['../md_README.html#autotoc_md24',1,'']]],
-  ['documentation_8',['Building Documentation',['../index.html#autotoc_md5',1,'']]],
+  ['documentation_8',['Documentation',['../index.html#autotoc_md5',1,'']]],
   ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_20strong_9',['4. &lt;strong&gt;It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!&lt;/strong&gt;',['../md_README.html#autotoc_md37',1,'']]],
   ['during_20round_10',['during round',['../md_README.html#autotoc_md20',1,'When on the hand row during round'],['../md_README.html#autotoc_md21',1,'When on the joker row in the shop or during round']]]
 ];

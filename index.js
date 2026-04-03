@@ -4,7 +4,7 @@ var index =
     [ "Art", "index.html#autotoc_md2", null ],
     [ "CI Checks", "index.html#autotoc_md3", null ],
     [ "Code Style", "index.html#autotoc_md4", null ],
-    [ "Building Documentation", "index.html#autotoc_md5", null ],
+    [ "Documentation", "index.html#autotoc_md5", null ],
     [ "Tools", "index.html#autotoc_md6", [
       [ "clang-format", "index.html#autotoc_md7", [
         [ "VSCode", "index.html#autotoc_md8", null ],
