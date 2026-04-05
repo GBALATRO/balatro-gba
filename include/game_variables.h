@@ -8,12 +8,6 @@
 
 #include <tonc.h>
 
-typedef struct
-{
-    u32 timer;
-    u32 rng_seed;
-} MainMenuVars;
-
 /**
  * @brief A central location for all game variables.
  *
@@ -22,7 +16,8 @@ typedef struct
  */
 typedef struct
 {
-    MainMenuVars main_menu;
+    u32 timer;
+    u32 rng_seed;
 } GameVariables;
 
 #endif // GAME_VARIABLES_H
