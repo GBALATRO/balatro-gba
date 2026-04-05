@@ -64,20 +64,18 @@ void game_main_menu_on_init(GameVariables* vars)
 
 void game_main_menu_on_update(GameVariables* vars)
 {
-    MainMenuVars* main_menu_vars = &vars->main_menu;
-
     change_background(BG_MAIN_MENU);
 
     card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((main_menu_vars->timer << 8) / 2) / 3;
+    main_menu_ace->sprite_object->trotation = lu_sin((vars->timer << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
 
     // Seed randomization
-    main_menu_vars->rng_seed++;
+    vars->rng_seed++;
     // If the keys have changed, make it more pseudo-random
     if (key_curr_state() != key_prev_state())
     {
-        main_menu_vars->rng_seed *= 2;
+        vars->rng_seed *= 2;
     }
 
     if (key_hit(KEY_LEFT))
