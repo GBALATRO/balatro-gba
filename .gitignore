@@ -1,6 +1,7 @@
 /.vscode
 /.idea
 /build
+/saved_builds
 /.vs
 _codeql_detected_source_root
 *.sln

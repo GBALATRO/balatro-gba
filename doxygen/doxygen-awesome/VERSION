@@ -1,0 +1,13 @@
+Project: doxygen-awesome-css
+Source: https://github.com/jothepro/doxygen-awesome-css
+
+Version: snapshot
+Commit: d52eafe
+
+Imported-by: SuperbMuffin
+Date: 2026-04-02
+
+Notes:
+
+- Imported as a snapshot (no git submodule)
+- There are no dependencies on external resources besides images. Posing no security issue that would require consistent updating.
