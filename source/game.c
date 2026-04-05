@@ -642,7 +642,6 @@ static int shortcut_joker_count = 0;
 
 static int four_fingers_joker_count = 0;
 
-
 GBAL_UNUSED
 static inline bool is_shop_joker_avail(int joker_id)
 {
@@ -3519,7 +3518,7 @@ static void game_round_end_start()
     {
         change_background(BG_ROUND_END); // Change the background to the round end background
         state_info[game_state].substate = START_EXPAND_POPUP; // Change the state to the next one
-        game_vars.timer = TM_ZERO;                                      // Reset the timer
+        game_vars.timer = TM_ZERO;                            // Reset the timer
         blind_reward = blind_get_reward(current_blind);
         hand_reward = hands;
         interest_reward = calculate_interest_reward();
@@ -3654,8 +3653,7 @@ static void game_round_end_panel_exit()
     {
         main_bg_se_copy_rect_1_tile_vert(TOP_LEFT_PANEL_ANIM_RECT, SCREEN_UP);
 
-        if (game_vars.timer == 1) // Copied from shop. Feels slightly too niche of a function for me
-                        // personally to make one.
+        if (game_vars.timer == 1)
         {
             reset_top_left_panel_bottom_row();
         }
@@ -3677,8 +3675,8 @@ static void game_round_end_panel_exit()
 
 static inline void game_round_end_print_separator_ellipsis(void)
 {
-    int x =
-        (ROUND_END_REWARDS_ELLIPSIS_POS.x + game_vars.timer - TM_REWARDS_ELLIPSIS_PRINT_START) * TILE_SIZE;
+    int x = (ROUND_END_REWARDS_ELLIPSIS_POS.x + game_vars.timer - TM_REWARDS_ELLIPSIS_PRINT_START) *
+            TILE_SIZE;
     int y = (ROUND_END_REWARDS_ELLIPSIS_POS.y) * TILE_SIZE;
 
     tte_printf("#{P:%d,%d; cx:0x%X000}.", x, y, TTE_WHITE_PB);
@@ -3702,7 +3700,8 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
         );
     }
     // Increment the hand reward text until the hand reward variable is depleted
-    else if (game_vars.timer > TM_HAND_REWARD_INCR_WAIT && game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+    else if (game_vars.timer > TM_HAND_REWARD_INCR_WAIT &&
+             game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
     {
         hand_reward--;
         tte_printf(
@@ -4179,7 +4178,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
 
         // Go to next blind selection game state
         state_info[game_state].substate = GAME_SHOP_EXIT; // Go to the outro sequence state
-        game_vars.timer = TM_ZERO;                                  // Reset the timer
+        game_vars.timer = TM_ZERO;                        // Reset the timer
         reroll_cost = REROLL_BASE_COST;
 
         memcpy16(
@@ -4417,7 +4416,7 @@ static void game_shop_outro()
     if (game_vars.timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
         state_info[game_state].substate = GAME_SHOP_MAX; // Go to the next state
-        game_vars.timer = TM_ZERO;                                 // Reset the timer
+        game_vars.timer = TM_ZERO;                       // Reset the timer
     }
 }
 
@@ -4741,7 +4740,7 @@ static void game_blind_select_selected_anim_seq()
         }
 
         state_info[game_state].substate = DISPLAY_BLIND_PANEL; // Reset the state
-        game_vars.timer = TM_ZERO;                                       // Reset the timer
+        game_vars.timer = TM_ZERO;                             // Reset the timer
     }
 }
 
