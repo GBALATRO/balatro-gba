@@ -16,7 +16,6 @@
 #define BLIND_SKIP_BTN_PID                   5
 #define MENU_POP_OUT_ANIM_FRAMES 20
 
-static const BG_POINT CUR_BLIND_TOKEN_POS   = {8,       18};
 static const Rect SINGLE_BLIND_SELECT_RECT  = {9,       7,      13,     31 };
 static const Rect BLIND_SKIP_BTN_GRAY_RECT  = {0,       24,     4,      27 };
 static const Rect BLIND_SKIP_BTN_PREANIM_DEST_RECT = {9,29,     19,     31 };
@@ -316,28 +315,6 @@ void game_blind_select_on_init(GameVariables* vars)
     selection_x = 0;
     selection_y = 0;
 
-    vars->blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
-        BLIND_TYPE_SMALL,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 3
-    );
-    vars->blind_select_tokens[BLIND_TYPE_BIG] = blind_token_new(
-        BLIND_TYPE_BIG,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 4
-    );
-    vars->blind_select_tokens[BLIND_TYPE_BOSS] = blind_token_new(
-        BLIND_TYPE_BOSS,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
-    );
-
-    obj_hide(vars->blind_select_tokens[BLIND_TYPE_SMALL]->obj);
-    obj_hide(vars->blind_select_tokens[BLIND_TYPE_BIG]->obj);
-    obj_hide(vars->blind_select_tokens[BLIND_TYPE_BOSS]->obj);
     //play_sfx(SFX_POP, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
 
