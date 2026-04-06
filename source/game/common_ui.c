@@ -23,6 +23,8 @@ BackgroundRenderCallback bgCallbacks[] =
 
 void change_background(enum BackgroundId id, bool force_redraw)
 {
+    if (force_redraw) reset_background();
+    change_background_legacy(id);
     if(id == BG_MAIN_MENU || id == BG_BLIND_SELECT)
     {
         if(id != background || force_redraw)
@@ -30,6 +32,5 @@ void change_background(enum BackgroundId id, bool force_redraw)
             bgCallbacks[id]();
         }
     }
-    change_background_legacy(id);
     id = background;
 }

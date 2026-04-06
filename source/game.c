@@ -1338,6 +1338,11 @@ void reset_top_left_panel_bottom_row()
     main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }
 
+void reset_background(void)
+{
+    background = BG_NONE;
+}
+
 void change_background_legacy(enum BackgroundId id)
 {
     if (background == id)

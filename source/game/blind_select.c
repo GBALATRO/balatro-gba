@@ -332,6 +332,8 @@ void game_blind_select_on_exit(GameVariables* vars)
     sprite_destroy(&vars->blind_select_tokens[BLIND_TYPE_SMALL]);
     sprite_destroy(&vars->blind_select_tokens[BLIND_TYPE_BIG]);
     sprite_destroy(&vars->blind_select_tokens[BLIND_TYPE_BOSS]);
+
+    reset_background();
 }
 
 void game_blind_select_change_background(void)

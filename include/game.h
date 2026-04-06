@@ -182,6 +182,7 @@ void game_start(void);
 // simultaneous integration of the new system in `common_ui` with the the existing
 // old system incrementally and without losing functionality.
 void change_background_legacy(enum BackgroundId id);
+void reset_background(void);
 
 void display_round(void);
 
