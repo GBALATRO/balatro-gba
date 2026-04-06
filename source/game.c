@@ -1411,7 +1411,7 @@ void change_background_legacy(enum BackgroundId id)
     {
         if (background != BG_CARD_SELECTING)
         {
-            change_background(BG_CARD_SELECTING);
+            change_background(BG_CARD_SELECTING, false);
             background = BG_CARD_PLAYING;
         }
 
@@ -1429,7 +1429,7 @@ void change_background_legacy(enum BackgroundId id)
     {
         if (background != BG_CARD_SELECTING && background != BG_CARD_PLAYING)
         {
-            change_background(BG_CARD_SELECTING);
+            change_background(BG_CARD_SELECTING, false);
             background = BG_ROUND_END;
         }
 
@@ -2909,7 +2909,7 @@ static inline void game_playing_discarded_cards_loop(void)
     {
         // Change the background to the round end background. This is how it works in Balatro, so
         // I'm doing it this way too.
-        change_background(BG_ROUND_END);
+        change_background(BG_ROUND_END, false);
 
         // We take each discarded card and put it back into the deck with a short animation
         static CardObject* discarded_card_object = NULL;
@@ -3194,11 +3194,11 @@ static void game_playing_on_update(GameVariables* vars)
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
     if (hand_state == HAND_DRAW || hand_state == HAND_DISCARD || hand_state == HAND_SELECT)
     {
-        change_background(BG_CARD_SELECTING);
+        change_background(BG_CARD_SELECTING, false);
     }
     else if (hand_state != HAND_SHUFFLING)
     {
-        change_background(BG_CARD_PLAYING);
+        change_background(BG_CARD_PLAYING, false);
     }
 
     game_playing_process_input_and_state();
@@ -3257,7 +3257,7 @@ static void game_round_end_start()
     // Reset static variables to default values upon re-entering the round end state
     if (game_vars.timer == TM_RESET_STATIC_VARS)
     {
-        change_background(BG_ROUND_END); // Change the background to the round end background
+        change_background(BG_ROUND_END, false); // Change the background to the round end background
         state_info[game_state].substate = START_EXPAND_POPUP; // Change the state to the next one
         game_vars.timer = TM_ZERO;                            // Reset the timer
         blind_reward = blind_get_reward(game_vars.current_blind);
@@ -4179,7 +4179,7 @@ static inline void game_shop_lights_anim_frame(void)
 
 static void game_shop_on_update(GameVariables* vars)
 {
-    change_background(BG_SHOP);
+    change_background(BG_SHOP, false);
 
     if (!list_is_empty(&_shop_jokers_list))
     {
@@ -4254,7 +4254,7 @@ void game_start(void)
         }
     }
 
-    change_background(BG_BLIND_SELECT);
+    change_background(BG_BLIND_SELECT, false);
 
     // Deck size/max size
     tte_erase_rect_wrapper(DECK_SIZE_RECT);

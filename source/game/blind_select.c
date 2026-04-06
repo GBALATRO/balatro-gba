@@ -43,8 +43,6 @@ static int selection_y = 0;
 
 static int substate;
 
-static enum BackgroundId background;
-
 static void game_blind_select_start_anim_seq(GameVariables* vars)
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
@@ -125,8 +123,8 @@ static void game_blind_select_handle_input(GameVariables* vars)
 
             selection_y = 0; // Reset selection to first option
 
-            background = UNDEFINED; // Force refresh of the background
-            change_background(BG_BLIND_SELECT);
+            //background = UNDEFINED; // Force refresh of the background
+            change_background(BG_BLIND_SELECT, true);
 
             // TODO: Create a generic vertical move by any number of tiles to avoid for loops?
             for (int i = 0; i < 12; i++)
@@ -213,7 +211,7 @@ static void game_blind_select_display_blind_panel(GameVariables* vars)
     // Switches to the selecting background and clears the blind panel area
     if (vars->timer == TM_DISP_BLIND_PANEL_START)
     {
-        change_background(BG_CARD_SELECTING);
+        change_background(BG_CARD_SELECTING, false);
 
         main_bg_se_clear_rect(ROUND_END_MENU_RECT);
 
@@ -311,7 +309,7 @@ static void game_blind_select_print_blinds_reqs_and_rewards(GameVariables* vars)
 
 void game_blind_select_on_init(GameVariables* vars)
 {
-    change_background(BG_BLIND_SELECT);
+    change_background(BG_BLIND_SELECT, false);
     selection_x = 0;
     selection_y = 0;
 

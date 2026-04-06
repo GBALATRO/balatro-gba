@@ -50,7 +50,7 @@ void game_main_menu_on_init(GameVariables* vars)
 {
     (void)vars;
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
-    change_background(BG_MAIN_MENU);
+    change_background(BG_MAIN_MENU, false);
     main_menu_ace = card_object_new(card_new(SPADES, ACE));
     card_object_set_sprite(main_menu_ace, 0);
     main_menu_ace->sprite_object->sprite->obj->attr0 |= ATTR0_AFF_DBL;
@@ -64,7 +64,7 @@ void game_main_menu_on_init(GameVariables* vars)
 
 void game_main_menu_on_update(GameVariables* vars)
 {
-    change_background(BG_MAIN_MENU);
+    change_background(BG_MAIN_MENU, false);
 
     card_object_update(main_menu_ace);
     main_menu_ace->sprite_object->trotation = lu_sin((vars->timer << 8) / 2) / 3;

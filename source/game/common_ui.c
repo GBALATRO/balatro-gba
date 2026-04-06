@@ -21,11 +21,11 @@ BackgroundRenderCallback bgCallbacks[] =
     [BG_MAIN_MENU] = game_main_menu_change_background,
 };
 
-void change_background(enum BackgroundId id)
+void change_background(enum BackgroundId id, bool force_redraw)
 {
     if(id == BG_MAIN_MENU || id == BG_BLIND_SELECT)
     {
-        if(id != background)
+        if(id != background || force_redraw)
         {
             bgCallbacks[id]();
         }
