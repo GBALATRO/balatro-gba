@@ -4255,6 +4255,10 @@ static bool shop_top_row_on_selection_changed(
     const Selection* new_selection
 )
 {
+    // Guard if we move down while on jokers
+    if (new_selection->y > row_idx && prev_selection->x > 0)
+        return false;
+
     // The selection grid system only guarantees that the new selection is within bounds
     // but not the previous one...
     // This allows using INIT_SEL = {-1, 1} and move to set the initial selection in a hacky way...
