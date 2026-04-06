@@ -8,6 +8,9 @@
 
 #include <tonc.h>
 
+#include "blind.h"
+#include "sprite.h"
+
 /**
  * @brief A central location for all game variables.
  *
@@ -20,6 +23,12 @@ typedef struct
     u32 rng_seed;
 
     int current_blind;
+
+    enum BlindState blinds_states[BLIND_TYPE_MAX];
+    Sprite* blind_select_tokens[BLIND_TYPE_MAX];
+
+    int round;
+    int ante;
 } GameVariables;
 
 #endif // GAME_VARIABLES_H

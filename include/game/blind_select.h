@@ -29,4 +29,15 @@ void game_blind_select_on_update(GameVariables* vars);
  */
 void game_blind_select_on_exit(GameVariables* vars);
 
+void game_blind_select_change_background(void);
+
+enum BlindSelectStates
+{
+    START_ANIM_SEQ,
+    BLIND_SELECT,
+    BLIND_SELECTED_ANIM_SEQ,
+    DISPLAY_BLIND_PANEL,
+    BLIND_SELECT_MAX
+};
+
 #endif // BLIND_SELECT_H

@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "blind.h"
 #include "common_ui.h"
 #include "game/common_ui.h"
 #include "game_variables.h"
@@ -181,5 +182,13 @@ void game_start(void);
 // simultaneous integration of the new system in `common_ui` with the the existing
 // old system incrementally and without losing functionality.
 void change_background_legacy(enum BackgroundId id);
+
+void display_round(void);
+
+void increment_blind(enum BlindState increment_reason);
+
+void reset_top_left_panel_bottom_row(void);
+
+GameVariables* get_game_vars(void);
 
 #endif // GAME_H

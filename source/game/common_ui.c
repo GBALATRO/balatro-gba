@@ -1,6 +1,7 @@
 #include "game/common_ui.h"
 
 #include "game/main_menu.h"
+#include "game/blind_select.h"
 
 #include "game.h"
 
@@ -16,13 +17,13 @@ BackgroundRenderCallback bgCallbacks[] =
     [BG_CARD_PLAYING] = NULL,
     [BG_ROUND_END] = NULL,
     [BG_SHOP] = NULL,
-    [BG_BLIND_SELECT] = NULL,
+    [BG_BLIND_SELECT] = game_blind_select_change_background,
     [BG_MAIN_MENU] = game_main_menu_change_background,
 };
 
 void change_background(enum BackgroundId id)
 {
-    if(id == BG_MAIN_MENU)
+    if(id == BG_MAIN_MENU || id == BG_BLIND_SELECT)
     {
         if(id != background)
         {
