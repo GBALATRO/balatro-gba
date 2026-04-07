@@ -17,4 +17,5 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Run clang-format
-        run: clang-format --dry-run -Werror include/*.h source/*.c
+        run: clang-format --dry-run -Werror \
+             include/*.h source/*.c include/game/*.h source/game/*.c

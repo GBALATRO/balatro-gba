@@ -22,14 +22,14 @@ void game_main_menu_on_init(GameVariables* vars);
 
 /**
  * @brief Main menu state update
- * 
+ *
  * @param vars passed @ref GameVariables struct
  */
 void game_main_menu_on_update(GameVariables* vars);
 
 /**
  * @brief Main menu cleanup (called when transitioning to game start)
- * 
+ *
  * @param vars passed @ref GameVariables struct
  */
 void game_main_menu_on_exit(GameVariables* vars);

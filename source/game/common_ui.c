@@ -1,16 +1,14 @@
 #include "game/common_ui.h"
 
-#include "game/main_menu.h"
-
 #include "game.h"
+#include "game/main_menu.h"
 
 typedef void (*BackgroundRenderCallback)(void);
 
 static enum BackgroundId background = BG_NONE;
 
 // Map to fill in for refactor
-BackgroundRenderCallback bgCallbacks[] =
-{
+BackgroundRenderCallback bgCallbacks[] = {
     [BG_NONE] = NULL,
     [BG_CARD_SELECTING] = NULL,
     [BG_CARD_PLAYING] = NULL,
@@ -22,9 +20,9 @@ BackgroundRenderCallback bgCallbacks[] =
 
 void change_background(enum BackgroundId id)
 {
-    if(id == BG_MAIN_MENU)
+    if (id == BG_MAIN_MENU)
     {
-        if(id != background)
+        if (id != background)
         {
             bgCallbacks[id]();
         }
