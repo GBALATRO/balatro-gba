@@ -1,5 +1,5 @@
-#ifndef TIMER_H_
-#define TIMER_H_
+#ifndef TIMER_H
+#define TIMER_H
 
 // Timer defs
 #define TM_ZERO                         0
@@ -25,4 +25,4 @@
 #define TM_END_ANIM_SEQ                 12
 #define TM_SCORE_LERP_INTERVAL          2
 
-#endif // TIMER_H_
+#endif // TIMER_H
