@@ -1,7 +1,23 @@
+/**
+ * @file timer.h
+ *
+ * @brief Timer constants
+ *
+ */
 #ifndef TIMER_H
 #define TIMER_H
 
-// Timer defs
+/**
+ *  @name Timer Definitions
+ *
+ *  @brief Timer constants used throughout this project
+ *
+ *  **NOTE** these constants will
+ *  need to be placed in their own scope outside of this global context during
+ *  this refactor.
+ *
+ * @{
+ */
 #define TM_ZERO                         0
 #define TM_RESET_STATIC_VARS            30
 #define TM_END_POP_MENU_ANIM            13
@@ -24,5 +40,6 @@
 #define TM_BLIND_SELECT_START           1
 #define TM_END_ANIM_SEQ                 12
 #define TM_SCORE_LERP_INTERVAL          2
+/** @} */
 
 #endif // TIMER_H
