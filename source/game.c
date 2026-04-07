@@ -1,5 +1,4 @@
 #include "game.h"
-#include "timer.h"
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
@@ -21,6 +20,7 @@
 #include "soundbank.h"
 #include "splash_screen.h"
 #include "sprite.h"
+#include "timer.h"
 #include "tonc_memdef.h"
 #include "util.h"
 
@@ -98,7 +98,7 @@
 /* This needs to stay a power of 2 and small enough
  * for the lerping to be done before the next hand is drawn.
  */
-#define NUM_SCORE_LERP_STEPS   16
+#define NUM_SCORE_LERP_STEPS 16
 
 // Shop
 #define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
