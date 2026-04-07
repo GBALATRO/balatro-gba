@@ -6,10 +6,10 @@
 #ifndef GAME_VARIABLES_H
 #define GAME_VARIABLES_H
 
-#include <tonc.h>
-
 #include "blind.h"
 #include "sprite.h"
+
+#include <tonc.h>
 
 /**
  * @brief A central location for all game variables.

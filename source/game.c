@@ -1,7 +1,5 @@
 #include "game.h"
 
-#include "timer.h"
-
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "audio_utils.h"
@@ -21,6 +19,7 @@
 #include "soundbank.h"
 #include "splash_screen.h"
 #include "sprite.h"
+#include "timer.h"
 #include "tonc_memdef.h"
 #include "util.h"
 
@@ -31,9 +30,9 @@
 #define STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS 4
 #define STRAIGHT_AND_FLUSH_SIZE_DEFAULT      5
 
-static const Rect ROUND_END_MENU_RECT       = {9,       7,      24,     20 }; 
-static const BG_POINT CUR_BLIND_TOKEN_POS   = {8,       18};
-static const Rect POP_MENU_ANIM_RECT = { 9, 7, 24, 31 };
+static const Rect ROUND_END_MENU_RECT = {9, 7, 24, 20};
+static const BG_POINT CUR_BLIND_TOKEN_POS = {8, 18};
+static const Rect POP_MENU_ANIM_RECT = {9, 7, 24, 31};
 
 // Pixel sizes
 #define ITEM_SHOP_Y               71
@@ -45,7 +44,7 @@ static const Rect POP_MENU_ANIM_RECT = { 9, 7, 24, 31 };
 #define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
 
 // TODO: Properly define and use
-#define GAME_OVER_ANIM_FRAMES    15
+#define GAME_OVER_ANIM_FRAMES 15
 
 #define SHOP_LIGHTS_1_CLR 0xFFFF
 #define SHOP_LIGHTS_2_CLR 0x32BE
@@ -67,22 +66,22 @@ static const Rect POP_MENU_ANIM_RECT = { 9, 7, 24, 31 };
 
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
-#define BOSS_BLIND_PRIMARY_PID               1
-#define REROLL_BTN_PID                       3
-#define NEXT_ROUND_BTN_SELECTED_BORDER_PID   5
-#define BLIND_BG_SHADOW_PID                  5
-#define SHOP_PANEL_SHADOW_PID                6
-#define BOSS_BLIND_SHADOW_PID                7
-#define REROLL_BTN_SELECTED_BORDER_PID       7
-#define SHOP_LIGHTS_1_PID                    8
-#define SHOP_LIGHTS_2_PID                    14
-#define NEXT_ROUND_BTN_PID                   16
-#define SHOP_LIGHTS_3_PID                    17
-#define BLIND_BG_SECONDARY_PID               18
-#define BLIND_BG_PRIMARY_PID                 19
-#define REWARD_PANEL_BORDER_PID              19
-#define SHOP_LIGHTS_4_PID                    22
-#define SHOP_BOTTOM_PANEL_BORDER_PID         26
+#define BOSS_BLIND_PRIMARY_PID             1
+#define REROLL_BTN_PID                     3
+#define NEXT_ROUND_BTN_SELECTED_BORDER_PID 5
+#define BLIND_BG_SHADOW_PID                5
+#define SHOP_PANEL_SHADOW_PID              6
+#define BOSS_BLIND_SHADOW_PID              7
+#define REROLL_BTN_SELECTED_BORDER_PID     7
+#define SHOP_LIGHTS_1_PID                  8
+#define SHOP_LIGHTS_2_PID                  14
+#define NEXT_ROUND_BTN_PID                 16
+#define SHOP_LIGHTS_3_PID                  17
+#define BLIND_BG_SECONDARY_PID             18
+#define BLIND_BG_PRIMARY_PID               19
+#define REWARD_PANEL_BORDER_PID            19
+#define SHOP_LIGHTS_4_PID                  22
+#define SHOP_BOTTOM_PANEL_BORDER_PID       26
 
 #define PLAY_HAND_BTN_PID           6
 #define PLAY_HAND_BTN_BORDER_PID    7
@@ -496,7 +495,7 @@ static Sprite* playing_blind_token = NULL;
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 static Sprite* round_end_blind_token = NULL;
 
-//static int current_blind = BLIND_TYPE_SMALL;
+// static int current_blind = BLIND_TYPE_SMALL;
 
 static int blind_reward = 0;
 static int hand_reward = 0;
@@ -1373,7 +1372,8 @@ void change_background_legacy(enum BackgroundId id)
             GRIT_CPY(&tile8_mem[MAIN_BG_CBB], background_gfxTiles);
             GRIT_CPY(&se_mem[MAIN_BG_SBB], background_gfxMap);
 
-            if (game_vars.current_blind == BLIND_TYPE_BIG) // Change text and palette depending on blind type
+            if (game_vars.current_blind ==
+                BLIND_TYPE_BIG) // Change text and palette depending on blind type
             {
                 main_bg_se_copy_rect(BIG_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
             }
@@ -3562,7 +3562,8 @@ static void game_round_end_display_cashout()
         // Put the "cash out" button onto the round end panel
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
 
-        int cashout_amount = hands + blind_get_reward(game_vars.current_blind) + calculate_interest_reward();
+        int cashout_amount =
+            hands + blind_get_reward(game_vars.current_blind) + calculate_interest_reward();
 
         bool omit_space = cashout_amount >= 10;
         tte_printf(
