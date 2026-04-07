@@ -57,26 +57,6 @@ static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
 // clang-format off
 // Map of Joker ID -> Spritesheet idx
-static int joker_id_to_sprite_map[] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    1, 1,
-    2, 2,
-    3, 3, 3, 3, 3,
-    4, 4, 4, 4, 4,
-    5, 5, 5, 5,
-    6, 6, 6, 6,
-    7, 7,
-    8, 8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-};
 
 // Map of Spritesheet idx -> first Joker ID in sheet
 // This is used to determine the sprite index of a Joker's sprite
@@ -396,12 +376,13 @@ static int s_get_num_spritesheets()
 
 static int s_joker_get_spritesheet_idx(u8 joker_id)
 {
-    return joker_id_to_sprite_map[joker_id];
+    return get_joker_registry_entry(joker_id)->sprite_map_idx;
 }
 
 static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx)
 {
-    return joker_id - spritesheet_idx_to_starting_joker_id[joker_id_to_sprite_map[joker_id]];
+    u32 idx = get_joker_registry_entry(joker_id)->sprite_map_idx;
+    return joker_id - spritesheet_idx_to_starting_joker_id[idx];
 }
 
 static void s_joker_pb_add_sprite_user(int pb)

@@ -137,6 +137,7 @@ typedef struct
 {
     u8 rarity;
     u8 base_value;
+    u32 sprite_map_idx;
     JokerEffectFunc joker_effect_func;
 } JokerInfo;
 const JokerInfo* get_joker_registry_entry(int joker_id);
