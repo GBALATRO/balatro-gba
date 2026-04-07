@@ -28,7 +28,7 @@ LIBTONC := $(DEVKITPRO)/libtonc
 TARGET         := $(notdir $(CURDIR))
 BUILD          := build
 SOURCES	       := source source/game
-INCLUDES       := include include/game
+INCLUDES       := include include/game assets/include assets/build
 DATA           :=
 MUSIC          := audio
 GRAPHICS       := graphics
@@ -60,7 +60,7 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map),--undefined=balatro_version
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -ltonc
+LIBS	:= -lmm -ltonc -ljoker_effects
 
 
 #---------------------------------------------------------------------------------
@@ -68,7 +68,9 @@ LIBS	:= -lmm -ltonc
 # include and lib.
 # the LIBGBA path should remain in this list if you want to use maxmod
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA) $(LIBTONC)
+LIBDIRS	:=	$(LIBGBA) $(LIBTONC) /home/bigboi/projects/gba/balatro-gba/assets
+
+$(info $(LIBDIRS))
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

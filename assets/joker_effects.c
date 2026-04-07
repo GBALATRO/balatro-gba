@@ -39,6 +39,43 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
+// See linked issue for context of maps
+// https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
+
+// clang-format off
+// Map of Joker ID -> Spritesheet idx
+int joker_id_to_sprite_map[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1,
+    2, 2,
+    3, 3, 3, 3, 3,
+    4, 4, 4, 4, 4,
+    5, 5, 5, 5,
+    6, 6, 6, 6,
+    7, 7,
+    8, 8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+};
+
+// Map of Spritesheet idx -> first Joker ID in sheet
+// This is used to determine the sprite index of a Joker's sprite
+// within its spritesheet by substracting its ID to this starting ID.
+// Notice how spritesheets with only one Joker have sequential starting IDs.
+int spritesheet_idx_to_starting_joker_id[] = {
+     0, 18, 20, 22, 27, 32, 36, 40, 42, 44,
+    45, 46, 47, 48, 49, 50, 51, 52
+};
+// clang-format on
+
+
 REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
 REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
