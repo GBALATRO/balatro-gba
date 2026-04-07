@@ -39,6 +39,17 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
+// clang-format off
+// Map of Spritesheet idx -> first Joker ID in sheet
+// This is used to determine the sprite index of a Joker's sprite
+// within its spritesheet by substracting its ID to this starting ID.
+// Notice how spritesheets with only one Joker have sequential starting IDs.
+static int spritesheet_idx_to_starting_joker_id[] = {
+     0, 18, 20, 22, 27, 32, 36, 40, 42, 44,
+    45, 46, 47, 48, 49, 50, 51, 52
+};
+// clang-format on
+
 REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
 REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
@@ -1505,3 +1516,10 @@ static u32 sock_and_buskin_joker_effect(
 
     return effect_flags_ret;
 }
+
+int joker_get_sprite_idx_in_sheet(u8 joker_id)
+{
+    u32 idx = get_joker_registry_entry(joker_id)->sprite_map_idx;
+    return joker_id - spritesheet_idx_to_starting_joker_id[idx];
+}
+

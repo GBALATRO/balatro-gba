@@ -178,4 +178,6 @@ bool joker_object_score(
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
 
+int joker_get_sprite_idx_in_sheet(u8 joker_id);
+
 #endif // JOKER_H
