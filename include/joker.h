@@ -181,14 +181,14 @@ bool joker_object_score(
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
 
-#define REGISTER_JOKER(sym, gfx_idx, rarity_, base_value_, sprite_sheet_, sheet_idx_, effect_func_) \
+#define REGISTER_JOKER(sym, rarity_, base_value_, sprite_sheet_, sheet_idx_, effect_func_) \
     static const JokerInfo sym##_def = { \
         .rarity = (rarity_), \
         .base_value = (base_value_), \
         .sprite_sheet = (sprite_sheet_), \
         .sheet_idx = (sheet_idx_), \
-        .tiles = joker_gfx##gfx_idx##Tiles, \
-        .pal = joker_gfx##gfx_idx##Pal, \
+        .tiles = joker_gfx##sprite_sheet_##Tiles, \
+        .pal = joker_gfx##sprite_sheet_##Pal, \
         .joker_effect_func = (effect_func_), \
     }; \
     const JokerInfo * const sym##_ptr \
