@@ -138,6 +138,8 @@ typedef struct
     u8 rarity;
     u8 base_value;
     u32 sprite_map_offset;
+    const unsigned int* tiles;
+    const u16* pal;
     JokerEffectFunc joker_effect_func;
 } JokerInfo;
 const JokerInfo* get_joker_registry_entry(int joker_id);
@@ -178,8 +180,15 @@ bool joker_object_score(
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
 
-#define REGISTER_JOKER(sym, ...) \
-    static const JokerInfo sym##_def = __VA_ARGS__; \
+#define REGISTER_JOKER(sym, gfx_idx, rarity_, base_value_, sprite_map_offset_, effect_func_) \
+    static const JokerInfo sym##_def = { \
+        .rarity = (rarity_), \
+        .base_value = (base_value_), \
+        .sprite_map_offset = (sprite_map_offset_), \
+        .tiles = joker_gfx##gfx_idx##Tiles, \
+        .pal = joker_gfx##gfx_idx##Pal, \
+        .joker_effect_func = (effect_func_), \
+    }; \
     const JokerInfo * const sym##_ptr \
         __attribute__((section(".jokers"), used)) = &sym##_def;
 

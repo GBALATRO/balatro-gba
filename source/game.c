@@ -4812,8 +4812,8 @@ static void game_blind_select_on_exit(GameVariables* vars)
 
 static inline void game_start(void)
 {
-    set_seed(rng_seed);
-    // set_seed(9); // 9 is a full house
+    //set_seed(rng_seed);
+     set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
 

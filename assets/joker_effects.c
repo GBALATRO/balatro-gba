@@ -5,6 +5,8 @@
 #include "pool.h"
 #include "util.h"
 
+#include "joker_gfx.h"
+
 #include <stdlib.h>
 
 #define MISPRINT_MAX_MULT 23
@@ -119,68 +121,68 @@ REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 const JokerInfo joker_registry[] = 
 {
     // Spritesheet 0
-    { COMMON_JOKER,    2, 0, default_joker_effect              }, // DEFAULT_JOKER_ID = 0
-    { COMMON_JOKER,    4, 0, abstract_joker_effect             }, // 1
-    { COMMON_JOKER,    5, 0, half_joker_effect                 }, // 2
-    { COMMON_JOKER,    4, 0, misprint_joker_effect             }, // 3
-    { COMMON_JOKER,    4, 0, scary_face_joker_effect           }, // 4
-    { UNCOMMON_JOKER,  6, 0, sock_and_buskin_joker_effect      }, // 5
-    { UNCOMMON_JOKER,  6, 0, acrobat_joker_effect              }, // 6
-    { UNCOMMON_JOKER,  8, 0, fibonnaci_joker_effect            }, // 7
-    { COMMON_JOKER,    4, 0, scholar_joker_effect              }, // 8
-    { COMMON_JOKER,    4, 0, crafty_joker_effect               }, // 9
-    { COMMON_JOKER,    4, 0, droll_joker_effect                }, // 10
-    { COMMON_JOKER,    5, 0, raised_fist_joker_effect          }, // 11
-    { COMMON_JOKER,    6, 0, reserved_parking_joker_effect     }, // 12
-    { COMMON_JOKER,    4, 0, business_card_joker_effect        }, // 13
-    { COMMON_JOKER,    4, 0, hanging_chad_joker_effect         }, // 14
-    { UNCOMMON_JOKER,  8, 0, stencil_joker_effect              }, // 15
-    { COMMON_JOKER,    5, 0, banner_joker_effect               }, // 16
-    { COMMON_JOKER,    5, 0, shoot_the_moon_joker_effect,      }, // 17
+    { COMMON_JOKER,    2, 0,  NULL, NULL, default_joker_effect              }, // DEFAULT_JOKER_ID = 0
+    { COMMON_JOKER,    4, 0,  NULL, NULL, abstract_joker_effect             }, // 1
+    { COMMON_JOKER,    5, 0,  NULL, NULL, half_joker_effect                 }, // 2
+    { COMMON_JOKER,    4, 0,  NULL, NULL, misprint_joker_effect             }, // 3
+    { COMMON_JOKER,    4, 0,  NULL, NULL, scary_face_joker_effect           }, // 4
+    { UNCOMMON_JOKER,  6, 0,  NULL, NULL, sock_and_buskin_joker_effect      }, // 5
+    { UNCOMMON_JOKER,  6, 0,  NULL, NULL, acrobat_joker_effect              }, // 6
+    { UNCOMMON_JOKER,  8, 0,  NULL, NULL, fibonnaci_joker_effect            }, // 7
+    { COMMON_JOKER,    4, 0,  NULL, NULL, scholar_joker_effect              }, // 8
+    { COMMON_JOKER,    4, 0,  NULL, NULL, crafty_joker_effect               }, // 9
+    { COMMON_JOKER,    4, 0,  NULL, NULL, droll_joker_effect                }, // 10
+    { COMMON_JOKER,    5, 0,  NULL, NULL, raised_fist_joker_effect          }, // 11
+    { COMMON_JOKER,    6, 0,  NULL, NULL, reserved_parking_joker_effect     }, // 12
+    { COMMON_JOKER,    4, 0,  NULL, NULL, business_card_joker_effect        }, // 13
+    { COMMON_JOKER,    4, 0,  NULL, NULL, hanging_chad_joker_effect         }, // 14
+    { UNCOMMON_JOKER,  8, 0,  NULL, NULL, stencil_joker_effect              }, // 15
+    { COMMON_JOKER,    5, 0,  NULL, NULL, banner_joker_effect               }, // 16
+    { COMMON_JOKER,    5, 0,  NULL, NULL, shoot_the_moon_joker_effect,      }, // 17
     // Spritesheet 1 
-    { COMMON_JOKER,    5, 1, greedy_joker_effect               }, // 18
-    { COMMON_JOKER,    5, 1, lusty_joker_effect                }, // 19
+    { COMMON_JOKER,    5, 1,  NULL, NULL, greedy_joker_effect               }, // 18
+    { COMMON_JOKER,    5, 1,  NULL, NULL, lusty_joker_effect                }, // 19
     // Spritesheet 2
-    { COMMON_JOKER,    5, 2, wrathful_joker_effect             }, // 20
-    { COMMON_JOKER,    5, 2, gluttonous_joker_effect           }, // 21
+    { COMMON_JOKER,    5, 2,  NULL, NULL, wrathful_joker_effect             }, // 20
+    { COMMON_JOKER,    5, 2,  NULL, NULL, gluttonous_joker_effect           }, // 21
     // Spritesheet 3
-    { COMMON_JOKER,    4, 3, crazy_joker_effect                }, // 22
-    { COMMON_JOKER,    4, 3, mad_joker_effect                  }, // 23
-    { COMMON_JOKER,    4, 3, clever_joker_effect               }, // 24
-    { COMMON_JOKER,    4, 3, devious_joker_effect              }, // 25
-    { COMMON_JOKER,    4, 3, even_steven_joker_effect          }, // 26
+    { COMMON_JOKER,    4, 3,  NULL, NULL, crazy_joker_effect                }, // 22
+    { COMMON_JOKER,    4, 3,  NULL, NULL, mad_joker_effect                  }, // 23
+    { COMMON_JOKER,    4, 3,  NULL, NULL, clever_joker_effect               }, // 24
+    { COMMON_JOKER,    4, 3,  NULL, NULL, devious_joker_effect              }, // 25
+    { COMMON_JOKER,    4, 3,  NULL, NULL, even_steven_joker_effect          }, // 26
     // Spritesheet 4
-    { UNCOMMON_JOKER,  6, 4, blackboard_joker_effect           }, // 27
-    { COMMON_JOKER,    5, 4, mystic_summit_joker_effect        }, // 28
-    { COMMON_JOKER,    4, 4, walkie_talkie_joker_effect        }, // 29
-    { COMMON_JOKER,    4, 4, zany_joker_effect                 }, // 30
-    { COMMON_JOKER,    4, 4, wily_joker_effect                 }, // 31
+    { UNCOMMON_JOKER,  6, 4,  NULL, NULL, blackboard_joker_effect           }, // 27
+    { COMMON_JOKER,    5, 4,  NULL, NULL, mystic_summit_joker_effect        }, // 28
+    { COMMON_JOKER,    4, 4,  NULL, NULL, walkie_talkie_joker_effect        }, // 29
+    { COMMON_JOKER,    4, 4,  NULL, NULL, zany_joker_effect                 }, // 30
+    { COMMON_JOKER,    4, 4,  NULL, NULL, wily_joker_effect                 }, // 31
     // Spritesheet 5
-    { COMMON_JOKER,    3, 5, sly_joker_effect                  }, // 32
-    { COMMON_JOKER,    3, 5, jolly_joker_effect                }, // 33
-    { COMMON_JOKER,    5, 5, blue_joker_effect                 }, // 34
-    { COMMON_JOKER,    4, 5, odd_todd_joker_effect             }, // 35
+    { COMMON_JOKER,    3, 5,  NULL, NULL, sly_joker_effect                  }, // 32
+    { COMMON_JOKER,    3, 5,  NULL, NULL, jolly_joker_effect                }, // 33
+    { COMMON_JOKER,    5, 5,  NULL, NULL, blue_joker_effect                 }, // 34
+    { COMMON_JOKER,    4, 5,  NULL, NULL, odd_todd_joker_effect             }, // 35
     // Spritesheet 6
-    { RARE_JOKER,      8, 6, the_duo_joker_effect              }, // 36
-    { RARE_JOKER,      8, 6, the_trio_joker_effect             }, // 37
-    { RARE_JOKER,      8, 6, the_order_joker_effect            }, // 38
-    { RARE_JOKER,      8, 6, the_tribe_joker_effect            }, // 39
+    { RARE_JOKER,      8, 6,  NULL, NULL, the_duo_joker_effect              }, // 36
+    { RARE_JOKER,      8, 6,  NULL, NULL, the_trio_joker_effect             }, // 37
+    { RARE_JOKER,      8, 6,  NULL, NULL, the_order_joker_effect            }, // 38
+    { RARE_JOKER,      8, 6,  NULL, NULL, the_tribe_joker_effect            }, // 39
     // Spritesheet 7
-    { RARE_JOKER,      8, 7, the_family_joker_effect           }, // 40
-    { RARE_JOKER,     10, 7, blueprint_brainstorm_joker_effect }, // 41 Brainstorm
+    { RARE_JOKER,      8, 7,  NULL, NULL, the_family_joker_effect           }, // 40
+    { RARE_JOKER,     10, 7,  NULL, NULL, blueprint_brainstorm_joker_effect }, // 41 Brainstorm
     // Spritesheet 8
-    { COMMON_JOKER,    4, 8, smiley_face_joker_effect          }, // 42
-    { UNCOMMON_JOKER,  6, 8, bull_joker_effect                 }, // 43
-    // Individual Jokers (for now :3)
-    { COMMON_JOKER,    5, 9, photograph_joker_effect,          }, // 44
-    { UNCOMMON_JOKER,  6, 10, hack_joker_effect                 }, // 45
-    { UNCOMMON_JOKER,  5, 11, joker_effect_noop                 }, // 46 Pareidolia
-    { UNCOMMON_JOKER,  7, 12, bootstraps_joker_effect           }, // 47
-    { UNCOMMON_JOKER,  7, 13, joker_effect_noop,                }, // 48 Shortcut
-    { UNCOMMON_JOKER,  5, 14, dusk_joker_effect                 }, // 49
-    { UNCOMMON_JOKER,  7, 15, joker_effect_noop,                }, // 50 Four Fingers
-    { UNCOMMON_JOKER,  6, 16, seltzer_joker_effect,             }, // 51
-    { RARE_JOKER,     10, 17, blueprint_brainstorm_joker_effect }, // 52 Blueprint
+    { COMMON_JOKER,    4, 8,  NULL, NULL, smiley_face_joker_effect          }, // 42
+    { UNCOMMON_JOKER,  6, 8,  NULL, NULL, bull_joker_effect                 }, // 43
+    // Individual Jokers (for NULL, NULL,  now :3)
+    { COMMON_JOKER,    5, 9,  NULL, NULL, photograph_joker_effect,          }, // 44
+    { UNCOMMON_JOKER,  6, 10, NULL, NULL, hack_joker_effect                 }, // 45
+    { UNCOMMON_JOKER,  5, 11, NULL, NULL, joker_effect_noop                 }, // 46 Pareidolia
+    { UNCOMMON_JOKER,  7, 12, NULL, NULL, bootstraps_joker_effect           }, // 47
+    { UNCOMMON_JOKER,  7, 13, NULL, NULL, joker_effect_noop,                }, // 48 Shortcut
+    { UNCOMMON_JOKER,  5, 14, NULL, NULL, dusk_joker_effect                 }, // 49
+    { UNCOMMON_JOKER,  7, 15, NULL, NULL, joker_effect_noop,                }, // 50 Four Fingers
+    { UNCOMMON_JOKER,  6, 16, NULL, NULL, seltzer_joker_effect,             }, // 51
+    { RARE_JOKER,     10, 17, NULL, NULL, blueprint_brainstorm_joker_effect }, // 52 Blueprint
 
     // The following jokers don't have sprites yet,
     // uncomment them when their sprites are added.
@@ -189,7 +191,7 @@ const JokerInfo joker_registry[] =
 };
 // clang-format on
 
-REGISTER_JOKER(greedy, {COMMON_JOKER, 10, 0, default_joker_effect,})
+REGISTER_JOKER(greedy, 0, COMMON_JOKER, 10, 0, default_joker_effect)
 
 static u32 joker_effect_noop(
     Joker* joker,
