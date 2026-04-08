@@ -16,3 +16,5 @@ tests/util/build
 audio/*.bak
 assets/lib
 assets/build
+assets_2/lib
+assets_2/build

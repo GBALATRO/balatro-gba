@@ -61,7 +61,7 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map),--undefined=balatro_version -T$(R
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -ltonc -Wl,--whole-archive -ljoker_effects -Wl,--no-whole-archive
+LIBS	:= -lmm -ltonc -Wl,--whole-archive -lcool_mod -ljoker_effects -Wl,--no-whole-archive
 
 
 #---------------------------------------------------------------------------------
@@ -69,7 +69,8 @@ LIBS	:= -lmm -ltonc -Wl,--whole-archive -ljoker_effects -Wl,--no-whole-archive
 # include and lib.
 # the LIBGBA path should remain in this list if you want to use maxmod
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA) $(LIBTONC) /home/bigboi/projects/gba/balatro-gba/assets
+LIBDIRS	:=	$(LIBGBA) $(LIBTONC) $(ROOT_DIR)/assets $(ROOT_DIR)/assets_2
+
 
 $(info $(LIBDIRS))
 
