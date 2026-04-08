@@ -18,12 +18,6 @@
 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 #define MAX_NUM_JOKERS_SPRITESHEETS 75
 
-static const unsigned int* joker_gfxTiles[] = {
-#define DEF_JOKER_GFX(idx) joker_gfx##idx##Tiles,
-#include "def_joker_gfx_table.h"
-#undef DEF_JOKER_GFX
-};
-
 const static u8 edition_price_lut[MAX_EDITIONS] = {
     0, // BASE_EDITION
     2, // FOIL_EDITION
@@ -145,14 +139,13 @@ JokerObject* joker_object_new(Joker* joker)
 
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
 
-    int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
+        &joker_get(joker->id)->tiles[joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
         TILE_SIZE * JOKER_SPRITE_OFFSET
     );
 
