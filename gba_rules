@@ -37,4 +37,4 @@ endif
 %.elf:
 	$(SILENTMSG) linking cartridge
 	$(ADD_COMPILE_COMMAND) end
-	$(SILENTCMD)$(LD)  $(LDFLAGS) -specs=gba.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
+	$(SILENTCMD)$(LD)  $(LDFLAGS) -specs=$(ROOT_DIR)/gba.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
