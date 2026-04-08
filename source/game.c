@@ -670,7 +670,8 @@ static inline int get_num_shop_jokers_avail(void)
 
 static inline void reset_shop_jokers(void)
 {
-    int num_jokers = get_joker_registry_size();
+    //int num_jokers = get_joker_registry_size();
+    int num_jokers = joker_count();
     bitset_clear(&_avail_jokers_bitset);
     for (int i = 0; i < num_jokers; i++)
     {

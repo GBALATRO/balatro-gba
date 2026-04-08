@@ -6,7 +6,8 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
-include $(DEVKITARM)/gba_rules
+ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+include $(ROOT_DIR)/gba_rules
 
 #---------------------------------------------------------------------------------
 # the LIBGBA path is defined in gba_rules, but we have to define LIBTONC ourselves

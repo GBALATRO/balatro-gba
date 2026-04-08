@@ -177,4 +177,20 @@ bool joker_object_score(
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
 
+#define REGISTER_JOKER(sym, ...) \
+    static const JokerInfo sym##_def = __VA_ARGS__; \
+    const JokerInfo * const sym##_ptr \
+        __attribute__((section(".jokers"), used)) = &sym##_def;
+
+extern const JokerInfo *__jokers_start[];
+extern const JokerInfo *__jokers_end[];
+
+static inline const JokerInfo *joker_get(int id) {
+    return __jokers_start[id];
+}
+
+static inline int joker_count(void) {
+    return __jokers_end - __jokers_start;
+}
+
 #endif // JOKER_H

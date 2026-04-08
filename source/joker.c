@@ -80,11 +80,13 @@ void joker_init()
 
 Joker* joker_new(u8 id)
 {
-    if (id >= get_joker_registry_size())
+    //if (id >= get_joker_registry_size())
+    if (id >= joker_count())
         return NULL;
 
     Joker* joker = POOL_GET(Joker);
-    const JokerInfo* jinfo = get_joker_registry_entry(id);
+    //const JokerInfo* jinfo = get_joker_registry_entry(id);
+    const JokerInfo* jinfo = joker_get(id);
 
     joker->id = id;
     joker->modifier = BASE_EDITION; // TODO: Make this a parameter
@@ -113,7 +115,8 @@ u32 joker_get_score_effect(
     JokerEffect** joker_effect
 )
 {
-    const JokerInfo* jinfo = get_joker_registry_entry(joker->id);
+    //const JokerInfo* jinfo = get_joker_registry_entry(joker->id);
+    const JokerInfo* jinfo = joker_get(joker->id);
     if (!jinfo)
         return JOKER_EFFECT_FLAG_NONE;
 

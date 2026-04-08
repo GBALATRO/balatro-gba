@@ -211,6 +211,8 @@ const JokerInfo joker_registry[] =
 };
 // clang-format on
 
+REGISTER_JOKER(greedy, {.rarity = COMMON_JOKER,.base_value = 10,.joker_effect_func = default_joker_effect,})
+
 static const size_t joker_registry_size = NUM_ELEM_IN_ARR(joker_registry);
 
 const JokerInfo* get_joker_registry_entry(int joker_id)

@@ -1,0 +1,40 @@
+ifeq ($(strip $(DEVKITPRO)),)
+$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPro)
+endif
+
+
+PORTLIBS	:= $(DEVKITPRO)/portlibs/gba $(DEVKITPRO)/portlibs/armv4t
+export PATH := $(DEVKITPRO)/portlibs/gba/bin:$(DEVKITPRO)/portlibs/armv4t/bin:$(PATH)
+LIBGBA		:= $(DEVKITPRO)/libgba
+
+include $(DEVKITPRO)/devkitARM/base_rules
+
+ifeq ($(strip $(GAME_TITLE)),)
+GAME_TITLE	:=	$(notdir $(OUTPUT))
+endif
+
+ifeq ($(strip $(GAME_CODE)),)
+GAME_CODE	:=	0000
+endif
+
+ifeq ($(strip $(MAKER_CODE)),)
+MAKER_CODE	:=	00
+endif
+
+#---------------------------------------------------------------------------------
+%.gba: %.elf
+	$(SILENTCMD)$(OBJCOPY) -O binary $< $@
+	@echo built ... $(notdir $@)
+	$(SILENTCMD)gbafix $@ -t$(GAME_TITLE) -c$(GAME_CODE) -m$(MAKER_CODE)
+
+#---------------------------------------------------------------------------------
+%_mb.elf:
+	$(SILENTMSG) linking multiboot
+	$(ADD_COMPILE_COMMAND) end
+	$(SILENTCMD)$(LD) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
+
+#---------------------------------------------------------------------------------
+%.elf:
+	$(SILENTMSG) linking cartridge
+	$(ADD_COMPILE_COMMAND) end
+	$(SILENTCMD)$(LD)  $(LDFLAGS) -specs=gba.specs $(OFILES) $(LIBPATHS) $(LIBS) -o $@
