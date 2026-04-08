@@ -358,8 +358,7 @@ static int s_joker_get_spritesheet_idx(u8 joker_id)
 
 static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
 {
-    return joker_id - spritesheet_idx_to_starting_joker_id[s_joker_get_spritesheet_idx(joker_id)];
-    //return joker_get(joker_id)->sheet_idx;
+    return joker_get(joker_id)->sheet_idx;
 }
 
 static void s_joker_pb_add_sprite_user(int pb)

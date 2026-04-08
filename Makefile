@@ -61,7 +61,7 @@ LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map),--undefined=balatro_version
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -ltonc -ljoker_effects
+LIBS	:= -lmm -ltonc -Wl,--whole-archive -ljoker_effects -Wl,--no-whole-archive
 
 
 #---------------------------------------------------------------------------------
