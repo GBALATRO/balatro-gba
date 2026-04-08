@@ -55,12 +55,11 @@ static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 // These externs are just to illustrate the architecture. There will be linker
 // sections that get directly linked into the correct location, to have arrays
 // off assets. But for this working example an extern is straightforward
-extern int joker_id_to_sprite_map[];
 extern int spritesheet_idx_to_starting_joker_id[];
 
 static int s_get_num_spritesheets(void);
 static int s_joker_get_spritesheet_idx(u8 joker_id);
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx);
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
@@ -80,12 +79,10 @@ void joker_init()
 
 Joker* joker_new(u8 id)
 {
-    //if (id >= get_joker_registry_size())
     if (id >= joker_count())
         return NULL;
 
     Joker* joker = POOL_GET(Joker);
-    //const JokerInfo* jinfo = get_joker_registry_entry(id);
     const JokerInfo* jinfo = joker_get(id);
 
     joker->id = id;
@@ -115,7 +112,6 @@ u32 joker_get_score_effect(
     JokerEffect** joker_effect
 )
 {
-    //const JokerInfo* jinfo = get_joker_registry_entry(joker->id);
     const JokerInfo* jinfo = joker_get(joker->id);
     if (!jinfo)
         return JOKER_EFFECT_FLAG_NONE;
@@ -155,7 +151,7 @@ JokerObject* joker_object_new(Joker* joker)
     int tile_index = JOKER_TID + (layer * JOKER_SPRITE_OFFSET);
 
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
-    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
+    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
@@ -369,12 +365,12 @@ static int s_get_num_spritesheets()
 
 static int s_joker_get_spritesheet_idx(u8 joker_id)
 {
-    return joker_id_to_sprite_map[joker_id];
+    return joker_get(joker_id)->sprite_map_offset;
 }
 
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx)
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
 {
-    return joker_id - spritesheet_idx_to_starting_joker_id[joker_id_to_sprite_map[joker_id]];
+    return joker_id - spritesheet_idx_to_starting_joker_id[s_joker_get_spritesheet_idx(joker_id)];
 }
 
 static void s_joker_pb_add_sprite_user(int pb)
