@@ -23,11 +23,6 @@ static const unsigned int* joker_gfxTiles[] = {
 #include "def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
 };
-static const unsigned short* joker_gfxPal[] = {
-#define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
-#include "def_joker_gfx_table.h"
-#undef DEF_JOKER_GFX
-};
 
 const static u8 edition_price_lut[MAX_EDITIONS] = {
     0, // BASE_EDITION
@@ -425,8 +420,8 @@ static int s_allocate_pb_if_needed(u8 joker_id)
         joker_spritesheet_pb_map[joker_spritesheet_idx] = joker_pb;
         memcpy16(
             &pal_obj_mem[PAL_ROW_LEN * joker_pb],
-            joker_gfxPal[joker_spritesheet_idx],
-            NUM_ELEM_IN_ARR(joker_gfx0Pal)
+            joker_get(joker_id)->pal,
+            16
         );
     }
 
