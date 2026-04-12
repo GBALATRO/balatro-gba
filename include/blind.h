@@ -33,8 +33,11 @@ enum BlindType
     // Normal Blinds
     BLIND_TYPE_SMALL,
     BLIND_TYPE_BIG,
+
     // Boss Blinds
-    BLIND_TYPE_HOOK,
+    BLIND_TYPE_BOSS,
+
+    BLIND_TYPE_HOOK = BLIND_TYPE_BOSS,
     BLIND_TYPE_OX,
     BLIND_TYPE_HOUSE,
     BLIND_TYPE_WALL,
@@ -57,12 +60,17 @@ enum BlindType
     BLIND_TYPE_TOOTH,
     BLIND_TYPE_FLINT,
     BLIND_TYPE_MARK,
+
     // Showdown Blinds
-    BLIND_TYPE_ACORN,
+    BLIND_TYPE_SHOWDOWN,
+
+    BLIND_TYPE_ACORN = BLIND_TYPE_SHOWDOWN,
     BLIND_TYPE_LEAF,
     BLIND_TYPE_VESSEL,
     BLIND_TYPE_HEART,
     BLIND_TYPE_BELL,
+
+    // End of Blinds' list
     BLIND_TYPE_MAX
 };
 // clang-format on

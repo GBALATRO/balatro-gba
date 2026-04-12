@@ -438,11 +438,6 @@ static const BG_POINT HAND_PLAY_POS         = {120,     70};
 static const BG_POINT MAIN_MENU_ACE_T       = {88,      26};
 // clang-format on
 
-// Joker Testing
-static void add_to_held_jokers(JokerObject* joker_object);
-#define NB_TESTED_JOKERS 1
-static u8 test_jokers[5] = {0, 0, 0, 0, 0};
-
 static uint rng_seed = 0;
 
 typedef void (*SubStateActionFn)(void);
@@ -583,6 +578,7 @@ static Sprite* round_end_blind_token = NULL;
 static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
 static bool boss_rolled_this_ante = false;
+// Will be rolled later, just giving it a valid value
 static enum BlindType next_boss_blind = BLIND_TYPE_HOOK;
 static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
@@ -786,14 +782,6 @@ void game_init()
     _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 
     jokers_available_to_shop_init();
-
-    // Joker testing
-    // Fill Jokers List with desired Jokers if nb_test_jokers is not 0
-    for (u8 i = 0; i < NB_TESTED_JOKERS; i++)
-    {
-        JokerObject *joker_object = joker_object_new(joker_new(test_jokers[i]));
-        add_to_held_jokers(joker_object);
-    }
 
     hands = max_hands;
     discards = max_discards;

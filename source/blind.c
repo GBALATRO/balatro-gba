@@ -52,14 +52,14 @@ static Blind _blind_type_map[BLIND_TYPE_MAX] = {
     {BLIND_TYPE_PLANT,   FIX_ONE * 2,      5},
     {BLIND_TYPE_SERPENT, FIX_ONE * 2,      5},
     {BLIND_TYPE_PILLAR,  FIX_ONE * 2,      5},
-    {BLIND_TYPE_NEEDLE,  FIX_ONE,          5},
+    {BLIND_TYPE_NEEDLE,  FIX_ONE * 2,      5}, // Same as the Wall with normal requirement
     {BLIND_TYPE_HEAD,    FIX_ONE * 2,      5},
     {BLIND_TYPE_TOOTH,   FIX_ONE * 2,      5},
     {BLIND_TYPE_FLINT,   FIX_ONE * 2,      5},
     {BLIND_TYPE_MARK,    FIX_ONE * 2,      5},
     {BLIND_TYPE_ACORN,   FIX_ONE * 2,      8},
     {BLIND_TYPE_LEAF,    FIX_ONE * 2,      8},
-    {BLIND_TYPE_VESSEL,  FIX_ONE * 2,      8}, // Save as the Wall
+    {BLIND_TYPE_VESSEL,  FIX_ONE * 2,      8}, // Same as the Wall with x6 requirement
     {BLIND_TYPE_HEART,   FIX_ONE * 2,      8},
     {BLIND_TYPE_BELL,    FIX_ONE * 2,      8}
 };
@@ -106,8 +106,8 @@ void init_unbeaten_blinds_list(bool showdown)
     // empty the list just to be sure
     list_clear(p_unbeaten_blinds);
 
-    int lower_blind = showdown ? BLIND_TYPE_ACORN : BLIND_TYPE_HOOK;
-    int upper_blind = showdown ? BLIND_TYPE_BELL : BLIND_TYPE_MARK;
+    int lower_blind = showdown ? BLIND_TYPE_SHOWDOWN : BLIND_TYPE_BOSS;
+    int upper_blind = showdown ? BLIND_TYPE_MAX - 1 : BLIND_TYPE_SHOWDOWN - 1;
 
     for (int i = lower_blind; i <= upper_blind; i++)
     {
@@ -135,7 +135,7 @@ enum BlindType roll_blind_type(bool showdown)
 
 void set_blind_beaten(enum BlindType type)
 {
-    bool showdown = (type >= BLIND_TYPE_ACORN);
+    bool showdown = (type >= BLIND_TYPE_SHOWDOWN);
     List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
 
     // find the beaten blind idx in the list
@@ -188,7 +188,7 @@ void apply_blind_colors(enum BlindType type)
     u32 new_spritesheet = get_blind_spritesheet_idx(type);
 
     // No need to update normal blind palette
-    if (type < BLIND_TYPE_HOOK || active_boss_spritesheet == new_spritesheet)
+    if (type < BLIND_TYPE_BOSS || active_boss_spritesheet == new_spritesheet)
     {
         return;
     }
