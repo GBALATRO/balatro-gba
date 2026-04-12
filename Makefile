@@ -25,7 +25,7 @@ LIBTONC := $(DEVKITPRO)/libtonc
 # the makefile is found
 #
 #---------------------------------------------------------------------------------
-TARGET         := $(notdir $(CURDIR))
+TARGET         := balatro-gba
 BUILD          := build
 SOURCES	       := source source/game
 INCLUDES       := include include/game
