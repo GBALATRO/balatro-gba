@@ -1978,11 +1978,10 @@ static void game_round_on_init(GameVariables* vars)
     // Apply boss blind round-start modifications (hand / discard counts).
     // These run after game_round_end_cashout() has already reset hands and
     // discards to their maximums, so overwriting them here is intentional.
-    if (current_blind == BLIND_TYPE_BOSS)
+    if (current_blind > BLIND_TYPE_BIG)
     {
-        enum BossBlindId boss_id = boss_blind_get_for_ante(ante);
         boss_blind_reset();
-        boss_blind_apply_round_start(boss_id, &hands, &discards, &hand_size);
+        boss_blind_apply_round_start(current_blind, &hands, &discards, &hand_size);
         display_hands(hands);
         display_discards(discards);
     }
@@ -2306,8 +2305,8 @@ static bool can_play_hand(void)
         return false;
 
     // Boss blind play restrictions (The Psychic: exactly 5 cards; The Eye: no repeated hand types)
-    if (current_blind == BLIND_TYPE_BOSS &&
-        !boss_blind_validate_play(boss_blind_get_for_ante(ante), hand_selections, (int)hand_type))
+    if (current_blind > BLIND_TYPE_BIG &&
+        !boss_blind_validate_play(current_blind, hand_selections, (int)hand_type))
         return false;
 
     return true;
@@ -2742,16 +2741,15 @@ static bool play_ended_played_cards_update(int played_idx)
                 // ── Boss blind post-hand effects ──────────────────────────
                 // These run before played_top is reset so we still know the
                 // number of cards that were played this hand.
-                if (current_blind == BLIND_TYPE_BOSS)
+                if (current_blind > BLIND_TYPE_BIG)
                 {
-                    enum BossBlindId boss_id = boss_blind_get_for_ante(ante);
                     int n_played = played_top + 1;
 
                     // The Eye: record the hand type so it cannot be played again.
-                    boss_blind_register_hand(boss_id, (int)hand_type);
+                    boss_blind_register_hand(current_blind, (int)hand_type);
 
                     // The Tooth: lose $1 per card played.
-                    int penalty = boss_blind_get_tooth_penalty(boss_id, n_played);
+                    int penalty = boss_blind_get_tooth_penalty(current_blind, n_played);
                     if (penalty > 0)
                     {
                         money = (money > penalty) ? money - penalty : 0;
@@ -2759,7 +2757,7 @@ static bool play_ended_played_cards_update(int played_idx)
                     }
 
                     // The Ox: playing any hand drains money to $0.
-                    if (boss_blind_is_ox_active(boss_id))
+                    if (boss_blind_is_ox_active(current_blind))
                     {
                         money = 0;
                         display_money();
@@ -2768,7 +2766,7 @@ static bool play_ended_played_cards_update(int played_idx)
                     // The Hook: discard the 2 topmost held cards.
                     // TODO: Animate the removal using the HAND_DISCARD state
                     //       and randomise which cards are chosen.
-                    int hook_count = boss_blind_get_hook_count(boss_id);
+                    int hook_count = boss_blind_get_hook_count(current_blind);
                     for (int bh = 0; bh < hook_count; bh++)
                     {
                         // Skip any NULL slots left by previously played cards.

@@ -1,6 +1,6 @@
 CC     := gcc
-CFLAGS := -I../../include -I. \
-          -g -O3 -std=gnu23 -Wall -Werror
+# -I. before -I../../include so the local blind.h stub shadows the real one.
+CFLAGS := -I. -I../../include           -g -O3 -std=gnu23 -Wall -Werror
 
 SRC := boss_blind_effects_test.c ../../source/boss_blind_effects.c
 OUT := build/boss_blind_effects_test
