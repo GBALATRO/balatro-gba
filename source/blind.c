@@ -166,7 +166,9 @@ static u32 get_blind_pb(enum BlindType type)
 static u32 get_blind_spritesheet_idx(enum BlindType type)
 {
     // See comment below in blind_get_color why we differenciate before/after the Mark
-    return (type < BLIND_TYPE_MARK) ? type / 2 : BLIND_TYPE_MARK / 2 + type - BLIND_TYPE_MARK;
+    return (type < BLIND_TYPE_MARK)
+             ? type / BLIND_TOKENS_PER_SPRITESHEET
+             : BLIND_TYPE_MARK / BLIND_TOKENS_PER_SPRITESHEET + type - BLIND_TYPE_MARK;
 }
 
 u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
@@ -177,7 +179,9 @@ u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)
     // | XX |  9 | 10 | 11 | 12 | 13 | 14 | 15 | -> second sprite
     // so we need to offset the color indices by 8 for blinds with an odd type
     // From the Mark onwards, all sprites are alone in their spritesheet, so no need to offset
-    u32 color_idx = index + ((type < BLIND_TYPE_MARK) ? 8 * (type % 2) : 0);
+    u32 color_idx = index + ((type < BLIND_TYPE_MARK)
+                                 ? BLIND_TOKEN_PALETTE_SIZE * (type % BLIND_TOKENS_PER_SPRITESHEET)
+                                 : 0);
     return blind_gfxPal[get_blind_spritesheet_idx(type)][color_idx];
 }
 
@@ -212,7 +216,7 @@ static u32 get_layer_tile_index(int layer)
 void apply_blind_tiles(enum BlindType type, int layer)
 {
     u32 spritesheet_idx = get_blind_spritesheet_idx(type);
-    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % 2 : 0;
+    u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % BLIND_TOKENS_PER_SPRITESHEET : 0;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
         &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],

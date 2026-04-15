@@ -746,7 +746,7 @@ static void reroll_boss_blind(bool no_tiles)
     next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
     if (!no_tiles)
     {
-        apply_blind_tiles(next_boss_blind, 4);
+        apply_blind_tiles(next_boss_blind, BOSS_BLIND_TOKEN_LAYER);
     }
 }
 
@@ -759,11 +759,11 @@ static void blind_tokens_init()
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
     blind_select_tokens[SMALL_BLIND] =
-        blind_token_new(BLIND_TYPE_SMALL, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 2);
+        blind_token_new(BLIND_TYPE_SMALL, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, SMALL_BLIND_TOKEN_LAYER);
     blind_select_tokens[BIG_BLIND] =
-        blind_token_new(BLIND_TYPE_BIG, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 3);
+        blind_token_new(BLIND_TYPE_BIG,   CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, BIG_BLIND_TOKEN_LAYER);
     blind_select_tokens[BOSS_BLIND] =
-        blind_token_new(next_boss_blind, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, 4);
+        blind_token_new(next_boss_blind,  CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, BOSS_BLIND_TOKEN_LAYER);
 
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
@@ -1962,22 +1962,24 @@ static void game_round_on_init()
     cards_drawn = 0;
     hand_selections = 0;
 
+    sprite_destroy(&playing_blind_token);
     playing_blind_token = blind_token_new(
         current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
-        0
+        PLAYING_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite at the top left corner
     // TODO: Hide blind token and display it after sliding blind rect animation
     // if (playing_blind_token != NULL)
     //{
     //    obj_hide(playing_blind_token->obj); // Hide the blind token sprite for now
     //}
+    sprite_destroy(&round_end_blind_token);
     round_end_blind_token = blind_token_new(
         current_blind,
         81,
         86,
-        1
+        ROUND_END_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite for round end
 
     if (round_end_blind_token != NULL)
