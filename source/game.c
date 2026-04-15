@@ -758,12 +758,24 @@ static void blind_tokens_init()
     sprite_destroy(&blind_select_tokens[BIG_BLIND]);
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
-    blind_select_tokens[SMALL_BLIND] =
-        blind_token_new(BLIND_TYPE_SMALL, CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, SMALL_BLIND_TOKEN_LAYER);
-    blind_select_tokens[BIG_BLIND] =
-        blind_token_new(BLIND_TYPE_BIG,   CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, BIG_BLIND_TOKEN_LAYER);
-    blind_select_tokens[BOSS_BLIND] =
-        blind_token_new(next_boss_blind,  CUR_BLIND_TOKEN_POS.x, CUR_BLIND_TOKEN_POS.y, BOSS_BLIND_TOKEN_LAYER);
+    blind_select_tokens[SMALL_BLIND] = blind_token_new(
+        BLIND_TYPE_SMALL,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        SMALL_BLIND_TOKEN_LAYER
+    );
+    blind_select_tokens[BIG_BLIND] = blind_token_new(
+        BLIND_TYPE_BIG,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        BIG_BLIND_TOKEN_LAYER
+    );
+    blind_select_tokens[BOSS_BLIND] = blind_token_new(
+        next_boss_blind,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        BOSS_BLIND_TOKEN_LAYER
+    );
 
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
