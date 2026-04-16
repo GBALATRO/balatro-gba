@@ -3,7 +3,6 @@ var annotated_dup =
     [ "Bitset", "structBitset.html", "structBitset" ],
     [ "BitsetItr", "structBitsetItr.html", "structBitsetItr" ],
     [ "Blind", "structBlind.html", null ],
-    [ "BlindGfxInfo", "structBlindGfxInfo.html", null ],
     [ "Button", "structButton.html", "structButton" ],
     [ "Card", "structCard.html", null ],
     [ "CardObject", "structCardObject.html", null ],
