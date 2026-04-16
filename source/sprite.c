@@ -11,8 +11,8 @@
 #include <tonc.h>
 #include <tonc_oam.h>
 
-OBJ_ATTR obj_buffer[MAX_SPRITES];
-OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
+OBJ_ATTR* obj_buffer = obj_mem;
+OBJ_AFFINE* obj_aff_buffer = obj_aff_mem;
 
 static Sprite* free_sprites[MAX_SPRITES] = {NULL};
 static bool free_affines[MAX_AFFINES] = {false};
@@ -142,8 +142,8 @@ void sprite_init()
 
 void sprite_draw()
 {
-    obj_aff_copy(obj_aff_mem, obj_aff_buffer, MAX_AFFINES);
-    oam_copy(oam_mem, obj_buffer, MAX_SPRITES);
+    // obj_aff_copy(obj_aff_mem, obj_aff_buffer, MAX_AFFINES);
+    // oam_copy(oam_mem, obj_buffer, MAX_SPRITES);
 }
 
 int sprite_get_pb(const Sprite* sprite)
