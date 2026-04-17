@@ -4,11 +4,20 @@ Runs the compiled ROM using [`@gba-kit/gba-node`](https://github.com/macabeus/gb
 
 ## Setup
 
-Requires Node.js >= 22 and after the first ROM is built:
+Before running the E2E tests locally, make sure you have:
+
+- Node.js >= 22
+- `bash` available in your environment
+- devkitARM installed with `$DEVKITARM` set (same toolchain required for `make`), or any `arm-none-eabi-nm` in `PATH`
+- A built ROM available before running the tests
+
+> On Windows, you may need Git Bash, WSL, or another bash-compatible shell for the address extraction step.
+>
+> If you don't have devkitARM installed locally, run the extraction inside the container: `docker compose run --rm gbalatro ./tests_e2e/helpers/extract_addresses.sh`.
 
 ```bash
 # Install dependencies
-cd tests-e2e
+cd tests_e2e
 npm install
 ```
 
@@ -72,4 +81,4 @@ describe('Shop', () => {
 
 ### 4. Available addresses
 
-`helpers/addresses.ts` exports `ADDR` with all known game variable addresses and enum constants (`GameState`, `HandState`, `BlindType`, `HandType`). To add a new address, add the symbol name to the `SYMBOLS` list in `helpers/extract-addresses.sh` and a corresponding entry in `addresses.ts`.
+`helpers/addresses.ts` exports `ADDR` with all known game variable addresses and enum constants (`GameState`, `HandState`, `BlindType`, `HandType`). To add a new address, add the symbol name to the `SYMBOLS` list in `helpers/extract_addresses.sh` and a corresponding entry in `addresses.ts`.

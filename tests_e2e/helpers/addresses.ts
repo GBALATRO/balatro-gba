@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ensureAddresses } from './ensure-addresses.js';
+import { ensureAddresses } from './ensure_addresses.js';
 
 ensureAddresses();
 

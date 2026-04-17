@@ -13,7 +13,7 @@ _codeql_detected_source_root
 doc
 tests/util/.vscode
 tests/util/build
-tests-e2e/node_modules/
-tests-e2e/output/
-tests-e2e/addresses.json
+tests_e2e/node_modules/
+tests_e2e/output/
+tests_e2e/addresses.json
 audio/*.bak

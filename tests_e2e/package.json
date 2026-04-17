@@ -5,7 +5,7 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "extract-addresses": "bash helpers/extract-addresses.sh",
+    "extract-addresses": "bash helpers/extract_addresses.sh",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

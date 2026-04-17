@@ -9,7 +9,7 @@ const ROM_PATH = join(__dirname, '..', '..', 'build', 'balatro-gba.gba');
 
 /**
  * Create a fresh HeadlessRuntime for a test.
- * Each test gets its own output directory under e2e/output/<testName>.
+ * Each test gets its own output directory under tests_e2e/output/<testName>.
  */
 export async function createRuntime(testName: string): Promise<HeadlessRuntime> {
   const outputDir = join(__dirname, '..', 'output', testName);

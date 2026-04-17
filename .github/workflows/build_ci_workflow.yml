@@ -71,21 +71,21 @@ jobs:
           docker compose -f docker-compose.yml run --rm \
           -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
           gbalatro \
-          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf"
+          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf && ./tests_e2e/helpers/extract_addresses.sh"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: tests-e2e/package-lock.json
+          cache-dependency-path: tests_e2e/package-lock.json
 
       - name: Install E2E test dependencies
-        working-directory: tests-e2e
+        working-directory: tests_e2e
         run: npm ci
 
       - name: Run E2E tests
-        working-directory: tests-e2e
+        working-directory: tests_e2e
         run: npx vitest run
 
       - name: Upload E2E test output
@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: e2e-output
-          path: tests-e2e/output/
+          path: tests_e2e/output/
           retention-days: 5
 
       - name: 'Upload Artifact'

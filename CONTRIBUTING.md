@@ -17,7 +17,7 @@ Backgrounds may use more colors but notice that their palette is encoded in thei
 On pull-requests, various checks will be performed:
 1. **Formatting**: `clang-format` will be ran on every `.c/.h` file with [this configuration](https://github.com/GBALATRO/balatro-gba/blob/main/.clang-format). Failures will cause the CI to fail.
 2. **Unit Tests**: Unit tests are required to pass and are located in the repo [here](https://github.com/GBALATRO/balatro-gba/tree/main/tests).
-3. **E2e tests**: Automated e2e tests runs over the latest ROM build. Read more about it on [tests-e2e/README.md](./tests-e2e/README.md).
+3. **E2E tests**: Automated E2E tests run over the latest ROM build. Read more about it on [tests_e2e/README.md](./tests_e2e/README.md).
 4. **Rom Build**: The ROM must successfully build with the `make -j$(nproc)` command.
 
 ## Code Style
