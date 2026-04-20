@@ -11,6 +11,9 @@
 #include <tonc.h>
 #include <tonc_oam.h>
 
+// Damping Constants
+#define SPRING_DAMP_NUMERATOR   179
+#define SPRING_DAMP_DENOM_SHIFT 8
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
@@ -223,8 +226,10 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vx = (sprite_object->vx * SPRING_DAMP_NUM) >> SPRING_DAMP_SHIFT;
-        sprite_object->vy = (sprite_object->vy * SPRING_DAMP_NUM) >> SPRING_DAMP_SHIFT;
+        sprite_object->vx =
+            (sprite_object->vx * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
+        sprite_object->vy =
+            (sprite_object->vy * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
 
         sprite_object->x += sprite_object->vx;
         sprite_object->y += sprite_object->vy;
@@ -238,7 +243,8 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vscale = (sprite_object->vscale * SPRING_DAMP_NUM) >> SPRING_DAMP_SHIFT;
+        sprite_object->vscale =
+            (sprite_object->vscale * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
         sprite_object->scale += sprite_object->vscale;
     }
 
@@ -252,7 +258,7 @@ void sprite_object_update(SpriteObject* sprite_object)
     else
     {
         sprite_object->vrotation =
-            (sprite_object->vrotation * SPRING_DAMP_NUM) >> SPRING_DAMP_SHIFT;
+            (sprite_object->vrotation * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
         sprite_object->rotation += sprite_object->vrotation;
     }
 

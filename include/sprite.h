@@ -19,8 +19,6 @@
 #define MAX_SPRITE_OBJECTS                16
 #define SPRITE_FOCUS_RAISE_PX             10
 #define CARD_FOCUS_SFX_PITCH_OFFSET_RANGE 512
-#define SPRING_DAMP_NUM                   90
-#define SPRING_DAMP_SHIFT                 7
 
 /** @} */
 
