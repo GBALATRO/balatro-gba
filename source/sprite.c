@@ -11,9 +11,12 @@
 #include <tonc.h>
 #include <tonc_oam.h>
 
-// Damping Constants
+// Damping Constants: SPRING_DAMP_NUMERATOR/2^SPRING_DAMP_DENOM_SHIFT ≈ 0.699 damping factor
+// SPRING_DAMP_ROUNDING = 2^(SPRING_DAMP_DENOM_SHIFT - 1) rounding for fixed-point arithmetic
 #define SPRING_DAMP_NUMERATOR   179
 #define SPRING_DAMP_DENOM_SHIFT 8
+#define SPRING_DAMP_ROUNDING    (1 << (SPRING_DAMP_DENOM_SHIFT - 1))
+
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
@@ -226,10 +229,12 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vx =
-            (sprite_object->vx * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
-        sprite_object->vy =
-            (sprite_object->vy * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
+        // Apply damping with proper rounding: (x * 179 + 128) >> 8 rounds to nearest instead of
+        // truncating
+        sprite_object->vx = (sprite_object->vx * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+                            SPRING_DAMP_DENOM_SHIFT;
+        sprite_object->vy = (sprite_object->vy * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+                            SPRING_DAMP_DENOM_SHIFT;
 
         sprite_object->x += sprite_object->vx;
         sprite_object->y += sprite_object->vy;
@@ -243,8 +248,11 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
+        // Apply damping with proper rounding: (x * 179 + 128) >> 8 rounds to nearest instead of
+        // truncating
         sprite_object->vscale =
-            (sprite_object->vscale * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
+            (sprite_object->vscale * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+            SPRING_DAMP_DENOM_SHIFT;
         sprite_object->scale += sprite_object->vscale;
     }
 
@@ -257,8 +265,11 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
+        // Apply damping with proper rounding: (x * 179 + 128) >> 8 rounds to nearest instead of
+        // truncating
         sprite_object->vrotation =
-            (sprite_object->vrotation * SPRING_DAMP_NUMERATOR + 128) >> SPRING_DAMP_DENOM_SHIFT;
+            (sprite_object->vrotation * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+            SPRING_DAMP_DENOM_SHIFT;
         sprite_object->rotation += sprite_object->vrotation;
     }
 
