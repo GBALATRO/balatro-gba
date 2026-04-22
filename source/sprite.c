@@ -217,7 +217,7 @@ void sprite_object_update(SpriteObject* sprite_object)
     sprite_object->vrotation += (sprite_object->trotation - sprite_object->rotation) / 8;
 
     // set velocity to 0 if it's close enough to the target
-    const FIXED epsilon = float2fx(0.01f);
+    const FIXED epsilon = (FIX_ONE >> 6);
     if (sprite_object->vx < epsilon && sprite_object->vx > -epsilon &&
         sprite_object->vy < epsilon && sprite_object->vy > -epsilon)
     {
