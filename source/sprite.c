@@ -11,6 +11,14 @@
 #include <tonc.h>
 #include <tonc_oam.h>
 
+// Damping Constants: SPRING_DAMP_NUMERATOR/2^SPRING_DAMP_DENOM_SHIFT ~ 0.699 damping factor
+//
+// SPRING_DAMP_ROUNDING = 2^(SPRING_DAMP_DENOM_SHIFT - 1) rounding for fixed-point arithmetic by
+// adding half the denominator to round instead of truncating
+#define SPRING_DAMP_NUMERATOR   179
+#define SPRING_DAMP_DENOM_SHIFT 8
+#define SPRING_DAMP_ROUNDING    (1 << (SPRING_DAMP_DENOM_SHIFT - 1))
+
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
@@ -211,7 +219,7 @@ void sprite_object_update(SpriteObject* sprite_object)
     sprite_object->vrotation += (sprite_object->trotation - sprite_object->rotation) / 8;
 
     // set velocity to 0 if it's close enough to the target
-    const FIXED epsilon = float2fx(0.01f);
+    const FIXED epsilon = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
     if (sprite_object->vx < epsilon && sprite_object->vx > -epsilon &&
         sprite_object->vy < epsilon && sprite_object->vy > -epsilon)
     {
@@ -223,8 +231,10 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vx = (sprite_object->vx * 7) / 10;
-        sprite_object->vy = (sprite_object->vy * 7) / 10;
+        sprite_object->vx = (sprite_object->vx * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+                            SPRING_DAMP_DENOM_SHIFT;
+        sprite_object->vy = (sprite_object->vy * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+                            SPRING_DAMP_DENOM_SHIFT;
 
         sprite_object->x += sprite_object->vx;
         sprite_object->y += sprite_object->vy;
@@ -238,7 +248,9 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vscale = (sprite_object->vscale * 7) / 10;
+        sprite_object->vscale =
+            (sprite_object->vscale * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+            SPRING_DAMP_DENOM_SHIFT;
         sprite_object->scale += sprite_object->vscale;
     }
 
@@ -251,7 +263,9 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
     else
     {
-        sprite_object->vrotation = (sprite_object->vrotation * 7) / 10;
+        sprite_object->vrotation =
+            (sprite_object->vrotation * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
+            SPRING_DAMP_DENOM_SHIFT;
         sprite_object->rotation += sprite_object->vrotation;
     }
 
