@@ -1,7 +1,7 @@
 /**
  * @file main_menu.h
  *
- * @brief Common functions to render UI elements.
+ * @brief Main menu state functions
  */
 #ifndef GAME_MAIN_MENU_H
 #define GAME_MAIN_MENU_H

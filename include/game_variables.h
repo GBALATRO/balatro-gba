@@ -16,7 +16,7 @@
  */
 typedef struct
 {
-    u32 timer;
+    s32 timer;
     u32 rng_seed;
 } GameVariables;
 

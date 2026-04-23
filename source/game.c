@@ -12,6 +12,7 @@
 #include "button.h"
 #include "card.h"
 #include "game/common_ui.h"
+#include "game/main_menu.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
@@ -62,6 +63,27 @@
 #define CARD_UNFOCUSED_SEL_Y 15
 #define CARD_FOCUSED_SEL_Y   20
 
+#define TM_RESET_STATIC_VARS            30
+#define TM_END_POP_MENU_ANIM            13
+#define TM_START_ROUND_END_REWARDS_ANIM 1
+#define TM_END_DISPLAY_FIN_BLIND        30
+#define TM_END_DISPLAY_SCORE_MIN        4
+#define TM_REWARDS_ELLIPSIS_PRINT_START 2
+#define TM_REWARDS_ELLIPSIS_PRINT_END   16
+#define TM_REWARD_DISPLAY_INTERVAL      15
+#define TM_DISPLAY_REWARDS_CONT_WAIT    (TM_REWARDS_ELLIPSIS_PRINT_END + TM_REWARD_DISPLAY_INTERVAL)
+#define TM_HAND_REWARD_INCR_WAIT        (TM_DISPLAY_REWARDS_CONT_WAIT + TM_REWARD_DISPLAY_INTERVAL)
+#define TM_REWARD_INCREMENT_INTERVAL    20
+#define TM_DISMISS_ROUND_END_TM         20
+#define TM_CREATE_SHOP_ITEMS_WAIT       1
+#define TM_SHIFT_SHOP_ICON_WAIT         7
+#define TM_END_GAME_SHOP_INTRO          12
+#define TM_SHOP_PRC_INPUT_START         1
+#define TM_DISP_BLIND_PANEL_FINISH      7
+#define TM_DISP_BLIND_PANEL_START       1
+#define TM_BLIND_SELECT_START           1
+#define TM_END_ANIM_SEQ                 12
+
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
 #define BOSS_BLIND_PRIMARY_PID               1
@@ -98,7 +120,8 @@
 /* This needs to stay a power of 2 and small enough
  * for the lerping to be done before the next hand is drawn.
  */
-#define NUM_SCORE_LERP_STEPS 16
+#define NUM_SCORE_LERP_STEPS   16
+#define TM_SCORE_LERP_INTERVAL 2
 
 // Shop
 #define REROLL_BASE_COST 5 // Base cost for rerolling the shop items
@@ -113,10 +136,6 @@
 #define REROLL_BTN_PAL_IDX       3
 
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
-
-#define CARD_FOCUSED_UNSEL_Y 10
-#define CARD_UNFOCUSED_SEL_Y 15
-#define CARD_FOCUSED_SEL_Y   20
 
 enum GameShopStates
 {
@@ -396,8 +415,6 @@ static const BG_POINT HAND_START_POS        = {120,     90};
 static const BG_POINT HAND_PLAY_POS         = {120,     70};
 // clang-format on
 
-static uint rng_seed = 0;
-
 typedef void (*SubStateActionFn)(void);
 
 static GameVariables game_vars;
@@ -406,8 +423,6 @@ static GameVariables game_vars;
 // aspects that should be sped up by speed, as in the original game.
 static int game_speed = 1;
 static enum BackgroundId background = BG_NONE;
-
-#include "main_menu.h"
 
 static StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -1961,8 +1976,8 @@ static void game_win_on_init(GameVariables* vars)
 // General functions
 static inline void set_seed(int seed)
 {
-    rng_seed = seed;
-    srand(rng_seed);
+    game_vars.rng_seed = seed;
+    srand(game_vars.rng_seed);
 }
 
 // Playing state functions
@@ -4763,7 +4778,7 @@ static void game_blind_select_on_exit(GameVariables* vars)
 
 void game_start(void)
 {
-    set_seed(rng_seed);
+    set_seed(game_vars.rng_seed);
     // set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
