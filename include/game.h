@@ -172,7 +172,7 @@ void set_game_speed(int new_game_speed);
 bool is_shortcut_joker_active(void);
 int get_straight_and_flush_size(void);
 
-void game_start(void);
+void game_start(GameVariables* vars);
 
 // Temporary change for Refactor. Currently this compatibility binder is to allow
 // simultaneous integration of the new system in `common_ui` with the the existing

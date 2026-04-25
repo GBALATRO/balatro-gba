@@ -13,6 +13,7 @@
 #include "card.h"
 #include "game/common_ui.h"
 #include "game/main_menu.h"
+#include "game_variables.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
 #include "joker.h"
@@ -4776,7 +4777,7 @@ static void game_blind_select_on_exit(GameVariables* vars)
     background = UNDEFINED;
 }
 
-void game_start(void)
+void game_start(GameVariables* vars)
 {
     set_seed(game_vars.rng_seed);
     // set_seed(9); // 9 is a full house
