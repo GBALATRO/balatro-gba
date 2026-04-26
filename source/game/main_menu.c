@@ -63,8 +63,6 @@ void game_main_menu_on_init()
 
 void game_main_menu_on_update()
 {
-    change_background(BG_MAIN_MENU);
-
     card_object_update(main_menu_ace);
     main_menu_ace->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
