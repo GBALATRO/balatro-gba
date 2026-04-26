@@ -663,7 +663,7 @@ static int shortcut_joker_count = 0;
 static int four_fingers_joker_count = 0;
 
 GBAL_UNUSED
-static GameVariables game_vars;
+GameVariables g_game_vars;
 
 GBAL_UNUSED
 static inline bool is_shop_joker_avail(int joker_id)
