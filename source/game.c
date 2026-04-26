@@ -169,6 +169,16 @@ enum BlindSelectStates
     BLIND_SELECT_MAX
 };
 
+// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
+// There are only 3 blinds per Ante, so we don't need more sprites than that
+enum BlindTokens
+{
+    SMALL_BLIND,
+    BIG_BLIND,
+    BOSS_BLIND,
+    NUM_BLINDS_PER_ANTE
+};
+
 typedef struct
 {
     u32 chips;
@@ -181,7 +191,7 @@ typedef struct
 // efficient. Well, this is the answer.
 // Thanks!
 // https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
-static void noop(GameVariables* vars)
+static void noop(void)
 {
 }
 
@@ -191,20 +201,20 @@ static void noop(GameVariables* vars)
 // This could be done, and maybe should be done,
 // with an X macro, but I'll leave that to the
 // reviewer(s).
-static void game_round_on_init(GameVariables* vars);
-static void game_playing_on_update(GameVariables* vars);
-static void game_round_end_on_update(GameVariables* vars);
-static void game_round_end_on_exit(GameVariables* vars);
-static void game_shop_on_update(GameVariables* vars);
-static void game_shop_on_exit(GameVariables* vars);
-static void game_blind_select_on_init(GameVariables* vars);
-static void game_blind_select_on_update(GameVariables* vars);
-static void game_blind_select_on_exit(GameVariables* vars);
-static void game_lose_on_init(GameVariables* vars);
-static void game_lose_on_update(GameVariables* vars);
-static void game_over_on_exit(GameVariables* vars);
-static void game_win_on_init(GameVariables* vars);
-static void game_win_on_update(GameVariables* vars);
+static void game_round_on_init(void);
+static void game_playing_on_update(void);
+static void game_round_end_on_update(void);
+static void game_round_end_on_exit(void);
+static void game_shop_on_update(void);
+static void game_shop_on_exit(void);
+static void game_blind_select_on_init(void);
+static void game_blind_select_on_update(void);
+static void game_blind_select_on_exit(void);
+static void game_lose_on_init(void);
+static void game_lose_on_update(void);
+static void game_over_on_exit(void);
+static void game_win_on_init(void);
+static void game_win_on_update(void);
 static void game_shop_intro(void);
 static void game_shop_process_user_input(void);
 static void game_shop_outro(void);
@@ -212,7 +222,7 @@ static void game_blind_select_start_anim_seq(void);
 static void game_blind_select_handle_input(void);
 static void game_blind_select_selected_anim_seq(void);
 static void game_blind_select_display_blind_panel(void);
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind);
+static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind);
 static void game_blind_select_print_blinds_reqs_and_rewards(void);
 static void game_round_end_start(void);
 static void game_round_end_start_expand_popup(void);
@@ -550,14 +560,16 @@ static Sprite* playing_blind_token = NULL;
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 static Sprite* round_end_blind_token = NULL;
 
-// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
-static Sprite* blind_select_tokens[BLIND_TYPE_MAX] = {NULL};
+static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
-static int current_blind = BLIND_TYPE_SMALL;
+static bool boss_rolled_this_ante = false;
+// Will be rolled later, just giving it a valid value
+static enum BlindType next_boss_blind = BLIND_TYPE_HOOK;
+static enum BlindType current_blind = BLIND_TYPE_SMALL;
 
 // The current state of the blinds, this is used to determine what the game is doing at any given
 // time
-static enum BlindState blinds_states[BLIND_TYPE_MAX] = {
+static enum BlindState blinds_states[NUM_BLINDS_PER_ANTE] = {
     BLIND_STATE_CURRENT,
     BLIND_STATE_UPCOMING,
     BLIND_STATE_UPCOMING
@@ -634,6 +646,9 @@ static int discard_top = -1;
 static int shortcut_joker_count = 0;
 
 static int four_fingers_joker_count = 0;
+
+GBAL_UNUSED
+GameVariables g_game_vars;
 
 GBAL_UNUSED
 static inline bool is_shop_joker_avail(int joker_id)
@@ -713,6 +728,49 @@ static inline void jokers_available_to_shop_init(void)
     reset_shop_jokers();
 }
 
+static void reroll_boss_blind(bool no_tiles)
+{
+    // Showdown blinds only show up on ante 8, 16, etc...
+    next_boss_blind = roll_blind_type((ante % 8 == 0) && (ante > 0));
+    if (!no_tiles)
+    {
+        apply_blind_tiles(next_boss_blind, BOSS_BLIND_TOKEN_LAYER);
+    }
+}
+
+static void blind_tokens_init()
+{
+    reroll_boss_blind(true);
+
+    sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
+    sprite_destroy(&blind_select_tokens[BIG_BLIND]);
+    sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
+
+    blind_select_tokens[SMALL_BLIND] = blind_token_new(
+        BLIND_TYPE_SMALL,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        SMALL_BLIND_TOKEN_LAYER
+    );
+    blind_select_tokens[BIG_BLIND] = blind_token_new(
+        BLIND_TYPE_BIG,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        BIG_BLIND_TOKEN_LAYER
+    );
+    blind_select_tokens[BOSS_BLIND] = blind_token_new(
+        next_boss_blind,
+        CUR_BLIND_TOKEN_POS.x,
+        CUR_BLIND_TOKEN_POS.y,
+        BOSS_BLIND_TOKEN_LAYER
+    );
+
+    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
+    {
+        obj_hide(blind_select_tokens[i]->obj);
+    }
+}
+
 void game_init()
 {
     // Initialize all jokers list once
@@ -737,28 +795,12 @@ void game_init()
     score = STARTING_SCORE;
     round = 0;
 
-    blind_select_tokens[BLIND_TYPE_SMALL] = blind_token_new(
-        BLIND_TYPE_SMALL,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 3
-    );
-    blind_select_tokens[BLIND_TYPE_BIG] = blind_token_new(
-        BLIND_TYPE_BIG,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 4
-    );
-    blind_select_tokens[BLIND_TYPE_BOSS] = blind_token_new(
-        BLIND_TYPE_BOSS,
-        CUR_BLIND_TOKEN_POS.x,
-        CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 5
-    );
+    // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available
+    init_unbeaten_blinds_list(false);
+    init_unbeaten_blinds_list(true);
+    boss_rolled_this_ante = false;
 
-    obj_hide(blind_select_tokens[BLIND_TYPE_SMALL]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BIG]->obj);
-    obj_hide(blind_select_tokens[BLIND_TYPE_BOSS]->obj);
+    blind_tokens_init();
 }
 
 static inline void discarded_jokers_update_loop(void)
@@ -857,7 +899,7 @@ void game_update()
 
     jokers_update_loop();
 
-    state_info[game_state].on_update(&game_vars);
+    state_info[game_state].on_update();
 }
 
 void game_change_state(enum GameState new_game_state)
@@ -867,12 +909,12 @@ void game_change_state(enum GameState new_game_state)
     if (game_state >= 0 && game_state < GAME_STATE_MAX)
     {
         state_info[game_state].substate = 0;
-        state_info[game_state].on_exit(&game_vars);
+        state_info[game_state].on_exit();
     }
 
     if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
     {
-        state_info[new_game_state].on_init(&game_vars);
+        state_info[new_game_state].on_init();
 
         game_state = new_game_state;
     }
@@ -1441,12 +1483,10 @@ void change_background_legacy(enum BackgroundId id)
             {
                 main_bg_se_copy_rect(BIG_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
             }
-            else if (current_blind == BLIND_TYPE_BOSS)
+            else if (current_blind > BLIND_TYPE_BIG)
             {
                 main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
-
-                affine_background_set_color(
-                    blind_get_color(BLIND_TYPE_BOSS, BLIND_SHADOW_COLOR_INDEX)
+                affine_background_set_color(blind_get_color(current_blind, BLIND_SHADOW_COLOR_INDEX)
                 );
             }
 
@@ -1537,7 +1577,16 @@ void change_background_legacy(enum BackgroundId id)
     }
     else if (id == BG_BLIND_SELECT)
     {
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
+        // If this is the first time we see this menu this Ante, roll a boss blind
+        // This check is there for future safety, if we have any kind of pause menu
+        // so we don't reroll the boss blind every time this menu is opened
+        if (!boss_rolled_this_ante)
+        {
+            boss_rolled_this_ante = true;
+            reroll_boss_blind(false);
+        }
+
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             obj_unhide(blind_select_tokens[i]->obj, 0);
         }
@@ -1546,9 +1595,9 @@ void change_background_legacy(enum BackgroundId id)
         // is shifted down by
         const int default_y = 89 + (TILE_SIZE * 12);
         // TODO refactor magic numbers '80/120/160' into a map to loop with
-        sprite_position(blind_select_tokens[BLIND_TYPE_SMALL], 80, default_y);
-        sprite_position(blind_select_tokens[BLIND_TYPE_BIG], 120, default_y);
-        sprite_position(blind_select_tokens[BLIND_TYPE_BOSS], 160, default_y);
+        sprite_position(blind_select_tokens[SMALL_BLIND], 80, default_y);
+        sprite_position(blind_select_tokens[BIG_BLIND], 120, default_y);
+        sprite_position(blind_select_tokens[BOSS_BLIND], 160, default_y);
 
         toggle_windows(false, true);
 
@@ -1559,12 +1608,12 @@ void change_background_legacy(enum BackgroundId id)
         // Copy boss blind colors to blind select palette
         memset16(
             &pal_bg_mem[1],
-            blind_get_color(BLIND_TYPE_BOSS, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
+            blind_get_color(next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
             1
         );
         memset16(
             &pal_bg_mem[7],
-            blind_get_color(BLIND_TYPE_BOSS, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
+            blind_get_color(next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
             1
         );
 
@@ -1585,7 +1634,7 @@ void change_background_legacy(enum BackgroundId id)
             1
         );
 
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             Rect curr_blind_rect = SINGLE_BLIND_SELECT_RECT;
 
@@ -1626,7 +1675,7 @@ void change_background_legacy(enum BackgroundId id)
                     {
                         y_from = 31;
                     }
-                    else if (i == BLIND_TYPE_BOSS)
+                    else if (i > BLIND_TYPE_BIG)
                     {
                         x_from = x_to;
                         y_from = 30;
@@ -1859,18 +1908,28 @@ static int deck_get_max_size(void)
 
 static void increment_blind(enum BlindState increment_reason)
 {
-    current_blind++;
-    if (current_blind >= BLIND_TYPE_MAX)
+    // cannot do blind++ anymore, we need to go SMALL->BIG->next_boss->SMALL...
+    switch (current_blind)
     {
-        current_blind = 0;
-        blinds_states[0] = BLIND_STATE_CURRENT;  // Reset the blinds to the first one
-        blinds_states[1] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-        blinds_states[2] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
-    }
-    else
-    {
-        blinds_states[current_blind] = BLIND_STATE_CURRENT;
-        blinds_states[current_blind - 1] = increment_reason;
+        // defeated small blind: go to big
+        case BLIND_TYPE_SMALL:
+            current_blind = BLIND_TYPE_BIG;
+            blinds_states[SMALL_BLIND] = increment_reason;
+            blinds_states[BIG_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated big blind: go to next boss
+        case BLIND_TYPE_BIG:
+            current_blind = next_boss_blind;
+            blinds_states[BIG_BLIND] = increment_reason;
+            blinds_states[BOSS_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated a boss: reset everything
+        default:
+            current_blind = BLIND_TYPE_SMALL;
+            blinds_states[SMALL_BLIND] = BLIND_STATE_CURRENT; // Reset the blinds to the first one
+            blinds_states[BIG_BLIND] = BLIND_STATE_UPCOMING;  // Set the next blind to upcoming
+            blinds_states[BOSS_BLIND] = BLIND_STATE_UPCOMING; // Set the next blind to upcoming
+            break;
     }
 }
 
@@ -1885,28 +1944,30 @@ static inline void deck_shuffle(void)
     }
 }
 
-static void game_round_on_init(GameVariables* vars)
+static void game_round_on_init()
 {
     hand_state = HAND_DRAW;
     cards_drawn = 0;
     hand_selections = 0;
 
+    sprite_destroy(&playing_blind_token);
     playing_blind_token = blind_token_new(
         current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 1
+        PLAYING_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite at the top left corner
     // TODO: Hide blind token and display it after sliding blind rect animation
     // if (playing_blind_token != NULL)
     //{
     //    obj_hide(playing_blind_token->obj); // Hide the blind token sprite for now
     //}
+    sprite_destroy(&round_end_blind_token);
     round_end_blind_token = blind_token_new(
         current_blind,
         81,
         86,
-        MAX_SELECTION_SIZE + MAX_HAND_SIZE + 2
+        ROUND_END_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite for round end
 
     if (round_end_blind_token != NULL)
@@ -1960,14 +2021,14 @@ static void game_over_init(void)
     main_bg_se_copy_rect(NEW_RUN_BTN_SRC_RECT, NEW_RUN_BTN_DEST_POS);
 }
 
-static void game_lose_on_init(GameVariables* vars)
+static void game_lose_on_init()
 {
     game_over_init();
     // Using the text color to match the "Game Over" text
     affine_background_set_color(TEXT_CLR_RED);
 }
 
-static void game_win_on_init(GameVariables* vars)
+static void game_win_on_init()
 {
     game_over_init();
     // Using the text color to match the "You Win" text
@@ -2320,11 +2381,15 @@ static inline void game_playing_handle_round_over(void)
 
     if (score >= blind_get_requirement(current_blind, ante))
     {
-        if (current_blind == BLIND_TYPE_BOSS)
+        if (current_blind > BLIND_TYPE_BIG)
         {
             if (ante < MAX_ANTE)
             {
                 display_ante(++ante);
+
+                // mark current boss blind as beaten and allow for reroll
+                set_blind_beaten(next_boss_blind);
+                boss_rolled_this_ante = false;
             }
             else
             {
@@ -3441,7 +3506,7 @@ static inline void game_playing_process_flaming_score(void)
     }
 }
 
-static void game_playing_on_update(GameVariables* vars)
+static void game_playing_on_update()
 {
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
     if (hand_state == HAND_DRAW || hand_state == HAND_DISCARD || hand_state == HAND_SELECT)
@@ -3480,7 +3545,7 @@ static int calculate_interest_reward(void)
     return reward;
 }
 
-static void game_round_end_on_exit(GameVariables* vars)
+static void game_round_end_on_exit()
 {
     // Cleanup blind tokens from this round to avoid accumulating
     // allocated blind sprites each round
@@ -3492,7 +3557,7 @@ static void game_round_end_on_exit(GameVariables* vars)
     // TODO: Reuse sprites for blind selection?
 }
 
-static void game_round_end_on_update(GameVariables* vars)
+static void game_round_end_on_update()
 {
     if (state_info[game_state].substate == ROUND_END_EXIT)
     {
@@ -3546,7 +3611,7 @@ static void game_round_end_display_finished_blind()
     int current_ante = ante;
 
     // Beating the boss blind increases the ante, so we need to display the previous ante value
-    if (current_blind == BLIND_TYPE_BOSS)
+    if (current_blind > BLIND_TYPE_BIG)
         current_ante--;
 
     Rect blind_req_rect = ROUND_END_BLIND_REQ_RECT;
@@ -4439,7 +4504,7 @@ static inline void game_shop_lights_anim_frame(void)
     memcpy16(&pal_bg_mem[SHOP_LIGHTS_1_PID], &shifted_palette[3], 1);
 }
 
-static void game_shop_on_update(GameVariables* vars)
+static void game_shop_on_update()
 {
     change_background(BG_SHOP);
 
@@ -4472,7 +4537,7 @@ static void game_shop_on_update(GameVariables* vars)
     shop_state_actions[substate]();
 }
 
-static void game_shop_on_exit(GameVariables* vars)
+static void game_shop_on_exit()
 {
     ListItr itr = list_itr_create(&_shop_jokers_list);
     JokerObject* joker_object;
@@ -4492,7 +4557,7 @@ static void game_shop_on_exit(GameVariables* vars)
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 }
 
-static void game_blind_select_on_init(GameVariables* vars)
+static void game_blind_select_on_init()
 {
     change_background(BG_BLIND_SELECT);
     selection_x = 0;
@@ -4501,7 +4566,7 @@ static void game_blind_select_on_init(GameVariables* vars)
     play_sfx(SFX_POP, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
 
-static void game_blind_select_on_update(GameVariables* vars)
+static void game_blind_select_on_update()
 {
     if (state_info[game_state].substate == BLIND_SELECT_MAX)
     {
@@ -4515,7 +4580,7 @@ static void game_blind_select_on_update(GameVariables* vars)
 
 static inline void game_blind_select_erase_blind_reqs_and_rewards()
 {
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    for (enum BlindTokens curr_blind = SMALL_BLIND; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
         Rect blind_req_and_reward_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
@@ -4535,7 +4600,25 @@ static inline void game_blind_select_erase_blind_reqs_and_rewards()
     }
 }
 
-static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
+static enum BlindType get_blind_type_from_token(enum BlindTokens blind)
+{
+    enum BlindType blind_type;
+    switch (blind)
+    {
+        case SMALL_BLIND:
+            blind_type = BLIND_TYPE_SMALL;
+            break;
+        case BIG_BLIND:
+            blind_type = BLIND_TYPE_BIG;
+            break;
+        default:
+            blind_type = next_boss_blind;
+            break;
+    }
+    return blind_type;
+}
+
+static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind)
 {
     Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
@@ -4552,11 +4635,11 @@ static Rect game_blind_select_get_req_score_rect(enum BlindType blind)
     return blind_req_score_rect;
 }
 
-static inline void game_blind_select_print_blind_req(enum BlindType blind)
+static inline void game_blind_select_print_blind_req(enum BlindTokens blind)
 {
     Rect blind_req_score_rect = game_blind_select_get_req_score_rect(blind);
 
-    u32 blind_req = blind_get_requirement(blind, ante);
+    u32 blind_req = blind_get_requirement(get_blind_type_from_token(blind), ante);
 
     char blind_req_str_buff[UINT_MAX_DIGITS + 1];
     truncate_uint_to_suffixed_str(
@@ -4576,9 +4659,9 @@ static inline void game_blind_select_print_blind_req(enum BlindType blind)
     );
 }
 
-static inline void game_blind_select_print_blind_reward(enum BlindType blind)
+static inline void game_blind_select_print_blind_reward(enum BlindTokens blind)
 {
-    int blind_reward = blind_get_reward(blind);
+    int blind_reward = blind_get_reward(get_blind_type_from_token(blind));
     Rect blind_reward_rect = game_blind_select_get_req_score_rect(blind);
 
     // The reward is right below the score.
@@ -4601,7 +4684,7 @@ static inline void game_blind_select_print_blind_reward(enum BlindType blind)
 
 static void game_blind_select_print_blinds_reqs_and_rewards(void)
 {
-    for (enum BlindType curr_blind = 0; curr_blind < BLIND_TYPE_MAX; curr_blind++)
+    for (enum BlindTokens curr_blind = 0; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
         game_blind_select_print_blind_req(curr_blind);
         game_blind_select_print_blind_reward(curr_blind);
@@ -4612,7 +4695,7 @@ static void game_blind_select_start_anim_seq()
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
-    for (int i = 0; i < BLIND_TYPE_MAX; i++)
+    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
         sprite_position(
             blind_select_tokens[i],
@@ -4631,7 +4714,7 @@ static void game_blind_select_start_anim_seq()
 
 static void game_blind_select_handle_input()
 {
-    if (game_vars.timer == TM_BLIND_SELECT_START && current_blind == BLIND_TYPE_BOSS)
+    if (g_game_vars.timer == TM_BLIND_SELECT_START && current_blind == BLIND_TYPE_BOSS)
     {
         selection_y = 0;
     }
@@ -4641,7 +4724,7 @@ static void game_blind_select_handle_input()
     {
         selection_y = 0;
     }
-    else if (key_hit(KEY_DOWN) && current_blind != BLIND_TYPE_BOSS)
+    else if (key_hit(KEY_DOWN) && current_blind <= BLIND_TYPE_BIG)
     {
         selection_y = 1;
     }
@@ -4657,7 +4740,7 @@ static void game_blind_select_handle_input()
             ++round;
             display_round();
         }
-        else if (current_blind != BLIND_TYPE_BOSS)
+        else if (current_blind <= BLIND_TYPE_BIG)
         {
             play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
             increment_blind(BLIND_STATE_SKIPPED);
@@ -4673,7 +4756,7 @@ static void game_blind_select_handle_input()
                 main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
             }
 
-            for (int i = 0; i < BLIND_TYPE_MAX; i++)
+            for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
             {
                 sprite_position(
                     blind_select_tokens[i],
@@ -4716,7 +4799,7 @@ static void game_blind_select_selected_anim_seq()
         blinds_rect.top -= 1; // Because of the raised blind
         main_bg_se_move_rect_1_tile_vert(blinds_rect, SCREEN_DOWN);
 
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             sprite_position(
                 blind_select_tokens[i],
@@ -4727,7 +4810,7 @@ static void game_blind_select_selected_anim_seq()
     }
     else if (game_vars.timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
-        for (int i = 0; i < BLIND_TYPE_MAX; i++)
+        for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             obj_hide(blind_select_tokens[i]->obj);
         }
@@ -4771,13 +4854,13 @@ static void game_blind_select_display_blind_panel()
     }
 }
 
-static void game_blind_select_on_exit(GameVariables* vars)
+static void game_blind_select_on_exit()
 {
     selection_y = 0;
     background = UNDEFINED;
 }
 
-void game_start(GameVariables* vars)
+void game_start()
 {
     set_seed(game_vars.rng_seed);
     // set_seed(9); // 9 is a full house
@@ -4852,7 +4935,7 @@ static inline void game_over_process_user_input()
     }
 }
 
-static void game_lose_on_update(GameVariables* vars)
+static void game_lose_on_update()
 {
     if (game_vars.timer < GAME_OVER_ANIM_FRAMES)
     {
@@ -4874,7 +4957,7 @@ static void game_lose_on_update(GameVariables* vars)
 // This function isn't set in stone. This is just a placeholder
 // allowing the player to restart the game. Thought it would be nice to have
 // util we decide what we want to do after a game over.
-static void game_over_on_exit(GameVariables* vars)
+static void game_over_on_exit()
 {
     while (list_get_len(&_owned_jokers_list) > 0)
     {
@@ -4890,9 +4973,9 @@ static void game_over_on_exit(GameVariables* vars)
     // show up on the next run.
     sprite_destroy(&playing_blind_token);
     sprite_destroy(&round_end_blind_token);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_SMALL]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BIG]);
-    sprite_destroy(&blind_select_tokens[BLIND_TYPE_BOSS]);
+    sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
+    sprite_destroy(&blind_select_tokens[BIG_BLIND]);
+    sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
     list_clear(&_owned_jokers_list);
     list_clear(&_discarded_jokers_list);
@@ -4922,7 +5005,7 @@ static void game_over_on_exit(GameVariables* vars)
     affine_background_load_palette(affine_background_gfxPal);
 }
 
-static void game_win_on_update(GameVariables* vars)
+static void game_win_on_update()
 {
     if (game_vars.timer < GAME_OVER_ANIM_FRAMES)
     {

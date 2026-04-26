@@ -46,9 +46,8 @@ void game_main_menu_change_background(void)
     memcpy16(&pal_bg_mem[PLAY_BUTTON_OUTLINE_PID], &pal_bg_mem[PLAY_BUTTON_MAIN_COLOR_PID], 1);
 }
 
-void game_main_menu_on_init(GameVariables* vars)
+void game_main_menu_on_init()
 {
-    (void)vars;
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU);
     main_menu_ace = card_object_new(card_new(SPADES, ACE));
@@ -62,20 +61,20 @@ void game_main_menu_on_init(GameVariables* vars)
     selection_x = 0;
 }
 
-void game_main_menu_on_update(GameVariables* vars)
+void game_main_menu_on_update()
 {
     change_background(BG_MAIN_MENU);
 
     card_object_update(main_menu_ace);
-    main_menu_ace->sprite_object->trotation = lu_sin((vars->timer << 8) / 2) / 3;
+    main_menu_ace->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
     main_menu_ace->sprite_object->rotation = main_menu_ace->sprite_object->trotation;
 
     // Seed randomization
-    vars->rng_seed++;
+    g_game_vars.rng_seed++;
     // If the keys have changed, make it more pseudo-random
     if (key_curr_state() != key_prev_state())
     {
-        vars->rng_seed *= 2;
+        g_game_vars.rng_seed *= 2;
     }
 
     if (key_hit(KEY_LEFT))
@@ -109,7 +108,7 @@ void game_main_menu_on_update(GameVariables* vars)
     }
 }
 
-void game_main_menu_on_exit(GameVariables* vars)
+void game_main_menu_on_exit()
 {
     // Normally I would just cache these and hide/unhide but I didn't feel like dealing with
     // defining a layer for it
