@@ -3574,7 +3574,7 @@ static void game_round_end_start()
     {
         change_background(BG_ROUND_END); // Change the background to the round end background
         state_info[game_state].substate = START_EXPAND_POPUP; // Change the state to the next one
-        g_game_vars.timer = TM_ZERO;                            // Reset the timer
+        g_game_vars.timer = TM_ZERO;                          // Reset the timer
         blind_reward = blind_get_reward(current_blind);
         hand_reward = hands;
         interest_reward = calculate_interest_reward();
@@ -3731,8 +3731,9 @@ static void game_round_end_panel_exit()
 
 static inline void game_round_end_print_separator_ellipsis(void)
 {
-    int x = (ROUND_END_REWARDS_ELLIPSIS_POS.x + g_game_vars.timer - TM_REWARDS_ELLIPSIS_PRINT_START) *
-            TILE_SIZE;
+    int x =
+        (ROUND_END_REWARDS_ELLIPSIS_POS.x + g_game_vars.timer - TM_REWARDS_ELLIPSIS_PRINT_START) *
+        TILE_SIZE;
     int y = (ROUND_END_REWARDS_ELLIPSIS_POS.y) * TILE_SIZE;
 
     tte_printf("#{P:%d,%d; cx:0x%X000}.", x, y, TTE_WHITE_PB);
@@ -4234,7 +4235,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
 
         // Go to next blind selection game state
         state_info[game_state].substate = GAME_SHOP_EXIT; // Go to the outro sequence state
-        g_game_vars.timer = TM_ZERO;                        // Reset the timer
+        g_game_vars.timer = TM_ZERO;                      // Reset the timer
         reroll_cost = REROLL_BASE_COST;
 
         memcpy16(
@@ -4472,7 +4473,7 @@ static void game_shop_outro()
     if (g_game_vars.timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
         state_info[game_state].substate = GAME_SHOP_MAX; // Go to the next state
-        g_game_vars.timer = TM_ZERO;                       // Reset the timer
+        g_game_vars.timer = TM_ZERO;                     // Reset the timer
     }
 }
 
@@ -4814,7 +4815,7 @@ static void game_blind_select_selected_anim_seq()
         }
 
         state_info[game_state].substate = DISPLAY_BLIND_PANEL; // Reset the state
-        g_game_vars.timer = TM_ZERO;                             // Reset the timer
+        g_game_vars.timer = TM_ZERO;                           // Reset the timer
     }
 }
 
