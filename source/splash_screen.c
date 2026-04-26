@@ -11,7 +11,7 @@
 static const Rect COUNTDOWN_TIMER_RECT = {208, 144, 240, 152};
 static uint timer = 0;
 
-void splash_screen_on_init(GameVariables* vars)
+void splash_screen_on_init()
 {
     timer = 0;
 
@@ -25,7 +25,7 @@ void splash_screen_on_init(GameVariables* vars)
     tte_printf("#{P:8,144; cx:0xF000}(Press any key to skip)");
 }
 
-void splash_screen_on_update(GameVariables* vars)
+void splash_screen_on_update()
 {
     timer++;
 
@@ -49,7 +49,7 @@ void splash_screen_on_update(GameVariables* vars)
     tte_erase_screen();
 }
 
-void splash_screen_on_exit(GameVariables* vars)
+void splash_screen_on_exit()
 {
     mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);
 }
