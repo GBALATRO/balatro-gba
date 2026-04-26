@@ -28,5 +28,5 @@ void change_background(enum BackgroundId id)
         }
     }
     change_background_legacy(id);
-    id = background;
+    background = id;
 }
