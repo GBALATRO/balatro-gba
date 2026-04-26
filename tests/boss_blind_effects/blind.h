@@ -1,0 +1,50 @@
+/**
+ * Test stub for blind.h.
+ * Provides BlindType enum (matching #352) without GBA-specific headers.
+ */
+#ifndef BLIND_H
+#define BLIND_H
+
+// clang-format off
+enum BlindType
+{
+    BLIND_TYPE_SMALL,
+    BLIND_TYPE_BIG,
+
+    BLIND_TYPE_BOSS,
+    BLIND_TYPE_HOOK = BLIND_TYPE_BOSS,
+    BLIND_TYPE_OX,
+    BLIND_TYPE_HOUSE,
+    BLIND_TYPE_WALL,
+    BLIND_TYPE_WHEEL,
+    BLIND_TYPE_ARM,
+    BLIND_TYPE_CLUB,
+    BLIND_TYPE_FISH,
+    BLIND_TYPE_PSYCHIC,
+    BLIND_TYPE_GOAD,
+    BLIND_TYPE_WATER,
+    BLIND_TYPE_WINDOW,
+    BLIND_TYPE_MANACLE,
+    BLIND_TYPE_EYE,
+    BLIND_TYPE_MOUTH,
+    BLIND_TYPE_PLANT,
+    BLIND_TYPE_SERPENT,
+    BLIND_TYPE_PILLAR,
+    BLIND_TYPE_NEEDLE,
+    BLIND_TYPE_HEAD,
+    BLIND_TYPE_TOOTH,
+    BLIND_TYPE_FLINT,
+    BLIND_TYPE_MARK,
+
+    BLIND_TYPE_SHOWDOWN,
+    BLIND_TYPE_ACORN = BLIND_TYPE_SHOWDOWN,
+    BLIND_TYPE_LEAF,
+    BLIND_TYPE_VESSEL,
+    BLIND_TYPE_HEART,
+    BLIND_TYPE_BELL,
+
+    BLIND_TYPE_MAX
+};
+// clang-format on
+
+#endif // BLIND_H
