@@ -4,9 +4,9 @@
 #include "game/common_ui.h"
 #include "game_variables.h"
 
-extern GameVariables g_game_vars;
-
 #include <tonc.h>
+
+extern GameVariables g_game_vars;
 
 #define MAX_HAND_SIZE        16
 #define MAX_DECK_SIZE        52
