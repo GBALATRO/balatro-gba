@@ -8,4 +8,4 @@ services:
     volumes:
       - ./:/balatro-gba
     user: "${UID-1000}:${GID-1000}"
-    command: ["sh", "-c", "git config --global --add safe.directory /balatro-gba && make -j$(nproc)"]
+    command: ["sh", "-c", "make -j$(nproc)"]
