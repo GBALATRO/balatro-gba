@@ -6,7 +6,8 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
 
-include $(DEVKITARM)/gba_rules
+ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+include $(ROOT_DIR)/gba_rules
 
 #---------------------------------------------------------------------------------
 # the LIBGBA path is defined in gba_rules, but we have to define LIBTONC ourselves
@@ -28,7 +29,7 @@ LIBTONC := $(DEVKITPRO)/libtonc
 TARGET         := $(notdir $(CURDIR))
 BUILD          := build
 SOURCES	       := source source/game
-INCLUDES       := include include/game
+INCLUDES       := include include/game assets/include assets/build
 DATA           :=
 MUSIC          := audio
 GRAPHICS       := graphics
@@ -55,12 +56,12 @@ CFLAGS	+=	$(INCLUDE)
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)
-LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map),--undefined=balatro_version
+LDFLAGS	=	-g $(ARCH) -Wl,-Map,$(notdir $*.map),--undefined=balatro_version -T$(ROOT_DIR)gba_cart.ld
 
 #---------------------------------------------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:= -lmm -ltonc
+LIBS	:= -lmm -ltonc -Wl,--whole-archive -lcool_mod -ljoker_effects -Wl,--no-whole-archive
 
 
 #---------------------------------------------------------------------------------
@@ -68,7 +69,10 @@ LIBS	:= -lmm -ltonc
 # include and lib.
 # the LIBGBA path should remain in this list if you want to use maxmod
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBGBA) $(LIBTONC)
+LIBDIRS	:=	$(LIBGBA) $(LIBTONC) $(ROOT_DIR)/assets $(ROOT_DIR)/assets_2
+
+
+$(info $(LIBDIRS))
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional

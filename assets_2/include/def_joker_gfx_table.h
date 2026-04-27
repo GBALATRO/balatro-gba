@@ -1,0 +1,1 @@
+DEF_JOKER_GFX(20)

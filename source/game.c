@@ -682,7 +682,7 @@ static inline int get_num_shop_jokers_avail(void)
 
 static inline void reset_shop_jokers(void)
 {
-    int num_jokers = get_joker_registry_size();
+    int num_jokers = joker_count();
     bitset_clear(&_avail_jokers_bitset);
     for (int i = 0; i < num_jokers; i++)
     {
@@ -4023,7 +4023,7 @@ static inline int game_shop_get_rand_available_joker_id(void)
     {
         if (i++ == fallback_random_idx)
             fallback_random_joker_id = joker_id;
-        const JokerInfo* info = get_joker_registry_entry(joker_id);
+        const JokerInfo* info = joker_get(joker_id);
         if (info->rarity == joker_rarity)
         {
             matching_joker_ids[match_count++] = joker_id;
@@ -4903,8 +4903,8 @@ static void game_blind_select_on_exit(GameVariables* vars)
 
 static inline void game_start(void)
 {
-    set_seed(rng_seed);
-    // set_seed(9); // 9 is a full house
+    //set_seed(rng_seed);
+     set_seed(9); // 9 is a full house
 
     affine_background_change_background(AFFINE_BG_GAME);
 

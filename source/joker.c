@@ -18,17 +18,6 @@
 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 #define MAX_NUM_JOKERS_SPRITESHEETS 75
 
-static const unsigned int* joker_gfxTiles[] = {
-#define DEF_JOKER_GFX(idx) joker_gfx##idx##Tiles,
-#include "../include/def_joker_gfx_table.h"
-#undef DEF_JOKER_GFX
-};
-static const unsigned short* joker_gfxPal[] = {
-#define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
-#include "def_joker_gfx_table.h"
-#undef DEF_JOKER_GFX
-};
-
 const static u8 edition_price_lut[MAX_EDITIONS] = {
     0, // BASE_EDITION
     2, // FOIL_EDITION
@@ -52,45 +41,14 @@ static bool used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for j
 static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
-// See linked issue for context of maps
-// https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
-
-// clang-format off
-// Map of Joker ID -> Spritesheet idx
-static int joker_id_to_sprite_map[] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    1, 1,
-    2, 2,
-    3, 3, 3, 3, 3,
-    4, 4, 4, 4, 4,
-    5, 5, 5, 5,
-    6, 6, 6, 6,
-    7, 7,
-    8, 8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-};
-
-// Map of Spritesheet idx -> first Joker ID in sheet
-// This is used to determine the sprite index of a Joker's sprite
-// within its spritesheet by substracting its ID to this starting ID.
-// Notice how spritesheets with only one Joker have sequential starting IDs.
-static int spritesheet_idx_to_starting_joker_id[] = {
-     0, 18, 20, 22, 27, 32, 36, 40, 42, 44,
-    45, 46, 47, 48, 49, 50, 51, 52
-};
-// clang-format on
+// These externs are just to illustrate the architecture. There will be linker
+// sections that get directly linked into the correct location, to have arrays
+// off assets. But for this working example an extern is straightforward
+extern int spritesheet_idx_to_starting_joker_id[];
 
 static int s_get_num_spritesheets(void);
 static int s_joker_get_spritesheet_idx(u8 joker_id);
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx);
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id);
 static void s_joker_pb_add_sprite_user(int pb);
 static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
@@ -110,11 +68,11 @@ void joker_init()
 
 Joker* joker_new(u8 id)
 {
-    if (id >= get_joker_registry_size())
+    if (id >= joker_count())
         return NULL;
 
     Joker* joker = POOL_GET(Joker);
-    const JokerInfo* jinfo = get_joker_registry_entry(id);
+    const JokerInfo* jinfo = joker_get(id);
 
     joker->id = id;
     joker->modifier = BASE_EDITION; // TODO: Make this a parameter
@@ -143,7 +101,7 @@ u32 joker_get_score_effect(
     JokerEffect** joker_effect
 )
 {
-    const JokerInfo* jinfo = get_joker_registry_entry(joker->id);
+    const JokerInfo* jinfo = joker_get(joker->id);
     if (!jinfo)
         return JOKER_EFFECT_FLAG_NONE;
 
@@ -181,14 +139,13 @@ JokerObject* joker_object_new(Joker* joker)
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
-    int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
-    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
+    int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
+        &joker_get(joker->id)->tiles[joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
         TILE_SIZE * JOKER_SPRITE_OFFSET
     );
 
@@ -396,12 +353,12 @@ static int s_get_num_spritesheets()
 
 static int s_joker_get_spritesheet_idx(u8 joker_id)
 {
-    return joker_id_to_sprite_map[joker_id];
+    return joker_get(joker_id)->sprite_sheet;
 }
 
-static int s_joker_get_sprite_idx_in_sheet(u8 joker_id, int spritesheet_idx)
+static int s_joker_get_sprite_idx_in_sheet(u8 joker_id)
 {
-    return joker_id - spritesheet_idx_to_starting_joker_id[joker_id_to_sprite_map[joker_id]];
+    return joker_get(joker_id)->sheet_idx;
 }
 
 static void s_joker_pb_add_sprite_user(int pb)
@@ -456,8 +413,8 @@ static int s_allocate_pb_if_needed(u8 joker_id)
         joker_spritesheet_pb_map[joker_spritesheet_idx] = joker_pb;
         memcpy16(
             &pal_obj_mem[PAL_ROW_LEN * joker_pb],
-            joker_gfxPal[joker_spritesheet_idx],
-            NUM_ELEM_IN_ARR(joker_gfx0Pal)
+            joker_get(joker_id)->pal,
+            16
         );
     }
 

@@ -1,6 +1,7 @@
 #include "game.h"
 #include "hand_analysis.h"
 #include "joker.h"
+#include "joker_gfx.h"
 #include "list.h"
 #include "pool.h"
 #include "util.h"
@@ -40,155 +41,60 @@ static u32 sinful_joker_effect(
 );
 
 REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
-REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(lusty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wrathful_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(jolly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(zany_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crazy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(droll_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wily_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(clever_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(devious_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crafty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(half_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(stencil_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(misprint_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(banner_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blackboard_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blue_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(business_card_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scholar_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scary_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(abstract_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bull_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(even_steven_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(acrobat_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_duo_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_trio_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_family_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_order_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(photograph_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(dusk_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 
-// clang-format off
-/* The index of a joker in the registry matches its ID.
- * The joker sprites are matched by ID so the position in the registry
- * determines the joker's sprite.
- * Each consecutive NUM_JOKERS_PER_SPRITESHEET (defined in joker.c) jokers
- * share a spritesheet and thus a color palette.
- * To make better use of color palettes jokers may be rearranged here
- * (and put together in the matching spritesheet) to share a color palette.
- * Otherwise the order is similar to the wiki.
- */
-// clang-format off
-const JokerInfo joker_registry[] = 
-{
-    // Spritesheet 0
-    { COMMON_JOKER,    2, default_joker_effect              }, // DEFAULT_JOKER_ID = 0
-    { COMMON_JOKER,    4, abstract_joker_effect             }, // 1
-    { COMMON_JOKER,    5, half_joker_effect                 }, // 2
-    { COMMON_JOKER,    4, misprint_joker_effect             }, // 3
-    { COMMON_JOKER,    4, scary_face_joker_effect           }, // 4
-    { UNCOMMON_JOKER,  6, sock_and_buskin_joker_effect      }, // 5
-    { UNCOMMON_JOKER,  6, acrobat_joker_effect              }, // 6
-    { UNCOMMON_JOKER,  8, fibonnaci_joker_effect            }, // 7
-    { COMMON_JOKER,    4, scholar_joker_effect              }, // 8
-    { COMMON_JOKER,    4, crafty_joker_effect               }, // 9
-    { COMMON_JOKER,    4, droll_joker_effect                }, // 10
-    { COMMON_JOKER,    5, raised_fist_joker_effect          }, // 11
-    { COMMON_JOKER,    6, reserved_parking_joker_effect     }, // 12
-    { COMMON_JOKER,    4, business_card_joker_effect        }, // 13
-    { COMMON_JOKER,    4, hanging_chad_joker_effect         }, // 14
-    { UNCOMMON_JOKER,  8, stencil_joker_effect              }, // 15
-    { COMMON_JOKER,    5, banner_joker_effect               }, // 16
-    { COMMON_JOKER,    5, shoot_the_moon_joker_effect,      }, // 17
-    // Spritesheet 1 
-    { COMMON_JOKER,    5, greedy_joker_effect               }, // 18
-    { COMMON_JOKER,    5, lusty_joker_effect                }, // 19
-    // Spritesheet 2
-    { COMMON_JOKER,    5, wrathful_joker_effect             }, // 20
-    { COMMON_JOKER,    5, gluttonous_joker_effect           }, // 21
-    // Spritesheet 3
-    { COMMON_JOKER,    4, crazy_joker_effect                }, // 22
-    { COMMON_JOKER,    4, mad_joker_effect                  }, // 23
-    { COMMON_JOKER,    4, clever_joker_effect               }, // 24
-    { COMMON_JOKER,    4, devious_joker_effect              }, // 25
-    { COMMON_JOKER,    4, even_steven_joker_effect          }, // 26
-    // Spritesheet 4
-    { UNCOMMON_JOKER,  6, blackboard_joker_effect           }, // 27
-    { COMMON_JOKER,    5, mystic_summit_joker_effect        }, // 28
-    { COMMON_JOKER,    4, walkie_talkie_joker_effect        }, // 29
-    { COMMON_JOKER,    4, zany_joker_effect                 }, // 30
-    { COMMON_JOKER,    4, wily_joker_effect                 }, // 31
-    // Spritesheet 5
-    { COMMON_JOKER,    3, sly_joker_effect                  }, // 32
-    { COMMON_JOKER,    3, jolly_joker_effect                }, // 33
-    { COMMON_JOKER,    5, blue_joker_effect                 }, // 34
-    { COMMON_JOKER,    4, odd_todd_joker_effect             }, // 35
-    // Spritesheet 6
-    { RARE_JOKER,      8, the_duo_joker_effect              }, // 36
-    { RARE_JOKER,      8, the_trio_joker_effect             }, // 37
-    { RARE_JOKER,      8, the_order_joker_effect            }, // 38
-    { RARE_JOKER,      8, the_tribe_joker_effect            }, // 39
-    // Spritesheet 7
-    { RARE_JOKER,      8, the_family_joker_effect           }, // 40
-    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 41 Brainstorm
-    // Spritesheet 8
-    { COMMON_JOKER,    4, smiley_face_joker_effect          }, // 42
-    { UNCOMMON_JOKER,  6, bull_joker_effect                 }, // 43
-    // Individual Jokers (for now :3)
-    { COMMON_JOKER,    5, photograph_joker_effect,          }, // 44
-    { UNCOMMON_JOKER,  6, hack_joker_effect                 }, // 45
-    { UNCOMMON_JOKER,  5, joker_effect_noop                 }, // 46 Pareidolia
-    { UNCOMMON_JOKER,  7, bootstraps_joker_effect           }, // 47
-    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 48 Shortcut
-    { UNCOMMON_JOKER,  5, dusk_joker_effect                 }, // 49
-    { UNCOMMON_JOKER,  7, joker_effect_noop,                }, // 50 Four Fingers
-    { UNCOMMON_JOKER,  6, seltzer_joker_effect,             }, // 51
-    { RARE_JOKER,     10, blueprint_brainstorm_joker_effect }, // 52 Blueprint
-
-    // The following jokers don't have sprites yet,
-    // uncomment them when their sprites are added.
-#if 0
-#endif
-};
-// clang-format on
-
-static const size_t joker_registry_size = NUM_ELEM_IN_ARR(joker_registry);
-
-const JokerInfo* get_joker_registry_entry(int joker_id)
-{
-    if (joker_id < 0 || (size_t)joker_id >= joker_registry_size)
-    {
-        return NULL;
-    }
-    return &joker_registry[joker_id];
-}
-
-size_t get_joker_registry_size(void)
-{
-    return joker_registry_size;
-}
+REGISTER_JOKER(afa_, COMMON_JOKER, 2, 20, 4, joker_effect_noop)
+//REGISTER_JOKER(abstract, COMMON_JOKER, 4, 0, 1, abstract_joker_effect)
+//REGISTER_JOKER(half, COMMON_JOKER, 5, 0, 2, half_joker_effect)
+//REGISTER_JOKER(misprint, COMMON_JOKER, 4, 0, 3, misprint_joker_effect)
+//REGISTER_JOKER(scary_face, COMMON_JOKER, 4, 0, 4, scary_face_joker_effect)
+//REGISTER_JOKER(sock_and_buasint, UNCOMMON_JOKER, 6, 0, 5, sock_and_buskin_joker_effect)
+//REGISTER_JOKER(acrobat, UNCOMMON_JOKER, 6, 0, 6, acrobat_joker_effect)
+//REGISTER_JOKER(fibonnaci, UNCOMMON_JOKER, 8, 0, 7, fibonnaci_joker_effect)
+//REGISTER_JOKER(scholar, COMMON_JOKER, 4, 0, 8, scholar_joker_effect)
+//REGISTER_JOKER(crafty, COMMON_JOKER, 4, 0, 9, crafty_joker_effect)
+//REGISTER_JOKER(droll, COMMON_JOKER, 4, 0, 10, droll_joker_effect)
+//REGISTER_JOKER(raised_fist, COMMON_JOKER, 5, 0, 11, raised_fist_joker_effect)
+//REGISTER_JOKER(reserved_parking, COMMON_JOKER, 6, 0, 12, reserved_parking_joker_effect)
+//REGISTER_JOKER(business_card, COMMON_JOKER, 4, 0, 13, business_card_joker_effect)
+//REGISTER_JOKER(hanging_chad, COMMON_JOKER, 4, 0, 14, hanging_chad_joker_effect)
+//REGISTER_JOKER(stencil, UNCOMMON_JOKER, 8, 0, 15, stencil_joker_effect)
+//REGISTER_JOKER(banner, COMMON_JOKER, 5, 0, 16, banner_joker_effect)
+//REGISTER_JOKER(shoot_the_moon, COMMON_JOKER, 5, 0, 17, shoot_the_moon_joker_effect)
+//REGISTER_JOKER(greedy, COMMON_JOKER, 5, 1, 0, greedy_joker_effect)
+//REGISTER_JOKER(lusty, COMMON_JOKER, 5, 1, 1, lusty_joker_effect)
+//REGISTER_JOKER(wrathful, COMMON_JOKER, 5, 2, 0, wrathful_joker_effect)
+//REGISTER_JOKER(gluttonous, COMMON_JOKER, 5, 2, 1, gluttonous_joker_effect)
+//REGISTER_JOKER(crazy, COMMON_JOKER, 4, 3, 0, crazy_joker_effect)
+//REGISTER_JOKER(mad, COMMON_JOKER, 4, 3, 1, mad_joker_effect)
+//REGISTER_JOKER(clever, COMMON_JOKER, 4, 3, 2, clever_joker_effect)
+//REGISTER_JOKER(devious, COMMON_JOKER, 4, 3, 3, devious_joker_effect)
+//REGISTER_JOKER(even_steven, COMMON_JOKER, 4, 3, 4, even_steven_joker_effect)
+//REGISTER_JOKER(blackboard, UNCOMMON_JOKER, 6, 4, 5, blackboard_joker_effect)
+//REGISTER_JOKER(mystic, COMMON_JOKER, 5, 4, 0, mystic_summit_joker_effect)
+//REGISTER_JOKER(walkie_talkie, COMMON_JOKER, 4, 4, 1, walkie_talkie_joker_effect)
+//REGISTER_JOKER(zany, COMMON_JOKER, 4, 4, 2, zany_joker_effect)
+//REGISTER_JOKER(wily, COMMON_JOKER, 4, 4, 3, wily_joker_effect)
+//REGISTER_JOKER(sly, COMMON_JOKER, 3, 5, 0, sly_joker_effect)
+//REGISTER_JOKER(jolly, COMMON_JOKER, 3, 5, 1, jolly_joker_effect)
+//REGISTER_JOKER(blue, COMMON_JOKER, 5, 5, 2, blue_joker_effect)
+//REGISTER_JOKER(odd_odd, COMMON_JOKER, 4, 5, 3, odd_todd_joker_effect)
+//REGISTER_JOKER(the_duo, RARE_JOKER, 8, 6, 0, the_duo_joker_effect)
+//REGISTER_JOKER(the_trio, RARE_JOKER, 8, 6, 1, the_trio_joker_effect)
+//REGISTER_JOKER(the_order, RARE_JOKER, 8, 6, 2, the_order_joker_effect)
+//REGISTER_JOKER(the_tribe, RARE_JOKER, 8, 6, 3, the_tribe_joker_effect)
+//REGISTER_JOKER(the_family, RARE_JOKER, 8, 7, 0, the_family_joker_effect)
+//REGISTER_JOKER(blueprint_brainstorm, RARE_JOKER, 10, 7, 1, blueprint_brainstorm_joker_effect)
+//REGISTER_JOKER(smiley_face, COMMON_JOKER, 4, 8, 0, smiley_face_joker_effect)
+//REGISTER_JOKER(bull, UNCOMMON_JOKER, 6, 8, 1, bull_joker_effect)
+//REGISTER_JOKER(photograph, COMMON_JOKER, 5, 9, 0, photograph_joker_effect)
+//REGISTER_JOKER(hack, UNCOMMON_JOKER, 6, 10, 0, hack_joker_effect)
+//REGISTER_JOKER(itdoesntmatter, UNCOMMON_JOKER, 5, 11, 0, joker_effect_noop)
+//REGISTER_JOKER(bootstraps, UNCOMMON_JOKER, 7, 12, 0, bootstraps_joker_effect)
+//REGISTER_JOKER(cool, UNCOMMON_JOKER, 7, 13, 0, joker_effect_noop)
+//REGISTER_JOKER(dusk, UNCOMMON_JOKER, 5, 14, 0, dusk_joker_effect)
+//REGISTER_JOKER(whocares, UNCOMMON_JOKER, 7, 15, 0, joker_effect_noop)
+//REGISTER_JOKER(seltzer, UNCOMMON_JOKER, 6, 16, 0, seltzer_joker_effect)
+//REGISTER_JOKER(blueprint, RARE_JOKER, 10, 17, 0, blueprint_brainstorm_joker_effect)
 
 static u32 joker_effect_noop(
     Joker* joker,
@@ -1332,7 +1238,7 @@ static u32 blueprint_brainstorm_joker_effect(
             // all handle data the same way.
             default:
                 u8 copied_joker_id = copied_joker_object->joker->id;
-                const JokerInfo* copied_joker_info = get_joker_registry_entry(copied_joker_id);
+                const JokerInfo* copied_joker_info = joker_get(copied_joker_id);
 
                 // Copy the persistent data
                 joker->persistent_state = copied_joker_object->joker->persistent_state;

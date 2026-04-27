@@ -136,6 +136,10 @@ typedef struct
 {
     u8 rarity;
     u8 base_value;
+    u32 sprite_sheet;
+    u32 sheet_idx;
+    const unsigned int* tiles;
+    const u16* pal;
     JokerEffectFunc joker_effect_func;
 } JokerInfo;
 const JokerInfo* get_joker_registry_entry(int joker_id);
@@ -175,5 +179,29 @@ bool joker_object_score(
 
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();
+
+#define REGISTER_JOKER(sym, rarity_, base_value_, sprite_sheet_, sheet_idx_, effect_func_) \
+    static const JokerInfo sym##_def = { \
+        .rarity = (rarity_), \
+        .base_value = (base_value_), \
+        .sprite_sheet = (sprite_sheet_), \
+        .sheet_idx = (sheet_idx_), \
+        .tiles = joker_gfx##sprite_sheet_##Tiles, \
+        .pal = joker_gfx##sprite_sheet_##Pal, \
+        .joker_effect_func = (effect_func_), \
+    }; \
+    const JokerInfo * const sym##_ptr \
+        __attribute__((section(".jokers"), used)) = &sym##_def;
+
+extern const JokerInfo *__jokers_start[];
+extern const JokerInfo *__jokers_end[];
+
+static inline const JokerInfo *joker_get(int id) {
+    return __jokers_start[id];
+}
+
+static inline int joker_count(void) {
+    return __jokers_end - __jokers_start;
+}
 
 #endif // JOKER_H
