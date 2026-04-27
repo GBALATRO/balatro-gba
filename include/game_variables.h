@@ -17,4 +17,6 @@ typedef struct
 
 } GameVariables;
 
+extern GameVariables g_game_vars;
+
 #endif // GAME_VARIABLES_H
