@@ -25,5 +25,6 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "selection_grid.h", "selection__grid_8h.html", "selection__grid_8h" ],
     [ "splash_screen.h", "splash__screen_8h.html", "splash__screen_8h" ],
     [ "sprite.h", "sprite_8h.html", "sprite_8h" ],
+    [ "timer.h", "timer_8h.html", null ],
     [ "util.h", "util_8h.html", "util_8h" ]
 ];

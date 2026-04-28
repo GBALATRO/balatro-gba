@@ -142,17 +142,20 @@ $(document).ready(function(){initNavTree('game__variables_8h_source.html',''); i
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef GAME_VARIABLES_H</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define GAME_VARIABLES_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structGameVariables.html">   15</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>} <a class="code hl_struct" href="structGameVariables.html">GameVariables</a>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structGameVariables.html">   17</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    s32 timer;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    u32 rng_seed;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>} <a class="code hl_struct" href="structGameVariables.html">GameVariables</a>;</div>
 </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#endif </span><span class="comment">// GAME_VARIABLES_H</span></div>
-<div class="ttc" id="astructGameVariables_html"><div class="ttname"><a href="structGameVariables.html">GameVariables</a></div><div class="ttdoc">A central location for all game variables.</div><div class="ttdef"><b>Definition</b> <a href="game__variables_8h_source.html#l00015">game_variables.h:16</a></div></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif </span><span class="comment">// GAME_VARIABLES_H</span></div>
+<div class="ttc" id="astructGameVariables_html"><div class="ttname"><a href="structGameVariables.html">GameVariables</a></div><div class="ttdoc">A central location for all game variables.</div><div class="ttdef"><b>Definition</b> <a href="game__variables_8h_source.html#l00017">game_variables.h:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

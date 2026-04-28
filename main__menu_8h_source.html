@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBAlatro: include/game Directory Reference</title>
+<title>GBAlatro: include/game/main_menu.h Source File</title>
 <!--BEGIN PROJECT_ICON-->
 <link rel="icon" href="$projecticon" type="image/x-icon" />
 <!--END PROJECT_ICON-->
@@ -91,6 +91,11 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -104,7 +109,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('dir_f307a46daed1218fee22380d1eacedba.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('main__menu_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -130,25 +135,35 @@ $(document).ready(function(){initNavTree('dir_f307a46daed1218fee22380d1eacedba.h
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">game Directory Reference</div></div>
+  <div class="headertitle"><div class="title">main_menu.h</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="common__ui_8h_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__ui_8h.html">common_ui.h</a></td></tr>
-<tr class="memdesc:common__ui_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common functions to render UI elements. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="main__menu_8h_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main__menu_8h.html">main_menu.h</a></td></tr>
-<tr class="memdesc:main__menu_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main menu state functions. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+<a href="main__menu_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef GAME_MAIN_MENU_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define GAME_MAIN_MENU_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#ac8b3b6d13677c81446e0b3bc600e3ce5">game_main_menu_on_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif </span><span class="comment">// GAME_MAIN_MENU_H</span></div>
+<div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
+<div class="ttc" id="amain__menu_8h_html_a237352b9db2e855528bcb139d9ab0658"><div class="ttname"><a href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a></div><div class="ttdeci">void game_main_menu_on_update(void)</div><div class="ttdoc">Main menu state update.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00064">main_menu.c:64</a></div></div>
+<div class="ttc" id="amain__menu_8h_html_a2ae0d8537f19eec780480fa97f15bb8c"><div class="ttname"><a href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a></div><div class="ttdeci">void game_main_menu_on_exit(void)</div><div class="ttdoc">Main menu cleanup (called when transitioning to game start)</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00109">main_menu.c:109</a></div></div>
+<div class="ttc" id="amain__menu_8h_html_a75b7d91d3b3d2f75c1cc1827c749762e"><div class="ttname"><a href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a></div><div class="ttdeci">void game_main_menu_change_background(void)</div><div class="ttdoc">Change the main menu background.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00036">main_menu.c:36</a></div></div>
+<div class="ttc" id="amain__menu_8h_html_ac8b3b6d13677c81446e0b3bc600e3ce5"><div class="ttname"><a href="main__menu_8h.html#ac8b3b6d13677c81446e0b3bc600e3ce5">game_main_menu_on_init</a></div><div class="ttdeci">void game_main_menu_on_init(void)</div><div class="ttdoc">Main menu state initialization.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00049">main_menu.c:49</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f307a46daed1218fee22380d1eacedba.html">game</a></li>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f307a46daed1218fee22380d1eacedba.html">game</a></li><li class="navelem"><a class="el" href="main__menu_8h.html">main_menu.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
