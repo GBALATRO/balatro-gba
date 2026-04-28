@@ -8,7 +8,7 @@ typedef void (*BackgroundRenderCallback)(void);
 static enum BackgroundId background = BG_NONE;
 
 // Map to fill in for refactor
-BackgroundRenderCallback bgCallbacks[] = {
+static const BackgroundRenderCallback bgCallbacks[] = {
     [BG_NONE] = NULL,
     [BG_CARD_SELECTING] = NULL,
     [BG_CARD_PLAYING] = NULL,
