@@ -147,11 +147,22 @@ Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 
 4.) Clone the project by putting `git clone https://github.com/cellos51/balatro-gba.git` in the MSys2 window.
 
-5.) Use `cd` and drag the new folder into the window to add the file path and press Enter.
+5.) Install `python-pillow` from the `mingw64` repo by copying the following script into your `MSys2` terminal and hitting **Enter** to run:
 
-6.) Type `make` into the window and press Enter to start building the rom.
+> ```sh
+> pacman-key --populate devkitpro
+> echo -e "[mingw64]\nServer = https://mirror.msys2.org/mingw/mingw64" >> /etc/pacman.conf
+> pacman -Syu --noconfirm
+> pacman -S --noconfirm mingw-w64-x86_64-python-pillow
+> echo "export PATH="/mingw64/bin:$PATH"" >> /etc/bash.bashrc
+> source /etc/bash.bashrc 
+> ```
 
-7.) After it completes, navigate through the `build` directory in the project folder and look for `balatro-gba.gba` and load it on an emulator or flashcart.
+6.) Use `cd` and drag the new folder into the window to add the file path and press Enter.
+
+7.) Type `make` into the window and press Enter to start building the rom.
+
+8.) After it completes, navigate through the `build` directory in the project folder and look for `balatro-gba.gba` and load it on an emulator or flashcart.
 #### Without `Git`
 Disregard Steps 3-4 and instead click the green code button on the main repository page and press `Download Zip`. Unzip the folder and place it wherever you like. Then continue from Step 5.
 
@@ -183,6 +194,8 @@ Disregard Steps 3-4 and instead click the green code button on the main reposito
 - export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin
 
 5.) Follow instructions from Windows tutorial step 4
+
+
 
 ### **Common Issues:**
 
