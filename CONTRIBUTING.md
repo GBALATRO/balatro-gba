@@ -216,6 +216,8 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
   <summary><b>Linux</b></summary>
 
 ### **-macOS-**
+==**Requires python-pillow to be installed. Currently, no maintainer has a macOS machine to test on. If you have python and python-pillow tested installation instructions for MacOS, please let us know and we will add it here.**==
+
 1.) Install devkitPro installer using: https://github.com/devkitPro/installer and following https://devkitpro.org/wiki/devkitPro_pacman#macOS.
 > Note: You may have to install the installers directly from their url in a browser, as the installer script may not install correctly due to Cloudflare checks on their server. You can use one of the following urls: 
 
@@ -232,7 +234,7 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 - export DEVKITARM=$DEVKITPRO/devkitARM
 - export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin
 
-5.) Follow instructions from Windows tutorial step 4
+5.) Follow instructions from Windows tutorial step 5
 
 </details>
 
@@ -248,4 +250,4 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 - Try a different emulator or if you are using original hardware, make sure the rom is not corrupted and try a different flashcart or SD Card. If this does not work, open an issue on the Github page because a recent commit may have broke the game.
 
 #### 4. **It says I don't have `Git` or `Make` installed!**
-- Use `pacman -S git` (not required) or `pacman -S make` although make should already be installed if you followed the instructions correctly.
+- Please verify you ran all the instructions required for your operating system. They will have the commands to install all required commands.
