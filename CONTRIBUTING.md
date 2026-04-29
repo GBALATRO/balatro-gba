@@ -106,7 +106,8 @@ It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. 
 
 <details>
   <summary><b>Docker</b></summary>
-### **-Docker-**
+
+### Docker
 A docker compose file is provided to build this project. It provides a standard build environment for this projects CI/CD and can also be used to build the ROM locally.
 
 _Some users may find this option to be the easiest way to build locally._
@@ -143,7 +144,7 @@ From the file explorer, you can open a folder in **powershell** (_a modern windo
 <details>
   <summary><b>Windows</b></summary>
 
-### **-Windows-**
+### Windows
 Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 ### With `Git` (not required)
 1.) Install `devkitPro` from https://github.com/devkitPro/installer by downloading the latest release, unzipping the archive, and then running the installer. You only need to install the tools for the GBA development so ensure you have it selected and install it to the default directory. You may need to create a temp folder for the project.
@@ -178,7 +179,7 @@ Disregard Steps 4-5 and instead click the green code button on the main reposito
 <details>
   <summary><b>Linux</b></summary>
 
-### **-Linux-**
+### Linux (Debian/Arch)
 
 These instructions will be only for Debian (**Ubuntu**) and Arch based systems. 
 
@@ -213,10 +214,11 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 </details>
 
 <details>
-  <summary><b>Linux</b></summary>
+  <summary><b>MacOS</b></summary>
 
-### **-macOS-**
-==**Requires python-pillow to be installed. Currently, no maintainer has a macOS machine to test on. If you have python and python-pillow tested installation instructions for MacOS, please let us know and we will add it here.**==
+### MacOS
+
+🔴 **Requires python-pillow to be installed. Currently, no maintainer has a macOS machine to test on. If you have python and python-pillow tested installation instructions for MacOS, please let us know and we will add it here.** 🔴
 
 1.) Install devkitPro installer using: https://github.com/devkitPro/installer and following https://devkitpro.org/wiki/devkitPro_pacman#macOS.
 > Note: You may have to install the installers directly from their url in a browser, as the installer script may not install correctly due to Cloudflare checks on their server. You can use one of the following urls: 
@@ -238,16 +240,16 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 
 </details>
 
-### **Common Issues:**
+### Common Issues:
 
-#### 1. **When I run `make` it errors out and won't compile!**
+#### 1. When I run `make` it errors out and won't compile!
 - Move the project folder to your desktop and then `cd` to it by dragging the folder into the terminal window. This error could be caused by a bad file path, placing the folder on the desktop is a failsafe.
 
-#### 2. **I can't find the compiled rom!**
+#### 2. I can't find the compiled rom!
 - Look for a folder called `build` inside the project folder and then find `balatro-gba.gba`.
 
-#### 3. **The Game won't start!**
+#### 3. The Game won't start!
 - Try a different emulator or if you are using original hardware, make sure the rom is not corrupted and try a different flashcart or SD Card. If this does not work, open an issue on the Github page because a recent commit may have broke the game.
 
-#### 4. **It says I don't have `Git` or `Make` installed!**
+#### 4. It says I don't have `Git` or `Make` installed!
 - Please verify you ran all the instructions required for your operating system. They will have the commands to install all required commands.
