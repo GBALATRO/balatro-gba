@@ -29,6 +29,8 @@ This project is a non-profit fan demake of Balatro for the Game Boy Advance, mea
   <img src="https://img.shields.io/badge/Download_ROMs_from_the_Releases_tab-8A2BE2?&logo=github" alt="Download ROM" width="500">
 </a>
 
+**See _CONTRIBUTING.md_** for build instructions.
+
 ---
 
 
