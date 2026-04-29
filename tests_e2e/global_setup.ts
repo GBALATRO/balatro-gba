@@ -1,5 +1,5 @@
 import { ensureAddresses } from './helpers/ensure_addresses.js';
 
-export function setup() {
+export default function setup() {
   ensureAddresses();
 }

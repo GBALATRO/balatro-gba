@@ -44,7 +44,7 @@ echo "{" > "$TMP"
 FIRST=true
 for sym in $SYMBOLS; do
     # --print-size output: "address size type name"
-    LINE=$(echo "$NM_OUTPUT" | grep " ${sym}$")
+    LINE=$(echo "$NM_OUTPUT" | grep " ${sym}$" || true)
     if [ -n "$LINE" ]; then
         ADDR=$(echo "$LINE" | awk '{print "0x"$1}')
         SIZE=$(echo "$LINE" | awk '{print "0x"$2}')
