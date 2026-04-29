@@ -143,11 +143,7 @@ Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 
 2.) Search for `MSys2` in the Start Menu and open it.
 
-3.) Install `Git` by typing this command: `pacman -S git` if you don't have it already installed
-
-4.) Clone the project by putting `git clone https://github.com/cellos51/balatro-gba.git` in the MSys2 window.
-
-5.) Install `python-pillow` from the `mingw64` repo by copying the following script into your `MSys2` terminal and hitting **Enter** to run:
+3.) Install `python-pillow` from the `mingw64` repo by copying the following script into your `MSys2` terminal and hitting **Enter** to run:
 
 > ```sh
 > pacman-key --populate devkitpro
@@ -158,23 +154,49 @@ Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 > source /etc/bash.bashrc 
 > ```
 
+4.) Install `Git` by typing this command: `pacman -S git` if you don't have it already installed
+
+5.) Clone the project by putting `git clone https://github.com/GBALATRO/balatro-gba.git` in the MSys2 window.
+
 6.) Use `cd` and drag the new folder into the window to add the file path and press Enter.
 
 7.) Type `make` into the window and press Enter to start building the rom.
 
 8.) After it completes, navigate through the `build` directory in the project folder and look for `balatro-gba.gba` and load it on an emulator or flashcart.
 #### Without `Git`
-Disregard Steps 3-4 and instead click the green code button on the main repository page and press `Download Zip`. Unzip the folder and place it wherever you like. Then continue from Step 5.
+Disregard Steps 4-5 and instead click the green code button on the main repository page and press `Download Zip`. Unzip the folder and place it wherever you like. Then continue from Step 6.
 
 ### **-Linux-**
 
-1.) Add the devkitPro repository using these instructions https://devkitpro.org/wiki/devkitPro_pacman
+These instructions will be only for Debian (**Ubuntu**) and Arch based systems. 
 
-2.) Install devkitPro by running `sudo pacman -S gba-dev` and accepting all packages.
+1.) Follow the devkitPro Pacman installation guide for distro:   https://devkitpro.org/wiki/devkitPro_pacman
+- On **Debian** systems it will be installed as **`dkp-pacman`**.
+- On **Arch** systems you will use regular **`pacman`**.
 
-3.) Activate the devkitPro environment by running `source /etc/profile.d/devkit-env.sh` or opening a new shell.
+2.) Install devkitPro by running 
+> ```sh
+> sudo (dkp-)pacman -S --noconfirm gba-dev
+> ```
 
-4.) Follow instructions from the Windows tutorial starting from Step 3
+3.) Activate the devkitPro environment by running 
+> ```sh
+> source /etc/profile.d/devkit-env.sh
+> ```
+
+4.) Install `git`
+- On **Debian**: **`sudo apt install -y git`**.
+- On **Arch**: **`sudo pacman -S --noconfirm git`**.
+
+5.) Clone this repository
+> ```sh
+> git clone https://github.com/GBALATRO/balatro-gba.git ~/balatro-gba
+> ```
+
+6.) Build the project
+> ```sh
+> cd ~/balatro-gba && make
+> ```
 
 ### **-macOS-**
 1.) Install devkitPro installer using: https://github.com/devkitPro/installer and following https://devkitpro.org/wiki/devkitPro_pacman#macOS.
@@ -194,8 +216,6 @@ Disregard Steps 3-4 and instead click the green code button on the main reposito
 - export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin
 
 5.) Follow instructions from Windows tutorial step 4
-
-
 
 ### **Common Issues:**
 
