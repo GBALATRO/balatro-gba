@@ -104,6 +104,8 @@ It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. 
 
 ## **Build Instructions:**
 
+<details>
+  <summary><b>Docker</b></summary>
 ### **-Docker-**
 A docker compose file is provided to build this project. It provides a standard build environment for this projects CI/CD and can also be used to build the ROM locally.
 
@@ -136,6 +138,11 @@ From the file explorer, you can open a folder in **powershell** (_a modern windo
 
 3.) Docker will build the project and the ROM will be in the same location as step 7 describes below.
 
+</details>
+
+<details>
+  <summary><b>Windows</b></summary>
+
 ### **-Windows-**
 Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 ### With `Git` (not required)
@@ -165,6 +172,11 @@ Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2
 8.) After it completes, navigate through the `build` directory in the project folder and look for `balatro-gba.gba` and load it on an emulator or flashcart.
 #### Without `Git`
 Disregard Steps 4-5 and instead click the green code button on the main repository page and press `Download Zip`. Unzip the folder and place it wherever you like. Then continue from Step 6.
+
+</details>
+
+<details>
+  <summary><b>Linux</b></summary>
 
 ### **-Linux-**
 
@@ -198,6 +210,11 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 > cd ~/balatro-gba && make
 > ```
 
+</details>
+
+<details>
+  <summary><b>Linux</b></summary>
+
 ### **-macOS-**
 1.) Install devkitPro installer using: https://github.com/devkitPro/installer and following https://devkitpro.org/wiki/devkitPro_pacman#macOS.
 > Note: You may have to install the installers directly from their url in a browser, as the installer script may not install correctly due to Cloudflare checks on their server. You can use one of the following urls: 
@@ -216,6 +233,8 @@ These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
 - export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin
 
 5.) Follow instructions from Windows tutorial step 4
+
+</details>
 
 ### **Common Issues:**
 
