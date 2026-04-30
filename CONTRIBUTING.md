@@ -102,7 +102,7 @@ In the repo we use custom scripts located in the [`scripts`](https://github.com/
 ## Debugging
 It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).
 
-## **Build Instructions:**
+## **Build Instructions**
 
 <details>
   <summary><b>Docker</b></summary>
@@ -137,7 +137,7 @@ From the file explorer, you can open a folder in **powershell** (_a modern windo
 
 </details>
 
-3.) Docker will build the project and the ROM will be in the same location as step 7 describes below.
+3.) Docker will build the project and the ROM will be in the same location as step 8 describes below.
 
 </details>
 
