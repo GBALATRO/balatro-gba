@@ -208,8 +208,15 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
     sprite_object->vrotation = 0;
 }
 
-void sprite_object_update(SpriteObject* sprite_object)
+IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
 {
+    if (sprite_object->vx == 0 && sprite_object->vy == 0 && sprite_object->vscale == 0 &&
+        sprite_object->vrotation == 0 && sprite_object->x == sprite_object->tx &&
+        sprite_object->y == sprite_object->ty && sprite_object->scale == sprite_object->tscale &&
+        sprite_object->rotation == sprite_object->trotation)
+    {
+        return;
+    }
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * g_game_vars.game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * g_game_vars.game_speed) / 8;
 

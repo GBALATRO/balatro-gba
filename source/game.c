@@ -833,7 +833,7 @@ static inline void discarded_jokers_update_loop(void)
 
 static inline void held_jokers_update_loop(void)
 {
-    const int spacing_lut[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {
+    static const int spacing_lut[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {
         {0,  0,   0,   0,   0  },
         {13, -13, 0,   0,   0  },
         {26, 0,   -26, 0,   0  },
@@ -1487,7 +1487,8 @@ void change_background_legacy(enum BackgroundId id)
             else if (current_blind > BLIND_TYPE_BIG)
             {
                 main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
-                affine_background_set_color(blind_get_color(current_blind, BLIND_SHADOW_COLOR_INDEX)
+                affine_background_set_color(
+                    blind_get_color(current_blind, BLIND_SHADOW_COLOR_INDEX)
                 );
             }
 
@@ -3761,8 +3762,10 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
         );
     }
     // Increment the hand reward text until the hand reward variable is depleted
-    else if (g_game_vars.timer > TM_HAND_REWARD_INCR_WAIT &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+    else if (
+        g_game_vars.timer > TM_HAND_REWARD_INCR_WAIT &&
+        g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0
+    )
     {
         hand_reward--;
         tte_printf(
@@ -3797,8 +3800,10 @@ static inline void game_round_end_print_interest_reward(int interest_y_offset)
         );
     }
     // Increment the interest reward text until the interest reward variable is depleted
-    else if (g_game_vars.timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+    else if (
+        g_game_vars.timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
+        g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0
+    )
     {
         interest_to_count--;
         tte_printf(
@@ -3848,8 +3853,10 @@ static void game_round_end_display_rewards()
     {
         game_round_end_print_hand_reward(hand_y_offset);
     }
-    else if (interest_start_time != UNDEFINED && g_game_vars.timer >= interest_start_time &&
-             interest_to_count > 0)
+    else if (
+        interest_start_time != UNDEFINED && g_game_vars.timer >= interest_start_time &&
+        interest_to_count > 0
+    )
     {
         game_round_end_print_interest_reward(interest_y_offset);
     }
