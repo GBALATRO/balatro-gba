@@ -20,29 +20,20 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 
-#define CARDS_PAL_SIZE 16
-static u16 normal_palette[CARDS_PAL_SIZE];
-static u16 high_contrast_palette[CARDS_PAL_SIZE];
-
 void card_init()
 {
-    GRIT_CPY(&pal_obj_mem[CARD_PB], deck_gfxPal);
-
-    // High contrast palette has been encoded into a separate, small, png file
-    // in the same order as the normal deck image so that we need only copy it as is.
-    GRIT_CPY(&normal_palette, deck_gfxPal);
-    GRIT_CPY(&high_contrast_palette, high_contrast_deck_pal_gfxPal);
+    toggle_high_contrast_cards(false);
 }
 
 void toggle_high_contrast_cards(bool enable)
 {
     if (enable)
     {
-        memcpy16(&pal_obj_mem[CARD_PB], high_contrast_palette, CARDS_PAL_SIZE);
+        GRIT_CPY(&pal_obj_mem[CARD_PB], high_contrast_deck_pal_gfxPal);
     }
     else
     {
-        memcpy16(&pal_obj_mem[CARD_PB], normal_palette, CARDS_PAL_SIZE);
+        GRIT_CPY(&pal_obj_mem[CARD_PB], deck_gfxPal);
     }
 }
 
