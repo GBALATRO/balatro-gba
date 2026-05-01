@@ -19,20 +19,14 @@
 #include <tonc_math.h>
 #include <tonc_memdef.h>
 
-// Once saving/reloading a save is fully functional, just
-// uncomment all the lines related to the "Resume" button
-
-#define PLAY_BUTTON_MAIN_COLOR_PID 5
-#define PLAY_BUTTON_OUTLINE_PID    6
-// #define RESUME_BUTTON_MAIN_COLOR_PID  ??
-// #define RESUME_BUTTON_OUTLINE_PID     ??
+#define PLAY_BUTTON_MAIN_COLOR_PID    5
+#define PLAY_BUTTON_OUTLINE_PID       6
 #define OPTIONS_BUTTON_MAIN_COLOR_PID 7
 #define OPTIONS_BUTTON_OUTLINE_PID    1
 
 enum MainButtons
 {
     PLAY_BTN_IDX,
-    // RESUME_BTN_IDX,
     OPTIONS_BTN_IDX,
     MAIN_MENU_NB_BTN
 };
@@ -53,7 +47,6 @@ static bool main_menu_on_selection_changed(
 static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
 static void play_on_pressed(void);
-// static void resume_on_pressed(void);
 static void options_on_pressed(void);
 
 // clang-format off
@@ -69,7 +62,6 @@ SelectionGridRow main_menu_selection_rows[] = {
 
 Button main_menu_buttons[] = {
     {PLAY_BUTTON_OUTLINE_PID,    PLAY_BUTTON_MAIN_COLOR_PID,    play_on_pressed,    NULL},
-    //{RESUME_BUTTON_OUTLINE_PID,  RESUME_BUTTON_MAIN_COLOR_PID,  resume_on_pressed,    NULL},
     {OPTIONS_BUTTON_OUTLINE_PID, OPTIONS_BUTTON_MAIN_COLOR_PID, options_on_pressed, NULL},
 };
 
@@ -94,13 +86,11 @@ void game_main_menu_change_background(void)
     GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_main_menu_gfxTiles);
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_main_menu_gfxMap);
 
-    // Disable the button highlight colors
-    memcpy16(&pal_bg_mem[PLAY_BUTTON_OUTLINE_PID], &pal_bg_mem[PLAY_BUTTON_MAIN_COLOR_PID], 1);
-    memcpy16(
-        &pal_bg_mem[OPTIONS_BUTTON_OUTLINE_PID],
-        &pal_bg_mem[OPTIONS_BUTTON_MAIN_COLOR_PID],
-        1
-    );
+    // Disable all button highlight colors
+    for (int i = 0; i < MAIN_MENU_NB_BTN; i++)
+    {
+        button_set_highlight(&main_menu_buttons[i], false);
+    }
 }
 
 void game_main_menu_on_init(void)
@@ -218,11 +208,6 @@ static void play_on_pressed(void)
 {
     game_change_state(GAME_STATE_GAME_START);
 }
-
-// static void resume_on_pressed(void)
-// {
-//     game_change_state(GAME_STATE_RESUME_MENU);
-// }
 
 static void options_on_pressed(void)
 {

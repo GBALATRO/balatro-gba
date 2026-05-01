@@ -9,16 +9,16 @@
 #include <mm_types.h>
 
 /**
- * @def MM_FULL_MODULE_VOLUME
+ * @def MM_MODULE_FULL_VOLUME
  * @brief The maximum volume for maxmod module volume (main theme)
  */
-#define MM_FULL_MODULE_VOLUME 1024
+#define MM_MODULE_FULL_VOLUME 1024
 
 /**
- * @def MM_FULL_VOLUME
+ * @def MM_SFX_FULL_VOLUME
  * @brief The maximum volume for maxmod mm_sound_effect.volume
  */
-#define MM_FULL_VOLUME 255
+#define MM_SFX_FULL_VOLUME 255
 
 /**
  * @def MM_PAN_CENTER
@@ -38,7 +38,7 @@
  * @def SFX_DEFAULT_VOLUME
  * @brief Default volume for sound effects
  */
-#define SFX_DEFAULT_VOLUME MM_FULL_VOLUME
+#define SFX_DEFAULT_VOLUME MM_SFX_FULL_VOLUME
 
 /**
  * @def SFX_DEFAULT_PAN

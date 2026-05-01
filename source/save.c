@@ -171,10 +171,10 @@ void load_game(void)
 
     g_game_vars.high_contrast = ((u8)g_game_vars.high_contrast != 1) ? false : true;
 
-    if (g_game_vars.music_volume > VOLUME_VALUE_MAX)
+    if (g_game_vars.music_volume > VOLUME_OPTION_MAX)
         g_game_vars.music_volume = DEFAULT_MUSIC_VOLUME;
 
-    if (g_game_vars.sound_volume > VOLUME_VALUE_MAX)
+    if (g_game_vars.sound_volume > VOLUME_OPTION_MAX)
         g_game_vars.sound_volume = DEFAULT_SOUND_VOLUME;
 
     // return to where we were in the random sequence so that the run stays reproducible
@@ -183,5 +183,5 @@ void load_game(void)
         (void)rand();
     }
 
-    mmSetModuleVolume(MM_FULL_MODULE_VOLUME * g_game_vars.music_volume / VOLUME_VALUE_MAX);
+    mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }

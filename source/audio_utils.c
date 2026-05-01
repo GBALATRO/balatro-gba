@@ -10,7 +10,7 @@ void play_sfx(mm_word id, mm_word rate, mm_byte volume)
         {id},
         rate,
         0,
-        (volume * g_game_vars.sound_volume) / VOLUME_VALUE_MAX,
+        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,
         SFX_DEFAULT_PAN,
     };
     mmEffectEx(&sfx);

@@ -3160,7 +3160,7 @@ static inline void game_playing_process_input_and_state(void)
             display_chips();
 
             static const int SCORE_CALC_SFX_PITCH_SHIFT = -102; // -10% OF MM_BASE_PITCH_RATE
-            static const int SCORE_CALC_SFX_VOLUME = 204;       // 80% MM_FULL_VOLUME
+            static const int SCORE_CALC_SFX_VOLUME = 204;       // 80% MM_SFX_FULL_VOLUME
 
             // The chips calculation SFX is the same as button
             play_sfx(
