@@ -22,7 +22,7 @@
 
 #define CHECK_MAGIC     0x4C414247 // Spells GBAL, used to determine if the save data is junk
 #define CHECK_HASH_SIZE 7
-#define GIT_HASH_START  17 // starts after "GBALATRO-VERSION:" in the balatro_version var
+#define GIT_HASH_START  17 // starts after "GBALATRO-VERSION:" in the gbalatro_version var
 
 // clang-format off
 /**
@@ -91,7 +91,7 @@ static inline void read_sram(u32 sram_base, u8* bytes, u32 size)
 }
 
 /**
- ** @brief Checks the 7 chars of balatro_version after the "GBALATRO_VERSION" prefix
+ ** @brief Checks the 7 chars of gbalatro_version after the "GBALATRO_VERSION" prefix
  *         representing the git hash of the code the build is based on.
  *
  * @returns true if the git hash of the ROM is equal to the hash saved in SRAM.
@@ -101,7 +101,7 @@ static inline bool check_hash(const char* prefix)
 {
     for (u32 i = 0; i < CHECK_HASH_SIZE; i++)
     {
-        if (balatro_version[GIT_HASH_START + i] != prefix[i])
+        if (gbalatro_version[GIT_HASH_START + i] != prefix[i])
         {
             return false;
         }
@@ -112,14 +112,14 @@ static inline bool check_hash(const char* prefix)
 
 /**
  ** @brief Determines if the current build is considered "dirty" aka has uncommitted changes.
- *         This works because the balatro_version string has "-dirty" added at the end if it's
+ *         This works because the gbalatro_version string has "-dirty" added at the end if it's
  *         dirty.
  *
  * @returns true if version is dirty, false otherwise.
  */
 static inline bool is_version_dirty()
 {
-    return strlen(balatro_version) > GIT_HASH_START + CHECK_HASH_SIZE;
+    return strlen(gbalatro_version) > GIT_HASH_START + CHECK_HASH_SIZE;
 }
 
 /**
@@ -131,7 +131,7 @@ static inline void set_save_header()
     SaveHeader check = {};
     check.magic = CHECK_MAGIC;
     check.dirty = is_version_dirty();
-    memcpy(&(check.githash), balatro_version + GIT_HASH_START, CHECK_HASH_SIZE);
+    memcpy(&(check.githash), gbalatro_version + GIT_HASH_START, CHECK_HASH_SIZE);
 
     write_sram(CHECK_BASE, (const u8*)&check, sizeof(check));
 }

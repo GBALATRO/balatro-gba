@@ -35,6 +35,11 @@ enum MainButtons
 #define MAIN_MENU_ACE_T_X 88
 #define MAIN_MENU_ACE_T_Y 26
 
+// clang-format off
+static const BG_POINT GBALATRO_VERSION_TEXT_POS  = {0, 152};
+static const Rect     GBALATRO_VERSION_TEXT_RECT = {0, 152, 240, 160};
+// clang-format on
+
 // Define SelectionGrid for the main menu buttons
 
 static int main_menu_return_row_size(void);
@@ -183,11 +188,17 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
             show_version = !show_version;
             if (show_version)
             {
-                tte_printf("#{P:%d,%d; cx:0x%X000}%s", 0, 152, TTE_WHITE_PB, balatro_version);
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}%s",
+                    GBALATRO_VERSION_TEXT_POS.x,
+                    GBALATRO_VERSION_TEXT_POS.y,
+                    TTE_WHITE_PB,
+                    gbalatro_version
+                );
             }
             else
             {
-                tte_erase_screen();
+                tte_erase_rect_wrapper(GBALATRO_VERSION_TEXT_RECT);
             }
         }
 
