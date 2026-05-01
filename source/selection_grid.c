@@ -49,14 +49,12 @@ void selection_grid_move_selection_horz(SelectionGrid* selection_grid, int direc
     if (wrap_enabled || (new_selection.x >= 0 && new_selection.x < row_size))
     {
         bool proceed_selection =
-            selection_grid->rows[selection_grid->selection.y].on_selection_changed != NULL
-                ? selection_grid->rows[selection_grid->selection.y].on_selection_changed(
-                      selection_grid,
-                      current_row.row_idx,
-                      &selection_grid->selection,
-                      &new_selection
-                  )
-                : true;
+            selection_grid->rows[selection_grid->selection.y].on_selection_changed(
+                selection_grid,
+                current_row.row_idx,
+                &selection_grid->selection,
+                &new_selection
+            );
 
         if (proceed_selection)
         {
@@ -91,15 +89,14 @@ void selection_grid_move_selection_vert(SelectionGrid* selection_grid, int direc
 
         bool proceed_selection = true;
 
-        if (selection.y >= 0 && selection.y < selection_grid->num_rows &&
-            selection_grid->rows[selection.y].on_selection_changed != NULL)
+        if (selection.y >= 0 && selection.y < selection_grid->num_rows)
         {
             proceed_selection =
                 selection_grid->rows[selection.y]
                     .on_selection_changed(selection_grid, selection.y, &selection, &new_selection);
         }
 
-        if (proceed_selection && selection_grid->rows[new_selection.y].on_selection_changed != NULL)
+        if (proceed_selection)
         {
             proceed_selection = selection_grid->rows[new_selection.y].on_selection_changed(
                 selection_grid,
