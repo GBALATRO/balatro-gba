@@ -787,6 +787,8 @@ void game_init()
 
     jokers_available_to_shop_init();
 
+    load_game();
+
     hands = max_hands;
     discards = max_discards;
     g_game_vars.timer = TM_ZERO;
@@ -798,8 +800,6 @@ void game_init()
     g_game_vars.money = STARTING_MONEY;
     score = STARTING_SCORE;
     g_game_vars.round = 0;
-
-    load_game();
 
     // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available
     init_unbeaten_blinds_list(false);
