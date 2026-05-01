@@ -236,7 +236,7 @@ void sprite_object_reset_transform(SpriteObject* sprite_object);
  *
  * @param sprite_object pointer to SpriteObject to update. Cannot be **NULL**.
  */
-void sprite_object_update(SpriteObject* sprite_object);
+IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object);
 
 /**
  * @brief Shake SpriteObject on screen and play a sound
