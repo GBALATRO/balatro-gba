@@ -11,6 +11,7 @@
 #include "save.h"
 #include "selection_grid.h"
 #include "soundbank.h"
+#include "util.h"
 
 #include <stdint.h>
 #include <string.h>
@@ -28,13 +29,19 @@ enum OptionButtons
     BACK_BTN_IDX,
     NB_OPTIONS_BUTTONS
 };
+enum OptionSpeedButtons
+{
+    GAME_SPEED_DOWN_BTN_IDX,
+    GAME_SPEED_UP_BTN_IDX,
+    NB_GAME_SPEED_BUTTONS
+};
 
 // Color palette indices
 #define MENU_BUTTON_MAIN_COLOR_PAL_IDX          1
 #define BACK_BUTTON_MAIN_COLOR_PAL_IDX          3
-#define SPEED_LESS_BUTTON_OUTLINE_COLOR_PAL_IDX 4
+#define SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX 4
 #define SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX      5
-#define SPEED_MORE_BUTTON_OUTLINE_COLOR_PAL_IDX 6
+#define SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX 6
 #define CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX   7
 #define MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX      8
 #define SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX      9
@@ -42,6 +49,8 @@ enum OptionButtons
 
 // Define selection grid for the menu buttons
 
+static void game_speed_down_on_pressed(void);
+static void game_speed_up_on_pressed(void);
 static void high_contrast_on_pressed(void);
 static void back_on_pressed(void);
 static int options_menu_return_row_size(void);
@@ -118,6 +127,11 @@ Button options_menu_buttons[] = {
     {SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL},
     {BACK_BUTTON_OUTLINE_COLOR_PAL_IDX,     BACK_BUTTON_MAIN_COLOR_PAL_IDX, back_on_pressed,          NULL}
 };
+
+Button game_speed_buttons[] = {
+    {SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, game_speed_down_on_pressed, NULL},
+    {SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX,   MENU_BUTTON_MAIN_COLOR_PAL_IDX, game_speed_up_on_pressed,   NULL},
+};
 // clang-format on
 
 const Selection OPTIONS_MENU_INIT_SEL = {0, 0};
@@ -132,12 +146,12 @@ SelectionGrid options_menu_selection_grid = {
 // clang-format off
 
 // Values in tiles
-static const Rect     OPTIONS_SPEED_LESS_ACTIVE_BTN_SRC_RECT   = { 3, 20,  3, 21};
-static const Rect     OPTIONS_SPEED_LESS_DISABLED_BTN_SRC_RECT = { 9, 22,  9, 23};
-static const BG_POINT OPTIONS_SPEED_LESS_BTN_DEST_POS          = {11,  3};
-static const Rect     OPTIONS_SPEED_MORE_ACTIVE_BTN_SRC_RECT   = {10, 20, 10, 21};
-static const Rect     OPTIONS_SPEED_MORE_DISABLED_BTN_SRC_RECT = {10, 22, 10, 23};
-static const BG_POINT OPTIONS_SPEED_MORE_BTN_DEST_POS          = {18,  3};
+static const Rect     OPTIONS_SPEED_DOWN_ACTIVE_BTN_SRC_RECT   = { 3, 20,  3, 21};
+static const Rect     OPTIONS_SPEED_DOWN_DISABLED_BTN_SRC_RECT = { 9, 22,  9, 23};
+static const BG_POINT OPTIONS_SPEED_DOWN_BTN_DEST_POS          = {11,  3};
+static const Rect     OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT     = {10, 20, 10, 21};
+static const Rect     OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT   = {10, 22, 10, 23};
+static const BG_POINT OPTIONS_SPEED_UP_BTN_DEST_POS            = {18,  3};
 static const Rect     OPTIONS_SPEED_VALUES[GAME_SPEED_MAX]   = { { 6, 20,  7, 21},
                                                                  { 3, 22,  4, 23},
                                                                  { 5, 22,  6, 23},
@@ -173,6 +187,10 @@ static const BG_POINT OPTIONS_SOUND_VALUE_TEXT_POS   = {160, 104};
 static const BG_POINT OPTIONS_BACK_SAVE_TEXT_POS     = { 72, 136};
 // clang-format on
 
+#define GAME_SPEED_ARROW_HIGHLIGHT_DURATION 10
+static s32 game_speed_down_highlight_start = UNDEFINED;
+static s32 game_speed_up_highlight_start = UNDEFINED;
+
 static bool on_boot = true;
 static bool game_speed_changed = false;
 static bool high_contrast_changed = false;
@@ -182,19 +200,18 @@ static bool sound_volume_changed = false;
 static bool any_value_changed = false;
 static bool back_btn_is_save_state = false;
 
+static void disable_all_game_speed_outlines_except_self(enum OptionSpeedButtons highlighted_btn)
+{
+    for (int i = 0; i < NB_GAME_SPEED_BUTTONS; i++)
+    {
+        button_set_highlight(&game_speed_buttons[i], i == highlighted_btn);
+    }
+}
+
 static void disable_all_outlines_except_self(enum OptionButtons highlighted_btn)
 {
-    // These two get disabled no matter what
-    memcpy16(
-        &pal_bg_mem[SPEED_LESS_BUTTON_OUTLINE_COLOR_PAL_IDX],
-        &pal_bg_mem[MENU_BUTTON_MAIN_COLOR_PAL_IDX],
-        1
-    );
-    memcpy16(
-        &pal_bg_mem[SPEED_MORE_BUTTON_OUTLINE_COLOR_PAL_IDX],
-        &pal_bg_mem[MENU_BUTTON_MAIN_COLOR_PAL_IDX],
-        1
-    );
+    // These two get disabled no matter what here
+    disable_all_game_speed_outlines_except_self(NB_GAME_SPEED_BUTTONS);
 
     for (int i = 0; i < NB_OPTIONS_BUTTONS; i++)
     {
@@ -273,36 +290,50 @@ void game_options_menu_on_update(void)
 {
     selection_grid_process_input(&options_menu_selection_grid);
 
+    // game speed arrows small animation: they stay highlighted for a few frames
+    if (game_speed_down_highlight_start != UNDEFINED &&
+        (g_game_vars.timer - game_speed_down_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
+    {
+        game_speed_down_highlight_start = UNDEFINED;
+        button_set_highlight(&game_speed_buttons[GAME_SPEED_DOWN_BTN_IDX], false);
+    }
+    if (game_speed_up_highlight_start != UNDEFINED &&
+        (g_game_vars.timer - game_speed_up_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
+    {
+        game_speed_up_highlight_start = UNDEFINED;
+        button_set_highlight(&game_speed_buttons[GAME_SPEED_UP_BTN_IDX], false);
+    }
+
     // check if need to disable game speed arrows
     if (game_speed_changed)
     {
         if (g_game_vars.game_speed == GAME_SPEED_MIN)
         {
             main_bg_se_copy_rect(
-                OPTIONS_SPEED_LESS_DISABLED_BTN_SRC_RECT,
-                OPTIONS_SPEED_LESS_BTN_DEST_POS
+                OPTIONS_SPEED_DOWN_DISABLED_BTN_SRC_RECT,
+                OPTIONS_SPEED_DOWN_BTN_DEST_POS
             );
         }
         else
         {
             main_bg_se_copy_rect(
-                OPTIONS_SPEED_LESS_ACTIVE_BTN_SRC_RECT,
-                OPTIONS_SPEED_LESS_BTN_DEST_POS
+                OPTIONS_SPEED_DOWN_ACTIVE_BTN_SRC_RECT,
+                OPTIONS_SPEED_DOWN_BTN_DEST_POS
             );
         }
 
         if (g_game_vars.game_speed == GAME_SPEED_MAX)
         {
             main_bg_se_copy_rect(
-                OPTIONS_SPEED_MORE_DISABLED_BTN_SRC_RECT,
-                OPTIONS_SPEED_MORE_BTN_DEST_POS
+                OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT,
+                OPTIONS_SPEED_UP_BTN_DEST_POS
             );
         }
         else
         {
             main_bg_se_copy_rect(
-                OPTIONS_SPEED_MORE_ACTIVE_BTN_SRC_RECT,
-                OPTIONS_SPEED_MORE_BTN_DEST_POS
+                OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT,
+                OPTIONS_SPEED_UP_BTN_DEST_POS
             );
         }
 
@@ -445,6 +476,24 @@ void game_options_menu_on_exit(void)
     tte_erase_screen();
 }
 
+static void game_speed_down_on_pressed(void)
+{
+    g_game_vars.game_speed--;
+    game_speed_changed = true;
+    game_speed_down_highlight_start = g_game_vars.timer;
+    game_speed_up_highlight_start = UNDEFINED;
+    disable_all_game_speed_outlines_except_self(GAME_SPEED_DOWN_BTN_IDX);
+}
+
+static void game_speed_up_on_pressed(void)
+{
+    g_game_vars.game_speed++;
+    game_speed_changed = true;
+    game_speed_down_highlight_start = UNDEFINED;
+    game_speed_up_highlight_start = g_game_vars.timer;
+    disable_all_game_speed_outlines_except_self(GAME_SPEED_UP_BTN_IDX);
+}
+
 /**
  * @brief Handles input for the high contrast card toggle button and nothing more.
  */
@@ -516,6 +565,7 @@ static bool game_speed_row_on_selection_changed(
 )
 {
     change_button_highlight(row_idx, prev_selection, new_selection);
+    disable_all_game_speed_outlines_except_self(NB_GAME_SPEED_BUTTONS);
 
     // Can only change game speed by pressing left/right while staying on the button's row
     if (prev_selection->y != new_selection->y)
@@ -523,13 +573,11 @@ static bool game_speed_row_on_selection_changed(
 
     if (key_hit(KEY_LEFT) && g_game_vars.game_speed > GAME_SPEED_MIN)
     {
-        g_game_vars.game_speed--;
-        game_speed_changed = true;
+        button_press(&game_speed_buttons[GAME_SPEED_DOWN_BTN_IDX]);
     }
     else if (key_hit(KEY_RIGHT) && g_game_vars.game_speed < GAME_SPEED_MAX)
     {
-        g_game_vars.game_speed++;
-        game_speed_changed = true;
+        button_press(&game_speed_buttons[GAME_SPEED_UP_BTN_IDX]);
     }
 
     return true;
