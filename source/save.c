@@ -26,7 +26,7 @@
 
 // clang-format off
 /**
- * @brief Structurer holding save data header info to be packed and written to SRAM for validation.
+ * @brief Structure holding save data header info to be packed and written to SRAM for validation.
  * Defined in this discussion as follows: https://github.com/GBALATRO/balatro-gba/discussions/450
  * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
  * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
@@ -65,7 +65,7 @@ enum DelimiterTag
  */
 static inline void write_sram(u32 sram_base, const u8* bytes, u32 size)
 {
-    if (sram_base + size >= SRAM_SIZE)
+    if (sram_base + size > SRAM_SIZE)
         return;
 
     for (u32 i = 0; i < size; i++)
@@ -81,7 +81,7 @@ static inline void write_sram(u32 sram_base, const u8* bytes, u32 size)
  */
 static inline void read_sram(u32 sram_base, u8* bytes, u32 size)
 {
-    if (sram_base + size >= SRAM_SIZE)
+    if (sram_base + size > SRAM_SIZE)
         return;
 
     for (u32 i = 0; i < size; i++)
@@ -111,7 +111,7 @@ static inline bool check_hash(const char* prefix)
 }
 
 /**
- ** @brief Determines if the current build is considered "dirty" aka has uncommited changes.
+ ** @brief Determines if the current build is considered "dirty" aka has uncommitted changes.
  *         This works because the balatro_version string has "-dirty" added at the end if it's
  *         dirty.
  *
@@ -119,7 +119,7 @@ static inline bool check_hash(const char* prefix)
  */
 static inline bool is_version_dirty()
 {
-    return strlen(balatro_version) > CHECK_HASH_SIZE;
+    return strlen(balatro_version) > GIT_HASH_START + CHECK_HASH_SIZE;
 }
 
 /**
@@ -131,7 +131,7 @@ static inline void set_save_header()
     SaveHeader check = {};
     check.magic = CHECK_MAGIC;
     check.dirty = is_version_dirty();
-    memcpy(&(check.githash), (void*)(&balatro_version) + GIT_HASH_START, CHECK_HASH_SIZE);
+    memcpy(&(check.githash), balatro_version + GIT_HASH_START, CHECK_HASH_SIZE);
 
     write_sram(CHECK_BASE, (const u8*)&check, sizeof(check));
 }

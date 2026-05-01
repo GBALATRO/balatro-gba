@@ -181,7 +181,6 @@ static bool sound_volume_changed = false;
 
 static bool any_value_changed = false;
 static bool back_btn_is_save_state = false;
-static bool save_pressed = false;
 
 static void disable_all_outlines_except_self(enum OptionButtons highlighted_btn)
 {
@@ -432,7 +431,7 @@ void game_options_menu_on_update(void)
     // Except on the first update where it is forced to display the loaded values
     // instead of the default ones, if any value was changed, edit the last button
     // text to read "Save Changes" instead of "Back"
-    if (!on_boot && any_value_changed && !back_btn_is_save_state && !save_pressed)
+    if (!on_boot && any_value_changed && !back_btn_is_save_state)
     {
         change_back_save_text(false);
         back_btn_is_save_state = true;
@@ -456,23 +455,19 @@ static void high_contrast_on_pressed(void)
 }
 
 /**
- * @brief Handles input for the Sack/Save button.
+ * @brief Handles input for the Back/Save button.
  */
 static void back_on_pressed(void)
 {
-    if (key_hit(SELECT_CARD))
+    if (back_btn_is_save_state)
     {
-        if (back_btn_is_save_state)
-        {
-            save_game();
-            change_back_save_text(true);
-            back_btn_is_save_state = false;
-            save_pressed = false;
-        }
-        else
-        {
-            game_change_state(GAME_STATE_MAIN_MENU);
-        }
+        save_game();
+        change_back_save_text(true);
+        back_btn_is_save_state = false;
+    }
+    else
+    {
+        game_change_state(GAME_STATE_MAIN_MENU);
     }
 }
 

@@ -4559,7 +4559,6 @@ static void game_shop_on_exit(void)
 
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 
-    // test
     save_game();
 }
 

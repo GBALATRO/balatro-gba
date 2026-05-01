@@ -6,6 +6,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-extern char balatro_version[];
+extern const char balatro_version[];
 
 #endif // VERSION_H

@@ -1,7 +1,7 @@
 /**
  * @file options_menu.h
  *
- * @brief Common functions to render UI elements.
+ * @brief Options menu state functions.
  */
 #ifndef GAME_OPTIONS_MENU_H
 #define GAME_OPTIONS_MENU_H
