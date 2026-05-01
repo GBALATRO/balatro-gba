@@ -78,7 +78,8 @@ SelectionGridRow options_menu_selection_rows[] = {
         options_menu_return_row_size,
         game_speed_row_on_selection_changed,
         NULL,
-        {.wrap = true}
+        {.wrap = true} // The wrapping is used to allow button activation with Left/Right arrows by
+                       // putting logic into the `game_speed_row_on_selection_changed` function
     },
     {
         HIGH_CONTRAST_BTN_IDX,
@@ -92,14 +93,14 @@ SelectionGridRow options_menu_selection_rows[] = {
         options_menu_return_row_size,
         music_volume_row_on_selection_changed,
         NULL,
-        {.wrap = true}
+        {.wrap = true} // Same trick as Game Speed button
     },
     {
         SOUND_VOLUME_BTN_IDX,
         options_menu_return_row_size,
         sound_volume_row_on_selection_changed,
         NULL,
-        {.wrap = true}
+        {.wrap = true} // Same trick as Game Speed button
     },
     {
         BACK_BTN_IDX,
