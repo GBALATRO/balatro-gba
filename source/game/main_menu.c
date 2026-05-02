@@ -70,17 +70,18 @@ Button main_menu_buttons[] = {
     {OPTIONS_BUTTON_OUTLINE_PID, OPTIONS_BUTTON_MAIN_COLOR_PID, options_on_pressed, NULL},
 };
 
-const Selection MAIN_MENU_INIT_SEL = {0, 0};
-
 SelectionGrid main_menu_selection_grid = {
     main_menu_selection_rows,
     1,
-    MAIN_MENU_INIT_SEL
+    {0, 0}
 };
 // clang-format on
 
 // Main menu sprite - the ace of spades
 static CardObject* main_menu_ace = NULL;
+
+// Keep track of last highlighted button
+static enum MainButtons last_highlighted_button = PLAY_BTN_IDX;
 
 void game_main_menu_change_background(void)
 {
@@ -112,14 +113,10 @@ void game_main_menu_on_init(void)
     main_menu_ace->sprite_object->tscale = float2fx(0.8f);
     card_object_update(main_menu_ace);
 
-    // Select Play button by default, but only on boot.
-    // If we return from the options menu, we want the Options button to be highlighted.
-    static bool on_boot = true;
-    if (on_boot)
-    {
-        on_boot = false;
-        main_menu_selection_grid.selection = MAIN_MENU_INIT_SEL;
-    }
+    // Select last highlighted button, Play button by default.
+    // e.g. if we return from the options menu, we want the Options button to be highlighted.
+    Selection sel_init = {last_highlighted_button, 0};
+    main_menu_selection_grid.selection = sel_init;
 
     // Highlight current button
     button_set_highlight(&main_menu_buttons[main_menu_selection_grid.selection.x], true);
@@ -144,6 +141,9 @@ void game_main_menu_on_update(void)
 
 void game_main_menu_on_exit(void)
 {
+    // Save selected button
+    last_highlighted_button = main_menu_selection_grid.selection.x;
+
     // Normally I would just cache these and hide/unhide but I didn't feel like dealing with
     // defining a layer for it
     card_destroy(&main_menu_ace->card);
