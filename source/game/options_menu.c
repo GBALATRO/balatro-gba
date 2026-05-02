@@ -188,8 +188,8 @@ static const BG_POINT OPTIONS_BACK_SAVE_TEXT_POS     = { 72, 136};
 // clang-format on
 
 #define GAME_SPEED_ARROW_HIGHLIGHT_DURATION 10
-static s32 game_speed_down_highlight_start = UNDEFINED;
-static s32 game_speed_up_highlight_start = UNDEFINED;
+enum OptionSpeedButtons game_speed_arrow_highlight_button = GAME_SPEED_UP_BTN_IDX;
+static s32 game_speed_arrow_highlight_start = UNDEFINED;
 
 static bool on_boot = true;
 static bool game_speed_changed = false;
@@ -291,17 +291,11 @@ void game_options_menu_on_update(void)
     selection_grid_process_input(&options_menu_selection_grid);
 
     // game speed arrows small animation: they stay highlighted for a few frames
-    if (game_speed_down_highlight_start != UNDEFINED &&
-        (g_game_vars.timer - game_speed_down_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
+    if (game_speed_arrow_highlight_start != UNDEFINED &&
+        (g_game_vars.timer - game_speed_arrow_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
     {
-        game_speed_down_highlight_start = UNDEFINED;
-        button_set_highlight(&game_speed_buttons[GAME_SPEED_DOWN_BTN_IDX], false);
-    }
-    if (game_speed_up_highlight_start != UNDEFINED &&
-        (g_game_vars.timer - game_speed_up_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
-    {
-        game_speed_up_highlight_start = UNDEFINED;
-        button_set_highlight(&game_speed_buttons[GAME_SPEED_UP_BTN_IDX], false);
+        game_speed_arrow_highlight_start = UNDEFINED;
+        button_set_highlight(&game_speed_buttons[game_speed_arrow_highlight_button], false);
     }
 
     // check if need to disable game speed arrows
@@ -480,8 +474,8 @@ static void game_speed_down_on_pressed(void)
 {
     g_game_vars.game_speed--;
     game_speed_changed = true;
-    game_speed_down_highlight_start = g_game_vars.timer;
-    game_speed_up_highlight_start = UNDEFINED;
+    game_speed_arrow_highlight_start = g_game_vars.timer;
+    game_speed_arrow_highlight_button = GAME_SPEED_DOWN_BTN_IDX;
     disable_all_game_speed_outlines_except_self(GAME_SPEED_DOWN_BTN_IDX);
 }
 
@@ -489,8 +483,8 @@ static void game_speed_up_on_pressed(void)
 {
     g_game_vars.game_speed++;
     game_speed_changed = true;
-    game_speed_down_highlight_start = UNDEFINED;
-    game_speed_up_highlight_start = g_game_vars.timer;
+    game_speed_arrow_highlight_start = g_game_vars.timer;
+    game_speed_arrow_highlight_button = GAME_SPEED_UP_BTN_IDX;
     disable_all_game_speed_outlines_except_self(GAME_SPEED_UP_BTN_IDX);
 }
 
