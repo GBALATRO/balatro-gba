@@ -126,12 +126,6 @@ void game_main_menu_on_update(void)
 {
     main_menu_ace->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
     card_object_update(main_menu_ace);
-    obj_aff_rotscale(
-        main_menu_ace->sprite_object->sprite->aff,
-        main_menu_ace->sprite_object->scale,
-        main_menu_ace->sprite_object->scale,
-        main_menu_ace->sprite_object->trotation
-    );
 
     // Seed randomization
     g_game_vars.rng_seed++;
