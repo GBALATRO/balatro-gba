@@ -165,18 +165,6 @@ void load_game(void)
 
     read_sram(GAME_BASE, (u8*)&g_game_vars, sizeof(g_game_vars));
 
-    // Data validation in case we start from junk data
-    if (g_game_vars.game_speed < GAME_SPEED_MIN || g_game_vars.game_speed > GAME_SPEED_MAX)
-        g_game_vars.game_speed = DEFAULT_GAME_SPEED;
-
-    g_game_vars.high_contrast = ((u8)g_game_vars.high_contrast != 1) ? false : true;
-
-    if (g_game_vars.music_volume > VOLUME_OPTION_MAX)
-        g_game_vars.music_volume = DEFAULT_MUSIC_VOLUME;
-
-    if (g_game_vars.sound_volume > VOLUME_OPTION_MAX)
-        g_game_vars.sound_volume = DEFAULT_SOUND_VOLUME;
-
     // return to where we were in the random sequence so that the run stays reproducible
     for (u32 i = 0; i < g_game_vars.rng_step; i++)
     {
