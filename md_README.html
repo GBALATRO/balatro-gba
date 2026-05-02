@@ -133,138 +133,47 @@ $(document).ready(function(){initNavTree('md_README.html',''); initResizable(); 
   <div class="headertitle"><div class="title">Balatro-GBA</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md14"></a> <a href="https://github.com/cellos51/balatro-gba/actions"><img src="https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat&amp;logo=github&amp;branch=main&amp;label=Builds&amp;labelColor=gray&amp;color=default&amp;maxAge=7200" alt="Build Status" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/issues"><img src="https://img.shields.io/github/issues/cellos51/balatro-gba?style=flat&amp;color=red&amp;label=Issues&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTggOS41YTEuNSAxLjUgMCAxIDAgMC0zIDEuNSAxLjUgMCAwIDAgMCAzWiI+PC9wYXRoPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNOCAwYTggOCAwIDEgMSAwIDE2QTggOCAwIDAgMSA4IDBaTTEuNSA4YTYuNSA2LjUgMCAxIDAgMTMgMCA2LjUgNi41IDAgMCAwLTEzIDBaIj48L3BhdGg+PC9zdmc+" alt="Open Issues" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/pulls"><img src="https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat&amp;color=indigo&amp;label=Pull%20Requests&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTEuNSAzLjI1YTIuMjUgMi4yNSAwIDEgMSAzIDIuMTIydjUuMjU2YTIuMjUxIDIuMjUxIDAgMSAxLTEuNSAwVjUuMzcyQTIuMjUgMi4yNSAwIDAgMSAxLjUgMy4yNVptNS42NzctLjE3N0w5LjU3My42NzdBLjI1LjI1IDAgMCAxIDEwIC44NTRWMi41aDFBMi41IDIuNSAwIDAgMSAxMy41IDV2NS42MjhhMi4yNTEgMi4yNTEgMCAxIDEtMS41IDBWNWExIDEgMCAwIDAtMS0xaC0xdjEuNjQ2YS4yNS4yNSAwIDAgMS0uNDI3LjE3N0w3LjE3NyAzLjQyN2EuMjUuMjUgMCAwIDEgMC0uMzU0Wk0zLjc1IDIuNWEuNzUuNzUgMCAxIDAgMCAxLjUuNzUuNzUgMCAwIDAgMC0xLjVabTAgOS41YS43NS43NSAwIDEgMCAwIDEuNS43NS43NSAwIDAgMCAwLTEuNVptOC4yNS43NWEuNzUuNzUgMCAxIDAgMS41IDAgLjc1Ljc1IDAgMCAwLTEuNSAwWiI+PC9wYXRoPjwvc3ZnPg==" alt="Pull Requests" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/discussions"><img src="https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat&amp;color=blue&amp;label=Discussions&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTEuNzUgMWg4LjVjLjk2NiAwIDEuNzUuNzg0IDEuNzUgMS43NXY1LjVBMS43NSAxLjc1IDAgMCAxIDEwLjI1IDEwSDcuMDYxbC0yLjU3NCAyLjU3M0ExLjQ1OCAxLjQ1OCAwIDAgMSAyIDExLjU0M1YxMGgtLjI1QTEuNzUgMS43NSAwIDAgMSAwIDguMjV2LTUuNUMwIDEuNzg0Ljc4NCAxIDEuNzUgMVpNMS41IDIuNzV2NS41YzAgLjEzOC4xMTIuMjUuMjUuMjVoMWEuNzUuNzUgMCAwIDEgLjc1Ljc1djIuMTlsMi43Mi0yLjcyYS43NDkuNzQ5IDAgMCAxIC41My0uMjJoMy41YS4yNS4yNSAwIDAgMCAuMjUtLjI1di01LjVhLjI1LjI1IDAgMCAwLS4yNS0uMjVoLTguNWEuMjUuMjUgMCAwIDAtLjI1LjI1Wm0xMyAyYS4yNS4yNSAwIDAgMC0uMjUtLjI1aC0uNWEuNzUuNzUgMCAwIDEgMC0xLjVoLjVjLjk2NiAwIDEuNzUuNzg0IDEuNzUgMS43NXY1LjVBMS43NSAxLjc1IDAgMCAxIDE0LjI1IDEySDE0djEuNTQzYTEuNDU4IDEuNDU4IDAgMCAxLTIuNDg3IDEuMDNMOS4yMiAxMi4yOGEuNzQ5Ljc0OSAwIDAgMSAuMzI2LTEuMjc1Ljc0OS43NDkgMCAwIDEgLjczNC4yMTVsMi4yMiAyLjIydi0yLjE5YS43NS43NSAwIDAgMSAuNzUtLjc1aDFhLjI1LjI1IDAgMCAwIC4yNS0uMjVaIj48L3BhdGg+PC9zdmc+" alt="Discussions" class="inline"/></a></p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md27"></a> <a href="https://github.com/cellos51/balatro-gba/actions"><img src="https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat&amp;logo=github&amp;branch=main&amp;label=Builds&amp;labelColor=gray&amp;color=default&amp;maxAge=7200" alt="Build Status" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/issues"><img src="https://img.shields.io/github/issues/cellos51/balatro-gba?style=flat&amp;color=red&amp;label=Issues&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTggOS41YTEuNSAxLjUgMCAxIDAgMC0zIDEuNSAxLjUgMCAwIDAgMCAzWiI+PC9wYXRoPjxwYXRoIGZpbGw9IndoaXRlIiBkPSJNOCAwYTggOCAwIDEgMSAwIDE2QTggOCAwIDAgMSA4IDBaTTEuNSA4YTYuNSA2LjUgMCAxIDAgMTMgMCA2LjUgNi41IDAgMCAwLTEzIDBaIj48L3BhdGg+PC9zdmc+" alt="Open Issues" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/pulls"><img src="https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat&amp;color=indigo&amp;label=Pull%20Requests&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTEuNSAzLjI1YTIuMjUgMi4yNSAwIDEgMSAzIDIuMTIydjUuMjU2YTIuMjUxIDIuMjUxIDAgMSAxLTEuNSAwVjUuMzcyQTIuMjUgMi4yNSAwIDAgMSAxLjUgMy4yNVptNS42NzctLjE3N0w5LjU3My42NzdBLjI1LjI1IDAgMCAxIDEwIC44NTRWMi41aDFBMi41IDIuNSAwIDAgMSAxMy41IDV2NS42MjhhMi4yNTEgMi4yNTEgMCAxIDEtMS41IDBWNWExIDEgMCAwIDAtMS0xaC0xdjEuNjQ2YS4yNS4yNSAwIDAgMS0uNDI3LjE3N0w3LjE3NyAzLjQyN2EuMjUuMjUgMCAwIDEgMC0uMzU0Wk0zLjc1IDIuNWEuNzUuNzUgMCAxIDAgMCAxLjUuNzUuNzUgMCAwIDAgMC0xLjVabTAgOS41YS43NS43NSAwIDEgMCAwIDEuNS43NS43NSAwIDAgMCAwLTEuNVptOC4yNS43NWEuNzUuNzUgMCAxIDAgMS41IDAgLjc1Ljc1IDAgMCAwLTEuNSAwWiI+PC9wYXRoPjwvc3ZnPg==" alt="Pull Requests" class="inline"/></a> <a href="https://github.com/cellos51/balatro-gba/discussions"><img src="https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat&amp;color=blue&amp;label=Discussions&amp;logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTEuNzUgMWg4LjVjLjk2NiAwIDEuNzUuNzg0IDEuNzUgMS43NXY1LjVBMS43NSAxLjc1IDAgMCAxIDEwLjI1IDEwSDcuMDYxbC0yLjU3NCAyLjU3M0ExLjQ1OCAxLjQ1OCAwIDAgMSAyIDExLjU0M1YxMGgtLjI1QTEuNzUgMS43NSAwIDAgMSAwIDguMjV2LTUuNUMwIDEuNzg0Ljc4NCAxIDEuNzUgMVpNMS41IDIuNzV2NS41YzAgLjEzOC4xMTIuMjUuMjUuMjVoMWEuNzUuNzUgMCAwIDEgLjc1Ljc1djIuMTlsMi43Mi0yLjcyYS43NDkuNzQ5IDAgMCAxIC41My0uMjJoMy41YS4yNS4yNSAwIDAgMCAuMjUtLjI1di01LjVhLjI1LjI1IDAgMCAwLS4yNS0uMjVoLTguNWEuMjUuMjUgMCAwIDAtLjI1LjI1Wm0xMyAyYS4yNS4yNSAwIDAgMC0uMjUtLjI1aC0uNWEuNzUuNzUgMCAwIDEgMC0xLjVoLjVjLjk2NiAwIDEuNzUuNzg0IDEuNzUgMS43NXY1LjVBMS43NSAxLjc1IDAgMCAxIDE0LjI1IDEySDE0djEuNTQzYTEuNDU4IDEuNDU4IDAgMCAxLTIuNDg3IDEuMDNMOS4yMiAxMi4yOGEuNzQ5Ljc0OSAwIDAgMSAuMzI2LTEuMjc1Ljc0OS43NDkgMCAwIDEgLjczNC4yMTVsMi4yMiAyLjIydi0yLjE5YS43NS43NSAwIDAgMSAuNzUtLjc1aDFhLjI1LjI1IDAgMCAwIC4yNS0uMjVaIj48L3BhdGg+PC9zdmc+" alt="Discussions" class="inline"/></a></p>
+<h2><a class="anchor" id="autotoc_md28"></a>
 Disclaimer</h2>
 <p>This project is a non-profit fan demake of Balatro for the Game Boy Advance, meant to recreate it as accurately as possible including all the visuals that make it satisfying to play. It is <b>not affiliated with or endorsed by Playstack or LocalThunk</b> and <b>it is not to be sold</b>. This version is a <b>minimal tech-demo</b>, intended for those who already own and know the official game. Refer to the Balatro wiki below for descriptions of game mechanics and joker effects. All rights remain with the original holders.</p>
 <p><a href="https://balatrowiki.org/"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20Wiki-194c84?logo=bigjoker&amp;logoColor=fff" alt="Balatro Wiki" width="155" class="inline"/> </a></p>
-<h2><a class="anchor" id="autotoc_md16"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Please buy the official full version from these sources below:</h2>
 <p><a href="https://store.steampowered.com/app/2379780/Balatro/"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Steam-194c84?logo=steam&amp;logoColor=fff" alt="Balatro on Steam" class="inline"/></a> <a href="https://play.google.com/store/apps/details?id=com.playstack.balatro.android"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Google%20Play-414141?logo=Google-play&amp;logoColor=fff" alt="Balatro on Google Play" class="inline"/></a> <a href="https://apps.apple.com/us/app/balatro/id6502453075"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Apple%20App%20Store-0D96F6?logo=app-store&amp;logoColor=fff" alt="Balatro on Apple App Store" class="inline"/></a> <a href="https://www.nintendo.com/us/store/products/balatro-switch/"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Nintendo%20eShop-e60012?logo=nintendo&amp;logoColor=fff" alt="Balatro on Nintendo eShop" class="inline"/></a> <a href="https://store.playstation.com/en-us/concept/10010334"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20PlayStation%20Store-006FCD?logo=PlayStation&amp;logoColor=fff" alt="Balatro on PlayStation Store" class="inline"/></a> <a href="https://www.xbox.com/en-US/games/store/balatro/9PK087LNGJC5"><img src="https://custom-icon-badges.demolab.com/badge/Balatro%20on%20Xbox-107C10.svg?logo=xbox&amp;logoColor=white" alt="Balatro on Xbox" style="pointer-events: none;" class="inline"/></a> <a href="https://www.humblebundle.com/store/balatro?srsltid=AfmBOoqS2De8T4kizzWxJS1pbvQosJ_bYCl4qvC6LA1YLPAh4sZ8vJqO"><img src="https://img.shields.io/badge/Balatro%20on%20Humble%20Bundle-%23494F5C.svg?logo=HumbleBundle&amp;logoColor=white" alt="Balatro on Humble Bundle" style="pointer-events: none;" class="inline"/></a></p>
 <hr  />
 <p><a href="https://github.com/cellos51/balatro-gba/releases/"><img src="https://img.shields.io/badge/Download_ROMs_from_the_Releases_tab-8A2BE2?&amp;logo=github" alt="Download ROM" width="500" class="inline"/> </a></p>
+<p>See **_CONTRIBUTING.md_** for build instructions for Docker, Linux, MacOS, and Windows.</p>
 <hr  />
 <p><a href="https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b">https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b</a></p>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md32"></a>
 Controls:</h2>
 <p>(D-Pad: Navigation)</p>
 <p>(A: Pick Card/Make Selections)</p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md33"></a>
 When on the hand row during round</h3>
 <p>(L: Play Hand)</p>
 <p>(R: Discard Hand)</p>
 <p>(B: Deselect All Cards)</p>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md34"></a>
 When on the joker row in the shop or during round</h3>
 <p>(L: Sell <a class="el" href="structJoker.html">Joker</a>)</p>
 <p>(Hold A: Swap Owned Jokers or Playing Cards in the Shop or Round)</p>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md35"></a>
 Contributing</h1>
 <p>If you would like to contribute, please read CONTRIBUTING.md.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
-&lt;strong&gt;Build Instructions:&lt;/strong&gt;</h1>
-<h2><a class="anchor" id="autotoc_md24"></a>
-&lt;strong&gt;-Docker-&lt;/strong&gt;</h2>
-<p>A docker compose file is provided to build this project. It provides a standard build environment for this projects CI/CD and can also be used to build the ROM locally.</p>
-<p><em>Some users may find this option to be the easiest way to build locally.</em></p><ul>
-<li><em>This option <b>avoids</b> setting up the development environment as described below.</em></li>
-<li><em>No additional software besides <b>docker desktop</b> is required.</em></li>
-</ul>
-<h3><a class="anchor" id="autotoc_md25"></a>
-Step-by-Step</h3>
-<p>1.) Install <a href="https://docs.docker.com/desktop/">docker desktop</a> for your operating system.</p>
-<p>2.) Open a terminal to this project's directory:</p><ul>
-<li>On <b>Linux</b> run <code>UID=$(id -u) GID=$(id -g) docker compose up</code></li>
-<li>On <b>Windows</b> run <code>docker compose up</code></li>
-</ul>
-<details >
-<summary >
-<em>How do I open a terminal in windows?</em></summary>
-<p></p>
-<hr  />
-<p>From the file explorer, you can open a folder in <b>powershell</b> (<em>a modern windows terminal</em>):</p>
-<ul>
-<li><b>hold 'Shift'</b> and <b>Right Click</b> on the folder.</li>
-<li>Select **"Open PowerShell window here"** from the popup menu.</li>
-</ul>
-<hr  />
-<p></p>
-</details>
-<p>3.) Docker will build the project and the ROM will be in the same location as step 7 describes below.</p>
-<h2><a class="anchor" id="autotoc_md28"></a>
-&lt;strong&gt;-Windows-&lt;/strong&gt;</h2>
-<p>Video Tutorial: <a href="https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2">https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2</a> </p>
-<h3><a class="anchor" id="autotoc_md29"></a>
-With &lt;tt&gt;Git&lt;/tt&gt; (not required)</h3>
-<p>1.) Install <code>devkitPro</code> from <a href="https://github.com/devkitPro/installer">https://github.com/devkitPro/installer</a> by downloading the latest release, unzipping the archive, and then running the installer. You only need to install the tools for the GBA development so ensure you have it selected and install it to the default directory. You may need to create a temp folder for the project.</p>
-<p>2.) Search for <code>MSys2</code> in the Start Menu and open it.</p>
-<p>3.) Install <code>Git</code> by typing this command: <code>pacman -S git</code> if you don't have it already installed</p>
-<p>4.) Clone the project by putting <code>git clone <a href="https://github.com/cellos51/balatro-gba.git">https://github.com/cellos51/balatro-gba.git</a></code> in the MSys2 window.</p>
-<p>5.) Use <code>cd</code> and drag the new folder into the window to add the file path and press Enter.</p>
-<p>6.) Type <code>make</code> into the window and press Enter to start building the rom.</p>
-<p>7.) After it completes, navigate through the <code>build</code> directory in the project folder and look for <code>balatro-gba.gba</code> and load it on an emulator or flashcart. </p>
-<h3><a class="anchor" id="autotoc_md30"></a>
-Without &lt;tt&gt;Git&lt;/tt&gt;</h3>
-<p>Disregard Steps 3-4 and instead click the green code button on the main repository page and press <code>Download Zip</code>. Unzip the folder and place it wherever you like. Then continue from Step 5.</p>
-<h2><a class="anchor" id="autotoc_md31"></a>
-&lt;strong&gt;-Linux-&lt;/strong&gt;</h2>
-<p>1.) Add the devkitPro repository using these instructions <a href="https://devkitpro.org/wiki/devkitPro_pacman">https://devkitpro.org/wiki/devkitPro_pacman</a></p>
-<p>2.) Install devkitPro by running <code>sudo pacman -S gba-dev</code> and accepting all packages.</p>
-<p>3.) Activate the devkitPro environment by running <code>source /etc/profile.d/devkit-env.sh</code> or opening a new shell.</p>
-<p>4.) Follow instructions from the Windows tutorial starting from Step 3</p>
-<h2><a class="anchor" id="autotoc_md32"></a>
-&lt;strong&gt;-macOS-&lt;/strong&gt;</h2>
-<p>1.) Install devkitPro installer using: <a href="https://github.com/devkitPro/installer">https://github.com/devkitPro/installer</a> and following <a href="https://devkitpro.org/wiki/devkitPro_pacman#macOS">https://devkitpro.org/wiki/devkitPro_pacman#macOS</a>. </p><blockquote class="doxtable">
-<p>&zwj;Note: You may have to install the installers directly from their url in a browser, as the installer script may not install correctly due to Cloudflare checks on their server. You can use one of the following urls: </p>
-</blockquote>
-<blockquote class="doxtable">
-<p>&zwj;Apple Silicon: <a href="https://pkg.devkitpro.org/packages/macos-installers/devkitpro-pacman-installer.arm64.pkg">https://pkg.devkitpro.org/packages/macos-installers/devkitpro-pacman-installer.arm64.pkg</a> </p>
-</blockquote>
-<blockquote class="doxtable">
-<p>&zwj;Intel: <a href="https://pkg.devkitpro.org/packages/macos-installers/devkitpro-pacman-installer.x86_64.pkg">https://pkg.devkitpro.org/packages/macos-installers/devkitpro-pacman-installer.x86_64.pkg</a> </p>
-</blockquote>
-<p>2.) Run <code>sudo dkp-pacman -S gba-dev</code></p>
-<p>3.) Verify that devkitPro is installed in '/opt/devkitpro'</p>
-<p>4.) Add the following to your .bashrc or .zshrc (or export the variables in your shell session):</p><ul>
-<li>export DEVKITPRO=/opt/devkitpro</li>
-<li>export DEVKITARM=$DEVKITPRO/devkitARM</li>
-<li>export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin</li>
-</ul>
-<p>5.) Follow instructions from Windows tutorial step 4</p>
-<h2><a class="anchor" id="autotoc_md33"></a>
-&lt;strong&gt;Common Issues:&lt;/strong&gt;</h2>
-<h4><a class="anchor" id="autotoc_md34"></a>
-1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won't compile!&lt;/strong&gt;</h4>
-<ul>
-<li>Move the project folder to your desktop and then <code>cd</code> to it by dragging the folder into the terminal window. This error could be caused by a bad file path, placing the folder on the desktop is a failsafe.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md35"></a>
-2. &lt;strong&gt;I can't find the compiled rom!&lt;/strong&gt;</h4>
-<ul>
-<li>Look for a folder called <code>build</code> inside the project folder and then find <code>balatro-gba.gba</code>.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md36"></a>
-3. &lt;strong&gt;The Game won't start!&lt;/strong&gt;</h4>
-<ul>
-<li>Try a different emulator or if you are using original hardware, make sure the rom is not corrupted and try a different flashcart or SD <a class="el" href="structCard.html">Card</a>. If this does not work, open an issue on the Github page because a recent commit may have broke the game.</li>
-</ul>
-<h4><a class="anchor" id="autotoc_md37"></a>
-4. &lt;strong&gt;It says I don't have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!&lt;/strong&gt;</h4>
-<ul>
-<li>Use <code>pacman -S git</code> (not required) or <code>pacman -S make</code> although make should already be installed if you followed the instructions correctly.</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md36"></a>
 &lt;strong&gt;Credits:&lt;/strong&gt;</h1>
-<h2><a class="anchor" id="autotoc_md39"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 &lt;strong&gt;Game&lt;/strong&gt;</h2>
 <p>This GBA implementation is based on Balatro which is designed and created by LocalThunk and published by Playstack. See repository contributors list for code contribution credits to this GBA implementation. </p>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 &lt;strong&gt;Music&lt;/strong&gt;</h2>
 <p>Music arrangement is made by @cellos51 and @MeirGavish based on original Balatro soundtrack by <a href="https://louisfmusic.com/">LouisF</a> and <a href="https://musescore.com/user/8237321/scores/14590660">transcription by MrCrimit</a>. </p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md39"></a>
 &lt;strong&gt;Imagery&lt;/strong&gt;</h2>
 <p>Sprites and backgrounds are based on original Balatro imagery created by LocalThunk. See <a href="https://github.com/cellos51/balatro-gba/discussions/69">Joker Art Discussion</a> for full credits for each joker sprite. </p>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 &lt;strong&gt;Sounds&lt;/strong&gt;</h2>
 <p>For the mult and xmult sound effects: <a href="https://freesound.org/s/253249/">Toy records#06-E3-02.wav by poissonmort</a> used under License: Attribution 4.0</p>
 <p>All other sound effects were created by LocalThunk and are used under Creative Commons - CC0 license. </p>

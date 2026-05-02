@@ -15,7 +15,7 @@ var searchData=
   ['affine_5fbg_5fpal_5flen_12',['AFFINE_BG_PAL_LEN',['../affine__background_8h.html#abf2b02be405747d46c04fe0d1d29a9f4',1,'affine_background.h']]],
   ['affine_5fbg_5fpb_13',['AFFINE_BG_PB',['../affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301',1,'affine_background.h']]],
   ['affinebackgroundid_14',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
-  ['and_20won_20t_20compile_20strong_15',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['and_20won_20t_20compile_15',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md22',1,'']]],
   ['art_16',['Art',['../index.html#autotoc_md2',1,'']]],
   ['audio_5futils_2eh_17',['audio_utils.h',['../audio__utils_8h.html',1,'']]]
 ];

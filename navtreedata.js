@@ -27,30 +27,18 @@ var NAVTREE =
   [ "GBAlatro", "index.html", [
     [ "Developer Guide", "index.html", "index" ],
     [ "Balatro-GBA", "md_README.html", [
-      [ "Contributing", "md_README.html#autotoc_md22", null ],
-      [ "<strong>Build Instructions:</strong>", "md_README.html#autotoc_md23", [
-        [ "Disclaimer", "md_README.html#autotoc_md15", null ],
-        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md16", null ],
-        [ "Controls:", "md_README.html#autotoc_md19", [
-          [ "When on the hand row during round", "md_README.html#autotoc_md20", null ],
-          [ "When on the joker row in the shop or during round", "md_README.html#autotoc_md21", null ]
+      [ "Contributing", "md_README.html#autotoc_md35", null ],
+      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md36", [
+        [ "Disclaimer", "md_README.html#autotoc_md28", null ],
+        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md29", null ],
+        [ "Controls:", "md_README.html#autotoc_md32", [
+          [ "When on the hand row during round", "md_README.html#autotoc_md33", null ],
+          [ "When on the joker row in the shop or during round", "md_README.html#autotoc_md34", null ]
         ] ],
-        [ "<strong>-Docker-</strong>", "md_README.html#autotoc_md24", [
-          [ "Step-by-Step", "md_README.html#autotoc_md25", null ]
-        ] ],
-        [ "<strong>-Windows-</strong>", "md_README.html#autotoc_md28", [
-          [ "With <tt>Git</tt> (not required)", "md_README.html#autotoc_md29", null ],
-          [ "Without <tt>Git</tt>", "md_README.html#autotoc_md30", null ]
-        ] ],
-        [ "<strong>-Linux-</strong>", "md_README.html#autotoc_md31", null ],
-        [ "<strong>-macOS-</strong>", "md_README.html#autotoc_md32", null ],
-        [ "<strong>Common Issues:</strong>", "md_README.html#autotoc_md33", null ]
-      ] ],
-      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md38", [
-        [ "<strong>Game</strong>", "md_README.html#autotoc_md39", null ],
-        [ "<strong>Music</strong>", "md_README.html#autotoc_md40", null ],
-        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md41", null ],
-        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md42", null ]
+        [ "<strong>Game</strong>", "md_README.html#autotoc_md37", null ],
+        [ "<strong>Music</strong>", "md_README.html#autotoc_md38", null ],
+        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md39", null ],
+        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md40", null ]
       ] ]
     ] ],
     [ "Data Structures", "annotated.html", [
@@ -78,7 +66,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "affine__background_8c_source.html",
-"sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47"
+"sprite_8h.html#aa017c4226720c0aa8f4ab530a6e2f715"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
