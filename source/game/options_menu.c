@@ -41,7 +41,7 @@ enum OptionSpeedButtons
 #define BACK_BUTTON_MAIN_COLOR_PAL_IDX          3
 #define SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX 4
 #define SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX      5
-#define SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX 6
+#define SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX   6
 #define CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX   7
 #define MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX      8
 #define SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX      9
@@ -233,17 +233,11 @@ static void update_game_speed_button_graphics()
 
     if (g_game_vars.game_speed == GAME_SPEED_MAX)
     {
-        main_bg_se_copy_rect(
-            OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT,
-            OPTIONS_SPEED_UP_BTN_DEST_POS
-        );
+        main_bg_se_copy_rect(OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT, OPTIONS_SPEED_UP_BTN_DEST_POS);
     }
     else
     {
-        main_bg_se_copy_rect(
-            OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT,
-            OPTIONS_SPEED_UP_BTN_DEST_POS
-        );
+        main_bg_se_copy_rect(OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT, OPTIONS_SPEED_UP_BTN_DEST_POS);
     }
 
     main_bg_se_copy_rect(
@@ -258,17 +252,11 @@ static void update_high_contrast_button_graphics()
 {
     if (g_game_vars.high_contrast)
     {
-        main_bg_se_copy_rect(
-            OPTIONS_CONTRAST_VALUE_YES_SRC_RECT,
-            OPTIONS_CONTRAST_VALUE_DEST_POS
-        );
+        main_bg_se_copy_rect(OPTIONS_CONTRAST_VALUE_YES_SRC_RECT, OPTIONS_CONTRAST_VALUE_DEST_POS);
     }
     else
     {
-        main_bg_se_copy_rect(
-            OPTIONS_CONTRAST_VALUE_NO_SRC_RECT,
-            OPTIONS_CONTRAST_VALUE_DEST_POS
-        );
+        main_bg_se_copy_rect(OPTIONS_CONTRAST_VALUE_NO_SRC_RECT, OPTIONS_CONTRAST_VALUE_DEST_POS);
     }
 
     any_value_changed = true;
@@ -427,7 +415,8 @@ void game_options_menu_on_update(void)
 
     // game speed arrows small animation: they stay highlighted for a few frames
     if (game_speed_arrow_highlight_start != UNDEFINED &&
-        (g_game_vars.timer - game_speed_arrow_highlight_start) > GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
+        (g_game_vars.timer - game_speed_arrow_highlight_start) >
+            GAME_SPEED_ARROW_HIGHLIGHT_DURATION)
     {
         game_speed_arrow_highlight_start = UNDEFINED;
         button_set_highlight(&game_speed_buttons[game_speed_arrow_highlight_button], false);
