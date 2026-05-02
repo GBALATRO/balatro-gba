@@ -16,6 +16,7 @@ var annotated_dup =
     [ "List", "structList.html", "structList" ],
     [ "ListItr", "structListItr.html", "structListItr" ],
     [ "ListNode", "structListNode.html", "structListNode" ],
+    [ "SaveHeader", "structSaveHeader.html", null ],
     [ "SelectionGrid", "structSelectionGrid.html", null ],
     [ "SelectionGridRow", "structSelectionGridRow.html", null ],
     [ "SelGridRowAttributes", "structSelGridRowAttributes.html", "structSelGridRowAttributes" ],

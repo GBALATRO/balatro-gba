@@ -270,9 +270,12 @@ $(document).ready(function(){initNavTree('selection__grid_8c_source.html',''); i
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    {</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="comment">// To make the next line shorter and more readable</span></div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        Selection* selection = &amp;selection_grid-&gt;selection;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        selection_grid-&gt;rows[selection-&gt;y].on_key_transit(selection_grid, selection);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordflow">if</span> (selection_grid-&gt;rows[selection-&gt;y].on_key_transit != NULL)</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            selection_grid-&gt;rows[selection-&gt;y].on_key_transit(selection_grid, selection);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        }</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
 </div>
 <div class="ttc" id="aselection__grid_8h_html"><div class="ttname"><a href="selection__grid_8h.html">selection_grid.h</a></div><div class="ttdoc">An implementation for a selection grid that handles directional selection.</div></div>
 <div class="ttc" id="aselection__grid_8h_html_a0ce39e190a85488f03024736064a9115"><div class="ttname"><a href="selection__grid_8h.html#a0ce39e190a85488f03024736064a9115">selection_grid_move_selection_vert</a></div><div class="ttdeci">void selection_grid_move_selection_vert(SelectionGrid *selection_grid, int direction_tribool)</div><div class="ttdoc">Moves the selection vertically within the selection grid.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8c_source.html#l00066">selection_grid.c:66</a></div></div>

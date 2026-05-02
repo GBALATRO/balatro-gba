@@ -22,9 +22,11 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "joker_gfx.h", "joker__gfx_8h_source.html", null ],
     [ "list.h", "list_8h.html", "list_8h" ],
     [ "pool.h", "pool_8h_source.html", null ],
+    [ "save.h", "save_8h.html", "save_8h" ],
     [ "selection_grid.h", "selection__grid_8h.html", "selection__grid_8h" ],
     [ "splash_screen.h", "splash__screen_8h.html", "splash__screen_8h" ],
     [ "sprite.h", "sprite_8h.html", "sprite_8h" ],
     [ "timer.h", "timer_8h.html", null ],
-    [ "util.h", "util_8h.html", "util_8h" ]
+    [ "util.h", "util_8h.html", "util_8h" ],
+    [ "version.h", "version_8h.html", null ]
 ];

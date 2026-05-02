@@ -10,5 +10,6 @@ var searchData=
   ['won_20t_20compile_20strong_7',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
   ['won_20t_20start_20strong_8',['3. &lt;strong&gt;The Game won&apos;t start!&lt;/strong&gt;',['../md_README.html#autotoc_md36',1,'']]],
   ['word_9',['word',['../structBitsetItr.html#a32e8aeb1c57991c216eeb16a1599d816',1,'BitsetItr']]],
-  ['wrap_10',['wrap',['../structSelGridRowAttributes.html#ad694781c319f7ac04c4b381152b4abaf',1,'SelGridRowAttributes']]]
+  ['wrap_10',['wrap',['../structSelGridRowAttributes.html#ad694781c319f7ac04c4b381152b4abaf',1,'SelGridRowAttributes']]],
+  ['write_5fsram_11',['write_sram',['../save_8c.html#ae0171ac7798cc10a4915844e79f050d0',1,'save.c']]]
 ];

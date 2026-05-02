@@ -702,7 +702,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span> </div>
 <div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>    *joker_effect = &amp;shared_joker_effect;</div>
 <div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span> </div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>    (*joker_effect)-&gt;mult = random() % (MISPRINT_MAX_MULT + 1);</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>    (*joker_effect)-&gt;mult = get_rand() % (MISPRINT_MAX_MULT + 1);</div>
 <div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span> </div>
 <div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>    <span class="keywordflow">return</span> JOKER_EFFECT_FLAG_MULT;</div>
 <div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>}</div>
@@ -915,7 +915,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span> </div>
 <div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;</div>
 <div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span> </div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>    <span class="keywordflow">if</span> ((random() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>    <span class="keywordflow">if</span> ((get_rand() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
 <div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>    {</div>
 <div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>        *joker_effect = &amp;shared_joker_effect;</div>
 <div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span> </div>
@@ -937,7 +937,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span> </div>
 <div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;</div>
 <div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span> </div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="keywordflow">if</span> ((random() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="keywordflow">if</span> ((get_rand() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
 <div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    {</div>
 <div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>        *joker_effect = &amp;shared_joker_effect;</div>
 <div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span> </div>
@@ -1025,11 +1025,11 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span> </div>
 <div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>    <span class="comment">// The wiki says it does nothing if money is 0 or below</span></div>
 <div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>    <span class="comment">// This allows us to avoid scoring negative Chips</span></div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    <span class="keywordflow">if</span> (get_money() &gt; 0)</div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    <span class="keywordflow">if</span> (g_game_vars.money &gt; 0)</div>
 <div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>    {</div>
 <div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>        *joker_effect = &amp;shared_joker_effect;</div>
 <div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span> </div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>        (*joker_effect)-&gt;chips = get_money() * 2;</div>
+<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>        (*joker_effect)-&gt;chips = g_game_vars.money * 2;</div>
 <div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>        effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;</div>
 <div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>    }</div>
 <div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span> </div>
@@ -1294,11 +1294,11 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;</div>
 <div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span> </div>
 <div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>    <span class="comment">// Same protection as the Bull Joker</span></div>
-<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>    <span class="keywordflow">if</span> (get_money() &gt; 0)</div>
+<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>    <span class="keywordflow">if</span> (g_game_vars.money &gt; 0)</div>
 <div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>    {</div>
 <div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>        *joker_effect = &amp;shared_joker_effect;</div>
 <div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span> </div>
-<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>        (*joker_effect)-&gt;mult = (get_money() / 5) * 2;</div>
+<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>        (*joker_effect)-&gt;mult = (g_game_vars.money / 5) * 2;</div>
 <div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>        effect_flags_ret = JOKER_EFFECT_FLAG_MULT;</div>
 <div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>    }</div>
 <div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span> </div>

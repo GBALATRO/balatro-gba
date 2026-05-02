@@ -11,10 +11,11 @@ var searchData=
   ['affine_5fbg_5fgame_8',['AFFINE_BG_GAME',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64a2157eda7fc259fcae0f4d4bda343e4ee',1,'affine_background.h']]],
   ['affine_5fbg_5fidx_9',['AFFINE_BG_IDX',['../affine__background_8h.html#a57d2ad5dd7110c2980b515e26b209e94',1,'affine_background.h']]],
   ['affine_5fbg_5fmain_5fmenu_10',['AFFINE_BG_MAIN_MENU',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64af587868d89c48c5bce509f8f5bda7677',1,'affine_background.h']]],
-  ['affine_5fbg_5fpal_5flen_11',['AFFINE_BG_PAL_LEN',['../affine__background_8h.html#abf2b02be405747d46c04fe0d1d29a9f4',1,'affine_background.h']]],
-  ['affine_5fbg_5fpb_12',['AFFINE_BG_PB',['../affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301',1,'affine_background.h']]],
-  ['affinebackgroundid_13',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
-  ['and_20won_20t_20compile_20strong_14',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
-  ['art_15',['Art',['../index.html#autotoc_md2',1,'']]],
-  ['audio_5futils_2eh_16',['audio_utils.h',['../audio__utils_8h.html',1,'']]]
+  ['affine_5fbg_5fnone_11',['AFFINE_BG_NONE',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64a23d85536be4ed622cfa7152cb28aa801',1,'affine_background.h']]],
+  ['affine_5fbg_5fpal_5flen_12',['AFFINE_BG_PAL_LEN',['../affine__background_8h.html#abf2b02be405747d46c04fe0d1d29a9f4',1,'affine_background.h']]],
+  ['affine_5fbg_5fpb_13',['AFFINE_BG_PB',['../affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301',1,'affine_background.h']]],
+  ['affinebackgroundid_14',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
+  ['and_20won_20t_20compile_20strong_15',['1. &lt;strong&gt;When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['art_16',['Art',['../index.html#autotoc_md2',1,'']]],
+  ['audio_5futils_2eh_17',['audio_utils.h',['../audio__utils_8h.html',1,'']]]
 ];

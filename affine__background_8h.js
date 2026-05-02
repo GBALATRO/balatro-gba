@@ -4,6 +4,7 @@ var affine__background_8h =
     [ "AFFINE_BG_PAL_LEN", "affine__background_8h.html#abf2b02be405747d46c04fe0d1d29a9f4", null ],
     [ "AFFINE_BG_PB", "affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301", null ],
     [ "AffineBackgroundID", "affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64", [
+      [ "AFFINE_BG_NONE", "affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64a23d85536be4ed622cfa7152cb28aa801", null ],
       [ "AFFINE_BG_MAIN_MENU", "affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64af587868d89c48c5bce509f8f5bda7677", null ],
       [ "AFFINE_BG_GAME", "affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64a2157eda7fc259fcae0f4d4bda343e4ee", null ]
     ] ],

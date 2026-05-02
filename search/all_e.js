@@ -20,5 +20,6 @@ var searchData=
   ['list_5fswap_17',['list_swap',['../list_8h.html#a08ee696c9e3cb8fdbf2f99450635711e',1,'list.c']]],
   ['listitr_18',['ListItr',['../structListItr.html',1,'']]],
   ['listitrdirection_19',['ListItrDirection',['../list_8h.html#acd43e43d3423800ffb7f1163d636d060',1,'list.h']]],
-  ['listnode_20',['ListNode',['../structListNode.html',1,'']]]
+  ['listnode_20',['ListNode',['../structListNode.html',1,'']]],
+  ['load_5fgame_21',['load_game',['../save_8h.html#ab7a3b4a2f1b227a103c8fe5c79779bfc',1,'load_game():&#160;save.c'],['../save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1',1,'load_game(void):&#160;save.c']]]
 ];

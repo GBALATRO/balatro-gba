@@ -191,6 +191,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a75d2bcf3ada5a77afd676b0c7209556a" id="r_a75d2bcf3ada5a77afd676b0c7209556a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a">truncate_uint_to_suffixed_str</a> (uint32_t num, int num_req_chars, char out_str_buff[UINT_MAX_DIGITS+1])</td></tr>
 <tr class="memdesc:a75d2bcf3ada5a77afd676b0c7209556a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Truncate an unsigned number into a suffixed string representation e.g. 12000 -&gt; "12K" The least significant digits are rounded down e.g. 12345 -&gt; "12K", 12987 -&gt; "12K".  <br /></td></tr>
 <tr class="separator:a75d2bcf3ada5a77afd676b0c7209556a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a410cc1e92bb72bede52fbda4f69a6a89" id="r_a410cc1e92bb72bede52fbda4f69a6a89"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a410cc1e92bb72bede52fbda4f69a6a89">u32_get_digits</a> (uint32_t n)</td></tr>
+<tr class="memdesc:a410cc1e92bb72bede52fbda4f69a6a89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of digits in a 32-bit unsigned number <a href="https://stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c">https://stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c</a>.  <br /></td></tr>
+<tr class="separator:a410cc1e92bb72bede52fbda4f69a6a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utilities relating around number string representation and protected arithmatic helper functions. </p>
@@ -543,6 +546,43 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the result of <b>a * b</b> or <b>UINT16_MAX</b> in case of overflow </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="util_8c_source.html#l00190">190</a> of file <a class="el" href="util_8c_source.html">util.c</a>.</p>
+
+</div>
+</div>
+<a id="a410cc1e92bb72bede52fbda4f69a6a89" name="a410cc1e92bb72bede52fbda4f69a6a89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a410cc1e92bb72bede52fbda4f69a6a89">&#9670;&#160;</a></span>u32_get_digits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int u32_get_digits </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of digits in a 32-bit unsigned number <a href="https://stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c">https://stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>32-bit unsigned value to find the number of decimal digits of</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of digits in a number </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00122">122</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
 
 </div>
 </div>

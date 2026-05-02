@@ -144,22 +144,24 @@ $(document).ready(function(){initNavTree('audio__utils_8h_source.html',''); init
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;mm_types.h&gt;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a1b4bfd78a3dfb71ba74e877c5056113f">   15</a></span><span class="preprocessor">#define MM_FULL_VOLUME 255</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9">   15</a></span><span class="preprocessor">#define MM_MODULE_FULL_VOLUME 1024</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc">   21</a></span><span class="preprocessor">#define MM_PAN_CENTER 128</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312">   21</a></span><span class="preprocessor">#define MM_SFX_FULL_VOLUME 255</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">   29</a></span><span class="preprocessor">#define MM_BASE_PITCH_RATE 1024</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">   35</a></span><span class="preprocessor">#define SFX_DEFAULT_VOLUME MM_FULL_VOLUME</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc">   27</a></span><span class="preprocessor">#define MM_PAN_CENTER 128</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">   35</a></span><span class="preprocessor">#define MM_BASE_PITCH_RATE 1024</span></div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">   41</a></span><span class="preprocessor">#define SFX_DEFAULT_PAN MM_PAN_CENTER</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">   41</a></span><span class="preprocessor">#define SFX_DEFAULT_VOLUME MM_SFX_FULL_VOLUME</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8">   48</a></span><span class="preprocessor">#define GBAL_MM_NUM_CHANNELS 14</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00005">audio_utils.c:5</a></div></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">   47</a></span><span class="preprocessor">#define SFX_DEFAULT_PAN MM_PAN_CENTER</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8">   54</a></span><span class="preprocessor">#define GBAL_MM_NUM_CHANNELS 14</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00007">audio_utils.c:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

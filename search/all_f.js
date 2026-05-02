@@ -15,7 +15,8 @@ var searchData=
   ['memcpy16_5ftile8_5fwith_5fpalette_5foffset_12',['memcpy16_tile8_with_palette_offset',['../graphic__utils_8h.html#a0314a2505ae246d7e7d6b1b925f3b54d',1,'graphic_utils.c']]],
   ['memcpy32_5ftile8_5fwith_5fpalette_5foffset_13',['memcpy32_tile8_with_palette_offset',['../graphic__utils_8h.html#a64972a8c3632b0a589aa0c9c89246a74',1,'graphic_utils.c']]],
   ['mm_5fbase_5fpitch_5frate_14',['MM_BASE_PITCH_RATE',['../audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2',1,'audio_utils.h']]],
-  ['mm_5ffull_5fvolume_15',['MM_FULL_VOLUME',['../audio__utils_8h.html#a1b4bfd78a3dfb71ba74e877c5056113f',1,'audio_utils.h']]],
+  ['mm_5fmodule_5ffull_5fvolume_15',['MM_MODULE_FULL_VOLUME',['../audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9',1,'audio_utils.h']]],
   ['mm_5fpan_5fcenter_16',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
-  ['music_20strong_17',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md40',1,'']]]
+  ['mm_5fsfx_5ffull_5fvolume_17',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
+  ['music_20strong_18',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md40',1,'']]]
 ];

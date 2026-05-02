@@ -140,24 +140,27 @@ $(document).ready(function(){initNavTree('audio__utils_8c_source.html',''); init
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;maxmod.h&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="foldopen" id="foldopen00005" data-start="{" data-end="}">
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">    5</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume)</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    mm_sound_effect sfx = {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        {<span class="keywordtype">id</span>},</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        rate,</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        0,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        volume,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_define" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a>,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    };</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    mmEffectEx(&amp;sfx);</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;maxmod.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">    7</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume)</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    mm_sound_effect sfx = {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        {<span class="keywordtype">id</span>},</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        rate,</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        0,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_define" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a>,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    };</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    mmEffectEx(&amp;sfx);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
-<div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00005">audio_utils.c:5</a></div></div>
-<div class="ttc" id="aaudio__utils_8h_html_abcf10c76d1f03448e68b593bbc1e1f11"><div class="ttname"><a href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a></div><div class="ttdeci">#define SFX_DEFAULT_PAN</div><div class="ttdoc">The default stereo pan, will always be center pan.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00041">audio_utils.h:41</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00007">audio_utils.c:7</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_abcf10c76d1f03448e68b593bbc1e1f11"><div class="ttname"><a href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a></div><div class="ttdeci">#define SFX_DEFAULT_PAN</div><div class="ttdoc">The default stereo pan, will always be center pan.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00047">audio_utils.h:47</a></div></div>
+<div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
