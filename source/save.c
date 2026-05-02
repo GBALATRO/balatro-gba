@@ -27,7 +27,7 @@
 #define CHECK_HASH_SIZE 7
 #define GIT_HASH_START  17 // starts after "GBALATRO-VERSION:" in the gbalatro_version var
 
-// clang-format on
+// clang-format off
 /**
  * @brief SaveHeader for validation checks
  *
@@ -39,7 +39,7 @@
  * 1    | Dirty  | H[0]   | H[1]   | H[2]   | GITHASH_LOW  | Dirty flag, followed by the first 3 bytes of shortened git hash H
  * 2    | H[3]   | H[4]   | H[5]   | H[6]   | GITHASH_HIGH | Last 4 bytes of shortened git hash H, with a dirty flag
  */
-// clang-format off
+// clang-format on
 typedef struct SaveHeader
 {
     u32 magic;
