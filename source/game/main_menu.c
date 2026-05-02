@@ -55,7 +55,7 @@ static void play_on_pressed(void);
 static void options_on_pressed(void);
 
 // clang-format off
-SelectionGridRow main_menu_selection_rows[] = {
+static SelectionGridRow main_menu_selection_rows[] = {
     {
         0,
         main_menu_return_row_size,
@@ -65,12 +65,12 @@ SelectionGridRow main_menu_selection_rows[] = {
     },
 };
 
-Button main_menu_buttons[] = {
+static Button main_menu_buttons[] = {
     {PLAY_BUTTON_OUTLINE_PID,    PLAY_BUTTON_MAIN_COLOR_PID,    play_on_pressed,    NULL},
     {OPTIONS_BUTTON_OUTLINE_PID, OPTIONS_BUTTON_MAIN_COLOR_PID, options_on_pressed, NULL},
 };
 
-SelectionGrid main_menu_selection_grid = {
+static SelectionGrid main_menu_selection_grid = {
     main_menu_selection_rows,
     1,
     {0, 0}

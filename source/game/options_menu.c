@@ -81,7 +81,7 @@ static bool regular_button_row_on_selection_changed(
 );
 
 // clang-format off
-SelectionGridRow options_menu_selection_rows[] = {
+static SelectionGridRow options_menu_selection_rows[] = {
     {
         GAME_SPEED_BTN_IDX,
         options_menu_return_row_size,
@@ -120,7 +120,7 @@ SelectionGridRow options_menu_selection_rows[] = {
     }
 };
 
-Button options_menu_buttons[] = {
+static Button options_menu_buttons[] = {
     {SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL},
     {CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, high_contrast_on_pressed, NULL},
     {MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL},
@@ -128,7 +128,7 @@ Button options_menu_buttons[] = {
     {BACK_BUTTON_OUTLINE_COLOR_PAL_IDX,     BACK_BUTTON_MAIN_COLOR_PAL_IDX, back_on_pressed,          NULL}
 };
 
-Button game_speed_buttons[] = {
+static Button game_speed_buttons[] = {
     {SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, game_speed_down_on_pressed, NULL},
     {SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX,   MENU_BUTTON_MAIN_COLOR_PAL_IDX, game_speed_up_on_pressed,   NULL},
 };
@@ -136,7 +136,7 @@ Button game_speed_buttons[] = {
 
 const Selection OPTIONS_MENU_INIT_SEL = {0, 0};
 
-SelectionGrid options_menu_selection_grid = {
+static SelectionGrid options_menu_selection_grid = {
     options_menu_selection_rows,
     NB_OPTIONS_BUTTONS,
     OPTIONS_MENU_INIT_SEL
