@@ -213,7 +213,10 @@ static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
     return sprite_object->vx == 0 && sprite_object->vy == 0 && sprite_object->vscale == 0 &&
            sprite_object->vrotation == 0 && sprite_object->x == sprite_object->tx &&
            sprite_object->y == sprite_object->ty && sprite_object->scale == sprite_object->tscale &&
-           sprite_object->rotation == sprite_object->trotation;
+           sprite_object->rotation == sprite_object->trotation &&
+           (sprite_object->sprite == NULL ||
+            (fx2int(sprite_object->x) == sprite_object->sprite->pos.x &&
+             fx2int(sprite_object->y) == sprite_object->sprite->pos.y));
 }
 
 IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)

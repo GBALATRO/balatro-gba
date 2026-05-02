@@ -3358,6 +3358,7 @@ static inline void cards_in_hand_update_loop(void)
                     if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
                     {
                         hand[i]->sprite_object->y = hand_y;
+                        hand[i]->sprite_object->ty = hand_y;
                         hand[i]->sprite_object->vy = 0;
                     }
 
