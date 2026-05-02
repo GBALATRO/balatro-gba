@@ -19,10 +19,10 @@
 #include <tonc_math.h>
 #include <tonc_memdef.h>
 
-#define PLAY_BUTTON_MAIN_COLOR_PID    5
-#define PLAY_BUTTON_OUTLINE_PID       6
-#define OPTIONS_BUTTON_MAIN_COLOR_PID 7
-#define OPTIONS_BUTTON_OUTLINE_PID    1
+#define PLAY_BUTTON_MAIN_COLOR_PID    1
+#define PLAY_BUTTON_OUTLINE_PID       2
+#define OPTIONS_BUTTON_MAIN_COLOR_PID 3
+#define OPTIONS_BUTTON_OUTLINE_PID    4
 
 enum MainButtons
 {
