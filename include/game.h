@@ -7,8 +7,6 @@
 
 #include <tonc.h>
 
-extern GameVariables g_game_vars;
-
 #define MAX_HAND_SIZE        16
 #define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
