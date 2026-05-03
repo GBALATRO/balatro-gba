@@ -210,15 +210,26 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
 
 static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 {
-    // A sprite object is static if all its velocities are zero and it is at its targets.
-    // We also check if the hardware position is in sync with the fixed-point position.
-    return sprite_object->vx == 0 && sprite_object->vy == 0 && sprite_object->vscale == 0 &&
-           sprite_object->vrotation == 0 && sprite_object->x == sprite_object->tx &&
-           sprite_object->y == sprite_object->ty && sprite_object->scale == sprite_object->tscale &&
-           sprite_object->rotation == sprite_object->trotation &&
-           (sprite_object->sprite == NULL ||
-            (fx2int(sprite_object->x) == sprite_object->sprite->pos.x &&
-             fx2int(sprite_object->y) == sprite_object->sprite->pos.y));
+    // Check all velocities are zero
+    if (sprite_object->vx != 0 || sprite_object->vy != 0 || sprite_object->vscale != 0 ||
+        sprite_object->vrotation != 0)
+        return false;
+
+    // Check all properties are at targets
+    if (sprite_object->x != sprite_object->tx || sprite_object->y != sprite_object->ty ||
+        sprite_object->scale != sprite_object->tscale ||
+        sprite_object->rotation != sprite_object->trotation)
+        return false;
+
+    // Check hardware sprite sync (if it exists)
+    if (sprite_object->sprite != NULL)
+    {
+        if (fx2int(sprite_object->x) != sprite_object->sprite->pos.x ||
+            fx2int(sprite_object->y) != sprite_object->sprite->pos.y)
+            return false;
+    }
+
+    return true;
 }
 
 IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
