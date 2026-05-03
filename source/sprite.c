@@ -221,7 +221,11 @@ static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
         sprite_object->rotation != sprite_object->trotation)
         return false;
 
-    // Check hardware sprite sync (if it exists)
+    // Check hardware sprite sync. This is necessary to ensure the hardware sprite's
+    // position has been updated to match the sprite object's internal state
+    // before declaring it static. Without this, sprite_object_update might exit
+    // early, skipping the sprite_position call and potentially causing a freeze
+    // bug where the hardware sprite is not updated to its final converged position.
     if (sprite_object->sprite != NULL)
     {
         if (fx2int(sprite_object->x) != sprite_object->sprite->pos.x ||

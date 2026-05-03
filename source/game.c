@@ -3354,6 +3354,14 @@ static inline void cards_in_hand_update_loop(void)
                     {
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
+                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
+                    {
+                        hand[i]->sprite_object->y = hand_y;
+                        hand[i]->sprite_object->ty =
+                            hand_y; // Set target y to match y. Ensures target is updated
+                                    // even when vy becomes 0, preventing immediate snap back.
+                        hand[i]->sprite_object->vy = 0;
+                    }
 
                     hand_x =
                         hand_x + (int2fx(i) - int2fx(hand_top) / 2) *
@@ -5021,4 +5029,6 @@ static void game_win_on_update(void)
     }
 
     game_over_process_user_input();
+}
+);
 }
