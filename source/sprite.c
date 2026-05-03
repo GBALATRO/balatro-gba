@@ -210,6 +210,8 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
 
 static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 {
+    // A sprite object is static if all its velocities are zero and it is at its targets.
+    // We also check if the hardware position is in sync with the fixed-point position.
     return sprite_object->vx == 0 && sprite_object->vy == 0 && sprite_object->vscale == 0 &&
            sprite_object->vrotation == 0 && sprite_object->x == sprite_object->tx &&
            sprite_object->y == sprite_object->ty && sprite_object->scale == sprite_object->tscale &&
@@ -225,6 +227,7 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     {
         return;
     }
+
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * g_game_vars.game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * g_game_vars.game_speed) / 8;
 
@@ -234,10 +237,15 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     // Rotate the card when it's played
     sprite_object->vrotation += (sprite_object->trotation - sprite_object->rotation) / 8;
 
-    // set velocity to 0 if it's close enough to the target
+    // set velocity to 0 if it's close enough to the target AND we are already close to the target
+    // this prevents snapping on the first frame of animation when velocity is 0
     const FIXED epsilon = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
     if (sprite_object->vx < epsilon && sprite_object->vx > -epsilon &&
-        sprite_object->vy < epsilon && sprite_object->vy > -epsilon)
+        sprite_object->vy < epsilon && sprite_object->vy > -epsilon &&
+        (sprite_object->tx - sprite_object->x) < epsilon &&
+        (sprite_object->tx - sprite_object->x) > -epsilon &&
+        (sprite_object->ty - sprite_object->y) < epsilon &&
+        (sprite_object->ty - sprite_object->y) > -epsilon)
     {
         sprite_object->vx = 0;
         sprite_object->vy = 0;
@@ -257,7 +265,9 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set scale to 0 if it's close enough to the target
-    if (sprite_object->vscale < epsilon && sprite_object->vscale > -epsilon)
+    if (sprite_object->vscale < epsilon && sprite_object->vscale > -epsilon &&
+        (sprite_object->tscale - sprite_object->scale) < epsilon &&
+        (sprite_object->tscale - sprite_object->scale) > -epsilon)
     {
         sprite_object->vscale = 0;
         sprite_object->scale = sprite_object->tscale; // Set the scale to the target scale
@@ -271,7 +281,9 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set rotation to 0 if it's close enough to the target
-    if (sprite_object->vrotation < epsilon && sprite_object->vrotation > -epsilon)
+    if (sprite_object->vrotation < epsilon && sprite_object->vrotation > -epsilon &&
+        (sprite_object->trotation - sprite_object->rotation) < epsilon &&
+        (sprite_object->trotation - sprite_object->rotation) > -epsilon)
     {
         sprite_object->vrotation = 0;
         // Set the rotation to the target rotation
@@ -286,13 +298,16 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Apply rotation and scale to the sprite
-    obj_aff_rotscale(
-        sprite_object->sprite->aff,
-        sprite_object->scale,
-        sprite_object->scale,
-        -sprite_object->vx + sprite_object->rotation
-    );
-    sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
+    if (sprite_object->sprite != NULL)
+    {
+        obj_aff_rotscale(
+            sprite_object->sprite->aff,
+            sprite_object->scale,
+            sprite_object->scale,
+            -sprite_object->vx + sprite_object->rotation
+        );
+        sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
+    }
 }
 
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)

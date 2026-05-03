@@ -3355,13 +3355,6 @@ static inline void cards_in_hand_update_loop(void)
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
 
-                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
-                    {
-                        hand[i]->sprite_object->y = hand_y;
-                        hand[i]->sprite_object->ty = hand_y;
-                        hand[i]->sprite_object->vy = 0;
-                    }
-
                     hand_x =
                         hand_x + (int2fx(i) - int2fx(hand_top) / 2) *
                                      -HAND_SPACING_LUT[hand_top]; // TODO: Change this later to
