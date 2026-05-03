@@ -147,195 +147,192 @@ $(document).ready(function(){initNavTree('game_8h_source.html',''); initResizabl
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define MAX_HAND_SIZE        16</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define MAX_DECK_SIZE        52</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define MAX_JOKERS_HELD_SIZE 5 </span><span class="comment">// This doesn&#39;t account for negatives right now.</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define MAX_SHOP_JOKERS      2 </span><span class="comment">// TODO: Make this dynamic and allow for other items besides jokers</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define MAX_SELECTION_SIZE   5</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// TODO: Can make these dynamic to support interest-related jokers and vouchers</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#define MAX_INTEREST   5</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define INTEREST_PER_5 1</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// Input bindings</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define SELECT_CARD    KEY_A</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define DESELECT_CARDS KEY_B</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define PEEK_DECK      KEY_L </span><span class="comment">// Not implemented</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define SORT_HAND      KEY_R</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define PAUSE_GAME     KEY_START </span><span class="comment">// Not implemented</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define SELL_KEY       KEY_L</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">// Matching the position of the on-screen buttons</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#define PLAY_HAND_KEY KEY_L</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">// Same value as SELL_KEY - activated on the joker row, while this is activated on the hand row</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define MAX_HAND_SIZE        16</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define MAX_DECK_SIZE        52</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define MAX_JOKERS_HELD_SIZE 5 </span><span class="comment">// This doesn&#39;t account for negatives right now.</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define MAX_SHOP_JOKERS      2 </span><span class="comment">// TODO: Make this dynamic and allow for other items besides jokers</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define MAX_SELECTION_SIZE   5</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// TODO: Can make these dynamic to support interest-related jokers and vouchers</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#define MAX_INTEREST   5</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#define INTEREST_PER_5 1</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">// Input bindings</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define SELECT_CARD    KEY_A</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#define DESELECT_CARDS KEY_B</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define PEEK_DECK      KEY_L </span><span class="comment">// Not implemented</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define SORT_HAND      KEY_R</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define PAUSE_GAME     KEY_START </span><span class="comment">// Not implemented</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define SELL_KEY       KEY_L</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">// Matching the position of the on-screen buttons</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define PLAY_HAND_KEY KEY_L</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">// Same value as SELL_KEY - activated on the joker row, while this is activated on the hand row</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define DISCARD_HAND_KEY KEY_R</span></div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#define DISCARD_HAND_KEY KEY_R</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">struct </span><a class="code hl_struct" href="structList.html">List</a>;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structList.html">List</a> <a class="code hl_struct" href="structList.html">List</a>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">// Utility functions for other files</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCardObject.html">CardObject</a> <a class="code hl_struct" href="structCardObject.html">CardObject</a>;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCard.html">Card</a> <a class="code hl_struct" href="structCard.html">Card</a>;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structJokerObject.html">JokerObject</a> <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">// Enum value names in ../include/def_state_info_table.h</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keyword">enum</span> GameState</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#define DEF_STATE_INFO(stateEnum, on_init, on_update, on_exit) stateEnum,</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#include &quot;def_state_info_table.h&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#undef DEF_STATE_INFO</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    GAME_STATE_MAX,</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    GAME_STATE_UNDEFINED</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>};</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">enum</span> HandState</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>{</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    HAND_DRAW,</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    HAND_SELECT,</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// This is actually a misnomer because it&#39;s used for the deck</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// but it mechanically makes sense to be a state of the hand</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    HAND_SHUFFLING,</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    HAND_DISCARD,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    HAND_PLAY,</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    HAND_PLAYING</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>};</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keyword">enum</span> PlayState</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>{</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    PLAY_STARTING,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    PLAY_BEFORE_SCORING,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    PLAY_SCORING_CARDS,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    PLAY_SCORING_CARD_JOKERS,</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    PLAY_SCORING_HELD_CARDS,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    PLAY_SCORING_INDEPENDENT_JOKERS,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    PLAY_SCORING_HAND_SCORED_END,</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    PLAY_ENDING,</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    PLAY_ENDED</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>};</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">// Hand types</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keyword">enum</span> HandType</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>{</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    NONE,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    HIGH_CARD,</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    PAIR,</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    TWO_PAIR,</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    THREE_OF_A_KIND,</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    STRAIGHT,</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    FLUSH,</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    FULL_HOUSE,</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    FOUR_OF_A_KIND,</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    STRAIGHT_FLUSH,</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    ROYAL_FLUSH,</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    FIVE_OF_A_KIND,</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    FLUSH_HOUSE,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    FLUSH_FIVE</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">// Store all contained hands to optimize &quot;whole hand condition&quot; Jokers</span></div>
-<div class="foldopen" id="foldopen00101" data-start="{" data-end="};">
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="structContainedHandTypes.html">  101</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keyword">union</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">struct</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        {</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            u16 HIGH_CARD : 1;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            u16 PAIR : 1;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            u16 TWO_PAIR : 1;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            u16 THREE_OF_A_KIND : 1;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            u16 STRAIGHT : 1;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            u16 FLUSH : 1;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            u16 FULL_HOUSE : 1;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            u16 FOUR_OF_A_KIND : 1;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            u16 STRAIGHT_FLUSH : 1;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            u16 ROYAL_FLUSH : 1;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            u16 FIVE_OF_A_KIND : 1;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            u16 FLUSH_HOUSE : 1;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            u16 FLUSH_FIVE : 1;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            u16 : 3;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        };</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        u16 value;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    };</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>} <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">struct </span><a class="code hl_struct" href="structList.html">List</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structList.html">List</a> <a class="code hl_struct" href="structList.html">List</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">// Utility functions for other files</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCardObject.html">CardObject</a> <a class="code hl_struct" href="structCardObject.html">CardObject</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCard.html">Card</a> <a class="code hl_struct" href="structCard.html">Card</a>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structJokerObject.html">JokerObject</a> <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Enum value names in ../include/def_state_info_table.h</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">enum</span> GameState</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define DEF_STATE_INFO(stateEnum, on_init, on_update, on_exit) stateEnum,</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#include &quot;def_state_info_table.h&quot;</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#undef DEF_STATE_INFO</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    GAME_STATE_MAX,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    GAME_STATE_UNDEFINED</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>};</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">enum</span> HandState</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    HAND_DRAW,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    HAND_SELECT,</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// This is actually a misnomer because it&#39;s used for the deck</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// but it mechanically makes sense to be a state of the hand</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    HAND_SHUFFLING,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    HAND_DISCARD,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    HAND_PLAY,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    HAND_PLAYING</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">enum</span> PlayState</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    PLAY_STARTING,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    PLAY_BEFORE_SCORING,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    PLAY_SCORING_CARDS,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    PLAY_SCORING_CARD_JOKERS,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    PLAY_SCORING_HELD_CARDS,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    PLAY_SCORING_INDEPENDENT_JOKERS,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    PLAY_SCORING_HAND_SCORED_END,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    PLAY_ENDING,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    PLAY_ENDED</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>};</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="comment">// Hand types</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">enum</span> HandType</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    NONE,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    HIGH_CARD,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    PAIR,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    TWO_PAIR,</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    THREE_OF_A_KIND,</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    STRAIGHT,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    FLUSH,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    FULL_HOUSE,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    FOUR_OF_A_KIND,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    STRAIGHT_FLUSH,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    ROYAL_FLUSH,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    FIVE_OF_A_KIND,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    FLUSH_HOUSE,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    FLUSH_FIVE</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>};</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment">// Store all contained hands to optimize &quot;whole hand condition&quot; Jokers</span></div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="};">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="structContainedHandTypes.html">   99</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">union</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keyword">struct</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            u16 HIGH_CARD : 1;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            u16 PAIR : 1;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            u16 TWO_PAIR : 1;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            u16 THREE_OF_A_KIND : 1;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            u16 STRAIGHT : 1;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            u16 FLUSH : 1;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            u16 FULL_HOUSE : 1;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            u16 FOUR_OF_A_KIND : 1;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            u16 STRAIGHT_FLUSH : 1;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            u16 ROYAL_FLUSH : 1;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            u16 FIVE_OF_A_KIND : 1;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            u16 FLUSH_HOUSE : 1;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            u16 FLUSH_FIVE : 1;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            u16 : 3;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        };</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        u16 value;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    };</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>} <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a>;</div>
 </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">typedef</span> void (*GameStateCallback)(void);</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keyword">typedef</span> void (*GameStateCallback)(void);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="foldopen" id="foldopen00129" data-start="{" data-end="};">
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="structStateInfo.html">  129</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>{</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">int</span> substate;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    GameStateCallback on_init;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    GameStateCallback on_update;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    GameStateCallback on_exit;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>} <a class="code hl_struct" href="structStateInfo.html">StateInfo</a>;</div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="};">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="structStateInfo.html">  127</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>{</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">int</span> substate;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    GameStateCallback on_init;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    GameStateCallback on_update;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    GameStateCallback on_exit;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>} <a class="code hl_struct" href="structStateInfo.html">StateInfo</a>;</div>
 </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment">// Game functions</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="keywordtype">void</span> game_init();</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="keywordtype">void</span> game_update();</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="keywordtype">void</span> game_change_state(<span class="keyword">enum</span> GameState new_game_state);</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>** get_hand_array(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keywordtype">int</span> get_hand_top(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="keywordtype">int</span> hand_get_size(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>** get_played_array(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keywordtype">int</span> get_played_top(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="keywordtype">int</span> get_scored_card_index(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keywordtype">bool</span> is_joker_owned(<span class="keywordtype">int</span> joker_id);</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="keywordtype">bool</span> card_is_face(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><a class="code hl_struct" href="structList.html">List</a>* get_jokers_list(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><a class="code hl_struct" href="structList.html">List</a>* get_expired_jokers_list(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a>* get_contained_hands(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keyword">enum</span> HandType* get_hand_type(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keywordtype">int</span> get_deck_top(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="keywordtype">int</span> get_num_discards_remaining(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="keywordtype">int</span> get_num_hands_remaining(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>u32 get_chips(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keywordtype">void</span> set_chips(u32 new_chips);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="keywordtype">void</span> display_chips(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>u32 get_mult(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="keywordtype">void</span> set_mult(u32 new_mult);</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="keywordtype">void</span> display_mult(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keywordtype">void</span> display_money(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keywordtype">void</span> set_retrigger(<span class="keywordtype">bool</span> new_retrigger);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="keyword">enum</span> BlindType get_current_blind(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">enum</span> BlindType get_next_boss_blind(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment">// Game functions</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="keywordtype">void</span> game_init();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keywordtype">void</span> game_update();</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="keywordtype">void</span> game_change_state(<span class="keyword">enum</span> GameState new_game_state);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>** get_hand_array(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="keywordtype">int</span> get_hand_top(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="keywordtype">int</span> hand_get_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>** get_played_array(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="keywordtype">int</span> get_played_top(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keywordtype">int</span> get_scored_card_index(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keywordtype">bool</span> is_joker_owned(<span class="keywordtype">int</span> joker_id);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="keywordtype">bool</span> card_is_face(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><a class="code hl_struct" href="structList.html">List</a>* get_jokers_list(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><a class="code hl_struct" href="structList.html">List</a>* get_expired_jokers_list(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a>* get_contained_hands(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keyword">enum</span> HandType* get_hand_type(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keywordtype">int</span> get_deck_top(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keywordtype">int</span> get_num_discards_remaining(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keywordtype">int</span> get_num_hands_remaining(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>u32 get_chips(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keywordtype">void</span> set_chips(u32 new_chips);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="keywordtype">void</span> display_chips(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>u32 get_mult(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="keywordtype">void</span> set_mult(u32 new_mult);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keywordtype">void</span> display_mult(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="keywordtype">void</span> display_money(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="keywordtype">void</span> set_retrigger(<span class="keywordtype">bool</span> new_retrigger);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">enum</span> BlindType get_current_blind(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">enum</span> BlindType get_next_boss_blind(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>u32 get_rand(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>u32 get_rand(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="comment">// joker specific functions</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="keywordtype">bool</span> is_shortcut_joker_active(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="keywordtype">int</span> get_straight_and_flush_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="comment">// joker specific functions</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="keywordtype">bool</span> is_shortcut_joker_active(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="keywordtype">int</span> get_straight_and_flush_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="keywordtype">void</span> game_start(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="keywordtype">void</span> game_start(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="comment">// Temporary change for Refactor. Currently this compatibility binder is to allow</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="comment">// simultaneous integration of the new system in `common_ui` with the the existing</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="comment">// old system incrementally and without losing functionality.</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="keywordtype">void</span> change_background_legacy(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="preprocessor">#endif </span><span class="comment">// GAME_H</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="comment">// Temporary change for Refactor. Currently this compatibility binder is to allow</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="comment">// simultaneous integration of the new system in `common_ui` with the the existing</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="comment">// old system incrementally and without losing functionality.</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="keywordtype">void</span> change_background_legacy(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="preprocessor">#endif </span><span class="comment">// GAME_H</span></div>
 <div class="ttc" id="acommon__ui_8h_html"><div class="ttname"><a href="common__ui_8h.html">common_ui.h</a></div><div class="ttdoc">Common functions to render UI elements.</div></div>
 <div class="ttc" id="acommon__ui_8h_html_aa1dc226c31d41c9cb14cdf9e2551c5cd"><div class="ttname"><a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a></div><div class="ttdeci">BackgroundId</div><div class="ttdoc">Enum of possible backgrounds to render with change_background.</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8h_source.html#l00012">common_ui.h:13</a></div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00050">card.h:51</a></div></div>
 <div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00044">card.h:45</a></div></div>
-<div class="ttc" id="astructContainedHandTypes_html"><div class="ttname"><a href="structContainedHandTypes.html">ContainedHandTypes</a></div><div class="ttdef"><b>Definition</b> <a href="game_8h_source.html#l00101">game.h:102</a></div></div>
-<div class="ttc" id="astructGameVariables_html"><div class="ttname"><a href="structGameVariables.html">GameVariables</a></div><div class="ttdoc">A central location for all game variables.</div><div class="ttdef"><b>Definition</b> <a href="game__variables_8h_source.html#l00030">game_variables.h:31</a></div></div>
+<div class="ttc" id="astructContainedHandTypes_html"><div class="ttname"><a href="structContainedHandTypes.html">ContainedHandTypes</a></div><div class="ttdef"><b>Definition</b> <a href="game_8h_source.html#l00099">game.h:100</a></div></div>
 <div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00106">joker.h:107</a></div></div>
 <div class="ttc" id="astructList_html"><div class="ttname"><a href="structList.html">List</a></div><div class="ttdoc">A doubly-linked list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00053">list.h:54</a></div></div>
-<div class="ttc" id="astructStateInfo_html"><div class="ttname"><a href="structStateInfo.html">StateInfo</a></div><div class="ttdef"><b>Definition</b> <a href="game_8h_source.html#l00129">game.h:130</a></div></div>
+<div class="ttc" id="astructStateInfo_html"><div class="ttname"><a href="structStateInfo.html">StateInfo</a></div><div class="ttdef"><b>Definition</b> <a href="game_8h_source.html#l00127">game.h:128</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
