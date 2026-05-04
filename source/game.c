@@ -307,8 +307,6 @@ static const Rect ROUND_END_MENU_RECT       = {9,       7,      24,     20 };
 
 static const Rect HAND_BG_RECT_SELECTING    = {9,       11,     24,     17 };
 
-static const Rect TOP_LEFT_ITEM_SRC_RECT    = {0,       20,     8,      25 };
-static const BG_POINT TOP_LEFT_PANEL_POINT  = {0,       0, };
 /* Contains the shop icon/current blind etc. 
  * The difference between TOP_LEFT_PANEL_ANIM_RECT and TOP_LEFT_PANEL_RECT 
  * is due to an overlap between the bottom of the top left panel
@@ -316,7 +314,6 @@ static const BG_POINT TOP_LEFT_PANEL_POINT  = {0,       0, };
  * TOP_LEFT_PANEL_ANIM_RECT should be used for animations, 
  * TOP_LEFT_PANEL_RECT for copies etc. but mind the overlap
  */
-static const Rect TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT = {0, 28, 8,     28 };
 static const BG_POINT TOP_LEFT_BLIND_TITLE_POINT = {0,  21, };
 static const Rect BIG_BLIND_TITLE_SRC_RECT  = {0,       26,     8,      26 };
 static const Rect BOSS_BLIND_TITLE_SRC_RECT = {0,       27,     8,      27 };
@@ -1312,17 +1309,6 @@ bool card_is_face(Card* card)
 static void bg_copy_current_item_to_top_left_panel(void)
 {
     main_bg_se_copy_rect(TOP_LEFT_ITEM_SRC_RECT, TOP_LEFT_PANEL_POINT);
-}
-
-// Resets bottom row bg tiles of the top left panel (shop/blind) after
-// it is dismissed to match the rest of the game panel background.
-// TODO: this is shared in multiple files now, probably shouldn't be
-void reset_top_left_panel_bottom_row()
-{
-    BG_POINT top_left_panel_bottom_row_pos = TOP_LEFT_PANEL_POINT;
-    // Use the source rect height to offset to the bottom row point
-    top_left_panel_bottom_row_pos.y += rect_height(&TOP_LEFT_ITEM_SRC_RECT) - 1;
-    main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }
 
 void change_background_legacy(enum BackgroundId id)

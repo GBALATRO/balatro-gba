@@ -357,4 +357,9 @@ void memcpy32_tile8_with_palette_offset(u32* dst, const u32* src, uint wcount, u
  */
 void toggle_windows(bool win0, bool win1);
 
+/**
+ * @brief Deletes tiles in top left corner where blind info lives
+ */
+void reset_top_left_panel_bottom_row(void);
+
 #endif // GRAPHIC_UTILS_H
