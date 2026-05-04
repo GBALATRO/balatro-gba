@@ -6,12 +6,6 @@
 
 #include <tonc.h>
 
-// TODO: these are spaghetti, probably can be encapsulated with some thought
-#define MENU_POP_OUT_ANIM_FRAMES             20
-#define BLIND_SKIP_BTN_PID                   5
-#define BLIND_SKIP_BTN_SELECTED_BORDER_PID   10
-#define BLIND_SELECT_BTN_SELECTED_BORDER_PID 18
-
 #define MAX_HAND_SIZE        16
 #define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.

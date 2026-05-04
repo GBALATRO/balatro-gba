@@ -15,9 +15,12 @@
 
 #include <maxmod.h>
 
-#define BLIND_SELECT_BTN_PID       15
-#define TM_DISP_BLIND_PANEL_FINISH 7
-#define TM_DISP_BLIND_PANEL_START  1
+#define BLIND_SELECT_BTN_PID                 15
+#define TM_DISP_BLIND_PANEL_FINISH           7
+#define TM_DISP_BLIND_PANEL_START            1
+#define BLIND_SKIP_BTN_PID                   5
+#define BLIND_SKIP_BTN_SELECTED_BORDER_PID   10
+#define BLIND_SELECT_BTN_SELECTED_BORDER_PID 18
 
 static int timer;
 
