@@ -293,9 +293,7 @@ static bool can_discard_hand(void);
 // Consts
 
 // clang-format off
-// disable clang-format here to preserve the organization here
 // Rects                                       left     top     right   bottom
-// Screenblock rects
 
 // The rect for popping menu animations (round end, shop, blinds) 
 // - extends beyond the visible screen to the end of the screenblock
