@@ -377,7 +377,9 @@ static const BG_POINT HAND_START_POS        = {120,     90};
 static const BG_POINT HAND_PLAY_POS         = {120,     70};
 // clang-format on
 
-static enum BackgroundId background = BG_NONE;
+// NOTE: This is going to be removed in favor of the background
+// variable and handling in common.c once the related refactor is finished
+static enum BackgroundId background_legacy = BG_NONE;
 
 static StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
@@ -1313,7 +1315,7 @@ static void bg_copy_current_item_to_top_left_panel(void)
 
 void change_background_legacy(enum BackgroundId id)
 {
-    if (background == id)
+    if (background_legacy == id)
     {
         return;
     }
@@ -1322,7 +1324,7 @@ void change_background_legacy(enum BackgroundId id)
         tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
         REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
 
-        if (background == BG_CARD_PLAYING)
+        if (background_legacy == BG_CARD_PLAYING)
         {
             int offset = 11;
             memcpy16(
@@ -1382,10 +1384,10 @@ void change_background_legacy(enum BackgroundId id)
     }
     else if (id == BG_CARD_PLAYING)
     {
-        if (background != BG_CARD_SELECTING)
+        if (background_legacy != BG_CARD_SELECTING)
         {
             change_background(BG_CARD_SELECTING, false);
-            background = BG_CARD_PLAYING;
+            background_legacy = BG_CARD_PLAYING;
         }
 
         REG_WIN0V = (REG_WIN0V << 8) | 0xA0; // Set window 0 bottom to 160
@@ -1400,10 +1402,10 @@ void change_background_legacy(enum BackgroundId id)
     }
     else if (id == BG_ROUND_END)
     {
-        if (background != BG_CARD_SELECTING && background != BG_CARD_PLAYING)
+        if (background_legacy != BG_CARD_SELECTING && background_legacy != BG_CARD_PLAYING)
         {
             change_background(BG_CARD_SELECTING, false);
-            background = BG_ROUND_END;
+            background_legacy = BG_ROUND_END;
         }
 
         // Disable window 0 so it doesn't make the cashout menu transparent
@@ -1448,7 +1450,7 @@ void change_background_legacy(enum BackgroundId id)
         return; // Invalid background ID
     }
 
-    background = id;
+    background_legacy = id;
 }
 
 static void display_temp_score(u32 value)
@@ -3102,7 +3104,7 @@ static inline void game_playing_ui_text_update(void)
 
     if (last_hand_size != hand_get_size() || last_deck_size != deck_get_size())
     {
-        if (background == BG_CARD_SELECTING)
+        if (background_legacy == BG_CARD_SELECTING)
         {
             // Hand size/max size
             tte_printf(
@@ -3114,7 +3116,7 @@ static inline void game_playing_ui_text_update(void)
                 hand_get_max_size()
             );
         }
-        else if (background == BG_CARD_PLAYING)
+        else if (background_legacy == BG_CARD_PLAYING)
         {
             // Hand size/max size
             tte_printf(
@@ -4388,5 +4390,5 @@ static void game_win_on_update(void)
 
 void reset_background(void)
 {
-    background = BG_NONE;
+    background_legacy = BG_NONE;
 }
