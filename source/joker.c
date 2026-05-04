@@ -381,8 +381,10 @@ int joker_get_random_rarity()
     {
         joker_rarity = RARE_JOKER;
     }
-    else if (rarity_roll < COMMON_JOKER_CHANCE + UNCOMMON_JOKER_CHANCE + RARE_JOKER_CHANCE +
-                               LEGENDARY_JOKER_CHANCE)
+    else if (
+        rarity_roll <
+        COMMON_JOKER_CHANCE + UNCOMMON_JOKER_CHANCE + RARE_JOKER_CHANCE + LEGENDARY_JOKER_CHANCE
+    )
     {
         joker_rarity = LEGENDARY_JOKER;
     }
