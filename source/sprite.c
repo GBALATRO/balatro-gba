@@ -280,9 +280,7 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set scale to 0 if it's close enough to the target
-    if (sprite_object->vscale < epsilon && sprite_object->vscale > -epsilon &&
-        (sprite_object->tscale - sprite_object->scale) < epsilon &&
-        (sprite_object->tscale - sprite_object->scale) > -epsilon)
+    if (sprite_object->vscale < epsilon && sprite_object->vscale > -epsilon)
     {
         sprite_object->vscale = 0;
         sprite_object->scale = sprite_object->tscale; // Set the scale to the target scale
