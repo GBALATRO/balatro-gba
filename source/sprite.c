@@ -294,9 +294,7 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set rotation to 0 if it's close enough to the target
-    if (sprite_object->vrotation < epsilon && sprite_object->vrotation > -epsilon &&
-        (sprite_object->trotation - sprite_object->rotation) < epsilon &&
-        (sprite_object->trotation - sprite_object->rotation) > -epsilon)
+    if (sprite_object->vrotation < epsilon && sprite_object->vrotation > -epsilon)
     {
         sprite_object->vrotation = 0;
         // Set the rotation to the target rotation
