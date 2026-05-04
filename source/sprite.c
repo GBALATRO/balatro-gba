@@ -214,15 +214,17 @@ static inline bool sprite_object_has_velocity(const SpriteObject* sprite_object)
            sprite_object->vrotation != 0;
 }
 
+static inline bool sprite_object_at_target(const SpriteObject* s)
+{
+    return s->x == s->tx && s->y == s->ty && s->scale == s->tscale && s->rotation == s->trotation;
+}
+
 static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 {
     if (sprite_object_has_velocity(sprite_object))
         return false;
 
-    // Check all properties are at targets
-    if (sprite_object->x != sprite_object->tx || sprite_object->y != sprite_object->ty ||
-        sprite_object->scale != sprite_object->tscale ||
-        sprite_object->rotation != sprite_object->trotation)
+    if (!sprite_object_has_velocity(sprite_object))
         return false;
 
     // Check hardware sprite sync. This is necessary to ensure the hardware sprite's
