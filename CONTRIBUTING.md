@@ -35,6 +35,7 @@ You can also choose to build the docs yourself [Link in wiki](https://github.com
 
 ### clang-format
 
+
 Running `clang-format` locally is recommended before submitting a PR as it will fail the **CI Checks** if not properly formatted. It is recommended either: 
 1. Run `clang-format` periodically and only commit formatted code. 
 2. Run `clang-format` as a separate commit on larger changes, and review each modified hunk. 
@@ -49,13 +50,17 @@ There is an option to enable `"editor.formatOnSave"` in the VSCode `settings.jso
 
 #### Manually
 
-If installed locally and you'd prefer to use it in your shell. You can do the following
+When installing locally ensure you are using v22.1.3 this can be achieved by using pip
+```
+pip install clang-format==22.1.3
+```
+Once installed you can do the following:
 
 ```sh
 # List warnings
-clang-format --dry-run -Werror include/*.h source/*.c
+clang-format --dry-run -Werror include/*.h source/*.c source/game/*.c include/game/*.h
 # Modify all files inplace
-clang-format -i include/*.h source/*.c
+clang-format -i include/*.h source/*.c source/game/*.c include/game/*.h
 # Or just one
 clang-format -i include/blind.h
 ```
