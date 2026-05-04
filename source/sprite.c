@@ -309,16 +309,13 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Apply rotation and scale to the sprite
-    if (sprite_object->sprite != NULL)
-    {
-        obj_aff_rotscale(
-            sprite_object->sprite->aff,
-            sprite_object->scale,
-            sprite_object->scale,
-            -sprite_object->vx + sprite_object->rotation
-        );
-        sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
-    }
+    obj_aff_rotscale(
+        sprite_object->sprite->aff,
+        sprite_object->scale,
+        sprite_object->scale,
+        -sprite_object->vx + sprite_object->rotation
+    );
+    sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
 }
 
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
