@@ -496,16 +496,23 @@ static ContainedHandTypes _contained_hands = {0};
 // Initialization of the global var
 // clang-format off
 GameVariables g_game_vars = {
-    0, 0, 0,
-    0, 0, 0,
-    BLIND_TYPE_SMALL,
-    BLIND_TYPE_BIG,
-    { BLIND_STATE_CURRENT, BLIND_STATE_UPCOMING, BLIND_STATE_UPCOMING },
-    false,
-    DEFAULT_GAME_SPEED,
-    DEFAULT_HIGH_CONTRAST,
-    DEFAULT_MUSIC_VOLUME,
-    DEFAULT_SOUND_VOLUME
+    .timer = 0, .rng_seed = 0, .rng_step = 0,
+
+    .round = 0, .ante = 0, .money = 0,
+
+    .current_blind = BLIND_TYPE_SMALL,
+    .next_boss_blind = BLIND_TYPE_BIG,
+    .blinds_states =
+    {
+        BLIND_STATE_CURRENT,
+        BLIND_STATE_UPCOMING,
+        BLIND_STATE_UPCOMING
+    },
+
+    .game_speed = DEFAULT_GAME_SPEED,
+    .high_contrast = DEFAULT_HIGH_CONTRAST,
+    .music_volume = DEFAULT_MUSIC_VOLUME,
+    .sound_volume = DEFAULT_SOUND_VOLUME,
 };
 // clang-format on
 
