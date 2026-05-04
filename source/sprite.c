@@ -208,11 +208,15 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
     sprite_object->vrotation = 0;
 }
 
+static inline bool sprite_object_has_velocity(const SpriteObject* sprite_object)
+{
+    return sprite_object->vx != 0 || sprite_object->vy != 0 || sprite_object->vscale != 0 ||
+           sprite_object->vrotation != 0;
+}
+
 static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 {
-    // Check all velocities are zero
-    if (sprite_object->vx != 0 || sprite_object->vy != 0 || sprite_object->vscale != 0 ||
-        sprite_object->vrotation != 0)
+    if (sprite_object_has_velocity(sprite_object))
         return false;
 
     // Check all properties are at targets
