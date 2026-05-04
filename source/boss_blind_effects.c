@@ -3,7 +3,7 @@
  * @brief Boss blind effect implementations.
  */
 
-#include boss_blind_effects.h
+#include "boss_blind_effects.h"
 
 static bool s_eye_played_types[BOSS_BLIND_MAX_HAND_TYPES];
 

@@ -23,7 +23,7 @@
 
 #include <stdbool.h>
 
-#include `"blind.h`"
+#include "blind.h"
 
 /** Maximum number of distinct hand types (matches enum HandType in game.h). */
 #define BOSS_BLIND_MAX_HAND_TYPES 14
