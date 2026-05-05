@@ -388,6 +388,11 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
+StateMachine game_sm =
+{
+    .state_infos = &state_info[0],
+};
+
 // clang-format off
 SelectionGridRow game_playing_selection_rows[] = {
     {
@@ -668,13 +673,9 @@ static inline void jokers_available_to_shop_init(void)
     reset_shop_jokers();
 }
 
-StateMachine machine;
-StateMachine machine2;
-
 void game_init()
 {
-    state_machine_init(&machine);
-    state_machine_init(&machine2);
+    state_machine_init(&game_sm);
     // Initialize all jokers list once
     _owned_jokers_list = list_create();
     _discarded_jokers_list = list_create();
@@ -821,6 +822,8 @@ void game_change_state(enum GameState new_game_state)
 
         game_state = new_game_state;
     }
+
+    game_change_state_new(&game_sm, new_game_state);
 }
 
 u32 get_rand()

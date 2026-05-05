@@ -20,8 +20,8 @@ typedef struct
 
 typedef struct
 {
-    const StateInfo* const * state_infos;
     StateCallback active_update;
+    StateInfo* state_infos;
 } StateMachine;
 
 void state_machine_init(StateMachine* state_machine);

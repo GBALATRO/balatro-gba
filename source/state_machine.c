@@ -9,7 +9,7 @@
 
 static List update_cbs;
 
-static void nooooop()
+static void noop()
 {
     tte_printf("#{P:10,10; cx:0x%X000} AHHHHHHH.", TTE_WHITE_PB);
 }
@@ -21,8 +21,7 @@ void state_machine_init(StateMachine* state_machine)
 
 
     list_push_back(&update_cbs, &state_machine->active_update);
-    state_machine->active_update = nooooop;
-    //list_push_back(&update_cbs, nooooop);
+    state_machine->active_update = noop;
 }
 
 void state_machine_update(void)
@@ -37,7 +36,8 @@ void state_machine_update(void)
 
 void game_change_state_new(StateMachine* state_machine, int new_game_state)
 {
-    g_game_vars.timer = TM_ZERO; // Reset the timer
+    state_machine->active_update = state_machine->state_infos[new_game_state].on_update;
+    //g_game_vars.timer = TM_ZERO; // Reset the timer
 
     /*
     if (state >= 0 && state < GAME_STATE_MAX)
