@@ -20,17 +20,18 @@ void state_machine_init(StateMachine* state_machine)
         update_cbs = list_create();
 
 
-    //list_push_back(&update_cbs, state_machine->active_update);
-    list_push_back(&update_cbs, nooooop);
+    list_push_back(&update_cbs, &state_machine->active_update);
+    state_machine->active_update = nooooop;
+    //list_push_back(&update_cbs, nooooop);
 }
 
 void state_machine_update(void)
 {
     ListItr itr = list_itr_create(&update_cbs);
-    StateCallback cb;
+    StateCallback* cb;
     while((cb = list_itr_next(&itr)))
     {
-        cb();
+        (*cb)();
     }
 }
 
