@@ -43,10 +43,12 @@ static const Rect     GBALATRO_VERSION_TEXT_RECT = {0, 152, 240, 160};
 // Define SelectionGrid for the main menu buttons
 
 static int main_menu_return_row_size(void);
-static bool main_menu_on_selection_changed(SelectionGrid* selection_grid,
-                                           int row_idx,
-                                           const Selection* prev_selection,
-                                           const Selection* new_selection);
+static bool main_menu_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
 static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
 static void play_on_pressed(void);
@@ -155,10 +157,12 @@ static int main_menu_return_row_size(void)
     return MAIN_MENU_NB_BTN;
 }
 
-static bool main_menu_on_selection_changed(SelectionGrid* selection_grid,
-                                           int row_idx,
-                                           const Selection* prev_selection,
-                                           const Selection* new_selection)
+static bool main_menu_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
 {
     if (prev_selection->x >= 0 && prev_selection->x < MAIN_MENU_NB_BTN)
     {
@@ -184,11 +188,13 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
             show_version = !show_version;
             if (show_version)
             {
-                tte_printf("#{P:%d,%d; cx:0x%X000}%s",
-                           GBALATRO_VERSION_TEXT_POS.x,
-                           GBALATRO_VERSION_TEXT_POS.y,
-                           TTE_WHITE_PB,
-                           gbalatro_version);
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}%s",
+                    GBALATRO_VERSION_TEXT_POS.x,
+                    GBALATRO_VERSION_TEXT_POS.y,
+                    TTE_WHITE_PB,
+                    gbalatro_version
+                );
             }
             else
             {

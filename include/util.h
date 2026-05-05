@@ -105,9 +105,11 @@ uint16_t u16_protected_mult(uint16_t a, uint16_t b);
  *                      a number with more digits than UINT_MAX_DIGITS will not be handled nor
  *                      truncated.
  */
-void truncate_uint_to_suffixed_str(uint32_t num,
-                                   int num_req_chars,
-                                   char out_str_buff[UINT_MAX_DIGITS + 1]);
+void truncate_uint_to_suffixed_str(
+    uint32_t num,
+    int num_req_chars,
+    char out_str_buff[UINT_MAX_DIGITS + 1]
+);
 
 /**
  * @brief Get the number of digits in a 32-bit unsigned number

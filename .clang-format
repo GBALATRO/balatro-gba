@@ -42,7 +42,7 @@ BinPackParameters: false
 
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: BlockIndent
 PenaltyBreakBeforeFirstCallParameter: 0
 ReflowComments: true
 SpacesInLineCommentPrefix:

@@ -137,10 +137,12 @@ void joker_destroy(Joker** joker)
     *joker = NULL;
 }
 
-u32 joker_get_score_effect(Joker* joker,
-                           Card* scored_card,
-                           enum JokerEvent joker_event,
-                           JokerEffect** joker_effect)
+u32 joker_get_score_effect(
+    Joker* joker,
+    Card* scored_card,
+    enum JokerEvent joker_event,
+    JokerEffect** joker_effect
+)
 {
     const JokerInfo* jinfo = get_joker_registry_entry(joker->id);
     if (!jinfo)
@@ -185,16 +187,22 @@ JokerObject* joker_object_new(Joker* joker)
     int joker_pb = s_allocate_pb_if_needed(joker->id);
     s_joker_pb_add_sprite_user(joker_pb);
 
-    memcpy32(&tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-             &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
-             TILE_SIZE * JOKER_SPRITE_OFFSET);
+    memcpy32(
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
+        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
+        TILE_SIZE * JOKER_SPRITE_OFFSET
+    );
 
-    sprite_object_set_sprite(joker_object->sprite_object,
-                             sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
-                                        ATTR1_SIZE_32,
-                                        tile_index,
-                                        joker_pb,
-                                        JOKER_STARTING_LAYER + layer));
+    sprite_object_set_sprite(
+        joker_object->sprite_object,
+        sprite_new(
+            ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+            ATTR1_SIZE_32,
+            tile_index,
+            joker_pb,
+            JOKER_STARTING_LAYER + layer
+        )
+    );
 
     return joker_object;
 }
@@ -242,9 +250,11 @@ void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int col
     *cursor_pos_x += joker_score_display_offset_px;
 }
 
-bool joker_object_score(JokerObject* joker_object,
-                        CardObject* card_object,
-                        enum JokerEvent joker_event)
+bool joker_object_score(
+    JokerObject* joker_object,
+    CardObject* card_object,
+    enum JokerEvent joker_event
+)
 {
     if (joker_object == NULL)
     {
@@ -371,8 +381,10 @@ int joker_get_random_rarity()
     {
         joker_rarity = RARE_JOKER;
     }
-    else if (rarity_roll < COMMON_JOKER_CHANCE + UNCOMMON_JOKER_CHANCE + RARE_JOKER_CHANCE +
-                               LEGENDARY_JOKER_CHANCE)
+    else if (
+        rarity_roll <
+        COMMON_JOKER_CHANCE + UNCOMMON_JOKER_CHANCE + RARE_JOKER_CHANCE + LEGENDARY_JOKER_CHANCE
+    )
     {
         joker_rarity = LEGENDARY_JOKER;
     }
@@ -445,9 +457,11 @@ static int s_allocate_pb_if_needed(u8 joker_id)
     else
     {
         joker_spritesheet_pb_map[joker_spritesheet_idx] = joker_pb;
-        memcpy16(&pal_obj_mem[PAL_ROW_LEN * joker_pb],
-                 joker_gfxPal[joker_spritesheet_idx],
-                 NUM_ELEM_IN_ARR(joker_gfx0Pal));
+        memcpy16(
+            &pal_obj_mem[PAL_ROW_LEN * joker_pb],
+            joker_gfxPal[joker_spritesheet_idx],
+            NUM_ELEM_IN_ARR(joker_gfx0Pal)
+        );
     }
 
     return joker_pb;

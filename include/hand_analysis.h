@@ -30,11 +30,13 @@ bool hand_contains_straight(u8* ranks);
 bool hand_contains_flush(u8* suits);
 
 int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* out_selection);
-int find_straight_in_played_cards(CardObject** played,
-                                  int top,
-                                  bool shortcut_active,
-                                  int min_len,
-                                  bool* out_selection);
+int find_straight_in_played_cards(
+    CardObject** played,
+    int top,
+    bool shortcut_active,
+    int min_len,
+    bool* out_selection
+);
 void select_paired_cards_in_hand(CardObject** played, int top, bool* selection);
 
 #endif

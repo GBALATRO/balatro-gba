@@ -286,9 +286,11 @@ void tte_erase_rect_wrapper(Rect rect);
  *
  * @param overflow_direction either OVERFLOW_LEFT or OVERFLOW_RIGHT.
  */
-void update_text_rect_to_right_align_str(Rect* rect,
-                                         const char* str,
-                                         enum OverflowDir overflow_direction);
+void update_text_rect_to_right_align_str(
+    Rect* rect,
+    const char* str,
+    enum OverflowDir overflow_direction
+);
 
 /**
  * @brief Updates a rect so a string is centered within it.

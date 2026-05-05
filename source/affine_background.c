@@ -92,10 +92,12 @@ void affine_background_change_background(enum AffineBackgroundID new_bg)
             REG_BG2CNT |= BG_AFF_16x16;
             REG_IE |= IRQ_HBLANK; // Enable HBLANK
 
-            memcpy32_tile8_with_palette_offset((u32*)&tile8_mem[AFFINE_BG_CBB],
-                                               (const u32*)affine_main_menu_background_gfxTiles,
-                                               affine_main_menu_background_gfxTilesLen / 4,
-                                               AFFINE_BG_PB);
+            memcpy32_tile8_with_palette_offset(
+                (u32*)&tile8_mem[AFFINE_BG_CBB],
+                (const u32*)affine_main_menu_background_gfxTiles,
+                affine_main_menu_background_gfxTilesLen / 4,
+                AFFINE_BG_PB
+            );
             GRIT_CPY(&se_mem[AFFINE_BG_SBB], affine_main_menu_background_gfxMap);
             affine_background_load_palette(affine_main_menu_background_gfxPal);
             break;
@@ -104,10 +106,12 @@ void affine_background_change_background(enum AffineBackgroundID new_bg)
             REG_BG2CNT |= BG_AFF_32x32;
             REG_IE &= ~IRQ_HBLANK; // Disable HBLANK
 
-            memcpy32_tile8_with_palette_offset((u32*)&tile8_mem[AFFINE_BG_CBB],
-                                               (const u32*)affine_background_gfxTiles,
-                                               affine_background_gfxTilesLen / 4,
-                                               AFFINE_BG_PB);
+            memcpy32_tile8_with_palette_offset(
+                (u32*)&tile8_mem[AFFINE_BG_CBB],
+                (const u32*)affine_background_gfxTiles,
+                affine_background_gfxTilesLen / 4,
+                AFFINE_BG_PB
+            );
             GRIT_CPY(&se_mem[AFFINE_BG_SBB], affine_background_gfxMap);
             affine_background_load_palette(affine_background_gfxPal);
             break;

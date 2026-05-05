@@ -28,16 +28,18 @@ void init()
     irq_add(II_HBLANK, affine_background_hblank);
 
     // Initialize text engine
-    tte_init_se(0,
-                BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB),
-                0,
-                CLR_WHITE,
-                TTE_BIT_UNPACK_OFFSET,
-                &gbalatro_sys8Font,
+    tte_init_se(
+        0,
+        BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB),
+        0,
+        CLR_WHITE,
+        TTE_BIT_UNPACK_OFFSET,
+        &gbalatro_sys8Font,
 
-                // Explicitly use 8x8 tile text drawing function to improve performance
-                // See https://gbadev.net/tonc/tte.html#ssec-map-reg
-                se_drawg_w8h8);
+        // Explicitly use 8x8 tile text drawing function to improve performance
+        // See https://gbadev.net/tonc/tte.html#ssec-map-reg
+        se_drawg_w8h8
+    );
     tte_erase_screen();
     tte_init_con();
 

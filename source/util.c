@@ -58,11 +58,13 @@ static inline void num_str_truncate_trailing_zeros(char* num_str, int size)
  *        formatted fractional digits (including leading '.<digit>' special character) are written
  *        as a NULL-terminated string; may be empty if nothing remains.
  */
-static inline void truncate_num_get_remainder_string(uint32_t decimal_remainder,
-                                                     uint32_t truncated_num,
-                                                     int num_req_chars,
-                                                     char suffix_char,
-                                                     char remainder_str[UINT_MAX_DIGITS + 1])
+static inline void truncate_num_get_remainder_string(
+    uint32_t decimal_remainder,
+    uint32_t truncated_num,
+    int num_req_chars,
+    char suffix_char,
+    char remainder_str[UINT_MAX_DIGITS + 1]
+)
 {
     // Truncating the remainder in string form rather than number to avoid divisions
     char* remainder_str_format;
@@ -111,9 +113,11 @@ static inline void truncate_num_get_remainder_string(uint32_t decimal_remainder,
     }
 }
 
-void truncate_uint_to_suffixed_str(uint32_t num,
-                                   int num_req_chars,
-                                   char out_str_buff[UINT_MAX_DIGITS + 1])
+void truncate_uint_to_suffixed_str(
+    uint32_t num,
+    int num_req_chars,
+    char out_str_buff[UINT_MAX_DIGITS + 1]
+)
 {
     uint32_t truncated_num = num;
     int num_digits = u32_get_digits(num);
@@ -154,11 +158,13 @@ void truncate_uint_to_suffixed_str(uint32_t num,
 
     if (suffix[0] != '\0' && decimal_remainder != 0)
     {
-        truncate_num_get_remainder_string(decimal_remainder,
-                                          truncated_num,
-                                          num_req_chars,
-                                          suffix[0],
-                                          remainder_str);
+        truncate_num_get_remainder_string(
+            decimal_remainder,
+            truncated_num,
+            num_req_chars,
+            suffix[0],
+            remainder_str
+        );
     }
 
     snprintf(out_str_buff, UINT_MAX_DIGITS + 1, "%lu%s%s", truncated_num, remainder_str, suffix);

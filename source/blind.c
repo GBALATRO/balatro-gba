@@ -200,9 +200,11 @@ void apply_blind_colors(enum BlindType type)
     active_boss_spritesheet = new_spritesheet;
 
     // Just copy the palette as is to the sprite palette bank
-    memcpy16(&pal_obj_bank[BOSS_BLIND_PB],
-             blind_gfxPal[active_boss_spritesheet],
-             NUM_ELEM_IN_ARR(blind_gfx0Pal));
+    memcpy16(
+        &pal_obj_bank[BOSS_BLIND_PB],
+        blind_gfxPal[active_boss_spritesheet],
+        NUM_ELEM_IN_ARR(blind_gfx0Pal)
+    );
 }
 
 static u32 get_layer_tile_index(int layer)
@@ -215,9 +217,11 @@ void apply_blind_tiles(enum BlindType type, int layer)
 {
     u32 spritesheet_idx = get_blind_spritesheet_idx(type);
     u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % BLIND_TOKENS_PER_SPRITESHEET : 0;
-    memcpy32(&tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
-             &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
-             BLIND_SPRITE_COPY_SIZE);
+    memcpy32(
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
+        &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
+        BLIND_SPRITE_COPY_SIZE
+    );
 
     apply_blind_colors(type);
 }
@@ -226,11 +230,13 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, int layer)
 {
     apply_blind_tiles(type, layer);
 
-    Sprite* sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP,
-                                ATTR1_SIZE_32x32,
-                                get_layer_tile_index(layer),
-                                get_blind_pb(type),
-                                BLIND_BASE_LAYER + layer);
+    Sprite* sprite = sprite_new(
+        ATTR0_SQUARE | ATTR0_4BPP,
+        ATTR1_SIZE_32x32,
+        get_layer_tile_index(layer),
+        get_blind_pb(type),
+        BLIND_BASE_LAYER + layer
+    );
     sprite_position(sprite, x, y);
 
     return sprite;

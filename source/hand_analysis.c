@@ -272,11 +272,13 @@ int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* 
 
 // Returns the number of cards in the best straight or 0 if no straight of min_len is found, marks
 // as true them in out_selection[]. This is mostly from Google Gemini
-int find_straight_in_played_cards(CardObject** played,
-                                  int top,
-                                  bool shortcut_active,
-                                  int min_len,
-                                  bool* out_selection)
+int find_straight_in_played_cards(
+    CardObject** played,
+    int top,
+    bool shortcut_active,
+    int min_len,
+    bool* out_selection
+)
 {
     if (top < 0)
         return 0;
