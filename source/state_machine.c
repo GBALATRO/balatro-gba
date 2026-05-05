@@ -5,28 +5,32 @@
 #include "timer.h"
 #include "game_variables.h"
 
+#include <stdlib.h>
+
 static List update_cbs;
 
-static void noop(){}
+static void nooooop()
+{
+    tte_printf("#{P:10,10; cx:0x%X000} AHHHHHHH.", TTE_WHITE_PB);
+}
 
 void state_machine_init(StateMachine* state_machine)
 {
     if(list_is_empty(&update_cbs)) 
         update_cbs = list_create();
 
-    *state_machine->active_update = noop;
 
-    list_push_back(&update_cbs, state_machine->active_update);
+    //list_push_back(&update_cbs, state_machine->active_update);
+    list_push_back(&update_cbs, nooooop);
 }
 
 void state_machine_update(void)
 {
-    return;
     ListItr itr = list_itr_create(&update_cbs);
-    StateCallback* cb;
+    StateCallback cb;
     while((cb = list_itr_next(&itr)))
     {
-        (*cb)();
+        cb();
     }
 }
 
