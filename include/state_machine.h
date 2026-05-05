@@ -15,13 +15,14 @@ typedef struct
     StateCallback on_init;
     StateCallback on_update;
     StateCallback on_exit;
-    int state;
 } StateInfo;
 
 typedef struct
 {
     StateCallback active_update;
     StateInfo* state_infos;
+    unsigned int num_infos;
+    int state;
 } StateMachine;
 
 void state_machine_init(StateMachine* state_machine);
