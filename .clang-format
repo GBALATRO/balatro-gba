@@ -44,6 +44,7 @@ AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AlignAfterOpenBracket: BlockIndent
 PenaltyBreakBeforeFirstCallParameter: 0
+
 ReflowComments: true
 SpacesInLineCommentPrefix:
   Minimum: 1
