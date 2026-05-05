@@ -795,6 +795,8 @@ void game_update()
 
     jokers_update_loop();
 
+    state_machine_update();
+
     state_info[game_state].on_update();
 }
 
