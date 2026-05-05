@@ -125,12 +125,10 @@ typedef struct // These jokers are triggered after the played hand has finished 
 // JokerEffectFuncs take in a joker that will be scored, a scored_card that is not NULL when related
 // to the given joker_event, and output a joker_effect storing the effects of the scored joker They
 // return a set of flags indicating what fields of the joker_effect are valid to access
-typedef u32 (*JokerEffectFunc)(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
+typedef u32 (*JokerEffectFunc)(Joker* joker,
+                               Card* scored_card,
+                               enum JokerEvent joker_event,
+                               JokerEffect** joker_effect);
 
 typedef struct
 {
@@ -150,12 +148,10 @@ void joker_destroy(Joker** joker);
 // conditional check for the joker ID from the players owned jokers game.c should probably be
 // restructured so most of the variables in it are moved to some sort of global variable header file
 // so they can be easily accessed and modified for the jokers
-u32 joker_get_score_effect(
-    Joker* joker,
-    Card* scored_card,
-    enum JokerEvent joker_event,
-    JokerEffect** joker_effect
-);
+u32 joker_get_score_effect(Joker* joker,
+                           Card* scored_card,
+                           enum JokerEvent joker_event,
+                           JokerEffect** joker_effect);
 int joker_get_sell_value(const Joker* joker);
 
 JokerObject* joker_object_new(Joker* joker);
@@ -167,11 +163,9 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 // card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or
 // On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or
 // On_Card_Held
-bool joker_object_score(
-    JokerObject* joker_object,
-    CardObject* card_object,
-    enum JokerEvent joker_event
-);
+bool joker_object_score(JokerObject* joker_object,
+                        CardObject* card_object,
+                        enum JokerEvent joker_event);
 
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 int joker_get_random_rarity();

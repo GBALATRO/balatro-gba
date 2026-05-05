@@ -271,12 +271,10 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Apply rotation and scale to the sprite
-    obj_aff_rotscale(
-        sprite_object->sprite->aff,
-        sprite_object->scale,
-        sprite_object->scale,
-        -sprite_object->vx + sprite_object->rotation
-    );
+    obj_aff_rotscale(sprite_object->sprite->aff,
+                     sprite_object->scale,
+                     sprite_object->scale,
+                     -sprite_object->vx + sprite_object->rotation);
     sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
 }
 
@@ -309,11 +307,9 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
     }
     sprite_object->focused = focus;
 
-    play_sfx(
-        SFX_CARD_FOCUS,
-        MM_BASE_PITCH_RATE + get_rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
-        SFX_DEFAULT_VOLUME
-    );
+    play_sfx(SFX_CARD_FOCUS,
+             MM_BASE_PITCH_RATE + get_rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+             SFX_DEFAULT_VOLUME);
     sprite_object->ty = sprite_object->ty + int2fx((focus ? -1 : 1) * SPRITE_FOCUS_RAISE_PX);
 }
 

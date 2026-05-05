@@ -103,19 +103,15 @@ void card_object_update(CardObject* card_object)
 void card_object_set_sprite(CardObject* card_object, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
-    memcpy32(
-        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &deck_gfxTiles
-            [_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
-        TILE_SIZE * CARD_SPRITE_OFFSET
-    );
-    Sprite* sprite = sprite_new(
-        ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
-        ATTR1_SIZE_32,
-        tile_index,
-        0,
-        layer + CARD_STARTING_LAYER
-    );
+    memcpy32(&tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
+             &deck_gfxTiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] *
+                            TILE_SIZE],
+             TILE_SIZE * CARD_SPRITE_OFFSET);
+    Sprite* sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+                                ATTR1_SIZE_32,
+                                tile_index,
+                                0,
+                                layer + CARD_STARTING_LAYER);
     sprite_object_set_sprite(card_object->sprite_object, sprite);
 }
 

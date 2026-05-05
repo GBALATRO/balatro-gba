@@ -40,12 +40,10 @@ typedef struct SelectionGrid SelectionGrid;
  * @return false if the selection change needs to be aborted, true if can proceed.
  *
  */
-typedef bool (*RowOnSelectionChangedFunc)(
-    SelectionGrid* selection_grid,
-    int row_idx,
-    const Selection* prev_selection,
-    const Selection* new_selection
-);
+typedef bool (*RowOnSelectionChangedFunc)(SelectionGrid* selection_grid,
+                                          int row_idx,
+                                          const Selection* prev_selection,
+                                          const Selection* new_selection);
 
 /**
  * @brief Function pointer type for retrieving the size of a row in a selection grid.
