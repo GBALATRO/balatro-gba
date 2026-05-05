@@ -50,13 +50,18 @@ static const SubStateActionFn blind_select_state_actions[] = {
     game_blind_select_display_blind_panel
 };
 
+// clang-format off
+// Points                                                x        y
+static const BG_POINT TOP_LEFT_PANEL_EMPTY_3W_ROW_POS = {29,      31};
+// Rects                                                 left     top     right   bottom
+static const Rect BLIND_SKIP_BTN_GRAY_RECT            = {0,       24,     4,      27};
+static const Rect BLIND_SKIP_BTN_PREANIM_DEST_RECT    = {9,       29,     19,     31};
+static const Rect SINGLE_BLIND_SEL_REQ_SCORE_RECT     = {80,      120,    104,    128};
+static const Rect SINGLE_BLIND_SELECT_RECT            = {9,       7,      13,     31};
+// clang-format on
+
 static const u32 TM_END_ANIM_SEQ = 12;
 static const u32 TM_BLIND_SELECT_START = 1;
-static const Rect BLIND_SKIP_BTN_GRAY_RECT = {0, 24, 4, 27};
-static const Rect BLIND_SKIP_BTN_PREANIM_DEST_RECT = {9, 29, 19, 31};
-static const Rect SINGLE_BLIND_SEL_REQ_SCORE_RECT = {80, 120, 104, 128};
-static const Rect SINGLE_BLIND_SELECT_RECT = {9, 7, 13, 31};
-static const BG_POINT TOP_LEFT_PANEL_EMPTY_3W_ROW_POS = {29, 31};
 
 static const u32 BLIND_LEFT_X = 80;
 static const u32 BLIND_CENTER_X = 120;
