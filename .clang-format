@@ -43,8 +43,10 @@ BinPackParameters: false
 AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AlignAfterOpenBracket: BlockIndent
+BreakBeforeCloseBracketIf: false
+BreakBeforeCloseBracketLoop: false
+BreakBeforeCloseBracketSwitch: false
 PenaltyBreakBeforeFirstCallParameter: 0
-
 ReflowComments: true
 SpacesInLineCommentPrefix:
   Minimum: 1
