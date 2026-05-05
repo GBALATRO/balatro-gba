@@ -6,6 +6,8 @@
 #ifndef COMMON_UI_H
 #define COMMON_UI_H
 
+#include <stdbool.h>
+
 /**
  * @brief Enum of possible backgrounds to render with @ref change_background
  */
