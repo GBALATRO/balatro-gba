@@ -8,6 +8,8 @@
 
 #include "blind.h"
 
+#include "state_machine.h"
+
 #include <tonc.h>
 
 #define GAME_SPEED_MIN 1
@@ -57,6 +59,8 @@ typedef struct
     bool high_contrast;
     u8 music_volume;
     u8 sound_volume;
+
+    StateMachine game_state_machine;
 } GameVariables;
 
 extern GameVariables g_game_vars;

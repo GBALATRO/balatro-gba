@@ -29,6 +29,8 @@
 #include "tonc_memdef.h"
 #include "util.h"
 
+#include "state_machine.h"
+
 #include <maxmod.h>
 #include <stdint.h>
 #include <stdlib.h>
