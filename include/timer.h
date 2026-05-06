@@ -9,4 +9,6 @@
 
 #define TM_ZERO 0
 
+#define MENU_POP_OUT_ANIM_FRAMES 20
+
 #endif // TIMER_H

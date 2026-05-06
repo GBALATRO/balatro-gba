@@ -6,6 +6,8 @@
 #ifndef GAME_VARIABLES_H
 #define GAME_VARIABLES_H
 
+#include "blind.h"
+
 #include <tonc.h>
 
 #define GAME_SPEED_MIN 1
@@ -40,6 +42,12 @@ typedef struct
     int round;
     int ante;
     int money;
+
+    // Blind variables
+
+    enum BlindType current_blind;
+    enum BlindType next_boss_blind;
+    enum BlindState blinds_states[NUM_BLINDS_PER_ANTE];
 
     // Options variables
 

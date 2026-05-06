@@ -24,6 +24,16 @@
 #define BLIND_TOKENS_PER_SPRITESHEET 2
 #define BLIND_TOKEN_PALETTE_SIZE     8
 
+// The sprites that display the blinds when in "GAME_BLIND_SELECT" state
+// There are only 3 blinds per Ante, so we don't need more sprites than that
+enum BlindTokens
+{
+    SMALL_BLIND,
+    BIG_BLIND,
+    BOSS_BLIND,
+    NUM_BLINDS_PER_ANTE
+};
+
 // Order of the Blind sprites' colors as encoded in the files' palettes with Aseprite
 enum BlindColorIndex
 {

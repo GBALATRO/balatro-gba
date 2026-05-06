@@ -1,9 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "blind.h"
 #include "game/common_ui.h"
-#include "game_variables.h"
+#include "graphic_utils.h"
 
 #include <tonc.h>
 
@@ -123,6 +122,7 @@ typedef struct ContainedHandTypes
 // clang-format on
 
 typedef void (*GameStateCallback)(void);
+typedef void (*SubStateActionFn)(void);
 
 typedef struct
 {
@@ -163,8 +163,6 @@ void set_mult(u32 new_mult);
 void display_mult(void);
 void display_money(void);
 void set_retrigger(bool new_retrigger);
-enum BlindType get_current_blind(void);
-enum BlindType get_next_boss_blind(void);
 
 u32 get_rand(void);
 
@@ -178,5 +176,10 @@ void game_start(void);
 // simultaneous integration of the new system in `common_ui` with the the existing
 // old system incrementally and without losing functionality.
 void change_background_legacy(enum BackgroundId id);
+
+void display_round(void);
+void reset_top_left_panel_bottom_row(void);
+
+void reset_background(void);
 
 #endif // GAME_H

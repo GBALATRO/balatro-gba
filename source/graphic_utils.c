@@ -1,13 +1,14 @@
 #include "graphic_utils.h"
 
-#include "util.h"
+#include "layout.h"
 
 #include <string.h>
 #include <tonc_core.h>
 #include <tonc_math.h>
 #include <tonc_tte.h>
 
-const Rect FULL_SCREENBLOCK_RECT = {0, 0, SE_ROW_LEN - 1, SE_COL_LEN - 1};
+static const Rect FULL_SCREENBLOCK_RECT = {0, 0, SE_ROW_LEN - 1, SE_COL_LEN - 1};
+static const Rect TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT = {0, 28, 8, 28};
 
 static void clip_se_rect_to_screenblock(Rect* rect);
 static void bg_se_copy_or_move_rect_1_tile_vert(
@@ -409,4 +410,12 @@ void main_bg_se_clear_rect(Rect se_rect)
     {
         memset16(&(se_mat[MAIN_BG_SBB][y][se_rect.left]), 0x0000, rect_width(&se_rect));
     }
+}
+
+void reset_top_left_panel_bottom_row()
+{
+    BG_POINT top_left_panel_bottom_row_pos = TOP_LEFT_PANEL_POINT;
+    // Use the source rect height to offset to the bottom row point
+    top_left_panel_bottom_row_pos.y += rect_height(&TOP_LEFT_ITEM_SRC_RECT) - 1;
+    main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }

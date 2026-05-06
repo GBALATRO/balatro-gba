@@ -1,4 +1,5 @@
 #include "game.h"
+#include "game_variables.h"
 #include "hand_analysis.h"
 #include "joker.h"
 #include "list.h"
