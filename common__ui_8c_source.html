@@ -140,42 +140,50 @@ $(document).ready(function(){initNavTree('common__ui_8c_source.html',''); initRe
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="common__ui_8h.html">game/common_ui.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="main__menu_8h.html">game/main_menu.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="options__menu_8h.html">game/options_menu.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">typedef</span> void (*BackgroundRenderCallback)(void);</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> background = BG_NONE;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// Map to fill in for refactor</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">static</span> <span class="keyword">const</span> BackgroundRenderCallback bgCallbacks[] = {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    [BG_NONE] = NULL,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    [BG_CARD_SELECTING] = NULL,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    [BG_CARD_PLAYING] = NULL,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    [BG_ROUND_END] = NULL,</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    [BG_SHOP] = NULL,</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    [BG_BLIND_SELECT] = NULL,</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    [BG_OPTIONS_MENU] = <a class="code hl_function" href="options__menu_8h.html#aeb0e6b16e5a92306f354e5c7cc0c6e1a">game_options_menu_change_background</a>,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    [BG_MAIN_MENU] = <a class="code hl_function" href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>};</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">change_background</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != background &amp;&amp; bgCallbacks[<span class="keywordtype">id</span>] != NULL)</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        bgCallbacks[id]();</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    background = id;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Can be removed once all states have their own &quot;change_background&quot; func</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    change_background_legacy(<span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="blind__select_8h.html">blind_select.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="main__menu_8h.html">game/main_menu.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="options__menu_8h.html">game/options_menu.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">typedef</span> void (*BackgroundRenderCallback)(void);</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> background = BG_NONE;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Map to fill in for refactor</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">static</span> <span class="keyword">const</span> BackgroundRenderCallback bgCallbacks[] = {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    [BG_NONE] = NULL,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    [BG_CARD_SELECTING] = NULL,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    [BG_CARD_PLAYING] = NULL,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    [BG_ROUND_END] = NULL,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    [BG_SHOP] = NULL,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    [BG_BLIND_SELECT] = <a class="code hl_function" href="blind__select_8h.html#a75be230022a65f2ec46711abca17ae8c">game_blind_select_change_background</a>,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    [BG_OPTIONS_MENU] = <a class="code hl_function" href="options__menu_8h.html#aeb0e6b16e5a92306f354e5c7cc0c6e1a">game_options_menu_change_background</a>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    [BG_MAIN_MENU] = <a class="code hl_function" href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a>,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>};</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>, <span class="keywordtype">bool</span> force_redraw)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">if</span> (force_redraw)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        background = BG_NONE;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        reset_background();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != background &amp;&amp; bgCallbacks[<span class="keywordtype">id</span>] != NULL)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        bgCallbacks[id]();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    background = id;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// Can be removed once all states have their own &quot;change_background&quot; func</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    change_background_legacy(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
 </div>
+<div class="ttc" id="ablind__select_8h_html"><div class="ttname"><a href="blind__select_8h.html">blind_select.h</a></div><div class="ttdoc">Blind select state functions.</div></div>
+<div class="ttc" id="ablind__select_8h_html_a75be230022a65f2ec46711abca17ae8c"><div class="ttname"><a href="blind__select_8h.html#a75be230022a65f2ec46711abca17ae8c">game_blind_select_change_background</a></div><div class="ttdeci">void game_blind_select_change_background(void)</div><div class="ttdoc">Change to the blind select background.</div><div class="ttdef"><b>Definition</b> <a href="blind__select_8c_source.html#l00480">blind_select.c:480</a></div></div>
 <div class="ttc" id="acommon__ui_8h_html"><div class="ttname"><a href="common__ui_8h.html">common_ui.h</a></div><div class="ttdoc">Common functions to render UI elements.</div></div>
-<div class="ttc" id="acommon__ui_8h_html_a26dbe6146af9c787401916eb0f44acd6"><div class="ttname"><a href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">change_background</a></div><div class="ttdeci">void change_background(enum BackgroundId id)</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00023">common_ui.c:23</a></div></div>
-<div class="ttc" id="acommon__ui_8h_html_aa1dc226c31d41c9cb14cdf9e2551c5cd"><div class="ttname"><a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a></div><div class="ttdeci">BackgroundId</div><div class="ttdoc">Enum of possible backgrounds to render with change_background.</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8h_source.html#l00012">common_ui.h:13</a></div></div>
+<div class="ttc" id="acommon__ui_8h_html_a7cc065b753e494969940447dfb3fb599"><div class="ttname"><a href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a></div><div class="ttdeci">void change_background(enum BackgroundId id, bool force_redraw)</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00024">common_ui.c:24</a></div></div>
+<div class="ttc" id="acommon__ui_8h_html_aa1dc226c31d41c9cb14cdf9e2551c5cd"><div class="ttname"><a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a></div><div class="ttdeci">BackgroundId</div><div class="ttdoc">Enum of possible backgrounds to render with change_background.</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8h_source.html#l00014">common_ui.h:15</a></div></div>
 <div class="ttc" id="amain__menu_8h_html"><div class="ttname"><a href="main__menu_8h.html">main_menu.h</a></div><div class="ttdoc">Main menu state functions.</div></div>
 <div class="ttc" id="amain__menu_8h_html_a75b7d91d3b3d2f75c1cc1827c749762e"><div class="ttname"><a href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a></div><div class="ttdeci">void game_main_menu_change_background(void)</div><div class="ttdoc">Change the main menu background.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00086">main_menu.c:86</a></div></div>
 <div class="ttc" id="aoptions__menu_8h_html"><div class="ttname"><a href="options__menu_8h.html">options_menu.h</a></div><div class="ttdoc">Options menu state functions.</div></div>

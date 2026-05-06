@@ -155,6 +155,12 @@ Data Fields</h2></td></tr>
 <tr class="separator:a2406329c63a17aa07b19ac0635600de8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc0b64212bc67a1e415d25c147961df5" id="r_acc0b64212bc67a1e415d25c147961df5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#acc0b64212bc67a1e415d25c147961df5">money</a></td></tr>
 <tr class="separator:acc0b64212bc67a1e415d25c147961df5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44a2684f8167b7ccc712573515794cce" id="r_a44a2684f8167b7ccc712573515794cce"><td class="memItemLeft" align="right" valign="top">enum BlindType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#a44a2684f8167b7ccc712573515794cce">current_blind</a></td></tr>
+<tr class="separator:a44a2684f8167b7ccc712573515794cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ece70d658cbe7019e57938bed6817f2" id="r_a2ece70d658cbe7019e57938bed6817f2"><td class="memItemLeft" align="right" valign="top">enum BlindType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#a2ece70d658cbe7019e57938bed6817f2">next_boss_blind</a></td></tr>
+<tr class="separator:a2ece70d658cbe7019e57938bed6817f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c4ee70583791bba94dc2e89c1ea93e6" id="r_a2c4ee70583791bba94dc2e89c1ea93e6"><td class="memItemLeft" align="right" valign="top">enum BlindState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#a2c4ee70583791bba94dc2e89c1ea93e6">blinds_states</a> [NUM_BLINDS_PER_ANTE]</td></tr>
+<tr class="separator:a2c4ee70583791bba94dc2e89c1ea93e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44da63eb710d08aaa5ba4f8c0c05163e" id="r_a44da63eb710d08aaa5ba4f8c0c05163e"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#a44da63eb710d08aaa5ba4f8c0c05163e">game_speed</a></td></tr>
 <tr class="separator:a44da63eb710d08aaa5ba4f8c0c05163e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a411138710c92fe2788db2089c67a9aea" id="r_a411138710c92fe2788db2089c67a9aea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameVariables.html#a411138710c92fe2788db2089c67a9aea">high_contrast</a></td></tr>
@@ -168,7 +174,7 @@ Data Fields</h2></td></tr>
 <div class="textblock"><p>A central location for all game variables. </p>
 <p><b>NOTE</b>: This is currently WIP and will be populated with a refactor effort. NOT ALL VARIABLES ARE LOCATED HERE YET </p>
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00030">30</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00032">32</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a2406329c63a17aa07b19ac0635600de8" name="a2406329c63a17aa07b19ac0635600de8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2406329c63a17aa07b19ac0635600de8">&#9670;&#160;</a></span>ante</h2>
@@ -182,7 +188,39 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00041">41</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00043">43</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+
+</div>
+</div>
+<a id="a2c4ee70583791bba94dc2e89c1ea93e6" name="a2c4ee70583791bba94dc2e89c1ea93e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c4ee70583791bba94dc2e89c1ea93e6">&#9670;&#160;</a></span>blinds_states</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum BlindState blinds_states[NUM_BLINDS_PER_ANTE]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00050">50</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+
+</div>
+</div>
+<a id="a44a2684f8167b7ccc712573515794cce" name="a44a2684f8167b7ccc712573515794cce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44a2684f8167b7ccc712573515794cce">&#9670;&#160;</a></span>current_blind</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum BlindType current_blind</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00048">48</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -198,7 +236,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00048">48</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00056">56</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -214,7 +252,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00049">49</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00057">57</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -230,7 +268,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00042">42</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00044">44</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -246,7 +284,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00050">50</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00058">58</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+
+</div>
+</div>
+<a id="a2ece70d658cbe7019e57938bed6817f2" name="a2ece70d658cbe7019e57938bed6817f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ece70d658cbe7019e57938bed6817f2">&#9670;&#160;</a></span>next_boss_blind</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum BlindType next_boss_blind</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00049">49</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -262,7 +316,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00035">35</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00037">37</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -278,7 +332,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00036">36</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00038">38</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -294,7 +348,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00040">40</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00042">42</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -310,7 +364,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00051">51</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00059">59</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>
@@ -326,7 +380,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00034">34</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="game__variables_8h_source.html#l00036">36</a> of file <a class="el" href="game__variables_8h_source.html">game_variables.h</a>.</p>
 
 </div>
 </div>

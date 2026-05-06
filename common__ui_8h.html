@@ -139,7 +139,8 @@ $(document).ready(function(){initNavTree('common__ui_8h.html',''); initResizable
 
 <p>Common functions to render UI elements.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+</div>
 <p><a href="common__ui_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -156,13 +157,13 @@ Enumerations</h2></td></tr>
 , <b>BG_MAIN_MENU</b>
 <br />
  }</td></tr>
-<tr class="memdesc:aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">change_background</a>.  <a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">More...</a><br /></td></tr>
+<tr class="memdesc:aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>.  <a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">More...</a><br /></td></tr>
 <tr class="separator:aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a26dbe6146af9c787401916eb0f44acd6" id="r_a26dbe6146af9c787401916eb0f44acd6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">change_background</a> (enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> id)</td></tr>
-<tr class="separator:a26dbe6146af9c787401916eb0f44acd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cc065b753e494969940447dfb3fb599" id="r_a7cc065b753e494969940447dfb3fb599"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a> (enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> id, bool force_redraw)</td></tr>
+<tr class="separator:a7cc065b753e494969940447dfb3fb599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Common functions to render UI elements. </p>
@@ -181,15 +182,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6">change_background</a>. </p>
+<p>Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="common__ui_8h_source.html#l00012">12</a> of file <a class="el" href="common__ui_8h_source.html">common_ui.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common__ui_8h_source.html#l00014">14</a> of file <a class="el" href="common__ui_8h_source.html">common_ui.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a26dbe6146af9c787401916eb0f44acd6" name="a26dbe6146af9c787401916eb0f44acd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26dbe6146af9c787401916eb0f44acd6">&#9670;&#160;</a></span>change_background()</h2>
+<a id="a7cc065b753e494969940447dfb3fb599" name="a7cc065b753e494969940447dfb3fb599"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cc065b753e494969940447dfb3fb599">&#9670;&#160;</a></span>change_background()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,8 +199,18 @@ Functions</h2></td></tr>
           <td class="memname">void change_background </td>
           <td>(</td>
           <td class="paramtype">enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a>&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_redraw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -211,7 +222,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="common__ui_8c_source.html#l00023">23</a> of file <a class="el" href="common__ui_8c_source.html">common_ui.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="common__ui_8c_source.html#l00024">24</a> of file <a class="el" href="common__ui_8c_source.html">common_ui.c</a>.</p>
 
 </div>
 </div>

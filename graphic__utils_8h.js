@@ -14,6 +14,7 @@ var graphic__utils_8h =
     [ "memcpy32_tile8_with_palette_offset", "graphic__utils_8h.html#a64972a8c3632b0a589aa0c9c89246a74", null ],
     [ "rect_height", "graphic__utils_8h.html#a06ee61cf542dc9bb5885fbf5a6b6e17d", null ],
     [ "rect_width", "graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b", null ],
+    [ "reset_top_left_panel_bottom_row", "graphic__utils_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9", null ],
     [ "toggle_windows", "graphic__utils_8h.html#a3da2c63a9da5eae09966791ec4d783f7", null ],
     [ "tte_erase_rect_wrapper", "graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7", null ],
     [ "update_text_rect_to_center_str", "graphic__utils_8h.html#a4772becb6d0b30e799686efbe0076bcf", null ],

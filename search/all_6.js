@@ -5,7 +5,7 @@ var searchData=
   ['cap_2',['cap',['../structBitset.html#a8de1478f7db47c6c3a1f9587ef382579',1,'Bitset']]],
   ['card_3',['Card',['../structCard.html',1,'']]],
   ['cardobject_4',['CardObject',['../structCardObject.html',1,'']]],
-  ['change_5fbackground_5',['change_background',['../common__ui_8h.html#a26dbe6146af9c787401916eb0f44acd6',1,'common_ui.c']]],
+  ['change_5fbackground_5',['change_background',['../common__ui_8h.html#a7cc065b753e494969940447dfb3fb599',1,'common_ui.c']]],
   ['check_5fhash_6',['check_hash',['../save_8c.html#a72e508492f7ca40a43660db261c47f67',1,'save.c']]],
   ['check_5fsave_5fheader_7',['check_save_header',['../save_8c.html#af9322b9fb26aa1121e8d32f3890921e0',1,'save.c']]],
   ['checks_8',['CI Checks',['../index.html#autotoc_md3',1,'']]],

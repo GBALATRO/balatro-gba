@@ -20,6 +20,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "hand_analysis.h", "hand__analysis_8h_source.html", null ],
     [ "joker.h", "joker_8h_source.html", null ],
     [ "joker_gfx.h", "joker__gfx_8h_source.html", null ],
+    [ "layout.h", "layout_8h.html", null ],
     [ "list.h", "list_8h.html", "list_8h" ],
     [ "pool.h", "pool_8h_source.html", null ],
     [ "save.h", "save_8h.html", "save_8h" ],
