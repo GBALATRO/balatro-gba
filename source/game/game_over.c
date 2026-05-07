@@ -13,7 +13,12 @@
 
 #include <tonc.h>
 
-#define GAME_OVER_ANIM_FRAMES 15
+enum EndCondition
+{
+    END_CONDITION_NONE,
+    END_CONDITION_WIN,
+    END_CONDITION_LOSS
+};
 
 // clang-format off
 static const BG_POINT GAME_OVER_SRC_RECT_3X3_POS = { 25,  29};
@@ -26,30 +31,43 @@ static const BG_POINT NEW_RUN_BTN_DEST_POS       = { 15,  26};
 static const Rect     NEW_RUN_BTN_SRC_RECT       = {  0,  30,   4,  31};
 // clang-format on
 
+static const u32 GAME_OVER_ANIM_FRAMES = 15;
+
+static enum EndCondition condition = END_CONDITION_NONE;
 static u32 timer = TM_ZERO;
 
-static void game_over_init(void)
+static void game_over_init(enum EndCondition init_condition)
 {
+    condition = init_condition;
     // Clears the round end menu
     main_bg_se_clear_rect(POP_MENU_ANIM_RECT);
     main_bg_se_copy_expand_3x3_rect(GAME_OVER_DIALOG_DEST_RECT, GAME_OVER_SRC_RECT_3X3_POS);
     main_bg_se_copy_rect(NEW_RUN_BTN_SRC_RECT, NEW_RUN_BTN_DEST_POS);
 
-    timer = TM_ZERO;
-}
+    // Using the text color to match the Win/Loss condition
+    switch (condition)
+    {
+        case END_CONDITION_WIN:
+            affine_background_set_color(TEXT_CLR_BLUE);
+            break;
+        case END_CONDITION_LOSS:
+            affine_background_set_color(TEXT_CLR_RED);
+            break;
+        default:
+            break;
+    }
 
-void game_lose_on_init(void)
-{
-    game_over_init();
-    // Using the text color to match the "Game Over" text
-    affine_background_set_color(TEXT_CLR_RED);
+    timer = TM_ZERO;
 }
 
 void game_win_on_init(void)
 {
-    game_over_init();
-    // Using the text color to match the "You Win" text
-    affine_background_set_color(TEXT_CLR_BLUE);
+    game_over_init(END_CONDITION_WIN);
+}
+
+void game_lose_on_init(void)
+{
+    game_over_init(END_CONDITION_LOSS);
 }
 
 /**
@@ -72,7 +90,7 @@ static inline void game_over_process_user_input()
     }
 }
 
-void game_lose_on_update(void)
+void game_over_on_update(void)
 {
     timer++;
     if (timer < GAME_OVER_ANIM_FRAMES)
@@ -81,36 +99,33 @@ void game_lose_on_update(void)
     }
     else if (timer == GAME_OVER_ANIM_FRAMES)
     {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}GAME OVER",
-            GAME_LOSE_MSG_TEXT_RECT.left,
-            GAME_LOSE_MSG_TEXT_RECT.top,
-            TTE_RED_PB
-        );
-    }
-    game_over_process_user_input();
-}
-
-void game_win_on_update(void)
-{
-    timer++;
-    if (timer < GAME_OVER_ANIM_FRAMES)
-    {
-        game_over_anim_frame();
-    }
-    else if (timer == GAME_OVER_ANIM_FRAMES)
-    {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}YOU WIN",
-            GAME_WIN_MSG_TEXT_RECT.left,
-            GAME_WIN_MSG_TEXT_RECT.top,
-            TTE_BLUE_PB
-        );
+        switch (condition)
+        {
+            case END_CONDITION_WIN:
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}YOU WIN",
+                    GAME_WIN_MSG_TEXT_RECT.left,
+                    GAME_WIN_MSG_TEXT_RECT.top,
+                    TTE_BLUE_PB
+                );
+                break;
+            case END_CONDITION_LOSS:
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}GAME OVER",
+                    GAME_LOSE_MSG_TEXT_RECT.left,
+                    GAME_LOSE_MSG_TEXT_RECT.top,
+                    TTE_RED_PB
+                );
+                break;
+            default:
+                break;
+        }
     }
     game_over_process_user_input();
 }
 
 void game_over_on_exit(void)
 {
+    condition = END_CONDITION_NONE;
     game_reset();
 }

@@ -17,14 +17,9 @@ void game_lose_on_init(void);
 void game_win_on_init(void);
 
 /**
- * @brief Game Over screen state update after losing
+ * @brief Game Over screen state update
  */
-void game_lose_on_update(void);
-
-/**
- * @brief Game Over screen state update after winning
- */
-void game_win_on_update(void);
+void game_over_on_update(void);
 
 /**
  * @brief Game Over screen cleanup, common to both losing and winning
