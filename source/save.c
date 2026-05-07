@@ -297,12 +297,12 @@ void save_game(void)
     // Lists
 
     List* jokers_list = get_jokers_list();
-    u32 nb_jokers = list_get_len(jokers_list);
+    int nb_jokers = list_get_len(jokers_list);
 
     int i = 0;
     for (; i < nb_jokers; i++)
     {
-        JokerObject* joker_object = list_get_at_idx(jokers_list, i);
+        JokerObject* joker_object = list_get_at_idx(jokers_list, (u32)i);
         game.jokers_data[2 * i] = (u32)joker_object->joker->id;
         game.jokers_data[2 * i + 1] = joker_object->joker->persistent_state;
     }
