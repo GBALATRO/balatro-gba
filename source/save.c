@@ -252,8 +252,6 @@ static inline void set_save_header(u32 section_flag)
 
 void save_options(void)
 {
-    set_save_header(SAVE_SECTION_FLAG_OPTIONS);
-
     SaveOptions options = SaveOptions_default;
 
     options.game_speed = g_game_vars.game_speed;
@@ -262,6 +260,7 @@ void save_options(void)
     options.sound_volume = g_game_vars.sound_volume;
 
     write_sram(OPTIONS_ADDRESS, (const u8*)&options, sizeof(options));
+    set_save_header(SAVE_SECTION_FLAG_OPTIONS);
 }
 
 void load_options(void)
@@ -284,8 +283,6 @@ void load_options(void)
 
 void save_game(void)
 {
-    set_save_header(SAVE_SECTION_FLAG_GAME);
-
     SaveGame game = SaveGame_default;
 
     // Fixed data
@@ -316,6 +313,7 @@ void save_game(void)
     }
 
     write_sram(GAME_ADDRESS, (const u8*)&game, sizeof(game));
+    set_save_header(SAVE_SECTION_FLAG_GAME);
 }
 
 void load_game(void)
