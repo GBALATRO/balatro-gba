@@ -35,6 +35,29 @@ You can also choose to build the docs yourself [Link in wiki](https://github.com
 
 ### clang-format
 
+### Version
+
+This project currently uses **clang-format version 18**.
+
+Please ensure you are using this version to avoid CI formatting failures.
+
+### Installation
+
+#### Ubuntu / Debian
+sudo apt install clang-format-18
+
+#### Arch Linux
+sudo pacman -S clang
+
+### Verify Installation
+
+You can check your installed version using:
+
+clang-format --version
+
+Ensure the output shows version 18.
+
+
 Running `clang-format` locally is recommended before submitting a PR as it will fail the **CI Checks** if not properly formatted. It is recommended either: 
 1. Run `clang-format` periodically and only commit formatted code. 
 2. Run `clang-format` as a separate commit on larger changes, and review each modified hunk. 
