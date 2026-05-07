@@ -30,7 +30,7 @@ void save_options();
 /**
  * @brief Load options values from SRAM.
  *
- * @sa load_options
+ * @sa save_options
  */
 void load_options();
 
