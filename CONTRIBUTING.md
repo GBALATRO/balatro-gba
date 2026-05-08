@@ -47,7 +47,7 @@ Please ensure you are using this version to avoid CI formatting failures.
 <summary>Install on Ubuntu / Debian</summary>
 
 ```bash
-sudo apt install clang-format-18
+sudo apt install clang-format
 ```
 
 </details>
@@ -68,13 +68,6 @@ You can check your installed version using:
 ```bash
 clang-format --version
 ```
-
-
-### Verify Installation
-
-You can check your installed version using:
-
-clang-format --version
 
 Ensure the output shows version 18.
 
@@ -104,7 +97,7 @@ clang-format -i include/*.h include/game/*.h source/*.c source/game/*.c
 
 # Or just one
 clang-format -i include/blind.h
-````
+```
 
 #### Disabling Formatting
 
