@@ -1,5 +1,12 @@
 var NAVTREEINDEX1 =
 {
+"sprite_8h.html":[3,0,0,26],
+"sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a":[3,0,0,26,12],
+"sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b":[3,0,0,26,16],
+"sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d":[3,0,0,26,8],
+"sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e":[3,0,0,26,23],
+"sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb":[3,0,0,26,19],
+"sprite_8h.html#a53389557010d53538f0b510ae675b003":[3,0,0,26,17],
 "sprite_8h.html#a564c9484883d28c4904b382c2eec5db9":[3,0,0,26,9],
 "sprite_8h.html#a5fbaf037f18d04536127b88417481eb8":[3,0,0,26,10],
 "sprite_8h.html#a673f791a81943a40619c246e8eed8f0f":[3,0,0,26,18],
