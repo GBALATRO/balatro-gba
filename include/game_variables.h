@@ -49,6 +49,7 @@ typedef struct
     enum BlindType next_boss_blind;
     enum BlindState blinds_states[NUM_BLINDS_PER_ANTE];
 
+    int hands;
     // Options variables
 
     // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the

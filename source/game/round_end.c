@@ -1,6 +1,27 @@
 #include "round_end.h"
 
 #include "game_variables.h"
+#include "timer.h"
+
+enum GameRoundEndStates
+{
+    ROUND_END_START,
+    START_EXPAND_POPUP,
+    DISPLAY_FINISHED_BLIND,
+    DISPLAY_SCORE_MIN,
+    UPDATE_BLIND_REWARD,
+    BLIND_PANEL_EXIT,
+    DISPLAY_REWARDS,
+    DISPLAY_CASHOUT,
+    DISMISS_ROUND_END_PANEL,
+    ROUND_END_EXIT
+};
+
+static const u32 TM_RESET_STATIC_VARS = 30;
+
+static int substate;
+static int blind_reward = 0;
+static int hand_reward = 0;
 
 void game_round_end_start(void)
 {
@@ -8,10 +29,10 @@ void game_round_end_start(void)
     if (g_game_vars.timer == TM_RESET_STATIC_VARS)
     {
         change_background(BG_ROUND_END, false); // Change the background to the round end background
-        state_info[game_state].substate = START_EXPAND_POPUP; // Change the state to the next one
+        substate = START_EXPAND_POPUP; // Change the state to the next one
         g_game_vars.timer = TM_ZERO;                          // Reset the timer
         blind_reward = blind_get_reward(g_game_vars.current_blind);
-        hand_reward = hands;
+        hand_reward = g_game_vars.hands;
         interest_reward = calculate_interest_reward();
         interest_to_count = interest_reward;
         interest_start_time = UNDEFINED;

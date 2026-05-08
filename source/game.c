@@ -65,7 +65,6 @@
 #define CARD_FOCUSED_SEL_Y   20
 
 // Timer defs
-#define TM_RESET_STATIC_VARS            30
 #define TM_END_POP_MENU_ANIM            13
 #define TM_START_ROUND_END_REWARDS_ANIM 1
 #define TM_END_DISPLAY_FIN_BLIND        30
@@ -138,20 +137,6 @@ enum GameShopStates
     GAME_SHOP_ACTIVE,
     GAME_SHOP_EXIT,
     GAME_SHOP_MAX
-};
-
-enum GameRoundEndStates
-{
-    ROUND_END_START,
-    START_EXPAND_POPUP,
-    DISPLAY_FINISHED_BLIND,
-    DISPLAY_SCORE_MIN,
-    UPDATE_BLIND_REWARD,
-    BLIND_PANEL_EXIT,
-    DISPLAY_REWARDS,
-    DISPLAY_CASHOUT,
-    DISMISS_ROUND_END_PANEL,
-    ROUND_END_EXIT
 };
 
 typedef struct
@@ -486,6 +471,8 @@ GameVariables g_game_vars = {
         BLIND_STATE_UPCOMING
     },
 
+    .hands = 0,
+
     .game_speed = DEFAULT_GAME_SPEED,
     .high_contrast = DEFAULT_HIGH_CONTRAST,
     .music_volume = DEFAULT_MUSIC_VOLUME,
@@ -501,8 +488,6 @@ static Sprite* round_end_blind_token = NULL;
 
 // Will be rolled later, just giving it a valid value
 
-static int blind_reward = 0;
-static int hand_reward = 0;
 static int interest_reward = 0;
 static int interest_to_count = 0;
 static int interest_start_time = UNDEFINED;
@@ -511,7 +496,6 @@ static int interest_start_time = UNDEFINED;
 static int max_hands = 4;
 static int max_discards = 4;
 // Set in game_init and game_round_init
-static int hands = 0;
 static int discards = 0;
 
 static u32 score = 0;
@@ -659,7 +643,7 @@ void game_init()
 
     load_game();
 
-    hands = max_hands;
+    g_game_vars.hands = max_hands;
     discards = max_discards;
     g_game_vars.timer = TM_ZERO;
     g_game_vars.current_blind = BLIND_TYPE_SMALL;
@@ -704,7 +688,7 @@ void game_reset()
     display_score(score);
     display_chips();
     display_mult();
-    display_hands(hands);
+    display_hands(g_game_vars.hands);
     display_discards(discards);
     display_money();
     // Ante
@@ -960,7 +944,7 @@ int get_num_discards_remaining(void)
 
 int get_num_hands_remaining(void)
 {
-    return hands;
+    return g_game_vars.hands;
 }
 
 u32 get_chips(void)
@@ -1802,7 +1786,7 @@ static void game_playing_execute_play_hand(void)
         return;
 
     hand_state = HAND_PLAY;
-    display_hands(--hands);
+    display_hands(--g_game_vars.hands);
 }
 
 static int game_playing_hand_row_get_size(void)
@@ -2073,7 +2057,7 @@ static inline void game_playing_handle_round_over(void)
             }
         }
     }
-    else if (hands == 0)
+    else if (g_game_vars.hands == 0)
     {
         next_state = GAME_STATE_LOSE;
     }
@@ -2384,7 +2368,7 @@ static bool check_and_score_joker_for_event(
 
 static inline bool game_round_is_over(void)
 {
-    return hands == 0 ||
+    return g_game_vars.hands == 0 ||
            score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
 }
 
@@ -3405,7 +3389,7 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
             ROUND_END_REWARD_AMOUNT_X,
             hand_y * TILE_SIZE,
             TTE_YELLOW_PB,
-            hands - hand_reward
+            g_game_vars.hands - hand_reward
         );
         if (hand_reward == 0)
         {
@@ -3451,7 +3435,7 @@ static void game_round_end_display_rewards()
     int hand_y_offset = 0;
     int interest_y_offset = 0;
 
-    if (hands > 0)
+    if (g_game_vars.hands > 0)
     {
         hand_y_offset = 1;
     }
@@ -3494,12 +3478,12 @@ static inline void game_round_end_cashout(void)
 {
     // Reward the player
     g_game_vars.money +=
-        hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
+        g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
     display_money();
 
-    hands = max_hands;          // Reset the hands to the maximum
+    g_game_vars.hands = max_hands;          // Reset the hands to the maximum
     discards = max_discards;    // Reset the discards to the maximum
-    display_hands(hands);       // Set the hands display
+    display_hands(g_game_vars.hands);       // Set the hands display
     display_discards(discards); // Set the discards display
 
     score = 0;
@@ -3514,7 +3498,7 @@ static void game_round_end_display_cashout()
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
 
         int cashout_amount =
-            hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
+            g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
 
         bool omit_space = cashout_amount >= 10;
         tte_printf(
@@ -4206,7 +4190,7 @@ void game_start(void)
 
     affine_background_change_background(AFFINE_BG_GAME);
 
-    hands = max_hands;
+    g_game_vars.hands = max_hands;
     discards = max_discards;
 
     // Activate high contrast palette for cards if loaded settings tell us to
@@ -4242,7 +4226,7 @@ void game_start(void)
     display_chips(); // Set the chips display
     display_mult();  // Set the multiplier display
 
-    display_hands(hands);       // Hand
+    display_hands(g_game_vars.hands);       // Hand
     display_discards(discards); // Discard
 
     display_money(); // Set the money display
