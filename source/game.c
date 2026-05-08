@@ -471,6 +471,7 @@ GameVariables g_game_vars = {
     },
 
     .hands = 0,
+    .playing_blind_token = NULL,
 
     .game_speed = DEFAULT_GAME_SPEED,
     .high_contrast = DEFAULT_HIGH_CONTRAST,
@@ -480,10 +481,8 @@ GameVariables g_game_vars = {
 // clang-format on
 
 // The sprite that displays the blind when in "GAME_PLAYING/GAME_ROUND_END" state
-static Sprite* playing_blind_token = NULL;
 
 // The sprite that displays the blind when in "GAME_ROUND_END" state
-static Sprite* round_end_blind_token = NULL;
 
 // Red deck default (can later be moved to a deck.h file or something)
 static int max_hands = 4;
@@ -667,8 +666,8 @@ void game_reset()
     // For some reason that I haven't figured out yet,
     // if I don't destroy the blind tokens they won't
     // show up on the next run.
-    sprite_destroy(&playing_blind_token);
-    sprite_destroy(&round_end_blind_token);
+    sprite_destroy(&g_game_vars.playing_blind_token);
+    sprite_destroy(&g_game_vars.round_end_blind_token);
 
     list_clear(&_owned_jokers_list);
     list_clear(&_discarded_jokers_list);
@@ -1625,29 +1624,29 @@ static void game_round_on_init(void)
     cards_drawn = 0;
     hand_selections = 0;
 
-    sprite_destroy(&playing_blind_token);
-    playing_blind_token = blind_token_new(
+    sprite_destroy(&g_game_vars.playing_blind_token);
+    g_game_vars.playing_blind_token = blind_token_new(
         g_game_vars.current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         PLAYING_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite at the top left corner
     // TODO: Hide blind token and display it after sliding blind rect animation
-    // if (playing_blind_token != NULL)
+    // if (g_game_vars.playing_blind_token != NULL)
     //{
-    //    obj_hide(playing_blind_token->obj); // Hide the blind token sprite for now
+    //    obj_hide(g_game_vars.playing_blind_token->obj); // Hide the blind token sprite for now
     //}
-    sprite_destroy(&round_end_blind_token);
-    round_end_blind_token = blind_token_new(
+    sprite_destroy(&g_game_vars.round_end_blind_token);
+    g_game_vars.round_end_blind_token = blind_token_new(
         g_game_vars.current_blind,
         81,
         86,
         ROUND_END_BLIND_TOKEN_LAYER
     ); // Create the blind token sprite for round end
 
-    if (round_end_blind_token != NULL)
+    if (g_game_vars.round_end_blind_token != NULL)
     {
-        obj_hide(round_end_blind_token->obj); // Hide the blind token sprite for now
+        obj_hide(g_game_vars.round_end_blind_token->obj); // Hide the blind token sprite for now
     }
 
     Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
@@ -3212,7 +3211,7 @@ static void game_round_end_extend_black_panel_down(int black_panel_bottom)
 
 static void game_round_end_display_finished_blind()
 {
-    obj_unhide(round_end_blind_token->obj, 0);
+    obj_unhide(g_game_vars.round_end_blind_token->obj, 0);
 
     int current_ante = g_game_vars.ante;
 
@@ -3302,7 +3301,7 @@ static void game_round_end_update_blind_reward()
     {
         tte_erase_rect_wrapper(BLIND_REWARD_RECT);
         tte_erase_rect_wrapper(BLIND_REQ_TEXT_RECT);
-        obj_hide(playing_blind_token->obj);
+        obj_hide(g_game_vars.playing_blind_token->obj);
         affine_background_load_palette(affine_background_gfxPal);
         state_info[game_state].substate = BLIND_PANEL_EXIT;
         g_game_vars.timer = TM_ZERO;
@@ -3504,7 +3503,7 @@ static void game_round_end_display_cashout()
         state_info[game_state].substate = DISMISS_ROUND_END_PANEL; // Go to the next state
         g_game_vars.timer = TM_ZERO;
 
-        obj_hide(round_end_blind_token->obj);          // Hide the blind token object
+        obj_hide(g_game_vars.round_end_blind_token->obj);          // Hide the blind token object
         tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT); // Erase the blind token text
     }
 }

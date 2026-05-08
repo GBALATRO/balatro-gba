@@ -71,7 +71,7 @@ void game_round_end_on_exit(void)
     blind_reward = 0;
     hand_reward = 0;
     interest_reward = 0;
-    sprite_destroy(&playing_blind_token);
-    sprite_destroy(&round_end_blind_token);
+    sprite_destroy(&g_game_vars.playing_blind_token);
+    sprite_destroy(&g_game_vars.round_end_blind_token);
     // TODO: Reuse sprites for blind selection?
 }
