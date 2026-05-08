@@ -223,6 +223,7 @@ static void game_blind_select_handle_input()
                     }
 
                     game_blind_select_print_blinds_reqs_and_rewards();
+                    highlight_select_button();
 
                     timer = TM_ZERO;
                 }

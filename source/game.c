@@ -12,6 +12,7 @@
 #include "card.h"
 #include "game/blind_select.h"
 #include "game/common_ui.h"
+#include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
 #include "game_variables.h"
@@ -46,9 +47,6 @@
 
 // SE sizes
 #define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
-
-// TODO: Properly define and use
-#define GAME_OVER_ANIM_FRAMES 15
 
 #define SHOP_LIGHTS_1_CLR 0xFFFF
 #define SHOP_LIGHTS_2_CLR 0x32BE
@@ -186,11 +184,6 @@ static void game_round_end_on_update(void);
 static void game_round_end_on_exit(void);
 static void game_shop_on_update(void);
 static void game_shop_on_exit(void);
-static void game_lose_on_init(void);
-static void game_lose_on_update(void);
-static void game_over_on_exit(void);
-static void game_win_on_init(void);
-static void game_win_on_update(void);
 static void game_shop_intro(void);
 static void game_shop_process_user_input(void);
 static void game_shop_outro(void);
@@ -213,14 +206,12 @@ static void display_discards(int value);
 static void set_hand(void);
 static int deck_get_size(void);
 static int deck_get_max_size(void);
-static void game_over_init(void);
 static bool check_and_score_joker_for_event(
     ListItr* starting_joker_itr,
     CardObject* card_object,
     enum JokerEvent joker_event
 );
 static int calculate_interest_reward(void);
-static void game_over_anim_frame(void);
 
 static void game_playing_discard_on_pressed(void);
 static void game_playing_execute_discard(void);
@@ -319,11 +310,6 @@ static const Rect BIG_BLIND_TITLE_SRC_RECT  = {0,       26,     8,      26 };
 static const Rect BOSS_BLIND_TITLE_SRC_RECT = {0,       27,     8,      27 };
 static const Rect CASHOUT_DEST_RECT =         {10,      8,      23,     10 };
 static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
-static const BG_POINT GAME_OVER_SRC_RECT_3X3_POS = {25, 29};
-static const Rect GAME_OVER_DIALOG_DEST_RECT= {11,      21,      23,     28};
-static const Rect GAME_OVER_ANIM_RECT       = {11,      8,       23,     28};
-static const BG_POINT NEW_RUN_BTN_DEST_POS  = {15,      26};
-static const Rect NEW_RUN_BTN_SRC_RECT      = {0,       30,      4,      31};
 static const BG_POINT ROUND_END_REWARDS_ELLIPSIS_POS = {10, 13};
 
 // Flaming score animation frames
@@ -365,9 +351,6 @@ static const Rect ROUND_END_BLIND_REQ_RECT  = {104,     96,     136,       UNDEF
 static const Rect ROUND_END_BLIND_REWARD_RECT = { 168,  96,     UNDEFINED, UNDEFINED };
 static const Rect CASHOUT_TEXT_RECT         = {88,      72,     UNDEFINED, UNDEFINED };
 static const Rect SHOP_REROLL_RECT          = {88,      96,     UNDEFINED, UNDEFINED };
-static const Rect GAME_LOSE_MSG_TEXT_RECT   = {104,     72,     UNDEFINED, UNDEFINED};
-// 1 character to the right of GAME_LOSE
-static const Rect GAME_WIN_MSG_TEXT_RECT    = {112,      72,     UNDEFINED, UNDEFINED};
 
 static const BG_POINT HELD_JOKERS_POS       = {108,     10};
 static const BG_POINT JOKER_DISCARD_TARGET  = {240,     30};
@@ -704,6 +687,51 @@ void game_init()
     // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available
     init_unbeaten_blinds_list(false);
     init_unbeaten_blinds_list(true);
+}
+
+void game_reset()
+{
+    while (list_get_len(&_owned_jokers_list) > 0)
+    {
+        JokerObject* joker_object = list_get_at_idx(&_owned_jokers_list, 0);
+        remove_owned_joker(0);
+        joker_object_destroy(&joker_object);
+    }
+
+    tte_erase_screen();
+
+    // For some reason that I haven't figured out yet,
+    // if I don't destroy the blind tokens they won't
+    // show up on the next run.
+    sprite_destroy(&playing_blind_token);
+    sprite_destroy(&round_end_blind_token);
+
+    list_clear(&_owned_jokers_list);
+    list_clear(&_discarded_jokers_list);
+    list_clear(&_expired_jokers_list);
+    list_clear(&_shop_jokers_list);
+
+    game_init();
+
+    display_round();
+    display_score(score);
+    display_chips();
+    display_mult();
+    display_hands(hands);
+    display_discards(discards);
+    display_money();
+    // Ante
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%d#{cx:0x%X000}/%d",
+        ANTE_TEXT_RECT.left,
+        ANTE_TEXT_RECT.top,
+        TTE_YELLOW_PB,
+        g_game_vars.ante,
+        TTE_WHITE_PB,
+        MAX_ANTE
+    );
+
+    affine_background_load_palette(affine_background_gfxPal);
 }
 
 static inline void discarded_jokers_update_loop(void)
@@ -1478,6 +1506,11 @@ void change_background_legacy(enum BackgroundId id)
     background_legacy = id;
 }
 
+void reset_background(void)
+{
+    background_legacy = BG_NONE;
+}
+
 static void display_temp_score(u32 value)
 {
     char temp_score_str_buff[UINT_MAX_DIGITS + 1];
@@ -1700,28 +1733,6 @@ static void game_round_on_init(void)
      * otherwise or for the buttons.
      */
     game_playing_selection_grid.selection = GAME_PLAYING_INIT_SEL;
-}
-
-static void game_over_init(void)
-{
-    // Clears the round end menu
-    main_bg_se_clear_rect(POP_MENU_ANIM_RECT);
-    main_bg_se_copy_expand_3x3_rect(GAME_OVER_DIALOG_DEST_RECT, GAME_OVER_SRC_RECT_3X3_POS);
-    main_bg_se_copy_rect(NEW_RUN_BTN_SRC_RECT, NEW_RUN_BTN_DEST_POS);
-}
-
-static void game_lose_on_init(void)
-{
-    game_over_init();
-    // Using the text color to match the "Game Over" text
-    affine_background_set_color(TEXT_CLR_RED);
-}
-
-static void game_win_on_init(void)
-{
-    game_over_init();
-    // Using the text color to match the "You Win" text
-    affine_background_set_color(TEXT_CLR_BLUE);
 }
 
 // General functions
@@ -4311,109 +4322,4 @@ void game_start(void)
     ); // Ante
 
     game_change_state(GAME_STATE_BLIND_SELECT);
-}
-
-static void game_over_anim_frame(void)
-{
-    main_bg_se_move_rect_1_tile_vert(GAME_OVER_ANIM_RECT, SCREEN_UP);
-}
-
-static inline void game_over_process_user_input()
-{
-    if (key_hit(SELECT_CARD))
-    {
-        play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-        game_change_state(GAME_STATE_BLIND_SELECT);
-    }
-}
-
-static void game_lose_on_update(void)
-{
-    if (g_game_vars.timer < GAME_OVER_ANIM_FRAMES)
-    {
-        game_over_anim_frame();
-    }
-    else if (g_game_vars.timer == GAME_OVER_ANIM_FRAMES)
-    {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}GAME OVER",
-            GAME_LOSE_MSG_TEXT_RECT.left,
-            GAME_LOSE_MSG_TEXT_RECT.top,
-            TTE_RED_PB
-        );
-    }
-
-    game_over_process_user_input();
-}
-
-// This function isn't set in stone. This is just a placeholder
-// allowing the player to restart the game. Thought it would be nice to have
-// util we decide what we want to do after a game over.
-static void game_over_on_exit(void)
-{
-    while (list_get_len(&_owned_jokers_list) > 0)
-    {
-        JokerObject* joker_object = list_get_at_idx(&_owned_jokers_list, 0);
-        remove_owned_joker(0);
-        joker_object_destroy(&joker_object);
-    }
-
-    tte_erase_screen();
-
-    // For some reason that I haven't figured out yet,
-    // if I don't destroy the blind tokens they won't
-    // show up on the next run.
-    sprite_destroy(&playing_blind_token);
-    sprite_destroy(&round_end_blind_token);
-
-    list_clear(&_owned_jokers_list);
-    list_clear(&_discarded_jokers_list);
-    list_clear(&_expired_jokers_list);
-    list_clear(&_shop_jokers_list);
-
-    game_init();
-
-    display_round();
-    display_score(score);
-    display_chips();
-    display_mult();
-    display_hands(hands);
-    display_discards(discards);
-    display_money();
-    // Ante
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d#{cx:0x%X000}/%d",
-        ANTE_TEXT_RECT.left,
-        ANTE_TEXT_RECT.top,
-        TTE_YELLOW_PB,
-        g_game_vars.ante,
-        TTE_WHITE_PB,
-        MAX_ANTE
-    );
-
-    affine_background_load_palette(affine_background_gfxPal);
-}
-
-static void game_win_on_update(void)
-{
-    if (g_game_vars.timer < GAME_OVER_ANIM_FRAMES)
-    {
-        game_over_anim_frame();
-    }
-    else if (g_game_vars.timer == GAME_OVER_ANIM_FRAMES)
-    {
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}YOU WIN",
-            GAME_WIN_MSG_TEXT_RECT.left,
-            GAME_WIN_MSG_TEXT_RECT.top,
-            TTE_BLUE_PB
-        );
-    }
-
-    game_over_process_user_input();
-}
-
-void reset_background(void)
-{
-    background_legacy = BG_NONE;
 }

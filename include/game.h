@@ -121,10 +121,30 @@ typedef struct ContainedHandTypes
 } ContainedHandTypes;
 // clang-format on
 
+typedef void (*GameStateCallback)(void);
 typedef void (*SubStateActionFn)(void);
+
+typedef struct
+{
+    int substate;
+    GameStateCallback on_init;
+    GameStateCallback on_update;
+    GameStateCallback on_exit;
+} StateInfo;
 
 // Game functions
 void game_init();
+
+/**
+ * @brief Called when exiting the Game Over screen (both win or lose) to reset game variables
+ *         and start a fresh new run.
+ *
+ * WARNING: This function is currently only meant to be called from the "GAME_OVER" state
+ * and shouldn't be called from other states, otherwise some data such as shop jokers
+ * may not be properly reset.
+ */
+void game_reset();
+
 void game_update();
 void game_change_state(enum GameState new_game_state);
 
