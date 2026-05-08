@@ -190,7 +190,6 @@ static bool check_and_score_joker_for_event(
     CardObject* card_object,
     enum JokerEvent joker_event
 );
-static int calculate_interest_reward(void);
 
 static void game_playing_discard_on_pressed(void);
 static void game_playing_execute_discard(void);
@@ -485,12 +484,6 @@ static Sprite* playing_blind_token = NULL;
 
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 static Sprite* round_end_blind_token = NULL;
-
-// Will be rolled later, just giving it a valid value
-
-static int interest_reward = 0;
-static int interest_to_count = 0;
-static int interest_start_time = UNDEFINED;
 
 // Red deck default (can later be moved to a deck.h file or something)
 static int max_hands = 4;
@@ -3196,14 +3189,6 @@ static void game_playing_on_update(void)
 
     // animate score flames if we exceed the score requirement
     game_playing_process_flaming_score();
-}
-
-static int calculate_interest_reward(void)
-{
-    int reward = (g_game_vars.money / 5) * INTEREST_PER_5;
-    if (reward > MAX_INTEREST)
-        reward = MAX_INTEREST;
-    return reward;
 }
 
 static void game_round_end_start_expand_popup()

@@ -2,6 +2,7 @@
 
 #include "game_variables.h"
 #include "timer.h"
+#include "util.h"
 
 enum GameRoundEndStates
 {
@@ -22,6 +23,19 @@ static const u32 TM_RESET_STATIC_VARS = 30;
 static int substate;
 static int blind_reward = 0;
 static int hand_reward = 0;
+static int interest_reward = 0;
+static int interest_to_count = 0;
+static int interest_start_time = UNDEFINED;
+
+static int calculate_interest_reward(void);
+
+static int calculate_interest_reward(void)
+{
+    int reward = (g_game_vars.money / 5) * INTEREST_PER_5;
+    if (reward > MAX_INTEREST)
+        reward = MAX_INTEREST;
+    return reward;
+}
 
 void game_round_end_start(void)
 {
@@ -41,13 +55,12 @@ void game_round_end_start(void)
 
 void game_round_end_on_update(void)
 {
-    if (state_info[game_state].substate == ROUND_END_EXIT)
+    if (substate == ROUND_END_EXIT)
     {
         game_change_state(GAME_STATE_SHOP);
         return;
     }
 
-    int substate = state_info[game_state].substate;
     round_end_state_actions[substate]();
 }
 
