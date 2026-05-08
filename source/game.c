@@ -15,6 +15,8 @@
 #include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
+#include "game/common_ui.h"
+#include "game/round_end.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "hand_analysis.h"
@@ -39,12 +41,9 @@
 
 // Pixel sizes
 #define ITEM_SHOP_Y               71
-#define ROUND_END_REWARD_AMOUNT_X 168
-#define ROUND_END_REWARD_TEXT_X   88
 #define SCORED_CARD_TEXT_Y        48
 
 // SE sizes
-#define ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE 12
 
 #define SHOP_LIGHTS_1_CLR 0xFFFF
 #define SHOP_LIGHTS_2_CLR 0x32BE
@@ -65,17 +64,6 @@
 #define CARD_FOCUSED_SEL_Y   20
 
 // Timer defs
-#define TM_END_POP_MENU_ANIM            13
-#define TM_START_ROUND_END_REWARDS_ANIM 1
-#define TM_END_DISPLAY_FIN_BLIND        30
-#define TM_END_DISPLAY_SCORE_MIN        4
-#define TM_REWARDS_ELLIPSIS_PRINT_START 2
-#define TM_REWARDS_ELLIPSIS_PRINT_END   16
-#define TM_REWARD_DISPLAY_INTERVAL      15
-#define TM_DISPLAY_REWARDS_CONT_WAIT    (TM_REWARDS_ELLIPSIS_PRINT_END + TM_REWARD_DISPLAY_INTERVAL)
-#define TM_HAND_REWARD_INCR_WAIT        (TM_DISPLAY_REWARDS_CONT_WAIT + TM_REWARD_DISPLAY_INTERVAL)
-#define TM_REWARD_INCREMENT_INTERVAL    20
-#define TM_DISMISS_ROUND_END_TM         20
 #define TM_CREATE_SHOP_ITEMS_WAIT       1
 #define TM_SHIFT_SHOP_ICON_WAIT         7
 #define TM_END_GAME_SHOP_INTRO          12
@@ -97,7 +85,6 @@
 #define SHOP_LIGHTS_3_PID                  17
 #define BLIND_BG_SECONDARY_PID             18
 #define BLIND_BG_PRIMARY_PID               19
-#define REWARD_PANEL_BORDER_PID            19
 #define SHOP_LIGHTS_4_PID                  22
 #define SHOP_BOTTOM_PANEL_BORDER_PID       26
 
@@ -163,6 +150,7 @@ static void noop(void)
 // reviewer(s).
 static void game_round_on_init(void);
 static void game_playing_on_update(void);
+static void game_shop_on_update(void);
 static void game_shop_on_exit(void);
 static void game_shop_intro(void);
 static void game_shop_process_user_input(void);
@@ -170,10 +158,7 @@ static void game_shop_outro(void);
 
 static void sort_cards(void);
 static void display_temp_score(u32 value);
-static void display_score(u32 value);
 static void check_flaming_score(void);
-static void display_hands(int value);
-static void display_discards(int value);
 static void set_hand(void);
 static int deck_get_size(void);
 static int deck_get_max_size(void);
@@ -241,7 +226,6 @@ static void game_shop_create_items(void);
 
 static void erase_price_under_sprite_object(SpriteObject* sprite_object);
 static void print_price_under_sprite_object(SpriteObject* sprite_object, int price);
-static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
 static void remove_owned_joker(int owned_joker_idx);
 
@@ -264,8 +248,6 @@ static bool can_discard_hand(void);
 // This is because when popping, the target position is blank so we just animate 
 // the whole rect so we don't have to track its position
 
-static const Rect ROUND_END_MENU_RECT       = {9,       7,      24,     20 }; 
-
 static const Rect HAND_BG_RECT_SELECTING    = {9,       11,     24,     17 };
 
 /* Contains the shop icon/current blind etc. 
@@ -278,9 +260,6 @@ static const Rect HAND_BG_RECT_SELECTING    = {9,       11,     24,     17 };
 static const BG_POINT TOP_LEFT_BLIND_TITLE_POINT = {0,  21, };
 static const Rect BIG_BLIND_TITLE_SRC_RECT  = {0,       26,     8,      26 };
 static const Rect BOSS_BLIND_TITLE_SRC_RECT = {0,       27,     8,      27 };
-static const Rect CASHOUT_DEST_RECT =         {10,      8,      23,     10 };
-static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
-static const BG_POINT ROUND_END_REWARDS_ELLIPSIS_POS = {10, 13};
 
 // Flaming score animation frames
 #define SCORE_FLAMES_ANIM_FREQ  5 // animation will run at 12FPS
@@ -292,7 +271,6 @@ static const BG_POINT SCORE_FLAME_CHIPS_POS = {1,       9};
 static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
 
 // Rects for TTE (in pixels)
-static const Rect HAND_SIZE_RECT            = {128,     128,    152,    160 }; // Seems to include both SELECT and PLAYING
 static const Rect HAND_SIZE_RECT_SELECT     = {128,     128,    152,    136 };
 static const Rect HAND_SIZE_RECT_PLAYING    = {128,     152,    152,    160 };
 static const Rect HAND_TYPE_RECT            = {8,       64,     64,     72  };
@@ -302,12 +280,9 @@ static const Rect SCORE_RECT                = {24,      48,     64,     56  };
 
 static const Rect PLAYED_CARDS_SCORES_RECT  = {72,      48,     240,    56  };
 static const Rect HELD_CARDS_SCORES_RECT    = {72,      108,    240,    116 };
-static const Rect BLIND_TOKEN_TEXT_RECT     = {80,      72,     200,    160 };
 static const Rect MONEY_TEXT_RECT           = {8,       120,    64,     128 };
 static const Rect CHIPS_TEXT_RECT           = {8,       80,     32,     88  };
 static const Rect MULT_TEXT_RECT            = {40,      80,     64,     88  };
-static const Rect BLIND_REWARD_RECT         = {40,      32,     64,     40  };
-static const Rect BLIND_REQ_TEXT_RECT       = {32,      24,     64,     32  };
 static const Rect SHOP_PRICES_TEXT_RECT     = {72,      56,     192,    160 };
 
 // Rects with UNDEFINED are only used in tte_printf, they need to be fully defined
@@ -317,9 +292,6 @@ static const Rect DISCARDS_TEXT_RECT        = {48,      104,    UNDEFINED, UNDEF
 static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
 static const Rect ROUND_TEXT_RECT           = {48,      144,    UNDEFINED, UNDEFINED };
 static const Rect ANTE_TEXT_RECT            = {8,       144,    UNDEFINED, UNDEFINED };
-static const Rect ROUND_END_BLIND_REQ_RECT  = {104,     96,     136,       UNDEFINED };
-static const Rect ROUND_END_BLIND_REWARD_RECT = { 168,  96,     UNDEFINED, UNDEFINED };
-static const Rect CASHOUT_TEXT_RECT         = {88,      72,     UNDEFINED, UNDEFINED };
 static const Rect SHOP_REROLL_RECT          = {88,      96,     UNDEFINED, UNDEFINED };
 
 static const BG_POINT HELD_JOKERS_POS       = {108,     10};
@@ -451,7 +423,11 @@ GameVariables g_game_vars = {
     },
 
     .hands = 0,
+    .discards = 0,
+    .score = 0,
+
     .playing_blind_token = NULL,
+    .round_end_blind_token = NULL,
 
     .game_speed = DEFAULT_GAME_SPEED,
     .high_contrast = DEFAULT_HIGH_CONTRAST,
@@ -465,12 +441,8 @@ GameVariables g_game_vars = {
 // The sprite that displays the blind when in "GAME_ROUND_END" state
 
 // Red deck default (can later be moved to a deck.h file or something)
-static int max_hands = 4;
-static int max_discards = 4;
 // Set in game_init and game_round_init
-static int discards = 0;
 
-static u32 score = 0;
 static u32 temp_score = 0; // This is the score that shows in the same spot as the hand type.
 static bool score_flames_active = false;
 static FIXED lerped_score = 0;
@@ -615,8 +587,8 @@ void game_init()
 
     load_game();
 
-    g_game_vars.hands = max_hands;
-    discards = max_discards;
+    g_game_vars.hands = MAX_HANDS;
+    g_game_vars.discards = MAX_DISCARDS;
     g_game_vars.timer = TM_ZERO;
     g_game_vars.current_blind = BLIND_TYPE_SMALL;
     g_game_vars.blinds_states[0] = BLIND_STATE_CURRENT;
@@ -624,7 +596,7 @@ void game_init()
     g_game_vars.blinds_states[2] = BLIND_STATE_UPCOMING;
     g_game_vars.ante = STARTING_ANTE;
     g_game_vars.money = STARTING_MONEY;
-    score = STARTING_SCORE;
+    g_game_vars.score = STARTING_SCORE;
     g_game_vars.round = 0;
 
     // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available
@@ -657,11 +629,11 @@ void game_reset()
     game_init();
 
     display_round();
-    display_score(score);
+    display_score(g_game_vars.score);
     display_chips();
     display_mult();
     display_hands(g_game_vars.hands);
-    display_discards(discards);
+    display_discards(g_game_vars.discards);
     display_money();
     // Ante
     tte_printf(
@@ -911,7 +883,7 @@ int get_deck_top(void)
 
 int get_num_discards_remaining(void)
 {
-    return discards;
+    return g_game_vars.discards;
 }
 
 int get_num_hands_remaining(void)
@@ -1385,20 +1357,6 @@ void change_background_legacy(enum BackgroundId id)
 
         tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
     }
-    else if (id == BG_ROUND_END)
-    {
-        if (background_legacy != BG_CARD_SELECTING && background_legacy != BG_CARD_PLAYING)
-        {
-            change_background(BG_CARD_SELECTING, false);
-            background_legacy = BG_ROUND_END;
-        }
-
-        // Disable window 0 so it doesn't make the cashout menu transparent
-        toggle_windows(false, true);
-
-        main_bg_se_clear_rect(ROUND_END_MENU_RECT);
-        tte_erase_rect_wrapper(HAND_SIZE_RECT);
-    }
     else if (id == BG_SHOP)
     {
         toggle_windows(false, true);
@@ -1426,7 +1384,7 @@ void change_background_legacy(enum BackgroundId id)
             1
         );
     }
-    else if (id == BG_BLIND_SELECT || id == BG_MAIN_MENU)
+    else if (id == BG_BLIND_SELECT || id == BG_MAIN_MENU || id == BG_ROUND_END)
     {
         // do nothing, just don't return early!
     }
@@ -1464,7 +1422,7 @@ static void display_temp_score(u32 value)
     );
 }
 
-static void display_score(u32 value)
+void display_score(u32 value)
 {
     Rect score_rect = SCORE_RECT;
     // Clear the existing text before redrawing
@@ -1521,13 +1479,13 @@ void display_round(void)
     );
 }
 
-static void display_hands(int value)
+void display_hands(int value)
 {
     // tte_erase_rect_wrapper(HANDS_TEXT_RECT);
-    tte_printf("#{P:%d,%d; cx:0xD000}%d", HANDS_TEXT_RECT.left, HANDS_TEXT_RECT.top, hands); // Hand
+    tte_printf("#{P:%d,%d; cx:0xD000}%d", HANDS_TEXT_RECT.left, HANDS_TEXT_RECT.top, g_game_vars.hands); // Hand
 }
 
-static void display_discards(int value)
+void display_discards(int value)
 {
     // tte_erase_rect_wrapper(DISCARDS_TEXT_RECT);
     // Discard
@@ -1535,7 +1493,7 @@ static void display_discards(int value)
         "#{P:%d,%d; cx:0xE000}%d",
         DISCARDS_TEXT_RECT.left,
         DISCARDS_TEXT_RECT.top,
-        discards
+        g_game_vars.discards
     );
 }
 
@@ -1573,7 +1531,7 @@ static void set_hand(void)
 
 static bool can_discard_hand(void)
 {
-    return (discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
+    return (g_game_vars.discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
 }
 
 static int deck_get_size(void)
@@ -1693,7 +1651,7 @@ static void game_playing_execute_discard(void)
         return;
 
     hand_state = HAND_DISCARD;
-    display_discards(--discards);
+    display_discards(--g_game_vars.discards);
     set_hand();
 }
 
@@ -2012,7 +1970,7 @@ static inline void game_playing_handle_round_over(void)
 {
     enum GameState next_state = GAME_STATE_ROUND_END;
 
-    if (score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))
+    if (g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))
     {
         if (g_game_vars.current_blind > BLIND_TYPE_BIG)
         {
@@ -2341,7 +2299,7 @@ static bool check_and_score_joker_for_event(
 static inline bool game_round_is_over(void)
 {
     return g_game_vars.hands == 0 ||
-           score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
+           g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
 }
 
 // Basically a copy of HAND_DISCARD
@@ -2781,7 +2739,7 @@ static inline void game_playing_process_input_and_state(void)
             // protect against score overflow
             temp_score = u32_protected_mult(chips, mult);
             lerped_temp_score = int2fx(temp_score);
-            lerped_score = int2fx(score);
+            lerped_score = int2fx(g_game_vars.score);
 
             display_temp_score(temp_score);
 
@@ -2821,14 +2779,14 @@ static inline void game_playing_process_input_and_state(void)
         }
         else
         {
-            score = u32_protected_add(score, temp_score);
+            g_game_vars.score = u32_protected_add(g_game_vars.score, temp_score);
             temp_score = 0;
             lerped_temp_score = 0;
             lerped_score = 0;
 
             tte_erase_rect_wrapper(TEMP_SCORE_RECT); // Just erase the temp score
 
-            display_score(score);
+            display_score(g_game_vars.score);
         }
     }
 }
@@ -3168,121 +3126,6 @@ static void game_playing_on_update(void)
 
     // animate score flames if we exceed the score requirement
     game_playing_process_flaming_score();
-}
-
-static void game_round_end_extend_black_panel_down(int black_panel_bottom)
-{
-    Rect single_line_rect = ROUND_END_MENU_RECT;
-    single_line_rect.bottom = black_panel_bottom;
-    single_line_rect.top = single_line_rect.bottom - 1;
-    main_bg_se_copy_rect_1_tile_vert(single_line_rect, SCREEN_DOWN);
-}
-
-static inline void game_round_end_print_separator_ellipsis(void)
-{
-    int x =
-        (ROUND_END_REWARDS_ELLIPSIS_POS.x + g_game_vars.timer - TM_REWARDS_ELLIPSIS_PRINT_START) *
-        TILE_SIZE;
-    int y = (ROUND_END_REWARDS_ELLIPSIS_POS.y) * TILE_SIZE;
-
-    tte_printf("#{P:%d,%d; cx:0x%X000}.", x, y, TTE_WHITE_PB);
-}
-
-// TODO: Allow for more generic rewards and consolidate with game_round_end_print_interest_reward()
-static inline void game_round_end_print_hand_reward(int hand_y_offset)
-{
-    int hand_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + hand_y_offset;
-    if (g_game_vars.timer == TM_DISPLAY_REWARDS_CONT_WAIT)
-    {
-        game_round_end_extend_black_panel_down(hand_y);
-
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}%d #{cx:0x%X000}Hands",
-            ROUND_END_REWARD_TEXT_X,
-            hand_y * TILE_SIZE,
-            TTE_BLUE_PB,
-            hand_reward,
-            TTE_WHITE_PB
-        );
-    }
-    // Increment the hand reward text until the hand reward variable is depleted
-    else if (g_game_vars.timer > TM_HAND_REWARD_INCR_WAIT &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
-    {
-        hand_reward--;
-        tte_printf(
-            "#{P:%d, %d; cx:0x%X000}$%d",
-            ROUND_END_REWARD_AMOUNT_X,
-            hand_y * TILE_SIZE,
-            TTE_YELLOW_PB,
-            g_game_vars.hands - hand_reward
-        );
-        if (hand_reward == 0)
-        {
-            interest_start_time = g_game_vars.timer + TM_REWARD_DISPLAY_INTERVAL;
-        }
-    }
-}
-
-static inline void game_round_end_print_interest_reward(int interest_y_offset)
-{
-    int interest_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + interest_y_offset;
-
-    if (g_game_vars.timer == interest_start_time)
-    {
-        game_round_end_extend_black_panel_down(interest_y);
-
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}%d #{cx:0x%X000}Interest",
-            ROUND_END_REWARD_TEXT_X,
-            interest_y * TILE_SIZE,
-            TTE_YELLOW_PB,
-            interest_reward,
-            TTE_WHITE_PB
-        );
-    }
-    // Increment the interest reward text until the interest reward variable is depleted
-    else if (g_game_vars.timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
-    {
-        interest_to_count--;
-        tte_printf(
-            "#{P:%d, %d; cx:0x%X000}$%d",
-            ROUND_END_REWARD_AMOUNT_X,
-            interest_y * TILE_SIZE,
-            TTE_YELLOW_PB,
-            interest_reward - interest_to_count
-        );
-    }
-}
-
-static inline void game_round_end_cashout(void)
-{
-    // Reward the player
-    g_game_vars.money +=
-        g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
-    display_money();
-
-    g_game_vars.hands = max_hands;          // Reset the hands to the maximum
-    discards = max_discards;    // Reset the discards to the maximum
-    display_hands(g_game_vars.hands);       // Set the hands display
-    display_discards(discards); // Set the discards display
-
-    score = 0;
-    display_score(score); // Set the score display
-}
-
-static void game_round_end_dismiss_round_end_panel()
-{
-    Rect round_end_down = ROUND_END_MENU_RECT;
-    round_end_down.top--;
-    main_bg_se_copy_rect_1_tile_vert(round_end_down, SCREEN_DOWN);
-
-    if (g_game_vars.timer >= TM_DISMISS_ROUND_END_TM)
-    {
-        g_game_vars.timer = TM_ZERO;
-        state_info[game_state].substate = ROUND_END_EXIT;
-    }
 }
 
 static Rect get_text_rect_under_sprite_object(SpriteObject* sprite_object)
@@ -3938,8 +3781,8 @@ void game_start(void)
 
     affine_background_change_background(AFFINE_BG_GAME);
 
-    g_game_vars.hands = max_hands;
-    discards = max_discards;
+    g_game_vars.hands = MAX_HANDS;
+    g_game_vars.discards = MAX_DISCARDS;
 
     // Activate high contrast palette for cards if loaded settings tell us to
     toggle_high_contrast_cards(g_game_vars.high_contrast);
@@ -3969,13 +3812,13 @@ void game_start(void)
     );
 
     display_round();      // Set the round display
-    display_score(score); // Set the score display
+    display_score(g_game_vars.score); // Set the score display
 
     display_chips(); // Set the chips display
     display_mult();  // Set the multiplier display
 
     display_hands(g_game_vars.hands);       // Hand
-    display_discards(discards); // Discard
+    display_discards(g_game_vars.discards); // Discard
 
     display_money(); // Set the money display
 
