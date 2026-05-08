@@ -124,14 +124,6 @@ typedef struct ContainedHandTypes
 typedef void (*GameStateCallback)(void);
 typedef void (*SubStateActionFn)(void);
 
-typedef struct
-{
-    int substate;
-    GameStateCallback on_init;
-    GameStateCallback on_update;
-    GameStateCallback on_exit;
-} StateInfo;
-
 // Game functions
 void game_init();
 
