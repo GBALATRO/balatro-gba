@@ -1,0 +1,42 @@
+#include "game/run_setup.h"
+
+#include <tonc.h>
+
+// Palette Indicess
+
+#define RED_BTNS_MAIN_COLOR_PAL_IDX               16
+#define SEED_DECK_BTN_MAIN_COLOR_PAL_IDX          17
+#define SEED_DECK_DISABLED_BTN_MAIN_COLOR_PAL_IDX 18
+#define PLAY_BTN_MAIN_COLOR_PAL_IDX               19
+#define BACK_BTN_MAIN_COLOR_PAL_IDX               20
+
+#define NEW_RUN_BTN_OUTLINE_COLOR_PAL_IDX   32
+#define RESUME_BTN_OUTLINE_COLOR_PAL_IDX    33
+#define SEED_DECK_BTN_OUTLINE_COLOR_PAL_IDX 34
+#define PLAY_BTN_OUTLINE_COLOR_PAL_IDX      35
+#define BACK_BTN_OUTLINE_COLOR_PAL_IDX      36
+
+#define NPAD_1_BTN_OUTLINE_COLOR_PAL_IDX 48
+#define NPAD_2_BTN_OUTLINE_COLOR_PAL_IDX 49
+#define NPAD_3_BTN_OUTLINE_COLOR_PAL_IDX 50
+#define NPAD_F_BTN_OUTLINE_COLOR_PAL_IDX 51
+#define NPAD_4_BTN_OUTLINE_COLOR_PAL_IDX 52
+#define NPAD_5_BTN_OUTLINE_COLOR_PAL_IDX 53
+#define NPAD_6_BTN_OUTLINE_COLOR_PAL_IDX 54
+#define NPAD_E_BTN_OUTLINE_COLOR_PAL_IDX 55
+#define NPAD_7_BTN_OUTLINE_COLOR_PAL_IDX 56
+#define NPAD_8_BTN_OUTLINE_COLOR_PAL_IDX 57
+#define NPAD_9_BTN_OUTLINE_COLOR_PAL_IDX 58
+#define NPAD_D_BTN_OUTLINE_COLOR_PAL_IDX 59
+#define NPAD_0_BTN_OUTLINE_COLOR_PAL_IDX 60
+#define NPAD_A_BTN_OUTLINE_COLOR_PAL_IDX 61
+#define NPAD_B_BTN_OUTLINE_COLOR_PAL_IDX 62
+#define NPAD_C_BTN_OUTLINE_COLOR_PAL_IDX 63
+
+void game_setup_run_change_background(void);
+
+void game_setup_run_on_init(void);
+
+void game_setup_run_on_update(void);
+
+void game_setup_run_on_exit(void);
