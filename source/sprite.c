@@ -221,10 +221,7 @@ static inline bool sprite_object_at_target(const SpriteObject* s)
 
 static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 {
-    if (sprite_object_has_velocity(sprite_object))
-        return false;
-
-    if (!sprite_object_at_target(sprite_object))
+    if (sprite_object_has_velocity(sprite_object) || !sprite_object_at_target(sprite_object))
         return false;
 
     // Check hardware sprite sync. This is necessary to ensure the hardware sprite's
