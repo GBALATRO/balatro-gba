@@ -13,25 +13,25 @@
 /**
  * @brief Save current run data to SRAM.
  */
-void save_game();
+void save_game(void);
 
 /**
  * @brief Load previous run data from SRAM.
  *
  * @sa save_game
  */
-void load_game();
+void load_game(void);
 
 /**
  * @brief Save options values to SRAM.
  */
-void save_options();
+void save_options(void);
 
 /**
  * @brief Load options values from SRAM.
  *
  * @sa save_options
  */
-void load_options();
+void load_options(void);
 
 #endif // SAVE_H

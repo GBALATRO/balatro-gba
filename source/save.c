@@ -20,7 +20,6 @@
 //   - Memory is filled with 1s by default
 //     (at least in mgba, not sure about real HW)
 
-// For some reason writing to SRAM only works if the address is given as a define
 #define HEADER_ADDRESS  0x0
 #define OPTIONS_ADDRESS 0x10
 #define GAME_ADDRESS    0x30
@@ -58,6 +57,17 @@ typedef struct SaveHeader
 } SaveHeader;
 
 /**
+ * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.
+ *         The `id` is a u8 in the base Joker struct, but I made it a u32 here to keep
+ *         a better aligment when looking at the save file in a hex viewer.
+ */
+typedef struct JokerObjectSaveData
+{
+    u32 id;
+    u32 persistent_state;
+} JokerObjectSaveData;
+
+/**
  * @brief SaveGame will contain the data about the current run to be saved to SRAM.
  *
  * GameVariables was used for this purpose at first, but some data needed to be shared but
@@ -82,7 +92,7 @@ typedef struct SaveGame
     u32 padding[2];
 
     char tag_jokers[SAVE_LABEL_SIZE];
-    u32 jokers_data[2 * MAX_JOKERS_HELD_SIZE];
+    JokerObjectSaveData jokers_data[MAX_JOKERS_HELD_SIZE];
 
     char tag_end[4];
 } SaveGame;
@@ -202,7 +212,7 @@ static inline bool check_hash(const char* prefix)
  *
  * @returns true if version is dirty, false otherwise.
  */
-static inline bool is_version_dirty()
+static inline bool is_version_dirty(void)
 {
     return strlen(gbalatro_version) > GIT_HASH_START + CHECK_HASH_SIZE;
 }
@@ -303,13 +313,16 @@ void save_game(void)
     for (; i < nb_jokers; i++)
     {
         JokerObject* joker_object = list_get_at_idx(jokers_list, (u32)i);
-        game.jokers_data[2 * i] = (u32)joker_object->joker->id;
-        game.jokers_data[2 * i + 1] = joker_object->joker->persistent_state;
+        JokerObjectSaveData data = {
+            (u32)joker_object->joker->id,
+            joker_object->joker->persistent_state
+        };
+        game.jokers_data[i] = data;
     }
     for (; i < MAX_JOKERS_HELD_SIZE; i++)
     {
-        game.jokers_data[2 * i] = UNDEFINED;
-        game.jokers_data[2 * i + 1] = UNDEFINED;
+        JokerObjectSaveData data = {UNDEFINED, UNDEFINED};
+        game.jokers_data[i] = data;
     }
 
     write_sram(GAME_ADDRESS, (const u8*)&game, sizeof(game));
