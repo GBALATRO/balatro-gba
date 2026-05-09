@@ -36,16 +36,15 @@
 
 // clang-format off
 /**
- * @brief SaveHeader for validation checks
+ * @brief SaveHeader for validation checks to be packed and written to SRAM for validation.
+ *         Defined in this discussion as follows: https://github.com/GBALATRO/balatro-gba/discussions/450
  *
- * Structure holding save data header info to be packed and written to SRAM for validation.
- * Defined in this discussion as follows: https://github.com/GBALATRO/balatro-gba/discussions/450
  * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
  * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
  * 0    | 0x47   | 0x42   | 0x41   | 0x4C   | MAGIC        | Identify if proceeding data is valid and not junk, spells "GBAL"
  * 1    | Dirty  | H[0]   | H[1]   | H[2]   | GITHASH_LOW  | Dirty flag, followed by the first 3 bytes of shortened git hash H
  * 2    | H[3]   | H[4]   | H[5]   | H[6]   | GITHASH_HIGH | Last 4 bytes of shortened git hash H, with a dirty flag
- * 3    | SEC[0] | SEC[1] | SEC[2] | SEC[3] | VALID_SCTNS  | Identifies whether each section of the save data is valid or not 
+ * 3    | SEC[0] | SEC[1] | SEC[2] | SEC[3] | VALID_SCTNS  | Identifies whether each section of the save data is valid or not
  */
 // clang-format on
 typedef struct SaveHeader
@@ -55,6 +54,32 @@ typedef struct SaveHeader
     char githash[CHECK_HASH_SIZE];
     u32 valid_sections;
 } SaveHeader;
+
+// clang-format off
+/**
+ * @brief SaveOptions will only contain options data set in the Options Menu
+ *
+ * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
+ * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
+ * 0    | '-'    | ' '    | 'O'    | 'P'    | TAG          | Pretty tag to clearly visualize the Options section in a hex viewer
+ * 1    | 'T'    | 'I'    | 'O'    | 'N'    | *            | Spells "- OPTIONS DATA -"
+ * 2    | 'S'    | ' '    | 'D'    | 'A'    | *            |
+ * 3    | 'T'    | 'A'    | ' '    | '-'    | *            |
+ * 4    | SPEED  | CNTRST | MUSIC  | SOUND  | OPTN_VALUES  | All 4 option values, packed in a single word.
+ * 5    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Padding, so that the next section starts at the beginning of the
+ * 6    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *            | next 4-word row in a hex viewer
+ * 7    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *           |
+ */
+// clang-format on
+typedef struct SaveOptions
+{
+    char tag_options[SAVE_LABEL_SIZE];
+    u8 game_speed;
+    bool high_contrast;
+    u8 music_volume;
+    u8 sound_volume;
+    u32 padding[3];
+} SaveOptions;
 
 /**
  * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.
@@ -67,19 +92,37 @@ typedef struct JokerObjectSaveData
     u32 persistent_state;
 } JokerObjectSaveData;
 
+// clang-format off
 /**
  * @brief SaveGame will contain the data about the current run to be saved to SRAM.
+ *         GameVariables was used for this purpose at first, but some data needed to be shared but
+ *         not saved, so it couldn't be dumped "as is" anymore and this struct had to be created.
  *
- * GameVariables was used for this purpose at first, but some data needed to be shared but
- * not saved, so it couldn't be dumped "as is" anymore and this struct had to be created.
- *
- * Some data will be taken directly from GameVariables like the RNG seed/step and timers, some
- * will be encoded/decoded to/from minimal necessary data like the Jokers.
- *
- * Some magic numbers will also be mixed in, these are there only to make sections more
- * obvious to the eye when opening the data in an hex viewer/editor.
- * I recommend using `xxd -l 512 -e -g 4 <gbalatro.sav>`
+ * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
+ * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
+ * 0    | '-'    | 'I'    | 'N'    | 'T'    | TAG          | Spells "-INTERNAL DATA -"
+ * 1    | 'E'    | 'R'    | 'N'    | 'A'    | *            |
+ * 2    | 'L'    | ' '    | 'D'    | 'A'    | *            |
+ * 3    | 'T'    | 'A'    | ' '    | '-'    | *            |
+ * 4    | T[0]   | T[1]   | T[2]   | T[3]   | GLOB TIMER   | The global timer used for animations thoughout the game
+ * 5    | SED[0] | SED[1] | SED[2] | SED[3] | RNG SEED     | The seed used for RNG, either randomly shuffled or chosen by the player at game start
+ * 6    | STP[0] | STP[1] | STP[2] | STP[3] | RNG STEP     | The current position in the RNG sequence for the given seed, since the start of the run
+ * 7    | RND[0] | RND[1] | RND[2] | RND[3] | ROUND        | What Round we are about to start
+ * 8    | ANT[0] | ANT[1] | ANT[2] | ANT[3] | ANTE         | What Ante we are on
+ * 9    | MNY[0] | MNY[1] | MNY[2] | MNY[3] | MONEY        | How much money we currently have left
+ * 10   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Some padding
+ * 11   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *            |
+ * 12   | '-'    | ' '    | 'O'    | 'W'    | TAG          | Spells "- OWNED JOKERS -"
+ * 13   | 'N'    | 'E'    | 'D'    | ' '    | *            |
+ * 14   | 'J'    | 'O'    | 'K'    | 'E'    | *            |
+ * 15   | 'R'    | 'S'    | ' '    | '-'    | *            |
+ * 16   | ID[0]  | ID[1]  | ID[2]  | ID[3]  | JOKER DATA 0 | Minimal necessary data to reconstruct a JokerObject
+ * 17   | STT[0] | STT[1] | STT[2] | STT[3] | *            | Contains the Joker's `id` and `persistent_state`
+ * ...  | ...    | ...    | ...    | ...    | ...          |
+ * ...  | ...    | ...    | ...    | ...    | ...          |
+ * ??   | '_'    | 'E'    | 'N'    | 'D'    | END_TAG      | Spells "_END", marks the end of the savefile
  */
+// clang-format on
 typedef struct SaveGame
 {
     char tag_internal[SAVE_LABEL_SIZE];
@@ -98,19 +141,6 @@ typedef struct SaveGame
 } SaveGame;
 
 /**
- * @brief SaveOptions will only contain options data set in the Options Menu.
- */
-typedef struct SaveOptions
-{
-    char tag_options[SAVE_LABEL_SIZE];
-    u8 game_speed;
-    bool high_contrast;
-    u8 music_volume;
-    u8 sound_volume;
-    u32 padding[3];
-} SaveOptions;
-
-/**
  * @brief Default value for the SaveHeader struct.
  */
 static const SaveHeader SaveHeader_default = {
@@ -118,6 +148,18 @@ static const SaveHeader SaveHeader_default = {
     .dirty = false,
     .githash = "fffffff",
     .valid_sections = SAVE_SECTION_FLAG_NONE
+};
+
+/**
+ * @brief Default value for the SaveOptions struct, with tags already set.
+ */
+static const SaveOptions SaveOptions_default = {
+    .tag_options = "- OPTIONS DATA -",
+    .game_speed = 0,
+    .high_contrast = false,
+    .music_volume = 0,
+    .sound_volume = 0,
+    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},
 };
 
 /**
@@ -137,18 +179,6 @@ static const SaveGame SaveGame_default = {
     .jokers_data = {},
 
     .tag_end = "_END"
-};
-
-/**
- * @brief Default value for the SaveOptions struct, with tags already set.
- */
-static const SaveOptions SaveOptions_default = {
-    .tag_options = "- OPTIONS DATA -",
-    .game_speed = 0,
-    .high_contrast = false,
-    .music_volume = 0,
-    .sound_volume = 0,
-    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},
 };
 
 /**
