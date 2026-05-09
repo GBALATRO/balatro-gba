@@ -257,11 +257,7 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     // set velocity to 0 if it's close enough to the target AND we are already close to the target
     // this prevents snapping on the first frame of animation when velocity is 0
     if (sprite_object->vx < epsilon_vel && sprite_object->vx > -epsilon_vel &&
-        sprite_object->vy < epsilon_vel && sprite_object->vy > -epsilon_vel &&
-        (sprite_object->tx - sprite_object->x) < epsilon_pos &&
-        (sprite_object->tx - sprite_object->x) > -epsilon_pos &&
-        (sprite_object->ty - sprite_object->y) < epsilon_pos &&
-        (sprite_object->ty - sprite_object->y) > -epsilon_pos)
+        sprite_object->vy < epsilon_vel && sprite_object->vy > -epsilon_vel)
     {
         sprite_object->vx = 0;
         sprite_object->vy = 0;
