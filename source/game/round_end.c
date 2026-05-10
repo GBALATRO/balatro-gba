@@ -34,6 +34,7 @@ static const u32 ROUND_END_BLACK_PANEL_INIT_BOTTOM_SE = 12;
 static const u32 ROUND_END_REWARD_TEXT_X = 88;
 static const u32 ROUND_END_REWARD_AMOUNT_X = 168;
 
+// clang-format off
 static const Rect ROUND_END_BLIND_REQ_RECT    = {104,     96,     136,       UNDEFINED};
 static const Rect ROUND_END_BLIND_REWARD_RECT = {168,     96,     UNDEFINED, UNDEFINED};
 static const Rect CASHOUT_DEST_RECT           = {10,      8,      23,        10       };
@@ -42,6 +43,8 @@ static const Rect BLIND_TOKEN_TEXT_RECT       = {80,      72,     200,       160
 static const Rect ROUND_END_MENU_RECT         = {9,       7,      24,        20       }; 
 
 static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
+// clang-format on
+
 
 static int substate;
 static int blind_reward = 0;
@@ -90,8 +93,8 @@ static void game_round_end_start(void)
     if (g_game_vars.timer == TM_RESET_STATIC_VARS)
     {
         change_background(BG_ROUND_END, false); // Change the background to the round end background
-        substate = START_EXPAND_POPUP; // Change the state to the next one
-        g_game_vars.timer = TM_ZERO;                          // Reset the timer
+        substate = START_EXPAND_POPUP;          // Change the state to the next one
+        g_game_vars.timer = TM_ZERO;            // Reset the timer
         blind_reward = blind_get_reward(g_game_vars.current_blind);
         hand_reward = g_game_vars.hands;
         interest_reward = calculate_interest_reward();
@@ -363,12 +366,12 @@ static void game_round_end_display_rewards()
 static inline void game_round_end_cashout(void)
 {
     // Reward the player
-    g_game_vars.money +=
-        g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
+    g_game_vars.money += g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
+                         calculate_interest_reward();
     display_money();
 
-    g_game_vars.hands = MAX_HANDS;          // Reset the hands to the maximum
-    g_game_vars.discards = MAX_DISCARDS;    // Reset the discards to the maximum
+    g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
+    g_game_vars.discards = MAX_DISCARDS; // Reset the discards to the maximum
     // TODO: these can just be in one spot, passing global to global
     display_hands(g_game_vars.hands);       // Set the hands display
     display_discards(g_game_vars.discards); // Set the discards display
@@ -384,8 +387,8 @@ static void game_round_end_display_cashout()
         // Put the "cash out" button onto the round end panel
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
 
-        int cashout_amount =
-            g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) + calculate_interest_reward();
+        int cashout_amount = g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
+                             calculate_interest_reward();
 
         bool omit_space = cashout_amount >= 10;
         tte_printf(
@@ -406,8 +409,8 @@ static void game_round_end_display_cashout()
         substate = DISMISS_ROUND_END_PANEL; // Go to the next state
         g_game_vars.timer = TM_ZERO;
 
-        obj_hide(g_game_vars.round_end_blind_token->obj);          // Hide the blind token object
-        tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT); // Erase the blind token text
+        obj_hide(g_game_vars.round_end_blind_token->obj); // Hide the blind token object
+        tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT);    // Erase the blind token text
     }
 }
 
@@ -434,19 +437,17 @@ static void game_round_end_extend_black_panel_down(int black_panel_bottom)
 
 void game_round_end_change_background(void)
 {
-    /*
-    if (background_legacy != BG_CARD_SELECTING && background_legacy != BG_CARD_PLAYING)
-    {
-        change_background(BG_CARD_SELECTING, false);
-        background_legacy = BG_ROUND_END;
-    }
-    */
-
     // Disable window 0 so it doesn't make the cashout menu transparent
     toggle_windows(false, true);
 
     main_bg_se_clear_rect(ROUND_END_MENU_RECT);
     tte_erase_rect_wrapper(HAND_SIZE_RECT);
+}
+
+void game_round_end_on_init(void)
+{
+    substate = ROUND_END_START;
+    g_game_vars.timer = 0;
 }
 
 void game_round_end_on_update(void)

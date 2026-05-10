@@ -5,7 +5,7 @@ DEF_STATE_INFO(GAME_STATE_MAIN_MENU,     game_main_menu_on_init,    game_main_me
 DEF_STATE_INFO(GAME_STATE_OPTIONS_MENU,  game_options_menu_on_init, game_options_menu_on_update, game_options_menu_on_exit)
 DEF_STATE_INFO(GAME_STATE_GAME_START,    noop,                      game_start,                  noop                     )
 DEF_STATE_INFO(GAME_STATE_PLAYING,       game_round_on_init,        game_playing_on_update,      noop                     )
-DEF_STATE_INFO(GAME_STATE_ROUND_END,     noop,                      game_round_end_on_update,    game_round_end_on_exit   )
+DEF_STATE_INFO(GAME_STATE_ROUND_END,     game_round_end_on_init,    game_round_end_on_update,    game_round_end_on_exit   )
 DEF_STATE_INFO(GAME_STATE_SHOP,          noop,                      game_shop_on_update,         game_shop_on_exit        )
 DEF_STATE_INFO(GAME_STATE_BLIND_SELECT,  game_blind_select_on_init, game_blind_select_on_update, game_blind_select_on_exit)
 DEF_STATE_INFO(GAME_STATE_LOSE,          game_lose_on_init,         game_over_on_update,         game_over_on_exit        )

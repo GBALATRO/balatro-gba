@@ -15,7 +15,6 @@
 #include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
-#include "game/common_ui.h"
 #include "game/round_end.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
@@ -40,8 +39,8 @@
 #define STRAIGHT_AND_FLUSH_SIZE_DEFAULT      5
 
 // Pixel sizes
-#define ITEM_SHOP_Y               71
-#define SCORED_CARD_TEXT_Y        48
+#define ITEM_SHOP_Y        71
+#define SCORED_CARD_TEXT_Y 48
 
 // SE sizes
 
@@ -64,10 +63,10 @@
 #define CARD_FOCUSED_SEL_Y   20
 
 // Timer defs
-#define TM_CREATE_SHOP_ITEMS_WAIT       1
-#define TM_SHIFT_SHOP_ICON_WAIT         7
-#define TM_END_GAME_SHOP_INTRO          12
-#define TM_SHOP_PRC_INPUT_START         1
+#define TM_CREATE_SHOP_ITEMS_WAIT 1
+#define TM_SHIFT_SHOP_ICON_WAIT   7
+#define TM_END_GAME_SHOP_INTRO    12
+#define TM_SHOP_PRC_INPUT_START   1
 
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
@@ -1482,7 +1481,12 @@ void display_round(void)
 void display_hands(int value)
 {
     // tte_erase_rect_wrapper(HANDS_TEXT_RECT);
-    tte_printf("#{P:%d,%d; cx:0xD000}%d", HANDS_TEXT_RECT.left, HANDS_TEXT_RECT.top, g_game_vars.hands); // Hand
+    tte_printf(
+        "#{P:%d,%d; cx:0xD000}%d",
+        HANDS_TEXT_RECT.left,
+        HANDS_TEXT_RECT.top,
+        g_game_vars.hands
+    ); // Hand
 }
 
 void display_discards(int value)
@@ -3811,7 +3815,7 @@ void game_start(void)
         deck_get_max_size()
     );
 
-    display_round();      // Set the round display
+    display_round();                  // Set the round display
     display_score(g_game_vars.score); // Set the score display
 
     display_chips(); // Set the chips display
