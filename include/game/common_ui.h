@@ -19,6 +19,7 @@ enum BackgroundId
     BG_ROUND_END,
     BG_SHOP,
     BG_BLIND_SELECT,
+    BG_RUN_SETUP,
     BG_OPTIONS_MENU,
     BG_MAIN_MENU
 };

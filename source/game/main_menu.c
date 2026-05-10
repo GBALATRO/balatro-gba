@@ -208,7 +208,7 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
 
 static void play_on_pressed(void)
 {
-    game_change_state(GAME_STATE_GAME_START);
+    game_change_state(GAME_STATE_RUN_SETUP);
 }
 
 static void options_on_pressed(void)

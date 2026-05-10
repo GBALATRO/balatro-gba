@@ -14,6 +14,7 @@
 #include "game/main_menu.h"
 #include "game/options_menu.h"
 #include "game/round_end.h"
+#include "game/run_setup.h"
 #include "game/shop.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
