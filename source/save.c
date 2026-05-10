@@ -111,7 +111,7 @@ typedef struct JokerObjectSaveData
  * 8    | ANT[0] | ANT[1] | ANT[2] | ANT[3] | ANTE         | What Ante we are on
  * 9    | MNY[0] | MNY[1] | MNY[2] | MNY[3] | MONEY        | How much money we currently have left
  * 10   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Some padding
- * 11   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            |
+ * 11   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | -
  * 12   | '-'    | ' '    | 'O'    | 'W'    | TAG          | Spells "- OWNED JOKERS -"
  * 13   | 'N'    | 'E'    | 'D'    | ' '    | -            | -
  * 14   | 'J'    | 'O'    | 'K'    | 'E'    | -            | -
