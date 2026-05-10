@@ -5,6 +5,7 @@
  *
  * Here is an overwiew of the contents of a valid save file.
  *
+ * ```
  * ┌─────────────┐ <-- SaveHeader
  * │   Header    │
  * ├─────────────┤ <-- SaveOptions
@@ -13,6 +14,7 @@
  * │ Engine vars │
  * │   Jokers    │
  * └─────────────┘
+ * ```
  *
  * SaveHeader indicates save validity by its presence.
  * SaveOptions contains options values set in the corresponding menu and apply to the game itself.

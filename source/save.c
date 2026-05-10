@@ -62,13 +62,13 @@ typedef struct SaveHeader
  * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
  * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
  * 0    | '-'    | ' '    | 'O'    | 'P'    | TAG          | Pretty tag to clearly visualize the Options section in a hex viewer
- * 1    | 'T'    | 'I'    | 'O'    | 'N'    | *            | Spells "- OPTIONS DATA -"
- * 2    | 'S'    | ' '    | 'D'    | 'A'    | *            |
- * 3    | 'T'    | 'A'    | ' '    | '-'    | *            |
+ * 1    | 'T'    | 'I'    | 'O'    | 'N'    | -            | Spells "- OPTIONS DATA -"
+ * 2    | 'S'    | ' '    | 'D'    | 'A'    | -            | -
+ * 3    | 'T'    | 'A'    | ' '    | '-'    | -            | -
  * 4    | SPEED  | CNTRST | MUSIC  | SOUND  | OPTN_VALUES  | All 4 option values, packed in a single word.
  * 5    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Padding, so that the next section starts at the beginning of the
- * 6    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *            | next 4-word row in a hex viewer
- * 7    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *           |
+ * 6    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | next 4-word row in a hex viewer
+ * 7    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | -
  */
 // clang-format on
 typedef struct SaveOptions
@@ -101,9 +101,9 @@ typedef struct JokerObjectSaveData
  * word | Byte 0 | Byte 1 | Byte 2 | Byte 3 | name         | purpose
  * -----|--------|--------|--------|--------|--------------|------------------------------------------------------------------
  * 0    | '-'    | 'I'    | 'N'    | 'T'    | TAG          | Spells "-INTERNAL DATA -"
- * 1    | 'E'    | 'R'    | 'N'    | 'A'    | *            |
- * 2    | 'L'    | ' '    | 'D'    | 'A'    | *            |
- * 3    | 'T'    | 'A'    | ' '    | '-'    | *            |
+ * 1    | 'E'    | 'R'    | 'N'    | 'A'    | -            | -
+ * 2    | 'L'    | ' '    | 'D'    | 'A'    | -            | -
+ * 3    | 'T'    | 'A'    | ' '    | '-'    | -            | -
  * 4    | T[0]   | T[1]   | T[2]   | T[3]   | GLOB TIMER   | The global timer used for animations thoughout the game
  * 5    | SED[0] | SED[1] | SED[2] | SED[3] | RNG SEED     | The seed used for RNG, either randomly shuffled or chosen by the player at game start
  * 6    | STP[0] | STP[1] | STP[2] | STP[3] | RNG STEP     | The current position in the RNG sequence for the given seed, since the start of the run
@@ -111,15 +111,15 @@ typedef struct JokerObjectSaveData
  * 8    | ANT[0] | ANT[1] | ANT[2] | ANT[3] | ANTE         | What Ante we are on
  * 9    | MNY[0] | MNY[1] | MNY[2] | MNY[3] | MONEY        | How much money we currently have left
  * 10   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Some padding
- * 11   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | *            |
+ * 11   | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            |
  * 12   | '-'    | ' '    | 'O'    | 'W'    | TAG          | Spells "- OWNED JOKERS -"
- * 13   | 'N'    | 'E'    | 'D'    | ' '    | *            |
- * 14   | 'J'    | 'O'    | 'K'    | 'E'    | *            |
- * 15   | 'R'    | 'S'    | ' '    | '-'    | *            |
+ * 13   | 'N'    | 'E'    | 'D'    | ' '    | -            | -
+ * 14   | 'J'    | 'O'    | 'K'    | 'E'    | -            | -
+ * 15   | 'R'    | 'S'    | ' '    | '-'    | -            | -
  * 16   | ID[0]  | ID[1]  | ID[2]  | ID[3]  | JOKER DATA 0 | Minimal necessary data to reconstruct a JokerObject
- * 17   | STT[0] | STT[1] | STT[2] | STT[3] | *            | Contains the Joker's `id` and `persistent_state`
- * ...  | ...    | ...    | ...    | ...    | ...          |
- * ...  | ...    | ...    | ...    | ...    | ...          |
+ * 17   | STT[0] | STT[1] | STT[2] | STT[3] | -            | Contains the Joker's `id` and `persistent_state`
+ * ...  | ...    | ...    | ...    | ...    | ...          | ...
+ * ...  | ...    | ...    | ...    | ...    | ...          | ...
  * ??   | '_'    | 'E'    | 'N'    | 'D'    | END_TAG      | Spells "_END", marks the end of the savefile
  */
 // clang-format on
