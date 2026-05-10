@@ -45,7 +45,6 @@ static const Rect ROUND_END_MENU_RECT         = {9,       7,      24,        20 
 static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
 // clang-format on
 
-
 static int substate;
 static int blind_reward = 0;
 static int hand_reward = 0;
