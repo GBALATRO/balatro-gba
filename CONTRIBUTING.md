@@ -63,6 +63,9 @@ sudo apt install clang-format
 
 ```bash
 sudo pacman -S clang18
+
+# Add to PATH via 'profile.d'
+echo 'export PATH="/usr/lib/llvm18/bin:${PATH}"' | sudo tee /etc/profile.d/clang-format-18.sh
 ```
 
 </details>
