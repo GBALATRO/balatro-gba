@@ -25,8 +25,9 @@ var searchData=
   ['gbal_5fmm_5fnum_5fchannels_22',['GBAL_MM_NUM_CHANNELS',['../audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8',1,'audio_utils.h']]],
   ['gbal_5funused_23',['GBAL_UNUSED',['../util_8h.html#aabfb019556c44576446cc201a0ac5459',1,'util.h']]],
   ['get_5ffont_5fpoint_5fstr_24',['get_font_point_str',['../font_8h.html#a0591d220421f2f0094aa80ae39007374',1,'font.c']]],
-  ['git_20tt_20not_20required_25',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md19',1,'']]],
-  ['git_20tt_20or_20tt_20make_20tt_20installed_26',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md25',1,'']]],
-  ['graphic_5futils_2eh_27',['graphic_utils.h',['../graphic__utils_8h.html',1,'']]],
-  ['guide_28',['Developer Guide',['../index.html',1,'']]]
+  ['get_5fsave_5fheader_25',['get_save_header',['../save_8c.html#aa7c710df5af72243541a55e499e53bd9',1,'save.c']]],
+  ['git_20tt_20not_20required_26',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md19',1,'']]],
+  ['git_20tt_20or_20tt_20make_20tt_20installed_27',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md25',1,'']]],
+  ['graphic_5futils_2eh_28',['graphic_utils.h',['../graphic__utils_8h.html',1,'']]],
+  ['guide_29',['Developer Guide',['../index.html',1,'']]]
 ];

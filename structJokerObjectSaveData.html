@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBAlatro: include/save.h Source File</title>
+<title>GBAlatro: JokerObjectSaveData Struct Reference</title>
 <!--BEGIN PROJECT_ICON-->
 <link rel="icon" href="$projecticon" type="image/x-icon" />
 <!--END PROJECT_ICON-->
@@ -91,11 +91,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function() { init_codefold(0); });
-/* @license-end */
-</script>
 </div><!-- top -->
 <div id="side-nav" class="ui-resizable side-nav-resizable">
   <div id="nav-tree">
@@ -109,7 +104,7 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('save_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('structJokerObjectSaveData.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -135,37 +130,68 @@ $(document).ready(function(){initNavTree('save_8h_source.html',''); initResizabl
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">save.h</div></div>
+  <div class="summary">
+<a href="#pub-attribs">Data Fields</a>  </div>
+  <div class="headertitle"><div class="title">JokerObjectSaveData Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="save_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#ifndef SAVE_H</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define SAVE_H</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8h.html#a9e232271002ca804d61417ca6773b07a">save_game</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#endif </span><span class="comment">// SAVE_H</span></div>
-<div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
-<div class="ttc" id="asave_8h_html_a9e232271002ca804d61417ca6773b07a"><div class="ttname"><a href="save_8h.html#a9e232271002ca804d61417ca6773b07a">save_game</a></div><div class="ttdeci">void save_game(void)</div><div class="ttdoc">Save current run data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00324">save.c:324</a></div></div>
-<div class="ttc" id="asave_8h_html_aaa21de2652c53c85a56f9d5af9544fe1"><div class="ttname"><a href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a></div><div class="ttdeci">void load_game(void)</div><div class="ttdoc">Load previous run data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00362">save.c:362</a></div></div>
-<div class="ttc" id="asave_8h_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00306">save.c:306</a></div></div>
-<div class="ttc" id="asave_8h_html_af08a6f81dc09e7abbf2e4f33f99bec6e"><div class="ttname"><a href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a></div><div class="ttdeci">void save_options(void)</div><div class="ttdoc">Save options values to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00293">save.c:293</a></div></div>
-</div><!-- fragment --></div><!-- contents -->
+
+<p><a class="el" href="structJokerObjectSaveData.html" title="JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....">JokerObjectSaveData</a> will hold the minimal amount of data necessary to reconstruct a <a class="el" href="structJoker.html">Joker</a>. The <code>id</code> is a u8 in the base <a class="el" href="structJoker.html">Joker</a> struct, but I made it a u32 here to keep a better aligment when looking at the save file in a hex viewer.  
+ <a href="structJokerObjectSaveData.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:a76f8ba65ce8f902c0657233adee58698" id="r_a76f8ba65ce8f902c0657233adee58698"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structJokerObjectSaveData.html#a76f8ba65ce8f902c0657233adee58698">id</a></td></tr>
+<tr class="separator:a76f8ba65ce8f902c0657233adee58698"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6670fee1c346b35c201209e8f82b16c" id="r_ae6670fee1c346b35c201209e8f82b16c"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structJokerObjectSaveData.html#ae6670fee1c346b35c201209e8f82b16c">persistent_state</a></td></tr>
+<tr class="separator:ae6670fee1c346b35c201209e8f82b16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="structJokerObjectSaveData.html" title="JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....">JokerObjectSaveData</a> will hold the minimal amount of data necessary to reconstruct a <a class="el" href="structJoker.html">Joker</a>. The <code>id</code> is a u8 in the base <a class="el" href="structJoker.html">Joker</a> struct, but I made it a u32 here to keep a better aligment when looking at the save file in a hex viewer. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00089">89</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+</div><h2 class="groupheader">Field Documentation</h2>
+<a id="a76f8ba65ce8f902c0657233adee58698" name="a76f8ba65ce8f902c0657233adee58698"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76f8ba65ce8f902c0657233adee58698">&#9670;&#160;</a></span>id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00091">91</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="ae6670fee1c346b35c201209e8f82b16c" name="ae6670fee1c346b35c201209e8f82b16c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6670fee1c346b35c201209e8f82b16c">&#9670;&#160;</a></span>persistent_state</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 persistent_state</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00092">92</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>source/<a class="el" href="save_8c_source.html">save.c</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="save_8h.html">save.h</a></li>
+    <li class="navelem"><a class="el" href="structJokerObjectSaveData.html">JokerObjectSaveData</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

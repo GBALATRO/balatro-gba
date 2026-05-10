@@ -136,7 +136,7 @@ $(document).ready(function(){initNavTree('structSaveHeader.html',''); initResiza
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks.">SaveHeader</a> for validation checks.  
+<p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> for validation checks to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a>.  
  <a href="structSaveHeader.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -147,10 +147,12 @@ Data Fields</h2></td></tr>
 <tr class="separator:ad25edacba00e4d0666a9959053b7cc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa98d8359eeaa82a754346bc1a5875115" id="r_aa98d8359eeaa82a754346bc1a5875115"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveHeader.html#aa98d8359eeaa82a754346bc1a5875115">githash</a> [CHECK_HASH_SIZE]</td></tr>
 <tr class="separator:aa98d8359eeaa82a754346bc1a5875115"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adba3dc046a697d81652d45144273739b" id="r_adba3dc046a697d81652d45144273739b"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveHeader.html#adba3dc046a697d81652d45144273739b">valid_sections</a></td></tr>
+<tr class="separator:adba3dc046a697d81652d45144273739b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks.">SaveHeader</a> for validation checks. </p>
-<p>Structure holding save data header info to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a> </p><table class="markdownTable">
+<div class="textblock"><p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> for validation checks to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a>. </p>
+<table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">word   </th><th class="markdownTableHeadNone">Byte 0   </th><th class="markdownTableHeadNone">Byte 1   </th><th class="markdownTableHeadNone">Byte 2   </th><th class="markdownTableHeadNone">Byte 3   </th><th class="markdownTableHeadNone">name   </th><th class="markdownTableHeadNone">purpose    </th></tr>
 <tr class="markdownTableRowOdd">
@@ -158,10 +160,12 @@ Data Fields</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">Dirty   </td><td class="markdownTableBodyNone">H[0]   </td><td class="markdownTableBodyNone">H[1]   </td><td class="markdownTableBodyNone">H[2]   </td><td class="markdownTableBodyNone">GITHASH_LOW   </td><td class="markdownTableBodyNone">Dirty flag, followed by the first 3 bytes of shortened git hash H    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">H[3]   </td><td class="markdownTableBodyNone">H[4]   </td><td class="markdownTableBodyNone">H[5]   </td><td class="markdownTableBodyNone">H[6]   </td><td class="markdownTableBodyNone">GITHASH_HIGH   </td><td class="markdownTableBodyNone">Last 4 bytes of shortened git hash H, with a dirty flag   </td></tr>
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">H[3]   </td><td class="markdownTableBodyNone">H[4]   </td><td class="markdownTableBodyNone">H[5]   </td><td class="markdownTableBodyNone">H[6]   </td><td class="markdownTableBodyNone">GITHASH_HIGH   </td><td class="markdownTableBodyNone">Last 4 bytes of shortened git hash H, with a dirty flag    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">SEC[0]   </td><td class="markdownTableBodyNone">SEC[1]   </td><td class="markdownTableBodyNone">SEC[2]   </td><td class="markdownTableBodyNone">SEC[3]   </td><td class="markdownTableBodyNone">VALID_SCTNS   </td><td class="markdownTableBodyNone">Identifies whether each section of the save data is valid or not   </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00043">43</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00050">50</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="ad25edacba00e4d0666a9959053b7cc10" name="ad25edacba00e4d0666a9959053b7cc10"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad25edacba00e4d0666a9959053b7cc10">&#9670;&#160;</a></span>dirty</h2>
@@ -175,7 +179,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00046">46</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00053">53</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -191,7 +195,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00047">47</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00054">54</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -207,7 +211,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00045">45</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00052">52</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="adba3dc046a697d81652d45144273739b" name="adba3dc046a697d81652d45144273739b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adba3dc046a697d81652d45144273739b">&#9670;&#160;</a></span>valid_sections</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">u32 valid_sections</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00055">55</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>

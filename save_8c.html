@@ -134,12 +134,14 @@ $(document).ready(function(){initNavTree('save_8c.html',''); initResizable(); })
 <a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">save.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="save_8h_source.html">save.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="audio__utils_8h_source.html">audio_utils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="bitset_8h_source.html">bitset.h</a>&quot;</code><br />
 <code>#include &quot;game.h&quot;</code><br />
 <code>#include &quot;joker.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="list_8h_source.html">list.h</a>&quot;</code><br />
@@ -153,29 +155,56 @@ $(document).ready(function(){initNavTree('save_8c.html',''); initResizable(); })
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveHeader.html">SaveHeader</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks.">SaveHeader</a> for validation checks.  <a href="structSaveHeader.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> for validation checks to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a>.  <a href="structSaveHeader.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html">SaveOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> will only contain options data set in the Options Menu.  <a href="structSaveOptions.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structJokerObjectSaveData.html">JokerObjectSaveData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structJokerObjectSaveData.html" title="JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....">JokerObjectSaveData</a> will hold the minimal amount of data necessary to reconstruct a <a class="el" href="structJoker.html">Joker</a>. The <code>id</code> is a u8 in the base <a class="el" href="structJoker.html">Joker</a> struct, but I made it a u32 here to keep a better aligment when looking at the save file in a hex viewer.  <a href="structJokerObjectSaveData.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html">SaveGame</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> will contain the data about the current run to be saved to SRAM. <a class="el" href="structGameVariables.html" title="A central location for all game variables.">GameVariables</a> was used for this purpose at first, but some data needed to be shared but not saved, so it couldn't be dumped "as is" anymore and this struct had to be created.  <a href="structSaveGame.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a159d239636e42cc24f3a5f6ab971dea4" id="r_a159d239636e42cc24f3a5f6ab971dea4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a159d239636e42cc24f3a5f6ab971dea4">CHECK_BASE</a>&#160;&#160;&#160;0x0000</td></tr>
-<tr class="separator:a159d239636e42cc24f3a5f6ab971dea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c8b4ba7d9e91019e716e10e35449eb7" id="r_a8c8b4ba7d9e91019e716e10e35449eb7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a8c8b4ba7d9e91019e716e10e35449eb7">GAME_BASE</a>&#160;&#160;&#160;0x0010</td></tr>
-<tr class="separator:a8c8b4ba7d9e91019e716e10e35449eb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8f3681d4ee1fed0760bd40d829adc6c" id="r_ad8f3681d4ee1fed0760bd40d829adc6c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ad8f3681d4ee1fed0760bd40d829adc6c">LISTS_BASE</a>&#160;&#160;&#160;0x0060</td></tr>
-<tr class="separator:ad8f3681d4ee1fed0760bd40d829adc6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d363c3b48a248dfcb3ff1915111c6d5" id="r_a1d363c3b48a248dfcb3ff1915111c6d5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a1d363c3b48a248dfcb3ff1915111c6d5">HEADER_ADDRESS</a>&#160;&#160;&#160;0x0</td></tr>
+<tr class="separator:a1d363c3b48a248dfcb3ff1915111c6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0184024bab628667bc381257ef2ffca" id="r_aa0184024bab628667bc381257ef2ffca"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#aa0184024bab628667bc381257ef2ffca">OPTIONS_ADDRESS</a>&#160;&#160;&#160;0x10</td></tr>
+<tr class="separator:aa0184024bab628667bc381257ef2ffca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fa6066d91ec61580f63df448b4f7974" id="r_a7fa6066d91ec61580f63df448b4f7974"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a7fa6066d91ec61580f63df448b4f7974">GAME_ADDRESS</a>&#160;&#160;&#160;0x30</td></tr>
+<tr class="separator:a7fa6066d91ec61580f63df448b4f7974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e6f0ab04d7ce8eed1de791016949a6" id="r_a95e6f0ab04d7ce8eed1de791016949a6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a95e6f0ab04d7ce8eed1de791016949a6">SAVE_SECTION_FLAG_NONE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a95e6f0ab04d7ce8eed1de791016949a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a114893ac3a110b3d27c373c2de3c728f" id="r_a114893ac3a110b3d27c373c2de3c728f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a114893ac3a110b3d27c373c2de3c728f">SAVE_SECTION_FLAG_OPTIONS</a>&#160;&#160;&#160;(1 &lt;&lt; 0)</td></tr>
+<tr class="separator:a114893ac3a110b3d27c373c2de3c728f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a694935f7be5c8e13c59a1f0134e5375d" id="r_a694935f7be5c8e13c59a1f0134e5375d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a694935f7be5c8e13c59a1f0134e5375d">SAVE_SECTION_FLAG_GAME</a>&#160;&#160;&#160;(1 &lt;&lt; 1)</td></tr>
+<tr class="separator:a694935f7be5c8e13c59a1f0134e5375d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7d627afd74a415d47825733d8dd9d47" id="r_ad7d627afd74a415d47825733d8dd9d47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ad7d627afd74a415d47825733d8dd9d47">CHECK_MAGIC</a>&#160;&#160;&#160;0x4C414247</td></tr>
 <tr class="separator:ad7d627afd74a415d47825733d8dd9d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada47e88205b02d34e48a6e69b9f32e02" id="r_ada47e88205b02d34e48a6e69b9f32e02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ada47e88205b02d34e48a6e69b9f32e02">CHECK_HASH_SIZE</a>&#160;&#160;&#160;7</td></tr>
 <tr class="separator:ada47e88205b02d34e48a6e69b9f32e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64987474101a6404b9dc84978aa40dcd" id="r_a64987474101a6404b9dc84978aa40dcd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a64987474101a6404b9dc84978aa40dcd">GIT_HASH_START</a>&#160;&#160;&#160;17</td></tr>
 <tr class="separator:a64987474101a6404b9dc84978aa40dcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bbd55f81f9d61952ed5470da580998f" id="r_a9bbd55f81f9d61952ed5470da580998f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a9bbd55f81f9d61952ed5470da580998f">SAVE_LABEL_SIZE</a>&#160;&#160;&#160;16</td></tr>
+<tr class="separator:a9bbd55f81f9d61952ed5470da580998f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a2279e64a424ee61d2c76715b839cbf4d" id="r_a2279e64a424ee61d2c76715b839cbf4d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structSaveHeader.html">SaveHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a2279e64a424ee61d2c76715b839cbf4d">SaveHeader</a></td></tr>
-<tr class="memdesc:a2279e64a424ee61d2c76715b839cbf4d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks.">SaveHeader</a> for validation checks.  <br /></td></tr>
+<tr class="memdesc:a2279e64a424ee61d2c76715b839cbf4d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> for validation checks to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a>.  <br /></td></tr>
 <tr class="separator:a2279e64a424ee61d2c76715b839cbf4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700fd6a8d06a1534a5a66a781215b63b" id="r_a700fd6a8d06a1534a5a66a781215b63b"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structSaveOptions.html">SaveOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a700fd6a8d06a1534a5a66a781215b63b">SaveOptions</a></td></tr>
+<tr class="memdesc:a700fd6a8d06a1534a5a66a781215b63b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> will only contain options data set in the Options Menu.  <br /></td></tr>
+<tr class="separator:a700fd6a8d06a1534a5a66a781215b63b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acab90751e92c8ddb2bdf741c6d51245a" id="r_acab90751e92c8ddb2bdf741c6d51245a"><td class="memItemLeft" align="right" valign="top"><a id="acab90751e92c8ddb2bdf741c6d51245a" name="acab90751e92c8ddb2bdf741c6d51245a"></a>
+typedef struct <a class="el" href="structJokerObjectSaveData.html">JokerObjectSaveData</a>&#160;</td><td class="memItemRight" valign="bottom"><b>JokerObjectSaveData</b></td></tr>
+<tr class="memdesc:acab90751e92c8ddb2bdf741c6d51245a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structJokerObjectSaveData.html" title="JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....">JokerObjectSaveData</a> will hold the minimal amount of data necessary to reconstruct a <a class="el" href="structJoker.html">Joker</a>. The <code>id</code> is a u8 in the base <a class="el" href="structJoker.html">Joker</a> struct, but I made it a u32 here to keep a better aligment when looking at the save file in a hex viewer. <br /></td></tr>
+<tr class="separator:acab90751e92c8ddb2bdf741c6d51245a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1dc334d7a91175e24b988b8a05b6042" id="r_ad1dc334d7a91175e24b988b8a05b6042"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structSaveGame.html">SaveGame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ad1dc334d7a91175e24b988b8a05b6042">SaveGame</a></td></tr>
+<tr class="memdesc:ad1dc334d7a91175e24b988b8a05b6042"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> will contain the data about the current run to be saved to SRAM. <a class="el" href="structGameVariables.html" title="A central location for all game variables.">GameVariables</a> was used for this purpose at first, but some data needed to be shared but not saved, so it couldn't be dumped "as is" anymore and this struct had to be created.  <br /></td></tr>
+<tr class="separator:ad1dc334d7a91175e24b988b8a05b6042"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -188,39 +217,41 @@ Functions</h2></td></tr>
 <tr class="memitem:a72e508492f7ca40a43660db261c47f67" id="r_a72e508492f7ca40a43660db261c47f67"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a> (const char *prefix)</td></tr>
 <tr class="memdesc:a72e508492f7ca40a43660db261c47f67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks the 7 chars of gbalatro_version after the "GBALATRO_VERSION" prefix representing the git hash of the code the build is based on.  <br /></td></tr>
 <tr class="separator:a72e508492f7ca40a43660db261c47f67"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9835f33240f7427f14048f40c91cb824" id="r_a9835f33240f7427f14048f40c91cb824"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a9835f33240f7427f14048f40c91cb824">is_version_dirty</a> ()</td></tr>
-<tr class="memdesc:a9835f33240f7427f14048f40c91cb824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the current build is considered "dirty" aka has uncommitted changes. This works because the gbalatro_version string has "-dirty" added at the end if it's dirty.  <br /></td></tr>
-<tr class="separator:a9835f33240f7427f14048f40c91cb824"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a758d64d77315054c88e01bf4c05e8100" id="r_a758d64d77315054c88e01bf4c05e8100"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a758d64d77315054c88e01bf4c05e8100">set_save_header</a> ()</td></tr>
-<tr class="memdesc:a758d64d77315054c88e01bf4c05e8100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a magic number and ROM version info to SRAM to signal that the save data exists and allow the game to determine if it is compatible.  <br /></td></tr>
-<tr class="separator:a758d64d77315054c88e01bf4c05e8100"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9322b9fb26aa1121e8d32f3890921e0" id="r_af9322b9fb26aa1121e8d32f3890921e0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#af9322b9fb26aa1121e8d32f3890921e0">check_save_header</a> ()</td></tr>
-<tr class="memdesc:af9322b9fb26aa1121e8d32f3890921e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads whether the save data exists and is valid.  <br /></td></tr>
-<tr class="separator:af9322b9fb26aa1121e8d32f3890921e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ecd52e574ea02292941949278d4776e" id="r_a5ecd52e574ea02292941949278d4776e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a> (void)</td></tr>
+<tr class="memdesc:a5ecd52e574ea02292941949278d4776e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines if the current build is considered "dirty" aka has uncommitted changes. This works because the gbalatro_version string has "-dirty" added at the end if it's dirty.  <br /></td></tr>
+<tr class="separator:a5ecd52e574ea02292941949278d4776e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7c710df5af72243541a55e499e53bd9" id="r_aa7c710df5af72243541a55e499e53bd9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a> (<a class="el" href="structSaveHeader.html">SaveHeader</a> *header)</td></tr>
+<tr class="memdesc:aa7c710df5af72243541a55e499e53bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads whether the save data exists and is valid.  <br /></td></tr>
+<tr class="separator:aa7c710df5af72243541a55e499e53bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0dd7506669cf4ae699a6e232dd59364" id="r_ae0dd7506669cf4ae699a6e232dd59364"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a> (u32 section_flag)</td></tr>
+<tr class="memdesc:ae0dd7506669cf4ae699a6e232dd59364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a magic number and ROM version info to SRAM to signal that the save data exists and allow the game to determine if it is compatible.  <br /></td></tr>
+<tr class="separator:ae0dd7506669cf4ae699a6e232dd59364"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af08a6f81dc09e7abbf2e4f33f99bec6e" id="r_af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a> (void)</td></tr>
+<tr class="memdesc:af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save options values to SRAM.  <br /></td></tr>
+<tr class="separator:af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26962eff871bc587f90a94b6eef1aaf" id="r_ac26962eff871bc587f90a94b6eef1aaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a> (void)</td></tr>
+<tr class="memdesc:ac26962eff871bc587f90a94b6eef1aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load options values from SRAM.  <br /></td></tr>
+<tr class="separator:ac26962eff871bc587f90a94b6eef1aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e232271002ca804d61417ca6773b07a" id="r_a9e232271002ca804d61417ca6773b07a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a> (void)</td></tr>
-<tr class="memdesc:a9e232271002ca804d61417ca6773b07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save game data to SRAM.  <br /></td></tr>
+<tr class="memdesc:a9e232271002ca804d61417ca6773b07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save current run data to SRAM.  <br /></td></tr>
 <tr class="separator:a9e232271002ca804d61417ca6773b07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa21de2652c53c85a56f9d5af9544fe1" id="r_aaa21de2652c53c85a56f9d5af9544fe1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a> (void)</td></tr>
-<tr class="memdesc:aaa21de2652c53c85a56f9d5af9544fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load game data from SRAM.  <br /></td></tr>
+<tr class="memdesc:aaa21de2652c53c85a56f9d5af9544fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load previous run data from SRAM.  <br /></td></tr>
 <tr class="separator:aaa21de2652c53c85a56f9d5af9544fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ad4c7a26ce01920da160afb04e0ab756f" id="r_ad4c7a26ce01920da160afb04e0ab756f"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structSaveHeader.html">SaveHeader</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a></td></tr>
+<tr class="memdesc:ad4c7a26ce01920da160afb04e0ab756f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default value for the <a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> struct.  <br /></td></tr>
+<tr class="separator:ad4c7a26ce01920da160afb04e0ab756f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30da5688e7e13a0664958bde6af12b20" id="r_a30da5688e7e13a0664958bde6af12b20"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structSaveOptions.html">SaveOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a></td></tr>
+<tr class="memdesc:a30da5688e7e13a0664958bde6af12b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default value for the <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> struct, with tags already set.  <br /></td></tr>
+<tr class="separator:a30da5688e7e13a0664958bde6af12b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6be8ba75db77c350611aa6a05a923b3" id="r_ac6be8ba75db77c350611aa6a05a923b3"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structSaveGame.html">SaveGame</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a></td></tr>
+<tr class="memdesc:ac6be8ba75db77c350611aa6a05a923b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default value for the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> struct, with tags already set.  <br /></td></tr>
+<tr class="separator:ac6be8ba75db77c350611aa6a05a923b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a159d239636e42cc24f3a5f6ab971dea4" name="a159d239636e42cc24f3a5f6ab971dea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a159d239636e42cc24f3a5f6ab971dea4">&#9670;&#160;</a></span>CHECK_BASE</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define CHECK_BASE&#160;&#160;&#160;0x0000</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00022">22</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
-
-</div>
-</div>
 <a id="ada47e88205b02d34e48a6e69b9f32e02" name="ada47e88205b02d34e48a6e69b9f32e02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ada47e88205b02d34e48a6e69b9f32e02">&#9670;&#160;</a></span>CHECK_HASH_SIZE</h2>
 
@@ -233,7 +264,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00027">27</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00032">32</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -249,23 +280,23 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00026">26</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00031">31</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="a8c8b4ba7d9e91019e716e10e35449eb7" name="a8c8b4ba7d9e91019e716e10e35449eb7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c8b4ba7d9e91019e716e10e35449eb7">&#9670;&#160;</a></span>GAME_BASE</h2>
+<a id="a7fa6066d91ec61580f63df448b4f7974" name="a7fa6066d91ec61580f63df448b4f7974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fa6066d91ec61580f63df448b4f7974">&#9670;&#160;</a></span>GAME_ADDRESS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define GAME_BASE&#160;&#160;&#160;0x0010</td>
+          <td class="memname">#define GAME_ADDRESS&#160;&#160;&#160;0x30</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00023">23</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00025">25</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -281,18 +312,34 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00028">28</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00033">33</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="ad8f3681d4ee1fed0760bd40d829adc6c" name="ad8f3681d4ee1fed0760bd40d829adc6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8f3681d4ee1fed0760bd40d829adc6c">&#9670;&#160;</a></span>LISTS_BASE</h2>
+<a id="a1d363c3b48a248dfcb3ff1915111c6d5" name="a1d363c3b48a248dfcb3ff1915111c6d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d363c3b48a248dfcb3ff1915111c6d5">&#9670;&#160;</a></span>HEADER_ADDRESS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define LISTS_BASE&#160;&#160;&#160;0x0060</td>
+          <td class="memname">#define HEADER_ADDRESS&#160;&#160;&#160;0x0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00023">23</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="aa0184024bab628667bc381257ef2ffca" name="aa0184024bab628667bc381257ef2ffca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0184024bab628667bc381257ef2ffca">&#9670;&#160;</a></span>OPTIONS_ADDRESS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OPTIONS_ADDRESS&#160;&#160;&#160;0x10</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -301,7 +348,133 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a9bbd55f81f9d61952ed5470da580998f" name="a9bbd55f81f9d61952ed5470da580998f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bbd55f81f9d61952ed5470da580998f">&#9670;&#160;</a></span>SAVE_LABEL_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAVE_LABEL_SIZE&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00035">35</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a694935f7be5c8e13c59a1f0134e5375d" name="a694935f7be5c8e13c59a1f0134e5375d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a694935f7be5c8e13c59a1f0134e5375d">&#9670;&#160;</a></span>SAVE_SECTION_FLAG_GAME</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAVE_SECTION_FLAG_GAME&#160;&#160;&#160;(1 &lt;&lt; 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00029">29</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a95e6f0ab04d7ce8eed1de791016949a6" name="a95e6f0ab04d7ce8eed1de791016949a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e6f0ab04d7ce8eed1de791016949a6">&#9670;&#160;</a></span>SAVE_SECTION_FLAG_NONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAVE_SECTION_FLAG_NONE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00027">27</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a114893ac3a110b3d27c373c2de3c728f" name="a114893ac3a110b3d27c373c2de3c728f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a114893ac3a110b3d27c373c2de3c728f">&#9670;&#160;</a></span>SAVE_SECTION_FLAG_OPTIONS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SAVE_SECTION_FLAG_OPTIONS&#160;&#160;&#160;(1 &lt;&lt; 0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00028">28</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="ad1dc334d7a91175e24b988b8a05b6042" name="ad1dc334d7a91175e24b988b8a05b6042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1dc334d7a91175e24b988b8a05b6042">&#9670;&#160;</a></span>SaveGame</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structSaveGame.html">SaveGame</a> <a class="el" href="structSaveGame.html">SaveGame</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> will contain the data about the current run to be saved to SRAM. <a class="el" href="structGameVariables.html" title="A central location for all game variables.">GameVariables</a> was used for this purpose at first, but some data needed to be shared but not saved, so it couldn't be dumped "as is" anymore and this struct had to be created. </p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">word   </th><th class="markdownTableHeadNone">Byte 0   </th><th class="markdownTableHeadNone">Byte 1   </th><th class="markdownTableHeadNone">Byte 2   </th><th class="markdownTableHeadNone">Byte 3   </th><th class="markdownTableHeadNone">name   </th><th class="markdownTableHeadNone">purpose    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">'I'   </td><td class="markdownTableBodyNone">'N'   </td><td class="markdownTableBodyNone">'T'   </td><td class="markdownTableBodyNone">TAG   </td><td class="markdownTableBodyNone">Spells "-INTERNAL DATA -"    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">'E'   </td><td class="markdownTableBodyNone">'R'   </td><td class="markdownTableBodyNone">'N'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">'L'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'D'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">'T'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">T[0]   </td><td class="markdownTableBodyNone">T[1]   </td><td class="markdownTableBodyNone">T[2]   </td><td class="markdownTableBodyNone">T[3]   </td><td class="markdownTableBodyNone">GLOB TIMER   </td><td class="markdownTableBodyNone">The global timer used for animations thoughout the game    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">SED[0]   </td><td class="markdownTableBodyNone">SED[1]   </td><td class="markdownTableBodyNone">SED[2]   </td><td class="markdownTableBodyNone">SED[3]   </td><td class="markdownTableBodyNone">RNG SEED   </td><td class="markdownTableBodyNone">The seed used for RNG, either randomly shuffled or chosen by the player at game start    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">STP[0]   </td><td class="markdownTableBodyNone">STP[1]   </td><td class="markdownTableBodyNone">STP[2]   </td><td class="markdownTableBodyNone">STP[3]   </td><td class="markdownTableBodyNone">RNG STEP   </td><td class="markdownTableBodyNone">The current position in the RNG sequence for the given seed, since the start of the run    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">RND[0]   </td><td class="markdownTableBodyNone">RND[1]   </td><td class="markdownTableBodyNone">RND[2]   </td><td class="markdownTableBodyNone">RND[3]   </td><td class="markdownTableBodyNone">ROUND   </td><td class="markdownTableBodyNone">What Round we are about to start    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">8   </td><td class="markdownTableBodyNone">ANT[0]   </td><td class="markdownTableBodyNone">ANT[1]   </td><td class="markdownTableBodyNone">ANT[2]   </td><td class="markdownTableBodyNone">ANT[3]   </td><td class="markdownTableBodyNone">ANTE   </td><td class="markdownTableBodyNone">What Ante we are on    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">9   </td><td class="markdownTableBodyNone">MNY[0]   </td><td class="markdownTableBodyNone">MNY[1]   </td><td class="markdownTableBodyNone">MNY[2]   </td><td class="markdownTableBodyNone">MNY[3]   </td><td class="markdownTableBodyNone">MONEY   </td><td class="markdownTableBodyNone">How much money we currently have left    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">PADDING   </td><td class="markdownTableBodyNone">Some padding    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">12   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'O'   </td><td class="markdownTableBodyNone">'W'   </td><td class="markdownTableBodyNone">TAG   </td><td class="markdownTableBodyNone">Spells "- OWNED JOKERS -"    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">13   </td><td class="markdownTableBodyNone">'N'   </td><td class="markdownTableBodyNone">'E'   </td><td class="markdownTableBodyNone">'D'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">'J'   </td><td class="markdownTableBodyNone">'O'   </td><td class="markdownTableBodyNone">'K'   </td><td class="markdownTableBodyNone">'E'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">'R'   </td><td class="markdownTableBodyNone">'S'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">16   </td><td class="markdownTableBodyNone">ID[0]   </td><td class="markdownTableBodyNone">ID[1]   </td><td class="markdownTableBodyNone">ID[2]   </td><td class="markdownTableBodyNone">ID[3]   </td><td class="markdownTableBodyNone">JOKER DATA 0   </td><td class="markdownTableBodyNone">Minimal necessary data to reconstruct a <a class="el" href="structJokerObject.html">JokerObject</a>    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">17   </td><td class="markdownTableBodyNone">STT[0]   </td><td class="markdownTableBodyNone">STT[1]   </td><td class="markdownTableBodyNone">STT[2]   </td><td class="markdownTableBodyNone">STT[3]   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">Contains the <a class="el" href="structJoker.html">Joker</a>'s <code>id</code> and <code>persistent_state</code>    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...   </td><td class="markdownTableBodyNone">...    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">??   </td><td class="markdownTableBodyNone">'_'   </td><td class="markdownTableBodyNone">'E'   </td><td class="markdownTableBodyNone">'N'   </td><td class="markdownTableBodyNone">'D'   </td><td class="markdownTableBodyNone">END_TAG   </td><td class="markdownTableBodyNone">Spells "_END", marks the end of the savefile   </td></tr>
+</table>
+
+</div>
+</div>
 <a id="a2279e64a424ee61d2c76715b839cbf4d" name="a2279e64a424ee61d2c76715b839cbf4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2279e64a424ee61d2c76715b839cbf4d">&#9670;&#160;</a></span>SaveHeader</h2>
 
@@ -314,8 +487,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks.">SaveHeader</a> for validation checks. </p>
-<p>Structure holding save data header info to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a> </p><table class="markdownTable">
+<p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> for validation checks to be packed and written to SRAM for validation. Defined in this discussion as follows: <a href="https://github.com/GBALATRO/balatro-gba/discussions/450">https://github.com/GBALATRO/balatro-gba/discussions/450</a>. </p>
+<table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">word   </th><th class="markdownTableHeadNone">Byte 0   </th><th class="markdownTableHeadNone">Byte 1   </th><th class="markdownTableHeadNone">Byte 2   </th><th class="markdownTableHeadNone">Byte 3   </th><th class="markdownTableHeadNone">name   </th><th class="markdownTableHeadNone">purpose    </th></tr>
 <tr class="markdownTableRowOdd">
@@ -323,7 +496,45 @@ Functions</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">Dirty   </td><td class="markdownTableBodyNone">H[0]   </td><td class="markdownTableBodyNone">H[1]   </td><td class="markdownTableBodyNone">H[2]   </td><td class="markdownTableBodyNone">GITHASH_LOW   </td><td class="markdownTableBodyNone">Dirty flag, followed by the first 3 bytes of shortened git hash H    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">H[3]   </td><td class="markdownTableBodyNone">H[4]   </td><td class="markdownTableBodyNone">H[5]   </td><td class="markdownTableBodyNone">H[6]   </td><td class="markdownTableBodyNone">GITHASH_HIGH   </td><td class="markdownTableBodyNone">Last 4 bytes of shortened git hash H, with a dirty flag   </td></tr>
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">H[3]   </td><td class="markdownTableBodyNone">H[4]   </td><td class="markdownTableBodyNone">H[5]   </td><td class="markdownTableBodyNone">H[6]   </td><td class="markdownTableBodyNone">GITHASH_HIGH   </td><td class="markdownTableBodyNone">Last 4 bytes of shortened git hash H, with a dirty flag    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">SEC[0]   </td><td class="markdownTableBodyNone">SEC[1]   </td><td class="markdownTableBodyNone">SEC[2]   </td><td class="markdownTableBodyNone">SEC[3]   </td><td class="markdownTableBodyNone">VALID_SCTNS   </td><td class="markdownTableBodyNone">Identifies whether each section of the save data is valid or not   </td></tr>
+</table>
+
+</div>
+</div>
+<a id="a700fd6a8d06a1534a5a66a781215b63b" name="a700fd6a8d06a1534a5a66a781215b63b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700fd6a8d06a1534a5a66a781215b63b">&#9670;&#160;</a></span>SaveOptions</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structSaveOptions.html">SaveOptions</a> <a class="el" href="structSaveOptions.html">SaveOptions</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> will only contain options data set in the Options Menu. </p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">word   </th><th class="markdownTableHeadNone">Byte 0   </th><th class="markdownTableHeadNone">Byte 1   </th><th class="markdownTableHeadNone">Byte 2   </th><th class="markdownTableHeadNone">Byte 3   </th><th class="markdownTableHeadNone">name   </th><th class="markdownTableHeadNone">purpose    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'O'   </td><td class="markdownTableBodyNone">'P'   </td><td class="markdownTableBodyNone">TAG   </td><td class="markdownTableBodyNone">Pretty tag to clearly visualize the Options section in a hex viewer    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">'T'   </td><td class="markdownTableBodyNone">'I'   </td><td class="markdownTableBodyNone">'O'   </td><td class="markdownTableBodyNone">'N'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">Spells "- OPTIONS DATA -"    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">'S'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'D'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">'T'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">SPEED   </td><td class="markdownTableBodyNone">CNTRST   </td><td class="markdownTableBodyNone">MUSIC   </td><td class="markdownTableBodyNone">SOUND   </td><td class="markdownTableBodyNone">OPTN_VALUES   </td><td class="markdownTableBodyNone">All 4 option values, packed in a single word.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">PADDING   </td><td class="markdownTableBodyNone">Padding, so that the next section starts at the beginning of the    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">next 4-word row in a hex viewer    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-   </td></tr>
 </table>
 
 </div>
@@ -356,12 +567,12 @@ Functions</h2></td></tr>
 <p>Checks the 7 chars of gbalatro_version after the "GBALATRO_VERSION" prefix representing the git hash of the code the build is based on. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the git hash of the ROM is equal to the hash saved in SRAM. false if they are different. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00091">91</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00225">225</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="af9322b9fb26aa1121e8d32f3890921e0" name="af9322b9fb26aa1121e8d32f3890921e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9322b9fb26aa1121e8d32f3890921e0">&#9670;&#160;</a></span>check_save_header()</h2>
+<a id="aa7c710df5af72243541a55e499e53bd9" name="aa7c710df5af72243541a55e499e53bd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7c710df5af72243541a55e499e53bd9">&#9670;&#160;</a></span>get_save_header()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -370,9 +581,10 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool check_save_header </td>
+          <td class="memname">static bool get_save_header </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structSaveHeader.html">SaveHeader</a> *&#160;</td>
+          <td class="paramname"><em>header</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -384,14 +596,20 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Reads whether the save data exists and is valid. </p>
-<dl class="section see"><dt>See also</dt><dd>set_save_valid </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">header</td><td>pointer to the <a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> struct to fill </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the save data is valid, false if not </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00135">135</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00256">256</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="a9835f33240f7427f14048f40c91cb824" name="a9835f33240f7427f14048f40c91cb824"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9835f33240f7427f14048f40c91cb824">&#9670;&#160;</a></span>is_version_dirty()</h2>
+<a id="a5ecd52e574ea02292941949278d4776e" name="a5ecd52e574ea02292941949278d4776e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ecd52e574ea02292941949278d4776e">&#9670;&#160;</a></span>is_version_dirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -402,6 +620,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static bool is_version_dirty </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -416,7 +635,7 @@ Functions</h2></td></tr>
 <p>Determines if the current build is considered "dirty" aka has uncommitted changes. This works because the gbalatro_version string has "-dirty" added at the end if it's dirty. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if version is dirty, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00111">111</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00245">245</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -429,16 +648,40 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void load_game </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Load game data from SRAM. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a080f5ef7e7f8a73a4e49e5ea040391c3" title="Save game data to SRAM.">save_game</a> </dd></dl>
+<p>Load previous run data from SRAM. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a9e232271002ca804d61417ca6773b07a" title="Save current run data to SRAM.">save_game</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00152">152</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00362">362</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="ac26962eff871bc587f90a94b6eef1aaf" name="ac26962eff871bc587f90a94b6eef1aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac26962eff871bc587f90a94b6eef1aaf">&#9670;&#160;</a></span>load_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_options </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load options values from SRAM. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e" title="Save options values to SRAM.">save_options</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00306">306</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -485,7 +728,7 @@ Functions</h2></td></tr>
 <p>Read raw binary data from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0" title="Write raw binary data to SRAM.">write_sram</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00073">73</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00207">207</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -505,14 +748,36 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Save game data to SRAM. </p>
+<p>Save current run data to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00146">146</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00324">324</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="a758d64d77315054c88e01bf4c05e8100" name="a758d64d77315054c88e01bf4c05e8100"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a758d64d77315054c88e01bf4c05e8100">&#9670;&#160;</a></span>set_save_header()</h2>
+<a id="af08a6f81dc09e7abbf2e4f33f99bec6e" name="af08a6f81dc09e7abbf2e4f33f99bec6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af08a6f81dc09e7abbf2e4f33f99bec6e">&#9670;&#160;</a></span>save_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void save_options </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save options values to SRAM. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00293">293</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="ae0dd7506669cf4ae699a6e232dd59364" name="ae0dd7506669cf4ae699a6e232dd59364"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0dd7506669cf4ae699a6e232dd59364">&#9670;&#160;</a></span>set_save_header()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -523,7 +788,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static void set_save_header </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">u32&#160;</td>
+          <td class="paramname"><em>section_flag</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -535,8 +801,15 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Writes a magic number and ROM version info to SRAM to signal that the save data exists and allow the game to determine if it is compatible. </p>
+<p>This will read the <a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> first and check if the data is valid. If yes, the <code>valid_sections</code> will be updated, if not, it will be overwritten and start from <code>SAVE_SECTION_FLAG_NONE</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">section_flag</td><td>The section flag to be set to 1, corresponds to the section we're writing to SRAM. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00120">120</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00274">274</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -590,7 +863,115 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00057">57</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00191">191</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ac6be8ba75db77c350611aa6a05a923b3" name="ac6be8ba75db77c350611aa6a05a923b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6be8ba75db77c350611aa6a05a923b3">&#9670;&#160;</a></span>SaveGame_default</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structSaveGame.html">SaveGame</a> SaveGame_default</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .tag_internal = <span class="stringliteral">&quot;-INTERNAL DATA -&quot;</span>,</div>
+<div class="line">    .timer = 0,</div>
+<div class="line">    .rng_seed = 0,</div>
+<div class="line">    .rng_step = 0,</div>
+<div class="line">    .round = 0,</div>
+<div class="line">    .ante = 0,</div>
+<div class="line">    .money = 0,</div>
+<div class="line">    .padding = {UNDEFINED, UNDEFINED},</div>
+<div class="line"> </div>
+<div class="line">    .tag_jokers = <span class="stringliteral">&quot;- OWNED JOKERS -&quot;</span>,</div>
+<div class="line">    .jokers_data = {},</div>
+<div class="line"> </div>
+<div class="line">    .tag_end = <span class="stringliteral">&quot;_END&quot;</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p>Default value for the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> struct, with tags already set. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00168">168</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="ad4c7a26ce01920da160afb04e0ab756f" name="ad4c7a26ce01920da160afb04e0ab756f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c7a26ce01920da160afb04e0ab756f">&#9670;&#160;</a></span>SaveHeader_default</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structSaveHeader.html">SaveHeader</a> SaveHeader_default</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .magic = CHECK_MAGIC,</div>
+<div class="line">    .dirty = <span class="keyword">false</span>,</div>
+<div class="line">    .githash = <span class="stringliteral">&quot;fffffff&quot;</span>,</div>
+<div class="line">    .valid_sections = SAVE_SECTION_FLAG_NONE</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p>Default value for the <a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> struct. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00146">146</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a30da5688e7e13a0664958bde6af12b20" name="a30da5688e7e13a0664958bde6af12b20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30da5688e7e13a0664958bde6af12b20">&#9670;&#160;</a></span>SaveOptions_default</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structSaveOptions.html">SaveOptions</a> SaveOptions_default</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .tag_options = <span class="stringliteral">&quot;- OPTIONS DATA -&quot;</span>,</div>
+<div class="line">    .game_speed = 0,</div>
+<div class="line">    .high_contrast = <span class="keyword">false</span>,</div>
+<div class="line">    .music_volume = 0,</div>
+<div class="line">    .sound_volume = 0,</div>
+<div class="line">    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p>Default value for the <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> struct, with tags already set. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00156">156</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>

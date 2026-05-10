@@ -145,20 +145,41 @@ $(document).ready(function(){initNavTree('save_8h.html',''); initResizable(); })
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a080f5ef7e7f8a73a4e49e5ea040391c3" id="r_a080f5ef7e7f8a73a4e49e5ea040391c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#a080f5ef7e7f8a73a4e49e5ea040391c3">save_game</a> ()</td></tr>
-<tr class="memdesc:a080f5ef7e7f8a73a4e49e5ea040391c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save game data to SRAM.  <br /></td></tr>
-<tr class="separator:a080f5ef7e7f8a73a4e49e5ea040391c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a3b4a2f1b227a103c8fe5c79779bfc" id="r_ab7a3b4a2f1b227a103c8fe5c79779bfc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#ab7a3b4a2f1b227a103c8fe5c79779bfc">load_game</a> ()</td></tr>
-<tr class="memdesc:ab7a3b4a2f1b227a103c8fe5c79779bfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load game data from SRAM.  <br /></td></tr>
-<tr class="separator:ab7a3b4a2f1b227a103c8fe5c79779bfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e232271002ca804d61417ca6773b07a" id="r_a9e232271002ca804d61417ca6773b07a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#a9e232271002ca804d61417ca6773b07a">save_game</a> (void)</td></tr>
+<tr class="memdesc:a9e232271002ca804d61417ca6773b07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save current run data to SRAM.  <br /></td></tr>
+<tr class="separator:a9e232271002ca804d61417ca6773b07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa21de2652c53c85a56f9d5af9544fe1" id="r_aaa21de2652c53c85a56f9d5af9544fe1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a> (void)</td></tr>
+<tr class="memdesc:aaa21de2652c53c85a56f9d5af9544fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load previous run data from SRAM.  <br /></td></tr>
+<tr class="separator:aaa21de2652c53c85a56f9d5af9544fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af08a6f81dc09e7abbf2e4f33f99bec6e" id="r_af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a> (void)</td></tr>
+<tr class="memdesc:af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save options values to SRAM.  <br /></td></tr>
+<tr class="separator:af08a6f81dc09e7abbf2e4f33f99bec6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26962eff871bc587f90a94b6eef1aaf" id="r_ac26962eff871bc587f90a94b6eef1aaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a> (void)</td></tr>
+<tr class="memdesc:ac26962eff871bc587f90a94b6eef1aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load options values from SRAM.  <br /></td></tr>
+<tr class="separator:ac26962eff871bc587f90a94b6eef1aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utils functions to save/load data structures from/to the SRAM. </p>
+<p>Here is an overwiew of the contents of a valid save file.</p>
+<div class="fragment"><div class="line">┌─────────────┐ &lt;-- <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a></div>
+<div class="line">│   Header    │</div>
+<div class="line">├─────────────┤ &lt;-- <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a></div>
+<div class="line">│   Options   │</div>
+<div class="line">├─────────────┤ &lt;-- <a class="code hl_struct" href="structSaveGame.html">SaveGame</a></div>
+<div class="line">│ Engine vars │</div>
+<div class="line">│   Jokers    │</div>
+<div class="line">└─────────────┘</div>
+<div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00126">save.c:127</a></div></div>
+<div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00050">save.c:51</a></div></div>
+<div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00074">save.c:75</a></div></div>
+</div><!-- fragment --><p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> indicates save validity by its presence. <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> contains options values set in the corresponding menu and apply to the game itself. <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> contains values tied to a run with round, ante, money, owned Jokers etc...</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a>, <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a>, <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a></dd></dl>
+<p>I strongly recommend using <code>xxd -l 512 -e -g 4 &lt;gbalatro.sav&gt;</code> to view the contents of the save </p>
 
 <p class="definition">Definition in file <a class="el" href="save_8h_source.html">save.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="ab7a3b4a2f1b227a103c8fe5c79779bfc" name="ab7a3b4a2f1b227a103c8fe5c79779bfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7a3b4a2f1b227a103c8fe5c79779bfc">&#9670;&#160;</a></span>load_game()</h2>
+<a id="aaa21de2652c53c85a56f9d5af9544fe1" name="aaa21de2652c53c85a56f9d5af9544fe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa21de2652c53c85a56f9d5af9544fe1">&#9670;&#160;</a></span>load_game()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,21 +187,45 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void load_game </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Load game data from SRAM. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a080f5ef7e7f8a73a4e49e5ea040391c3" title="Save game data to SRAM.">save_game</a> </dd></dl>
+<p>Load previous run data from SRAM. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a9e232271002ca804d61417ca6773b07a" title="Save current run data to SRAM.">save_game</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00152">152</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00362">362</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="a080f5ef7e7f8a73a4e49e5ea040391c3" name="a080f5ef7e7f8a73a4e49e5ea040391c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a080f5ef7e7f8a73a4e49e5ea040391c3">&#9670;&#160;</a></span>save_game()</h2>
+<a id="ac26962eff871bc587f90a94b6eef1aaf" name="ac26962eff871bc587f90a94b6eef1aaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac26962eff871bc587f90a94b6eef1aaf">&#9670;&#160;</a></span>load_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void load_options </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load options values from SRAM. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e" title="Save options values to SRAM.">save_options</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00306">306</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a9e232271002ca804d61417ca6773b07a" name="a9e232271002ca804d61417ca6773b07a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e232271002ca804d61417ca6773b07a">&#9670;&#160;</a></span>save_game()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,15 +233,38 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void save_game </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Save game data to SRAM. </p>
+<p>Save current run data to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00146">146</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00324">324</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="af08a6f81dc09e7abbf2e4f33f99bec6e" name="af08a6f81dc09e7abbf2e4f33f99bec6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af08a6f81dc09e7abbf2e4f33f99bec6e">&#9670;&#160;</a></span>save_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void save_options </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Save options values to SRAM. </p>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00293">293</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>

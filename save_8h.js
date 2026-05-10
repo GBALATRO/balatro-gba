@@ -1,5 +1,7 @@
 var save_8h =
 [
-    [ "load_game", "save_8h.html#ab7a3b4a2f1b227a103c8fe5c79779bfc", null ],
-    [ "save_game", "save_8h.html#a080f5ef7e7f8a73a4e49e5ea040391c3", null ]
+    [ "load_game", "save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1", null ],
+    [ "load_options", "save_8h.html#ac26962eff871bc587f90a94b6eef1aaf", null ],
+    [ "save_game", "save_8h.html#a9e232271002ca804d61417ca6773b07a", null ],
+    [ "save_options", "save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e", null ]
 ];

@@ -1,13 +1,24 @@
 var save_8c =
 [
     [ "SaveHeader", "structSaveHeader.html", null ],
+    [ "SaveOptions", "structSaveOptions.html", null ],
+    [ "JokerObjectSaveData", "structJokerObjectSaveData.html", null ],
+    [ "SaveGame", "structSaveGame.html", null ],
+    [ "JokerObjectSaveData", "save_8c.html#acab90751e92c8ddb2bdf741c6d51245a", null ],
+    [ "SaveGame", "save_8c.html#ad1dc334d7a91175e24b988b8a05b6042", null ],
     [ "SaveHeader", "save_8c.html#a2279e64a424ee61d2c76715b839cbf4d", null ],
+    [ "SaveOptions", "save_8c.html#a700fd6a8d06a1534a5a66a781215b63b", null ],
     [ "check_hash", "save_8c.html#a72e508492f7ca40a43660db261c47f67", null ],
-    [ "check_save_header", "save_8c.html#af9322b9fb26aa1121e8d32f3890921e0", null ],
-    [ "is_version_dirty", "save_8c.html#a9835f33240f7427f14048f40c91cb824", null ],
+    [ "get_save_header", "save_8c.html#aa7c710df5af72243541a55e499e53bd9", null ],
+    [ "is_version_dirty", "save_8c.html#a5ecd52e574ea02292941949278d4776e", null ],
     [ "load_game", "save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1", null ],
+    [ "load_options", "save_8c.html#ac26962eff871bc587f90a94b6eef1aaf", null ],
     [ "read_sram", "save_8c.html#a74c728ad1200cdda976410f883966567", null ],
     [ "save_game", "save_8c.html#a9e232271002ca804d61417ca6773b07a", null ],
-    [ "set_save_header", "save_8c.html#a758d64d77315054c88e01bf4c05e8100", null ],
-    [ "write_sram", "save_8c.html#ae0171ac7798cc10a4915844e79f050d0", null ]
+    [ "save_options", "save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e", null ],
+    [ "set_save_header", "save_8c.html#ae0dd7506669cf4ae699a6e232dd59364", null ],
+    [ "write_sram", "save_8c.html#ae0171ac7798cc10a4915844e79f050d0", null ],
+    [ "SaveGame_default", "save_8c.html#ac6be8ba75db77c350611aa6a05a923b3", null ],
+    [ "SaveHeader_default", "save_8c.html#ad4c7a26ce01920da160afb04e0ab756f", null ],
+    [ "SaveOptions_default", "save_8c.html#a30da5688e7e13a0664958bde6af12b20", null ]
 ];
