@@ -25,6 +25,8 @@
 #define SORT_HAND      KEY_R
 #define PAUSE_GAME     KEY_START // Not implemented
 #define SELL_KEY       KEY_L
+#define TAB_LEFT       KEY_L
+#define TAB_RIGHT      KEY_R
 
 // Matching the position of the on-screen buttons
 #define PLAY_HAND_KEY KEY_L
