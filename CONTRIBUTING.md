@@ -41,6 +41,45 @@ Running `clang-format` locally is recommended before submitting a PR as it will 
 
 Either way, just ensure you manually review automatic changes.
 
+### Version
+
+This project currently uses **clang-format version 18**.
+
+Please ensure you are using this version to avoid CI formatting failures.
+
+### Installation
+
+<details>
+<summary>Install on Ubuntu / Debian</summary>
+
+```bash
+sudo apt install clang-format
+```
+
+</details>
+
+<details>
+<summary>Install on Arch Linux</summary>
+
+```bash
+sudo pacman -S clang18
+
+# Add to PATH via 'profile.d'
+echo 'export PATH="/usr/lib/llvm18/bin:${PATH}"' | sudo tee /etc/profile.d/clang-format-18.sh
+```
+
+</details>
+
+### Verify Installation
+
+You can check your installed version using:
+
+```bash
+clang-format --version
+```
+
+Ensure the output shows version 18.
+
 #### VSCode
 
 The recommended setup for VSCode is to install the [**clangd**](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) extension. It will provide helpful information in VSCode and can be used to format the code automatically according to the `.clang-format` file with **`Ctrl+Shift+I`**
@@ -53,9 +92,11 @@ If installed locally and you'd prefer to use it in your shell. You can do the fo
 
 ```sh
 # List warnings
-clang-format --dry-run -Werror include/*.h source/*.c
+clang-format --dry-run -Werror include/*.h include/game/*.h source/*.c source/game/*.c
+
 # Modify all files inplace
-clang-format -i include/*.h source/*.c
+clang-format -i include/*.h include/game/*.h source/*.c source/game/*.c
+
 # Or just one
 clang-format -i include/blind.h
 ```

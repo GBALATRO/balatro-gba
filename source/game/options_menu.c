@@ -473,7 +473,7 @@ static void back_on_pressed(void)
 {
     if (back_btn_is_save_state)
     {
-        save_game();
+        save_options();
         change_back_save_text(true);
         back_btn_is_save_state = false;
     }

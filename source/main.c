@@ -6,6 +6,7 @@
 #include "gbalatro_sys8.h"
 #include "graphic_utils.h"
 #include "joker.h"
+#include "save.h"
 #include "sprite.h"
 
 #include <maxmod.h>
@@ -85,6 +86,7 @@ void init()
 
     // Initialize subsystems
     mmInitDefault((mm_addr)soundbank_bin, GBAL_MM_NUM_CHANNELS);
+    load_options();
     affine_background_init();
     sprite_init();
     card_init();
