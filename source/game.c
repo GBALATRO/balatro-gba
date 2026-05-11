@@ -583,7 +583,7 @@ void game_init()
     _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 
     jokers_available_to_shop_init();
-  
+
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
     g_game_vars.timer = TM_ZERO;
