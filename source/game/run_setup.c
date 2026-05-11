@@ -4,8 +4,8 @@
 #include "button.h"
 #include "game.h"
 #include "graphic_utils.h"
-#include "selection_grid.h"
 #include "save.h"
+#include "selection_grid.h"
 
 #include <tonc.h>
 
@@ -163,7 +163,7 @@ static Button tabs_buttons[RUN_SETUP_TAB_MAX] = {
  * BOTTOM BUTTONS
  *
  * Declared before any SubState because they are common to all of them.
- * 
+ *
  * The behaviour and appearance of the Seed/Deck button will change from state
  * to state.
  *
@@ -187,10 +187,12 @@ static void seed_on_pressed(void);
 static void play_on_pressed(void);
 static void back_on_pressed(void);
 
+// clang-format off
 static Button back_button = {
     BACK_BTN_OUTLINE_COLOR_PAL_IDX, BACK_BTN_MAIN_COLOR_PAL_IDX,
     back_on_pressed, NULL
 };
+// clang-format on
 
 #pragma endregion
 
@@ -226,6 +228,7 @@ static bool choose_deck_row_on_selection_changed(
 static int seed_play_get_row_size(void);
 static void seed_play_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
+// clang-format off
 static SelectionGridRow choose_deck_rows[RUN_SETUP_DECK_ROW_MAX] = {
     {
         RUN_SETUP_DECK_ROW_CHANGE_DECK,
@@ -274,6 +277,7 @@ static Button choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_MAX] = {
         play_on_pressed, NULL
     }
 };
+// clang-format on
 
 static bool use_seed = false;
 
@@ -343,7 +347,7 @@ enum RunSetupKeypadButtons
     RUN_SETUP_KEYBOARD_Y,
     RUN_SETUP_KEYBOARD_Z,
     RUN_SETUP_KEYBOARD_DEL
-    
+
 };
 
 static void keyboard_button_on_pressed(void);
@@ -364,6 +368,7 @@ static bool deck_play_row_on_selection_changed(
     const Selection* new_selection
 );
 
+// clang-format off
 // Button at [3][0] is there for consistency but is not used since it corresponds to the "Random" key
 static Button keyboard_buttons[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
     // Row 0
@@ -495,6 +500,7 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
     'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
     ' ', 'U', 'V', 'W', 'X', 'Y', 'Z'
 };
+// clang-format on
 
 static char seed_str[SEED_MAX_CHAR_WIDTH] = {'\0', '\0', '\0', '\0', '\0', '\0'};
 static u8 seed_cursor_pos = 0;
@@ -607,7 +613,8 @@ void game_run_setup_on_init(void)
     }
 }
 
-void game_run_setup_on_update(void){
+void game_run_setup_on_update(void)
+{
 
     run_setup_tabs_update();
     run_setup_actions[substate]();
@@ -619,7 +626,6 @@ void game_run_setup_on_exit(void)
 }
 
 #pragma endregion
-
 
 #pragma region IMPLEMENTATION
 /*******************************************************************************
@@ -705,7 +711,6 @@ static bool choose_deck_row_on_selection_changed(
     // TODO: detect left/right press on Change Deck row to allow swapping
     // Decks need to be implemented for this
 
-
     return true;
 }
 
@@ -726,14 +731,23 @@ static void seed_keyboard_substate_init(void)
     substate = RUN_SETUP_SUBSTATE_CHOOSE_SEED;
 
     // Clean deck swap screen with frame BG color
-    main_bg_se_copy_expand_3x3_rect(RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST, RUN_SETUP_FRAME_BG_3X3_SRC_POS);
-    
+    main_bg_se_copy_expand_3x3_rect(
+        RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST,
+        RUN_SETUP_FRAME_BG_3X3_SRC_POS
+    );
+
     // Copy keyboard tiles
-    main_bg_se_copy_rect(RUN_SETUP_CHOOSE_SEED_KEYBOARD_SRC, RUN_SETUP_CHOOSE_SEED_KEYBOARD_DEST_POS);
+    main_bg_se_copy_rect(
+        RUN_SETUP_CHOOSE_SEED_KEYBOARD_SRC,
+        RUN_SETUP_CHOOSE_SEED_KEYBOARD_DEST_POS
+    );
     main_bg_se_copy_rect(RUN_SETUP_CHOOSE_SEED_FIELD_SRC, RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS);
 
     // Replace seed toggle and button by "Deck" button that allows going back to deck substate
-    main_bg_se_copy_expand_3x3_rect(RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST, RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS);
+    main_bg_se_copy_expand_3x3_rect(
+        RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST,
+        RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS
+    );
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%s",
         RUN_SETUP_SEED_DECK_TEXT_POS.x,
@@ -745,7 +759,6 @@ static void seed_keyboard_substate_init(void)
 
 static void seed_keyboard_substate_update(void)
 {
-
 }
 
 // Will not get called for last (Back button) row, `back_row_get_size()` will instead.
@@ -836,7 +849,8 @@ static bool keyboard_row_on_selection_changed(
 {
     if (prev_selection->y == row_idx)
     {
-        enum RunSetupKeypadButtons prev_key = prev_selection->x + KEYBOARD_WIDTH * prev_selection->y;
+        enum RunSetupKeypadButtons prev_key =
+            prev_selection->x + KEYBOARD_WIDTH * prev_selection->y;
         button_set_highlight(&keyboard_buttons[prev_key], false);
     }
     if (new_selection->y == row_idx)
@@ -857,7 +871,6 @@ static void resume_substate_init(void)
 
 static void resume_substate_update(void)
 {
-
 }
 
 // COMMON BUTTONS
@@ -867,15 +880,13 @@ static inline void toggle_seed_enabled(bool enable)
     use_seed = enable;
 
     // Apply right main color to the Button
-    choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED].button_pal_idx = use_seed
-        ? BLUE_BTN_MAIN_COLOR_PAL_IDX
-        : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;
+    choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED].button_pal_idx =
+        use_seed ? BLUE_BTN_MAIN_COLOR_PAL_IDX : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], false);
 
     // Replace Seed button tiles with the disabled one's
-    BG_POINT button_tiles = use_seed
-        ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS
-        : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;
+    BG_POINT button_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS
+                                     : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;
     main_bg_se_copy_expand_3x3_rect(RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST, button_tiles);
 
     // Print Seed button text with the right color
@@ -888,9 +899,8 @@ static inline void toggle_seed_enabled(bool enable)
     );
 
     // Replace toggle button tiles with either checkmark of empty circle
-    Rect toggle_tiles = use_seed
-        ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC
-        : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;
+    Rect toggle_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC
+                                 : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;
     main_bg_se_copy_rect(toggle_tiles, RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS);
 }
 
@@ -910,10 +920,10 @@ static void seed_on_pressed(void)
     }
 }
 
-//static void deck_on_pressed(void)
+// static void deck_on_pressed(void)
 //{
 //
-//}
+// }
 
 static void play_on_pressed(void)
 {
@@ -927,7 +937,6 @@ static void back_on_pressed(void)
 
 static void change_deck_on_pressed(void)
 {
-
 }
 
 static void tab_set_highlight(enum RunSetupTab tab_sel)
@@ -1004,7 +1013,6 @@ static int deck_play_get_row_size(void)
 
 static void deck_play_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-
 }
 
 static bool deck_play_row_on_selection_changed(
