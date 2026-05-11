@@ -32,6 +32,13 @@
 #include <tonc.h>
 
 /**
+ * @brief Checks whether the SaveGame section is present and valid.
+ *
+ * @returns true if it is, false if not.
+ */
+bool is_game_data_valid(void);
+
+/**
  * @brief Save current run data to SRAM.
  */
 void save_game(void);

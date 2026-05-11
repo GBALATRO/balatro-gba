@@ -63,6 +63,9 @@
 /** @def TTE_BIT_ON_CLR_IDX */
 #define TTE_BIT_ON_CLR_IDX TTE_BIT_UNPACK_OFFSET + 1
 
+/** @def TTE_BLACK_PB */
+#define TTE_BLACK_PB 0 // 0x0
+
 /** @def TTE_YELLOW_PB */
 #define TTE_YELLOW_PB 12 // 0xC
 

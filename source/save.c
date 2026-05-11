@@ -332,6 +332,12 @@ void load_options(void)
     set_cards_more_readable(options.cards_more_readable);
 }
 
+bool is_game_data_valid(void)
+{
+    SaveHeader header;
+    return get_save_header(&header) && (header.valid_sections & SAVE_SECTION_FLAG_GAME);
+}
+
 void save_game(void)
 {
     SaveGame game = SaveGame_default;
