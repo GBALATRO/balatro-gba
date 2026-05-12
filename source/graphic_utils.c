@@ -166,6 +166,11 @@ static inline void main_bg_se_fill_rect_with_se(SE se, Rect se_rect)
     }
 }
 
+void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src)
+{
+    main_bg_se_fill_rect_with_se(se_mat[MAIN_BG_SBB][se_tile_src.y][se_tile_src.x], se_rect_dest);
+}
+
 // Helper: Copy the corners of a 3x3 tile block
 static inline void main_bg_se_expand_3x3_copy_corners(
     const Rect* se_dest_rect,
@@ -300,6 +305,174 @@ void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt)
         // Avoid copying the sides when filling the rect.
         dest_inner_fill_rect.left += 1;
         dest_inner_fill_rect.right -= 1;
+        main_bg_se_fill_rect_with_se(middle_fill_se, dest_inner_fill_rect);
+    }
+}
+
+static inline void main_bg_se_expand_9_patch_copy_corners(
+    Rect se_dest_rect,
+    const NinePatchRect* src_9_ptch
+)
+{
+    BG_POINT top_left_dest_pos = {se_dest_rect.left, se_dest_rect.top};
+    Rect top_left_src = {
+        src_9_ptch->patch_rect.left,
+        src_9_ptch->patch_rect.top,
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+    };
+
+    BG_POINT top_right_dest_pos = {
+        se_dest_rect.right - src_9_ptch->margins.right,
+        se_dest_rect.top
+    };
+    Rect top_right_src = {
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
+        src_9_ptch->patch_rect.top,
+        src_9_ptch->patch_rect.right,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+    };
+
+    BG_POINT bottom_right_dest_pos = {
+        se_dest_rect.right - src_9_ptch->margins.right,
+        se_dest_rect.bottom - src_9_ptch->margins.bottom
+    };
+    Rect bottom_right_src = {
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
+        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom,
+        src_9_ptch->patch_rect.right,
+        src_9_ptch->patch_rect.bottom
+    };
+
+    BG_POINT bottom_left_dest_pos = {
+        se_dest_rect.left,
+        se_dest_rect.bottom - src_9_ptch->margins.bottom
+    };
+    Rect bottom_left_src = {
+        src_9_ptch->patch_rect.left,
+        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom,
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
+        src_9_ptch->patch_rect.bottom
+    };
+
+    main_bg_se_copy_rect(top_left_src, top_left_dest_pos);
+    main_bg_se_copy_rect(top_right_src, top_right_dest_pos);
+    main_bg_se_copy_rect(bottom_right_src, bottom_right_dest_pos);
+    main_bg_se_copy_rect(bottom_left_src, bottom_left_dest_pos);
+}
+
+static inline void main_bg_se_expand_9_patch_stretch_sides(
+    Rect se_dest_rect,
+    const NinePatchRect* src_9_ptch,
+    int top_bottom_width,
+    int left_right_height
+)
+{
+    // We can take the Top and Bottom sides' tiles 1 by 1 and stretch them horizontally
+
+    // Top side
+    for (int i = 0; i < src_9_ptch->margins.top; i++)
+    {
+        SE top_side_tile = se_mat[MAIN_BG_SBB][src_9_ptch->patch_rect.top + i]
+                                 [src_9_ptch->patch_rect.left + src_9_ptch->margins.left];
+        memset16(
+            &se_mat[MAIN_BG_SBB][se_dest_rect.top + i]
+                   [se_dest_rect.left + src_9_ptch->margins.left],
+            top_side_tile,
+            top_bottom_width
+        );
+    }
+
+    // Bottom side side
+    for (int i = 0; i < src_9_ptch->margins.bottom; i++)
+    {
+        SE bottom_side_tile = se_mat[MAIN_BG_SBB][src_9_ptch->patch_rect.bottom - i]
+                                 [src_9_ptch->patch_rect.left + src_9_ptch->margins.left];
+        memset16(
+            &se_mat[MAIN_BG_SBB][se_dest_rect.bottom - i]
+                   [se_dest_rect.left + src_9_ptch->margins.left],
+            bottom_side_tile,
+            top_bottom_width
+        );
+    }
+
+    // Can't stretch the Left and Right sides with a wide memset16, and 
+    // main_bg_se_fill_rect_with_se` does it rows-wise too. We'll have to copy rects by hand.
+
+    Rect left_side_tiles_src = {
+        src_9_ptch->patch_rect.left,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top,
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+    };
+    BG_POINT left_side_tiles_dest_pos = {
+        se_dest_rect.left,
+        se_dest_rect.top + src_9_ptch->margins.top
+    };
+
+    Rect right_side_tiles_src = {
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top,
+        src_9_ptch->patch_rect.right,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+    };
+    BG_POINT right_side_tiles_dest_pos = {
+        se_dest_rect.right - src_9_ptch->margins.right,
+        se_dest_rect.top + src_9_ptch->margins.top
+    };
+
+    for (int i = 0; i < left_right_height; i++)
+    {
+        main_bg_se_copy_rect(left_side_tiles_src, left_side_tiles_dest_pos);
+        left_side_tiles_dest_pos.y++;
+
+        main_bg_se_copy_rect(right_side_tiles_src, right_side_tiles_dest_pos);
+        right_side_tiles_dest_pos.y++;
+    }
+}
+
+void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_9_ptch)
+{
+    clip_se_rect_to_screenblock(&se_dest_rect);
+
+    int dest_rect_width = rect_width(&se_dest_rect);
+    int dest_rect_height = rect_height(&se_dest_rect);
+
+    int src_9ptch_min_width =
+        rect_width(&src_9_ptch->patch_rect) - rect_width(&src_9_ptch->margins);
+    int src_9ptch_min_height =
+        rect_height(&src_9_ptch->patch_rect) - rect_height(&src_9_ptch->margins);
+
+    // Verify the dest rect is big enough to fit at least the 9-patch's corners
+    if (dest_rect_width < src_9ptch_min_width || dest_rect_height < src_9ptch_min_height)
+    {
+        return;
+    }
+
+    // Copy the corners
+    main_bg_se_expand_9_patch_copy_corners(se_dest_rect, src_9_ptch);
+
+    // Fill the sides and center if needed
+    if (dest_rect_width > src_9ptch_min_width && dest_rect_height > src_9ptch_min_height)
+    {
+        // Stretch sides
+        main_bg_se_expand_9_patch_stretch_sides(
+            se_dest_rect,
+            src_9_ptch,
+            dest_rect_width - src_9ptch_min_width,
+            dest_rect_height - src_9ptch_min_height
+        );
+
+        // Fill center
+        SE middle_fill_se =
+            se_mat[MAIN_BG_SBB][src_9_ptch->patch_rect.top + src_9_ptch->margins.top]
+                  [src_9_ptch->patch_rect.left + src_9_ptch->margins.left];
+        Rect dest_inner_fill_rect = {
+            se_dest_rect.left + src_9_ptch->margins.left,
+            se_dest_rect.top + src_9_ptch->margins.top,
+            se_dest_rect.right - src_9_ptch->margins.right,
+            se_dest_rect.bottom - src_9_ptch->margins.bottom
+        };
         main_bg_se_fill_rect_with_se(middle_fill_se, dest_inner_fill_rect);
     }
 }

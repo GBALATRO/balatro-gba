@@ -102,17 +102,26 @@ static const SubStateActionFn run_setup_update_substate[RUN_SETUP_SUBSTATE_MAX] 
  ******************************************************************************/
 
 // clang-format off
-static const Rect     RUN_SETUP_RESUME_TAB_DISABLED_SRC                   = {15, 22, 19, 23};
+static const Rect     RUN_SETUP_RESUME_TAB_DISABLED_SRC                   = {19, 22, 23, 23};
 static const BG_POINT RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS              = {15, 1};
 
-static const BG_POINT RUN_SETUP_FRAME_BG_3X3_SRC_POS                      = {7 , 29};
+static const BG_POINT RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS                  = {9 , 31};
 
-static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC          = {4 , 23, 5 , 25};
-static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC           = {6 , 23, 7 , 25};
+static const Rect          RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_DEST    = {6 , 4 , 23, 13};
+static const NinePatchRect RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_SRC     = {
+    { 0, 21, 7 , 28},
+    { 5, 3 , 2 , 4}
+};
+
+static const Rect     RUN_SETUP_CHOOSE_DECK_CLEAN_LEFT_DEST               = {4 , 6 , 5 , 13};
+static const Rect     RUN_SETUP_CHOOSE_DECK_CLEAN_RIGHT_DEST              = {24, 6 ,25 , 13};
+
+static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC          = {30, 8 , 31, 10};
+static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC           = {30, 11, 31, 13};
 static const BG_POINT RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS         = {5 , 14};
 
-static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS          = {4 , 26};
-static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS = {7 , 26};
+static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS          = {0 , 29};
+static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS = {3 , 29};
 static const Rect     RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST                 = {7 , 14, 12, 16};
 
 static const Rect     RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST              = {4 , 3 , 25, 5 };
@@ -126,7 +135,7 @@ static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {5 ,
 
 // Pixel sizes
 #define RUN_SETUP_DECK_SPRITE_T_X 48
-#define RUN_SETUP_DECK_SPRITE_T_Y 53
+#define RUN_SETUP_DECK_SPRITE_T_Y 54
 static const BG_POINT RUN_SETUP_DECK_NAME_TEXT_POS  = {80 , 40 };
 static const BG_POINT RUN_SETUP_DECK_DESC_TEXT_POS  = {80 , 56 };
 static const Rect     RUN_SETUP_DECK_NAME_DESC_RECT = {80 , 40 ,176, 96 };
@@ -626,6 +635,8 @@ void game_run_setup_change_background(void)
 
 void game_run_setup_on_init(void)
 {
+    game_run_setup_change_background();
+
     // Rank doesn't matter, won't see it
     run_setup_deck = card_object_new(card_new(SPADES, ACE));
 
@@ -683,12 +694,27 @@ void game_run_setup_on_exit(void)
 static void choose_deck_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
-    game_run_setup_change_background();
 
     // Show Deck sprite, name and TODO: description
     obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
     print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
     print_deck_description(g_game_vars.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
+
+    // Clean frame and expand 9-patch for the Deck choice background
+    main_bg_se_copy_expand_tile(
+        RUN_SETUP_CHOOSE_DECK_CLEAN_LEFT_DEST,
+        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS
+    );
+    main_bg_se_copy_expand_tile(
+        RUN_SETUP_CHOOSE_DECK_CLEAN_RIGHT_DEST,
+        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS
+    );
+    main_bg_se_copy_expand_9_patch(
+        RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_DEST,
+        &RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_SRC
+    );
+
+    // TODO: add left/right navigation arrows once more decks have been implemented
 
     // Set Tab to "New Run"
     main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC, RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS);
@@ -785,9 +811,9 @@ static void seed_keyboard_substate_init(void)
     obj_hide(run_setup_deck->sprite_object->sprite->obj);
 
     // Clean deck swap screen with frame BG color
-    main_bg_se_copy_expand_3x3_rect(
+    main_bg_se_copy_expand_tile(
         RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST,
-        RUN_SETUP_FRAME_BG_3X3_SRC_POS
+        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS
     );
 
     // Copy keyboard tiles
