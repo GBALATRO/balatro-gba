@@ -354,7 +354,9 @@ enum RunSetupSeedBottomButtons
 };
 
 static void keyboard_button_on_pressed(void);
-static int choose_seed_get_row_size(void);
+static int choose_seed_get_keyboard_row_size(void);
+static int choose_seed_get_keyboard_short_row_size(void);
+static int choose_seed_get_bottom_row_size(void);
 static void choose_seed_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 static bool choose_seed_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -516,25 +518,25 @@ static SelectionGridRow choose_seed_selection_rows[] = {
     // First 4 rows are the seed keyboard itself.
     {
         RUN_SETUP_SEED_ROW_KEY0,
-        choose_seed_get_row_size,
+        choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
         {.wrap = false}
     }, {
         RUN_SETUP_SEED_ROW_KEY1,
-        choose_seed_get_row_size,
+        choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
         {.wrap = false}
     }, {
         RUN_SETUP_SEED_ROW_KEY2,
-        choose_seed_get_row_size,
+        choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
         {.wrap = false}
     }, {
         RUN_SETUP_SEED_ROW_KEY3,
-        choose_seed_get_row_size,
+        choose_seed_get_keyboard_short_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
         {.wrap = false}
@@ -542,13 +544,13 @@ static SelectionGridRow choose_seed_selection_rows[] = {
     // Then we have the Deck/PLAY and Back rows
     {
         RUN_SETUP_SEED_ROW_DECK_PLAY,
-        choose_seed_get_row_size,
+        choose_seed_get_bottom_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
         {.wrap = false}
     }, {
         RUN_SETUP_SEED_ROW_BACK,
-        choose_seed_get_row_size,
+        back_row_get_size,
         choose_seed_row_on_selection_changed,
         back_row_on_key_transit,
         {.wrap = false}
@@ -765,20 +767,19 @@ static void seed_keyboard_substate_update(void)
     selection_grid_process_input(&choose_seed_selection_grid);
 }
 
-// Will not get called for last (Back button) row, `back_row_get_size()` will instead.
-static int choose_seed_get_row_size(void)
+static int choose_seed_get_keyboard_row_size(void)
 {
-    switch (choose_seed_selection_grid.selection.y)
-    {
-        case RUN_SETUP_SEED_ROW_DECK_PLAY:
-            return 2;
-        case RUN_SETUP_SEED_ROW_BACK:
-            return 1;
-        case RUN_SETUP_SEED_ROW_KEY3:
-            return KEYBOARD_WIDTH - 2;
-        default:
-            return KEYBOARD_WIDTH;
-    }
+    return KEYBOARD_WIDTH;
+}
+
+static int choose_seed_get_keyboard_short_row_size(void)
+{
+    return KEYBOARD_WIDTH - 2;
+}
+
+static int choose_seed_get_bottom_row_size(void)
+{
+    return 2;
 }
 
 static inline void delete_seed_char(void)
@@ -870,10 +871,17 @@ static bool choose_seed_row_on_selection_changed(
 )
 {
     // TODO: since some rows don't have the same number of buttons but their widths line up,
-    // need to shift selection.x to left or right to keep navigation consistent
+    // need to find a way to shift selection.x to left or right to keep navigation consistent
 
-    button_set_highlight(choose_seed_get_button_from_sel(prev_selection), false);
-    button_set_highlight(choose_seed_get_button_from_sel(new_selection), true);
+    if (row_idx == new_selection->y)
+    {
+        button_set_highlight(choose_seed_get_button_from_sel(prev_selection), false);
+    }
+
+    if (row_idx == new_selection->y)
+    {
+        button_set_highlight(choose_seed_get_button_from_sel(new_selection), true);
+    }
     return true;
 }
 
