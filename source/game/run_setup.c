@@ -76,6 +76,8 @@ enum RunSetupSubstate
     RUN_SETUP_SUBSTATE_MAX
 };
 
+static enum RunSetupSubstate substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
+
 static void choose_deck_substate_init(void);
 static void seed_keyboard_substate_init(void);
 static void resume_substate_init(void);
@@ -84,13 +86,11 @@ static void choose_deck_substate_update(void);
 static void seed_keyboard_substate_update(void);
 static void resume_substate_update(void);
 
-static const SubStateActionFn run_setup_actions[RUN_SETUP_SUBSTATE_MAX] = {
+static const SubStateActionFn run_setup_update_substate[RUN_SETUP_SUBSTATE_MAX] = {
     choose_deck_substate_update,
     seed_keyboard_substate_update,
     resume_substate_update
 };
-
-static enum RunSetupSubstate substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
 
 #pragma region LAYOUT
 /*******************************************************************************
@@ -105,7 +105,6 @@ static const BG_POINT RUN_SETUP_FRAME_BG_3X3_SRC_POS                      = {7 ,
 
 static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC          = {4 , 23, 5 , 25};
 static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC           = {6 , 23, 7 , 25};
-// static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DISABLED_SRC     = {8 , 23, 9 , 25};
 static const BG_POINT RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS         = {5 , 14};
 
 static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS          = {4 , 26};
@@ -144,8 +143,8 @@ enum RunSetupTab
     RUN_SETUP_TAB_RESUME,
     RUN_SETUP_TAB_MAX
 };
+
 static bool is_saved_game_valid = false;
-static enum RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;
 
 static void tab_set_highlight(enum RunSetupTab tab_sel);
 static void run_setup_tabs_update(void);
@@ -166,10 +165,12 @@ static Button tabs_buttons[RUN_SETUP_TAB_MAX] = {
  * Declared before any SubState because they are common to all of them.
  *
  * The behaviour and appearance of the Seed/Deck button will change from state
- * to state.
+ * to state so these Buttons can't be defined here. functions related to their
+ * behaviour can, though.
  *
- * The Play and Back buttons will always be the same, but need to be duplicated
- * anyway to be integrated to each SubState's SelectionGrid.
+ * The Play and Back buttons will always be the same, but Play needs to be
+ * duplicated anyway to be integrated to each SubState's SelectionGrid, since
+ * the row it is on doesn't always have the same number of buttons.
  ******************************************************************************/
 
 static int back_row_get_size();
@@ -212,7 +213,8 @@ enum RunSetupDeckBottomButtons
     RUN_SETUP_DECK_BB_MAX
 };
 
-static void change_deck_on_pressed(void);
+// CHOOSE DECK SELECTION GRID
+
 static int change_deck_get_row_size(void);
 static bool choose_deck_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -245,6 +247,7 @@ static SelectionGridRow choose_deck_rows[RUN_SETUP_DECK_ROW_MAX] = {
         {.wrap = false}
     }
 };
+// clang-format on
 
 static const Selection RUN_SETUP_CHOOSE_DECK_INIT_SEL = {0, 0};
 static const Selection RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED = {1, 1};
@@ -255,11 +258,18 @@ static SelectionGrid choose_deck_selection_grid = {
     RUN_SETUP_CHOOSE_DECK_INIT_SEL
 };
 
+// CHOOSE SEED BUTTONS
+
+static void change_deck_on_pressed(void);
+
 static Button change_deck_button = {
-    CHANGE_DECK_BTN_OUTINE_COLOR_PAL_IDX, CHANGE_DECK_BTN_MAIN_COLOR_PAL_IDX,
-    change_deck_on_pressed, NULL
+    CHANGE_DECK_BTN_OUTINE_COLOR_PAL_IDX,
+    CHANGE_DECK_BTN_MAIN_COLOR_PAL_IDX,
+    change_deck_on_pressed,
+    NULL
 };
 
+// clang-format off
 // Seed button is disabled by default but can be enabled by clicking the toggle just next to it
 static Button choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_MAX] = {
     {
@@ -354,7 +364,8 @@ enum RunSetupSeedBottomButtons
     RUN_SETUP_SEED_BB_MAX
 };
 
-static void keyboard_button_on_pressed(void);
+// CHOOSE SEED SELECTION GRID
+
 static int choose_seed_get_keyboard_row_size(void);
 static int choose_seed_get_keyboard_short_row_size(void);
 static int choose_seed_get_bottom_row_size(void);
@@ -365,6 +376,63 @@ static bool choose_seed_row_on_selection_changed(
     const Selection* prev_selection,
     const Selection* new_selection
 );
+
+// clang-format off
+static SelectionGridRow choose_seed_selection_rows[] = {
+    // First 4 rows are the seed keyboard itself.
+    {
+        RUN_SETUP_SEED_ROW_KEY0,
+        choose_seed_get_keyboard_row_size,
+        choose_seed_row_on_selection_changed,
+        choose_seed_row_on_key_transit,
+        {.wrap = false}
+    }, {
+        RUN_SETUP_SEED_ROW_KEY1,
+        choose_seed_get_keyboard_row_size,
+        choose_seed_row_on_selection_changed,
+        choose_seed_row_on_key_transit,
+        {.wrap = false}
+    }, {
+        RUN_SETUP_SEED_ROW_KEY2,
+        choose_seed_get_keyboard_row_size,
+        choose_seed_row_on_selection_changed,
+        choose_seed_row_on_key_transit,
+        {.wrap = false}
+    }, {
+        RUN_SETUP_SEED_ROW_KEY3,
+        choose_seed_get_keyboard_short_row_size,
+        choose_seed_row_on_selection_changed,
+        choose_seed_row_on_key_transit,
+        {.wrap = false}
+    },
+    // Then we have the Deck/PLAY and Back rows
+    {
+        RUN_SETUP_SEED_ROW_DECK_PLAY,
+        choose_seed_get_bottom_row_size,
+        choose_seed_row_on_selection_changed,
+        choose_seed_row_on_key_transit,
+        {.wrap = false}
+    }, {
+        RUN_SETUP_SEED_ROW_BACK,
+        back_row_get_size,
+        choose_seed_row_on_selection_changed,
+        back_row_on_key_transit,
+        {.wrap = false}
+    }
+};
+// clang-format on
+
+static const Selection RUN_SETUP_CHOOSE_SEED_INIT_SEL = {0, 4};
+
+static SelectionGrid choose_seed_selection_grid = {
+    choose_seed_selection_rows,
+    RUN_SETUP_SEED_ROW_MAX,
+    RUN_SETUP_CHOOSE_SEED_INIT_SEL
+};
+
+// CHOOSE SEED BUTTONS
+
+static void keyboard_button_on_pressed(void);
 
 // clang-format off
 // Button at [3][0] is there for consistency but is not used since it corresponds to the "Random" key
@@ -515,59 +583,6 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 static char seed_str[SEED_MAX_CHAR_WIDTH + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 static u8 seed_cursor_pos = 0;
 
-// clang-format off
-static SelectionGridRow choose_seed_selection_rows[] = {
-    // First 4 rows are the seed keyboard itself.
-    {
-        RUN_SETUP_SEED_ROW_KEY0,
-        choose_seed_get_keyboard_row_size,
-        choose_seed_row_on_selection_changed,
-        choose_seed_row_on_key_transit,
-        {.wrap = false}
-    }, {
-        RUN_SETUP_SEED_ROW_KEY1,
-        choose_seed_get_keyboard_row_size,
-        choose_seed_row_on_selection_changed,
-        choose_seed_row_on_key_transit,
-        {.wrap = false}
-    }, {
-        RUN_SETUP_SEED_ROW_KEY2,
-        choose_seed_get_keyboard_row_size,
-        choose_seed_row_on_selection_changed,
-        choose_seed_row_on_key_transit,
-        {.wrap = false}
-    }, {
-        RUN_SETUP_SEED_ROW_KEY3,
-        choose_seed_get_keyboard_short_row_size,
-        choose_seed_row_on_selection_changed,
-        choose_seed_row_on_key_transit,
-        {.wrap = false}
-    },
-    // Then we have the Deck/PLAY and Back rows
-    {
-        RUN_SETUP_SEED_ROW_DECK_PLAY,
-        choose_seed_get_bottom_row_size,
-        choose_seed_row_on_selection_changed,
-        choose_seed_row_on_key_transit,
-        {.wrap = false}
-    }, {
-        RUN_SETUP_SEED_ROW_BACK,
-        back_row_get_size,
-        choose_seed_row_on_selection_changed,
-        back_row_on_key_transit,
-        {.wrap = false}
-    }
-};
-
-static const Selection RUN_SETUP_CHOOSE_SEED_INIT_SEL = {0, 4};
-
-static SelectionGrid choose_seed_selection_grid = {
-    choose_seed_selection_rows,
-    RUN_SETUP_SEED_ROW_MAX,
-    RUN_SETUP_CHOOSE_SEED_INIT_SEL
-};
-// clang-format on
-
 #pragma endregion
 
 #pragma region RESUME
@@ -581,6 +596,10 @@ enum RunSetupResumeRows
     RUN_SETUP_RESUME_ROW_BACK,
     RUN_SETUP_RESUME_ROW_MAX
 };
+
+// RESUME SELECTION GRID
+
+// RESUME BUTTONS
 
 #pragma endregion
 
@@ -615,13 +634,16 @@ void game_run_setup_on_init(void)
 
 void game_run_setup_on_update(void)
 {
-
     run_setup_tabs_update();
-    run_setup_actions[substate]();
+    run_setup_update_substate[substate]();
 }
 
 void game_run_setup_on_exit(void)
 {
+    // use_seed = false;
+    // seed_cursor_pos = 0;
+    // seed_str[0] = '\0';
+
     tte_erase_screen();
 }
 
@@ -756,7 +778,8 @@ static void seed_keyboard_substate_init(void)
     );
 
     // Set buttons highlight
-    for (enum RunSetupKeyboardButtons key = RUN_SETUP_KEYBOARD_BEGIN; key < RUN_SETUP_KEYBOARD_MAX; key++)
+    for (enum RunSetupKeyboardButtons key = RUN_SETUP_KEYBOARD_BEGIN; key < RUN_SETUP_KEYBOARD_MAX;
+         key++)
     {
         button_set_highlight(&keyboard_buttons[key], false);
     }
@@ -820,6 +843,11 @@ static inline void type_seed_char(enum RunSetupKeyboardButtons key)
     update_seed_text();
 }
 
+static inline enum RunSetupKeyboardButtons get_keyboard_index_from_sel(const Selection* sel)
+{
+    return sel->x + KEYBOARD_WIDTH * sel->y;
+}
+
 static void keyboard_button_on_pressed(void)
 {
     // Type something only if the button pressed in on the keyboard
@@ -843,7 +871,7 @@ static void keyboard_button_on_pressed(void)
     {
         // Get keyboard button index from selection
         enum RunSetupKeyboardButtons key =
-            choose_seed_selection_grid.selection.x + KEYBOARD_WIDTH * choose_seed_selection_grid.selection.y;
+            get_keyboard_index_from_sel(&choose_seed_selection_grid.selection);
 
         switch (key)
         {
@@ -870,7 +898,7 @@ static inline Button* choose_seed_get_button_from_sel(const Selection* sel)
         case RUN_SETUP_SEED_ROW_KEY1:
         case RUN_SETUP_SEED_ROW_KEY2:
         case RUN_SETUP_SEED_ROW_KEY3:
-            return &keyboard_buttons[sel->y * KEYBOARD_WIDTH + sel->x];
+            return &keyboard_buttons[get_keyboard_index_from_sel(sel)];
         case RUN_SETUP_SEED_ROW_DECK_PLAY:
             return &choose_seed_bottom_buttons[sel->x];
         case RUN_SETUP_SEED_ROW_BACK:
@@ -999,6 +1027,8 @@ static void tab_set_highlight(enum RunSetupTab tab_sel)
 
 static void run_setup_tabs_update(void)
 {
+    static enum RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;
+
     // If there is no saved data, "Resume" tab is grayed out and only one tab is available
     if (!is_saved_game_valid)
     {
@@ -1034,7 +1064,7 @@ static void back_row_on_key_transit(SelectionGrid* selection_grid, Selection* se
 {
     if (key_hit(SELECT_CARD))
     {
-        game_change_state(GAME_STATE_MAIN_MENU);
+        button_press(&back_button);
     }
 }
 
