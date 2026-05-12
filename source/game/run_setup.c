@@ -122,6 +122,7 @@ static const BG_POINT RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS = RUN_SETUP_CHO
 static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {5 , 14, 12, 16};
 
 // Text positions in pixels
+static const BG_POINT RUN_SETUP_SEED_FIELD_TEXT_POS                       = {96 , 40 };
 static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS                        = {56 , 120};
 static const BG_POINT RUN_SETUP_PLAY_TEXT_POS                             = {136, 120};
 static const BG_POINT RUN_SETUP_BACK_TEXT_POS                             = {104, 136};
@@ -510,7 +511,8 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 };
 // clang-format on
 
-static char seed_str[SEED_MAX_CHAR_WIDTH] = {'\0', '\0', '\0', '\0', '\0', '\0'};
+// Size SEED_MAX_CHAR_WIDTH + 1 to always have '\0' at the end
+static char seed_str[SEED_MAX_CHAR_WIDTH + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 static u8 seed_cursor_pos = 0;
 
 // clang-format off
@@ -721,6 +723,7 @@ static void seed_play_row_on_key_transit(SelectionGrid* selection_grid, Selectio
 
 // CHOOSE SEED
 
+static inline void update_seed_text(void);
 static void seed_keyboard_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_SEED;
@@ -760,6 +763,9 @@ static void seed_keyboard_substate_init(void)
     button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], true);
     button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_PLAY], false);
     button_set_highlight(&back_button, false);
+
+    // Print seed text
+    update_seed_text();
 }
 
 static void seed_keyboard_substate_update(void)
@@ -782,14 +788,36 @@ static int choose_seed_get_bottom_row_size(void)
     return 2;
 }
 
+static inline void update_seed_text(void)
+{
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%-*s",
+        RUN_SETUP_SEED_FIELD_TEXT_POS.x,
+        RUN_SETUP_SEED_FIELD_TEXT_POS.y,
+        TTE_BLACK_PB,
+        SEED_MAX_CHAR_WIDTH + 1,
+        seed_str
+    );
+}
+
 static inline void delete_seed_char(void)
 {
     if (seed_cursor_pos == 0)
     {
         return;
     }
-    seed_str[seed_cursor_pos] = '\0';
-    seed_cursor_pos--;
+    seed_str[--seed_cursor_pos] = '\0';
+    update_seed_text();
+}
+
+static inline void type_seed_char(enum RunSetupKeyboardButtons key)
+{
+    if (seed_cursor_pos >= SEED_MAX_CHAR_WIDTH)
+    {
+        return;
+    }
+    seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];
+    update_seed_text();
 }
 
 static void keyboard_button_on_pressed(void)
@@ -828,11 +856,7 @@ static void keyboard_button_on_pressed(void)
                 delete_seed_char();
                 break;
             default:
-                if (seed_cursor_pos < SEED_MAX_CHAR_WIDTH)
-                {
-                    seed_str[seed_cursor_pos] = keyboard_buttons_to_char[key];
-                    seed_cursor_pos++;
-                }
+                type_seed_char(key);
                 break;
         }
     }
