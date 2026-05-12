@@ -2,11 +2,13 @@
 
 #include "background_run_setup_gfx.h"
 #include "button.h"
+#include "card.h"
 #include "game.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "save.h"
 #include "selection_grid.h"
+#include "sprite.h"
 #include "util.h"
 
 #include <tonc.h>
@@ -122,11 +124,16 @@ static const BG_POINT RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS                = {11,
 static const BG_POINT RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS = RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS;
 static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {5 , 14, 12, 16};
 
-// Text positions in pixels
-static const BG_POINT RUN_SETUP_SEED_FIELD_TEXT_POS                       = {96 , 40 };
-static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS                        = {56 , 120};
-static const BG_POINT RUN_SETUP_PLAY_TEXT_POS                             = {136, 120};
-static const BG_POINT RUN_SETUP_BACK_TEXT_POS                             = {104, 136};
+// Pixel sizes
+#define RUN_SETUP_DECK_SPRITE_T_X 48
+#define RUN_SETUP_DECK_SPRITE_T_Y 53
+static const BG_POINT RUN_SETUP_DECK_NAME_TEXT_POS  = {80 , 40 };
+static const BG_POINT RUN_SETUP_DECK_DESC_TEXT_POS  = {80 , 56 };
+static const Rect     RUN_SETUP_DECK_NAME_DESC_RECT = {80 , 40 ,176, 96 };
+static const BG_POINT RUN_SETUP_SEED_FIELD_TEXT_POS = {96 , 40 };
+static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS  = {56 , 120};
+static const BG_POINT RUN_SETUP_PLAY_TEXT_POS       = {136, 120};
+static const BG_POINT RUN_SETUP_BACK_TEXT_POS       = {104, 136};
 // clang-format on
 
 #pragma endregion
@@ -260,7 +267,7 @@ static SelectionGrid choose_deck_selection_grid = {
     RUN_SETUP_CHOOSE_DECK_INIT_SEL
 };
 
-// CHOOSE SEED BUTTONS
+// CHOOSE DECK BUTTONS
 
 static void change_deck_on_pressed(void);
 
@@ -288,6 +295,7 @@ static Button choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_MAX] = {
 // clang-format on
 
 static bool use_seed = false;
+static CardObject* run_setup_deck = NULL;
 
 #pragma endregion
 
@@ -620,6 +628,20 @@ void game_run_setup_change_background(void)
 
 void game_run_setup_on_init(void)
 {
+    // Rank doesn't matter, won't see it
+    run_setup_deck = card_object_new(card_new(SPADES, ACE));
+
+    // We put it at the same layer as the main menu Ace card, but it's okay because
+    // both cards do not exist at the same time, one is destroyed before the other is created.
+    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
+
+    run_setup_deck->sprite_object->tx = int2fx(RUN_SETUP_DECK_SPRITE_T_X);
+    run_setup_deck->sprite_object->x = run_setup_deck->sprite_object->tx;
+    run_setup_deck->sprite_object->ty = int2fx(RUN_SETUP_DECK_SPRITE_T_Y);
+    run_setup_deck->sprite_object->y = run_setup_deck->sprite_object->ty;
+
+    card_object_update(run_setup_deck);
+
     is_saved_game_valid = is_game_data_valid();
     if (is_saved_game_valid)
     {
@@ -645,6 +667,9 @@ void game_run_setup_on_exit(void)
     // seed_cursor_pos = 0;
     // seed_str[0] = '\0';
 
+    card_destroy(&run_setup_deck->card);
+    card_object_destroy(&run_setup_deck);
+
     tte_erase_screen();
 }
 
@@ -661,6 +686,11 @@ static void choose_deck_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
     game_run_setup_change_background();
+
+    // Show Deck sprite, name and TODO: description
+    obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
+    print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
+    print_deck_description(g_game_vars.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
 
     // Set Tab to "New Run"
     main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC, RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS);
@@ -751,6 +781,10 @@ static void seed_keyboard_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_SEED;
     choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;
+    tte_erase_rect_wrapper(RUN_SETUP_DECK_NAME_DESC_RECT);
+
+    // Hide Deck card sprite
+    obj_hide(run_setup_deck->sprite_object->sprite->obj);
 
     // Clean deck swap screen with frame BG color
     main_bg_se_copy_expand_3x3_rect(
@@ -951,6 +985,9 @@ static void deck_on_pressed(void)
 static void resume_substate_init(void)
 {
     tab_set_highlight(RUN_SETUP_TAB_RESUME);
+
+    // Show Deck card sprite
+    obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
 }
 
 static void resume_substate_update(void)
@@ -1022,6 +1059,7 @@ static void back_on_pressed(void)
 
 static void change_deck_on_pressed(void)
 {
+
 }
 
 static void tab_set_highlight(enum RunSetupTab tab_sel)

@@ -47,6 +47,7 @@ typedef struct
     s32 ante;
     s32 money;
     s32 hand_size;
+    s32 deck;
 
     // Blind variables
 
