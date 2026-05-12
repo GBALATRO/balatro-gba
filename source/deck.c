@@ -34,13 +34,7 @@ static const PrintDescCallback deck_description_functions[DECK_TYPE_MAX] = {
 
 const void print_deck_name(enum DeckType deck, BG_POINT pos)
 {
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        pos.x,
-        pos.y,
-        TTE_WHITE_PB,
-        deck_names[deck]
-    );
+    tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_WHITE_PB, deck_names[deck]);
 }
 
 const void print_deck_description(enum DeckType deck, BG_POINT pos)
@@ -55,13 +49,7 @@ const void print_deck_description(enum DeckType deck, BG_POINT pos)
 
 static inline void print_empty_desc_line(int pos_x, int pos_y)
 {
-    tte_printf(
-        "#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT,
-        pos_x,
-        pos_y,
-        TTE_BLACK_PB,
-        "             "
-    );
+    tte_printf("#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT, pos_x, pos_y, TTE_BLACK_PB, "             ");
 }
 
 // "             "
@@ -155,13 +143,7 @@ static void print_desc_yellow_deck(BG_POINT pos)
 // "-No Interest "
 static void print_desc_green_deck(BG_POINT pos)
 {
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        pos.x,
-        pos.y,
-        TTE_BLACK_PB,
-        "End of Round:"
-    );
+    tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_BLACK_PB, "End of Round:");
     print_empty_desc_line(pos.x, pos.y + TILE_SIZE);
     tte_printf(
         "#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT TTE_COLOR_TEXT_FORMAT TTE_COLOR_TEXT_FORMAT
@@ -245,5 +227,4 @@ static void print_desc_black_deck(BG_POINT pos)
 // "             "
 static void print_desc_painted_deck(BG_POINT pos)
 {
-
 }

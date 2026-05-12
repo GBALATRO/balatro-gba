@@ -24,9 +24,7 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 // Deck sprites lookup table. Index is the deck Id. The value is the tile index.
-const static u16 _deck_sprite_lut[DECK_TYPE_MAX] = {
-    0,   16,  32,  48,  64,  80
-};
+const static u16 _deck_sprite_lut[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};
 
 bool high_contrast = DEFAULT_HIGH_CONTRAST;
 bool more_readable = DEFAULT_MORE_READABLE;

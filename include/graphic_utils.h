@@ -152,6 +152,7 @@ enum OverflowDir
 // When making this, missed that it already exists in tonc_math.h
 typedef RECT Rect;
 
+// clang-format off
 /**
  * @brief Structure to represent arbitrary-sized 9-patches.
  *
@@ -175,6 +176,7 @@ typedef RECT Rect;
  *      patch_rect                        │
  * ```
  */
+// clang-format on
 typedef struct NinePatchRect
 {
     Rect patch_rect;

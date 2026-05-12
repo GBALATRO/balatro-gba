@@ -387,7 +387,7 @@ static inline void main_bg_se_expand_9_patch_stretch_sides(
     for (int i = 0; i < src_9_ptch->margins.bottom; i++)
     {
         SE bottom_side_tile = se_mat[MAIN_BG_SBB][src_9_ptch->patch_rect.bottom - i]
-                                 [src_9_ptch->patch_rect.left + src_9_ptch->margins.left];
+                                    [src_9_ptch->patch_rect.left + src_9_ptch->margins.left];
         memset16(
             &se_mat[MAIN_BG_SBB][se_dest_rect.bottom - i]
                    [se_dest_rect.left + src_9_ptch->margins.left],
@@ -396,7 +396,7 @@ static inline void main_bg_se_expand_9_patch_stretch_sides(
         );
     }
 
-    // Can't stretch the Left and Right sides with a wide memset16, and 
+    // Can't stretch the Left and Right sides with a wide memset16, and
     // main_bg_se_fill_rect_with_se` does it rows-wise too. We'll have to copy rects by hand.
 
     Rect left_side_tiles_src = {
