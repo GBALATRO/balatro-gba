@@ -1083,7 +1083,6 @@ static void back_on_pressed(void)
 
 static void change_deck_on_pressed(void)
 {
-
 }
 
 static void tab_set_highlight(enum RunSetupTab tab_sel)
