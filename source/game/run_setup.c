@@ -3,9 +3,11 @@
 #include "background_run_setup_gfx.h"
 #include "button.h"
 #include "game.h"
+#include "game_variables.h"
 #include "graphic_utils.h"
 #include "save.h"
 #include "selection_grid.h"
+#include "util.h"
 
 #include <tonc.h>
 
@@ -294,9 +296,8 @@ static bool use_seed = false;
  * SEED KEYBOARD SUBSTATE
  ******************************************************************************/
 
-#define SEED_MAX_CHAR_WIDTH 6
-#define KEYBOARD_WIDTH      10
-#define KEYBOARD_HEIGHT     4
+#define KEYBOARD_WIDTH  10
+#define KEYBOARD_HEIGHT 4
 
 enum RunSetupSeedRows
 {
@@ -385,25 +386,25 @@ static SelectionGridRow choose_seed_selection_rows[] = {
         choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
-        {.wrap = false}
+        {.wrap = true}
     }, {
         RUN_SETUP_SEED_ROW_KEY1,
         choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
-        {.wrap = false}
+        {.wrap = true}
     }, {
         RUN_SETUP_SEED_ROW_KEY2,
         choose_seed_get_keyboard_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
-        {.wrap = false}
+        {.wrap = true}
     }, {
         RUN_SETUP_SEED_ROW_KEY3,
         choose_seed_get_keyboard_short_row_size,
         choose_seed_row_on_selection_changed,
         choose_seed_row_on_key_transit,
-        {.wrap = false}
+        {.wrap = true}
     },
     // Then we have the Deck/PLAY and Back rows
     {
@@ -579,8 +580,8 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 };
 // clang-format on
 
-// Size SEED_MAX_CHAR_WIDTH + 1 to always have '\0' at the end
-static char seed_str[SEED_MAX_CHAR_WIDTH + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+// Size BASE36_MAX_DIGITS + 1 to always have '\0' at the end
+static char seed_str[BASE36_MAX_DIGITS + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 static u8 seed_cursor_pos = 0;
 
 #pragma endregion
@@ -818,7 +819,7 @@ static inline void update_seed_text(void)
         RUN_SETUP_SEED_FIELD_TEXT_POS.x,
         RUN_SETUP_SEED_FIELD_TEXT_POS.y,
         TTE_BLACK_PB,
-        SEED_MAX_CHAR_WIDTH + 1,
+        BASE36_MAX_DIGITS + 1,
         seed_str
     );
 }
@@ -835,7 +836,7 @@ static inline void delete_seed_char(void)
 
 static inline void type_seed_char(enum RunSetupKeyboardButtons key)
 {
-    if (seed_cursor_pos >= SEED_MAX_CHAR_WIDTH)
+    if (seed_cursor_pos >= BASE36_MAX_DIGITS)
     {
         return;
     }
@@ -858,9 +859,9 @@ static void keyboard_button_on_pressed(void)
     // The cursor position is unsigned so always positive, but we still need to
     // ensure it doersn't go out of bounds by more than 1 so that we can always
     // substract 1 from it when erasing a character from the seed string.
-    if (seed_cursor_pos > SEED_MAX_CHAR_WIDTH)
+    if (seed_cursor_pos > BASE36_MAX_DIGITS)
     {
-        seed_cursor_pos = SEED_MAX_CHAR_WIDTH;
+        seed_cursor_pos = BASE36_MAX_DIGITS;
     }
 
     if (key_hit(DESELECT_CARDS))
@@ -1005,6 +1006,12 @@ static void seed_on_pressed(void)
 
 static void play_on_pressed(void)
 {
+    // Apply provided Seed if enabled
+    if (use_seed)
+    {
+        g_game_vars.rng_seed = base36_to_u32(seed_str);
+    }
+
     game_change_state(GAME_STATE_GAME_START);
 }
 
