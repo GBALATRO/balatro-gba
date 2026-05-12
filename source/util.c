@@ -191,3 +191,92 @@ uint16_t u16_protected_mult(uint16_t a, uint16_t b)
 {
     return (a == 0 || b == 0) ? 0 : (a > (UINT16_MAX / b) ? UINT16_MAX : a * b);
 }
+
+/**
+ * @brief Get the numerical value of a base-36 digit.
+ *         Allowed values are [0-9, A-Z], with letters mapped to values of 10-35.
+ *         Lowercase letters are mapped to the same values as the uppercase ones.
+ *         Any other char is invalid and will be attributed a value of 0.
+ *
+ * @param c the char representing a digit in base-36
+ * @return u32 
+ */
+static inline uint32_t base36_digit_value(char c)
+{
+    switch (c)
+    {
+        case '0' ... '9':
+            return c - '0';
+        case 'A' ... 'Z':
+            return 10 + c - 'A';
+        case 'a' ... 'z':
+            return 10 + c - 'a';
+        default:
+            return 0;
+    }
+}
+
+/**
+ * @brief Get the char corresponding to a base-36 digit's numerical value.
+ *         Inverse operation of base36_digit_value
+ *
+ * @param n decimal value of the base-36 char we want to get
+ * @return char
+ *
+ * @sa base36_digit_value
+ */
+static inline char base36_digit_char(uint32_t n)
+{
+    switch (n)
+    {
+        case 0 ... 9:
+            return n + '0';
+        case 10 ... 35:
+            return n - 10 + 'A';
+        default:
+            return '\0';
+    }
+}
+
+/**
+ * @brief Get 36 to the power `i`
+ *
+ * @param i power of 36 we want, between 0 and `BASE36_MAX_DIGITS - 1`
+ * @return 36 to the power `i`
+ *
+ * @sa base36_digit_value
+ */
+static inline uint32_t get_base36_power(uint8_t i)
+{
+    if (i >= BASE36_MAX_DIGITS)
+    {
+        return 0;
+    }
+
+    static uint32_t powers_of_36[BASE36_MAX_DIGITS] = {1, 36, 1296, 46656, 1679616, 60466176};
+    return powers_of_36[i];
+}
+
+uint32_t base36_to_u32(const char b36_str[])
+{
+    uint32_t res = 0;
+
+    for (uint8_t i = 0; i < BASE36_MAX_DIGITS; i++)
+    {
+        res += base36_digit_value(b36_str[i]) * get_base36_power(i);
+    }
+
+    return res;
+}
+
+void u32_to_base36(const uint32_t n, char b36_str[])
+{
+    uint32_t power;
+    uint32_t acc = n;
+    for (int i = BASE36_MAX_DIGITS - 1; i >= 0; i--)
+    {
+        power = get_base36_power(i);
+        b36_str[i] = base36_digit_char(acc / power);
+        acc = acc % power;
+    }
+}
