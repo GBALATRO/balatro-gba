@@ -7,8 +7,12 @@
 // simplicity's sake
 #define MAX_ANTE 8
 
+#define NORMAL_BLIND_PB 2
+#define BOSS_BLIND_PB   3
+
 // Sprite IDs of the various Blind Tokens used in the game, expressed as an offset
 // relative to `BLIND_BASE_LAYER`
+#define BLIND_BASE_LAYER            (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
 #define PLAYING_BLIND_TOKEN_LAYER   0
 #define ROUND_END_BLIND_TOKEN_LAYER 1
 #define SMALL_BLIND_TOKEN_LAYER     2

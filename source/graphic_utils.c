@@ -421,7 +421,7 @@ static inline void main_bg_se_expand_9_patch_stretch_sides(
         se_dest_rect.top + src_9_ptch->margins.top
     };
 
-    for (int i = 0; i < left_right_height; i++)
+    for (int i = 0; i < left_right_height - 1; i++)
     {
         main_bg_se_copy_rect(left_side_tiles_src, left_side_tiles_dest_pos);
         left_side_tiles_dest_pos.y++;

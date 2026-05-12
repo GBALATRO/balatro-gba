@@ -109,8 +109,8 @@ static const BG_POINT RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS                  = {9 ,
 
 static const Rect          RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_DEST    = {6 , 4 , 23, 13};
 static const NinePatchRect RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_SRC     = {
-    { 0, 21, 7 , 28},
-    { 5, 3 , 2 , 4}
+    { 0 , 21, 7 , 28},
+    { 5 , 3 , 2 , 4 }
 };
 
 static const Rect     RUN_SETUP_CHOOSE_DECK_CLEAN_LEFT_DEST               = {4 , 6 , 5 , 13};

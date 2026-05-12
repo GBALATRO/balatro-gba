@@ -18,7 +18,7 @@
 #define JOKER_STARTING_LAYER 26
 // Tile ID for the starting index in the tile memory
 #define JOKER_TID     (JOKER_STARTING_LAYER * JOKER_SPRITE_OFFSET)
-#define JOKER_BASE_PB 3 // The starting palette index for the jokers
+#define JOKER_BASE_PB 4 // The starting palette index for the jokers, after the boss blind tokens
 #define JOKER_LAST_PB (NUM_PALETTES - 1)
 // Currently allocating the rest of the palettes for the jokers.
 // This number needs to be decreased once we need to allocated palettes for other sprites
