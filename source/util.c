@@ -199,7 +199,7 @@ uint16_t u16_protected_mult(uint16_t a, uint16_t b)
  *         Any other char is invalid and will be attributed a value of 0.
  *
  * @param c the char representing a digit in base-36
- * @return u32 
+ * @return u32
  */
 static inline uint32_t base36_digit_value(char c)
 {
