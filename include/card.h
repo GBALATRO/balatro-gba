@@ -76,7 +76,7 @@ CardObject* card_object_new(Card* card);
 void card_object_destroy(CardObject** card_object);
 void card_object_update(CardObject* card_object); // Update the card object position and scale
 void card_object_set_sprite(CardObject* card_object, int layer);
-void card_object_set_sprite_face_down(CardObject* card_object, enum Deck deck, int layer);
+void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, int layer);
 void card_object_shake(CardObject* card_object, mm_word sound_id);
 
 void card_object_set_selected(CardObject* card_object, bool selected);

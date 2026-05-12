@@ -619,8 +619,6 @@ enum RunSetupResumeRows
 
 void game_run_setup_change_background(void)
 {
-    tte_erase_screen();
-
     GRIT_CPY(pal_bg_mem, background_run_setup_gfxPal);
     GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_run_setup_gfxTiles);
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_run_setup_gfxMap);

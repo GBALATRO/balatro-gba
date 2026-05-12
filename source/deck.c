@@ -60,7 +60,7 @@ static const PrintDescCallback deck_description_functions[DECK_MAX] = {
 //};
 // clang-format off
 
-const void print_deck_name(enum Deck deck, BG_POINT pos)
+const void print_deck_name(enum DeckType deck, BG_POINT pos)
 {
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%s",
@@ -71,7 +71,7 @@ const void print_deck_name(enum Deck deck, BG_POINT pos)
     );
 }
 
-const void print_deck_description(enum Deck deck, BG_POINT pos)
+const void print_deck_description(enum DeckType deck, BG_POINT pos)
 {
     if (deck_description_functions[deck] == NULL)
     {

@@ -141,7 +141,7 @@ void card_object_set_sprite(CardObject* card_object, int layer)
     sprite_object_set_sprite(card_object->sprite_object, sprite);
 }
 
-void card_object_set_sprite_face_down(CardObject* card_object, enum Deck deck, int layer)
+void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
     memcpy32(
