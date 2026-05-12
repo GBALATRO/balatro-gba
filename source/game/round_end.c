@@ -372,7 +372,7 @@ static inline void game_round_end_cashout(void)
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
     g_game_vars.discards = MAX_DISCARDS; // Reset the discards to the maximum
     // TODO: these can just be in one spot, passing global to global
-    display_hands();       // Set the hands display
+    display_hands();    // Set the hands display
     display_discards(); // Set the discards display
 
     g_game_vars.score = 0;

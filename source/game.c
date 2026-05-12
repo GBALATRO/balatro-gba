@@ -3818,7 +3818,7 @@ void game_start(void)
     display_chips(); // Set the chips display
     display_mult();  // Set the multiplier display
 
-    display_hands();       // Hand
+    display_hands();    // Hand
     display_discards(); // Discard
 
     display_money(); // Set the money display
