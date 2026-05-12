@@ -221,10 +221,31 @@ static void print_desc_black_deck(BG_POINT pos)
 }
 
 // "             "
-// " Start with  "
-// "an extra $10 "
+// "+2 Hand size "
+// "-1 Joker slot"
 // "             "
 // "             "
 static void print_desc_painted_deck(BG_POINT pos)
 {
+    print_empty_desc_line(pos.x, pos.y);
+    tte_printf(
+        "#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT TTE_COLOR_TEXT_FORMAT,
+        pos.x,
+        pos.y + TILE_SIZE,
+        TTE_YELLOW_PB,
+        "+2 ",
+        TTE_BLACK_PB,
+        "Hand size "
+    );
+    tte_printf(
+        "#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT TTE_COLOR_TEXT_FORMAT,
+        pos.x,
+        pos.y + 2 * TILE_SIZE,
+        TTE_RED_PB,
+        "-1 ",
+        TTE_BLACK_PB,
+        "Joker slot"
+    );
+    print_empty_desc_line(pos.x, pos.y + 3 * TILE_SIZE);
+    print_empty_desc_line(pos.x, pos.y + 4 * TILE_SIZE);
 }
