@@ -156,21 +156,23 @@ typedef RECT Rect;
  * @brief Structure to represent arbitrary-sized 9-patches.
  *
  * While expanding a 3x3 rect is simple enough and has its purpose, this is an attempt
- * to generalize the idea to a struct representing a 9-patch like this, such that no area
- * shown below has any null or negative dimensions:
+ * to generalize the idea to a struct representing a 9-patch like this, such that areas
+ * 1, 2, 3 and 4 have no null dimensions and don't overlap:
  * ```
- * margins.left  margins.right
- *         ^     ^
- * ╔═══════╤═════╤═══╗
- * ║       │     │   ║
- * ║   1   │  6  │ 2 ║
- * ║       │     │   ║
- * ╟───────┼─────┼───╢-> margins.top
- * ║   5   │  0  │ 7 ║
- * ║       │     │   ║
- * ╟───────┼─────┼───╢-> margins.bottom
- * ║   4   │  8  │ 3 ║
- * ╚═══════╧═════╧═══╝=> patch_rect
+ * margins.left  margins.right            │  Such as:
+ * ╭───┴───╮     ╭─┴─╮                    │
+ * ╔═══════╤═════╤═══╗ ╮                  │    1) margins.left + margins.right  <= width (patch_rect)
+ * ║   1   │  6  │ 2 ║ ├─ margins.top     │
+ * ╟───────┼─────┼───╢ ╯                  │    2) margins.top  + margins.bottom <= height(patch_rect)
+ * ║   5   │  0  │ 7 ║                    │
+ * ║       │     │   ║                    │
+ * ╟───────┼─────┼───╢ ╮                  │
+ * ║       │     │   ║ │                  │
+ * ║   4   │  8  │ 3 ║ ├─ margins.bottom  │
+ * ║       │     │   ║ │                  │
+ * ╚═══════╧═════╧═══╝ ╯                  │
+ * ╰────────┬────────╯                    │
+ *      patch_rect                        │
  * ```
  */
 typedef struct NinePatchRect
