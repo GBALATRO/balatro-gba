@@ -42,9 +42,9 @@ typedef struct
 
     // Variables visible by the player
 
-    int round;
-    int ante;
-    int money;
+    s32 round;
+    s32 ante;
+    s32 money;
 
     // Blind variables
 
@@ -52,9 +52,9 @@ typedef struct
     enum BlindType next_boss_blind;
     enum BlindState blinds_states[NUM_BLINDS_PER_ANTE];
 
-    int hands;
-    int discards;
-    int score;
+    s32 hands;
+    s32 discards;
+    u32 score;
 
     Sprite* playing_blind_token;
     Sprite* round_end_blind_token;

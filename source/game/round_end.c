@@ -102,7 +102,7 @@ static void game_round_end_start(void)
     }
 }
 
-static void game_round_end_start_expand_popup()
+static void game_round_end_start_expand_popup(void)
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
@@ -113,7 +113,7 @@ static void game_round_end_start_expand_popup()
     }
 }
 
-static void game_round_end_display_finished_blind()
+static void game_round_end_display_finished_blind(void)
 {
     obj_unhide(g_game_vars.round_end_blind_token->obj, 0);
 
@@ -155,7 +155,7 @@ static void game_round_end_display_finished_blind()
     }
 }
 
-static void game_round_end_display_score_min()
+static void game_round_end_display_score_min(void)
 {
     const int timer_offset = g_game_vars.timer - 1;
     const int x_from = 0;
@@ -176,7 +176,7 @@ static void game_round_end_display_score_min()
     }
 }
 
-static void game_round_end_update_blind_reward()
+static void game_round_end_update_blind_reward(void)
 {
     if (g_game_vars.timer % FRAMES(20) != 0)
         return;
@@ -212,7 +212,7 @@ static void game_round_end_update_blind_reward()
     }
 }
 
-static void game_round_end_panel_exit()
+static void game_round_end_panel_exit(void)
 {
     // TODO: make heads or tails of what's going on here and replace
     // magic numbers.
@@ -273,7 +273,7 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
     {
         hand_reward--;
         tte_printf(
-            "#{P:%lu, %d; cx:0x%X000}$%d",
+            "#{P:%lu, %d; cx:0x%X000}$%ld",
             ROUND_END_REWARD_AMOUNT_X,
             hand_y * TILE_SIZE,
             TTE_YELLOW_PB,
@@ -318,7 +318,7 @@ static inline void game_round_end_print_interest_reward(int interest_y_offset)
     }
 }
 
-static void game_round_end_display_rewards()
+static void game_round_end_display_rewards(void)
 {
     int hand_y_offset = 0;
     int interest_y_offset = 0;
@@ -372,8 +372,8 @@ static inline void game_round_end_cashout(void)
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
     g_game_vars.discards = MAX_DISCARDS; // Reset the discards to the maximum
     // TODO: these can just be in one spot, passing global to global
-    display_hands(g_game_vars.hands);       // Set the hands display
-    display_discards(g_game_vars.discards); // Set the discards display
+    display_hands();       // Set the hands display
+    display_discards(); // Set the discards display
 
     g_game_vars.score = 0;
     display_score(g_game_vars.score); // Set the score display
@@ -413,7 +413,7 @@ static void game_round_end_display_cashout()
     }
 }
 
-static void game_round_end_dismiss_round_end_panel()
+static void game_round_end_dismiss_round_end_panel(void)
 {
     Rect round_end_down = ROUND_END_MENU_RECT;
     round_end_down.top--;

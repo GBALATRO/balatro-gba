@@ -629,12 +629,12 @@ void game_reset()
     display_score(g_game_vars.score);
     display_chips();
     display_mult();
-    display_hands(g_game_vars.hands);
-    display_discards(g_game_vars.discards);
+    display_hands();
+    display_discards();
     display_money();
     // Ante
     tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d#{cx:0x%X000}/%d",
+        "#{P:%d,%d; cx:0x%X000}%ld#{cx:0x%X000}/%d",
         ANTE_TEXT_RECT.left,
         ANTE_TEXT_RECT.top,
         TTE_YELLOW_PB,
@@ -919,7 +919,7 @@ void display_money()
     tte_erase_rect_wrapper(MONEY_TEXT_RECT);
 
     char money_str_buff[INT_MAX_DIGITS + 2]; // + 2 for null terminator and "$" sign
-    snprintf(money_str_buff, sizeof(money_str_buff), "$%d", g_game_vars.money);
+    snprintf(money_str_buff, sizeof(money_str_buff), "$%ld", g_game_vars.money);
 
     // Bias left so the number is centered and the "$" sign is on the left
     update_text_rect_to_center_str(&money_text_rect, money_str_buff, SCREEN_LEFT);
@@ -1468,7 +1468,7 @@ void display_round(void)
 {
     // tte_erase_rect_wrapper(ROUND_TEXT_RECT);
     tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d",
+        "#{P:%d,%d; cx:0x%X000}%ld",
         ROUND_TEXT_RECT.left,
         ROUND_TEXT_RECT.top,
         TTE_YELLOW_PB,
@@ -1476,23 +1476,20 @@ void display_round(void)
     );
 }
 
-void display_hands(int value)
+void display_hands(void)
 {
-    // tte_erase_rect_wrapper(HANDS_TEXT_RECT);
     tte_printf(
-        "#{P:%d,%d; cx:0xD000}%d",
+        "#{P:%d,%d; cx:0xD000}%ld",
         HANDS_TEXT_RECT.left,
         HANDS_TEXT_RECT.top,
         g_game_vars.hands
-    ); // Hand
+    );
 }
 
-void display_discards(int value)
+void display_discards(void)
 {
-    // tte_erase_rect_wrapper(DISCARDS_TEXT_RECT);
-    // Discard
     tte_printf(
-        "#{P:%d,%d; cx:0xE000}%d",
+        "#{P:%d,%d; cx:0xE000}%ld",
         DISCARDS_TEXT_RECT.left,
         DISCARDS_TEXT_RECT.top,
         g_game_vars.discards
@@ -1653,7 +1650,8 @@ static void game_playing_execute_discard(void)
         return;
 
     hand_state = HAND_DISCARD;
-    display_discards(--g_game_vars.discards);
+    --g_game_vars.discards;
+    display_discards();
     set_hand();
 }
 
@@ -1718,7 +1716,8 @@ static void game_playing_execute_play_hand(void)
         return;
 
     hand_state = HAND_PLAY;
-    display_hands(--g_game_vars.hands);
+    --g_game_vars.hands;
+    display_hands();
 }
 
 static int game_playing_hand_row_get_size(void)
@@ -3819,13 +3818,13 @@ void game_start(void)
     display_chips(); // Set the chips display
     display_mult();  // Set the multiplier display
 
-    display_hands(g_game_vars.hands);       // Hand
-    display_discards(g_game_vars.discards); // Discard
+    display_hands();       // Hand
+    display_discards(); // Discard
 
     display_money(); // Set the money display
 
     tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d#{cx:0x%X000}/%d",
+        "#{P:%d,%d; cx:0x%X000}%ld#{cx:0x%X000}/%d",
         ANTE_TEXT_RECT.left,
         ANTE_TEXT_RECT.top,
         TTE_YELLOW_PB,
