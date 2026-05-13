@@ -238,9 +238,7 @@ static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
 IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
 {
     if (is_sprite_object_static(sprite_object))
-    {
         return;
-    }
 
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * g_game_vars.game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * g_game_vars.game_speed) / 8;
