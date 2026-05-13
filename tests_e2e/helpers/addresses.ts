@@ -2,34 +2,36 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ensureAddresses } from './ensure_addresses.js';
+import varNames from '../var_names.json' with { type: 'json' };
 
 ensureAddresses();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const ADDRESSES_PATH = join(__dirname, '..', 'addresses.json');
+const NM_OUTPUT_PATH = join(__dirname, '..', 'nm_output.txt');
+const nmOutput = readFileSync(NM_OUTPUT_PATH, 'utf-8');
 
-const raw: Record<string, { address: string; size: number }> = JSON.parse(readFileSync(ADDRESSES_PATH, 'utf-8'));
+type AddrKey = keyof typeof varNames;
+type AddrEntry = { address: number; size: number };
 
-function parseEntry(entry: { address: string; size: number }): { address: number; size: number } {
-  return { address: parseInt(entry.address, 16), size: entry.size };
+/** Resolve a C symbol's address and size from the cached nm --print-size output. */
+function lookup(testName: AddrKey, cSymbol: string): AddrEntry {
+  const re = new RegExp(`^([0-9a-fA-F]+) ([0-9a-fA-F]+) \\S ${cSymbol}$`, 'm');
+  const match = nmOutput.match(re);
+  if (!match) {
+    throw new Error(
+      `Symbol '${cSymbol}' (mapped from test name '${testName}') not found in ${NM_OUTPUT_PATH} — check var_names.json`
+    );
+  }
+  return { address: parseInt(match[1], 16), size: parseInt(match[2], 16) };
 }
 
-export const ADDR = {
-  game_state: parseEntry(raw.game_state),
-  hand_state: parseEntry(raw.hand_state),
-  play_state: parseEntry(raw.play_state),
-  score: parseEntry(raw.score),
-  chips: parseEntry(raw.chips),
-  mult: parseEntry(raw.mult),
-  hands: parseEntry(raw.hands),
-  discards: parseEntry(raw.discards),
-  rng_seed: parseEntry(raw.rng_seed),
-  hand_type: parseEntry(raw.hand_type),
-  ante: parseEntry(raw.ante),
-  round: parseEntry(raw.round),
-  money: parseEntry(raw.money),
-  current_blind: parseEntry(raw.current_blind),
-} as const;
+// Game variable addresses (keys and C symbols sourced from var_names.json)
+export const ADDR = Object.fromEntries(
+  (Object.entries(varNames) as [AddrKey, string][]).map(([testName, cSymbol]) => [
+    testName,
+    lookup(testName, cSymbol),
+  ])
+) as Record<AddrKey, AddrEntry>;
 
 // Game state enum values (from include/def_state_info_table.h order)
 export const GameState = {

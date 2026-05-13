@@ -1,0 +1,16 @@
+{
+  "game_state": "game_state",
+  "hand_state": "hand_state",
+  "play_state": "play_state",
+  "score": "score",
+  "chips": "chips",
+  "mult": "mult",
+  "hands": "hands",
+  "discards": "discards",
+  "rng_seed": "rng_seed",
+  "hand_type": "hand_type",
+  "ante": "ante",
+  "round": "round",
+  "money": "money",
+  "current_blind": "current_blind"
+}

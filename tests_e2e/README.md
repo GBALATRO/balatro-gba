@@ -81,4 +81,23 @@ describe('Shop', () => {
 
 ### 4. Available addresses
 
-`helpers/addresses.ts` exports `ADDR` with all known game variable addresses and enum constants (`GameState`, `HandState`, `BlindType`, `HandType`). To add a new address, add the symbol name to the `SYMBOLS` list in `helpers/extract_addresses.sh` and a corresponding entry in `addresses.ts`.
+`helpers/addresses.ts` exports `ADDR` with all known game variable addresses and enum constants (`GameState`, `HandState`, `BlindType`, `HandType`). The contents of `ADDR` come from [`var_names.json`](./var_names.json), which maps each test-side name (JSON key, used by the tests and `addresses.ts`) to the actual C symbol name in the ROM (JSON value):
+
+```json
+{
+  "score": "score",
+  "current_blind": "current_blind"
+}
+```
+
+To add a new address, add an entry to this file. `ADDR` and its TypeScript key type pick it up automatically.
+
+If a C variable gets renamed in the game source (e.g. `current_blind` → `active_blind`), update only the **value**:
+
+```json
+{
+  "current_blind": "active_blind"
+}
+```
+
+The next test run resolves the new symbol, and no test code or helper needs to change.
