@@ -249,12 +249,11 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     // Rotate the card when it's played
     sprite_object->vrotation += (sprite_object->trotation - sprite_object->rotation) / 8;
 
-    const FIXED epsilon_vel = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
-    const FIXED epsilon_pos = (FIX_ONE >> 3); // = 1/2^3 = 0.125
+    const FIXED epsilon = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
 
     // set velocity to 0 if it's close enough to the target AND we are already close to the target
     // this prevents snapping on the first frame of animation when velocity is 0
-    if (abs(sprite_object->vx) < epsilon_vel && abs(sprite_object->vy) < epsilon_vel)
+    if (abs(sprite_object->vx) < epsilon && abs(sprite_object->vy) < epsilon)
     {
         sprite_object->vx = 0;
         sprite_object->vy = 0;
@@ -274,10 +273,10 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set scale to 0 if it's close enough to the target
-    if (sprite_object->vscale < epsilon_vel && sprite_object->vscale > -epsilon_vel)
+    if (abs(sprite_object->vscale) < epsilon)
     {
         sprite_object->vscale = 0;
-        sprite_object->scale = sprite_object->tscale; // Set the scale to the target scale
+        sprite_object->scale = sprite_object->tscale;
     }
     else
     {
@@ -288,11 +287,10 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // For rotation, prioritize snapping to target if close enough, then zero velocity.
-    if ((sprite_object->trotation - sprite_object->rotation) < epsilon_pos &&
-        (sprite_object->trotation - sprite_object->rotation) > -epsilon_pos)
+    if (abs(sprite_object->vrotation) < epsilon)
     {
-        sprite_object->rotation = sprite_object->trotation;
         sprite_object->vrotation = 0;
+        sprite_object->rotation = sprite_object->trotation;
     }
     else // Apply damping and update rotation if not yet settled
     {
