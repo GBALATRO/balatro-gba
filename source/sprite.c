@@ -251,8 +251,7 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
 
     const FIXED epsilon = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
 
-    // set velocity to 0 if it's close enough to the target AND we are already close to the target
-    // this prevents snapping on the first frame of animation when velocity is 0
+    // Snap to target position when velocity is negligible to avoid infinite approach
     if (abs(sprite_object->vx) < epsilon && abs(sprite_object->vy) < epsilon)
     {
         sprite_object->vx = 0;
