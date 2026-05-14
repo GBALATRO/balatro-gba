@@ -223,6 +223,16 @@ void* list_get_at_idx(List* list, unsigned int idx);
 bool list_remove_at_idx(List* list, unsigned int idx);
 
 /**
+ * Remove a List's node with the matching pointer
+ *
+ * @param list pointer to a @ref List
+ * @param data pointer to data in node in list
+ *
+ * @return `true` if successfully removed, `false` otherwise
+ */
+bool list_remove_at(List* list, void* data);
+
+/**
  * Get the number of elements in a @ref List
  *
  * @param list pointer to a @ref List

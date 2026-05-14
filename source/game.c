@@ -134,15 +134,6 @@ typedef struct
     char* display_name;
 } HandValues;
 
-// Used as a No Operation for game states that have no init and/or exit function.
-// ricfehr3 did the work of determining whether a noop or a NULL check was more
-// efficient. Well, this is the answer.
-// Thanks!
-// https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
-static void noop(void)
-{
-}
-
 // These functions need to be forward declared
 // so they're visible to the state_info array,
 // and the sub-state function tables.

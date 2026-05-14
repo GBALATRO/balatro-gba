@@ -306,3 +306,20 @@ void list_itr_remove_current_node(ListItr* itr)
     s_list_remove_node(itr->list, itr->current_node);
     itr->current_node = tmp_prev;
 }
+
+bool list_remove_at(List* list, void* data)
+{
+    ListItr itr = list_itr_create(list);
+    ListNode* ln;
+
+    while ((ln = s_list_itr_node_next(&itr)))
+    {
+        if(ln->data == data)
+        {
+            s_list_remove_node(list, ln);
+            return true;
+        }
+    }
+
+    return false;
+}

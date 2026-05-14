@@ -4,6 +4,7 @@
 #include "affine_background_gfx.h"
 #include "game_variables.h"
 #include "layout.h"
+#include "state_machine.h"
 #include "timer.h"
 #include "util.h"
 
@@ -18,7 +19,8 @@ enum GameRoundEndStates
     DISPLAY_REWARDS,
     DISPLAY_CASHOUT,
     DISMISS_ROUND_END_PANEL,
-    ROUND_END_EXIT
+    ROUND_END_EXIT,
+    ROUND_END_STATES_MAX
 };
 
 static const u32 TM_RESET_STATIC_VARS = 30;
@@ -45,7 +47,6 @@ static const Rect ROUND_END_MENU_RECT         = {9,       7,      24,        20 
 static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
 // clang-format on
 
-static int substate;
 static int blind_reward = 0;
 static int hand_reward = 0;
 static int interest_reward = 0;
@@ -63,19 +64,28 @@ static void game_round_end_panel_exit(void);
 static void game_round_end_display_rewards(void);
 static void game_round_end_display_cashout(void);
 static void game_round_end_dismiss_round_end_panel(void);
+static void game_round_end_exit(void);
 
 static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
-static const SubStateActionFn round_end_state_actions[] = {
-    game_round_end_start,
-    game_round_end_start_expand_popup,
-    game_round_end_display_finished_blind,
-    game_round_end_display_score_min,
-    game_round_end_update_blind_reward,
-    game_round_end_panel_exit,
-    game_round_end_display_rewards,
-    game_round_end_display_cashout,
-    game_round_end_dismiss_round_end_panel
+static StateInfo state_info[] =
+{
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start), // ROUND_END_START,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start_expand_popup), // START_EXPAND_POPUP,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_finished_blind), // DISPLAY_FINISHED_BLIND,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_score_min), // DISPLAY_SCORE_MIN,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_update_blind_reward), // UPDATE_BLIND_REWARD,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_panel_exit), // BLIND_PANEL_EXIT,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_rewards), // DISPLAY_REWARDS,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_cashout), // DISPLAY_CASHOUT,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_dismiss_round_end_panel), // DISMISS_ROUND_END_PANEL,
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_exit), // ROUND_END_EXIT
+};
+
+StateMachine round_end_sm =
+{
+    .state_infos = &state_info[0],
+    .num_infos = ROUND_END_STATES_MAX,
 };
 
 static int calculate_interest_reward(void)
@@ -92,7 +102,7 @@ static void game_round_end_start(void)
     if (g_game_vars.timer == TM_RESET_STATIC_VARS)
     {
         change_background(BG_ROUND_END, false); // Change the background to the round end background
-        substate = START_EXPAND_POPUP;          // Change the state to the next one
+        state_machine_change_state(&round_end_sm, START_EXPAND_POPUP);
         g_game_vars.timer = TM_ZERO;            // Reset the timer
         blind_reward = blind_get_reward(g_game_vars.current_blind);
         hand_reward = g_game_vars.hands;
@@ -108,7 +118,7 @@ static void game_round_end_start_expand_popup(void)
 
     if (g_game_vars.timer == TM_END_POP_MENU_ANIM)
     {
-        substate = DISPLAY_FINISHED_BLIND;
+        state_machine_change_state(&round_end_sm, DISPLAY_FINISHED_BLIND);
         g_game_vars.timer = TM_ZERO;
     }
 }
@@ -150,7 +160,7 @@ static void game_round_end_display_finished_blind(void)
 
     if (g_game_vars.timer >= TM_END_DISPLAY_FIN_BLIND)
     {
-        substate = DISPLAY_SCORE_MIN;
+        state_machine_change_state(&round_end_sm, DISPLAY_SCORE_MIN);
         g_game_vars.timer = TM_ZERO;
     }
 }
@@ -171,7 +181,7 @@ static void game_round_end_display_score_min(void)
 
     if (g_game_vars.timer >= TM_END_DISPLAY_SCORE_MIN)
     {
-        substate = UPDATE_BLIND_REWARD;
+        state_machine_change_state(&round_end_sm, UPDATE_BLIND_REWARD);
         g_game_vars.timer = TM_ZERO;
     }
 }
@@ -207,7 +217,7 @@ static void game_round_end_update_blind_reward(void)
         tte_erase_rect_wrapper(BLIND_REQ_TEXT_RECT);
         obj_hide(g_game_vars.playing_blind_token->obj);
         affine_background_load_palette(affine_background_gfxPal);
-        substate = BLIND_PANEL_EXIT;
+        state_machine_change_state(&round_end_sm, BLIND_PANEL_EXIT);
         g_game_vars.timer = TM_ZERO;
     }
 }
@@ -235,7 +245,7 @@ static void game_round_end_panel_exit(void)
     else if (g_game_vars.timer > FRAMES(20))
     {
         memset16(&pal_bg_mem[REWARD_PANEL_BORDER_PID], 0x1483, 1);
-        substate = DISPLAY_REWARDS;
+        state_machine_change_state(&round_end_sm, DISPLAY_REWARDS);
         g_game_vars.timer = TM_ZERO;
     }
 }
@@ -341,7 +351,7 @@ static void game_round_end_display_rewards(void)
     if (hand_reward <= 0 && interest_to_count <= 0)
     {
         g_game_vars.timer = TM_ZERO;
-        substate = DISPLAY_CASHOUT;
+        state_machine_change_state(&round_end_sm, DISPLAY_CASHOUT);
     }
     else if (g_game_vars.timer == TM_START_ROUND_END_REWARDS_ANIM)
     {
@@ -405,7 +415,7 @@ static void game_round_end_display_cashout()
     {
         game_round_end_cashout();
 
-        substate = DISMISS_ROUND_END_PANEL; // Go to the next state
+        state_machine_change_state(&round_end_sm, DISMISS_ROUND_END_PANEL);
         g_game_vars.timer = TM_ZERO;
 
         obj_hide(g_game_vars.round_end_blind_token->obj); // Hide the blind token object
@@ -422,8 +432,13 @@ static void game_round_end_dismiss_round_end_panel(void)
     if (g_game_vars.timer >= TM_DISMISS_ROUND_END_TM)
     {
         g_game_vars.timer = TM_ZERO;
-        substate = ROUND_END_EXIT;
+        state_machine_change_state(&round_end_sm, ROUND_END_EXIT);
     }
+}
+
+static void game_round_end_exit(void)
+{
+    game_change_state(GAME_STATE_SHOP);
 }
 
 static void game_round_end_extend_black_panel_down(int black_panel_bottom)
@@ -445,19 +460,13 @@ void game_round_end_change_background(void)
 
 void game_round_end_on_init(void)
 {
-    substate = ROUND_END_START;
     g_game_vars.timer = 0;
+    state_machine_init(&round_end_sm);
+    state_machine_change_state(&round_end_sm, ROUND_END_START);
 }
 
 void game_round_end_on_update(void)
 {
-    if (substate == ROUND_END_EXIT)
-    {
-        game_change_state(GAME_STATE_SHOP);
-        return;
-    }
-
-    round_end_state_actions[substate]();
 }
 
 void game_round_end_on_exit(void)
@@ -469,5 +478,6 @@ void game_round_end_on_exit(void)
     interest_reward = 0;
     sprite_destroy(&g_game_vars.playing_blind_token);
     sprite_destroy(&g_game_vars.round_end_blind_token);
+    state_machine_deinit(&round_end_sm);
     // TODO: Reuse sprites for blind selection?
 }

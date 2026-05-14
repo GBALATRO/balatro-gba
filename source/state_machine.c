@@ -10,7 +10,7 @@
 
 static List update_cbs;
 
-static void noop() {}
+void noop(void) {};
 
 void state_machine_init(StateMachine* state_machine)
 {
@@ -22,6 +22,11 @@ void state_machine_init(StateMachine* state_machine)
     state_machine->state = UNDEFINED;
 
     list_push_back(&update_cbs, &state_machine->active_update);
+}
+
+void state_machine_deinit(StateMachine* state_machine)
+{
+    list_remove_at(&update_cbs, &state_machine->active_update);
 }
 
 void state_machine_update(void)
@@ -50,4 +55,10 @@ void game_change_state_new(StateMachine* state_machine, int new_game_state)
     state_machine->active_update = state_machine->state_infos[new_game_state].on_update;
 
     state_machine->state = new_game_state;
+}
+
+
+void state_machine_change_state(StateMachine* state_machine, int new_state)
+{
+    game_change_state_new(state_machine, new_state);
 }
