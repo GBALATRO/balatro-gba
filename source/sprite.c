@@ -224,21 +224,8 @@ static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
     return !sprite_object_has_velocity(sprite_object) && sprite_object_at_target(sprite_object);
 }
 
-static inline bool sprite_object_needs_position_sync(const SpriteObject* sprite_object)
-{
-    // Ensure sprite_position() has been called with the final position.
-    return sprite_object->sprite != NULL &&
-           (fx2int(sprite_object->x) != sprite_object->sprite->pos.x ||
-            fx2int(sprite_object->y) != sprite_object->sprite->pos.y);
-}
-
 IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
 {
-    if (sprite_object_needs_position_sync(sprite_object))
-    {
-        sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
-    }
-
     if (is_sprite_object_static(sprite_object))
         return;
 
