@@ -39,6 +39,8 @@ void state_machine_change_state(StateMachine* state_machine, int new_state);
 // https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
 void noop(void);
 
+// clang-format off
 #define STATE_INFO_UPDATE_FN_ONLY(fn) {.on_init = noop, .on_update = fn, .on_exit = noop}
+// clang-format on
 
 #endif // STATE_MACHINE_H
