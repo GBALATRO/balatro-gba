@@ -70,19 +70,19 @@ static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
 static StateInfo state_info[] =
 {
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start), // ROUND_END_START,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start_expand_popup), // START_EXPAND_POPUP,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_finished_blind), // DISPLAY_FINISHED_BLIND,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_score_min), // DISPLAY_SCORE_MIN,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_update_blind_reward), // UPDATE_BLIND_REWARD,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_panel_exit), // BLIND_PANEL_EXIT,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_rewards), // DISPLAY_REWARDS,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_cashout), // DISPLAY_CASHOUT,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_dismiss_round_end_panel), // DISMISS_ROUND_END_PANEL,
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_exit), // ROUND_END_EXIT
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_start_expand_popup),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_finished_blind),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_score_min),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_update_blind_reward),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_panel_exit),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_rewards),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_cashout),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_dismiss_round_end_panel),
+    STATE_INFO_UPDATE_FN_ONLY(game_round_end_exit),
 };
 
-StateMachine round_end_sm =
+static StateMachine round_end_sm =
 {
     .state_infos = &state_info[0],
     .num_infos = ROUND_END_STATES_MAX,

@@ -52,6 +52,11 @@ void game_change_state_new(StateMachine* state_machine, int new_game_state)
         state_machine->state_infos[new_game_state].on_init();
     }
 
+    // This has an inadvertant "feature". If you are in the calling function of a state, calling
+    // this function on it's own state machine. Aka, you are changing states mid update. Then
+    // Because it is only updating the active pointer of code to-be ran, the update function finishes
+    // before continuing. This is incredibly helpful as you can initiate a state change in the
+    // update, but just don't think the code is breaking on that change state call.
     state_machine->active_update = state_machine->state_infos[new_game_state].on_update;
 
     state_machine->state = new_game_state;
