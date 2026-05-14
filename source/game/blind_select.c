@@ -47,8 +47,7 @@ enum BlindSelectState
 };
 
 // TODO: this will be refactored into common state machine
-static StateInfo state_info[] =
-{
+static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_start_anim_seq),
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_handle_input),
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_selected_anim_seq),
@@ -56,8 +55,7 @@ static StateInfo state_info[] =
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_exit),
 };
 
-static StateMachine blind_select_sm =
-{
+static StateMachine blind_select_sm = {
     .state_infos = &state_info[0],
     .num_infos = BLIND_SELECT_MAX,
 };

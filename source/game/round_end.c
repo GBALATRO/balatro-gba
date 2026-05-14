@@ -68,8 +68,7 @@ static void game_round_end_exit(void);
 
 static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
-static StateInfo state_info[] =
-{
+static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_start),
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_start_expand_popup),
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_finished_blind),
@@ -82,8 +81,7 @@ static StateInfo state_info[] =
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_exit),
 };
 
-static StateMachine round_end_sm =
-{
+static StateMachine round_end_sm = {
     .state_infos = &state_info[0],
     .num_infos = ROUND_END_STATES_MAX,
 };
@@ -103,7 +101,7 @@ static void game_round_end_start(void)
     {
         change_background(BG_ROUND_END, false); // Change the background to the round end background
         state_machine_change_state(&round_end_sm, START_EXPAND_POPUP);
-        g_game_vars.timer = TM_ZERO;            // Reset the timer
+        g_game_vars.timer = TM_ZERO; // Reset the timer
         blind_reward = blind_get_reward(g_game_vars.current_blind);
         hand_reward = g_game_vars.hands;
         interest_reward = calculate_interest_reward();

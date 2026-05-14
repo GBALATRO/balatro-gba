@@ -314,7 +314,7 @@ bool list_remove_at(List* list, void* data)
 
     while ((ln = s_list_itr_node_next(&itr)))
     {
-        if(ln->data == data)
+        if (ln->data == data)
         {
             s_list_remove_node(list, ln);
             return true;

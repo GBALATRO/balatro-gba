@@ -27,11 +27,10 @@
 #include "soundbank.h"
 #include "splash_screen.h"
 #include "sprite.h"
+#include "state_machine.h"
 #include "timer.h"
 #include "tonc_memdef.h"
 #include "util.h"
-
-#include "state_machine.h"
 
 #include <maxmod.h>
 #include <stdint.h>
@@ -305,8 +304,7 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
-StateMachine game_sm =
-{
+StateMachine game_sm = {
     .state_infos = &state_info[0],
     .num_infos = GAME_STATE_MAX,
 };
