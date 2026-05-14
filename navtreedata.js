@@ -67,7 +67,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "affine__background_8c_source.html",
-"selection__grid_8h.html#a0ce39e190a85488f03024736064a9115"
+"save_8h.html#a9e232271002ca804d61417ca6773b07a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -145,6 +145,18 @@ $(document).ready(function(){initNavTree('timer_8h.html',''); initResizable(); }
 Macros</h2></td></tr>
 <tr class="memitem:a70001be23945e65eac65ea347aa95ad1" id="r_a70001be23945e65eac65ea347aa95ad1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#a70001be23945e65eac65ea347aa95ad1">TM_ZERO</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a70001be23945e65eac65ea347aa95ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26060b8736cb09c70b26318f41912b7a" id="r_a26060b8736cb09c70b26318f41912b7a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#a26060b8736cb09c70b26318f41912b7a">TM_REWARDS_ELLIPSIS_PRINT_START</a>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a26060b8736cb09c70b26318f41912b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d70e23aaba7dddc9ed02b5e8fd2ee8" id="r_af4d70e23aaba7dddc9ed02b5e8fd2ee8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#af4d70e23aaba7dddc9ed02b5e8fd2ee8">TM_REWARDS_ELLIPSIS_PRINT_END</a>&#160;&#160;&#160;16</td></tr>
+<tr class="separator:af4d70e23aaba7dddc9ed02b5e8fd2ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf5a8ce9efed96f875d5dfa5411c08b" id="r_aeaf5a8ce9efed96f875d5dfa5411c08b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#aeaf5a8ce9efed96f875d5dfa5411c08b">TM_REWARD_DISPLAY_INTERVAL</a>&#160;&#160;&#160;15</td></tr>
+<tr class="separator:aeaf5a8ce9efed96f875d5dfa5411c08b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5e088acabcc36003d348caf343f2966" id="r_ac5e088acabcc36003d348caf343f2966"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#ac5e088acabcc36003d348caf343f2966">TM_REWARD_INCREMENT_INTERVAL</a>&#160;&#160;&#160;20</td></tr>
+<tr class="separator:ac5e088acabcc36003d348caf343f2966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf6c50fa57034c972378f681950f51bc" id="r_acf6c50fa57034c972378f681950f51bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#acf6c50fa57034c972378f681950f51bc">TM_DISPLAY_REWARDS_CONT_WAIT</a>&#160;&#160;&#160;(TM_REWARDS_ELLIPSIS_PRINT_END + TM_REWARD_DISPLAY_INTERVAL)</td></tr>
+<tr class="separator:acf6c50fa57034c972378f681950f51bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae99508249b77d17274e6cb51b6161b95" id="r_ae99508249b77d17274e6cb51b6161b95"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#ae99508249b77d17274e6cb51b6161b95">TM_HAND_REWARD_INCR_WAIT</a>&#160;&#160;&#160;(TM_DISPLAY_REWARDS_CONT_WAIT + TM_REWARD_DISPLAY_INTERVAL)</td></tr>
+<tr class="separator:ae99508249b77d17274e6cb51b6161b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83fabdbbae9d27f179ecd9a3c58257a8" id="r_a83fabdbbae9d27f179ecd9a3c58257a8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8h.html#a83fabdbbae9d27f179ecd9a3c58257a8">MENU_POP_OUT_ANIM_FRAMES</a>&#160;&#160;&#160;20</td></tr>
 <tr class="separator:a83fabdbbae9d27f179ecd9a3c58257a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -161,6 +173,102 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define MENU_POP_OUT_ANIM_FRAMES&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00020">20</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="acf6c50fa57034c972378f681950f51bc" name="acf6c50fa57034c972378f681950f51bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6c50fa57034c972378f681950f51bc">&#9670;&#160;</a></span>TM_DISPLAY_REWARDS_CONT_WAIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_DISPLAY_REWARDS_CONT_WAIT&#160;&#160;&#160;(TM_REWARDS_ELLIPSIS_PRINT_END + TM_REWARD_DISPLAY_INTERVAL)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00017">17</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="ae99508249b77d17274e6cb51b6161b95" name="ae99508249b77d17274e6cb51b6161b95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae99508249b77d17274e6cb51b6161b95">&#9670;&#160;</a></span>TM_HAND_REWARD_INCR_WAIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_HAND_REWARD_INCR_WAIT&#160;&#160;&#160;(TM_DISPLAY_REWARDS_CONT_WAIT + TM_REWARD_DISPLAY_INTERVAL)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00018">18</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="aeaf5a8ce9efed96f875d5dfa5411c08b" name="aeaf5a8ce9efed96f875d5dfa5411c08b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaf5a8ce9efed96f875d5dfa5411c08b">&#9670;&#160;</a></span>TM_REWARD_DISPLAY_INTERVAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_REWARD_DISPLAY_INTERVAL&#160;&#160;&#160;15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00014">14</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="ac5e088acabcc36003d348caf343f2966" name="ac5e088acabcc36003d348caf343f2966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5e088acabcc36003d348caf343f2966">&#9670;&#160;</a></span>TM_REWARD_INCREMENT_INTERVAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_REWARD_INCREMENT_INTERVAL&#160;&#160;&#160;20</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00015">15</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="af4d70e23aaba7dddc9ed02b5e8fd2ee8" name="af4d70e23aaba7dddc9ed02b5e8fd2ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4d70e23aaba7dddc9ed02b5e8fd2ee8">&#9670;&#160;</a></span>TM_REWARDS_ELLIPSIS_PRINT_END</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_REWARDS_ELLIPSIS_PRINT_END&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="timer_8h_source.html#l00013">13</a> of file <a class="el" href="timer_8h_source.html">timer.h</a>.</p>
+
+</div>
+</div>
+<a id="a26060b8736cb09c70b26318f41912b7a" name="a26060b8736cb09c70b26318f41912b7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26060b8736cb09c70b26318f41912b7a">&#9670;&#160;</a></span>TM_REWARDS_ELLIPSIS_PRINT_START</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_REWARDS_ELLIPSIS_PRINT_START&#160;&#160;&#160;2</td>
         </tr>
       </table>
 </div><div class="memdoc">

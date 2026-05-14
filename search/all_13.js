@@ -9,10 +9,11 @@ var searchData=
   ['rom_6',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md26',1,'']]],
   ['rotation_7',['rotation',['../structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae',1,'SpriteObject']]],
   ['round_8',['round',['../md_README.html#autotoc_md36',1,'When on the hand row during round'],['../md_README.html#autotoc_md37',1,'When on the joker row in the shop or during round']]],
-  ['row_20during_20round_9',['When on the hand row during round',['../md_README.html#autotoc_md36',1,'']]],
-  ['row_20in_20the_20shop_20or_20during_20round_10',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md37',1,'']]],
-  ['rowgetsizefunc_11',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
-  ['rowonkeytransitfunc_12',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
-  ['rowonselectionchangedfunc_13',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
-  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_14',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md25',1,'']]]
+  ['round_5fend_2eh_9',['round_end.h',['../round__end_8h.html',1,'']]],
+  ['row_20during_20round_10',['When on the hand row during round',['../md_README.html#autotoc_md36',1,'']]],
+  ['row_20in_20the_20shop_20or_20during_20round_11',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['rowgetsizefunc_12',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
+  ['rowonkeytransitfunc_13',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
+  ['rowonselectionchangedfunc_14',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
+  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_15',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md25',1,'']]]
 ];

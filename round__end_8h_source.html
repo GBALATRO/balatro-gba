@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBAlatro: include/layout.h Source File</title>
+<title>GBAlatro: include/game/round_end.h Source File</title>
 <!--BEGIN PROJECT_ICON-->
 <link rel="icon" href="$projecticon" type="image/x-icon" />
 <!--END PROJECT_ICON-->
@@ -109,7 +109,7 @@ $(document).ready(function() { init_codefold(0); });
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('layout_8h_source.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('round__end_8h_source.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -135,37 +135,32 @@ $(document).ready(function(){initNavTree('layout_8h_source.html',''); initResiza
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">layout.h</div></div>
+  <div class="headertitle"><div class="title">round_end.h</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="layout_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef LAYOUT_H</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define LAYOUT_H</span></div>
+<a href="round__end_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef GAME_ROUND_END_H</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define GAME_ROUND_END_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="graphic__utils_8h.html">graphic_utils.h</a>&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Points                                               x        y</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">static</span> <span class="keyword">const</span> BG_POINT CUR_BLIND_TOKEN_POS            = {8,       18};</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">static</span> <span class="keyword">const</span> BG_POINT TOP_LEFT_PANEL_POINT           = {0,       0};</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">static</span> <span class="keyword">const</span> BG_POINT ROUND_END_REWARDS_ELLIPSIS_POS = {10,      13};</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// Rects                                                left     top     right   bottom</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">static</span> <span class="keyword">const</span> Rect TOP_LEFT_PANEL_ANIM_RECT           = {0,       0,      8,      4};</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">static</span> <span class="keyword">const</span> Rect POP_MENU_ANIM_RECT                 = {9,       7,      24,     31};</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">static</span> <span class="keyword">const</span> Rect TOP_LEFT_ITEM_SRC_RECT             = {0,       20,     8,      25};</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">static</span> <span class="keyword">const</span> Rect BLIND_REWARD_RECT                  = {40,      32,     64,     40};</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">static</span> <span class="keyword">const</span> Rect BLIND_REQ_TEXT_RECT                = {32,      24,     64,     32};</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">static</span> <span class="keyword">const</span> Rect HAND_SIZE_RECT                     = {128,     128,    152,    160}; <span class="comment">// Seems to include both SELECT and PLAYING</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// clang-format on</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif </span><span class="comment">// LAYOUT_H</span></div>
-<div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keywordtype">void</span> <a class="code hl_function" href="round__end_8h.html#a6cb075ed0669b4a5ec6c72ed98a3dbcd">game_round_end_change_background</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> <a class="code hl_function" href="round__end_8h.html#a422af0c20ef999987ef2d1ccedc2ac54">game_round_end_on_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">void</span> <a class="code hl_function" href="round__end_8h.html#a45620d5fc2607829039e6667bb075fab">game_round_end_on_update</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">void</span> <a class="code hl_function" href="round__end_8h.html#a2fb8a927165aebf53d7f93b7fee68ba1">game_round_end_on_exit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif </span><span class="comment">// GAME_ROUND_END_H</span></div>
+<div class="ttc" id="around__end_8h_html_a2fb8a927165aebf53d7f93b7fee68ba1"><div class="ttname"><a href="round__end_8h.html#a2fb8a927165aebf53d7f93b7fee68ba1">game_round_end_on_exit</a></div><div class="ttdeci">void game_round_end_on_exit(void)</div><div class="ttdoc">Round end cleanup.</div><div class="ttdef"><b>Definition</b> <a href="round__end_8c_source.html#l00463">round_end.c:463</a></div></div>
+<div class="ttc" id="around__end_8h_html_a422af0c20ef999987ef2d1ccedc2ac54"><div class="ttname"><a href="round__end_8h.html#a422af0c20ef999987ef2d1ccedc2ac54">game_round_end_on_init</a></div><div class="ttdeci">void game_round_end_on_init(void)</div><div class="ttdoc">Round end state initialization.</div><div class="ttdef"><b>Definition</b> <a href="round__end_8c_source.html#l00446">round_end.c:446</a></div></div>
+<div class="ttc" id="around__end_8h_html_a45620d5fc2607829039e6667bb075fab"><div class="ttname"><a href="round__end_8h.html#a45620d5fc2607829039e6667bb075fab">game_round_end_on_update</a></div><div class="ttdeci">void game_round_end_on_update(void)</div><div class="ttdoc">Round end state update.</div><div class="ttdef"><b>Definition</b> <a href="round__end_8c_source.html#l00452">round_end.c:452</a></div></div>
+<div class="ttc" id="around__end_8h_html_a6cb075ed0669b4a5ec6c72ed98a3dbcd"><div class="ttname"><a href="round__end_8h.html#a6cb075ed0669b4a5ec6c72ed98a3dbcd">game_round_end_change_background</a></div><div class="ttdeci">void game_round_end_change_background(void)</div><div class="ttdoc">Change to the round end background.</div><div class="ttdef"><b>Definition</b> <a href="round__end_8c_source.html#l00437">round_end.c:437</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="layout_8h.html">layout.h</a></li>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f307a46daed1218fee22380d1eacedba.html">game</a></li><li class="navelem"><a class="el" href="round__end_8h.html">round_end.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

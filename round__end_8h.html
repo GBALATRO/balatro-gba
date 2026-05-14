@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>GBAlatro: include/game/common_ui.h File Reference</title>
+<title>GBAlatro: include/game/round_end.h File Reference</title>
 <!--BEGIN PROJECT_ICON-->
 <link rel="icon" href="$projecticon" type="image/x-icon" />
 <!--END PROJECT_ICON-->
@@ -104,7 +104,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('common__ui_8h.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('round__end_8h.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -131,98 +131,121 @@ $(document).ready(function(){initNavTree('common__ui_8h.html',''); initResizable
 
 <div class="header">
   <div class="summary">
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
-  <div class="headertitle"><div class="title">common_ui.h File Reference</div></div>
+  <div class="headertitle"><div class="title">round_end.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Common functions to render UI elements.  
+<p>Round end game state functions.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
-</div>
-<p><a href="common__ui_8h_source.html">Go to the source code of this file.</a></p>
+
+<p><a href="round__end_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:aa1dc226c31d41c9cb14cdf9e2551c5cd" id="r_aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> { <br />
-&#160;&#160;<b>BG_NONE</b>
-, <b>BG_CARD_SELECTING</b>
-, <b>BG_CARD_PLAYING</b>
-, <b>BG_ROUND_END</b>
-, <br />
-&#160;&#160;<b>BG_SHOP</b>
-, <b>BG_BLIND_SELECT</b>
-, <b>BG_OPTIONS_MENU</b>
-, <b>BG_MAIN_MENU</b>
-<br />
- }</td></tr>
-<tr class="memdesc:aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>.  <a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">More...</a><br /></td></tr>
-<tr class="separator:aa1dc226c31d41c9cb14cdf9e2551c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7cc065b753e494969940447dfb3fb599" id="r_a7cc065b753e494969940447dfb3fb599"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a> (enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> id, bool force_redraw)</td></tr>
-<tr class="separator:a7cc065b753e494969940447dfb3fb599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cb075ed0669b4a5ec6c72ed98a3dbcd" id="r_a6cb075ed0669b4a5ec6c72ed98a3dbcd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="round__end_8h.html#a6cb075ed0669b4a5ec6c72ed98a3dbcd">game_round_end_change_background</a> (void)</td></tr>
+<tr class="memdesc:a6cb075ed0669b4a5ec6c72ed98a3dbcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change to the round end background.  <br /></td></tr>
+<tr class="separator:a6cb075ed0669b4a5ec6c72ed98a3dbcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a422af0c20ef999987ef2d1ccedc2ac54" id="r_a422af0c20ef999987ef2d1ccedc2ac54"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="round__end_8h.html#a422af0c20ef999987ef2d1ccedc2ac54">game_round_end_on_init</a> (void)</td></tr>
+<tr class="memdesc:a422af0c20ef999987ef2d1ccedc2ac54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round end state initialization.  <br /></td></tr>
+<tr class="separator:a422af0c20ef999987ef2d1ccedc2ac54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45620d5fc2607829039e6667bb075fab" id="r_a45620d5fc2607829039e6667bb075fab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="round__end_8h.html#a45620d5fc2607829039e6667bb075fab">game_round_end_on_update</a> (void)</td></tr>
+<tr class="memdesc:a45620d5fc2607829039e6667bb075fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round end state update.  <br /></td></tr>
+<tr class="separator:a45620d5fc2607829039e6667bb075fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fb8a927165aebf53d7f93b7fee68ba1" id="r_a2fb8a927165aebf53d7f93b7fee68ba1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="round__end_8h.html#a2fb8a927165aebf53d7f93b7fee68ba1">game_round_end_on_exit</a> (void)</td></tr>
+<tr class="memdesc:a2fb8a927165aebf53d7f93b7fee68ba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round end cleanup.  <br /></td></tr>
+<tr class="separator:a2fb8a927165aebf53d7f93b7fee68ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Common functions to render UI elements. </p>
+<div class="textblock"><p>Round end game state functions. </p>
 
-<p class="definition">Definition in file <a class="el" href="common__ui_8h_source.html">common_ui.h</a>.</p>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="aa1dc226c31d41c9cb14cdf9e2551c5cd" name="aa1dc226c31d41c9cb14cdf9e2551c5cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1dc226c31d41c9cb14cdf9e2551c5cd">&#9670;&#160;</a></span>BackgroundId</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Enum of possible backgrounds to render with <a class="el" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>. </p>
-
-<p class="definition">Definition at line <a class="el" href="common__ui_8h_source.html#l00014">14</a> of file <a class="el" href="common__ui_8h_source.html">common_ui.h</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a7cc065b753e494969940447dfb3fb599" name="a7cc065b753e494969940447dfb3fb599"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7cc065b753e494969940447dfb3fb599">&#9670;&#160;</a></span>change_background()</h2>
+<p class="definition">Definition in file <a class="el" href="round__end_8h_source.html">round_end.h</a>.</p>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a6cb075ed0669b4a5ec6c72ed98a3dbcd" name="a6cb075ed0669b4a5ec6c72ed98a3dbcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cb075ed0669b4a5ec6c72ed98a3dbcd">&#9670;&#160;</a></span>game_round_end_change_background()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void change_background </td>
+          <td class="memname">void game_round_end_change_background </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a>&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>force_redraw</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Change the background</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td><a class="el" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> to render to screen </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p class="definition">Definition at line <a class="el" href="common__ui_8c_source.html#l00025">25</a> of file <a class="el" href="common__ui_8c_source.html">common_ui.c</a>.</p>
+<p>Change to the round end background. </p>
+
+<p class="definition">Definition at line <a class="el" href="round__end_8c_source.html#l00437">437</a> of file <a class="el" href="round__end_8c_source.html">round_end.c</a>.</p>
+
+</div>
+</div>
+<a id="a2fb8a927165aebf53d7f93b7fee68ba1" name="a2fb8a927165aebf53d7f93b7fee68ba1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fb8a927165aebf53d7f93b7fee68ba1">&#9670;&#160;</a></span>game_round_end_on_exit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_round_end_on_exit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Round end cleanup. </p>
+
+<p class="definition">Definition at line <a class="el" href="round__end_8c_source.html#l00463">463</a> of file <a class="el" href="round__end_8c_source.html">round_end.c</a>.</p>
+
+</div>
+</div>
+<a id="a422af0c20ef999987ef2d1ccedc2ac54" name="a422af0c20ef999987ef2d1ccedc2ac54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a422af0c20ef999987ef2d1ccedc2ac54">&#9670;&#160;</a></span>game_round_end_on_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_round_end_on_init </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Round end state initialization. </p>
+
+<p class="definition">Definition at line <a class="el" href="round__end_8c_source.html#l00446">446</a> of file <a class="el" href="round__end_8c_source.html">round_end.c</a>.</p>
+
+</div>
+</div>
+<a id="a45620d5fc2607829039e6667bb075fab" name="a45620d5fc2607829039e6667bb075fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45620d5fc2607829039e6667bb075fab">&#9670;&#160;</a></span>game_round_end_on_update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_round_end_on_update </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Round end state update. </p>
+
+<p class="definition">Definition at line <a class="el" href="round__end_8c_source.html#l00452">452</a> of file <a class="el" href="round__end_8c_source.html">round_end.c</a>.</p>
 
 </div>
 </div>
@@ -231,7 +254,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f307a46daed1218fee22380d1eacedba.html">game</a></li><li class="navelem"><a class="el" href="common__ui_8h.html">common_ui.h</a></li>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_f307a46daed1218fee22380d1eacedba.html">game</a></li><li class="navelem"><a class="el" href="round__end_8h.html">round_end.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
