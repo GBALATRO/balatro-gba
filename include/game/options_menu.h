@@ -6,8 +6,6 @@
 #ifndef GAME_OPTIONS_MENU_H
 #define GAME_OPTIONS_MENU_H
 
-#include "game_variables.h"
-
 /**
  * @brief Change the options menu background
  */

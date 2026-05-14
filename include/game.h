@@ -184,5 +184,8 @@ void display_round(void);
 void reset_top_left_panel_bottom_row(void);
 
 void reset_background(void);
+void display_hands(void);
+void display_discards(void);
+void display_score(u32 value);
 
 #endif // GAME_H
