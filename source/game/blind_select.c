@@ -46,7 +46,6 @@ enum BlindSelectState
     BLIND_SELECT_MAX,
 };
 
-// TODO: this will be refactored into common state machine
 static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_start_anim_seq),
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_handle_input),

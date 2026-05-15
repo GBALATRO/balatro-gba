@@ -64,4 +64,9 @@
  */
 void play_sfx(mm_word id, mm_word rate, mm_byte volume);
 
+void fast_music(void);
+void slow_music(void);
+void shop_music(void);
+void normal_music(void);
+
 #endif
