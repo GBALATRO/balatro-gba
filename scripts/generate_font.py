@@ -57,7 +57,7 @@ for char_y in range(NUM_VERT_CHARS):
         crop_area = (pix_x, pix_y, pix_x + CHAR_WIDTH, pix_y + CHAR_HEIGHT)
         
         pixel_block_img = img.crop(crop_area)
-        pixels = list(pixel_block_img.getdata())
+        pixels = pixel_block_img.get_flattened_data()
 
         word0 = 0
         word1 = 0
