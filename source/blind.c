@@ -12,8 +12,8 @@
 #include <stdlib.h>
 #include <tonc.h>
 
-#define NORMAL_BLIND_PB 1
-#define BOSS_BLIND_PB   2
+#define NORMAL_BLIND_PB 2
+#define BOSS_BLIND_PB   3
 
 #define BLIND_BASE_LAYER (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
 
