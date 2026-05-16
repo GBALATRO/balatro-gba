@@ -1,18 +1,6 @@
 var searchData=
 [
-  ['list_5fclear_0',['list_clear',['../list_8h.html#aac53d4a634fec0aa2adad813d0497056',1,'list.c']]],
-  ['list_5fcreate_1',['list_create',['../list_8h.html#a92bbfe84653d1fedb6e463414d7bb109',1,'list.c']]],
-  ['list_5fget_5fat_5fidx_2',['list_get_at_idx',['../list_8h.html#a3c604970a7f427ee628ab97749fde17c',1,'list.c']]],
-  ['list_5fget_5flen_3',['list_get_len',['../list_8h.html#a74047e9a2e7b4652b675fa8be6086b13',1,'list.c']]],
-  ['list_5finsert_4',['list_insert',['../list_8h.html#a57bd51e137dc1dc484916af563605f62',1,'list.c']]],
-  ['list_5fis_5fempty_5',['list_is_empty',['../list_8h.html#a1269841dad103a70c861ef88e1bbf9e0',1,'list.c']]],
-  ['list_5fitr_5fcreate_6',['list_itr_create',['../list_8h.html#af580fe52b40b3ee763b5fc145b7890b0',1,'list.c']]],
-  ['list_5fitr_5fnext_7',['list_itr_next',['../list_8h.html#adaa09cca2b970d67f0cd14076e1db988',1,'list.c']]],
-  ['list_5fitr_5fremove_5fcurrent_5fnode_8',['list_itr_remove_current_node',['../list_8h.html#aadae204b696ed083c90efeb417d786f9',1,'list.c']]],
-  ['list_5fpush_5fback_9',['list_push_back',['../list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098',1,'list.c']]],
-  ['list_5fpush_5ffront_10',['list_push_front',['../list_8h.html#a99e81da43177b6ba0e115fb24ca168ad',1,'list.c']]],
-  ['list_5fremove_5fat_5fidx_11',['list_remove_at_idx',['../list_8h.html#ae2816ca6db0a215748a62831dc64104f',1,'list.c']]],
-  ['list_5fswap_12',['list_swap',['../list_8h.html#a08ee696c9e3cb8fdbf2f99450635711e',1,'list.c']]],
-  ['load_5fgame_13',['load_game',['../save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1',1,'load_game(void):&#160;save.c'],['../save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1',1,'load_game(void):&#160;save.c']]],
-  ['load_5foptions_14',['load_options',['../save_8h.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c'],['../save_8c.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c']]]
+  ['jokers_5fsel_5frow_5fget_5fsize_0',['jokers_sel_row_get_size',['../joker__row_8h.html#acc859dcba03228c03eb23ab24f215557',1,'joker_row.c']]],
+  ['jokers_5fsel_5frow_5fon_5fkey_5ftransit_1',['jokers_sel_row_on_key_transit',['../joker__row_8h.html#a98f49a8ea7b0012762d22095ec095b27',1,'joker_row.c']]],
+  ['jokers_5fsel_5frow_5fon_5fselection_5fchanged_2',['jokers_sel_row_on_selection_changed',['../joker__row_8h.html#a55453f830f003362afcb314bacc1efa6',1,'joker_row.c']]]
 ];
