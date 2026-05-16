@@ -392,7 +392,7 @@ void game_options_menu_change_background(void)
 
 void game_options_menu_on_init(void)
 {
-    change_background(BG_OPTIONS_MENU);
+    change_background(BG_OPTIONS_MENU, false);
 
     // Select game speed button by default
     options_menu_selection_grid.selection = OPTIONS_MENU_INIT_SEL;
@@ -473,7 +473,7 @@ static void back_on_pressed(void)
 {
     if (back_btn_is_save_state)
     {
-        save_game();
+        save_options();
         change_back_save_text(true);
         back_btn_is_save_state = false;
     }

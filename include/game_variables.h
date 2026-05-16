@@ -6,6 +6,8 @@
 #ifndef GAME_VARIABLES_H
 #define GAME_VARIABLES_H
 
+#include "blind.h"
+
 #include <tonc.h>
 
 #define GAME_SPEED_MIN 1
@@ -20,6 +22,9 @@
 #define DEFAULT_HIGH_CONTRAST false
 #define DEFAULT_MUSIC_VOLUME  VOLUME_OPTION_MAX
 #define DEFAULT_SOUND_VOLUME  VOLUME_OPTION_MAX
+
+#define MAX_HANDS    4
+#define MAX_DISCARDS 4
 
 /**
  * @brief A central location for all game variables.
@@ -37,10 +42,22 @@ typedef struct
 
     // Variables visible by the player
 
-    int round;
-    int ante;
-    int money;
+    s32 round;
+    s32 ante;
+    s32 money;
 
+    // Blind variables
+
+    enum BlindType current_blind;
+    enum BlindType next_boss_blind;
+    enum BlindState blinds_states[NUM_BLINDS_PER_ANTE];
+
+    s32 hands;
+    s32 discards;
+    u32 score;
+
+    Sprite* playing_blind_token;
+    Sprite* round_end_blind_token;
     // Options variables
 
     // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the

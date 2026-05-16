@@ -318,6 +318,37 @@ bool sprite_object_get_width(SpriteObject* sprite_object, int* width);
 bool sprite_object_is_focused(SpriteObject* sprite_object);
 
 /**
+ * @brief Print the given string directly beneath a SpriteObject.
+ *         This is used only for Cards for now.
+ *
+ * @param sprite_object valid pointer to SpriteObject to check
+ * @param text the string to be printed below the sprite
+ */
+void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[]);
+
+/**
+ * @brief Print the price string directly beneath a SpriteObject.
+ *         More specialized version of sprite_object_print_text_under,
+ *         automatically formats the price to `$%d`.
+ *
+ * @param sprite_object valid pointer to SpriteObject to check
+ * @param price the price of the card to be printed
+ *
+ * @sa sprite_object_print_text_under
+ */
+void sprite_object_print_price_under(SpriteObject* sprite_object, int price);
+
+/**
+ * @brief Erase the text within the Rect directly beneath a SpriteObject.
+ *         This is used only for Cards for now.
+ *
+ * @param sprite_object valid pointer to SpriteObject to check
+ *
+ * @sa sprite_object_print_text_under
+ */
+void sprite_object_erase_text_under(SpriteObject* sprite_object);
+
+/**
  * @brief Set sprite position. Inlined for efficiency
  *
  * @param sprite poitner to Sprite to adjust the position of. A **NULL** check is

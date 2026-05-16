@@ -3,6 +3,7 @@
 #include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
+#include "graphic_utils.h"
 #include "pool.h"
 #include "soundbank.h"
 #include "util.h"
@@ -368,4 +369,53 @@ bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* 
 bool sprite_object_is_focused(SpriteObject* sprite_object)
 {
     return sprite_object->focused;
+}
+
+static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
+{
+    int height = 0;
+    int width = 0;
+
+    if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
+    {
+        // fallback
+        height = CARD_SPRITE_SIZE;
+        width = CARD_SPRITE_SIZE;
+    }
+
+    Rect ret_rect = {0};
+
+    ret_rect.left = fx2int(sprite_object->tx);
+    ret_rect.top = fx2int(sprite_object->ty) + height + TILE_SIZE;
+    ret_rect.right = ret_rect.left + width;
+    ret_rect.bottom = ret_rect.top + TTE_CHAR_SIZE;
+
+    return ret_rect;
+}
+
+void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[])
+{
+    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
+
+    update_text_rect_to_center_str(&text_rect, text, SCREEN_LEFT);
+
+    tte_printf("#{P:%d,%d; cx:0x%X000}%s", text_rect.left, text_rect.top, TTE_YELLOW_PB, text);
+}
+
+void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
+{
+    // + 2 for null-terminator and "$"
+    char price_str_buff[INT_MAX_DIGITS + 2];
+    snprintf(price_str_buff, sizeof(price_str_buff), "$%d", price);
+    sprite_object_print_text_under(sprite_object, price_str_buff);
+}
+
+void sprite_object_erase_text_under(SpriteObject* sprite_object)
+{
+    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
+
+    // Add SPRITE_FOCUS_RAISE_PX to cover the focused case
+    text_rect.bottom = text_rect.bottom + SPRITE_FOCUS_RAISE_PX;
+
+    tte_erase_rect_wrapper(text_rect);
 }

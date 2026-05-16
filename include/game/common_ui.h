@@ -6,6 +6,8 @@
 #ifndef COMMON_UI_H
 #define COMMON_UI_H
 
+#include <stdbool.h>
+
 /**
  * @brief Enum of possible backgrounds to render with @ref change_background
  */
@@ -26,6 +28,6 @@ enum BackgroundId
  *
  * @param id @ref BackgroundId to render to screen
  */
-void change_background(enum BackgroundId id);
+void change_background(enum BackgroundId id, bool force_redraw);
 
 #endif // COMMON_UI_H

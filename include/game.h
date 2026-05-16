@@ -1,9 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "blind.h"
+#include "bitset.h"
 #include "game/common_ui.h"
 #include "game_variables.h"
+#include "graphic_utils.h"
 
 #include <tonc.h>
 
@@ -39,6 +40,9 @@ typedef struct List List;
 typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
+
+typedef void (*GameStateCallback)(void);
+typedef void (*SubStateActionFn)(void);
 
 // Enum value names in ../include/def_state_info_table.h
 enum GameState
@@ -122,18 +126,19 @@ typedef struct ContainedHandTypes
 } ContainedHandTypes;
 // clang-format on
 
-typedef void (*GameStateCallback)(void);
-
-typedef struct
-{
-    int substate;
-    GameStateCallback on_init;
-    GameStateCallback on_update;
-    GameStateCallback on_exit;
-} StateInfo;
-
 // Game functions
 void game_init();
+
+/**
+ * @brief Called when exiting the Game Over screen (both win or lose) to reset game variables
+ *         and start a fresh new run.
+ *
+ * WARNING: This function is currently only meant to be called from the "GAME_OVER" state
+ * and shouldn't be called from other states, otherwise some data such as shop jokers
+ * may not be properly reset.
+ */
+void game_reset();
+
 void game_update();
 void game_change_state(enum GameState new_game_state);
 
@@ -145,8 +150,14 @@ int get_played_top(void);
 int get_scored_card_index(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
+void add_joker(JokerObject* joker_object);
+void remove_owned_joker(int owned_joker_idx);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
+List* get_discarded_jokers_list(void);
+List* get_shop_jokers_list(void);
+Bitset* get_avail_jokers_bitset(void);
+void set_shop_joker_avail(int joker_id, bool avail);
 
 ContainedHandTypes* get_contained_hands(void);
 enum HandType* get_hand_type(void);
@@ -163,8 +174,6 @@ void set_mult(u32 new_mult);
 void display_mult(void);
 void display_money(void);
 void set_retrigger(bool new_retrigger);
-enum BlindType get_current_blind(void);
-enum BlindType get_next_boss_blind(void);
 
 u32 get_rand(void);
 
@@ -178,5 +187,12 @@ void game_start(void);
 // simultaneous integration of the new system in `common_ui` with the the existing
 // old system incrementally and without losing functionality.
 void change_background_legacy(enum BackgroundId id);
+
+void display_round(void);
+
+void reset_background(void);
+void display_hands(void);
+void display_discards(void);
+void display_score(u32 value);
 
 #endif // GAME_H
