@@ -645,9 +645,11 @@ void game_run_setup_on_init(void)
     card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
 
     run_setup_deck->sprite_object->tx = int2fx(RUN_SETUP_DECK_SPRITE_T_X);
-    run_setup_deck->sprite_object->x = run_setup_deck->sprite_object->tx;
     run_setup_deck->sprite_object->ty = int2fx(RUN_SETUP_DECK_SPRITE_T_Y);
-    run_setup_deck->sprite_object->y = run_setup_deck->sprite_object->ty;
+
+    // Need to do -1 here so that the sprite isn't at the target position and gets updated
+    run_setup_deck->sprite_object->x = run_setup_deck->sprite_object->tx - 1;
+    run_setup_deck->sprite_object->y = run_setup_deck->sprite_object->ty - 1;
 
     card_object_update(run_setup_deck);
 
