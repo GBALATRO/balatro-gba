@@ -1,3 +1,8 @@
+/**
+ * @file deck.c
+ *
+ * @brief Implementation of functions related to the different types of Decks.
+ */
 #include "deck.h"
 
 #include "game.h"
@@ -6,6 +11,9 @@
 
 #define TTE_COLOR_TEXT_FORMAT "#{cx:0x%X000}%s"
 
+/**
+ * @brief List of DeckType names, all formatted to be centered in a string of 13 characters.
+ */
 static const char deck_names[DECK_TYPE_MAX][DECK_NAME_LENGTH] = {
     "  Red Deck   ",
     "  Blue Deck  ",
@@ -47,16 +55,29 @@ const void print_deck_description(enum DeckType deck, BG_POINT pos)
     deck_description_functions[deck](pos);
 }
 
+/**
+ * @brief Print an empty string of 13 characters long at given coordinates.
+ *         Reduces boilerplate in deck descriptions functions.
+ *
+ * @param pos_x
+ * @param pos_y
+ */
 static inline void print_empty_desc_line(int pos_x, int pos_y)
 {
     tte_printf("#{P:%d,%d}" TTE_COLOR_TEXT_FORMAT, pos_x, pos_y, TTE_BLACK_PB, "             ");
 }
 
-// "             "
-// " +1 discard  "
-// " every Round "
-// "             "
-// "             "
+/**
+ * @brief Print the decription of the Red Deck
+ * ```
+ * "             "
+ * " +1 discard  "
+ * " every Round "
+ * "             "
+ * "             "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_red_deck(BG_POINT pos)
 {
     print_empty_desc_line(pos.x, pos.y);
@@ -80,11 +101,17 @@ static void print_desc_red_deck(BG_POINT pos)
     print_empty_desc_line(pos.x, pos.y + 4 * TILE_SIZE);
 }
 
-// "             "
-// "   +1 hand   "
-// " every Round "
-// "             "
-// "             "
+/**
+ * @brief Print the decription of the Blue Deck
+ * ```
+ * "             "
+ * "   +1 hand   "
+ * " every Round "
+ * "             "
+ * "             "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_blue_deck(BG_POINT pos)
 {
     print_empty_desc_line(pos.x, pos.y);
@@ -108,11 +135,17 @@ static void print_desc_blue_deck(BG_POINT pos)
     print_empty_desc_line(pos.x, pos.y + 4 * TILE_SIZE);
 }
 
-// "             "
-// " Start with  "
-// "an extra $10 "
-// "             "
-// "             "
+/**
+ * @brief Print the decription of the Yellow Deck
+ * ```
+ * "             "
+ * " Start with  "
+ * "an extra $10 "
+ * "             "
+ * "             "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_yellow_deck(BG_POINT pos)
 {
     print_empty_desc_line(pos.x, pos.y);
@@ -136,11 +169,17 @@ static void print_desc_yellow_deck(BG_POINT pos)
     print_empty_desc_line(pos.x, pos.y + 4 * TILE_SIZE);
 }
 
-// "End of Round:"
-// "             "
-// "-$2 per Hand "
-// "-$2 per Disc."
-// "-No Interest "
+/**
+ * @brief Print the decription of the Green Deck
+ * ```
+ * "End of Round:"
+ * "             "
+ * "-$2 per Hand "
+ * "-$2 per Disc."
+ * "-No Interest "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_green_deck(BG_POINT pos)
 {
     tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_BLACK_PB, "End of Round:");
@@ -184,11 +223,17 @@ static void print_desc_green_deck(BG_POINT pos)
     );
 }
 
-// "+1 Joker slot"
-// "             "
-// "   -1 hand   "
-// " every Round "
-// "             "
+/**
+ * @brief Print the decription of the Black Deck
+ * ```
+ * "+1 Joker slot"
+ * "             "
+ * "   -1 hand   "
+ * " every Round "
+ * "             "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_black_deck(BG_POINT pos)
 {
     tte_printf(
@@ -220,11 +265,17 @@ static void print_desc_black_deck(BG_POINT pos)
     print_empty_desc_line(pos.x, pos.y + 4 * TILE_SIZE);
 }
 
-// "             "
-// "+2 Hand size "
-// "-1 Joker slot"
-// "             "
-// "             "
+/**
+ * @brief Print the decription of the Painted Deck
+ * ```
+ * "             "
+ * "+2 Hand size "
+ * "-1 Joker slot"
+ * "             "
+ * "             "
+ * ```
+ * @param pos position of the rectagle to print the description to
+ */
 static void print_desc_painted_deck(BG_POINT pos)
 {
     print_empty_desc_line(pos.x, pos.y);

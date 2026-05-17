@@ -1,3 +1,9 @@
+/**
+ * @file run_setup.c
+ *
+ * @brief Setup Run menu state functions implementation.
+ */
+
 #include "game/run_setup.h"
 
 #include "background_run_setup_gfx.h"
