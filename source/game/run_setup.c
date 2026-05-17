@@ -765,8 +765,8 @@ static void choose_deck_substate_update(void)
 }
 
 /**
- * @brief Returns the width of the Change Deck Button's row 
- * 
+ * @brief Returns the width of the Change Deck Button's row
+ *
  * @return 1
  */
 static int change_deck_get_row_size(void)
@@ -935,7 +935,7 @@ static int choose_seed_get_keyboard_row_size(void)
 /**
  * @brief Returns the width of the bottom keyboard row, the shortest one
  *
- * @return `KEYBOARD_WIDTH - 2 = 8` 
+ * @return `KEYBOARD_WIDTH - 2 = 8`
  */
 static int choose_seed_get_keyboard_short_row_size(void)
 {
