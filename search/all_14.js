@@ -64,7 +64,7 @@ var searchData=
   ['sprite_5fobject_5fset_5ffocus_61',['sprite_object_set_focus',['../sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb',1,'sprite.c']]],
   ['sprite_5fobject_5fset_5fsprite_62',['sprite_object_set_sprite',['../sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf',1,'sprite.c']]],
   ['sprite_5fobject_5fshake_63',['sprite_object_shake',['../sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6',1,'sprite.c']]],
-  ['sprite_5fobject_5fupdate_64',['sprite_object_update',['../sprite_8h.html#ad946e128b4c446118eeb14ee61a57c8f',1,'sprite.c']]],
+  ['sprite_5fobject_5fupdate_64',['sprite_object_update',['../sprite_8h.html#aec29df852662063447ff72082fb3ad30',1,'sprite.c']]],
   ['sprite_5fposition_65',['sprite_position',['../sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e',1,'sprite.h']]],
   ['spriteobject_66',['SpriteObject',['../structSpriteObject.html',1,'']]],
   ['start_67',['3. The Game won&apos;t start!',['../index.html#autotoc_md27',1,'']]],
