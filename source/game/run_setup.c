@@ -693,6 +693,9 @@ void game_run_setup_on_exit(void)
 
 // CHOOSE DECK
 
+/**
+ * @brief Initializes the Deck changing substate.
+ */
 static void choose_deck_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
@@ -746,16 +749,31 @@ static void choose_deck_substate_init(void)
     );
 }
 
+/**
+ * @brief Update the deck changing substate by handling user input though its
+ *         corresponding SelectionGrid.
+ */
 static void choose_deck_substate_update(void)
 {
     selection_grid_process_input(&choose_deck_selection_grid);
 }
 
+/**
+ * @brief Returns the width of the Change Deck Button's row 
+ * 
+ * @return 1
+ */
 static int change_deck_get_row_size(void)
 {
     return 1;
 }
 
+/**
+ * @brief Gets the Button corresponding to the current Selection in `choose_deck_selection_grid`
+ *
+ * @param sel Selection within `choose_deck_selection_grid`
+ * @return a pointer to the currently hovered Button
+ */
 static inline Button* change_deck_get_button_from_sel(const Selection* sel)
 {
     switch (sel->y)
@@ -774,6 +792,15 @@ static inline Button* change_deck_get_button_from_sel(const Selection* sel)
     return NULL;
 }
 
+/**
+ * @brief Handle directional input in `choose_deck_selection_grid`
+ *
+ * @param selection_grid pointer to `choose_deck_selection_grid`
+ * @param row_idx row index in `choose_deck_selection_grid` this function is being called for
+ * @param prev_selection previous selection in selection_grid
+ * @param new_selection new selection in selection_grid
+ * @return bool
+ */
 static bool choose_deck_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
@@ -790,11 +817,22 @@ static bool choose_deck_row_on_selection_changed(
     return true;
 }
 
+/**
+ * @brief Returns the width of the Seed checkbox/Seed/Play buttons' row
+ *
+ * @return 3
+ */
 static int seed_play_get_row_size(void)
 {
     return 3;
 }
 
+/**
+ * @brief Handle button inputs for `choose_deck_selection_grid`
+ *
+ * @param selection_grid pointer to `choose_deck_selection_grid`
+ * @param selection current Selection in selection_grid
+ */
 static void seed_play_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
     button_press(&choose_deck_bottom_buttons[selection->x]);
@@ -802,7 +840,24 @@ static void seed_play_row_on_key_transit(SelectionGrid* selection_grid, Selectio
 
 // CHOOSE SEED
 
-static inline void update_seed_text(void);
+/**
+ * @brief Prints the string representing the chosen seed in base-36
+ */
+static inline void update_seed_text(void)
+{
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%-*s",
+        RUN_SETUP_SEED_FIELD_TEXT_POS.x,
+        RUN_SETUP_SEED_FIELD_TEXT_POS.y,
+        TTE_BLACK_PB,
+        BASE36_MAX_DIGITS + 1,
+        seed_str
+    );
+}
+
+/**
+ * @brief Initialize the Choose Seed substate
+ */
 static void seed_keyboard_substate_init(void)
 {
     substate = RUN_SETUP_SUBSTATE_CHOOSE_SEED;
@@ -852,38 +907,48 @@ static void seed_keyboard_substate_init(void)
     update_seed_text();
 }
 
+/**
+ * @brief Update the Choose Seed substate by handling user inputs though the
+ *         corresponding `choose_seed_selection_grid` SelectionGrid
+ */
 static void seed_keyboard_substate_update(void)
 {
     selection_grid_process_input(&choose_seed_selection_grid);
 }
 
+/**
+ * @brief Returns the width of the 3 top keyboard rows
+ *
+ * @return `KEYBOARD_WIDTH = 10`
+ */
 static int choose_seed_get_keyboard_row_size(void)
 {
     return KEYBOARD_WIDTH;
 }
 
+/**
+ * @brief Returns the width of the bottom keyboard row, the shortest one
+ *
+ * @return `KEYBOARD_WIDTH - 2 = 8` 
+ */
 static int choose_seed_get_keyboard_short_row_size(void)
 {
     return KEYBOARD_WIDTH - 2;
 }
 
+/**
+ * @brief Returns the width of the Deck/Play buttons' row
+ *
+ * @return 2
+ */
 static int choose_seed_get_bottom_row_size(void)
 {
     return 2;
 }
 
-static inline void update_seed_text(void)
-{
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%-*s",
-        RUN_SETUP_SEED_FIELD_TEXT_POS.x,
-        RUN_SETUP_SEED_FIELD_TEXT_POS.y,
-        TTE_BLACK_PB,
-        BASE36_MAX_DIGITS + 1,
-        seed_str
-    );
-}
-
+/**
+ * @brief Deletes the last char in the seed string base-36 representation
+ */
 static inline void delete_seed_char(void)
 {
     if (seed_cursor_pos == 0)
@@ -894,6 +959,11 @@ static inline void delete_seed_char(void)
     update_seed_text();
 }
 
+/**
+ * @brief Add a new char at the end of the seed string
+ *
+ * @param key index of the keyboard key corresponding to the char we want to add
+ */
 static inline void type_seed_char(enum RunSetupKeyboardButtons key)
 {
     if (seed_cursor_pos >= BASE36_MAX_DIGITS)
@@ -904,11 +974,21 @@ static inline void type_seed_char(enum RunSetupKeyboardButtons key)
     update_seed_text();
 }
 
+/**
+ * @brief Get the keyboard key index from a SelectionGrid's Selection. The returned
+ *         value is valid only if the Selection is within the keyboard Rows.
+ *
+ * @param sel the Selection within the `choose_seed_selection_grid`
+ * @return the key index
+ */
 static inline enum RunSetupKeyboardButtons get_keyboard_index_from_sel(const Selection* sel)
 {
     return sel->x + KEYBOARD_WIDTH * sel->y;
 }
 
+/**
+ * @brief Keyboard key Button callback
+ */
 static void keyboard_button_on_pressed(void)
 {
     // Type something only if the button pressed in on the keyboard
@@ -951,6 +1031,12 @@ static void keyboard_button_on_pressed(void)
     }
 }
 
+/**
+ * @brief Get the Button corresponding to a Selection within `choose_seed_selection_grid`
+ *
+ * @param sel Selection in `choose_seed_selection_grid`
+ * @return pointer to the Button at coordinates `sel` in grid
+ */
 static inline Button* choose_seed_get_button_from_sel(const Selection* sel)
 {
     switch (sel->y)
@@ -968,6 +1054,12 @@ static inline Button* choose_seed_get_button_from_sel(const Selection* sel)
     return NULL;
 }
 
+/**
+ * @brief Handle button imputs in `choose_seed_selection_grid`
+ *
+ * @param selection_grid pointer to `choose_seed_selection_grid`
+ * @param selection Selected button in `choose_seed_selection_grid`
+ */
 static void choose_seed_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
     if (key_hit(SELECT_CARD) || key_hit(DESELECT_CARDS))
@@ -976,6 +1068,15 @@ static void choose_seed_row_on_key_transit(SelectionGrid* selection_grid, Select
     }
 }
 
+/**
+ * @brief Handle directional imputs in `choose_seed_selection_grid`
+ *
+ * @param selection_grid pointer to `choose_seed_selection_grid`
+ * @param row_idx index of the row in selection_grid the function is being called for
+ * @param prev_selection previous Selection in `choose_seed_selection_grid`
+ * @param new_selection new selection in `choose_seed_selection_grid`
+ * @return bool
+ */
 static bool choose_seed_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
@@ -998,6 +1099,9 @@ static bool choose_seed_row_on_selection_changed(
     return true;
 }
 
+/**
+ * @brief Deck Button Callback
+ */
 static void deck_on_pressed(void)
 {
     choose_deck_substate_init();
@@ -1008,6 +1112,9 @@ static void deck_on_pressed(void)
 
 // RESUME GAME
 
+/**
+ * @brief Initialize the "Resume Previous Run" substate
+ */
 static void resume_substate_init(void)
 {
     tab_set_highlight(RUN_SETUP_TAB_RESUME);
@@ -1016,12 +1123,22 @@ static void resume_substate_init(void)
     obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
 }
 
+/**
+ * @brief Update the "Resume Previous Run" substate
+ */
 static void resume_substate_update(void)
 {
 }
 
 // COMMON BUTTONS
 
+/**
+ * @brief Toggle wheter or not we will use the seed chosen by the user.
+ *         Changes the looks of the Sedd button to signal if it is clickable or not,
+ *         and that of the checkbox next to it.
+ *
+ * @param enable whether the seed is enabled or not
+ */
 static inline void toggle_seed_enabled(bool enable)
 {
     use_seed = enable;
@@ -1051,6 +1168,9 @@ static inline void toggle_seed_enabled(bool enable)
     main_bg_se_copy_rect(toggle_tiles, RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS);
 }
 
+/**
+ * @brief Seed checkbox Button Callback. Toggles custom seed usage.
+ */
 static void use_seed_on_pressed(void)
 {
     if (key_hit(SELECT_CARD))
@@ -1059,6 +1179,9 @@ static void use_seed_on_pressed(void)
     }
 }
 
+/**
+ * @brief Seed Button Callback. Opens the seed input keyboard.
+ */
 static void seed_on_pressed(void)
 {
     if (key_hit(SELECT_CARD) && use_seed)
@@ -1067,6 +1190,9 @@ static void seed_on_pressed(void)
     }
 }
 
+/**
+ * @brief Play Button Callback. Applies the chosen seed if enabled and starts a new run.
+ */
 static void play_on_pressed(void)
 {
     // Apply provided Seed if enabled
@@ -1078,15 +1204,27 @@ static void play_on_pressed(void)
     game_change_state(GAME_STATE_GAME_START);
 }
 
+/**
+ * @brief Back Button Callback. Goes back to the Main Menu.
+ */
 static void back_on_pressed(void)
 {
     game_change_state(GAME_STATE_MAIN_MENU);
 }
 
+/**
+ * @brief Button Callback used for cycling through the Decks.
+ */
 static void change_deck_on_pressed(void)
 {
 }
 
+/**
+ * @brief Highlights the `tab_sel` Tab at the top of the screen,
+ *         and removes highlight from all the others.
+ *
+ * @param tab_sel index of the selected tab
+ */
 static void tab_set_highlight(enum RunSetupTab tab_sel)
 {
     for (enum RunSetupTab tab = 0; tab < RUN_SETUP_TAB_MAX; tab++)
@@ -1095,6 +1233,9 @@ static void tab_set_highlight(enum RunSetupTab tab_sel)
     }
 }
 
+/**
+ * @brief Handle user input in regards to the Tabs. Tabs are cycled through using the L/R buttons.
+ */
 static void run_setup_tabs_update(void)
 {
     static enum RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;
@@ -1125,6 +1266,11 @@ static void run_setup_tabs_update(void)
     tab_set_highlight(current_tab);
 }
 
+/**
+ * @brief Retuns the width of the Back button's row.
+ *
+ * @return 1, as there is only the Back button on that row.
+ */
 static int back_row_get_size()
 {
     return 1;
