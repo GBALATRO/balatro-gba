@@ -8,7 +8,6 @@
 
 #include <tonc.h>
 
-#define MAX_HAND_SIZE        16
 #define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_JOKERS      2 // TODO: Make this dynamic and allow for other items besides jokers
@@ -54,18 +53,6 @@ enum GameState
     GAME_STATE_UNDEFINED
 };
 
-enum HandState
-{
-    HAND_DRAW,
-    HAND_SELECT,
-    // This is actually a misnomer because it's used for the deck
-    // but it mechanically makes sense to be a state of the hand
-    HAND_SHUFFLING,
-    HAND_DISCARD,
-    HAND_PLAY,
-    HAND_PLAYING
-};
-
 enum PlayState
 {
     PLAY_STARTING,
@@ -78,53 +65,6 @@ enum PlayState
     PLAY_ENDING,
     PLAY_ENDED
 };
-
-// Hand types
-enum HandType
-{
-    NONE,
-    HIGH_CARD,
-    PAIR,
-    TWO_PAIR,
-    THREE_OF_A_KIND,
-    STRAIGHT,
-    FLUSH,
-    FULL_HOUSE,
-    FOUR_OF_A_KIND,
-    STRAIGHT_FLUSH,
-    ROYAL_FLUSH,
-    FIVE_OF_A_KIND,
-    FLUSH_HOUSE,
-    FLUSH_FIVE
-};
-
-// clang-format off
-// Store all contained hands to optimize "whole hand condition" Jokers
-typedef struct ContainedHandTypes
-{
-    union
-    {
-        struct
-        {
-            u16 HIGH_CARD : 1;
-            u16 PAIR : 1;
-            u16 TWO_PAIR : 1;
-            u16 THREE_OF_A_KIND : 1;
-            u16 STRAIGHT : 1;
-            u16 FLUSH : 1;
-            u16 FULL_HOUSE : 1;
-            u16 FOUR_OF_A_KIND : 1;
-            u16 STRAIGHT_FLUSH : 1;
-            u16 ROYAL_FLUSH : 1;
-            u16 FIVE_OF_A_KIND : 1;
-            u16 FLUSH_HOUSE : 1;
-            u16 FLUSH_FIVE : 1;
-            u16 : 3;
-        };
-        u16 value;
-    };
-} ContainedHandTypes;
-// clang-format on
 
 // Game functions
 void game_init();
@@ -158,9 +98,6 @@ List* get_discarded_jokers_list(void);
 List* get_shop_jokers_list(void);
 Bitset* get_avail_jokers_bitset(void);
 void set_shop_joker_avail(int joker_id, bool avail);
-
-ContainedHandTypes* get_contained_hands(void);
-enum HandType* get_hand_type(void);
 
 int get_deck_top(void);
 int get_num_discards_remaining(void);

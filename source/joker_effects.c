@@ -1,6 +1,6 @@
 #include "game.h"
 #include "game_variables.h"
-#include "hand_analysis.h"
+#include "hand.h"
 #include "joker.h"
 #include "list.h"
 #include "pool.h"
@@ -678,8 +678,7 @@ static u32 blackboard_joker_effect(
 
     bool all_cards_are_spades_or_clubs = true;
     CardObject** hand = get_hand_array();
-    int hand_size = hand_get_size();
-    for (int i = 0; i < hand_size; i++)
+    for (int i = 0; i < g_game_vars.hand_size; i++)
     {
         u8 suit = hand[i]->card->suit;
         if (suit == HEARTS || suit == DIAMONDS)
@@ -737,8 +736,7 @@ static u32 raised_fist_joker_effect(
             *p_lowest_value_index = 0;
             u8 lowest_value = IMPOSSIBLY_HIGH_CARD_VALUE;
             CardObject** hand = get_hand_array();
-            int hand_size = hand_get_size();
-            for (int i = 0; i < hand_size; i++)
+            for (int i = 0; i < g_game_vars.hand_size; i++)
             {
                 u8 value = card_get_value(hand[i]->card);
                 if (lowest_value > value)

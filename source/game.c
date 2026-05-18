@@ -17,7 +17,7 @@
 #include "game/shop.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
-#include "hand_analysis.h"
+#include "hand.h"
 #include "joker.h"
 #include "layout.h"
 #include "list.h"
@@ -86,13 +86,6 @@
 
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
 
-typedef struct
-{
-    u32 chips;
-    u32 mult;
-    char* display_name;
-} HandValues;
-
 // Used as a No Operation for game states that have no init and/or exit function.
 // ricfehr3 did the work of determining whether a noop or a NULL check was more
 // efficient. Well, this is the answer.
@@ -111,10 +104,8 @@ static void noop(void)
 static void game_round_on_init(void);
 static void game_playing_on_update(void);
 
-static void sort_cards(void);
 static void display_temp_score(u32 value);
 static void check_flaming_score(void);
-static void set_hand(void);
 static int deck_get_size(void);
 static int deck_get_max_size(void);
 static bool check_and_score_joker_for_event(
@@ -154,12 +145,8 @@ static bool game_playing_hand_row_on_selection_changed(
 static int game_playing_hand_row_get_size(void);
 
 static int hand_sel_idx_to_card_idx(int selection_index);
-static void hand_select_card(int index);
-static void hand_toggle_sort(void);
-static void hand_change_sort(bool to_sort_by_suit);
-static void hand_deselect_all_cards(void);
-static bool can_play_hand(void);
 static bool can_discard_hand(void);
+static bool can_play_hand(void);
 
 // Consts
 
@@ -197,7 +184,6 @@ static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
 // Rects for TTE (in pixels)
 static const Rect HAND_SIZE_RECT_SELECT     = {128,     128,    152,    136 };
 static const Rect HAND_SIZE_RECT_PLAYING    = {128,     152,    152,    160 };
-static const Rect HAND_TYPE_RECT            = {8,       64,     64,     72  };
 // Score displayed in the same place as the hand type
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
 static const Rect SCORE_RECT                = {24,      48,     64,     56  };
@@ -272,38 +258,18 @@ Button game_playing_buttons[] = {
 static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
     {28, 28, 28, 28, 27, 21, 18, 15, 13, 12, 10, 9, 9, 8, 8, 7};
 
-static const HandValues hand_base_values[] = {
-    {.chips = 0,   .mult = 0,  .display_name = NULL     }, // NONE
-    {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"}, // HIGH_CARD
-    {.chips = 10,  .mult = 2,  .display_name = "Pair"   }, // PAIR
-    {.chips = 20,  .mult = 2,  .display_name = "2 Pair" }, // TWO_PAIR
-    {.chips = 30,  .mult = 3,  .display_name = "3 OAK"  }, // THREE_OF_A_KIND
-    {.chips = 30,  .mult = 4,  .display_name = "Strt"   }, // STRAIGHT
-    {.chips = 35,  .mult = 4,  .display_name = "Flush"  }, // FLUSH
-    {.chips = 40,  .mult = 4,  .display_name = "Full H" }, // FULL_HOUSE
-    {.chips = 60,  .mult = 7,  .display_name = "4 OAK"  }, // FOUR_OF_A_KIND
-    {.chips = 100, .mult = 8,  .display_name = "Strt F" }, // STRAIGHT_FLUSH
-    {.chips = 100, .mult = 8,  .display_name = "Royal F"}, // ROYAL_FLUSH
-    {.chips = 120, .mult = 12, .display_name = "5 OAK"  }, // FIVE_OF_A_KIND
-    {.chips = 140, .mult = 14, .display_name = "Flush H"}, // FLUSH_HOUSE
-    {.chips = 160, .mult = 16, .display_name = "Flush 5"}  // FLUSH_FIVE
-};
-
 // The current game state, this is used to determine what the game is doing at any given time
 static enum GameState game_state = GAME_STATE_UNDEFINED;
-static enum HandState hand_state = HAND_DRAW;
 static enum PlayState play_state = PLAY_STARTING;
-
-static enum HandType hand_type = NONE;
-static ContainedHandTypes _contained_hands = {0};
 
 // Initialization of the global vars
 // clang-format off
 GameVariables g_game_vars = {
     .timer = 0,
-    .rng_info = {0, 0},
+    .hand_top = -1, .hand_selections = 0,
 
     .round = 0, .ante = 0, .money = 0,
+    .hand_size = DEFAULT_HAND_SIZE,
 
     .current_blind = BLIND_TYPE_SMALL,
     .next_boss_blind = BLIND_TYPE_BIG,
@@ -359,9 +325,7 @@ static u32 chips = 0;
 static u32 mult = 0;
 static bool retrigger = false;
 
-static int hand_size = 8; // Default hand size is 8
 static int cards_drawn = 0;
-static int hand_selections = 0;
 
 // Keeping track of cards scored
 static int scored_card_index = 0;
@@ -375,8 +339,6 @@ static ListItr _joker_scored_itr;
 static ListItr _joker_card_scored_end_itr;
 static ListItr _joker_round_end_itr;
 
-static bool sort_by_suit = false;
-
 static List _owned_jokers_list;
 static List _discarded_jokers_list;
 static List _expired_jokers_list;
@@ -387,9 +349,6 @@ static List _shop_jokers_list;
 // Stacks
 static CardObject* played[MAX_SELECTION_SIZE] = {NULL};
 static int played_top = -1;
-
-static CardObject* hand[MAX_HAND_SIZE] = {NULL};
-static int hand_top = -1;
 
 static Card* deck[MAX_DECK_SIZE] = {NULL};
 static int deck_top = -1;
@@ -658,21 +617,6 @@ void game_change_state(enum GameState new_game_state)
     }
 }
 
-CardObject** get_hand_array(void)
-{
-    return hand;
-}
-
-int get_hand_top(void)
-{
-    return hand_top;
-}
-
-int hand_get_size(void)
-{
-    return hand_top + 1;
-}
-
 CardObject** get_played_array(void)
 {
     return played;
@@ -902,262 +846,6 @@ static inline void display_ante(int value)
     );
 }
 
-// idx_a and idx_b are assumed to be valid indexes within the hand array
-// no checks will be performed here for performance's sake
-static inline void swap_cards_in_hand(int idx_a, int idx_b)
-{
-    CardObject* temp = hand[idx_a];
-    hand[idx_a] = hand[idx_b];
-    hand[idx_b] = temp;
-}
-
-static inline void sort_hand_by_suit(void)
-{
-    for (int idx_a = 0; idx_a < hand_top; idx_a++)
-    {
-        for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
-        {
-            if (hand[idx_a] == NULL ||
-                (hand[idx_b] != NULL && (hand[idx_a]->card->suit > hand[idx_b]->card->suit ||
-                                         (hand[idx_a]->card->suit == hand[idx_b]->card->suit &&
-                                          hand[idx_a]->card->rank > hand[idx_b]->card->rank))))
-            {
-                swap_cards_in_hand(idx_a, idx_b);
-            }
-        }
-    }
-}
-
-static inline void sort_hand_by_rank(void)
-{
-    for (int idx_a = 0; idx_a < hand_top; idx_a++)
-    {
-        for (int idx_b = idx_a + 1; idx_b <= hand_top; idx_b++)
-        {
-            if (hand[idx_a] == NULL ||
-                (hand[idx_b] != NULL && hand[idx_a]->card->rank > hand[idx_b]->card->rank))
-            {
-                swap_cards_in_hand(idx_a, idx_b);
-            }
-        }
-    }
-}
-
-static inline bool shift_null_card_to_end(int null_card_idx)
-{
-    // Start by searching any non NULL cards after the NULL one
-    // don't start at null_card_idx+1 to avoid potential illegal array access
-    int non_null_card_idx = null_card_idx;
-    for (; non_null_card_idx <= hand_top; non_null_card_idx++)
-    {
-        if (hand[non_null_card_idx] != NULL)
-        {
-            break;
-        }
-    }
-
-    // return false if there are no non-NULL cards left/there are no more sprites to destroy
-    if (non_null_card_idx > hand_top)
-    {
-        return false;
-    }
-
-    // If there is one, shift it and all the cards that follow forward
-    // This way we close the gap and ensure the next card is not NULL
-
-    // Iterating up to `hand_top - non_null_card_idx + 1` should end up out of bounds
-    // but for some reason it doesn't pose any issue, and taking out the +1 breaks
-    // the code, so I'll be elaving it here until someone figures it out ^^'
-    for (int j = 0; j <= hand_top - non_null_card_idx + 1; j++)
-    {
-        hand[null_card_idx + j] = hand[non_null_card_idx + j];
-    }
-
-    return true;
-}
-
-static void reorder_card_sprites_layers(void)
-{
-    // Update the sprites in the hand by destroying them and creating new ones in the correct order
-    // (This feels like a diabolical solution but like literally how else would you do this)
-    for (int i = 0; i <= hand_top; i++)
-    {
-        // a NULL card will only happen if we rearrange the sprites without having sorted them
-        // before. Any NULL CardObject will be sent to the end by shifting all elements forward
-        if (hand[i] == NULL)
-        {
-            if (!shift_null_card_to_end(i))
-            {
-                break;
-            }
-        }
-
-        // card_object_get_sprite() will not work here since we need the address
-        sprite_destroy(&(hand[i]->sprite_object->sprite));
-    }
-
-    // Recreate the sprites for the remaining non NULL cards, in order
-    for (int i = 0; i <= hand_top; i++)
-    {
-        if (hand[i] != NULL)
-        {
-            // Set the sprite for the card object
-            card_object_set_sprite(hand[i], i);
-            sprite_position(
-                card_object_get_sprite(hand[i]),
-                fx2int(hand[i]->sprite_object->x),
-                fx2int(hand[i]->sprite_object->y)
-            );
-        }
-    }
-}
-
-static void sort_cards(void)
-{
-    if (sort_by_suit)
-    {
-        sort_hand_by_suit();
-    }
-    else
-    {
-        sort_hand_by_rank();
-    }
-
-    reorder_card_sprites_layers();
-}
-
-static ContainedHandTypes compute_contained_hand_types(void)
-{
-    ContainedHandTypes hand_types = {0};
-
-    // Idk if this is how Balatro does it but this is how I'm doing it
-    if (hand_selections == 0 || hand_state == HAND_DISCARD)
-    {
-        return hand_types;
-    }
-
-    hand_types.HIGH_CARD = 1;
-
-    u8 suits[NUM_SUITS];
-    u8 ranks[NUM_RANKS];
-    get_hand_distribution(ranks, suits);
-
-    // The following can be optimized better but not sure how much it matters
-    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
-
-    // Pair and 2 Pair
-    if (n_of_a_kind >= 2)
-    {
-        hand_types.PAIR = 1;
-
-        if (hand_contains_two_pair(ranks))
-        {
-            hand_types.TWO_PAIR = 1;
-        }
-    }
-
-    // 3 OAK
-    if (n_of_a_kind >= 3)
-    {
-        hand_types.THREE_OF_A_KIND = 1;
-    }
-
-    // Straight
-    if (hand_contains_straight(ranks))
-    {
-        hand_types.STRAIGHT = 1;
-    }
-
-    // Flush
-    if (hand_contains_flush(suits))
-    {
-        hand_types.FLUSH = 1;
-    }
-
-    // Full House
-    if (n_of_a_kind >= 3 && hand_contains_full_house(ranks))
-    {
-        hand_types.FULL_HOUSE = 1;
-    }
-
-    // 4 OAK
-    if (n_of_a_kind >= 4)
-    {
-        hand_types.FOUR_OF_A_KIND = 1;
-    }
-
-    // Straight Flush
-    if (hand_types.STRAIGHT && hand_types.FLUSH)
-    {
-        hand_types.STRAIGHT_FLUSH = 1;
-    }
-
-    // Royal Flush
-    if (hand_types.STRAIGHT_FLUSH)
-    {
-        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
-        {
-            hand_types.ROYAL_FLUSH = 1;
-        }
-    }
-
-    // 5 OAK
-    if (n_of_a_kind >= 5)
-    {
-        hand_types.FIVE_OF_A_KIND = 1;
-    }
-
-    // Flush House and Five
-    if (hand_types.FLUSH)
-    {
-        if (hand_types.FULL_HOUSE)
-        {
-            hand_types.FLUSH_HOUSE = 1;
-        }
-
-        if (hand_types.FIVE_OF_A_KIND)
-        {
-            hand_types.FLUSH_FIVE = 1;
-        }
-    }
-
-    return hand_types;
-}
-
-ContainedHandTypes* get_contained_hands(void)
-{
-    return &_contained_hands;
-}
-
-enum HandType compute_hand_type(struct ContainedHandTypes contained_types)
-{
-    enum HandType ret;
-
-    // test each pit see if it's set to 1, and return the first one
-    for (ret = FLUSH_FIVE; ret > NONE; ret--)
-    {
-        // Shift the bit we want to check to the front and mask it with 1 to keep only that
-        // Since the ContainedHandTypes is ordered the same way as the HandType enum, we
-        // can shift right by ret-1 to have the bit we want at the front
-        if ((contained_types.value >> (ret - 1)) & 0x1)
-        {
-            break;
-        }
-    }
-
-    // If we broke early, ret contains the value of the HandType enum corresponding to
-    // the position of the highest bit set to 1 in contained_types.value, which is the
-    // most powerful poker hand contained in the current Hand
-    // If not, then it contains NONE, which is what we're supposed to return when there
-    // are no Hands contained in what we played
-    return ret;
-}
-
-enum HandType* get_hand_type(void)
-{
-    return &hand_type;
-}
-
 // Returns true if the card is *considered* a face card
 bool card_is_face(Card* card)
 {
@@ -1375,43 +1063,6 @@ void display_discards(void)
     );
 }
 
-static void print_hand_type(const char* hand_type_str)
-{
-    if (hand_type_str == NULL)
-        return; // NULL-checking paranoia
-
-    Rect hand_type_rect = HAND_TYPE_RECT;
-    update_text_rect_to_center_str(&hand_type_rect, hand_type_str, SCREEN_LEFT);
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        hand_type_rect.left,
-        hand_type_rect.top,
-        TTE_WHITE_PB,
-        hand_type_str
-    );
-}
-
-static void set_hand(void)
-{
-    tte_erase_rect_wrapper(HAND_TYPE_RECT);
-    _contained_hands = compute_contained_hand_types();
-    hand_type = compute_hand_type(_contained_hands);
-
-    HandValues hand = hand_base_values[hand_type];
-
-    chips = hand.chips;
-    mult = hand.mult;
-
-    print_hand_type(hand.display_name);
-    display_chips();
-    display_mult();
-}
-
-static bool can_discard_hand(void)
-{
-    return (g_game_vars.discards > 0 && hand_state == HAND_SELECT && hand_selections > 0);
-}
-
 static int deck_get_size(void)
 {
     return deck_top + 1;
@@ -1420,7 +1071,7 @@ static int deck_get_size(void)
 static int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
-    return hand_top + played_top + deck_top + discard_top + 4;
+    return g_game_vars.hand_top + played_top + deck_top + discard_top + 4;
 }
 
 static inline void deck_shuffle(void)
@@ -1436,9 +1087,9 @@ static inline void deck_shuffle(void)
 
 static void game_round_on_init(void)
 {
-    hand_state = HAND_DRAW;
+    set_hand_state(HAND_DRAW);
     cards_drawn = 0;
-    hand_selections = 0;
+    g_game_vars.hand_selections = 0;
 
     sprite_destroy(&g_game_vars.playing_blind_token);
     g_game_vars.playing_blind_token = blind_token_new(
@@ -1504,6 +1155,11 @@ static void game_round_on_init(void)
 }
 
 // Playing state functions
+static bool can_discard_hand(void)
+{
+    return (g_game_vars.discards > 0 && get_hand_state() == HAND_SELECT && g_game_vars.hand_selections > 0);
+}
+
 static void game_playing_discard_on_pressed(void)
 {
     if (!can_discard_hand())
@@ -1520,7 +1176,7 @@ static void game_playing_execute_discard(void)
     if (!can_discard_hand())
         return;
 
-    hand_state = HAND_DISCARD;
+    set_hand_state(HAND_DISCARD);
     --g_game_vars.discards;
     display_discards();
     set_hand();
@@ -1534,40 +1190,6 @@ static void game_playing_sort_by_rank_on_pressed(void)
 static void game_playing_sort_by_suit_on_pressed(void)
 {
     hand_change_sort(true);
-}
-
-static void hand_deselect_all_cards(void)
-{
-    bool any_cards_deselected = false;
-    for (int i = 0; i <= get_hand_top(); i++)
-    {
-        if (card_object_is_selected(hand[i]))
-        {
-            card_object_set_selected(hand[i], false);
-            hand_selections--;
-            any_cards_deselected = true;
-        }
-    }
-
-    if (any_cards_deselected)
-    {
-        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    }
-}
-
-static inline void hand_toggle_sort(void)
-{
-    sort_by_suit = !sort_by_suit;
-    sort_cards();
-}
-
-static inline void hand_change_sort(bool to_sort_by_suit)
-{
-    if (to_sort_by_suit != sort_by_suit)
-    {
-        sort_by_suit = to_sort_by_suit;
-        sort_cards();
-    }
 }
 
 static void game_playing_play_hand_on_pressed(void)
@@ -1586,7 +1208,7 @@ static void game_playing_execute_play_hand(void)
     if (!can_play_hand())
         return;
 
-    hand_state = HAND_PLAY;
+    set_hand_state(HAND_PLAY);
     --g_game_vars.hands;
     display_hands();
 }
@@ -1769,7 +1391,7 @@ static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Se
 
 static bool can_play_hand(void)
 {
-    if (hand_state != HAND_SELECT || hand_selections == 0)
+    if (get_hand_state() != HAND_SELECT || g_game_vars.hand_selections == 0)
         return false;
     return true;
 }
@@ -1788,26 +1410,6 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
     return hand_get_size() - selection_index - 1;
 }
 
-static void hand_select_card(int index)
-{
-    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || hand[index] == NULL)
-        return;
-
-    if (card_object_is_selected(hand[index]))
-    {
-        card_object_set_selected(hand[index], false);
-        hand_selections--;
-        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    }
-    else if (hand_selections < MAX_SELECTION_SIZE)
-    {
-        card_object_set_selected(hand[index], true);
-        hand_selections++;
-        play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    }
-    set_hand();
-}
-
 static inline void game_playing_process_hand_select_input(void)
 {
     selection_grid_process_input(&game_playing_selection_grid);
@@ -1815,7 +1417,7 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
-    if (deck_top < 0 || hand_top >= hand_size - 1 || hand_top >= MAX_HAND_SIZE - 1)
+    if (deck_top < 0 || g_game_vars.hand_top >= g_game_vars.hand_size - 1 || g_game_vars.hand_top >= MAX_HAND_SIZE - 1)
         return;
 
     CardObject* card_object = card_object_new(deck_pop());
@@ -1827,7 +1429,7 @@ static inline void card_draw(void)
     card_object->sprite_object->y = deck_y;
     sprite_position(card_object->sprite_object->sprite, fx2int(deck_x), fx2int(deck_y));
 
-    hand[++hand_top] = card_object;
+    get_hand_array()[++g_game_vars.hand_top] = card_object;
 
     // Sort the hand after drawing a card
     sort_cards();
@@ -1875,14 +1477,16 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
     bool* break_loop
 )
 {
-    if (hand_state != HAND_DISCARD && hand_state != HAND_SHUFFLING)
+    if (get_hand_state() != HAND_DISCARD && get_hand_state() != HAND_SHUFFLING)
     {
         // Assumes hand_state is one of these
         return;
     }
 
+    CardObject** hand = get_hand_array();
+
     *break_loop = false;
-    if (card_object_is_selected(hand[card_idx]) || hand_state == HAND_SHUFFLING)
+    if (card_object_is_selected(hand[card_idx]) || get_hand_state() == HAND_SHUFFLING)
     {
         if (!discarded_card)
         {
@@ -1905,7 +1509,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 card_object_destroy(&hand[card_idx]);
                 reorder_card_sprites_layers();
 
-                hand_top--;
+                g_game_vars.hand_top--;
                 // This technically isn't drawing cards, I'm just reusing the variable
                 cards_drawn++;
                 sound_played = false;
@@ -1919,7 +1523,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         }
         else
         {
-            if (hand_state == HAND_DISCARD)
+            if (get_hand_state() == HAND_DISCARD)
             {
                 // Don't raise the card if we're mass discarding, it looks stupid.
                 *hand_y -= int2fx(15);
@@ -1929,22 +1533,22 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 *hand_y += int2fx(24);
             }
             *hand_x =
-                *hand_x + (int2fx(card_idx) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
         }
     }
     else
     {
-        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
     }
 
     if (card_idx == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
     {
         // This is never reached in the case of HAND_SHUFFLING. Not sure why but that's how it's
         // supposed to be.
-        hand_state = HAND_DRAW;
+        set_hand_state(HAND_DRAW);
         sound_played = false;
         cards_drawn = 0;
-        hand_selections = 0;
+        g_game_vars.hand_selections = 0;
         g_game_vars.timer = TM_ZERO;
         *break_loop = true;
         return;
@@ -1960,7 +1564,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     int min_len = get_straight_and_flush_size();
 
     // if we have a flush in our hand
-    if (hand_type == FLUSH || hand_type == STRAIGHT_FLUSH || hand_type == ROYAL_FLUSH)
+    if (get_hand_type() == FLUSH || get_hand_type() == STRAIGHT_FLUSH || get_hand_type() == ROYAL_FLUSH)
     {
         bool flush_selection[MAX_HAND_SIZE] = {false};
         find_flush_in_played_cards(played, played_top, min_len, flush_selection);
@@ -1972,7 +1576,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     }
 
     // If we have a straight in our hand
-    if (hand_type == STRAIGHT || hand_type == STRAIGHT_FLUSH || hand_type == ROYAL_FLUSH)
+    if (get_hand_type() == STRAIGHT || get_hand_type() == STRAIGHT_FLUSH || get_hand_type() == ROYAL_FLUSH)
     {
         bool straight_selection[MAX_HAND_SIZE] = {false};
         find_straight_in_played_cards(
@@ -2207,16 +1811,16 @@ static bool play_ended_played_cards_update(int played_idx)
             {
                 if (game_round_is_over())
                 {
-                    hand_state = HAND_SHUFFLING;
+                    set_hand_state(HAND_SHUFFLING);
                 }
                 else
                 {
-                    hand_state = HAND_DRAW;
+                    set_hand_state(HAND_DRAW);
                 }
 
                 play_state = PLAY_STARTING;
                 cards_drawn = 0;
-                hand_selections = 0;
+                g_game_vars.hand_selections = 0;
                 played_top = -1; // Reset the played stack
                 scored_card_index = 0;
                 _joker_scored_itr = list_itr_create(&_owned_jokers_list);
@@ -2293,7 +1897,7 @@ static inline bool play_scoring_cards_update(void)
         {
             // reuse these variables for held cards
             _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            scored_card_index = hand_top;
+            scored_card_index = g_game_vars.hand_top;
 
             play_state = PLAY_SCORING_HELD_CARDS;
 
@@ -2392,6 +1996,8 @@ static inline bool play_scoring_held_cards_update(int played_idx)
     if (played_idx == 0 && (g_game_vars.timer % FRAMES(30) == 0) && g_game_vars.timer > FRAMES(40))
     {
         tte_erase_rect_wrapper(HELD_CARDS_SCORES_RECT);
+
+        CardObject** hand = get_hand_array();
 
         // Go through all held cards and see if they activate Jokers
         for (; scored_card_index >= 0; scored_card_index--)
@@ -2594,14 +2200,9 @@ static inline void played_cards_update_loop(void)
     }
 }
 
-static inline int hand_get_max_size(void)
-{
-    return hand_size;
-}
-
 static inline void game_playing_process_input_and_state(void)
 {
-    if (hand_state == HAND_SELECT)
+    if (get_hand_state() == HAND_SELECT)
     {
         game_playing_process_hand_select_input();
     }
@@ -2666,7 +2267,7 @@ static inline void game_playing_process_input_and_state(void)
 
 static inline void game_playing_process_card_draw()
 {
-    if (hand_state == HAND_DRAW && cards_drawn < hand_size)
+    if (get_hand_state() == HAND_DRAW && cards_drawn < g_game_vars.hand_size)
     {
         if (g_game_vars.timer % FRAMES(10) == 0) // Draw a card every 10 frames
         {
@@ -2674,9 +2275,9 @@ static inline void game_playing_process_card_draw()
             card_draw();
         }
     }
-    else if (hand_state == HAND_DRAW)
+    else if (get_hand_state() == HAND_DRAW)
     {
-        hand_state = HAND_SELECT; // Change the hand state to select after drawing all the cards
+        set_hand_state(HAND_SELECT); // Change the hand state to select after drawing all the cards
         cards_drawn = 0;
         g_game_vars.timer = TM_ZERO;
     }
@@ -2685,7 +2286,7 @@ static inline void game_playing_process_card_draw()
 static inline void game_playing_discarded_cards_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
-    if (hand_get_size() == 0 && hand_state == HAND_SHUFFLING && discard_top >= -1 &&
+    if (hand_get_size() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
         g_game_vars.timer > FRAMES(10))
     {
         // Change the background to the round end background. This is how it works in Balatro, so
@@ -2740,7 +2341,7 @@ static inline void game_playing_discarded_cards_loop(void)
 
 static inline void select_cards_in_played_hand()
 {
-    switch (hand_type) // select the cards that apply to the hand type
+    switch (get_hand_type()) // select the cards that apply to the hand type
     {
         case NONE:
             break;
@@ -2786,18 +2387,20 @@ static inline void cards_in_hand_update_loop(void)
 
     // TODO: Break this function up into smaller ones, Gods be good
     // Start from the end of the hand and work backwards because that's how Balatro does it
-    for (int i = hand_top + 1; i >= 0; i--)
+    CardObject** hand = get_hand_array();
+
+    for (int i = g_game_vars.hand_top + 1; i >= 0; i--)
     {
         if (hand[i] != NULL)
         {
             FIXED hand_x = int2fx(HAND_START_POS.x);
             FIXED hand_y = int2fx(HAND_START_POS.y);
 
-            switch (hand_state)
+            switch (get_hand_state())
             {
                 case HAND_DRAW:
                     hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
                     break;
                 case HAND_SELECT:
                     bool is_focused =
@@ -2831,8 +2434,8 @@ static inline void cards_in_hand_update_loop(void)
                     }
 
                     hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) *
-                                     -HAND_SPACING_LUT[hand_top]; // TODO: Change this later to
+                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
+                                     -HAND_SPACING_LUT[g_game_vars.hand_top]; // TODO: Change this later to
                                                                   // reference a 2D LUT of positions
                     break;
                 case HAND_SHUFFLING:
@@ -2851,7 +2454,7 @@ static inline void cards_in_hand_update_loop(void)
                     break;
                 case HAND_PLAY:
                     hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
                     hand_y += int2fx(24);
 
                     if (card_object_is_selected(hand[i]) && discarded_card == false &&
@@ -2869,8 +2472,8 @@ static inline void cards_in_hand_update_loop(void)
                             SFX_DEFAULT_VOLUME
                         );
 
-                        hand_top--;
-                        hand_selections--;
+                        g_game_vars.hand_top--;
+                        g_game_vars.hand_selections--;
                         cards_drawn++;
 
                         discarded_card = true;
@@ -2878,9 +2481,9 @@ static inline void cards_in_hand_update_loop(void)
 
                     if (i == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
                     {
-                        hand_state = HAND_PLAYING;
+                        set_hand_state(HAND_PLAYING);
                         cards_drawn = 0;
-                        hand_selections = 0;
+                        g_game_vars.hand_selections = 0;
                         g_game_vars.timer = TM_ZERO;
                         scored_card_index = played_top + 1;
 
@@ -2891,7 +2494,7 @@ static inline void cards_in_hand_update_loop(void)
                 // Don't need to do anything here, just wait for the player to select cards
                 case HAND_PLAYING:
                     hand_x =
-                        hand_x + (int2fx(i) - int2fx(hand_top) / 2) * -HAND_SPACING_LUT[hand_top];
+                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
                     hand_y += int2fx(24);
                     break;
             }
@@ -2919,7 +2522,7 @@ static inline void game_playing_ui_text_update(void)
                 HAND_SIZE_RECT_SELECT.top,
                 TTE_WHITE_PB,
                 hand_get_size(),
-                hand_get_max_size()
+                MAX_HAND_SIZE
             );
         }
         else if (background_legacy == BG_CARD_PLAYING)
@@ -2931,7 +2534,7 @@ static inline void game_playing_ui_text_update(void)
                 HAND_SIZE_RECT_PLAYING.top,
                 TTE_WHITE_PB,
                 hand_get_size(),
-                hand_get_max_size()
+                MAX_HAND_SIZE
             );
         }
 
@@ -2980,11 +2583,12 @@ static inline void game_playing_process_flaming_score(void)
 static void game_playing_on_update(void)
 {
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
-    if (hand_state == HAND_DRAW || hand_state == HAND_DISCARD || hand_state == HAND_SELECT)
+    if (get_hand_state() == HAND_DRAW || get_hand_state() == HAND_DISCARD ||
+        get_hand_state() == HAND_SELECT)
     {
         change_background(BG_CARD_SELECTING, false);
     }
-    else if (hand_state != HAND_SHUFFLING)
+    else if (get_hand_state() != HAND_SHUFFLING)
     {
         change_background(BG_CARD_PLAYING, false);
     }

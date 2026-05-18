@@ -1,7 +1,294 @@
-#include "hand_analysis.h"
+#include "hand.h"
 
+#include "audio_utils.h"
 #include "card.h"
 #include "game.h"
+#include "game_variables.h"
+#include "graphic_utils.h"
+#include "soundbank.h"
+
+#include <tonc.h>
+
+typedef struct
+{
+    u32 chips;
+    u32 mult;
+    char* display_name;
+} HandValues;
+
+static const HandValues hand_base_values[] = {
+    {.chips = 0,   .mult = 0,  .display_name = NULL     }, // NONE
+    {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"}, // HIGH_CARD
+    {.chips = 10,  .mult = 2,  .display_name = "Pair"   }, // PAIR
+    {.chips = 20,  .mult = 2,  .display_name = "2 Pair" }, // TWO_PAIR
+    {.chips = 30,  .mult = 3,  .display_name = "3 OAK"  }, // THREE_OF_A_KIND
+    {.chips = 30,  .mult = 4,  .display_name = "Strt"   }, // STRAIGHT
+    {.chips = 35,  .mult = 4,  .display_name = "Flush"  }, // FLUSH
+    {.chips = 40,  .mult = 4,  .display_name = "Full H" }, // FULL_HOUSE
+    {.chips = 60,  .mult = 7,  .display_name = "4 OAK"  }, // FOUR_OF_A_KIND
+    {.chips = 100, .mult = 8,  .display_name = "Strt F" }, // STRAIGHT_FLUSH
+    {.chips = 100, .mult = 8,  .display_name = "Royal F"}, // ROYAL_FLUSH
+    {.chips = 120, .mult = 12, .display_name = "5 OAK"  }, // FIVE_OF_A_KIND
+    {.chips = 140, .mult = 14, .display_name = "Flush H"}, // FLUSH_HOUSE
+    {.chips = 160, .mult = 16, .display_name = "Flush 5"}  // FLUSH_FIVE
+};
+
+// clang-format off
+// Rects for TTE (in pixels)        left   top    right  bottom
+static const Rect HAND_TYPE_RECT = {8,     64,    64,    72};
+// clang-format on
+
+// Hand stack
+static enum HandState hand_state = HAND_DRAW;
+
+static CardObject* hand[MAX_HAND_SIZE] = {NULL};
+static bool sort_by_suit = false;
+
+// Hand Type
+static enum HandType hand_type = NONE;
+static ContainedHandTypes _contained_hands = {0};
+
+// Forward declarations
+static ContainedHandTypes compute_contained_hand_types(void);
+static enum HandType compute_hand_type(struct ContainedHandTypes contained_types);
+
+// Hand Struct Manipulation
+
+enum HandState get_hand_state(void)
+{
+    return hand_state;
+}
+
+void set_hand_state(enum HandState new_hand_state)
+{
+    hand_state = new_hand_state;
+}
+
+CardObject** get_hand_array(void)
+{
+    return hand;
+}
+
+int hand_get_size(void)
+{
+    return g_game_vars.hand_top + 1;
+}
+
+enum HandType get_hand_type(void)
+{
+    return hand_type;
+}
+
+ContainedHandTypes* get_contained_hands(void)
+{
+    return &_contained_hands;
+}
+
+static void print_hand_type(const char* hand_type_str)
+{
+    if (hand_type_str == NULL)
+        return; // NULL-checking paranoia
+
+    Rect hand_type_rect = HAND_TYPE_RECT;
+    update_text_rect_to_center_str(&hand_type_rect, hand_type_str, SCREEN_LEFT);
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        hand_type_rect.left,
+        hand_type_rect.top,
+        TTE_WHITE_PB,
+        hand_type_str
+    );
+}
+
+void set_hand(void)
+{
+    tte_erase_rect_wrapper(HAND_TYPE_RECT);
+    _contained_hands = compute_contained_hand_types();
+    hand_type = compute_hand_type(_contained_hands);
+
+    HandValues hand = hand_base_values[hand_type];
+
+    set_chips(hand.chips);
+    set_mult(hand.mult);
+
+    print_hand_type(hand.display_name);
+    display_chips();
+    display_mult();
+}
+
+// idx_a and idx_b are assumed to be valid indexes within the hand array
+// no checks will be performed here for performance's sake
+void swap_cards_in_hand(int idx_a, int idx_b)
+{
+    CardObject* temp = hand[idx_a];
+    hand[idx_a] = hand[idx_b];
+    hand[idx_b] = temp;
+}
+
+static inline void sort_hand_by_suit(void)
+{
+    for (int idx_a = 0; idx_a < g_game_vars.hand_top; idx_a++)
+    {
+        for (int idx_b = idx_a + 1; idx_b <= g_game_vars.hand_top; idx_b++)
+        {
+            if (hand[idx_a] == NULL ||
+                (hand[idx_b] != NULL && (hand[idx_a]->card->suit > hand[idx_b]->card->suit ||
+                                         (hand[idx_a]->card->suit == hand[idx_b]->card->suit &&
+                                          hand[idx_a]->card->rank > hand[idx_b]->card->rank))))
+            {
+                swap_cards_in_hand(idx_a, idx_b);
+            }
+        }
+    }
+}
+
+static inline void sort_hand_by_rank(void)
+{
+    for (int idx_a = 0; idx_a < g_game_vars.hand_top; idx_a++)
+    {
+        for (int idx_b = idx_a + 1; idx_b <= g_game_vars.hand_top; idx_b++)
+        {
+            if (hand[idx_a] == NULL ||
+                (hand[idx_b] != NULL && hand[idx_a]->card->rank > hand[idx_b]->card->rank))
+            {
+                swap_cards_in_hand(idx_a, idx_b);
+            }
+        }
+    }
+}
+
+static inline bool shift_null_card_to_end(int null_card_idx)
+{
+    // Start by searching any non NULL cards after the NULL one
+    // don't start at null_card_idx+1 to avoid potential illegal array access
+    int non_null_card_idx = null_card_idx;
+    for (; non_null_card_idx <= g_game_vars.hand_top; non_null_card_idx++)
+    {
+        if (hand[non_null_card_idx] != NULL)
+        {
+            break;
+        }
+    }
+
+    // return false if there are no non-NULL cards left/there are no more sprites to destroy
+    if (non_null_card_idx > g_game_vars.hand_top)
+    {
+        return false;
+    }
+
+    // If there is one, shift it and all the cards that follow forward
+    // This way we close the gap and ensure the next card is not NULL
+
+    // Iterating up to `hand_top - non_null_card_idx + 1` should end up out of bounds
+    // but for some reason it doesn't pose any issue, and taking out the +1 breaks
+    // the code, so I'll be elaving it here until someone figures it out ^^'
+    for (int j = 0; j <= g_game_vars.hand_top - non_null_card_idx + 1; j++)
+    {
+        hand[null_card_idx + j] = hand[non_null_card_idx + j];
+    }
+
+    return true;
+}
+
+void reorder_card_sprites_layers(void)
+{
+    // Update the sprites in the hand by destroying them and creating new ones in the correct order
+    // (This feels like a diabolical solution but like literally how else would you do this)
+    for (int i = 0; i <= g_game_vars.hand_top; i++)
+    {
+        // a NULL card will only happen if we rearrange the sprites without having sorted them
+        // before. Any NULL CardObject will be sent to the end by shifting all elements forward
+        if (hand[i] == NULL)
+        {
+            if (!shift_null_card_to_end(i))
+            {
+                break;
+            }
+        }
+
+        // card_object_get_sprite() will not work here since we need the address
+        sprite_destroy(&(hand[i]->sprite_object->sprite));
+    }
+
+    // Recreate the sprites for the remaining non NULL cards, in order
+    for (int i = 0; i <= g_game_vars.hand_top; i++)
+    {
+        if (hand[i] != NULL)
+        {
+            // Set the sprite for the card object
+            card_object_set_sprite(hand[i], i);
+            sprite_position(
+                card_object_get_sprite(hand[i]),
+                fx2int(hand[i]->sprite_object->x),
+                fx2int(hand[i]->sprite_object->y)
+            );
+        }
+    }
+}
+
+void sort_cards()
+{
+    if (sort_by_suit)
+    {
+        sort_hand_by_suit();
+    }
+    else
+    {
+        sort_hand_by_rank();
+    }
+
+    reorder_card_sprites_layers();
+}
+
+void hand_change_sort(bool to_sort_by_suit)
+{
+    if (to_sort_by_suit != sort_by_suit)
+    {
+        sort_by_suit = to_sort_by_suit;
+        sort_cards();
+    }
+}
+
+void hand_select_card(int index)
+{
+    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || hand[index] == NULL)
+        return;
+
+    if (card_object_is_selected(hand[index]))
+    {
+        card_object_set_selected(hand[index], false);
+        g_game_vars.hand_selections--;
+        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    }
+    else if (g_game_vars.hand_selections < MAX_SELECTION_SIZE)
+    {
+        card_object_set_selected(hand[index], true);
+        g_game_vars.hand_selections++;
+        play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    }
+    set_hand();
+}
+
+void hand_deselect_all_cards(void)
+{
+    bool any_cards_deselected = false;
+    for (int i = 0; i <= g_game_vars.hand_top; i++)
+    {
+        if (card_object_is_selected(hand[i]))
+        {
+            card_object_set_selected(hand[i], false);
+            g_game_vars.hand_selections--;
+            any_cards_deselected = true;
+        }
+    }
+
+    if (any_cards_deselected)
+    {
+        play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    }
+}
+
+// Hand Analysis
 
 void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 {
@@ -10,14 +297,13 @@ void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
     for (int i = 0; i < NUM_SUITS; i++)
         suits_out[i] = 0;
 
-    CardObject** cards = get_hand_array();
-    int top = get_hand_top();
+    int top = g_game_vars.hand_top;
     for (int i = 0; i <= top; i++)
     {
-        if (cards[i] && card_object_is_selected(cards[i]))
+        if (hand[i] && card_object_is_selected(hand[i]))
         {
-            ranks_out[cards[i]->card->rank]++;
-            suits_out[cards[i]->card->suit]++;
+            ranks_out[hand[i]->card->rank]++;
+            suits_out[hand[i]->card->suit]++;
         }
     }
 }
@@ -453,4 +739,126 @@ void select_paired_cards_in_hand(CardObject** played, int played_top, bool* sele
             }
         }
     }
+}
+
+static ContainedHandTypes compute_contained_hand_types(void)
+{
+    ContainedHandTypes hand_types = {0};
+
+    // Idk if this is how Balatro does it but this is how I'm doing it
+    if (g_game_vars.hand_selections == 0 || hand_state == HAND_DISCARD)
+    {
+        return hand_types;
+    }
+
+    hand_types.HIGH_CARD = 1;
+
+    u8 suits[NUM_SUITS];
+    u8 ranks[NUM_RANKS];
+    get_hand_distribution(ranks, suits);
+
+    // The following can be optimized better but not sure how much it matters
+    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);
+
+    // Pair and 2 Pair
+    if (n_of_a_kind >= 2)
+    {
+        hand_types.PAIR = 1;
+
+        if (hand_contains_two_pair(ranks))
+        {
+            hand_types.TWO_PAIR = 1;
+        }
+    }
+
+    // 3 OAK
+    if (n_of_a_kind >= 3)
+    {
+        hand_types.THREE_OF_A_KIND = 1;
+    }
+
+    // Straight
+    if (hand_contains_straight(ranks))
+    {
+        hand_types.STRAIGHT = 1;
+    }
+
+    // Flush
+    if (hand_contains_flush(suits))
+    {
+        hand_types.FLUSH = 1;
+    }
+
+    // Full House
+    if (n_of_a_kind >= 3 && hand_contains_full_house(ranks))
+    {
+        hand_types.FULL_HOUSE = 1;
+    }
+
+    // 4 OAK
+    if (n_of_a_kind >= 4)
+    {
+        hand_types.FOUR_OF_A_KIND = 1;
+    }
+
+    // Straight Flush
+    if (hand_types.STRAIGHT && hand_types.FLUSH)
+    {
+        hand_types.STRAIGHT_FLUSH = 1;
+    }
+
+    // Royal Flush
+    if (hand_types.STRAIGHT_FLUSH)
+    {
+        if (ranks[TEN] && ranks[JACK] && ranks[QUEEN] && ranks[KING] && ranks[ACE])
+        {
+            hand_types.ROYAL_FLUSH = 1;
+        }
+    }
+
+    // 5 OAK
+    if (n_of_a_kind >= 5)
+    {
+        hand_types.FIVE_OF_A_KIND = 1;
+    }
+
+    // Flush House and Five
+    if (hand_types.FLUSH)
+    {
+        if (hand_types.FULL_HOUSE)
+        {
+            hand_types.FLUSH_HOUSE = 1;
+        }
+
+        if (hand_types.FIVE_OF_A_KIND)
+        {
+            hand_types.FLUSH_FIVE = 1;
+        }
+    }
+
+    return hand_types;
+}
+
+static enum HandType compute_hand_type(struct ContainedHandTypes contained_types)
+{
+    enum HandType ret;
+
+    // test each pit see if it's set to 1, and return the first one
+    for (ret = FLUSH_FIVE; ret > NONE; ret--)
+    {
+        // Shift the bit we want to check to the front and mask it with 1 to keep only that
+        // Since the ContainedHandTypes is ordered the same way as the HandType enum, we
+        // can shift right by ret-1 to have the bit we want at the front
+        if ((contained_types.value >> (ret - 1)) & 0x1)
+        {
+            break;
+        }
+    }
+
+    // If we broke early, ret contains the value of the HandType enum corresponding to
+    // the position of the highest bit set to 1 in contained_types.value, which is the
+    // most powerful poker hand contained in the current Hand
+    // If not, then it contains NONE, which is what we're supposed to return when there
+    // are no Hands contained in what we played
+    return ret;
 }

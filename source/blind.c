@@ -3,6 +3,7 @@
 #include "blind_gfx.h"
 #include "game.h"
 #include "graphic_utils.h"
+#include "hand.h"
 #include "list.h"
 #include "random.h"
 #include "stdbool.h"
