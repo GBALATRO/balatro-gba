@@ -447,7 +447,7 @@ static void blind_tokens_init()
 void game_blind_select_on_init(void)
 {
     timer = TM_ZERO;
-    state_machine_init(&blind_select_sm);
+    state_machine_register(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, START_ANIM_SEQ);
 
     selection_x = 0;
@@ -482,7 +482,7 @@ void game_blind_select_on_exit(void)
     reset_background();
     selection_y = 0;
 
-    state_machine_deinit(&blind_select_sm);
+    state_machine_remove(&blind_select_sm);
 }
 
 void game_blind_select_change_background(void)

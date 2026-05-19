@@ -460,7 +460,7 @@ void game_round_end_change_background(void)
 void game_round_end_on_init(void)
 {
     g_game_vars.timer = 0;
-    state_machine_init(&round_end_sm);
+    state_machine_register(&round_end_sm);
     state_machine_change_state(&round_end_sm, ROUND_END_START);
 }
 
@@ -477,6 +477,6 @@ void game_round_end_on_exit(void)
     interest_reward = 0;
     sprite_destroy(&g_game_vars.playing_blind_token);
     sprite_destroy(&g_game_vars.round_end_blind_token);
-    state_machine_deinit(&round_end_sm);
+    state_machine_remove(&round_end_sm);
     // TODO: Reuse sprites for blind selection?
 }

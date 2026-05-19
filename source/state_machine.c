@@ -10,9 +10,14 @@
 
 static List update_cbs;
 
+// Used as a No Operation for game states that have no init and/or exit function.
+// ricfehr3 did the work of determining whether a noop or a NULL check was more
+// efficient. Well, this is the answer.
+// Thanks!
+// https://github.com/cellos51/balatro-gba/issues/137#issuecomment-3322485129
 void noop(void) {};
 
-void state_machine_init(StateMachine* state_machine)
+void state_machine_register(StateMachine* state_machine)
 {
     if (list_is_empty(&update_cbs))
         update_cbs = list_create();
@@ -23,7 +28,7 @@ void state_machine_init(StateMachine* state_machine)
     list_push_back(&update_cbs, &state_machine->active_update);
 }
 
-void state_machine_deinit(StateMachine* state_machine)
+void state_machine_remove(StateMachine* state_machine)
 {
     list_remove_at(&update_cbs, &state_machine->active_update);
 }
@@ -50,11 +55,6 @@ void state_machine_change_state(StateMachine* state_machine, int new_state)
         state_machine->state_infos[new_state].on_init();
     }
 
-    // This has an inadvertant "feature". If you are in the calling function of a state, calling
-    // this function on it's own state machine. Aka, you are changing states mid update. Then
-    // Because it is only updating the active pointer of code to-be ran, the update function
-    // finishes before continuing. This is incredibly helpful as you can initiate a state change in
-    // the update, but just don't think the code is breaking on that change state call.
     state_machine->active_update = state_machine->state_infos[new_state].on_update;
 
     state_machine->state = new_state;

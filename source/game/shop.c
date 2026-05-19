@@ -168,7 +168,7 @@ void game_shop_on_init(void)
 
     timer = TM_ZERO;
 
-    state_machine_init(&blind_select_sm);
+    state_machine_register(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, GAME_SHOP_INTRO);
 
     // The selection grid is initialized outside of bounds and moved
@@ -706,7 +706,7 @@ void game_shop_on_exit(void)
 
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 
-    state_machine_deinit(&blind_select_sm);
+    state_machine_remove(&blind_select_sm);
 
     save_game();
 }

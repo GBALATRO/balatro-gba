@@ -446,8 +446,8 @@ static inline void jokers_available_to_shop_init(void)
 
 void game_init()
 {
-    state_machine_deinit(&game_sm);
-    state_machine_init(&game_sm);
+    state_machine_remove(&game_sm);
+    state_machine_register(&game_sm);
     // Initialize all jokers list once
     _owned_jokers_list = list_create();
     _discarded_jokers_list = list_create();
