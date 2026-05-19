@@ -89,7 +89,6 @@ void init()
     load_options();
     affine_background_init();
     sprite_init();
-    card_init();
     blind_init();
     joker_init();
     game_init();

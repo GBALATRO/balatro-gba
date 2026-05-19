@@ -5,6 +5,7 @@
 
 #include "audio_utils.h"
 #include "bitset.h"
+#include "card.h"
 #include "game.h"
 #include "joker.h"
 #include "list.h"
@@ -309,6 +310,8 @@ void save_options(void)
     options.music_volume = g_game_vars.music_volume;
     options.sound_volume = g_game_vars.sound_volume;
 
+    refresh_card_accessibility();
+
     write_sram(OPTIONS_ADDRESS, (const u8*)&options, sizeof(options));
     set_save_header(SAVE_SECTION_FLAG_OPTIONS);
 }
@@ -328,6 +331,8 @@ void load_options(void)
     g_game_vars.more_readable = options.more_readable;
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
+
+    refresh_card_accessibility();
 
     mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }

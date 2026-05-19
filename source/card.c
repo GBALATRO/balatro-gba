@@ -1,8 +1,7 @@
 #include "card.h"
 
-#include "deck_gfx.h"
+#include "game_variables.h"
 #include "graphic_utils.h"
-#include "high_contrast_deck_pal_gfx.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
@@ -10,6 +9,11 @@
 // Audio
 #include "pool.h"
 #include "soundbank.h"
+
+// Card Sprites and Palettes
+#include "deck_gfx.h"
+#include "deck_big_gfx.h"
+#include "high_contrast_deck_pal_gfx.h"
 
 // Card sprites lookup table. First index is the suit, second index is the rank. The value is the
 // tile index.
@@ -20,14 +24,9 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 
-void card_init()
+void refresh_card_accessibility(void)
 {
-    toggle_high_contrast_cards(false);
-}
-
-void toggle_high_contrast_cards(bool enable)
-{
-    if (enable)
+    if (g_game_vars.high_contrast)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB], high_contrast_deck_pal_gfxPal);
     }
@@ -103,10 +102,10 @@ void card_object_update(CardObject* card_object)
 void card_object_set_sprite(CardObject* card_object, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
+    const unsigned int* card_tiles = g_game_vars.more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &deck_gfxTiles
-            [_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
+        &card_tiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
     Sprite* sprite = sprite_new(
