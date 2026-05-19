@@ -67,47 +67,129 @@ typedef struct ContainedHandTypes
 
 // Hand Structure Manipulation
 
-enum HandState get_hand_state(void);
+/**
+ * @brief Set the hand state. Primarily used by the GAME_PLAYING game state.
+ *
+ * @sa HandState
+ */
 void set_hand_state(enum HandState);
-CardObject** get_hand_array(void);
-int get_hand_top(void);
-int hand_get_size(void);
+
+/**
+ * @brief Get the hand state
+ *
+ * @return enum HandState
+ *
+ * @sa set_hand_state
+ */
+enum HandState get_hand_state(void);
+
+/**
+ * @brief Determine the HandType and ContainedHandTypes of the currently selected Cards,
+ *         then print the Hand's name, chips, and mult on screen.
+ */
+void compute_hand_value_info(void);
+
+/**
+ * @brief Get the current hand type
+ *
+ * @return enum HandType
+ *
+ * @sa compute_hand_value_info
+ */
 enum HandType get_hand_type(void);
-void set_hand(void);
+
+/**
+ * @brief Get the contained hands within the selected hand
+ *
+ * @return ContainedHandTypes*
+ *
+ * @sa compute_hand_value_info
+ */
 ContainedHandTypes* get_contained_hands(void);
+
+/**
+ * @brief Get the hand array of Cards currently held in hand
+ *
+ * @return CardObject**
+ */
+CardObject** get_hand_array(void);
+
+/**
+ * @brief Get the position in hand array of the last card obtained
+ *
+ * @return int
+ *
+ * @sa get_hand_array
+ */
+int get_hand_top(void);
+
+/**
+ * @brief Get the number of Cards in hand.
+ *
+ * @return `hand_top + 1`
+ *
+ * @sa get_hand_top
+ */
+int hand_get_size(void);
+
+/**
+ * @brief Set the card at a given index in Hand as selected
+ *
+ * @param index Index of card to select in hand
+ */
 void hand_select_card(int index);
+
+/**
+ * @brief Switch to the given sort method. Can sort playing cards in two ways: by rank and suit.
+ *         The order of suits is as follows:
+ * ```
+ * SPADES > HEARTS > CLUBS > DIAMONDS
+ * ```
+ * 
+ * @param to_sort_by_suit 
+ */
 void hand_change_sort(bool to_sort_by_suit);
+
+/**
+ * @brief Deselect all cards in hand.
+ */
 void hand_deselect_all_cards(void);
+
+/**
+ * @brief Swaps the order of two cards in hand.
+ *
+ * @param idx_a index of the first card
+ * @param idx_b index of the second card
+ */
 void swap_cards_in_hand(int idx_a, int idx_b);
+
+/**
+ * @brief Destroy the sprites of the Cards held in hand and recreate then in the same
+ *         order as the Cards in the hand array. This allows Cards to render properly
+ *         when help in hand during the round or a Tarot/Spectral booster pack.
+ */
 void reorder_card_sprites_layers(void);
+
+/**
+ * @brief Sort the hand array according to the selected method to do that.
+ *
+ * @sa hand_change_sort
+ */
 void sort_cards(void);
 
 // Hand Contents Analysis
 
 /**
- * @brief Outputs the distribution of ranks and suits in the hand
- * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
- *                  hand. Must be of size NUM_RANKS.
- * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
- *                  hand Must be of size NUM_SUITS
+ * Finds the largest flush (set of cards with the same suit) in the given array of played cards.
+ * Marks the cards belonging to the best flush in the out_selection array.
+ *
+ * @param played        Array of pointers to CardObject representing played cards.
+ * @param top           Index of the top of the played stack.
+ * @param min_len       Minimum number of cards required for a flush.
+ * @param out_selection Output array of bools; set to true for cards in the best flush, false
+ * otherwise.
+ * @return              The number of cards in the best flush found, or 0 if no flush meets min_len.
  */
-void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS]);
-
-/**
- * @brief Outputs the distribution of ranks and suits in the played stack
- * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
- *                  played stack. Must be of size NUM_RANKS.
- * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
- *                  played stack. Must be of size NUM_SUITS
- */
-void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS]);
-
-u8 hand_contains_n_of_a_kind(u8* ranks);
-bool hand_contains_two_pair(u8* ranks);
-bool hand_contains_full_house(u8* ranks);
-bool hand_contains_straight(u8* ranks);
-bool hand_contains_flush(u8* suits);
-
 int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* out_selection);
 int find_straight_in_played_cards(
     CardObject** played,

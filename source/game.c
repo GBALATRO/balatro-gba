@@ -1179,7 +1179,7 @@ static void game_playing_execute_discard(void)
     set_hand_state(HAND_DISCARD);
     --g_game_vars.discards;
     display_discards();
-    set_hand();
+    compute_hand_value_info();
 }
 
 static void game_playing_sort_by_rank_on_pressed(void)
@@ -1334,7 +1334,7 @@ static void game_playing_hand_row_on_key_transit(
     else if (key_hit(DESELECT_CARDS))
     {
         hand_deselect_all_cards();
-        set_hand();
+        compute_hand_value_info();
     }
     else if (key_hit(PLAY_HAND_KEY))
     {

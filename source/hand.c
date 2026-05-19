@@ -6,6 +6,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
+#include "util.h"
 
 #include <tonc.h>
 
@@ -46,7 +47,7 @@ static bool sort_by_suit = false;
 
 // Hand Type
 static enum HandType hand_type = NONE;
-static ContainedHandTypes _contained_hands = {0};
+static ContainedHandTypes contained_hands = {0};
 
 // Forward declarations
 static ContainedHandTypes compute_contained_hand_types(void);
@@ -81,7 +82,7 @@ enum HandType get_hand_type(void)
 
 ContainedHandTypes* get_contained_hands(void)
 {
-    return &_contained_hands;
+    return &contained_hands;
 }
 
 static void print_hand_type(const char* hand_type_str)
@@ -100,11 +101,11 @@ static void print_hand_type(const char* hand_type_str)
     );
 }
 
-void set_hand(void)
+void compute_hand_value_info(void)
 {
     tte_erase_rect_wrapper(HAND_TYPE_RECT);
-    _contained_hands = compute_contained_hand_types();
-    hand_type = compute_hand_type(_contained_hands);
+    contained_hands = compute_contained_hand_types();
+    hand_type = compute_hand_type(contained_hands);
 
     HandValues hand = hand_base_values[hand_type];
 
@@ -266,7 +267,7 @@ void hand_select_card(int index)
         g_game_vars.hand_selections++;
         play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
-    set_hand();
+    compute_hand_value_info();
 }
 
 void hand_deselect_all_cards(void)
@@ -290,7 +291,14 @@ void hand_deselect_all_cards(void)
 
 // Hand Analysis
 
-void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
+/**
+ * @brief Outputs the distribution of ranks and suits in the hand
+ * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
+ *                  hand. Must be of size NUM_RANKS.
+ * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
+ *                  hand Must be of size NUM_SUITS
+ */
+static void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 {
     for (int i = 0; i < NUM_RANKS; i++)
         ranks_out[i] = 0;
@@ -308,7 +316,15 @@ void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
     }
 }
 
-void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
+/**
+ * @brief Outputs the distribution of ranks and suits in the played stack
+ * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
+ *                  played stack. Must be of size NUM_RANKS.
+ * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
+ *                  played stack. Must be of size NUM_SUITS
+ */
+GBAL_UNUSED
+static void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 {
     for (int i = 0; i < NUM_RANKS; i++)
         ranks_out[i] = 0;
@@ -331,7 +347,7 @@ void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
 }
 
 // Returns the highest N of a kind. So a full-house would return 3.
-u8 hand_contains_n_of_a_kind(u8* ranks)
+static u8 hand_contains_n_of_a_kind(u8* ranks)
 {
     u8 highest_n = 0;
     for (int i = 0; i < NUM_RANKS; i++)
@@ -342,7 +358,7 @@ u8 hand_contains_n_of_a_kind(u8* ranks)
     return highest_n;
 }
 
-bool hand_contains_two_pair(u8* ranks)
+static bool hand_contains_two_pair(u8* ranks)
 {
     bool contains_other_pair = false;
     for (int i = 0; i < NUM_RANKS; i++)
@@ -357,7 +373,7 @@ bool hand_contains_two_pair(u8* ranks)
     return false;
 }
 
-bool hand_contains_full_house(u8* ranks)
+static bool hand_contains_full_house(u8* ranks)
 {
     int count_three = 0;
     int count_pair = 0;
@@ -381,7 +397,7 @@ bool hand_contains_full_house(u8* ranks)
 }
 
 // This is mostly from Google Gemini
-bool hand_contains_straight(u8* ranks)
+static bool hand_contains_straight(u8* ranks)
 {
     if (!is_shortcut_joker_active())
     {
@@ -490,7 +506,7 @@ bool hand_contains_straight(u8* ranks)
     return false;
 }
 
-bool hand_contains_flush(u8* suits)
+static bool hand_contains_flush(u8* suits)
 {
     for (int i = 0; i < NUM_SUITS; i++)
     {
@@ -504,17 +520,6 @@ bool hand_contains_flush(u8* suits)
 
 // Returns the number of cards in the best flush found
 // or 0 if no flush of min_len is found, and marks them in out_selection.
-/**
- * Finds the largest flush (set of cards with the same suit) in the given array of played cards.
- * Marks the cards belonging to the best flush in the out_selection array.
- *
- * @param played        Array of pointers to CardObject representing played cards.
- * @param top           Index of the top of the played stack.
- * @param min_len       Minimum number of cards required for a flush.
- * @param out_selection Output array of bools; set to true for cards in the best flush, false
- * otherwise.
- * @return              The number of cards in the best flush found, or 0 if no flush meets min_len.
- */
 int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* out_selection)
 {
     if (top < 0)
