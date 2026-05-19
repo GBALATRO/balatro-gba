@@ -11,7 +11,6 @@ typedef void (*StateCallback)(void);
 
 typedef struct
 {
-    int substate;
     StateCallback on_init;
     StateCallback on_update;
     StateCallback on_exit;

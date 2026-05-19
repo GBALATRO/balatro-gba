@@ -41,9 +41,6 @@ typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
 
-typedef void (*GameStateCallback)(void);
-typedef void (*SubStateActionFn)(void);
-
 // Enum value names in ../include/def_state_info_table.h
 enum GameState
 {

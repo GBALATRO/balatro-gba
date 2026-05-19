@@ -42,7 +42,6 @@ void game_change_state_new(StateMachine* state_machine, int new_game_state)
 {
     if (state_machine->state >= 0 && state_machine->state < state_machine->num_infos)
     {
-        state_machine->state_infos[state_machine->state].substate = 0;
         state_machine->state_infos[state_machine->state].on_exit();
     }
 

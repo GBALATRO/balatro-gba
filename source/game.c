@@ -219,7 +219,7 @@ static enum BackgroundId background_legacy = BG_NONE;
 
 static StateInfo state_info[] = {
 #define DEF_STATE_INFO(stateEnum, init_fn, update_fn, exit_fn) \
-    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn, .substate = 0},
+    {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn},
 #include "../include/def_state_info_table.h"
 #undef DEF_STATE_INFO
 };
