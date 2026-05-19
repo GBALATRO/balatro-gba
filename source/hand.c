@@ -258,7 +258,8 @@ void hand_change_sort(bool to_sort_by_suit)
 
 void hand_select_card(int index)
 {
-    if (index < 0 || index >= hand_nb_held_cards() || hand_state != HAND_SELECT || hand[index] == NULL)
+    if (index < 0 || index >= hand_nb_held_cards() || hand_state != HAND_SELECT ||
+        hand[index] == NULL)
         return;
 
     if (card_object_is_selected(hand[index]))

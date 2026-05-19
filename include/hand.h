@@ -151,8 +151,8 @@ void hand_select_card(int index);
  * ```
  * SPADES > HEARTS > CLUBS > DIAMONDS
  * ```
- * 
- * @param to_sort_by_suit 
+ *
+ * @param to_sort_by_suit
  */
 void hand_change_sort(bool to_sort_by_suit);
 

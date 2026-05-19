@@ -1157,7 +1157,10 @@ static void game_round_on_init(void)
 // Playing state functions
 static bool can_discard_hand(void)
 {
-    return (g_game_vars.discards > 0 && get_hand_state() == HAND_SELECT && g_game_vars.hand_selections > 0);
+    return (
+        g_game_vars.discards > 0 && get_hand_state() == HAND_SELECT &&
+        g_game_vars.hand_selections > 0
+    );
 }
 
 static void game_playing_discard_on_pressed(void)
@@ -1417,7 +1420,8 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
-    if (deck_top < 0 || g_game_vars.hand_top >= g_game_vars.hand_size - 1 || g_game_vars.hand_top >= MAX_HAND_SIZE - 1)
+    if (deck_top < 0 || g_game_vars.hand_top >= g_game_vars.hand_size - 1 ||
+        g_game_vars.hand_top >= MAX_HAND_SIZE - 1)
         return;
 
     CardObject* card_object = card_object_new(deck_pop());
@@ -1532,13 +1536,14 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
             {
                 *hand_y += int2fx(24);
             }
-            *hand_x =
-                *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
+            *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) *
+                                    -HAND_SPACING_LUT[g_game_vars.hand_top];
         }
     }
     else
     {
-        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
+        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) *
+                                -HAND_SPACING_LUT[g_game_vars.hand_top];
     }
 
     if (card_idx == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
@@ -1564,7 +1569,8 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     int min_len = get_straight_and_flush_size();
 
     // if we have a flush in our hand
-    if (get_hand_type() == FLUSH || get_hand_type() == STRAIGHT_FLUSH || get_hand_type() == ROYAL_FLUSH)
+    if (get_hand_type() == FLUSH || get_hand_type() == STRAIGHT_FLUSH ||
+        get_hand_type() == ROYAL_FLUSH)
     {
         bool flush_selection[MAX_HAND_SIZE] = {false};
         find_flush_in_played_cards(played, played_top, min_len, flush_selection);
@@ -1576,7 +1582,8 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     }
 
     // If we have a straight in our hand
-    if (get_hand_type() == STRAIGHT || get_hand_type() == STRAIGHT_FLUSH || get_hand_type() == ROYAL_FLUSH)
+    if (get_hand_type() == STRAIGHT || get_hand_type() == STRAIGHT_FLUSH ||
+        get_hand_type() == ROYAL_FLUSH)
     {
         bool straight_selection[MAX_HAND_SIZE] = {false};
         find_straight_in_played_cards(
@@ -2399,8 +2406,8 @@ static inline void cards_in_hand_update_loop(void)
             switch (get_hand_state())
             {
                 case HAND_DRAW:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
+                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
                     break;
                 case HAND_SELECT:
                     bool is_focused =
@@ -2433,10 +2440,11 @@ static inline void cards_in_hand_update_loop(void)
                         hand[i]->sprite_object->vy = 0;
                     }
 
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
-                                     -HAND_SPACING_LUT[g_game_vars.hand_top]; // TODO: Change this later to
-                                                                  // reference a 2D LUT of positions
+                    hand_x = hand_x +
+                             (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
+                                 -HAND_SPACING_LUT[g_game_vars.hand_top]; // TODO: Change this later
+                                                                          // to reference a 2D LUT
+                                                                          // of positions
                     break;
                 case HAND_SHUFFLING:
                     /* FALL THROUGH */
@@ -2453,8 +2461,8 @@ static inline void cards_in_hand_update_loop(void)
 
                     break;
                 case HAND_PLAY:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
+                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
                     hand_y += int2fx(24);
 
                     if (card_object_is_selected(hand[i]) && discarded_card == false &&
@@ -2493,8 +2501,8 @@ static inline void cards_in_hand_update_loop(void)
                     break;
                 // Don't need to do anything here, just wait for the player to select cards
                 case HAND_PLAYING:
-                    hand_x =
-                        hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) * -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
+                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
                     hand_y += int2fx(24);
                     break;
             }
