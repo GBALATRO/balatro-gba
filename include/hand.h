@@ -1,3 +1,9 @@
+/**
+ * @file hand.h
+ *
+ * @brief Functions relative to manipulating and analyzing the contents of the Hand,
+ *         a.k.a. the Cards we hold and play.
+ */
 #ifndef HAND_ANALYSIS_H
 #define HAND_ANALYSIS_H
 
@@ -124,13 +130,13 @@ CardObject** get_hand_array(void);
 int get_hand_top(void);
 
 /**
- * @brief Get the number of Cards in hand.
+ * @brief Get the current number of Cards in hand.
  *
  * @return `hand_top + 1`
  *
  * @sa get_hand_top
  */
-int hand_get_size(void);
+int hand_nb_held_cards(void);
 
 /**
  * @brief Set the card at a given index in Hand as selected

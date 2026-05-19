@@ -182,8 +182,8 @@ static const BG_POINT SCORE_FLAME_CHIPS_POS = {1,       9};
 static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
 
 // Rects for TTE (in pixels)
-static const Rect HAND_SIZE_RECT_SELECT     = {128,     128,    152,    136 };
-static const Rect HAND_SIZE_RECT_PLAYING    = {128,     152,    152,    160 };
+static const Rect HAND_SIZE_RECT_SELECT     = {120,     128,    152,    136 };
+static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    152,    160 };
 // Score displayed in the same place as the hand type
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
 static const Rect SCORE_RECT                = {24,      48,     64,     56  };
@@ -1215,7 +1215,7 @@ static void game_playing_execute_play_hand(void)
 
 static int game_playing_hand_row_get_size(void)
 {
-    return hand_get_size();
+    return hand_nb_held_cards();
 }
 
 // card moving logic
@@ -1407,7 +1407,7 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
     // This is because the hand is drawn from right to left.
     // There is no particular reason for why that was done, it's just how it was done.
     // Maybe one day it can be reverted and made consistent so this conversion is not needed.
-    return hand_get_size() - selection_index - 1;
+    return hand_nb_held_cards() - selection_index - 1;
 }
 
 static inline void game_playing_process_hand_select_input(void)
@@ -2286,7 +2286,7 @@ static inline void game_playing_process_card_draw()
 static inline void game_playing_discarded_cards_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
-    if (hand_get_size() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
+    if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
         g_game_vars.timer > FRAMES(10))
     {
         // Change the background to the round end background. This is how it works in Balatro, so
@@ -2511,30 +2511,30 @@ static inline void game_playing_ui_text_update(void)
     static int last_hand_size = 0;
     static int last_deck_size = 0;
 
-    if (last_hand_size != hand_get_size() || last_deck_size != deck_get_size())
+    if (last_hand_size != hand_nb_held_cards() || last_deck_size != deck_get_size())
     {
         if (background_legacy == BG_CARD_SELECTING)
         {
             // Hand size/max size
             tte_printf(
-                "#{P:%d,%d; cx:0x%X000}%d/%d",
+                "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
                 HAND_SIZE_RECT_SELECT.left,
                 HAND_SIZE_RECT_SELECT.top,
                 TTE_WHITE_PB,
-                hand_get_size(),
-                MAX_HAND_SIZE
+                hand_nb_held_cards(),
+                g_game_vars.hand_size
             );
         }
         else if (background_legacy == BG_CARD_PLAYING)
         {
             // Hand size/max size
             tte_printf(
-                "#{P:%d,%d; cx:0x%X000}%d/%d",
+                "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
                 HAND_SIZE_RECT_PLAYING.left,
                 HAND_SIZE_RECT_PLAYING.top,
                 TTE_WHITE_PB,
-                hand_get_size(),
-                MAX_HAND_SIZE
+                hand_nb_held_cards(),
+                g_game_vars.hand_size
             );
         }
 
@@ -2551,7 +2551,7 @@ static inline void game_playing_ui_text_update(void)
             deck_get_max_size()
         );
 
-        last_hand_size = hand_get_size();
+        last_hand_size = hand_nb_held_cards();
         last_deck_size = deck_get_size();
     }
 }

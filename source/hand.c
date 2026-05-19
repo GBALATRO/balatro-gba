@@ -1,3 +1,9 @@
+/**
+ * @file hand.c
+ *
+ * @brief Implementation of functions relative to manipulating and analyzing the
+ *         contents of the Hand.
+ */
 #include "hand.h"
 
 #include "audio_utils.h"
@@ -70,7 +76,7 @@ CardObject** get_hand_array(void)
     return hand;
 }
 
-int hand_get_size(void)
+int hand_nb_held_cards(void)
 {
     return g_game_vars.hand_top + 1;
 }
@@ -252,7 +258,7 @@ void hand_change_sort(bool to_sort_by_suit)
 
 void hand_select_card(int index)
 {
-    if (index < 0 || index >= hand_get_size() || hand_state != HAND_SELECT || hand[index] == NULL)
+    if (index < 0 || index >= hand_nb_held_cards() || hand_state != HAND_SELECT || hand[index] == NULL)
         return;
 
     if (card_object_is_selected(hand[index]))

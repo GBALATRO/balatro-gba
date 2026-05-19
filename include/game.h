@@ -82,9 +82,6 @@ void game_reset();
 void game_update();
 void game_change_state(enum GameState new_game_state);
 
-CardObject** get_hand_array(void);
-int get_hand_top(void);
-int hand_get_size(void);
 CardObject** get_played_array(void);
 int get_played_top(void);
 int get_scored_card_index(void);
