@@ -39,23 +39,26 @@ enum OptionSpeedButtons
 #define MENU_BUTTON_MAIN_COLOR_PAL_IDX          1
 #define SAVE_BUTTON_MAIN_COLOR_PAL_IDX          3
 #define BACK_BUTTON_MAIN_COLOR_PAL_IDX          4
-#define SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX 5
-#define SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX      6
-#define SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX   7
-#define CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX   8
-#define MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX      9
-#define SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX      10
-#define SAVE_BUTTON_OUTLINE_COLOR_PAL_IDX       11
-#define BACK_BUTTON_OUTLINE_COLOR_PAL_IDX       12
+#define SPEED_DOWN_BUTTON_OUTLINE_COLOR_PAL_IDX 16
+#define SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX      17
+#define SPEED_UP_BUTTON_OUTLINE_COLOR_PAL_IDX   18
+#define CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX   24
+#define READABLE_BUTTON_OUTLINE_COLOR_PAL_IDX   25
+#define MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX      32
+#define SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX      33
+#define SAVE_BUTTON_OUTLINE_COLOR_PAL_IDX       40
+#define BACK_BUTTON_OUTLINE_COLOR_PAL_IDX       41
 
 // Define selection grid for the menu buttons
 
 static void game_speed_down_on_pressed(void);
 static void game_speed_up_on_pressed(void);
 static void high_contrast_on_pressed(void);
+static void more_readable_on_pressed(void);
 static void save_on_pressed(void);
 static void back_on_pressed(void);
 static int options_menu_return_upper_rows_size(void);
+static int options_menu_return_card_sprites_row_size(void);
 static int options_menu_return_bottom_row_size(void);
 static void options_menu_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 static bool game_speed_row_on_selection_changed(
@@ -95,7 +98,7 @@ static SelectionGridRow options_menu_selection_rows[] = {
     },
     {
         HIGH_CONTRAST_ROW_IDX,
-        options_menu_return_upper_rows_size,
+        options_menu_return_card_sprites_row_size,
         regular_button_row_on_selection_changed,
         options_menu_row_on_key_transit,
         {.wrap = false}
@@ -125,7 +128,10 @@ static SelectionGridRow options_menu_selection_rows[] = {
 
 static Button options_menu_buttons[NB_OPTIONS_ROWS][2] = {
     {{SPEED_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL}},
-    {{CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, high_contrast_on_pressed, NULL}},
+    {
+        {CONTRAST_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, high_contrast_on_pressed, NULL},
+        {READABLE_BUTTON_OUTLINE_COLOR_PAL_IDX, MENU_BUTTON_MAIN_COLOR_PAL_IDX, more_readable_on_pressed, NULL}
+    },
     {{MUSIC_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL}},
     {{SOUND_BUTTON_OUTLINE_COLOR_PAL_IDX,    MENU_BUTTON_MAIN_COLOR_PAL_IDX, NULL,                     NULL}},
     {
@@ -164,9 +170,12 @@ static const Rect     OPTIONS_SPEED_VALUES[GAME_SPEED_MAX]   = { { 3, 20,  4, 21
                                                                  { 4, 22,  5, 23} };
 static const BG_POINT OPTIONS_SPEED_VALUE_DEST_POS             = {14,  3};
 
-static const Rect     OPTIONS_CONTRAST_VALUE_YES_SRC_RECT      = { 1, 24,  4, 25};
-static const Rect     OPTIONS_CONTRAST_VALUE_NO_SRC_RECT       = { 6, 24,  9, 25};
-static const BG_POINT OPTIONS_CONTRAST_VALUE_DEST_POS          = {13,  7};
+static const Rect     OPTIONS_CONTRAST_CHECK_NO_SRC_RECT       = { 0, 24,  1, 25};
+static const Rect     OPTIONS_CONTRAST_CHECK_YES_SRC_RECT      = { 2, 24,  3, 25};
+static const BG_POINT OPTIONS_CONTRAST_CHECK_DEST_POS          = {14,  7};
+static const Rect     OPTIONS_READABLE_CHECK_NO_SRC_RECT       = { 4, 24,  5, 25};
+static const Rect     OPTIONS_READABLE_CHECK_YES_SRC_RECT      = { 6, 24,  7, 25};
+static const BG_POINT OPTIONS_READABLE_CHECK_DEST_POS          = {21,  7};
 
 static const Rect     OPTIONS_MUSIC_SLIDER_FULL_SRC            = { 9, 20,  9, 20};
 static const Rect     OPTIONS_MUSIC_SLIDER_MID_SRC             = {10, 20, 10, 20};
@@ -184,13 +193,13 @@ static const u8       OPTIONS_SOUND_SLIDER_SEGMENT_LENGTH      = (OPTIONS_SOUND_
                                                                     / VOLUME_OPTION_MAX;
 
 // Values in pixels
-static const BG_POINT OPTIONS_GAME_SPEED_TEXT_POS    = { 82,  16};
-static const BG_POINT OPTIONS_HIGH_CONTRAST_TEXT_POS = { 40,  48};
-static const BG_POINT OPTIONS_MUSIC_VOLUME_TEXT_POS  = { 56,  80};
-static const BG_POINT OPTIONS_MUSIC_VALUE_TEXT_POS   = {160,  80};
-static const BG_POINT OPTIONS_SOUND_VOLUME_TEXT_POS  = { 56, 104};
-static const BG_POINT OPTIONS_SOUND_VALUE_TEXT_POS   = {160, 104};
-static const BG_POINT OPTIONS_BACK_SAVE_TEXT_POS     = { 64, 136};
+static const BG_POINT OPTIONS_GAME_SPEED_TEXT_POS        = { 82,  16};
+static const BG_POINT OPTIONS_CARD_SPRITES_TEXT_POS      = { 72,  48};
+static const BG_POINT OPTIONS_MUSIC_VOLUME_TEXT_POS      = { 56,  80};
+static const BG_POINT OPTIONS_MUSIC_VALUE_TEXT_POS       = {160,  80};
+static const BG_POINT OPTIONS_SOUND_VOLUME_TEXT_POS      = { 56, 104};
+static const BG_POINT OPTIONS_SOUND_VALUE_TEXT_POS       = {160, 104};
+static const BG_POINT OPTIONS_BACK_SAVE_TEXT_POS         = { 64, 136};
 // clang-format on
 
 #define GAME_SPEED_ARROW_HIGHLIGHT_DURATION 10
@@ -212,8 +221,21 @@ static void disable_all_outlines_except_self(Selection sel_btn)
 
     for (int j = 0; j < NB_OPTIONS_ROWS; j++)
     {
-        int nb_buttons_in_row = (j == SAVE_BACK_ROW_IDX) ? options_menu_return_bottom_row_size()
-                                                         : options_menu_return_upper_rows_size();
+        int nb_buttons_in_row;
+
+        switch (j)
+        {
+            case HIGH_CONTRAST_ROW_IDX:
+                nb_buttons_in_row = options_menu_return_card_sprites_row_size();
+                break;
+            case SAVE_BACK_ROW_IDX:
+                nb_buttons_in_row = options_menu_return_bottom_row_size();
+                break;
+            default:
+                nb_buttons_in_row = options_menu_return_upper_rows_size();
+                break;
+        }
+
         for (int i = 0; i < nb_buttons_in_row; i++)
         {
             button_set_highlight(&options_menu_buttons[j][i], i == sel_btn.x && j == sel_btn.y);
@@ -254,15 +276,27 @@ static void update_game_speed_button_graphics()
     );
 }
 
-static void update_high_contrast_button_graphics()
+static void update_high_contrast_button_graphics(void)
 {
     if (g_game_vars.high_contrast)
     {
-        main_bg_se_copy_rect(OPTIONS_CONTRAST_VALUE_YES_SRC_RECT, OPTIONS_CONTRAST_VALUE_DEST_POS);
+        main_bg_se_copy_rect(OPTIONS_CONTRAST_CHECK_YES_SRC_RECT, OPTIONS_CONTRAST_CHECK_DEST_POS);
     }
     else
     {
-        main_bg_se_copy_rect(OPTIONS_CONTRAST_VALUE_NO_SRC_RECT, OPTIONS_CONTRAST_VALUE_DEST_POS);
+        main_bg_se_copy_rect(OPTIONS_CONTRAST_CHECK_NO_SRC_RECT, OPTIONS_CONTRAST_CHECK_DEST_POS);
+    }
+}
+
+static void update_more_readable_button_graphics(void)
+{
+    if (g_game_vars.more_readable)
+    {
+        main_bg_se_copy_rect(OPTIONS_READABLE_CHECK_YES_SRC_RECT, OPTIONS_READABLE_CHECK_DEST_POS);
+    }
+    else
+    {
+        main_bg_se_copy_rect(OPTIONS_READABLE_CHECK_NO_SRC_RECT, OPTIONS_READABLE_CHECK_DEST_POS);
     }
 }
 
@@ -360,9 +394,9 @@ void game_options_menu_change_background(void)
         TTE_WHITE_PB
     );
     tte_printf(
-        "#{P:%d,%d; cx:0x%X000}High Contrast Cards",
-        OPTIONS_HIGH_CONTRAST_TEXT_POS.x,
-        OPTIONS_HIGH_CONTRAST_TEXT_POS.y,
+        "#{P:%d,%d; cx:0x%X000}Card Sprites",
+        OPTIONS_CARD_SPRITES_TEXT_POS.x,
+        OPTIONS_CARD_SPRITES_TEXT_POS.y,
         TTE_WHITE_PB
     );
     tte_printf(
@@ -396,6 +430,7 @@ void game_options_menu_on_init(void)
     // Do an update on the first frame
     update_game_speed_button_graphics();
     update_high_contrast_button_graphics();
+    update_more_readable_button_graphics();
     update_volume_slider_graphics(MUSIC_VOLUME_ROW_IDX);
     update_volume_slider_graphics(SOUND_VOLUME_ROW_IDX);
 }
@@ -447,6 +482,15 @@ static void high_contrast_on_pressed(void)
 }
 
 /**
+ * @brief Handles input for the more readable card toggle button and nothing more.
+ */
+static void more_readable_on_pressed(void)
+{
+    g_game_vars.more_readable = (g_game_vars.more_readable == 1) ? false : true;
+    update_more_readable_button_graphics();
+}
+
+/**
  * @brief Handles input for the Save button.
  */
 static void save_on_pressed(void)
@@ -465,13 +509,23 @@ static void back_on_pressed(void)
 }
 
 /**
- * @brief Gives the width of upper options menu rows in selection grid.
+ * @brief Gives the width of normal options rows in selection grid.
  *
  * @returns 1
  */
 static int options_menu_return_upper_rows_size(void)
 {
     return 1;
+}
+
+/**
+ * @brief Gives the width of Card Sprites options row in selection grid.
+ *
+ * @returns 1
+ */
+static int options_menu_return_card_sprites_row_size(void)
+{
+    return 2;
 }
 
 /**

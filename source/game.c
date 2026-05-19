@@ -321,6 +321,7 @@ GameVariables g_game_vars = {
 
     .game_speed = DEFAULT_GAME_SPEED,
     .high_contrast = DEFAULT_HIGH_CONTRAST,
+    .more_readable = DEFAULT_MORE_READABLE,
     .music_volume = DEFAULT_MUSIC_VOLUME,
     .sound_volume = DEFAULT_SOUND_VOLUME,
 };

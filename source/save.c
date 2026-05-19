@@ -55,6 +55,16 @@ typedef struct SaveHeader
     u32 valid_sections;
 } SaveHeader;
 
+/**
+ * @brief Default value for the SaveHeader struct.
+ */
+static const SaveHeader SaveHeader_default = {
+    .magic = CHECK_MAGIC,
+    .dirty = false,
+    .githash = "fffffff",
+    .valid_sections = SAVE_SECTION_FLAG_NONE
+};
+
 // clang-format off
 /**
  * @brief SaveOptions will only contain options data set in the Options Menu
@@ -65,8 +75,8 @@ typedef struct SaveHeader
  * 1    | 'T'    | 'I'    | 'O'    | 'N'    | -            | Spells "- OPTIONS DATA -"
  * 2    | 'S'    | ' '    | 'D'    | 'A'    | -            | -
  * 3    | 'T'    | 'A'    | ' '    | '-'    | -            | -
- * 4    | SPEED  | CNTRST | MUSIC  | SOUND  | OPTN_VALUES  | All 4 option values, packed in a single word.
- * 5    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Padding, so that the next section starts at the beginning of the
+ * 4    | SPEED  | CNTRST | READBL | MUSIC  | OPTN_VALUES  | All 5 option values, followed by some padding,
+ * 5    | SOUND  | UNDEF  | UNDEF  | UNDEF  | -            | so that the next section starts at the beginning of the
  * 6    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | next 4-word row in a hex viewer
  * 7    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | -
  */
@@ -76,10 +86,31 @@ typedef struct SaveOptions
     char tag_options[SAVE_LABEL_SIZE];
     u8 game_speed;
     bool high_contrast;
+    bool more_readable;
     u8 music_volume;
     u8 sound_volume;
-    u32 padding[3];
+    u8 padding[11];
 } SaveOptions;
+
+/**
+ * @brief Default value for the SaveOptions struct, with tags already set.
+ */
+static const SaveOptions SaveOptions_default = {
+    .tag_options = "- OPTIONS DATA -",
+    .game_speed = GAME_SPEED_MIN,
+    .high_contrast = DEFAULT_HIGH_CONTRAST,
+    .more_readable = DEFAULT_MORE_READABLE,
+    .music_volume = VOLUME_OPTION_MAX,
+    .sound_volume = VOLUME_OPTION_MAX,
+    .padding = {
+                UNDEFINED, UNDEFINED,
+                UNDEFINED, UNDEFINED,
+                UNDEFINED, UNDEFINED,
+                UNDEFINED, UNDEFINED,
+                UNDEFINED, UNDEFINED,
+                UNDEFINED
+    },
+};
 
 /**
  * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.
@@ -139,28 +170,6 @@ typedef struct SaveGame
 
     char tag_end[4];
 } SaveGame;
-
-/**
- * @brief Default value for the SaveHeader struct.
- */
-static const SaveHeader SaveHeader_default = {
-    .magic = CHECK_MAGIC,
-    .dirty = false,
-    .githash = "fffffff",
-    .valid_sections = SAVE_SECTION_FLAG_NONE
-};
-
-/**
- * @brief Default value for the SaveOptions struct, with tags already set.
- */
-static const SaveOptions SaveOptions_default = {
-    .tag_options = "- OPTIONS DATA -",
-    .game_speed = GAME_SPEED_MIN,
-    .high_contrast = DEFAULT_HIGH_CONTRAST,
-    .music_volume = VOLUME_OPTION_MAX,
-    .sound_volume = VOLUME_OPTION_MAX,
-    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},
-};
 
 /**
  * @brief Default value for the SaveGame struct, with tags already set.
@@ -296,6 +305,7 @@ void save_options(void)
 
     options.game_speed = g_game_vars.game_speed;
     options.high_contrast = g_game_vars.high_contrast;
+    options.more_readable = g_game_vars.more_readable;
     options.music_volume = g_game_vars.music_volume;
     options.sound_volume = g_game_vars.sound_volume;
 
@@ -315,6 +325,7 @@ void load_options(void)
 
     g_game_vars.game_speed = options.game_speed;
     g_game_vars.high_contrast = options.high_contrast;
+    g_game_vars.more_readable = options.more_readable;
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
 

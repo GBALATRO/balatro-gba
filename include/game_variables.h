@@ -20,6 +20,7 @@
 
 #define DEFAULT_GAME_SPEED    1
 #define DEFAULT_HIGH_CONTRAST false
+#define DEFAULT_MORE_READABLE false
 #define DEFAULT_MUSIC_VOLUME  VOLUME_OPTION_MAX
 #define DEFAULT_SOUND_VOLUME  VOLUME_OPTION_MAX
 
@@ -64,6 +65,7 @@ typedef struct
     // game aspects that should be sped up by speed, as in the original game.
     u8 game_speed;
     bool high_contrast;
+    bool more_readable;
     u8 music_volume;
     u8 sound_volume;
 } GameVariables;
