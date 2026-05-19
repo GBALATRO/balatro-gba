@@ -412,7 +412,7 @@ void main_bg_se_clear_rect(Rect se_rect)
     }
 }
 
-void reset_top_left_panel_bottom_row()
+void reset_top_left_panel_bottom_row(void)
 {
     BG_POINT top_left_panel_bottom_row_pos = TOP_LEFT_PANEL_POINT;
     // Use the source rect height to offset to the bottom row point

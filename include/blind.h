@@ -1,28 +1,19 @@
 #ifndef BLIND_H
 #define BLIND_H
 
-#include "game.h"
 #include "sprite.h"
 
 // The GBA's max uint value is around 4 billion, so we're going to not add endless mode for
 // simplicity's sake
 #define MAX_ANTE 8
 
-#define NORMAL_BLIND_PB 1
-#define BOSS_BLIND_PB   2
-
-#define BLIND_BASE_LAYER            (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
+// Sprite IDs of the various Blind Tokens used in the game, expressed as an offset
+// relative to `BLIND_BASE_LAYER`
 #define PLAYING_BLIND_TOKEN_LAYER   0
 #define ROUND_END_BLIND_TOKEN_LAYER 1
 #define SMALL_BLIND_TOKEN_LAYER     2
 #define BIG_BLIND_TOKEN_LAYER       3
 #define BOSS_BLIND_TOKEN_LAYER      4
-
-#define BLIND_SPRITE_OFFSET    16
-#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_OFFSET * TILE_SIZE)
-
-#define BLIND_TOKENS_PER_SPRITESHEET 2
-#define BLIND_TOKEN_PALETTE_SIZE     8
 
 // The sprites that display the blinds when in "GAME_BLIND_SELECT" state
 // There are only 3 blinds per Ante, so we don't need more sprites than that

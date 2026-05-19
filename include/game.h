@@ -1,7 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "bitset.h"
 #include "game/common_ui.h"
+#include "game_variables.h"
 #include "graphic_utils.h"
 
 #include <tonc.h>
@@ -38,6 +40,9 @@ typedef struct List List;
 typedef struct CardObject CardObject;
 typedef struct Card Card;
 typedef struct JokerObject JokerObject;
+
+typedef void (*GameStateCallback)(void);
+typedef void (*SubStateActionFn)(void);
 
 // Enum value names in ../include/def_state_info_table.h
 enum GameState
@@ -121,9 +126,6 @@ typedef struct ContainedHandTypes
 } ContainedHandTypes;
 // clang-format on
 
-typedef void (*GameStateCallback)(void);
-typedef void (*SubStateActionFn)(void);
-
 // Game functions
 void game_init(void);
 
@@ -148,8 +150,14 @@ int get_played_top(void);
 int get_scored_card_index(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
+void add_joker(JokerObject* joker_object);
+void remove_owned_joker(int owned_joker_idx);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
+List* get_discarded_jokers_list(void);
+List* get_shop_jokers_list(void);
+Bitset* get_avail_jokers_bitset(void);
+void set_shop_joker_avail(int joker_id, bool avail);
 
 ContainedHandTypes* get_contained_hands(void);
 enum HandType* get_hand_type(void);
@@ -181,7 +189,6 @@ void game_start(void);
 void change_background_legacy(enum BackgroundId id);
 
 void display_round(void);
-void reset_top_left_panel_bottom_row(void);
 
 void reset_background(void);
 void display_hands(void);

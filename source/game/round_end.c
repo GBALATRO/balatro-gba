@@ -2,6 +2,7 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "game.h"
 #include "game_variables.h"
 #include "layout.h"
 #include "state_machine.h"
