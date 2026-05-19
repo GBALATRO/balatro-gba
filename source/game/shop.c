@@ -62,8 +62,6 @@ static const Rect     SHOP_REROLL_RECT      = { 88,  96, UNDEFINED, UNDEFINED };
 static const BG_POINT SHOP_JOKER_SPRITES_INIT_POS = {120, 160};
 // clang-format on
 
-// Shop Substates
-
 enum GameShopStates
 {
     GAME_SHOP_INTRO,
@@ -76,26 +74,16 @@ static void game_shop_intro(void);
 static void game_shop_process_user_input(void);
 static void game_shop_outro(void);
 
-/*
 static StateInfo _shop_state_actions[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_shop_intro),
     STATE_INFO_UPDATE_FN_ONLY(game_shop_process_user_input),
     STATE_INFO_UPDATE_FN_ONLY(game_shop_outro),
 };
-*/
 
-static const SubStateActionFn shop_state_actions[] = {
-    game_shop_intro,
-    game_shop_process_user_input,
-    game_shop_outro
-};
-
-/*
 static StateMachine blind_select_sm = {
     .state_infos = &_shop_state_actions[0],
     .num_infos = GAME_SHOP_MAX,
 };
-*/
 
 // Shop SelectionGrid
 
@@ -147,7 +135,6 @@ static Button reroll_button = {
 // Shop internal variables
 
 static int timer;
-static enum GameShopStates substate;
 
 static int reroll_cost = REROLL_BASE_COST;
 
@@ -180,7 +167,9 @@ void game_shop_on_init(void)
     game_shop_change_background();
 
     timer = TM_ZERO;
-    substate = GAME_SHOP_INTRO;
+    
+    state_machine_init(&blind_select_sm);
+    state_machine_change_state(&blind_select_sm, GAME_SHOP_INTRO);
 
     // The selection grid is initialized outside of bounds and moved
     // to trigger the selection change so the initial selection is visible
@@ -341,7 +330,7 @@ static void game_shop_intro()
 
     if (timer == TM_END_GAME_SHOP_INTRO)
     {
-        substate = GAME_SHOP_ACTIVE;
+        state_machine_change_state(&blind_select_sm, GAME_SHOP_ACTIVE);
         timer = TM_ZERO; // Reset the timer
 
         // print initial reroll cost only when the panel is in place
@@ -574,7 +563,7 @@ static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Select
 static void next_round_on_pressed(void)
 {
     // Go to next blind selection game state
-    substate = GAME_SHOP_EXIT; // Go to the outro sequence state
+    state_machine_change_state(&blind_select_sm, GAME_SHOP_EXIT);
     timer = TM_ZERO;
     reroll_cost = REROLL_BASE_COST;
 
@@ -639,8 +628,6 @@ static void game_shop_outro()
 
     if (timer >= MENU_POP_OUT_ANIM_FRAMES)
     {
-        substate = GAME_SHOP_MAX; // Go to the next state
-        timer = TM_ZERO;          // Reset the timer
         game_change_state(GAME_STATE_BLIND_SELECT);
     }
 }
@@ -697,8 +684,6 @@ void game_shop_on_update(void)
     {
         game_shop_lights_anim_frame();
     }
-
-    shop_state_actions[substate]();
 }
 
 void game_shop_on_exit(void)
@@ -720,6 +705,8 @@ void game_shop_on_exit(void)
     list_clear(shop_jokers_list);
 
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
+
+    state_machine_deinit(&blind_select_sm);
 
     save_game();
 }
