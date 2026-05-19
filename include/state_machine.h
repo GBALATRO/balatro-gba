@@ -23,7 +23,7 @@
  * When a state machine is finished, it can "remove" itself from the main update
  * callback list. This can be done within the update method of its own state
  * machine. This can be used to start a self destructing state machine.
- */ 
+ */
 #ifndef STATE_MACHINE_H
 #define STATE_MACHINE_H
 
@@ -48,23 +48,23 @@ typedef struct
 typedef struct
 {
     /**
-    * @brief Pointer to the active update function in `state_infos`
-    */
+     * @brief Pointer to the active update function in `state_infos`
+     */
     StateCallback active_update;
 
     /**
-    * @brief Array of @ref StateCallbacks , one entry per state
-    */
+     * @brief Array of @ref StateCallbacks , one entry per state
+     */
     StateInfo* state_infos;
 
     /**
-    * @brief Number of elements in the `state_infos` array
-    */
+     * @brief Number of elements in the `state_infos` array
+     */
     unsigned int num_infos;
 
     /**
-    * @brief The current state of the state machine, the offset into state_infos
-    */
+     * @brief The current state of the state machine, the offset into state_infos
+     */
     unsigned int state;
 } StateMachine;
 
@@ -89,7 +89,7 @@ void state_machine_update(void);
 
 /**
  * @brief Update registered state machines' update functions
- * 
+ *
  * @param state_machine pointer to @ref StateMachine, cannot be NULL
  * @param new_state offset into `state_infos` array to transition to
  */
