@@ -167,7 +167,7 @@ void game_shop_on_init(void)
     game_shop_change_background();
 
     timer = TM_ZERO;
-    
+
     state_machine_init(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, GAME_SHOP_INTRO);
 
