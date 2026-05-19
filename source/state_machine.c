@@ -38,16 +38,16 @@ void state_machine_update(void)
     }
 }
 
-void game_change_state_new(StateMachine* state_machine, int new_game_state)
+void state_machine_change_state(StateMachine* state_machine, int new_state)
 {
     if (state_machine->state >= 0 && state_machine->state < state_machine->num_infos)
     {
         state_machine->state_infos[state_machine->state].on_exit();
     }
 
-    if (new_game_state >= 0 && new_game_state < state_machine->num_infos)
+    if (new_state >= 0 && new_state < state_machine->num_infos)
     {
-        state_machine->state_infos[new_game_state].on_init();
+        state_machine->state_infos[new_state].on_init();
     }
 
     // This has an inadvertant "feature". If you are in the calling function of a state, calling
@@ -55,12 +55,7 @@ void game_change_state_new(StateMachine* state_machine, int new_game_state)
     // Because it is only updating the active pointer of code to-be ran, the update function
     // finishes before continuing. This is incredibly helpful as you can initiate a state change in
     // the update, but just don't think the code is breaking on that change state call.
-    state_machine->active_update = state_machine->state_infos[new_game_state].on_update;
+    state_machine->active_update = state_machine->state_infos[new_state].on_update;
 
-    state_machine->state = new_game_state;
-}
-
-void state_machine_change_state(StateMachine* state_machine, int new_state)
-{
-    game_change_state_new(state_machine, new_state);
+    state_machine->state = new_state;
 }

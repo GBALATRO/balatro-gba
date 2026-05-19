@@ -293,7 +293,6 @@ static const HandValues hand_base_values[] = {
 };
 
 // The current game state, this is used to determine what the game is doing at any given time
-static enum GameState game_state = GAME_STATE_UNDEFINED;
 static enum HandState hand_state = HAND_DRAW;
 static enum PlayState play_state = PLAY_STARTING;
 
@@ -624,29 +623,7 @@ void game_change_state(enum GameState new_game_state)
 {
     g_game_vars.timer = TM_ZERO; // Reset the timer
 
-    /*
-    if (game_state >= 0 && game_state < GAME_STATE_MAX)
-    {
-        state_info[game_state].substate = 0;
-        state_info[game_state].on_exit();
-    }
-    */
-
-    /*
-    if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
-    {
-        state_info[new_game_state].on_init();
-
-        game_state = new_game_state;
-    }
-    */
-
-    game_change_state_new(&game_sm, new_game_state);
-
-    if (new_game_state >= 0 && new_game_state < GAME_STATE_MAX)
-    {
-        game_state = new_game_state;
-    }
+    state_machine_change_state(&game_sm, new_game_state);
 }
 
 u32 get_rand()
