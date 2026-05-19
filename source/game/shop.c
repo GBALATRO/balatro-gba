@@ -19,6 +19,7 @@
 #include "list.h"
 #include "save.h"
 #include "soundbank.h"
+#include "state_machine.h"
 #include "timer.h"
 #include "util.h"
 
@@ -71,15 +72,30 @@ enum GameShopStates
     GAME_SHOP_MAX
 };
 
-static void game_shop_intro();
-static void game_shop_process_user_input();
-static void game_shop_outro();
+static void game_shop_intro(void);
+static void game_shop_process_user_input(void);
+static void game_shop_outro(void);
+
+/*
+static StateInfo _shop_state_actions[] = {
+    STATE_INFO_UPDATE_FN_ONLY(game_shop_intro),
+    STATE_INFO_UPDATE_FN_ONLY(game_shop_process_user_input),
+    STATE_INFO_UPDATE_FN_ONLY(game_shop_outro),
+};
+*/
 
 static const SubStateActionFn shop_state_actions[] = {
     game_shop_intro,
     game_shop_process_user_input,
     game_shop_outro
 };
+
+/*
+static StateMachine blind_select_sm = {
+    .state_infos = &_shop_state_actions[0],
+    .num_infos = GAME_SHOP_MAX,
+};
+*/
 
 // Shop SelectionGrid
 
@@ -625,6 +641,7 @@ static void game_shop_outro()
     {
         substate = GAME_SHOP_MAX; // Go to the next state
         timer = TM_ZERO;          // Reset the timer
+        game_change_state(GAME_STATE_BLIND_SELECT);
     }
 }
 
@@ -679,12 +696,6 @@ void game_shop_on_update(void)
     if (timer % 20 == 0)
     {
         game_shop_lights_anim_frame();
-    }
-
-    if (substate == GAME_SHOP_MAX)
-    {
-        game_change_state(GAME_STATE_BLIND_SELECT);
-        return;
     }
 
     shop_state_actions[substate]();
