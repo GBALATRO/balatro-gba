@@ -1,12 +1,8 @@
 #include "state_machine.h"
 
 #include "game.h"
-#include "game_variables.h"
 #include "list.h"
-#include "timer.h"
 #include "util.h"
-
-#include <stdlib.h>
 
 static List update_cbs;
 

@@ -662,6 +662,51 @@ void test_list_swap(void)
 }
 
 
+// Test the "list_remove_at" function
+// - list_create
+// - list_is_empty
+// - list_get_len
+// - list_clear
+void test_remove_at(void)
+{
+    // must be 5 or greatejr
+    const int initial_list_size = 5;
+    List my_cool_list = list_create();
+
+    // verify no data 
+    assert(my_cool_list.head == NULL);
+    assert(my_cool_list.tail == NULL);
+    assert(list_get_len(&my_cool_list) == 0);
+    assert(list_is_empty(&my_cool_list));
+
+    int test_data[initial_list_size];
+
+    for(int i = 0; i < initial_list_size; i++)
+    {
+        // 0 -> 1 -> 2 -> 3 -> 4
+        test_data[i] = i;
+        list_push_back(&my_cool_list, &test_data[i]);
+    }
+
+    assert(list_get_len(&my_cool_list) == initial_list_size);
+
+    // remove from the front
+    list_remove_at(&my_cool_list, &test_data[0]);
+
+    assert(my_cool_list.head->data == &test_data[1]);
+    assert(list_get_len(&my_cool_list) == initial_list_size - 1);
+
+    // remove from the back
+    list_remove_at(&my_cool_list, &test_data[initial_list_size - 1]);
+
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 2]);
+    assert(list_get_len(&my_cool_list) == initial_list_size - 2);
+
+    list_clear(&my_cool_list);
+
+    assert(list_is_empty(&my_cool_list));
+}
+
 int main(void)
 {
     printf("Testing List Create and Clear.\n");
@@ -681,6 +726,9 @@ int main(void)
 
     printf("Testing List Swap.\n");
     test_list_swap();
+
+    printf("Testing List Remove At.\n");
+    test_remove_at();
 
     printf("-------------------------------------------------------------------------------\n");
     printf("List Tests Passed :)\n");
