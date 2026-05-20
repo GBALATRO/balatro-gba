@@ -270,7 +270,7 @@ void reorder_card_sprites_layers(void)
     }
 }
 
-void sort_cards()
+void sort_cards(void)
 {
     if (hand.sort_by_suit)
     {

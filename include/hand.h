@@ -4,8 +4,8 @@
  * @brief Functions relative to manipulating and analyzing the contents of the Hand,
  *         a.k.a. the Cards we hold and play.
  */
-#ifndef HAND_ANALYSIS_H
-#define HAND_ANALYSIS_H
+#ifndef HAND_H
+#define HAND_H
 
 #include "card.h"
 
