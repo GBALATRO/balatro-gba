@@ -23,6 +23,13 @@
  */
 #define MAX_LIST_NODES 128
 
+/**
+ * @brief Default list declaration for empty lists
+ */
+// clang-format off
+#define LIST_DEFAULT { .head = NULL, .tail = NULL, .len = 0 }
+// clang-format on
+
 typedef struct ListNode ListNode;
 
 /**
@@ -67,11 +74,6 @@ typedef struct List
      */
     int len;
 } List;
-
-/**
- * @brief Default list declaration for empty lists
- */
-#define LIST_DEFAULT { .head = NULL, .tail = NULL, .len = 0 }
 
 /**
  * @brief @ref ListItr direction
