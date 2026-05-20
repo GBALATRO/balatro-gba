@@ -182,8 +182,8 @@ static const BG_POINT SCORE_FLAME_CHIPS_POS = {1,       9};
 static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
 
 // Rects for TTE (in pixels)
-static const Rect HAND_SIZE_RECT_SELECT     = {120,     128,    152,    136 };
-static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    152,    160 };
+static const Rect HAND_SIZE_RECT_SELECT     = {120,     128,    160,    136 };
+static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    160,    160 };
 // Score displayed in the same place as the hand type
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
 static const Rect SCORE_RECT                = {24,      48,     64,     56  };
@@ -2397,7 +2397,7 @@ static inline void cards_in_hand_update_loop(void)
     // Start from the end of the hand and work backwards because that's how Balatro does it
     CardObject** hand = get_hand_array();
 
-    for (int i = get_hand_top() + 1; i >= 0; i--)
+    for (int i = get_hand_top(); i >= 0; i--)
     {
         if (hand[i] != NULL)
         {

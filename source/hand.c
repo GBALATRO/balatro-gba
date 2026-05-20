@@ -226,7 +226,7 @@ static inline bool shift_null_card_to_end(int null_card_idx)
     // Iterating up to `hand_top - non_null_card_idx + 1` should end up out of bounds
     // but for some reason it doesn't pose any issue, and taking out the +1 breaks
     // the code, so I'll be elaving it here until someone figures it out ^^'
-    for (int j = 0; j <= hand.hand_top - non_null_card_idx + 1; j++)
+    for (int j = 0; j <= hand.hand_top - non_null_card_idx; j++)
     {
         hand.cards[null_card_idx + j] = hand.cards[non_null_card_idx + j];
     }
