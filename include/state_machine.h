@@ -65,7 +65,7 @@ typedef struct
     /**
      * @brief The current state of the state machine, the offset into state_infos
      */
-    unsigned int state;
+    int state;
 } StateMachine;
 
 /**
@@ -88,7 +88,7 @@ void state_machine_remove(StateMachine* state_machine);
 void state_machine_update(void);
 
 /**
- * @brief Update registered state machines' update functions
+ * @brief Calls the current state's on_exit, the new state's on_init, and sets the active update fn
  *
  * @param state_machine pointer to @ref StateMachine, cannot be NULL
  * @param new_state offset into `state_infos` array to transition to

@@ -224,13 +224,13 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
-StateMachine game_sm = {
+static StateMachine game_sm = {
     .state_infos = &state_info[0],
     .num_infos = GAME_STATE_MAX,
 };
 
 // clang-format off
-SelectionGridRow game_playing_selection_rows[] = {
+static SelectionGridRow game_playing_selection_rows[] = {
     {
         0,
         jokers_sel_row_get_size,
@@ -257,14 +257,14 @@ SelectionGridRow game_playing_selection_rows[] = {
 
 static const Selection GAME_PLAYING_INIT_SEL = {0, 1};
 
-SelectionGrid game_playing_selection_grid = {
+static SelectionGrid game_playing_selection_grid = {
     game_playing_selection_rows,
     NUM_ELEM_IN_ARR(game_playing_selection_rows),
     GAME_PLAYING_INIT_SEL
 };
 
 // Array of buttons by horizontal selection index (x)
-Button game_playing_buttons[] = {
+static Button game_playing_buttons[] = {
     {PLAY_HAND_BTN_BORDER_PAL_IDX,    PLAY_HAND_BTN_PAL_IDX, game_playing_play_hand_on_pressed,    can_play_hand   },
     {SORT_BY_RANK_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     game_playing_sort_by_rank_on_pressed, NULL            },
     {SORT_BY_SUIT_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     game_playing_sort_by_suit_on_pressed, NULL            },

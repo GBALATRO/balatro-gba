@@ -669,8 +669,9 @@ void test_list_swap(void)
 // - list_clear
 void test_remove_at(void)
 {
-    // must be 5 or greatejr
+    // this value MUST be 5
     const int initial_list_size = 5;
+    const int midpoint = initial_list_size / 2;
     List my_cool_list = list_create();
 
     // verify no data 
@@ -691,16 +692,38 @@ void test_remove_at(void)
     assert(list_get_len(&my_cool_list) == initial_list_size);
 
     // remove from the front
-    list_remove_at(&my_cool_list, &test_data[0]);
+    assert(list_remove_at(&my_cool_list, &test_data[0]));
 
     assert(my_cool_list.head->data == &test_data[1]);
     assert(list_get_len(&my_cool_list) == initial_list_size - 1);
 
     // remove from the back
-    list_remove_at(&my_cool_list, &test_data[initial_list_size - 1]);
+    assert(list_remove_at(&my_cool_list, &test_data[initial_list_size - 1]));
 
+    assert(my_cool_list.head->data == &test_data[1]);
     assert(my_cool_list.tail->data == &test_data[initial_list_size - 2]);
     assert(list_get_len(&my_cool_list) == initial_list_size - 2);
+
+    // remove from the middle
+    assert(list_remove_at(&my_cool_list, &test_data[midpoint]));
+
+    assert(my_cool_list.head->data == &test_data[1]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 2]);
+    assert(list_get_len(&my_cool_list) == initial_list_size - 3);
+
+    // fail on removal of pointer not in list
+    assert(!list_remove_at(&my_cool_list, NULL));
+
+    assert(my_cool_list.head->data == &test_data[1]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 2]);
+    assert(list_get_len(&my_cool_list) == initial_list_size - 3);
+
+    // remove last two elements, make sure list can be emptied
+    assert(!list_is_empty(&my_cool_list));
+    assert(list_remove_at(&my_cool_list, &test_data[1]));
+    assert(!list_is_empty(&my_cool_list));
+    assert(list_remove_at(&my_cool_list, &test_data[3]));
+    assert(list_is_empty(&my_cool_list));
 
     list_clear(&my_cool_list);
 

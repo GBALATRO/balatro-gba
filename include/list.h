@@ -69,6 +69,11 @@ typedef struct List
 } List;
 
 /**
+ * @brief Default list declaration for empty lists
+ */
+#define LIST_DEFAULT {.head = NULL, .tail = NULL, .len = 0}
+
+/**
  * @brief @ref ListItr direction
  */
 enum ListItrDirection
