@@ -16,7 +16,7 @@ void noop(void) {};
 void state_machine_register(StateMachine* state_machine)
 {
     // Always try to remove the state machine first. Only one can exist at a time
-    // So ensure that calling this function doesn't add two update functions 
+    // So ensure that calling this function doesn't add two update functions
     state_machine_remove(state_machine);
 
     state_machine->active_update = noop;
