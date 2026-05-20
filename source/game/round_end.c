@@ -20,7 +20,6 @@ enum GameRoundEndStates
     DISPLAY_REWARDS,
     DISPLAY_CASHOUT,
     DISMISS_ROUND_END_PANEL,
-    ROUND_END_EXIT,
     ROUND_END_STATES_MAX
 };
 
@@ -65,7 +64,6 @@ static void game_round_end_panel_exit(void);
 static void game_round_end_display_rewards(void);
 static void game_round_end_display_cashout(void);
 static void game_round_end_dismiss_round_end_panel(void);
-static void game_round_end_exit(void);
 
 static void game_round_end_extend_black_panel_down(int black_panel_bottom);
 
@@ -79,7 +77,6 @@ static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_rewards),
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_display_cashout),
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_dismiss_round_end_panel),
-    STATE_INFO_UPDATE_FN_ONLY(game_round_end_exit),
 };
 
 static StateMachine round_end_sm = {
@@ -431,13 +428,8 @@ static void game_round_end_dismiss_round_end_panel(void)
     if (g_game_vars.timer >= TM_DISMISS_ROUND_END_TM)
     {
         g_game_vars.timer = TM_ZERO;
-        state_machine_change_state(&round_end_sm, ROUND_END_EXIT);
+        game_change_state(GAME_STATE_SHOP);
     }
-}
-
-static void game_round_end_exit(void)
-{
-    game_change_state(GAME_STATE_SHOP);
 }
 
 static void game_round_end_extend_black_panel_down(int black_panel_bottom)
@@ -466,6 +458,7 @@ void game_round_end_on_init(void)
 
 void game_round_end_on_update(void)
 {
+    // Substate logic only
 }
 
 void game_round_end_on_exit(void)
