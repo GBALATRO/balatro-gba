@@ -239,10 +239,10 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="foldopen" id="foldopen00156" data-start="{" data-end="};">
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">  156</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a> = {</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    .tag_options = <span class="stringliteral">&quot;- OPTIONS DATA -&quot;</span>,</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    .game_speed = 0,</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    .high_contrast = <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    .music_volume = 0,</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    .sound_volume = 0,</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    .game_speed = GAME_SPEED_MIN,</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    .high_contrast = DEFAULT_HIGH_CONTRAST,</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    .music_volume = VOLUME_OPTION_MAX,</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    .sound_volume = VOLUME_OPTION_MAX,</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},</div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>};</div>
 </div>
@@ -362,12 +362,12 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno"><a class="line" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">  306</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>{</div>
 <div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) || !(header.valid_sections &amp; SAVE_SECTION_FLAG_OPTIONS))</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(OPTIONS_ADDRESS, (u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <span class="comment">// If options data doesn&#39;t exist or is invalid, just don&#39;t read from</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <span class="comment">// SRAM and apply the default values</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) &amp;&amp; (header.valid_sections &amp; SAVE_SECTION_FLAG_OPTIONS))</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>        <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(OPTIONS_ADDRESS, (u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    g_game_vars.game_speed = options.game_speed;</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    g_game_vars.high_contrast = options.high_contrast;</div>
@@ -422,11 +422,11 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno"><a class="line" href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">  362</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>{</div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) || !(header.valid_sections &amp; SAVE_SECTION_FLAG_GAME))</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span> </div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) || !(header.valid_sections &amp; SAVE_SECTION_FLAG_GAME))</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(GAME_ADDRESS, (u8*)&amp;game, <span class="keyword">sizeof</span>(game));</div>
 <div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    g_game_vars.timer = game.timer;</div>
