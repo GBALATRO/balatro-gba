@@ -130,6 +130,15 @@ CardObject** get_hand_array(void);
 int get_hand_top(void);
 
 /**
+ * @brief Set the position in hand array of the last card obtained
+ *
+ * @param new_hand_top
+ *
+ * @sa get_hand_top
+ */
+void set_hand_top(int new_hand_top);
+
+/**
  * @brief Get the current number of Cards in hand.
  *
  * @return `hand_top + 1`
@@ -137,6 +146,22 @@ int get_hand_top(void);
  * @sa get_hand_top
  */
 int hand_nb_held_cards(void);
+
+/**
+ * @brief Get the current number of selected Cards.
+ *
+ * @return `card_selections`
+ */
+int hand_get_nb_selected_cards(void);
+
+/**
+ * @brief Set the current number of selected Cards.
+ *
+ * @param new_selections
+ *
+ * @sa hand_get_nb_selected_cards
+ */
+void hand_set_nb_selected_cards(int new_selections);
 
 /**
  * @brief Set the card at a given index in Hand as selected

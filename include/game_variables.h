@@ -42,9 +42,6 @@ typedef struct
     s32 timer; // This might already exist in libtonc but idk so i'm just making my own
     RngInfo rng_info;
 
-    s32 hand_top; // Position of the last card in hand array, -1 when no card in hand
-    s32 hand_selections; // Number of selected Cards.
-
     // Variables visible by the player
 
     s32 round;

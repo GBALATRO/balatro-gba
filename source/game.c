@@ -1071,7 +1071,7 @@ static int deck_get_size(void)
 static int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
-    return g_game_vars.hand_top + played_top + deck_top + discard_top + 4;
+    return get_hand_top() + played_top + deck_top + discard_top + 4;
 }
 
 static inline void deck_shuffle(void)
@@ -1088,8 +1088,8 @@ static inline void deck_shuffle(void)
 static void game_round_on_init(void)
 {
     set_hand_state(HAND_DRAW);
+    hand_set_nb_selected_cards(0);
     cards_drawn = 0;
-    g_game_vars.hand_selections = 0;
 
     sprite_destroy(&g_game_vars.playing_blind_token);
     g_game_vars.playing_blind_token = blind_token_new(
@@ -1159,7 +1159,7 @@ static bool can_discard_hand(void)
 {
     return (
         g_game_vars.discards > 0 && get_hand_state() == HAND_SELECT &&
-        g_game_vars.hand_selections > 0
+        hand_get_nb_selected_cards() > 0
     );
 }
 
@@ -1394,7 +1394,7 @@ static void game_playing_button_row_on_key_hit(SelectionGrid* selection_grid, Se
 
 static bool can_play_hand(void)
 {
-    if (get_hand_state() != HAND_SELECT || g_game_vars.hand_selections == 0)
+    if (get_hand_state() != HAND_SELECT || hand_get_nb_selected_cards() == 0)
         return false;
     return true;
 }
@@ -1420,8 +1420,8 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
-    if (deck_top < 0 || g_game_vars.hand_top >= g_game_vars.hand_size - 1 ||
-        g_game_vars.hand_top >= MAX_HAND_SIZE - 1)
+    if (deck_top < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
+        get_hand_top() >= MAX_HAND_SIZE - 1)
         return;
 
     CardObject* card_object = card_object_new(deck_pop());
@@ -1433,7 +1433,8 @@ static inline void card_draw(void)
     card_object->sprite_object->y = deck_y;
     sprite_position(card_object->sprite_object->sprite, fx2int(deck_x), fx2int(deck_y));
 
-    get_hand_array()[++g_game_vars.hand_top] = card_object;
+    set_hand_top(get_hand_top() + 1);
+    get_hand_array()[get_hand_top()] = card_object;
 
     // Sort the hand after drawing a card
     sort_cards();
@@ -1513,7 +1514,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 card_object_destroy(&hand[card_idx]);
                 reorder_card_sprites_layers();
 
-                g_game_vars.hand_top--;
+                set_hand_top(get_hand_top() - 1);
                 // This technically isn't drawing cards, I'm just reusing the variable
                 cards_drawn++;
                 sound_played = false;
@@ -1536,14 +1537,14 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
             {
                 *hand_y += int2fx(24);
             }
-            *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) *
-                                    -HAND_SPACING_LUT[g_game_vars.hand_top];
+            *hand_x = *hand_x + (int2fx(card_idx) - int2fx(get_hand_top()) / 2) *
+                                    -HAND_SPACING_LUT[get_hand_top()];
         }
     }
     else
     {
-        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(g_game_vars.hand_top) / 2) *
-                                -HAND_SPACING_LUT[g_game_vars.hand_top];
+        *hand_x = *hand_x + (int2fx(card_idx) - int2fx(get_hand_top()) / 2) *
+                                -HAND_SPACING_LUT[get_hand_top()];
     }
 
     if (card_idx == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
@@ -1553,7 +1554,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         set_hand_state(HAND_DRAW);
         sound_played = false;
         cards_drawn = 0;
-        g_game_vars.hand_selections = 0;
+        hand_set_nb_selected_cards(0);
         g_game_vars.timer = TM_ZERO;
         *break_loop = true;
         return;
@@ -1827,7 +1828,7 @@ static bool play_ended_played_cards_update(int played_idx)
 
                 play_state = PLAY_STARTING;
                 cards_drawn = 0;
-                g_game_vars.hand_selections = 0;
+                hand_set_nb_selected_cards(0);
                 played_top = -1; // Reset the played stack
                 scored_card_index = 0;
                 _joker_scored_itr = list_itr_create(&_owned_jokers_list);
@@ -1904,7 +1905,7 @@ static inline bool play_scoring_cards_update(void)
         {
             // reuse these variables for held cards
             _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            scored_card_index = g_game_vars.hand_top;
+            scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
 
@@ -2396,7 +2397,7 @@ static inline void cards_in_hand_update_loop(void)
     // Start from the end of the hand and work backwards because that's how Balatro does it
     CardObject** hand = get_hand_array();
 
-    for (int i = g_game_vars.hand_top + 1; i >= 0; i--)
+    for (int i = get_hand_top() + 1; i >= 0; i--)
     {
         if (hand[i] != NULL)
         {
@@ -2406,8 +2407,8 @@ static inline void cards_in_hand_update_loop(void)
             switch (get_hand_state())
             {
                 case HAND_DRAW:
-                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
-                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
                     break;
                 case HAND_SELECT:
                     bool is_focused =
@@ -2440,11 +2441,10 @@ static inline void cards_in_hand_update_loop(void)
                         hand[i]->sprite_object->vy = 0;
                     }
 
-                    hand_x = hand_x +
-                             (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
-                                 -HAND_SPACING_LUT[g_game_vars.hand_top]; // TODO: Change this later
-                                                                          // to reference a 2D LUT
-                                                                          // of positions
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()]; // TODO: Change this
+                                                                             // later to reference a
+                                                                             // 2D LUT of positions
                     break;
                 case HAND_SHUFFLING:
                     /* FALL THROUGH */
@@ -2461,8 +2461,8 @@ static inline void cards_in_hand_update_loop(void)
 
                     break;
                 case HAND_PLAY:
-                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
-                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
                     hand_y += int2fx(24);
 
                     if (card_object_is_selected(hand[i]) && discarded_card == false &&
@@ -2480,8 +2480,8 @@ static inline void cards_in_hand_update_loop(void)
                             SFX_DEFAULT_VOLUME
                         );
 
-                        g_game_vars.hand_top--;
-                        g_game_vars.hand_selections--;
+                        set_hand_top(get_hand_top() - 1);
+                        hand_set_nb_selected_cards(hand_get_nb_selected_cards() - 1);
                         cards_drawn++;
 
                         discarded_card = true;
@@ -2491,7 +2491,7 @@ static inline void cards_in_hand_update_loop(void)
                     {
                         set_hand_state(HAND_PLAYING);
                         cards_drawn = 0;
-                        g_game_vars.hand_selections = 0;
+                        hand_set_nb_selected_cards(0);
                         g_game_vars.timer = TM_ZERO;
                         scored_card_index = played_top + 1;
 
@@ -2501,8 +2501,8 @@ static inline void cards_in_hand_update_loop(void)
                     break;
                 // Don't need to do anything here, just wait for the player to select cards
                 case HAND_PLAYING:
-                    hand_x = hand_x + (int2fx(i) - int2fx(g_game_vars.hand_top) / 2) *
-                                          -HAND_SPACING_LUT[g_game_vars.hand_top];
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
                     hand_y += int2fx(24);
                     break;
             }
