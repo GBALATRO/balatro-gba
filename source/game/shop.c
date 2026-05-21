@@ -709,6 +709,6 @@ void game_shop_on_exit(void)
     state_machine_remove(&shop_sm);
 
     save_game();
-    
+
     normal_music();
 }
