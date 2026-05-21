@@ -2,7 +2,6 @@
 
 #include "game_variables.h"
 #include "state_machine.h"
-#include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
@@ -19,7 +18,8 @@ void play_sfx(mm_word id, mm_word rate, mm_byte volume)
     mmEffectEx(&sfx);
 }
 
-typedef struct {
+typedef struct
+{
     s32 target_tempo;
     s32 target_pitch;
     s32 num_steps;
@@ -27,13 +27,15 @@ typedef struct {
     s32 pitch_itr;
 } MusicSpeedChangeReq;
 
-typedef struct {
+typedef struct
+{
     s32 pitch;
     s32 tempo;
 } MusicPlayerState;
 
 static const s32 DEFAULT_PITCH = 0x400;
 static const s32 DEFAULT_TEMPO = 0x400;
+static const u32 MUSIC_CHANGE_FRAMES = 30;
 
 static MusicPlayerState music_player = {.pitch = DEFAULT_PITCH, .tempo = DEFAULT_TEMPO};
 static MusicSpeedChangeReq current_req;
@@ -52,13 +54,15 @@ static StateMachine song_speed_sm = {
 static void request_music_speed_change(const MusicSpeedChangeReq req)
 {
     current_req = req;
-    state_machine_deinit(&song_speed_sm);
-    
-    state_machine_init(&song_speed_sm);
+    state_machine_register(&song_speed_sm);
     state_machine_change_state(&song_speed_sm, 0);
 }
 
-static MusicSpeedChangeReq make_music_speed_change_req(s32 target_pitch, s32 target_tempo, s32 num_steps)
+static MusicSpeedChangeReq make_music_speed_change_req(
+    s32 target_pitch,
+    s32 target_tempo,
+    s32 num_steps
+)
 {
     MusicSpeedChangeReq req;
     req.tempo_itr = (target_tempo - music_player.tempo) / num_steps;
@@ -71,31 +75,41 @@ static MusicSpeedChangeReq make_music_speed_change_req(s32 target_pitch, s32 tar
 
 void shop_music(void)
 {
-    auto req  = make_music_speed_change_req(0x600, DEFAULT_TEMPO, 30);
+    const u32 shop_pitch = 0x600;
+
+    MusicSpeedChangeReq req =
+        make_music_speed_change_req(shop_pitch, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
 void fast_music(void)
 {
-    auto req  = make_music_speed_change_req(0x800, 0x800, 300);
+    const u32 fast_speed = 0x800;
+
+    MusicSpeedChangeReq req =
+        make_music_speed_change_req(fast_speed, fast_speed, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
 void slow_music(void)
 {
-    auto req  = make_music_speed_change_req(0x200, 0x200, 300);
+    const u32 slow_speed = 0x200;
+
+    MusicSpeedChangeReq req =
+        make_music_speed_change_req(slow_speed, slow_speed, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
 void normal_music(void)
 {
-    auto req  = make_music_speed_change_req(DEFAULT_PITCH, DEFAULT_TEMPO, 30);
+    MusicSpeedChangeReq req =
+        make_music_speed_change_req(DEFAULT_PITCH, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
 static inline bool tempo_update(void)
 {
-    if(abs(music_player.tempo - current_req.target_tempo) < abs(current_req.tempo_itr))
+    if (abs(music_player.tempo - current_req.target_tempo) < abs(current_req.tempo_itr))
     {
         music_player.tempo = current_req.target_tempo;
         return true;
@@ -106,7 +120,7 @@ static inline bool tempo_update(void)
 
 static inline bool pitch_update(void)
 {
-    if(abs(music_player.pitch - current_req.target_pitch) < abs(current_req.pitch_itr))
+    if (abs(music_player.pitch - current_req.target_pitch) < abs(current_req.pitch_itr))
     {
         music_player.pitch = current_req.target_pitch;
         return true;
@@ -123,6 +137,6 @@ static void speed_change_update(void)
     mmSetModuleTempo(music_player.tempo);
     mmSetModulePitch(music_player.pitch);
 
-    if(tempo_reached && pitch_reached)
-        state_machine_deinit(&song_speed_sm);
+    if (tempo_reached && pitch_reached)
+        state_machine_remove(&song_speed_sm);
 }

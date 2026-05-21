@@ -1,8 +1,8 @@
 #include "round_end.h"
-#include "audio_utils.h"
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"

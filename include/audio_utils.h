@@ -64,9 +64,24 @@
  */
 void play_sfx(mm_word id, mm_word rate, mm_byte volume);
 
+/**
+ * @brief Play music at a high pitch and fast tempo (win screen)
+ */
 void fast_music(void);
+
+/**
+ * @brief Play music at a low pitch and slow tempo (lose screen)
+ */
 void slow_music(void);
+
+/**
+ * @brief Play music at a slightly higher pitch and normal tempo for shop
+ */
 void shop_music(void);
+
+/**
+ * @brief Play music at a normal pitch and tempo
+ */
 void normal_music(void);
 
 #endif
