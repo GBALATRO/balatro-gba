@@ -143,6 +143,21 @@ In the repo we use custom scripts located in the [`scripts`](https://github.com/
 ## Debugging
 It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).
 
+### Logging
+Specifically for mgba, logging can be enabled. To do this set `MGBA_LOGGING=1` when running `make`:
+
+```sh
+MGBA_LOGGING=1 make
+```
+
+Then, you can enable logging via the `-l` or `--log-level` option:
+
+```sh
+mgba -l 7 game.rom
+```
+
+See [`mgba_logger.h`](include/mgba_logger.h) for details on log levels.
+
 ## **Build Instructions**
 
 <details>
