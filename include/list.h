@@ -236,7 +236,7 @@ bool list_remove_at_idx(List* list, unsigned int idx);
  * @param data pointer to data in node in list
  *
  * @return `true` if successfully removed, `false` otherwise
- * 
+ *
  * @note When working with @ref ListItr, use @ref list_remove_at()
  */
 bool list_remove_at(List* list, void* data);
@@ -284,7 +284,7 @@ void* list_itr_next(ListItr* itr);
  * most recently returned valu from @ref list_itr_next()
  *
  * @param itr pointer to the @ref ListItr
- * 
+ *
  * @note When working with @ref ListItr, use this and not @ref list_remove_at() as it will
  * "break" the iterator.
  */
