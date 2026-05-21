@@ -27,11 +27,12 @@
 
 #include <stdbool.h>
 
-typedef enum {
+typedef enum
+{
     MGBA_LOG_FATAL = 0,
     MGBA_LOG_ERROR = 1,
-    MGBA_LOG_WARN  = 2,
-    MGBA_LOG_INFO  = 3,
+    MGBA_LOG_WARN = 2,
+    MGBA_LOG_INFO = 3,
     MGBA_LOG_DEBUG = 4,
 } MgbaLogLevel;
 
@@ -47,7 +48,7 @@ bool mgba_logger_init(void);
  *
  * @param level
  * @param fmt Format string
- * @param ... variadic arguments 
+ * @param ... variadic arguments
  */
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 
