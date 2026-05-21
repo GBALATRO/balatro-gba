@@ -46,6 +46,8 @@ bool mgba_logger_init(void);
 /**
  * @brief Print to mgba log with a format string
  *
+ * Note, for all logs, it's cutoff at the hard mgba limit of 0x100
+ *
  * @param level
  * @param fmt Format string
  * @param ... variadic arguments
