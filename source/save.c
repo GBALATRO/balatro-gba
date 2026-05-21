@@ -96,6 +96,7 @@ typedef struct SaveOptions
 /**
  * @brief Default value for the SaveOptions struct, with tags already set.
  */
+// clang-format off
 static const SaveOptions SaveOptions_default = {
     .tag_options = "- OPTIONS DATA -",
     .game_speed = GAME_SPEED_MIN,
@@ -104,14 +105,13 @@ static const SaveOptions SaveOptions_default = {
     .music_volume = VOLUME_OPTION_MAX,
     .sound_volume = VOLUME_OPTION_MAX,
     .padding = {
-                UNDEFINED, UNDEFINED,
-                UNDEFINED, UNDEFINED,
-                UNDEFINED, UNDEFINED,
-                UNDEFINED, UNDEFINED,
-                UNDEFINED, UNDEFINED,
-                UNDEFINED
-    },
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED
+    }
 };
+// clang-format on
 
 /**
  * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.

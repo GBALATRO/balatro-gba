@@ -11,8 +11,8 @@
 #include "soundbank.h"
 
 // Card Sprites and Palettes
-#include "deck_gfx.h"
 #include "deck_big_gfx.h"
+#include "deck_gfx.h"
 #include "high_contrast_deck_pal_gfx.h"
 
 // Card sprites lookup table. First index is the suit, second index is the rank. The value is the
