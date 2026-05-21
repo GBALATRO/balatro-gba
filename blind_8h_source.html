@@ -245,21 +245,19 @@ $(document).ready(function(){initNavTree('blind_8h_source.html',''); initResizab
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">void</span> blind_init();</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> blind_set_boss_graphics(<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* tiles, <span class="keyword">const</span> u16* palette);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>u32 blind_get_requirement(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> ante);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keywordtype">int</span> blind_get_reward(<span class="keyword">enum</span> BlindType type);</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>u16 blind_get_color(<span class="keyword">enum</span> BlindType type, <span class="keyword">enum</span> BlindColorIndex index);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> init_unbeaten_blinds_list(<span class="keywordtype">bool</span> showdown);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">enum</span> BlindType roll_blind_type(<span class="keywordtype">bool</span> showdown);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keywordtype">void</span> set_blind_beaten(<span class="keyword">enum</span> BlindType type);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keywordtype">void</span> apply_blind_colors(<span class="keyword">enum</span> BlindType type);</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keywordtype">void</span> apply_blind_tiles(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> layer);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* blind_token_new(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> sprite_index);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#endif </span><span class="comment">// BLIND_H</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>u32 blind_get_requirement(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> ante);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keywordtype">int</span> blind_get_reward(<span class="keyword">enum</span> BlindType type);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>u16 blind_get_color(<span class="keyword">enum</span> BlindType type, <span class="keyword">enum</span> BlindColorIndex index);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keywordtype">void</span> init_unbeaten_blinds_list(<span class="keywordtype">bool</span> showdown);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keyword">enum</span> BlindType roll_blind_type(<span class="keywordtype">bool</span> showdown);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> set_blind_beaten(<span class="keyword">enum</span> BlindType type);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="keywordtype">void</span> apply_blind_colors(<span class="keyword">enum</span> BlindType type);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keywordtype">void</span> apply_blind_tiles(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> layer);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* blind_token_new(<span class="keyword">enum</span> BlindType type, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> sprite_index);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif </span><span class="comment">// BLIND_H</span></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
 <div class="ttc" id="astructBlind_html"><div class="ttname"><a href="structBlind.html">Blind</a></div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00097">blind.h:98</a></div></div>
 <div class="ttc" id="astructSprite_html"><div class="ttname"><a href="structSprite.html">Sprite</a></div><div class="ttdoc">Sprite struct for GBA hardware specifics.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00028">sprite.h:29</a></div></div>
