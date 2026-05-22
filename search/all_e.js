@@ -3,7 +3,7 @@ var searchData=
   ['layout_2eh_0',['layout.h',['../layout_8h.html',1,'']]],
   ['len_1',['len',['../structList.html#afed088663f8704004425cdae2120b9b3',1,'List']]],
   ['list_2',['list',['../structList.html',1,'List'],['../structListItr.html#adc5a33c24031c978eeae95cff8efea95',1,'ListItr::list'],['../list_8h.html#a61366e7da8638d66a464a4a6f4799199',1,'List:&#160;list.h']]],
-  ['list_20implementation_3',['List Implementation',['../list_8h.html#autotoc_md29',1,'']]],
+  ['list_20implementation_3',['List Implementation',['../list_8h.html#autotoc_md30',1,'']]],
   ['list_2eh_4',['list.h',['../list_8h.html',1,'']]],
   ['list_5fclear_5',['list_clear',['../list_8h.html#aac53d4a634fec0aa2adad813d0497056',1,'list.c']]],
   ['list_5fcreate_6',['list_create',['../list_8h.html#a92bbfe84653d1fedb6e463414d7bb109',1,'list.c']]],
@@ -22,5 +22,6 @@ var searchData=
   ['listitrdirection_19',['ListItrDirection',['../list_8h.html#acd43e43d3423800ffb7f1163d636d060',1,'list.h']]],
   ['listnode_20',['ListNode',['../structListNode.html',1,'']]],
   ['load_5fgame_21',['load_game',['../save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1',1,'load_game(void):&#160;save.c'],['../save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1',1,'load_game(void):&#160;save.c']]],
-  ['load_5foptions_22',['load_options',['../save_8h.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c'],['../save_8c.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c']]]
+  ['load_5foptions_22',['load_options',['../save_8h.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c'],['../save_8c.html#ac26962eff871bc587f90a94b6eef1aaf',1,'load_options(void):&#160;save.c']]],
+  ['logging_23',['Logging',['../index.html#autotoc_md16',1,'']]]
 ];

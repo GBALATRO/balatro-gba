@@ -15,6 +15,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "joker_effects.c", "joker__effects_8c_source.html", null ],
     [ "list.c", "list_8c_source.html", null ],
     [ "main.c", "main_8c_source.html", null ],
+    [ "mgba_logger.c", "mgba__logger_8c_source.html", null ],
     [ "pool.c", "pool_8c_source.html", null ],
     [ "random.c", "random_8c_source.html", null ],
     [ "save.c", "save_8c.html", "save_8c" ],

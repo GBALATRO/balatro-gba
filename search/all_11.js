@@ -1,12 +1,12 @@
 var searchData=
 [
   ['obj_0',['obj',['../structSprite.html#abdcca0516e817f6f84009b3ace44c495',1,'Sprite']]],
-  ['official_20full_20version_20from_20these_20sources_20below_3a_1',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md32',1,'']]],
-  ['on_20the_20hand_20row_20during_20round_2',['When on the hand row during round',['../md_README.html#autotoc_md36',1,'']]],
-  ['on_20the_20joker_20row_20in_20the_20shop_20or_20during_20round_3',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['official_20full_20version_20from_20these_20sources_20below_3a_1',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md33',1,'']]],
+  ['on_20the_20hand_20row_20during_20round_2',['When on the hand row during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['on_20the_20joker_20row_20in_20the_20shop_20or_20during_20round_3',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
   ['on_5fpressed_4',['on_pressed',['../structButton.html#a51656aaa63000cb64081119d2d63d5c7',1,'Button']]],
   ['options_5fmenu_2eh_5',['options_menu.h',['../options__menu_8h.html',1,'']]],
-  ['or_20during_20round_6',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md37',1,'']]],
-  ['or_20tt_20make_20tt_20installed_7',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md28',1,'']]],
-  ['out_20and_20won_20t_20compile_8',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md25',1,'']]]
+  ['or_20during_20round_6',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
+  ['or_20tt_20make_20tt_20installed_7',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
+  ['out_20and_20won_20t_20compile_8',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]]
 ];

@@ -27,18 +27,18 @@ var NAVTREE =
   [ "GBAlatro", "index.html", [
     [ "Developer Guide", "index.html", "index" ],
     [ "Balatro-GBA", "md_README.html", [
-      [ "Contributing", "md_README.html#autotoc_md38", null ],
-      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md39", [
-        [ "Disclaimer", "md_README.html#autotoc_md31", null ],
-        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md32", null ],
-        [ "Controls:", "md_README.html#autotoc_md35", [
-          [ "When on the hand row during round", "md_README.html#autotoc_md36", null ],
-          [ "When on the joker row in the shop or during round", "md_README.html#autotoc_md37", null ]
+      [ "Contributing", "md_README.html#autotoc_md39", null ],
+      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md40", [
+        [ "Disclaimer", "md_README.html#autotoc_md32", null ],
+        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md33", null ],
+        [ "Controls:", "md_README.html#autotoc_md36", [
+          [ "When on the hand row during round", "md_README.html#autotoc_md37", null ],
+          [ "When on the joker row in the shop or during round", "md_README.html#autotoc_md38", null ]
         ] ],
-        [ "<strong>Game</strong>", "md_README.html#autotoc_md40", null ],
-        [ "<strong>Music</strong>", "md_README.html#autotoc_md41", null ],
-        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md42", null ],
-        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md43", null ]
+        [ "<strong>Game</strong>", "md_README.html#autotoc_md41", null ],
+        [ "<strong>Music</strong>", "md_README.html#autotoc_md42", null ],
+        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md43", null ],
+        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md44", null ]
       ] ]
     ] ],
     [ "Data Structures", "annotated.html", [
@@ -67,7 +67,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "affine__background_8c_source.html",
-"save_8c.html#a700fd6a8d06a1534a5a66a781215b63b"
+"round__end_8h.html#a6cb075ed0669b4a5ec6c72ed98a3dbcd"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

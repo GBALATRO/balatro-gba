@@ -4,7 +4,7 @@ var searchData=
   ['read_5fsram_1',['read_sram',['../save_8c.html#a74c728ad1200cdda976410f883966567',1,'save.c']]],
   ['rect_5fheight_2',['rect_height',['../graphic__utils_8h.html#a06ee61cf542dc9bb5885fbf5a6b6e17d',1,'graphic_utils.h']]],
   ['rect_5fwidth_3',['rect_width',['../graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b',1,'graphic_utils.h']]],
-  ['required_4',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md22',1,'']]],
+  ['required_4',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md23',1,'']]],
   ['reset_5ftop_5fleft_5fpanel_5fbottom_5frow_5',['reset_top_left_panel_bottom_row',['../graphic__utils_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9',1,'graphic_utils.c']]],
   ['rev_5flist_5fitr_5fcreate_6',['rev_list_itr_create',['../list_8h.html#a9dd6c8825c0862926490ab49ec008a63',1,'list.c']]],
   ['rng_5fget_5fu32_7',['rng_get_u32',['../random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b',1,'random.c']]],
@@ -14,14 +14,14 @@ var searchData=
   ['rng_5fshuffle_5fseed_11',['rng_shuffle_seed',['../random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737',1,'random.c']]],
   ['rng_5fupdate_12',['rng_update',['../random_8h.html#a3364aa4a4ff4352d9df2222c4735151a',1,'random.c']]],
   ['rnginfo_13',['RngInfo',['../structRngInfo.html',1,'']]],
-  ['rom_14',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md26',1,'']]],
+  ['rom_14',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md27',1,'']]],
   ['rotation_15',['rotation',['../structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae',1,'SpriteObject']]],
-  ['round_16',['round',['../md_README.html#autotoc_md36',1,'When on the hand row during round'],['../md_README.html#autotoc_md37',1,'When on the joker row in the shop or during round']]],
+  ['round_16',['round',['../md_README.html#autotoc_md37',1,'When on the hand row during round'],['../md_README.html#autotoc_md38',1,'When on the joker row in the shop or during round']]],
   ['round_5fend_2eh_17',['round_end.h',['../round__end_8h.html',1,'']]],
-  ['row_20during_20round_18',['When on the hand row during round',['../md_README.html#autotoc_md36',1,'']]],
-  ['row_20in_20the_20shop_20or_20during_20round_19',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['row_20during_20round_18',['When on the hand row during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['row_20in_20the_20shop_20or_20during_20round_19',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
   ['rowgetsizefunc_20',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
   ['rowonkeytransitfunc_21',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
   ['rowonselectionchangedfunc_22',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
-  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_23',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md25',1,'']]]
+  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_23',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]]
 ];

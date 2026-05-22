@@ -22,6 +22,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "joker_gfx.h", "joker__gfx_8h_source.html", null ],
     [ "layout.h", "layout_8h.html", null ],
     [ "list.h", "list_8h.html", "list_8h" ],
+    [ "mgba_logger.h", "mgba__logger_8h.html", "mgba__logger_8h" ],
     [ "pool.h", "pool_8h_source.html", null ],
     [ "random.h", "random_8h.html", "random_8h" ],
     [ "save.h", "save_8h.html", "save_8h" ],
