@@ -472,6 +472,5 @@ void game_round_end_on_exit(void)
     sprite_destroy(&g_game_vars.playing_blind_token);
     sprite_destroy(&g_game_vars.round_end_blind_token);
     state_machine_remove(&round_end_sm);
-    shop_music();
     // TODO: Reuse sprites for blind selection?
 }

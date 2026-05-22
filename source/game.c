@@ -1413,7 +1413,6 @@ static inline void deck_shuffle(void)
 
 static void game_round_on_init(void)
 {
-    normal_music();
     hand_state = HAND_DRAW;
     cards_drawn = 0;
     hand_selections = 0;

@@ -63,13 +63,12 @@ static void game_over_init(enum EndCondition init_condition)
 
 void game_win_on_init(void)
 {
-    fast_music();
     game_over_init(END_CONDITION_WIN);
 }
 
 void game_lose_on_init(void)
 {
-    slow_music();
+    play_lose_music();
     game_over_init(END_CONDITION_LOSS);
 }
 
@@ -129,7 +128,7 @@ void game_over_on_update(void)
 
 void game_over_on_exit(void)
 {
-    normal_music();
+    play_regular_music();
     condition = END_CONDITION_NONE;
     game_reset();
 }

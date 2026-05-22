@@ -1,3 +1,9 @@
+/**
+ * @file audio_utils.c
+ *
+ * @brief Audio utility functions implementation.
+ */
+
 #include "audio_utils.h"
 
 #include "game_variables.h"
@@ -33,10 +39,9 @@ typedef struct
     s32 tempo;
 } MusicPlayerState;
 
-static const s32 DEFAULT_PITCH = 0x400;
-static const s32 DEFAULT_TEMPO = 0x400;
-static const u32 MUSIC_CHANGE_FRAMES = 30;
-
+static const u32 DEFAULT_PITCH = 0x400;
+static const u32 DEFAULT_TEMPO = 0x400;
+static const u32 MUSIC_CHANGE_FRAMES = 60;
 static MusicPlayerState music_player = {.pitch = DEFAULT_PITCH, .tempo = DEFAULT_TEMPO};
 static MusicSpeedChangeReq current_req;
 
@@ -73,40 +78,27 @@ static MusicSpeedChangeReq make_music_speed_change_req(
     return req;
 }
 
-void shop_music(void)
+void play_lose_music(void)
 {
-    const u32 shop_pitch = 0x600;
+    const u32 slow_music_speed = 0x200;
 
     MusicSpeedChangeReq req =
-        make_music_speed_change_req(shop_pitch, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
+        make_music_speed_change_req(slow_music_speed, slow_music_speed, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
-void fast_music(void)
-{
-    const u32 fast_speed = 0x800;
-
-    MusicSpeedChangeReq req =
-        make_music_speed_change_req(fast_speed, fast_speed, MUSIC_CHANGE_FRAMES);
-    request_music_speed_change(req);
-}
-
-void slow_music(void)
-{
-    const u32 slow_speed = 0x200;
-
-    MusicSpeedChangeReq req =
-        make_music_speed_change_req(slow_speed, slow_speed, MUSIC_CHANGE_FRAMES);
-    request_music_speed_change(req);
-}
-
-void normal_music(void)
+void play_regular_music(void)
 {
     MusicSpeedChangeReq req =
         make_music_speed_change_req(DEFAULT_PITCH, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
     request_music_speed_change(req);
 }
 
+/**
+ * @brief Update the tempo for the music speed state machine for audio transitions
+ *
+ * @return true if target tempo is reached, false otherwise
+ */
 static inline bool tempo_update(void)
 {
     if (abs(music_player.tempo - current_req.target_tempo) < abs(current_req.tempo_itr))
@@ -118,6 +110,11 @@ static inline bool tempo_update(void)
     return false;
 }
 
+/**
+ * @brief Update the pitch for the music speed state machine for audio transitions
+ *
+ * @return true if target pitch is reached, false otherwise
+ */
 static inline bool pitch_update(void)
 {
     if (abs(music_player.pitch - current_req.target_pitch) < abs(current_req.pitch_itr))
