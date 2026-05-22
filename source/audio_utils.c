@@ -7,6 +7,7 @@
 #include "audio_utils.h"
 
 #include "game_variables.h"
+#include "mgba_logger.h"
 #include "state_machine.h"
 
 #include <maxmod.h>
@@ -72,6 +73,10 @@ static MusicSpeedChangeReq make_music_speed_change_req(
     MusicSpeedChangeReq req;
     req.tempo_itr = (target_tempo - music_player.tempo) / num_steps;
     req.pitch_itr = (target_pitch - music_player.pitch) / num_steps;
+    // This needs to always be at least 1. Integer division above can lead to
+    // to some infinite loops.
+    req.tempo_itr |= !req.tempo_itr;
+    req.pitch_itr |= !req.pitch_itr;
     req.target_pitch = target_pitch;
     req.target_tempo = target_tempo;
     req.num_steps = num_steps;
@@ -101,7 +106,7 @@ void play_regular_music(void)
  */
 static inline bool tempo_update(void)
 {
-    if (abs(music_player.tempo - current_req.target_tempo) < abs(current_req.tempo_itr))
+    if (abs(music_player.tempo - current_req.target_tempo) <= abs(current_req.tempo_itr))
     {
         music_player.tempo = current_req.target_tempo;
         return true;
@@ -117,7 +122,7 @@ static inline bool tempo_update(void)
  */
 static inline bool pitch_update(void)
 {
-    if (abs(music_player.pitch - current_req.target_pitch) < abs(current_req.pitch_itr))
+    if (abs(music_player.pitch - current_req.target_pitch) <= abs(current_req.pitch_itr))
     {
         music_player.pitch = current_req.target_pitch;
         return true;

@@ -7,8 +7,8 @@
 #define GAME_VARIABLES_H
 
 #include "blind.h"
-#include "state_machine.h"
 #include "random.h"
+#include "state_machine.h"
 
 #include <tonc.h>
 
