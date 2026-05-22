@@ -449,10 +449,10 @@ void game_init()
     state_machine_remove(&game_sm);
     state_machine_register(&game_sm);
     // Initialize all jokers list once
-    _owned_jokers_list = list_create();
-    _discarded_jokers_list = list_create();
-    _expired_jokers_list = list_create();
-    _shop_jokers_list = list_create();
+    _owned_jokers_list = list_init();
+    _discarded_jokers_list = list_init();
+    _expired_jokers_list = list_init();
+    _shop_jokers_list = list_init();
     // TODO: Move this to an initialization of the play scoring states
     _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 

@@ -249,7 +249,7 @@ static void game_shop_create_items(void)
     List* shop_jokers_list = get_shop_jokers_list();
 
     list_clear(shop_jokers_list);
-    *shop_jokers_list = list_create();
+    *shop_jokers_list = list_init();
 
     for (int i = 0; i < MAX_SHOP_JOKERS; i++)
     {
@@ -519,7 +519,7 @@ static inline void game_shop_reroll(int* reroll_cost)
     }
 
     list_clear(shop_jokers_list);
-    *shop_jokers_list = list_create();
+    *shop_jokers_list = list_init();
 
     game_shop_create_items();
 

@@ -27,7 +27,7 @@ void state_machine_register(StateMachine* state_machine)
 
 void state_machine_remove(StateMachine* state_machine)
 {
-    list_remove_at(&update_cbs, &state_machine->active_update);
+    list_remove_data(&update_cbs, &state_machine->active_update);
 }
 
 void state_machine_update(void)

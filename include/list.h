@@ -113,21 +113,24 @@ typedef struct
 } ListItr;
 
 /**
- * Create a list.
+ * Initialize a list.
  *
- * While this function does not allocate memory for the list itself, the list does allocate memory
- * for each element. So every created list must be freed with @ref list_clear to ensure the list's
- * nodes are deleted properly.
+ * Set the values of a list to default.
+ *
+ * If using this function to reset a list, the list must be freed with @ref list_clear to ensure the
+ * list's nodes are deleted properly.
  *
  * @return A @ref List with head and tail reset.
  */
-List list_create(void);
+List list_init(void);
 
 /**
  * Clear a list.
  *
  * Go through the list and free each node and set the `head` and `tail` to `NULL`.
  * Note, it doesn't "free" the data at the node.
+ *
+ * @note To reset an existing list to default values, first call `list_clear` then @ref list_init
  *
  * @param list pointer to a @ref List to clear
  */
@@ -237,9 +240,9 @@ bool list_remove_at_idx(List* list, unsigned int idx);
  *
  * @return `true` if successfully removed, `false` otherwise
  *
- * @note When working with @ref ListItr, use @ref list_remove_at()
+ * @note When working with @ref ListItr, use @ref list_itr_remove_current_node()
  */
-bool list_remove_at(List* list, void* data);
+bool list_remove_data(List* list, void* data);
 
 /**
  * Get the number of elements in a @ref List

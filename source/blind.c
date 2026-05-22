@@ -109,8 +109,8 @@ void init_unbeaten_blinds_list(bool showdown)
     if (!init)
     {
         init = true;
-        unbeaten_showdown_blinds = list_create();
-        unbeaten_boss_blinds = list_create();
+        unbeaten_showdown_blinds = list_init();
+        unbeaten_boss_blinds = list_init();
     }
 
     List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
