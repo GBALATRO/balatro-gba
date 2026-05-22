@@ -266,7 +266,6 @@ static enum PlayState play_state = PLAY_STARTING;
 // clang-format off
 GameVariables g_game_vars = {
     .timer = 0,
-    .hand_top = -1, .hand_selections = 0,
 
     .round = 0, .ante = 0, .money = 0,
     .hand_size = DEFAULT_HAND_SIZE,
