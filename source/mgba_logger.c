@@ -40,9 +40,10 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 }
 #else
 
+// Noop stubs
 bool mgba_logger_init(void)
 {
-    return true;
+    return false;
 }
 
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...)

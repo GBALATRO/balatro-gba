@@ -17,10 +17,9 @@
  * mgba -l 14 game.rom # INFO, WARN, and ERROR
  * ```
  *
- * **Note**: You have to fight with other logs in mgba and DEBUG can get
- * messy.
+ * @note You have to fight with other logs in mgba and DEBUG can get messy.
  *
- * **Note**: FATAL does kill the game. Use with care.
+ * @note FATAL does kill the game. Use with care.
  */
 #ifndef MGBA_LOGGER_H
 #define MGBA_LOGGER_H
@@ -43,14 +42,15 @@ typedef enum
  * magic number
  */
 bool mgba_logger_init(void);
+
 /**
  * @brief Print to mgba log with a format string
- *
- * Note, for all logs, it's cutoff at the hard mgba limit of 0x100
  *
  * @param level
  * @param fmt Format string
  * @param ... variadic arguments
+ *
+ * @note for all logs, it's cutoff at the hard mgba limit of 0x100
  */
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 
