@@ -150,6 +150,8 @@ Specifically for mgba, logging can be enabled. To do this set `MGBA_LOGGING=1` w
 MGBA_LOGGING=1 make
 ```
 
+🟡 **Note**: If you don't see any logs, try running `make clean` before rebuilding
+
 Then, you can enable logging via the `-l` or `--log-level` option:
 
 ```sh
