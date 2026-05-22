@@ -52,6 +52,10 @@ CFLAGS  += $(GIT_C_FLAGS)
 
 CFLAGS	+=	$(INCLUDE)
 
+ifeq ($(MGBA_LOGGING),1)
+CFLAGS += -DMGBA_LOGGING
+endif
+
 CXXFLAGS	:=	$(CFLAGS) -fno-rtti -fno-exceptions
 
 ASFLAGS	:=	-g $(ARCH)

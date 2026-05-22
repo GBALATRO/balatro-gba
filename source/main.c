@@ -20,6 +20,7 @@
 
 // Audio
 #include "audio_utils.h"
+#include "mgba_logger.h"
 #include "soundbank.h"
 #include "soundbank_bin.h"
 
@@ -30,6 +31,10 @@ void init()
     irq_init(NULL);
     irq_add(II_VBLANK, mmVBlank);
     irq_add(II_HBLANK, affine_background_hblank);
+
+#ifdef MGBA_LOGGING
+    mgba_logger_init();
+#endif
 
     // Initialize text engine
     tte_init_se(
@@ -86,7 +91,6 @@ void init()
 
     REG_DISPCNT = DCNT_MODE1 | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_OBJ | DCNT_WIN0 |
                   DCNT_WIN1;
-
     // Initialize subsystems
     mmInitDefault((mm_addr)soundbank_bin, GBAL_MM_NUM_CHANNELS);
     load_options();
