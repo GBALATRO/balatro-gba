@@ -145,10 +145,8 @@ Data Fields</h2></td></tr>
 <tr class="separator:a4c02ef701ce922a44f9122b4f5c72cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7231929a9edafd1a068afeb7a85aadf" id="r_aa7231929a9edafd1a068afeb7a85aadf"><td class="memItemLeft" align="right" valign="top">s32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#aa7231929a9edafd1a068afeb7a85aadf">timer</a></td></tr>
 <tr class="separator:aa7231929a9edafd1a068afeb7a85aadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d84cae47d607ee08770e3ef8763a17d" id="r_a6d84cae47d607ee08770e3ef8763a17d"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#a6d84cae47d607ee08770e3ef8763a17d">rng_seed</a></td></tr>
-<tr class="separator:a6d84cae47d607ee08770e3ef8763a17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23990b00938c580802bfa6216309cf3f" id="r_a23990b00938c580802bfa6216309cf3f"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#a23990b00938c580802bfa6216309cf3f">rng_step</a></td></tr>
-<tr class="separator:a23990b00938c580802bfa6216309cf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb5d5c00a73465dca486e5c23dcbf31" id="r_aecb5d5c00a73465dca486e5c23dcbf31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structRngInfo.html">RngInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#aecb5d5c00a73465dca486e5c23dcbf31">rng_info</a></td></tr>
+<tr class="separator:aecb5d5c00a73465dca486e5c23dcbf31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93854942a5fe3ef84917a7b56353d267" id="r_a93854942a5fe3ef84917a7b56353d267"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#a93854942a5fe3ef84917a7b56353d267">round</a></td></tr>
 <tr class="separator:a93854942a5fe3ef84917a7b56353d267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2406329c63a17aa07b19ac0635600de8" id="r_a2406329c63a17aa07b19ac0635600de8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveGame.html#a2406329c63a17aa07b19ac0635600de8">ante</a></td></tr>
@@ -180,9 +178,9 @@ Data Fields</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">T[0]   </td><td class="markdownTableBodyNone">T[1]   </td><td class="markdownTableBodyNone">T[2]   </td><td class="markdownTableBodyNone">T[3]   </td><td class="markdownTableBodyNone">GLOB TIMER   </td><td class="markdownTableBodyNone">The global timer used for animations thoughout the game    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">SED[0]   </td><td class="markdownTableBodyNone">SED[1]   </td><td class="markdownTableBodyNone">SED[2]   </td><td class="markdownTableBodyNone">SED[3]   </td><td class="markdownTableBodyNone">RNG SEED   </td><td class="markdownTableBodyNone">The seed used for RNG, either randomly shuffled or chosen by the player at game start    </td></tr>
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">RNG[0]   </td><td class="markdownTableBodyNone">RNG[1]   </td><td class="markdownTableBodyNone">RNG[2]   </td><td class="markdownTableBodyNone">RNG[3]   </td><td class="markdownTableBodyNone">RNG INFO   </td><td class="markdownTableBodyNone">RNG Info struct, containing the seed used for RNG, either randomly shuffled or chosen by the player    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">STP[0]   </td><td class="markdownTableBodyNone">STP[1]   </td><td class="markdownTableBodyNone">STP[2]   </td><td class="markdownTableBodyNone">STP[3]   </td><td class="markdownTableBodyNone">RNG STEP   </td><td class="markdownTableBodyNone">The current position in the RNG sequence for the given seed, since the start of the run    </td></tr>
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">RNG[4]   </td><td class="markdownTableBodyNone">RNG[5]   </td><td class="markdownTableBodyNone">RNG[6]   </td><td class="markdownTableBodyNone">RNG[7]   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">at game start, and the current position in the RNG sequence for the given seed, since the start of the run    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">RND[0]   </td><td class="markdownTableBodyNone">RND[1]   </td><td class="markdownTableBodyNone">RND[2]   </td><td class="markdownTableBodyNone">RND[3]   </td><td class="markdownTableBodyNone">ROUND   </td><td class="markdownTableBodyNone">What Round we are about to start    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -227,7 +225,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00133">133</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00132">132</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -243,7 +241,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00138">138</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00137">137</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -259,7 +257,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00134">134</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00133">133</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -275,39 +273,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00135">135</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00134">134</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="a6d84cae47d607ee08770e3ef8763a17d" name="a6d84cae47d607ee08770e3ef8763a17d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d84cae47d607ee08770e3ef8763a17d">&#9670;&#160;</a></span>rng_seed</h2>
+<a id="aecb5d5c00a73465dca486e5c23dcbf31" name="aecb5d5c00a73465dca486e5c23dcbf31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecb5d5c00a73465dca486e5c23dcbf31">&#9670;&#160;</a></span>rng_info</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 rng_seed</td>
+          <td class="memname"><a class="el" href="structRngInfo.html">RngInfo</a> rng_info</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00130">130</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
-
-</div>
-</div>
-<a id="a23990b00938c580802bfa6216309cf3f" name="a23990b00938c580802bfa6216309cf3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23990b00938c580802bfa6216309cf3f">&#9670;&#160;</a></span>rng_step</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">u32 rng_step</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00131">131</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -323,7 +305,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00132">132</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00131">131</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -339,7 +321,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00140">140</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00139">139</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -371,7 +353,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00137">137</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00136">136</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>

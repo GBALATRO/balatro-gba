@@ -23,6 +23,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "layout.h", "layout_8h.html", null ],
     [ "list.h", "list_8h.html", "list_8h" ],
     [ "pool.h", "pool_8h_source.html", null ],
+    [ "random.h", "random_8h.html", "random_8h" ],
     [ "save.h", "save_8h.html", "save_8h" ],
     [ "selection_grid.h", "selection__grid_8h.html", "selection__grid_8h" ],
     [ "splash_screen.h", "splash__screen_8h.html", "splash__screen_8h" ],

@@ -4,5 +4,7 @@ var searchData=
   ['saveheader_5fdefault_1',['SaveHeader_default',['../save_8c.html#ad4c7a26ce01920da160afb04e0ab756f',1,'save.c']]],
   ['saveoptions_5fdefault_2',['SaveOptions_default',['../save_8c.html#a30da5688e7e13a0664958bde6af12b20',1,'save.c']]],
   ['scale_3',['scale',['../structSpriteObject.html#a6fd1da2014d2160d199c728234245594',1,'SpriteObject']]],
-  ['sprite_4',['sprite',['../structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'SpriteObject']]]
+  ['seed_4',['seed',['../structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5',1,'RngInfo']]],
+  ['sprite_5',['sprite',['../structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'SpriteObject']]],
+  ['step_6',['step',['../structRngInfo.html#add7060bb1806fc83671041faf7c1643a',1,'RngInfo']]]
 ];

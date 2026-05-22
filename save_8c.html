@@ -440,9 +440,9 @@ Variables</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">T[0]   </td><td class="markdownTableBodyNone">T[1]   </td><td class="markdownTableBodyNone">T[2]   </td><td class="markdownTableBodyNone">T[3]   </td><td class="markdownTableBodyNone">GLOB TIMER   </td><td class="markdownTableBodyNone">The global timer used for animations thoughout the game    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">SED[0]   </td><td class="markdownTableBodyNone">SED[1]   </td><td class="markdownTableBodyNone">SED[2]   </td><td class="markdownTableBodyNone">SED[3]   </td><td class="markdownTableBodyNone">RNG SEED   </td><td class="markdownTableBodyNone">The seed used for RNG, either randomly shuffled or chosen by the player at game start    </td></tr>
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">RNG[0]   </td><td class="markdownTableBodyNone">RNG[1]   </td><td class="markdownTableBodyNone">RNG[2]   </td><td class="markdownTableBodyNone">RNG[3]   </td><td class="markdownTableBodyNone">RNG INFO   </td><td class="markdownTableBodyNone">RNG Info struct, containing the seed used for RNG, either randomly shuffled or chosen by the player    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">STP[0]   </td><td class="markdownTableBodyNone">STP[1]   </td><td class="markdownTableBodyNone">STP[2]   </td><td class="markdownTableBodyNone">STP[3]   </td><td class="markdownTableBodyNone">RNG STEP   </td><td class="markdownTableBodyNone">The current position in the RNG sequence for the given seed, since the start of the run    </td></tr>
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">RNG[4]   </td><td class="markdownTableBodyNone">RNG[5]   </td><td class="markdownTableBodyNone">RNG[6]   </td><td class="markdownTableBodyNone">RNG[7]   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">at game start, and the current position in the RNG sequence for the given seed, since the start of the run    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">RND[0]   </td><td class="markdownTableBodyNone">RND[1]   </td><td class="markdownTableBodyNone">RND[2]   </td><td class="markdownTableBodyNone">RND[3]   </td><td class="markdownTableBodyNone">ROUND   </td><td class="markdownTableBodyNone">What Round we are about to start    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -567,7 +567,7 @@ Variables</h2></td></tr>
 <p>Checks the 7 chars of gbalatro_version after the "GBALATRO_VERSION" prefix representing the git hash of the code the build is based on. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the git hash of the ROM is equal to the hash saved in SRAM. false if they are different. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00225">225</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00223">223</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -604,7 +604,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the save data is valid, false if not </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00256">256</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00254">254</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -635,7 +635,7 @@ Variables</h2></td></tr>
 <p>Determines if the current build is considered "dirty" aka has uncommitted changes. This works because the gbalatro_version string has "-dirty" added at the end if it's dirty. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if version is dirty, false otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00245">245</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00243">243</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -658,7 +658,7 @@ Variables</h2></td></tr>
 <p>Load previous run data from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a9e232271002ca804d61417ca6773b07a" title="Save current run data to SRAM.">save_game</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00362">362</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00359">359</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -681,7 +681,7 @@ Variables</h2></td></tr>
 <p>Load options values from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e" title="Save options values to SRAM.">save_options</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00306">306</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00304">304</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -728,7 +728,7 @@ Variables</h2></td></tr>
 <p>Read raw binary data from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0" title="Write raw binary data to SRAM.">write_sram</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00207">207</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00205">205</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -750,7 +750,7 @@ Variables</h2></td></tr>
 
 <p>Save current run data to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00324">324</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00322">322</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -772,7 +772,7 @@ Variables</h2></td></tr>
 
 <p>Save options values to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00293">293</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00291">291</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -809,7 +809,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00274">274</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00272">272</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -863,7 +863,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00191">191</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00189">189</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -890,8 +890,7 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">    .tag_internal = <span class="stringliteral">&quot;-INTERNAL DATA -&quot;</span>,</div>
 <div class="line">    .timer = 0,</div>
-<div class="line">    .rng_seed = 0,</div>
-<div class="line">    .rng_step = 0,</div>
+<div class="line">    .rng_info = {0, 0},</div>
 <div class="line">    .round = 0,</div>
 <div class="line">    .ante = 0,</div>
 <div class="line">    .money = 0,</div>
@@ -905,7 +904,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p>Default value for the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> struct, with tags already set. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00168">168</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00167">167</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -937,7 +936,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p>Default value for the <a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> struct. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00146">146</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00145">145</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -971,7 +970,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p>Default value for the <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> struct, with tags already set. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00156">156</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00155">155</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
