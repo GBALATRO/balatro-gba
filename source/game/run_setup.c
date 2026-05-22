@@ -124,11 +124,11 @@ static const Rect     RUN_SETUP_CHOOSE_DECK_CLEAN_RIGHT_DEST              = {24,
 
 static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC          = {30, 8 , 31, 10};
 static const Rect     RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC           = {30, 11, 31, 13};
-static const BG_POINT RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS         = {5 , 14};
+static const BG_POINT RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS         = {17, 14};
 
 static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS          = {0 , 29};
 static const BG_POINT RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS = {3 , 29};
-static const Rect     RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST                 = {7 , 14, 12, 16};
+static const Rect     RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST                 = {19, 14, 24, 16};
 
 static const Rect     RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST              = {4 , 3 , 25, 5 };
 static const Rect     RUN_SETUP_CHOOSE_SEED_KEYBOARD_SRC                  = {10, 24, 31, 31};
@@ -137,7 +137,7 @@ static const BG_POINT RUN_SETUP_CHOOSE_SEED_KEYBOARD_DEST_POS             = {4 ,
 static const BG_POINT RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS                = {11, 4};
 
 static const BG_POINT RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS = RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS;
-static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {5 , 14, 12, 16};
+static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {17, 14, 24, 16};
 
 // Pixel sizes
 #define RUN_SETUP_DECK_SPRITE_T_X 48
@@ -146,8 +146,8 @@ static const BG_POINT RUN_SETUP_DECK_NAME_TEXT_POS  = {80 , 40 };
 static const BG_POINT RUN_SETUP_DECK_DESC_TEXT_POS  = {80 , 56 };
 static const Rect     RUN_SETUP_DECK_NAME_DESC_RECT = {80 , 40 ,176, 96 };
 static const BG_POINT RUN_SETUP_SEED_FIELD_TEXT_POS = {96 , 40 };
-static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS  = {56 , 120};
-static const BG_POINT RUN_SETUP_PLAY_TEXT_POS       = {136, 120};
+static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS  = {152, 120};
+static const BG_POINT RUN_SETUP_PLAY_TEXT_POS       = {76 , 120};
 static const BG_POINT RUN_SETUP_BACK_TEXT_POS       = {104, 136};
 // clang-format on
 
@@ -231,9 +231,9 @@ enum RunSetupDeckRows
 
 enum RunSetupDeckBottomButtons
 {
+    RUN_SETUP_DECK_BB_PLAY,
     RUN_SETUP_DECK_BB_USE_SEED,
     RUN_SETUP_DECK_BB_SEED,
-    RUN_SETUP_DECK_BB_PLAY,
     RUN_SETUP_DECK_BB_MAX
 };
 
@@ -274,7 +274,7 @@ static SelectionGridRow choose_deck_rows[RUN_SETUP_DECK_ROW_MAX] = {
 // clang-format on
 
 static const Selection RUN_SETUP_CHOOSE_DECK_INIT_SEL = {0, 0};
-static const Selection RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED = {1, 1};
+static const Selection RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED = {2, 1};
 
 static SelectionGrid choose_deck_selection_grid = {
     choose_deck_rows,
@@ -297,14 +297,14 @@ static Button change_deck_button = {
 // Seed button is disabled by default but can be enabled by clicking the toggle just next to it
 static Button choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_MAX] = {
     {
+        PLAY_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX,
+        play_on_pressed, NULL
+    }, {
         SEED_CHECK_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
         use_seed_on_pressed, NULL
     }, {
         SEED_DECK_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX,
         seed_on_pressed, NULL
-    }, {
-        PLAY_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX,
-        play_on_pressed, NULL
     }
 };
 // clang-format on
@@ -383,8 +383,8 @@ enum RunSetupKeyboardButtons
 
 enum RunSetupSeedBottomButtons
 {
-    RUN_SETUP_SEED_BB_DECK,
     RUN_SETUP_SEED_BB_PLAY,
+    RUN_SETUP_SEED_BB_DECK,
     RUN_SETUP_SEED_BB_MAX
 };
 
@@ -446,7 +446,7 @@ static SelectionGridRow choose_seed_selection_rows[] = {
 };
 // clang-format on
 
-static const Selection RUN_SETUP_CHOOSE_SEED_INIT_SEL = {0, 4};
+static const Selection RUN_SETUP_CHOOSE_SEED_INIT_SEL = {1, 4};
 
 static SelectionGrid choose_seed_selection_grid = {
     choose_seed_selection_rows,
@@ -587,11 +587,11 @@ static Button keyboard_buttons[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 
 static Button choose_seed_bottom_buttons[2] = {
     {
-        SEED_DECK_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX,
-        deck_on_pressed, NULL
-    }, {
         PLAY_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX,
         play_on_pressed, NULL
+    }, {
+        SEED_DECK_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX,
+        deck_on_pressed, NULL
     }
 };
 
@@ -680,10 +680,6 @@ void game_run_setup_on_update(void)
 
 void game_run_setup_on_exit(void)
 {
-    // use_seed = false;
-    // seed_cursor_pos = 0;
-    // seed_str[0] = '\0';
-
     card_destroy(&run_setup_deck->card);
     card_object_destroy(&run_setup_deck);
 
@@ -787,7 +783,7 @@ static inline Button* change_deck_get_button_from_sel(const Selection* sel)
         case RUN_SETUP_DECK_ROW_CHANGE_DECK:
             return &change_deck_button;
         case RUN_SETUP_DECK_ROW_SEED_PLAY:
-            if (sel->x > 3)
+            if (sel->x >= RUN_SETUP_DECK_BB_MAX)
             {
                 return NULL;
             }
@@ -905,8 +901,8 @@ static void seed_keyboard_substate_init(void)
     {
         button_set_highlight(&keyboard_buttons[key], false);
     }
-    button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], true);
     button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_PLAY], false);
+    button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], true);
     button_set_highlight(&back_button, false);
 
     // Print seed text
@@ -1204,7 +1200,11 @@ static void play_on_pressed(void)
     // Apply provided Seed if enabled
     if (use_seed)
     {
-        g_game_vars.rng_seed = base36_to_u32(seed_str);
+        rng_set_seed(base36_to_u32(seed_str));
+    }
+    else
+    {
+        rng_shuffle_seed();
     }
 
     game_change_state(GAME_STATE_GAME_START);

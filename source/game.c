@@ -2589,8 +2589,6 @@ static void game_playing_on_update(void)
 
 void game_start(void)
 {
-    rng_shuffle_seed();
-
     affine_background_change_background(AFFINE_BG_GAME);
 
     g_game_vars.hands = MAX_HANDS;
