@@ -153,7 +153,7 @@ MGBA_LOGGING=1 make
 Then, you can enable logging via the `-l` or `--log-level` option:
 
 ```sh
-mgba -l 7 game.rom
+mgba -l 7 build/balatro-gba.gba
 ```
 
 See [`mgba_logger.h`](include/mgba_logger.h) for details on log levels.

@@ -32,7 +32,9 @@ void init()
     irq_add(II_VBLANK, mmVBlank);
     irq_add(II_HBLANK, affine_background_hblank);
 
+#ifdef MGBA_LOGGING
     mgba_logger_init();
+#endif
 
     // Initialize text engine
     tte_init_se(

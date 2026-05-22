@@ -1,5 +1,7 @@
 #include "mgba_logger.h"
 
+#ifdef MGBA_LOGGING
+
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -27,9 +29,7 @@ bool mgba_logger_init(void)
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 {
     if (!mgba_logger_available || fmt == NULL)
-    {
         return;
-    }
 
     va_list args;
     va_start(args, fmt);
@@ -38,3 +38,15 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 
     *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level & 0x7) | MGBA_LOG_SEND;
 }
+#else
+
+bool mgba_logger_init(void)
+{
+    return true;
+}
+
+void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
+{
+}
+
+#endif

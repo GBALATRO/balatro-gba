@@ -62,11 +62,11 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 #define MGBA_INFO(...)  mgba_printf(MGBA_LOG_INFO,  __VA_ARGS__)
 #define MGBA_DEBUG(...) mgba_printf(MGBA_LOG_DEBUG, __VA_ARGS__)
 #else
-#define MGBA_FATAL(...) 
-#define MGBA_ERROR(...)
-#define MGBA_WARN(...)
-#define MGBA_INFO(...)
-#define MGBA_DEBUG(...)
+#define MGBA_FATAL(...) ((void)0)
+#define MGBA_ERROR(...) ((void)0)
+#define MGBA_WARN(...) ((void)0)
+#define MGBA_INFO(...) ((void)0)
+#define MGBA_DEBUG(...) ((void)0)
 #endif
 // clang-format on
 
