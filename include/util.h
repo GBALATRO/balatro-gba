@@ -18,6 +18,12 @@
 #define UNDEFINED -1
 
 /**
+ * @def MAX_BASE36
+ * @brief Hex value of "ZZZZZZ" in base 36
+ */
+#define MAX_BASE36 0x81BF0FFF
+
+/**
  * @def SIGN
  * @brief Get the sign (signum) of an integer
  *

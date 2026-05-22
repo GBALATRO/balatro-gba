@@ -13,11 +13,6 @@
 #include <tonc.h>
 
 /**
- * @brief Hex value of "ZZZZZZ" in base 36
- */
-#define MAX_SEED 0x81BF0FFF
-
-/**
  * @brief Information to track and restore RNG state
  */
 typedef struct

@@ -1,6 +1,7 @@
 #include "random.h"
 
 #include "game_variables.h"
+#include "util.h"
 
 #include <stdlib.h>
 #include <tonc.h>
@@ -22,7 +23,7 @@ void rng_update(void)
 
 void rng_set_seed(u32 seed)
 {
-    g_game_vars.rng_info.seed = seed % (MAX_SEED + 1);
+    g_game_vars.rng_info.seed = seed % (MAX_BASE36 + 1);
     g_game_vars.rng_info.step = 0;
     srand(g_game_vars.rng_info.seed);
 }

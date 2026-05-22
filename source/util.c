@@ -272,7 +272,7 @@ uint32_t base36_to_u32(const char b36_str[])
 void u32_to_base36(const uint32_t n, char b36_str[])
 {
     uint32_t power;
-    uint32_t acc = n;
+    uint32_t acc = (n > MAX_BASE36) ? MAX_BASE36 : n;
     for (int i = BASE36_MAX_DIGITS - 1; i >= 0; i--)
     {
         power = get_base36_power(i);
