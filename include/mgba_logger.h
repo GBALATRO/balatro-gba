@@ -29,11 +29,11 @@
 
 typedef enum
 {
-    MGBA_LOG_FATAL = 0,
-    MGBA_LOG_ERROR = 1,
-    MGBA_LOG_WARN = 2,
-    MGBA_LOG_INFO = 3,
-    MGBA_LOG_DEBUG = 4,
+    MGBA_LOG_FATAL,
+    MGBA_LOG_ERROR,
+    MGBA_LOG_WARN,
+    MGBA_LOG_INFO,
+    MGBA_LOG_DEBUG,
 } MgbaLogLevel;
 
 /**
