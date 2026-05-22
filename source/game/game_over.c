@@ -4,10 +4,10 @@
 #include "audio_utils.h"
 #include "button.h"
 #include "game.h"
-#include "game/main_menu.h"
 #include "graphic_utils.h"
 #include "layout.h"
 #include "maxmod.h"
+#include "random.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
@@ -131,4 +131,5 @@ void game_over_on_exit(void)
     play_regular_music();
     condition = END_CONDITION_NONE;
     game_reset();
+    rng_shuffle_seed();
 }

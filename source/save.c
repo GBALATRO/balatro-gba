@@ -105,8 +105,8 @@ typedef struct JokerObjectSaveData
  * 2    | 'L'    | ' '    | 'D'    | 'A'    | -            | -
  * 3    | 'T'    | 'A'    | ' '    | '-'    | -            | -
  * 4    | T[0]   | T[1]   | T[2]   | T[3]   | GLOB TIMER   | The global timer used for animations thoughout the game
- * 5    | SED[0] | SED[1] | SED[2] | SED[3] | RNG SEED     | The seed used for RNG, either randomly shuffled or chosen by the player at game start
- * 6    | STP[0] | STP[1] | STP[2] | STP[3] | RNG STEP     | The current position in the RNG sequence for the given seed, since the start of the run
+ * 5    | RNG[0] | RNG[1] | RNG[2] | RNG[3] | RNG INFO     | RNG Info struct, containing the seed used for RNG, either randomly shuffled or chosen by the player
+ * 6    | RNG[4] | RNG[5] | RNG[6] | RNG[7] | -            | at game start, and the current position in the RNG sequence for the given seed, since the start of the run
  * 7    | RND[0] | RND[1] | RND[2] | RND[3] | ROUND        | What Round we are about to start
  * 8    | ANT[0] | ANT[1] | ANT[2] | ANT[3] | ANTE         | What Ante we are on
  * 9    | MNY[0] | MNY[1] | MNY[2] | MNY[3] | MONEY        | How much money we currently have left
@@ -127,8 +127,7 @@ typedef struct SaveGame
 {
     char tag_internal[SAVE_LABEL_SIZE];
     s32 timer;
-    u32 rng_seed;
-    u32 rng_step;
+    RngInfo rng_info;
     int round;
     int ante;
     int money;
@@ -155,10 +154,10 @@ static const SaveHeader SaveHeader_default = {
  */
 static const SaveOptions SaveOptions_default = {
     .tag_options = "- OPTIONS DATA -",
-    .game_speed = 0,
-    .high_contrast = false,
-    .music_volume = 0,
-    .sound_volume = 0,
+    .game_speed = GAME_SPEED_MIN,
+    .high_contrast = DEFAULT_HIGH_CONTRAST,
+    .music_volume = VOLUME_OPTION_MAX,
+    .sound_volume = VOLUME_OPTION_MAX,
     .padding = {UNDEFINED, UNDEFINED, UNDEFINED},
 };
 
@@ -168,8 +167,7 @@ static const SaveOptions SaveOptions_default = {
 static const SaveGame SaveGame_default = {
     .tag_internal = "-INTERNAL DATA -",
     .timer = 0,
-    .rng_seed = 0,
-    .rng_step = 0,
+    .rng_info = {0, 0},
     .round = 0,
     .ante = 0,
     .money = 0,
@@ -306,12 +304,12 @@ void save_options(void)
 void load_options(void)
 {
     SaveHeader header;
-    if (!get_save_header(&header) || !(header.valid_sections & SAVE_SECTION_FLAG_OPTIONS))
-        return;
-
     SaveOptions options = SaveOptions_default;
 
-    read_sram(OPTIONS_ADDRESS, (u8*)&options, sizeof(options));
+    // If options data doesn't exist or is invalid, just don't read from
+    // SRAM and apply the default values
+    if (get_save_header(&header) && (header.valid_sections & SAVE_SECTION_FLAG_OPTIONS))
+        read_sram(OPTIONS_ADDRESS, (u8*)&options, sizeof(options));
 
     g_game_vars.game_speed = options.game_speed;
     g_game_vars.high_contrast = options.high_contrast;
@@ -328,8 +326,7 @@ void save_game(void)
     // Fixed data
 
     game.timer = g_game_vars.timer;
-    game.rng_seed = g_game_vars.rng_seed;
-    game.rng_step = g_game_vars.rng_step;
+    game.rng_info = g_game_vars.rng_info;
     game.round = g_game_vars.round;
     game.ante = g_game_vars.ante;
     game.money = g_game_vars.money;
@@ -362,25 +359,18 @@ void save_game(void)
 void load_game(void)
 {
     SaveHeader header;
+
     if (!get_save_header(&header) || !(header.valid_sections & SAVE_SECTION_FLAG_GAME))
         return;
 
     SaveGame game = SaveGame_default;
-
     read_sram(GAME_ADDRESS, (u8*)&game, sizeof(game));
 
     g_game_vars.timer = game.timer;
-    g_game_vars.rng_seed = game.rng_seed;
-    g_game_vars.rng_step = game.rng_step;
+    rng_restore(game.rng_info);
     g_game_vars.round = game.round;
     g_game_vars.ante = game.ante;
     g_game_vars.money = game.money;
 
     // TODO: load Jokers from stored minimal data
-
-    // return to where we were in the random sequence so that the run stays reproducible
-    for (u32 i = 0; i < g_game_vars.rng_step; i++)
-    {
-        (void)rand();
-    }
 }

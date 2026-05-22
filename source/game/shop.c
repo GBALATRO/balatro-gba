@@ -17,6 +17,7 @@
 #include "joker.h"
 #include "layout.h"
 #include "list.h"
+#include "random.h"
 #include "save.h"
 #include "soundbank.h"
 #include "state_machine.h"
@@ -201,7 +202,7 @@ static inline int game_shop_get_rand_available_joker_id(void)
         return UNDEFINED;
 
     int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = get_rand() % jokers_avail_size;
+    int fallback_random_idx = rng_get_u32() % jokers_avail_size;
     int fallback_random_joker_id = UNDEFINED;
     int match_count = 0;
 
@@ -220,8 +221,8 @@ static inline int game_shop_get_rand_available_joker_id(void)
         }
     }
 
-    int selected_joker_id =
-        (match_count > 0) ? matching_joker_ids[get_rand() % match_count] : fallback_random_joker_id;
+    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32() % match_count]
+                                              : fallback_random_joker_id;
 
     return selected_joker_id;
 }

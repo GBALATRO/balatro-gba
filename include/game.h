@@ -172,8 +172,6 @@ void display_mult(void);
 void display_money(void);
 void set_retrigger(bool new_retrigger);
 
-u32 get_rand(void);
-
 // joker specific functions
 bool is_shortcut_joker_active(void);
 int get_straight_and_flush_size(void);

@@ -1,5 +1,6 @@
 #include "blind_select.h"
 
+#include "affine_background.h"
 #include "audio_utils.h"
 #include "background_blind_select_gfx.h"
 #include "blind.h"
@@ -286,6 +287,13 @@ static void game_blind_select_display_blind_panel()
         main_bg_se_copy_expand_3w_row(TOP_LEFT_PANEL_ANIM_RECT, TOP_LEFT_PANEL_EMPTY_3W_ROW_POS);
 
         reset_top_left_panel_bottom_row();
+
+        if (g_game_vars.current_blind >= BLIND_TYPE_BOSS)
+        {
+            affine_background_set_color(
+                blind_get_color(g_game_vars.current_blind, BLIND_SHADOW_COLOR_INDEX)
+            );
+        }
     }
 
     // Shift the blind panel down onto screen

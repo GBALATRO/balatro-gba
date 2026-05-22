@@ -127,14 +127,6 @@ void game_main_menu_on_update(void)
     main_menu_ace->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
     card_object_update(main_menu_ace);
 
-    // Seed randomization
-    g_game_vars.rng_seed++;
-    // If the keys have changed, make it more pseudo-random
-    if (key_curr_state() != key_prev_state())
-    {
-        g_game_vars.rng_seed *= 2;
-    }
-
     selection_grid_process_input(&main_menu_selection_grid);
 }
 

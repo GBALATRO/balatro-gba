@@ -6,6 +6,7 @@
 #include "gbalatro_sys8.h"
 #include "graphic_utils.h"
 #include "joker.h"
+#include "random.h"
 #include "save.h"
 #include "sprite.h"
 
@@ -24,6 +25,8 @@
 
 void init()
 {
+    rng_init();
+
     irq_init(NULL);
     irq_add(II_VBLANK, mmVBlank);
     irq_add(II_HBLANK, affine_background_hblank);

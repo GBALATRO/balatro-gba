@@ -5,6 +5,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "pool.h"
+#include "random.h"
 #include "soundbank.h"
 #include "util.h"
 
@@ -330,7 +331,7 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 
     play_sfx(
         SFX_CARD_FOCUS,
-        MM_BASE_PITCH_RATE + get_rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+        MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
         SFX_DEFAULT_VOLUME
     );
     sprite_object->ty = sprite_object->ty + int2fx((focus ? -1 : 1) * SPRITE_FOCUS_RAISE_PX);

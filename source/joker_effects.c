@@ -4,6 +4,7 @@
 #include "joker.h"
 #include "list.h"
 #include "pool.h"
+#include "random.h"
 #include "util.h"
 
 #include <stdlib.h>
@@ -563,7 +564,7 @@ static u32 misprint_joker_effect(
 
     *joker_effect = &shared_joker_effect;
 
-    (*joker_effect)->mult = get_rand() % (MISPRINT_MAX_MULT + 1);
+    (*joker_effect)->mult = rng_get_u32() % (MISPRINT_MAX_MULT + 1);
 
     return JOKER_EFFECT_FLAG_MULT;
 }
@@ -776,7 +777,7 @@ static u32 reserved_parking_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if ((get_rand() % 2 == 0) && card_is_face(scored_card))
+    if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
     {
         *joker_effect = &shared_joker_effect;
 
@@ -798,7 +799,7 @@ static u32 business_card_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if ((get_rand() % 2 == 0) && card_is_face(scored_card))
+    if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
     {
         *joker_effect = &shared_joker_effect;
 

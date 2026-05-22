@@ -4,6 +4,7 @@
 #include "game.h"
 #include "graphic_utils.h"
 #include "list.h"
+#include "random.h"
 #include "stdbool.h"
 #include "util.h"
 
@@ -139,7 +140,7 @@ enum BlindType roll_blind_type(bool showdown)
     }
 
     // roll a random blind among the unbeaten ones
-    int random_blind_idx = get_rand() % list_get_len(p_unbeaten_blinds);
+    int random_blind_idx = rng_get_u32() % list_get_len(p_unbeaten_blinds);
     Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
 
     return random_blind->type;
