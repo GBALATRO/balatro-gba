@@ -7,7 +7,7 @@
 #define GAME_VARIABLES_H
 
 #include "blind.h"
-#include "state_machine.h"
+#include "random.h"
 
 #include <tonc.h>
 
@@ -27,6 +27,8 @@
 #define MAX_HANDS    4
 #define MAX_DISCARDS 4
 
+#define DEFAULT_HAND_SIZE 8
+
 /**
  * @brief A central location for all game variables.
  *
@@ -38,14 +40,14 @@ typedef struct
     // Internal variables
 
     s32 timer; // This might already exist in libtonc but idk so i'm just making my own
-    u32 rng_seed;
-    u32 rng_step; // Position in the rng sequence.
+    RngInfo rng_info;
 
     // Variables visible by the player
 
     s32 round;
     s32 ante;
     s32 money;
+    s32 hand_size;
 
     // Blind variables
 

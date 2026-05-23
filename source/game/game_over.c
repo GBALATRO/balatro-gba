@@ -7,6 +7,7 @@
 #include "game/main_menu.h"
 #include "graphic_utils.h"
 #include "layout.h"
+#include "random.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
@@ -128,4 +129,5 @@ void game_over_on_exit(void)
 {
     condition = END_CONDITION_NONE;
     game_reset();
+    rng_shuffle_seed();
 }
