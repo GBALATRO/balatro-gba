@@ -279,4 +279,6 @@ void u32_to_base36(const uint32_t n, char b36_str[])
         b36_str[i] = base36_digit_char(acc / power);
         acc = acc % power;
     }
+    // Properly end the string
+    b36_str[BASE36_MAX_DIGITS] = '\0';
 }
