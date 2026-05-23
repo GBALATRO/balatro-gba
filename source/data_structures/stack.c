@@ -14,7 +14,7 @@ bool stack_empty(Stack* stack)
 
 int stack_len(Stack* stack)
 {
-
+    return stack->top + 1;
 }
 
 void stack_push(Stack* stack, void* data)
