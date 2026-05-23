@@ -35,9 +35,6 @@
 
 #define SAVE_LABEL_SIZE 16
 
-#define SAVE_DATA_CLEAR_U8  0xff
-#define SAVE_DATA_CLEAR_U32 0xffffffff
-
 // clang-format off
 /**
  * @brief SaveHeader for validation checks to be packed and written to SRAM for validation.
@@ -93,7 +90,7 @@ typedef struct SaveOptions
     bool more_readable;
     u8 music_volume;
     u8 sound_volume;
-    u8 padding[11];
+    s8 padding[11];
 } SaveOptions;
 
 /**
@@ -108,10 +105,10 @@ static const SaveOptions SaveOptions_default = {
     .music_volume = VOLUME_OPTION_MAX,
     .sound_volume = VOLUME_OPTION_MAX,
     .padding = {
-        SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8,
-        SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8,
-        SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8,
-        SAVE_DATA_CLEAR_U8, SAVE_DATA_CLEAR_U8
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED
     }
 };
 // clang-format on
@@ -167,7 +164,7 @@ typedef struct SaveGame
     int round;
     int ante;
     int money;
-    u32 padding[2];
+    s32 padding[2];
 
     char tag_jokers[SAVE_LABEL_SIZE];
     JokerObjectSaveData jokers_data[MAX_JOKERS_HELD_SIZE];
@@ -186,7 +183,7 @@ static const SaveGame SaveGame_default = {
     .round = 0,
     .ante = 0,
     .money = 0,
-    .padding = {SAVE_DATA_CLEAR_U32, SAVE_DATA_CLEAR_U32},
+    .padding = {UNDEFINED, UNDEFINED},
 
     .tag_jokers = "- OWNED JOKERS -",
     .jokers_data = {},
