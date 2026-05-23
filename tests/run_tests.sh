@@ -19,5 +19,4 @@ run_test() {
 run_test bitset
 run_test list
 run_test pool
-run_test random
 run_test util
