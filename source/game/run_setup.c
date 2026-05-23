@@ -955,6 +955,23 @@ static int choose_seed_get_bottom_row_size(void)
 /**
  * @brief Deletes the last char in the seed string base-36 representation
  */
+static inline void reroll_seed_str(void)
+{
+    // Need to roll a new seed and get a "real" random number. Otherwise the seed is still stuck at
+    // 0 and we'll have the same sequence of generated seeds each time.
+    // Also, don't use the shuffled seed as is, or we'll just end up with sequential seeds when
+    // rolling multiple times.
+    rng_shuffle_seed();
+    u32 new_seed = rng_get_u32();
+    rng_set_seed(new_seed);
+    u32_to_base36(new_seed, seed_str);
+    update_seed_text();
+    seed_cursor_pos = BASE36_MAX_DIGITS;
+}
+
+/**
+ * @brief Deletes the last char in the seed string base-36 representation
+ */
 static inline void delete_seed_char(void)
 {
     if (seed_cursor_pos == 0)
@@ -1023,12 +1040,7 @@ static void keyboard_button_on_pressed(void)
         switch (key)
         {
             case RUN_SETUP_KEYBOARD_RAND:
-                // Need to roll a new seed and get a "real" random number
-                // Otherwise the seed is still stuck at 0 and we'll have the
-                // same sequence of generated seeds each time
-                rng_shuffle_seed();
-                u32_to_base36(rng_get_u32(), seed_str);
-                update_seed_text();
+                reroll_seed_str();
                 break;
             // Erase last character
             case RUN_SETUP_KEYBOARD_DEL:
