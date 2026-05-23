@@ -1,9 +1,9 @@
 
 CC := gcc
-CFLAGS := -I../../include -I. \
+CFLAGS := -I../../include -I. -I../../include/data_structures \
           -g -O3 -std=gnu23 -Wall -Werror
 SRC            := bitset_test.c         \
-                  ../../source/bitset.c
+                  ../../source/data_structures/bitset.c
 OUT            := build/bitset_test 
 
 $(OUT): $(SRC) | build
