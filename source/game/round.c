@@ -52,13 +52,13 @@ static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
 static const Selection GAME_PLAYING_INIT_SEL = {0, 1};
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
 static const BG_POINT CARD_DRAW_POS         = {208,     110};
-static const Rect ANTE_TEXT_RECT            = {8,       144,    UNDEFINED, UNDEFINED };
 static const Rect HAND_SIZE_RECT_SELECT     = {120,     128,    160,    136 };
 static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    160,    160 };
 static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
 static const BG_POINT CARD_DISCARD_PNT      = {240,     70};
 static const BG_POINT HAND_START_POS        = {120,     90};
 static const Rect PLAYED_CARDS_SCORES_RECT  = {72,      48,     240,    56  };
+static const Rect HELD_CARDS_SCORES_RECT    = {72,      108,    240,    116 };
 static const BG_POINT HAND_PLAY_POS         = {120,     70};
 
 // This is a stupid way to do this but I don't care
@@ -115,14 +115,10 @@ static FIXED lerped_temp_score = 0;
 static FIXED lerped_score = 0;
 static int deck_top = -1;
 static int discard_top = -1;
-static int played_top = -1;
 static bool score_flames_active = false;
 static bool discarded_card = false;
 static bool sound_played = false;
-static int scored_card_index = 0;
 
-
-static CardObject* played[MAX_SELECTION_SIZE] = {NULL};
 static Card* deck[MAX_DECK_SIZE] = {NULL};
 static Card* discard_pile[MAX_DECK_SIZE] = {NULL};
 
@@ -312,7 +308,7 @@ static int deck_get_size(void)
 static int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
-    return get_hand_top() + played_top + deck_top + discard_top + 4;
+    return get_hand_top() + g_game_vars.played_top + deck_top + discard_top + 4;
 }
 
 // returns true if a joker was scored, false otherwise
@@ -855,16 +851,16 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
 static inline void played_push(CardObject* card_object)
 {
-    if (played_top >= MAX_SELECTION_SIZE - 1)
+    if (g_game_vars.played_top >= MAX_SELECTION_SIZE - 1)
         return;
-    played[++played_top] = card_object;
+    played[++g_game_vars.played_top] = card_object;
 }
 
 static inline CardObject* played_pop()
 {
-    if (played_top < 0)
+    if (g_game_vars.played_top < 0)
         return NULL;
-    return played[played_top--];
+    return played[g_game_vars.played_top--];
 }
 
 static inline void select_highcard_cards_in_played_hand(void)
@@ -872,7 +868,7 @@ static inline void select_highcard_cards_in_played_hand(void)
     // find the card with the highest rank in the hand
     int highest_rank_index = 0;
 
-    for (int i = 0; i <= played_top; i++)
+    for (int i = 0; i <= g_game_vars.played_top; i++)
     {
         if (played[i]->card->rank > played[highest_rank_index]->card->rank)
         {
@@ -886,9 +882,9 @@ static inline void select_highcard_cards_in_played_hand(void)
 static inline void select_pair_cards_in_played_hand(void)
 {
     // find two cards with the same rank
-    for (int i = 0; i <= played_top - 1; i++)
+    for (int i = 0; i <= g_game_vars.played_top - 1; i++)
     {
-        for (int j = i + 1; j <= played_top; j++)
+        for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
             if (played[i]->card->rank == played[j]->card->rank)
             {
@@ -916,9 +912,9 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
         get_hand_type() == ROYAL_FLUSH)
     {
         bool flush_selection[MAX_HAND_SIZE] = {false};
-        find_flush_in_played_cards(played, played_top, min_len, flush_selection);
+        find_flush_in_played_cards(played, g_game_vars.played_top, min_len, flush_selection);
         // Add the results into the final selection
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= g_game_vars.played_top; i++)
         {
             final_selection[i] = flush_selection[i];
         }
@@ -931,23 +927,23 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
         bool straight_selection[MAX_HAND_SIZE] = {false};
         find_straight_in_played_cards(
             played,
-            played_top,
+            g_game_vars.played_top,
             is_shortcut_joker_active(),
             min_len,
             straight_selection
         );
         // Add the results into the final selection
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= g_game_vars.played_top; i++)
         {
             final_selection[i] = final_selection[i] || straight_selection[i];
         }
         // If Four Fingers is active, pairs can happen in a valid straight
         // If Four Fingers is not active, pairs are impossible so this will not affect things
-        select_paired_cards_in_hand(played, played_top, final_selection);
+        select_paired_cards_in_hand(played, g_game_vars.played_top, final_selection);
     }
 
     // Finally, set mark the cards as selected based final_selection
-    for (int i = 0; i <= played_top; i++)
+    for (int i = 0; i <= g_game_vars.played_top; i++)
     {
         if (final_selection[i])
         {
@@ -958,7 +954,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
 
 static inline void select_all_five_cards_in_played_hand(void)
 {
-    for (int i = 0; i <= played_top; i++)
+    for (int i = 0; i <= g_game_vars.played_top; i++)
     {
         card_object_set_selected(played[i], true);
     }
@@ -969,21 +965,21 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     // find four cards with the same rank
     // If there are 5 cards selected we just need to find the one card that doesn't match, and
     // select the others
-    if (played_top >= 3)
+    if (g_game_vars.played_top >= 3)
     {
         int unmatched_index = -1;
 
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= g_game_vars.played_top; i++)
         {
-            if (played[i]->card->rank != played[(i + 1) % played_top]->card->rank &&
-                played[i]->card->rank != played[(i + 2) % played_top]->card->rank)
+            if (played[i]->card->rank != played[(i + 1) % g_game_vars.played_top]->card->rank &&
+                played[i]->card->rank != played[(i + 2) % g_game_vars.played_top]->card->rank)
             {
                 unmatched_index = i;
                 break;
             }
         }
 
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= g_game_vars.played_top; i++)
         {
             if (i != unmatched_index)
             {
@@ -993,7 +989,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     }
     else // If there are only 4 cards selected we know they match
     {
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= g_game_vars.played_top; i++)
         {
             card_object_set_selected(played[i], true);
         }
@@ -1003,16 +999,16 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
 static inline void select_three_of_a_kind_cards_in_played_hand(void)
 {
     // find three cards with the same rank
-    for (int i = 0; i <= played_top - 1; i++)
+    for (int i = 0; i <= g_game_vars.played_top - 1; i++)
     {
-        for (int j = i + 1; j <= played_top; j++)
+        for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
             if (played[i]->card->rank == played[j]->card->rank)
             {
                 card_object_set_selected(played[i], true);
                 card_object_set_selected(played[j], true);
 
-                for (int k = j + 1; k <= played_top; k++)
+                for (int k = j + 1; k <= g_game_vars.played_top; k++)
                 {
                     if (played[i]->card->rank == played[k]->card->rank &&
                         !card_object_is_selected(played[k]))
@@ -1036,9 +1032,9 @@ static inline void select_two_pair_cards_in_played_hand(void)
     // find two pairs of cards with the same rank
     int i;
 
-    for (i = 0; i <= played_top - 1; i++)
+    for (i = 0; i <= g_game_vars.played_top - 1; i++)
     {
-        for (int j = i + 1; j <= played_top; j++)
+        for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
             if (played[i]->card->rank == played[j]->card->rank)
             {
@@ -1053,9 +1049,9 @@ static inline void select_two_pair_cards_in_played_hand(void)
             break;
     }
 
-    for (; i <= played_top - 1; i++) // Find second pair
+    for (; i <= g_game_vars.played_top - 1; i++) // Find second pair
     {
-        for (int j = i + 1; j <= played_top; j++)
+        for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
             if (played[i]->card->rank == played[j]->card->rank &&
                 !card_object_is_selected(played[i]) && !card_object_is_selected(played[j]))
@@ -1214,7 +1210,7 @@ static inline void cards_in_hand_update_loop(void)
                         cards_drawn = 0;
                         hand_set_nb_selected_cards(0);
                         g_game_vars.timer = TM_ZERO;
-                        scored_card_index = played_top + 1;
+                        g_game_vars.scored_card_index = g_game_vars.played_top + 1;
 
                         select_cards_in_played_hand();
                     }
@@ -1237,26 +1233,26 @@ static inline void cards_in_hand_update_loop(void)
 
 static inline void play_starting_played_cards_update(int played_idx)
 {
-    bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
-    if (played_idx == played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
+    bool card_selected = card_object_is_selected(played[g_game_vars.played_top - g_game_vars.scored_card_index]);
+    if (played_idx == g_game_vars.played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
         g_game_vars.timer > FRAMES(40))
     {
-        scored_card_index--;
+        g_game_vars.scored_card_index--;
 
-        if (scored_card_index == 0)
+        if (g_game_vars.scored_card_index == 0)
         {
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            g_game_vars.joker_scored_itr = list_itr_create(&g_game_vars.owned_jokers_list);
             g_game_vars.timer = TM_ZERO;
             play_state = PLAY_BEFORE_SCORING;
         }
     }
 
     played[played_idx]->sprite_object->tx =
-        int2fx(HAND_PLAY_POS.x) + (int2fx(played_top - played_idx) - int2fx(played_top) / 2) * -27;
+        int2fx(HAND_PLAY_POS.x) + (int2fx(g_game_vars.played_top - played_idx) - int2fx(g_game_vars.played_top) / 2) * -27;
     played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
 
     card_selected = card_object_is_selected(played[played_idx]);
-    if (card_selected && played_top - played_idx >= scored_card_index)
+    if (card_selected && g_game_vars.played_top - played_idx >= g_game_vars.scored_card_index)
     {
         played[played_idx]->sprite_object->ty -= int2fx(10);
     }
@@ -1270,18 +1266,18 @@ static inline bool play_scoring_cards_update(void)
         // We are about to score played Cards.
         // Start from the current card index
         // and seek the next scoring card
-        while (scored_card_index <= played_top &&
-               !card_object_is_selected(played[scored_card_index]))
+        while (g_game_vars.scored_card_index <= g_game_vars.played_top &&
+               !card_object_is_selected(played[g_game_vars.scored_card_index]))
         {
-            scored_card_index++;
+            g_game_vars.scored_card_index++;
         }
 
         // go to the next state if there are no cards left to score
-        if (scored_card_index > played_top)
+        if (g_game_vars.scored_card_index > g_game_vars.played_top)
         {
             // reuse these variables for held cards
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            scored_card_index = get_hand_top();
+            g_game_vars.joker_scored_itr = list_itr_create(&g_game_vars.owned_jokers_list);
+            g_game_vars.scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
 
@@ -1290,7 +1286,7 @@ static inline bool play_scoring_cards_update(void)
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
-        CardObject* scored_card_object = played[scored_card_index];
+        CardObject* scored_card_object = played[g_game_vars.scored_card_index];
 
         if (card_object_is_selected(scored_card_object))
         {
@@ -1317,8 +1313,8 @@ static inline bool play_scoring_cards_update(void)
             display_chips();
 
             // Allow Joker scoring
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
-            _joker_card_scored_end_itr = list_itr_create(&_owned_jokers_list);
+            g_game_vars.joker_scored_itr = list_itr_create(&g_game_vars.owned_jokers_list);
+            g_game_vars.joker_card_scored_end_itr = list_itr_create(&g_game_vars.owned_jokers_list);
         }
 
         play_state = PLAY_SCORING_CARD_JOKERS;
@@ -1332,7 +1328,7 @@ static inline bool play_scoring_cards_update(void)
 static inline bool play_before_scoring_cards_update(void)
 {
     // Activate Jokers with an effect just before the hand is scored
-    if (check_and_score_joker_for_event(&_joker_scored_itr, NULL, JOKER_EVENT_ON_HAND_PLAYED))
+    if (check_and_score_joker_for_event(&g_game_vars.joker_scored_itr, NULL, JOKER_EVENT_ON_HAND_PLAYED))
     {
         return true;
     }
@@ -1351,22 +1347,22 @@ static inline bool play_scoring_held_cards_update(int played_idx)
         CardObject** hand = get_hand_array();
 
         // Go through all held cards and see if they activate Jokers
-        for (; scored_card_index >= 0; scored_card_index--)
+        for (; g_game_vars.scored_card_index >= 0; g_game_vars.scored_card_index--)
         {
             if (check_and_score_joker_for_event(
-                    &_joker_scored_itr,
-                    hand[scored_card_index],
+                    &g_game_vars.joker_scored_itr,
+                    hand[g_game_vars.scored_card_index],
                     JOKER_EVENT_ON_CARD_HELD
                 ))
             {
-                card_object_shake(hand[scored_card_index], SFX_CARD_SELECT);
+                card_object_shake(hand[g_game_vars.scored_card_index], SFX_CARD_SELECT);
                 return true;
             }
-            _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+            g_game_vars.joker_scored_itr = list_itr_create(&g_game_vars.owned_jokers_list);
         }
 
-        scored_card_index = 0;
-        _joker_round_end_itr = list_itr_create(&_owned_jokers_list);
+        g_game_vars.scored_card_index = 0;
+        g_game_vars.joker_round_end_itr = list_itr_create(&g_game_vars.owned_jokers_list);
         play_state = PLAY_SCORING_INDEPENDENT_JOKERS;
     }
 
@@ -1382,10 +1378,10 @@ static inline bool play_scoring_card_jokers_update(void)
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
         // since we sought the next scoring card index in the previous state,
-        // scored_card_index is guaranteed to be a scoring card
+        // g_game_vars.scored_card_index is guaranteed to be a scoring card
         if (check_and_score_joker_for_event(
-                &_joker_scored_itr,
-                played[scored_card_index],
+                &g_game_vars.joker_scored_itr,
+                played[g_game_vars.scored_card_index],
                 JOKER_EVENT_ON_CARD_SCORED
             ))
         {
@@ -1395,14 +1391,14 @@ static inline bool play_scoring_card_jokers_update(void)
         // Trigger all Jokers that have an effect when a card finishes scoring
         // (e.g. retriggers) after activating all the other scored_card Jokers normally
         if (check_and_score_joker_for_event(
-                &_joker_card_scored_end_itr,
-                played[scored_card_index],
+                &g_game_vars.joker_card_scored_end_itr,
+                played[g_game_vars.scored_card_index],
                 JOKER_EVENT_ON_CARD_SCORED_END
             ))
         {
             // If we just scored a retrigger, return early and go back to the
             // previous state score the same card again without incrementing
-            // scored_card_index to score the current card again
+            // g_game_vars.scored_card_index to score the current card again
             if (retrigger)
             {
                 retrigger = false;
@@ -1412,7 +1408,7 @@ static inline bool play_scoring_card_jokers_update(void)
         }
 
         // increment index to start seeking the next scoring card from the next card
-        scored_card_index++;
+        g_game_vars.scored_card_index++;
         play_state = PLAY_SCORING_CARDS;
     }
 
@@ -1428,13 +1424,13 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
-        if (check_and_score_joker_for_event(&_joker_scored_itr, NULL, JOKER_EVENT_INDEPENDENT))
+        if (check_and_score_joker_for_event(&g_game_vars.joker_scored_itr, NULL, JOKER_EVENT_INDEPENDENT))
         {
             return true;
         }
 
-        scored_card_index =
-            played_top + 1; // Reset the scored card index to the top of the played stack
+        g_game_vars.scored_card_index =
+            g_game_vars.played_top + 1; // Reset the scored card index to the top of the played stack
 
         play_state = PLAY_SCORING_HAND_SCORED_END;
     }
@@ -1451,7 +1447,7 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
         bool scored = check_and_score_joker_for_event(
-            &_joker_round_end_itr,
+            &g_game_vars.joker_round_end_itr,
             NULL,
             JOKER_EVENT_ON_HAND_SCORED_END
         );
@@ -1471,18 +1467,18 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
 // sequentially
 static inline void play_ending_played_cards_update(int played_idx)
 {
-    bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
-    if (played_idx == played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
+    bool card_selected = card_object_is_selected(played[g_game_vars.played_top - g_game_vars.scored_card_index]);
+    if (played_idx == g_game_vars.played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
         g_game_vars.timer > FRAMES(40))
     {
-        scored_card_index--;
+        g_game_vars.scored_card_index--;
 
         /* SFX_CHIPS_ACCUM has been pitch shifted to perserve high frequencies in downsampling.
          * Now it needs to be pitch shifted back to the original frequency.
          */
         int static const CHIPS_ACCUM_SFX_PITCH_RATIO = 2;
 
-        if (scored_card_index == 0)
+        if (g_game_vars.scored_card_index == 0)
         {
             play_sfx(
                 SFX_CHIPS_ACCUM,
@@ -1494,7 +1490,7 @@ static inline void play_ending_played_cards_update(int played_idx)
         }
     }
 
-    if (card_object_is_selected(played[played_idx]) && played_top - played_idx >= scored_card_index)
+    if (card_object_is_selected(played[played_idx]) && g_game_vars.played_top - played_idx >= g_game_vars.scored_card_index)
     {
         played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
     }
@@ -1529,12 +1525,12 @@ static bool play_ended_played_cards_update(int played_idx)
             discard_push(played[played_idx]->card); // Push the card to the discard pile
             card_object_destroy(&played[played_idx]);
 
-            // played_top--;
+            // g_game_vars.played_top--;
             cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
             sound_played = false; // Allow for the sound for the next card to be played
 
             // we reached hand_top, all cards have been discarded
-            if (played_idx == played_top)
+            if (played_idx == g_game_vars.played_top)
             {
                 if (game_round_is_over())
                 {
@@ -1548,9 +1544,9 @@ static bool play_ended_played_cards_update(int played_idx)
                 play_state = PLAY_STARTING;
                 cards_drawn = 0;
                 hand_set_nb_selected_cards(0);
-                played_top = -1; // Reset the played stack
-                scored_card_index = 0;
-                _joker_scored_itr = list_itr_create(&_owned_jokers_list);
+                g_game_vars.played_top = -1; // Reset the played stack
+                g_game_vars.scored_card_index = 0;
+                g_game_vars.joker_scored_itr = list_itr_create(&g_game_vars.owned_jokers_list);
                 g_game_vars.timer = TM_ZERO;
             }
 
@@ -1570,7 +1566,7 @@ static inline void played_cards_update_loop(void)
     // So this one is a bit fucking weird because I have to work kinda backwards for everything
     // because of the order of the pushed cards from the hand to the play stack (also crazy that the
     // company that published Balatro is called "Playstack" and this is a play stack, but I digress)
-    for (int played_idx = 0; played_idx <= played_top; played_idx++)
+    for (int played_idx = 0; played_idx <= g_game_vars.played_top; played_idx++)
     {
         if (played[played_idx] == NULL)
         {

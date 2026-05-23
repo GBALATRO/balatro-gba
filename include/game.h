@@ -10,7 +10,6 @@
 
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_JOKERS      2 // TODO: Make this dynamic and allow for other items besides jokers
-#define MAX_SELECTION_SIZE   5
 #define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))
 
 // TODO: Can make these dynamic to support interest-related jokers and vouchers

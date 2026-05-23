@@ -7,9 +7,13 @@
 #define GAME_VARIABLES_H
 
 #include "blind.h"
+#include "card.h"
+#include "list.h"
 #include "random.h"
 
 #include <tonc.h>
+
+#define MAX_SELECTION_SIZE   5
 
 #define GAME_SPEED_MIN 1
 #define GAME_SPEED_MAX 4
@@ -69,6 +73,19 @@ typedef struct
     bool high_contrast;
     u8 music_volume;
     u8 sound_volume;
+
+    List owned_jokers_list;
+    List discarded_jokers_list;
+    List expired_jokers_list;
+
+    ListItr joker_scored_itr;
+    ListItr joker_card_scored_end_itr;
+    ListItr joker_round_end_itr;
+
+    int played_top;
+
+    CardObject* played[MAX_SELECTION_SIZE];
+    int scored_card_index;
 } GameVariables;
 
 extern GameVariables g_game_vars;
