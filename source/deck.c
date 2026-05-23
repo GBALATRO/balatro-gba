@@ -40,12 +40,12 @@ static const PrintDescCallback deck_description_functions[DECK_TYPE_MAX] = {
     print_desc_painted_deck
 };
 
-const void print_deck_name(enum DeckType deck, BG_POINT pos)
+void print_deck_name(enum DeckType deck, BG_POINT pos)
 {
     tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_WHITE_PB, deck_names[deck]);
 }
 
-const void print_deck_description(enum DeckType deck, BG_POINT pos)
+void print_deck_description(enum DeckType deck, BG_POINT pos)
 {
     if (deck_description_functions[deck] == NULL)
     {

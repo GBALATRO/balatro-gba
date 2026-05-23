@@ -31,7 +31,7 @@ enum DeckType
  * @param deck Decktype we want the name of.
  * @param pos screen position in pixels to print the name at.
  */
-const void print_deck_name(enum DeckType deck, BG_POINT pos);
+void print_deck_name(enum DeckType deck, BG_POINT pos);
 
 /**
  * @brief Prints the Deck description string to the screen at the given position.
@@ -40,6 +40,6 @@ const void print_deck_name(enum DeckType deck, BG_POINT pos);
  * @param pos screen position in pixels of the top-left corner of the rectangle
  *             we'll print the Deck description into
  */
-const void print_deck_description(enum DeckType deck, BG_POINT pos);
+void print_deck_description(enum DeckType deck, BG_POINT pos);
 
 #endif // DECK_H

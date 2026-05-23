@@ -26,4 +26,4 @@ void game_run_setup_on_update(void);
  */
 void game_run_setup_on_exit(void);
 
-#endif // GAME_START_RUN_H
+#endif // GAME_RUN_SETUP_H

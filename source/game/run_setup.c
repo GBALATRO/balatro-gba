@@ -20,7 +20,7 @@
 
 #include <tonc.h>
 
-// Palette Indicess
+// Palette Indices
 
 #define CHANGE_DECK_BTN_MAIN_COLOR_PAL_IDX   1
 #define RED_BTN_MAIN_COLOR_PAL_IDX           10

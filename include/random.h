@@ -36,7 +36,7 @@ void rng_update(void);
 
 /**
  * @brief Set the rng seed to the chosen value, and reset the step counter to 0.
- *         The seed will be capped at `MAX_SEED` for compatibility with the Seed Input screen
+ *         The seed will be capped at `MAX_BASE36` for compatibility with the Seed Input screen
  *         used to choose a seed for seeded runs.
  *
  * @param seed the new RNG seed
