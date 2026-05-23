@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['handvalues_0',['HandValues',['../structHandValues.html',1,'']]]
+  ['hand_0',['Hand',['../structHand.html',1,'']]],
+  ['handvalues_1',['HandValues',['../structHandValues.html',1,'']]]
 ];

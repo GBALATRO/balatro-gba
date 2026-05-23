@@ -15,10 +15,11 @@ var searchData=
   ['common_5fui_2eh_12',['common_ui.h',['../common__ui_8h.html',1,'']]],
   ['compile_13',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
   ['compiled_20rom_14',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md27',1,'']]],
-  ['containedhandtypes_15',['ContainedHandTypes',['../structContainedHandTypes.html',1,'']]],
-  ['contributing_16',['Contributing',['../md_README.html#autotoc_md39',1,'']]],
-  ['controls_3a_17',['Controls:',['../md_README.html#autotoc_md36',1,'']]],
-  ['credits_3a_20strong_18',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md40',1,'']]],
-  ['current_5fnode_19',['current_node',['../structListItr.html#a2c3441f4a1cd1468d52c327737bda6f6',1,'ListItr']]],
-  ['custom_20scripts_20',['Custom Scripts',['../index.html#autotoc_md14',1,'']]]
+  ['compute_5fhand_5fvalue_5finfo_15',['compute_hand_value_info',['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]],
+  ['containedhandtypes_16',['ContainedHandTypes',['../structContainedHandTypes.html',1,'']]],
+  ['contributing_17',['Contributing',['../md_README.html#autotoc_md39',1,'']]],
+  ['controls_3a_18',['Controls:',['../md_README.html#autotoc_md36',1,'']]],
+  ['credits_3a_20strong_19',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md40',1,'']]],
+  ['current_5fnode_20',['current_node',['../structListItr.html#a2c3441f4a1cd1468d52c327737bda6f6',1,'ListItr']]],
+  ['custom_20scripts_21',['Custom Scripts',['../index.html#autotoc_md14',1,'']]]
 ];

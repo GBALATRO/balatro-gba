@@ -1,0 +1,25 @@
+var hand_8c =
+[
+    [ "HandValues", "structHandValues.html", null ],
+    [ "Hand", "structHand.html", null ],
+    [ "compute_hand_value_info", "hand_8c.html#ae7bd4b295ad0106d523da0c57c798748", null ],
+    [ "find_flush_in_played_cards", "hand_8c.html#a2e66e88d21fed9071b1c725d987e28ab", null ],
+    [ "get_contained_hands", "hand_8c.html#a1e3e4d83612aa7673b107dcc155ef944", null ],
+    [ "get_hand_array", "hand_8c.html#aa5beb0f8bda5c454fea80be021e51df1", null ],
+    [ "get_hand_distribution", "hand_8c.html#a8c39bac46f180817e774ddb765326979", null ],
+    [ "get_hand_state", "hand_8c.html#a4aaf779a75b1c61697315a7d0defdfe1", null ],
+    [ "get_hand_top", "hand_8c.html#a41c74b16743c1e9a1b7409629d2a5c8e", null ],
+    [ "get_hand_type", "hand_8c.html#a3b870a7b9c35fe38077088a0a4956ef4", null ],
+    [ "get_played_distribution", "hand_8c.html#ace375f4cc13086b5d150e53892d471f8", null ],
+    [ "hand_change_sort", "hand_8c.html#ae31189b3cd0a76afd9fea79b94ea017f", null ],
+    [ "hand_deselect_all_cards", "hand_8c.html#ae964ed1f7566571c174a23be50819080", null ],
+    [ "hand_get_nb_selected_cards", "hand_8c.html#aac8c352a03a71c29be4634442721a502", null ],
+    [ "hand_nb_held_cards", "hand_8c.html#aea7ba57e47116fba93956a21de49d7a7", null ],
+    [ "hand_select_card", "hand_8c.html#ad996a34130bd7cc8511f563a1969c690", null ],
+    [ "hand_set_nb_selected_cards", "hand_8c.html#a0a039061bea3c82e0f1f86deb85fdc7d", null ],
+    [ "reorder_card_sprites_layers", "hand_8c.html#acb2998d3f72cd139e7dbc9a2a0437c28", null ],
+    [ "set_hand_state", "hand_8c.html#aaefb19d1e0ab6565858827cd31dc8cac", null ],
+    [ "set_hand_top", "hand_8c.html#ad3a7f85ee10f46e9e5434829904a923d", null ],
+    [ "sort_cards", "hand_8c.html#ae939d94185e29e1bbf44072c5d37c273", null ],
+    [ "swap_cards_in_hand", "hand_8c.html#a62aab8570b58813e94d12b33124ccf6c", null ]
+];

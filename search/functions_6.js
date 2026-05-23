@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['jokers_5fsel_5frow_5fget_5fsize_0',['jokers_sel_row_get_size',['../joker__row_8h.html#acc859dcba03228c03eb23ab24f215557',1,'joker_row.c']]],
-  ['jokers_5fsel_5frow_5fon_5fkey_5ftransit_1',['jokers_sel_row_on_key_transit',['../joker__row_8h.html#a98f49a8ea7b0012762d22095ec095b27',1,'joker_row.c']]],
-  ['jokers_5fsel_5frow_5fon_5fselection_5fchanged_2',['jokers_sel_row_on_selection_changed',['../joker__row_8h.html#a55453f830f003362afcb314bacc1efa6',1,'joker_row.c']]]
+  ['hand_5fchange_5fsort_0',['hand_change_sort',['../hand_8h.html#ae31189b3cd0a76afd9fea79b94ea017f',1,'hand_change_sort(bool to_sort_by_suit):&#160;hand.c'],['../hand_8c.html#ae31189b3cd0a76afd9fea79b94ea017f',1,'hand_change_sort(bool to_sort_by_suit):&#160;hand.c']]],
+  ['hand_5fdeselect_5fall_5fcards_1',['hand_deselect_all_cards',['../hand_8h.html#ae964ed1f7566571c174a23be50819080',1,'hand_deselect_all_cards(void):&#160;hand.c'],['../hand_8c.html#ae964ed1f7566571c174a23be50819080',1,'hand_deselect_all_cards(void):&#160;hand.c']]],
+  ['hand_5fget_5fnb_5fselected_5fcards_2',['hand_get_nb_selected_cards',['../hand_8h.html#aac8c352a03a71c29be4634442721a502',1,'hand_get_nb_selected_cards(void):&#160;hand.c'],['../hand_8c.html#aac8c352a03a71c29be4634442721a502',1,'hand_get_nb_selected_cards(void):&#160;hand.c']]],
+  ['hand_5fnb_5fheld_5fcards_3',['hand_nb_held_cards',['../hand_8h.html#aea7ba57e47116fba93956a21de49d7a7',1,'hand_nb_held_cards(void):&#160;hand.c'],['../hand_8c.html#aea7ba57e47116fba93956a21de49d7a7',1,'hand_nb_held_cards(void):&#160;hand.c']]],
+  ['hand_5fselect_5fcard_4',['hand_select_card',['../hand_8h.html#ad996a34130bd7cc8511f563a1969c690',1,'hand_select_card(int index):&#160;hand.c'],['../hand_8c.html#ad996a34130bd7cc8511f563a1969c690',1,'hand_select_card(int index):&#160;hand.c']]],
+  ['hand_5fset_5fnb_5fselected_5fcards_5',['hand_set_nb_selected_cards',['../hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c'],['../hand_8c.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c']]]
 ];
