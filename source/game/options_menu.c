@@ -521,7 +521,7 @@ static int options_menu_return_upper_rows_size(void)
 /**
  * @brief Gives the width of Card Sprites options row in selection grid.
  *
- * @returns 1
+ * @returns 2
  */
 static int options_menu_return_card_sprites_row_size(void)
 {
