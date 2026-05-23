@@ -227,22 +227,22 @@ void test_base36_conversions(void)
     snprintf(base36_str, sizeof(base36_str), "%s", "000000");
     assert(base36_to_u32(base36_str) == 0);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "100000");
+    snprintf(base36_str, sizeof(base36_str), "%s", "000001");
     assert(base36_to_u32(base36_str) == 1);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "010000");
+    snprintf(base36_str, sizeof(base36_str), "%s", "000010");
     assert(base36_to_u32(base36_str) == 36);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "001000");
+    snprintf(base36_str, sizeof(base36_str), "%s", "000100");
     assert(base36_to_u32(base36_str) == 1296);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "000100");
+    snprintf(base36_str, sizeof(base36_str), "%s", "001000");
     assert(base36_to_u32(base36_str) == 46656);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "000010");
+    snprintf(base36_str, sizeof(base36_str), "%s", "010000");
     assert(base36_to_u32(base36_str) == 1679616);
 
-    snprintf(base36_str, sizeof(base36_str), "%s", "000001");
+    snprintf(base36_str, sizeof(base36_str), "%s", "100000");
     assert(base36_to_u32(base36_str) == 60466176);
 
     // Base-36 Str => Int
@@ -250,30 +250,30 @@ void test_base36_conversions(void)
     base10_int = 0;
     u32_to_base36(base10_int, base36_str);
     assert(strcmp(base36_str, "000000") == 0);
-
+    
     base10_int = 1;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "100000") == 0);
-
+    assert(strcmp(base36_str, "000001") == 0);
+    
     base10_int = 36;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "010000") == 0);
-
+    assert(strcmp(base36_str, "000010") == 0);
+    
     base10_int = 1296;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "001000") == 0);
-
+    assert(strcmp(base36_str, "000100") == 0);
+    
     base10_int = 46656;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "000100") == 0);
-
+    assert(strcmp(base36_str, "001000") == 0);
+    
     base10_int = 1679616;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "000010") == 0);
-
+    assert(strcmp(base36_str, "010000") == 0);
+    
     base10_int = 60466176;
     u32_to_base36(base10_int, base36_str);
-    assert(strcmp(base36_str, "000001") == 0);
+    assert(strcmp(base36_str, "100000") == 0);
 
     base10_int = MAX_BASE36;
     u32_to_base36(base10_int, base36_str);
