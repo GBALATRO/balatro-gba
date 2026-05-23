@@ -191,3 +191,14 @@ uint16_t u16_protected_mult(uint16_t a, uint16_t b)
 {
     return (a == 0 || b == 0) ? 0 : (a > (UINT16_MAX / b) ? UINT16_MAX : a * b);
 }
+
+void array_shuffle(void** array, uint32_t len);
+{
+    for (int i = len - 1; i > 0; i--)
+    {
+        int j = rng_get_u32() % (i + 1);
+        void* temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}

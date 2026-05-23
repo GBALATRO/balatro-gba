@@ -111,6 +111,8 @@ void truncate_uint_to_suffixed_str(
     char out_str_buff[UINT_MAX_DIGITS + 1]
 );
 
+void array_shuffle(void** array, uint32_t len);
+
 /**
  * @brief Get the number of digits in a 32-bit unsigned number
  * https://stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c

@@ -330,10 +330,11 @@ static List _shop_jokers_list;
 static CardObject* played[MAX_SELECTION_SIZE] = {NULL};
 static int played_top = -1;
 
-static Card* deck[MAX_DECK_SIZE] = {NULL};
-static int deck_top = -1;
+//static Card* deck[MAX_DECK_SIZE] = {NULL};
+//static int deck_top = -1;
 
 STACK_DEFINE(discard_stack, MAX_DECK_SIZE)
+STACK_DEFINE(deck_stack, MAX_DECK_SIZE)
 
 // Joker Special Variables
 static int shortcut_joker_count = 0;
@@ -370,6 +371,7 @@ static inline CardObject* played_pop()
     return played[played_top--];
 }
 
+/*
 static inline void deck_push(Card* card)
 {
     if (deck_top >= MAX_DECK_SIZE - 1)
@@ -383,6 +385,7 @@ static inline Card* deck_pop()
         return NULL;
     return deck[deck_top--];
 }
+*/
 
 static inline void jokers_available_to_shop_init(void)
 {
@@ -682,10 +685,12 @@ void remove_owned_joker(int owned_joker_idx)
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
 }
 
+/*
 int get_deck_top(void)
 {
     return deck_top;
 }
+*/
 
 int get_num_discards_remaining(void)
 {
@@ -1021,7 +1026,7 @@ void display_discards(void)
 
 static int deck_get_size(void)
 {
-    return deck_top + 1;
+    return stack_len(&deck_stack);
 }
 
 static int deck_get_max_size(void)
@@ -1376,7 +1381,7 @@ static inline void game_playing_process_hand_select_input(void)
 
 static inline void card_draw(void)
 {
-    if (deck_top < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
+    if (stack_empty(&deck_stack) || get_hand_top() >= g_game_vars.hand_size - 1 ||
         get_hand_top() >= MAX_HAND_SIZE - 1)
         return;
 
