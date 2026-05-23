@@ -1,5 +1,6 @@
 #include "round.h"
 
+#include "background_gfx.h"
 #include "audio_utils.h"
 #include "button.h"
 #include "game_variables.h"
@@ -8,12 +9,15 @@
 #include "joker_row.h"
 #include "layout.h"
 #include "list.h"
+#include "stdlib.h"
 #include "selection_grid.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
 
 #include "game.h"
+
+int background_legacy = -1;
 
 #define MAX_DECK_SIZE        52
 #define SCORE_FLAMES_ANIM_FREQ  5 // animation will run at 12FPS
@@ -43,8 +47,12 @@
 
 #define SCORED_CARD_TEXT_Y 48
 
+#define BLIND_BG_SHADOW_PAL_IDX     5
+#define BLIND_BG_SECONDARY_PAL_IDX  18
+#define BLIND_BG_PRIMARY_PAL_IDX    19
+#define REWARD_PANEL_BORDER_PAL_IDX 19
+
 // Flaming score animation frames
-static const Rect SCORE_FLAME_RESET         = {26,      20,      28,     20};
 static const Rect SCORE_FLAME_FRAMES_START  = {26,      21,      28,     21};
 static const BG_POINT SCORE_FLAME_CHIPS_POS = {1,       9};
 static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
@@ -53,13 +61,27 @@ static const Selection GAME_PLAYING_INIT_SEL = {0, 1};
 static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
 static const BG_POINT CARD_DRAW_POS         = {208,     110};
 static const Rect HAND_SIZE_RECT_SELECT     = {120,     128,    160,    136 };
-static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    160,    160 };
-static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
 static const BG_POINT CARD_DISCARD_PNT      = {240,     70};
 static const BG_POINT HAND_START_POS        = {120,     90};
 static const Rect PLAYED_CARDS_SCORES_RECT  = {72,      48,     240,    56  };
 static const Rect HELD_CARDS_SCORES_RECT    = {72,      108,    240,    116 };
 static const BG_POINT HAND_PLAY_POS         = {120,     70};
+static const Rect BOSS_BLIND_TITLE_SRC_RECT = {0,       27,     8,      27 };
+static const Rect BIG_BLIND_TITLE_SRC_RECT  = {0,       26,     8,      26 };
+/* Contains the shop icon/current blind etc. 
+ * The difference between TOP_LEFT_PANEL_ANIM_RECT and TOP_LEFT_PANEL_RECT 
+ * is due to an overlap between the bottom of the top left panel
+ * and the top of the score panel in the tiles connecting them.
+ * TOP_LEFT_PANEL_ANIM_RECT should be used for animations, 
+ * TOP_LEFT_PANEL_RECT for copies etc. but mind the overlap
+ */
+static const BG_POINT TOP_LEFT_BLIND_TITLE_POINT = {0,  21, };
+static const Rect HAND_BG_RECT_SELECTING    = {9,       11,     24,     17 };
+
+// After pressing A, if we press Left/Right too fast, we should select the card
+// and change focus to the next one, instead of swapping them
+// This should fix inputs sometimes not registering when quickly selecting cards
+static const int card_swap_time_threshold = 6;
 
 // This is a stupid way to do this but I don't care
 static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
@@ -97,27 +119,33 @@ static void game_playing_execute_discard(void);
 static void display_temp_score(u32 value);
 static int deck_get_size(void);
 static int deck_get_max_size(void);
-static int hand_sel_idx_to_card_idx(int selection_index);
-static void check_flaming_score(void);
 static bool check_and_score_joker_for_event(
     ListItr* starting_joker_itr,
     CardObject* card_object,
     enum JokerEvent joker_event
 );
 
+/* Copies the appropriate item into the top left panel (blind/shop icon)
+ * from where it was put outside the screenview
+ */
+static void bg_copy_current_item_to_top_left_panel(void)
+{
+    main_bg_se_copy_rect(TOP_LEFT_ITEM_SRC_RECT, TOP_LEFT_PANEL_POINT);
+}
 
 static int cards_drawn = 0;
-static u32 chips = 0;
-static u32 mult = 0;
 static enum PlayState play_state = PLAY_STARTING;
 static u32 temp_score = 0; // This is the score that shows in the same spot as the hand type.
 static FIXED lerped_temp_score = 0;
 static FIXED lerped_score = 0;
-static int deck_top = -1;
 static int discard_top = -1;
-static bool score_flames_active = false;
 static bool discarded_card = false;
 static bool sound_played = false;
+// true if and only if we are currently moving a card around
+static bool moving_card = false;
+static s32 selection_hit_timer;
+static bool card_selected_instead_of_moved = false;
+static bool card_moved_too_fast = false;
 
 static Card* deck[MAX_DECK_SIZE] = {NULL};
 static Card* discard_pile[MAX_DECK_SIZE] = {NULL};
@@ -302,13 +330,13 @@ static void display_temp_score(u32 value)
 
 static int deck_get_size(void)
 {
-    return deck_top + 1;
+    return g_game_vars.deck_top + 1;
 }
 
 static int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
-    return get_hand_top() + g_game_vars.played_top + deck_top + discard_top + 4;
+    return get_hand_top() + g_game_vars.played_top + g_game_vars.deck_top + discard_top + 4;
 }
 
 // returns true if a joker was scored, false otherwise
@@ -330,34 +358,121 @@ static bool check_and_score_joker_for_event(
     return false;
 }
 
-// Show/Hide flaming score effect if we will score
-// more than the required amount or not
-static void check_flaming_score(void)
+static void game_playing_hand_row_on_key_transit(
+    SelectionGrid* selection_grid,
+    Selection* selection
+)
 {
-    u32 curr_score = u32_protected_mult(chips, mult);
-    u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
-    if (curr_score >= required_score && !score_flames_active)
+    if (key_hit(SELECT_CARD))
     {
-        // start flaming score
-        score_flames_active = true;
-        return;
+        selection_hit_timer = g_game_vars.timer;
     }
-    if (curr_score < required_score && score_flames_active)
+    else if (key_released(SELECT_CARD))
     {
-        // stop flaming score and clear rect
-        score_flames_active = false;
+        if (!moving_card && !card_selected_instead_of_moved)
+        {
+            hand_select_card(hand_sel_idx_to_card_idx(selection->x));
+        }
+        moving_card = false;
+        card_moved_too_fast = false;
+        card_selected_instead_of_moved = false;
+        selection_hit_timer = UNDEFINED;
+    }
+    else if (key_hit(DESELECT_CARDS))
+    {
+        hand_deselect_all_cards();
+        compute_hand_value_info();
+    }
+    else if (key_hit(PLAY_HAND_KEY))
+    {
+        game_playing_execute_play_hand();
+    }
+    else if (key_hit(DISCARD_HAND_KEY))
+    {
+        game_playing_execute_discard();
+    }
+}
 
-        Rect reset_rect = SCORE_FLAME_RESET;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_CHIPS_POS);
-        reset_rect.left += SCORE_FLAME_FRAME_WIDTH;
-        reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
+static bool game_playing_hand_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
+{
+    int prev_card_idx = UNDEFINED;
+    int next_card_idx = UNDEFINED;
+
+    // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
+    card_moved_too_fast = (selection_hit_timer != UNDEFINED) &&
+                          (g_game_vars.timer - selection_hit_timer) < card_swap_time_threshold;
+
+    if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
+    {
+        prev_card_idx = hand_sel_idx_to_card_idx(prev_selection->x);
     }
+
+    if (new_selection->y == GAME_PLAYING_HAND_SEL_Y)
+    {
+        next_card_idx = hand_sel_idx_to_card_idx(new_selection->x);
+    }
+
+    bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
+
+    if (on_the_same_row && key_is_down(SELECT_CARD) && !card_moved_too_fast &&
+        !card_selected_instead_of_moved)
+    {
+        bool moved_by_one_tile = abs(new_selection->x - prev_selection->x) == 1;
+
+        // Avoid swapping when selection wraps
+        if (!moved_by_one_tile)
+        {
+            // Abort the selection if swapping so it doesn't wrap
+            return false;
+        }
+        else
+        {
+            swap_cards_in_hand(prev_card_idx, next_card_idx);
+            moving_card = true;
+            reorder_card_sprites_layers();
+
+            /* Not calling sprite_object_set_focus() because focus is handled by
+             * cards_in_hand_update_loop() based on the selection grid value...
+             */
+            play_sfx(
+                SFX_CARD_FOCUS,
+                MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+                SFX_DEFAULT_VOLUME
+            );
+        }
+    }
+    else
+    {
+        // select current card if we tried moving it too fast
+        if (key_released(SELECT_CARD) || (card_moved_too_fast && !moving_card))
+        {
+            hand_select_card(prev_card_idx);
+            card_selected_instead_of_moved = true;
+        }
+        if (next_card_idx != UNDEFINED)
+        {
+            /* Not calling sprite_object_set_focus() because focus is handled by
+             * cards_in_hand_update_loop() based on the selection grid value...
+             */
+            play_sfx(
+                SFX_CARD_FOCUS,
+                MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+                SFX_DEFAULT_VOLUME
+            );
+        }
+    }
+
+    return true;
 }
 
 static inline void deck_shuffle(void)
 {
-    for (int i = deck_top; i > 0; i--)
+    for (int i = g_game_vars.deck_top; i > 0; i--)
     {
         int j = rng_get_u32() % (i + 1);
         Card* temp = deck[i];
@@ -437,21 +552,21 @@ void game_round_on_init(void)
 
 static inline Card* deck_pop()
 {
-    if (deck_top < 0)
+    if (g_game_vars.deck_top < 0)
         return NULL;
-    return deck[deck_top--];
+    return deck[g_game_vars.deck_top--];
 }
 
 static inline void deck_push(Card* card)
 {
-    if (deck_top >= MAX_DECK_SIZE - 1)
+    if (g_game_vars.deck_top >= MAX_DECK_SIZE - 1)
         return;
-    deck[++deck_top] = card;
+    deck[++g_game_vars.deck_top] = card;
 }
 
 static inline void card_draw(void)
 {
-    if (deck_top < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
+    if (g_game_vars.deck_top < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
         get_hand_top() >= MAX_HAND_SIZE - 1)
         return;
 
@@ -508,17 +623,17 @@ static inline void game_playing_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDING)
     {
-        if (mult > 0)
+        if (g_game_vars.mult > 0)
         {
             // protect against score overflow
-            temp_score = u32_protected_mult(chips, mult);
+            temp_score = u32_protected_mult(g_game_vars.chips, g_game_vars.mult);
             lerped_temp_score = int2fx(temp_score);
             lerped_score = int2fx(g_game_vars.score);
 
             display_temp_score(temp_score);
 
-            chips = 0;
-            mult = 0;
+            g_game_vars.chips = 0;
+            g_game_vars.mult = 0;
             display_mult();
             display_chips();
 
@@ -672,7 +787,7 @@ static inline void game_playing_process_flaming_score(void)
 {
     static u8 flame_score_frame = 0;
 
-    if (score_flames_active)
+    if (g_game_vars.score_flames_active)
     {
         if (g_game_vars.timer % SCORE_FLAMES_ANIM_FREQ == 0)
         {
@@ -690,20 +805,6 @@ static inline void game_playing_process_flaming_score(void)
             main_bg_se_copy_rect(frame_rect, SCORE_FLAME_MULT_POS);
         }
     }
-}
-
-/**
- * @brief Converts a selection index from the selection grid into a card index within the hand array
- * @param selection_index The selection index from the selection grid.
- * @return The index within the hand stack array.
- * Note that the result is not valid if hand size is 0.
- */
-static inline int hand_sel_idx_to_card_idx(int selection_index)
-{
-    // This is because the hand is drawn from right to left.
-    // There is no particular reason for why that was done, it's just how it was done.
-    // Maybe one day it can be reverted and made consistent so this conversion is not needed.
-    return hand_nb_held_cards() - selection_index - 1;
 }
 
 static inline void game_playing_ui_text_update(void)
@@ -853,14 +954,14 @@ static inline void played_push(CardObject* card_object)
 {
     if (g_game_vars.played_top >= MAX_SELECTION_SIZE - 1)
         return;
-    played[++g_game_vars.played_top] = card_object;
+    g_game_vars.played[++g_game_vars.played_top] = card_object;
 }
 
 static inline CardObject* played_pop()
 {
     if (g_game_vars.played_top < 0)
         return NULL;
-    return played[g_game_vars.played_top--];
+    return g_game_vars.played[g_game_vars.played_top--];
 }
 
 static inline void select_highcard_cards_in_played_hand(void)
@@ -870,13 +971,13 @@ static inline void select_highcard_cards_in_played_hand(void)
 
     for (int i = 0; i <= g_game_vars.played_top; i++)
     {
-        if (played[i]->card->rank > played[highest_rank_index]->card->rank)
+        if (g_game_vars.played[i]->card->rank > g_game_vars.played[highest_rank_index]->card->rank)
         {
             highest_rank_index = i;
         }
     }
 
-    card_object_set_selected(played[highest_rank_index], true);
+    card_object_set_selected(g_game_vars.played[highest_rank_index], true);
 }
 
 static inline void select_pair_cards_in_played_hand(void)
@@ -886,15 +987,15 @@ static inline void select_pair_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            if (g_game_vars.played[i]->card->rank == g_game_vars.played[j]->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(g_game_vars.played[i], true);
+                card_object_set_selected(g_game_vars.played[j], true);
                 break;
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(g_game_vars.played[i]))
             break;
     }
 }
@@ -912,7 +1013,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
         get_hand_type() == ROYAL_FLUSH)
     {
         bool flush_selection[MAX_HAND_SIZE] = {false};
-        find_flush_in_played_cards(played, g_game_vars.played_top, min_len, flush_selection);
+        find_flush_in_played_cards(g_game_vars.played, g_game_vars.played_top, min_len, flush_selection);
         // Add the results into the final selection
         for (int i = 0; i <= g_game_vars.played_top; i++)
         {
@@ -926,7 +1027,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     {
         bool straight_selection[MAX_HAND_SIZE] = {false};
         find_straight_in_played_cards(
-            played,
+            g_game_vars.played,
             g_game_vars.played_top,
             is_shortcut_joker_active(),
             min_len,
@@ -939,7 +1040,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
         }
         // If Four Fingers is active, pairs can happen in a valid straight
         // If Four Fingers is not active, pairs are impossible so this will not affect things
-        select_paired_cards_in_hand(played, g_game_vars.played_top, final_selection);
+        select_paired_cards_in_hand(g_game_vars.played, g_game_vars.played_top, final_selection);
     }
 
     // Finally, set mark the cards as selected based final_selection
@@ -947,7 +1048,7 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     {
         if (final_selection[i])
         {
-            card_object_set_selected(played[i], true);
+            card_object_set_selected(g_game_vars.played[i], true);
         }
     }
 }
@@ -956,7 +1057,7 @@ static inline void select_all_five_cards_in_played_hand(void)
 {
     for (int i = 0; i <= g_game_vars.played_top; i++)
     {
-        card_object_set_selected(played[i], true);
+        card_object_set_selected(g_game_vars.played[i], true);
     }
 }
 
@@ -971,8 +1072,8 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
 
         for (int i = 0; i <= g_game_vars.played_top; i++)
         {
-            if (played[i]->card->rank != played[(i + 1) % g_game_vars.played_top]->card->rank &&
-                played[i]->card->rank != played[(i + 2) % g_game_vars.played_top]->card->rank)
+            if (g_game_vars.played[i]->card->rank != g_game_vars.played[(i + 1) % g_game_vars.played_top]->card->rank &&
+                g_game_vars.played[i]->card->rank != g_game_vars.played[(i + 2) % g_game_vars.played_top]->card->rank)
             {
                 unmatched_index = i;
                 break;
@@ -983,7 +1084,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
         {
             if (i != unmatched_index)
             {
-                card_object_set_selected(played[i], true);
+                card_object_set_selected(g_game_vars.played[i], true);
             }
         }
     }
@@ -991,7 +1092,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     {
         for (int i = 0; i <= g_game_vars.played_top; i++)
         {
-            card_object_set_selected(played[i], true);
+            card_object_set_selected(g_game_vars.played[i], true);
         }
     }
 }
@@ -1003,17 +1104,17 @@ static inline void select_three_of_a_kind_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            if (g_game_vars.played[i]->card->rank == g_game_vars.played[j]->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(g_game_vars.played[i], true);
+                card_object_set_selected(g_game_vars.played[j], true);
 
                 for (int k = j + 1; k <= g_game_vars.played_top; k++)
                 {
-                    if (played[i]->card->rank == played[k]->card->rank &&
-                        !card_object_is_selected(played[k]))
+                    if (g_game_vars.played[i]->card->rank == g_game_vars.played[k]->card->rank &&
+                        !card_object_is_selected(g_game_vars.played[k]))
                     {
-                        card_object_set_selected(played[k], true);
+                        card_object_set_selected(g_game_vars.played[k], true);
                         break;
                     }
                 }
@@ -1022,7 +1123,7 @@ static inline void select_three_of_a_kind_cards_in_played_hand(void)
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(g_game_vars.played[i]))
             break;
     }
 }
@@ -1036,16 +1137,16 @@ static inline void select_two_pair_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank)
+            if (g_game_vars.played[i]->card->rank == g_game_vars.played[j]->card->rank)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(g_game_vars.played[i], true);
+                card_object_set_selected(g_game_vars.played[j], true);
 
                 break;
             }
         }
 
-        if (card_object_is_selected(played[i]))
+        if (card_object_is_selected(g_game_vars.played[i]))
             break;
     }
 
@@ -1053,11 +1154,11 @@ static inline void select_two_pair_cards_in_played_hand(void)
     {
         for (int j = i + 1; j <= g_game_vars.played_top; j++)
         {
-            if (played[i]->card->rank == played[j]->card->rank &&
-                !card_object_is_selected(played[i]) && !card_object_is_selected(played[j]))
+            if (g_game_vars.played[i]->card->rank == g_game_vars.played[j]->card->rank &&
+                !card_object_is_selected(g_game_vars.played[i]) && !card_object_is_selected(g_game_vars.played[j]))
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                card_object_set_selected(g_game_vars.played[i], true);
+                card_object_set_selected(g_game_vars.played[j], true);
                 break;
             }
         }
@@ -1233,7 +1334,7 @@ static inline void cards_in_hand_update_loop(void)
 
 static inline void play_starting_played_cards_update(int played_idx)
 {
-    bool card_selected = card_object_is_selected(played[g_game_vars.played_top - g_game_vars.scored_card_index]);
+    bool card_selected = card_object_is_selected(g_game_vars.played[g_game_vars.played_top - g_game_vars.scored_card_index]);
     if (played_idx == g_game_vars.played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
         g_game_vars.timer > FRAMES(40))
     {
@@ -1247,14 +1348,14 @@ static inline void play_starting_played_cards_update(int played_idx)
         }
     }
 
-    played[played_idx]->sprite_object->tx =
+    g_game_vars.played[played_idx]->sprite_object->tx =
         int2fx(HAND_PLAY_POS.x) + (int2fx(g_game_vars.played_top - played_idx) - int2fx(g_game_vars.played_top) / 2) * -27;
-    played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+    g_game_vars.played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
 
-    card_selected = card_object_is_selected(played[played_idx]);
+    card_selected = card_object_is_selected(g_game_vars.played[played_idx]);
     if (card_selected && g_game_vars.played_top - played_idx >= g_game_vars.scored_card_index)
     {
-        played[played_idx]->sprite_object->ty -= int2fx(10);
+        g_game_vars.played[played_idx]->sprite_object->ty -= int2fx(10);
     }
 }
 
@@ -1267,7 +1368,7 @@ static inline bool play_scoring_cards_update(void)
         // Start from the current card index
         // and seek the next scoring card
         while (g_game_vars.scored_card_index <= g_game_vars.played_top &&
-               !card_object_is_selected(played[g_game_vars.scored_card_index]))
+               !card_object_is_selected(g_game_vars.played[g_game_vars.scored_card_index]))
         {
             g_game_vars.scored_card_index++;
         }
@@ -1286,7 +1387,7 @@ static inline bool play_scoring_cards_update(void)
 
         tte_erase_rect_wrapper(PLAYED_CARDS_SCORES_RECT);
 
-        CardObject* scored_card_object = played[g_game_vars.scored_card_index];
+        CardObject* scored_card_object = g_game_vars.played[g_game_vars.scored_card_index];
 
         if (card_object_is_selected(scored_card_object))
         {
@@ -1309,7 +1410,7 @@ static inline bool play_scoring_cards_update(void)
             card_object_shake(scored_card_object, SFX_CHIPS_CARD);
 
             // Relocated card scoring logic here
-            chips = u32_protected_add(chips, card_value);
+            g_game_vars.chips = u32_protected_add(g_game_vars.chips, card_value);
             display_chips();
 
             // Allow Joker scoring
@@ -1381,7 +1482,7 @@ static inline bool play_scoring_card_jokers_update(void)
         // g_game_vars.scored_card_index is guaranteed to be a scoring card
         if (check_and_score_joker_for_event(
                 &g_game_vars.joker_scored_itr,
-                played[g_game_vars.scored_card_index],
+                g_game_vars.played[g_game_vars.scored_card_index],
                 JOKER_EVENT_ON_CARD_SCORED
             ))
         {
@@ -1392,16 +1493,17 @@ static inline bool play_scoring_card_jokers_update(void)
         // (e.g. retriggers) after activating all the other scored_card Jokers normally
         if (check_and_score_joker_for_event(
                 &g_game_vars.joker_card_scored_end_itr,
-                played[g_game_vars.scored_card_index],
+                g_game_vars.played[g_game_vars.scored_card_index],
                 JOKER_EVENT_ON_CARD_SCORED_END
             ))
         {
             // If we just scored a retrigger, return early and go back to the
             // previous state score the same card again without incrementing
             // g_game_vars.scored_card_index to score the current card again
-            if (retrigger)
+            if (get_retrigger())
             {
-                retrigger = false;
+                set_retrigger(false);
+                //retrigger = false;
                 play_state = PLAY_SCORING_CARDS;
             }
             return true;
@@ -1467,7 +1569,7 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
 // sequentially
 static inline void play_ending_played_cards_update(int played_idx)
 {
-    bool card_selected = card_object_is_selected(played[g_game_vars.played_top - g_game_vars.scored_card_index]);
+    bool card_selected = card_object_is_selected(g_game_vars.played[g_game_vars.played_top - g_game_vars.scored_card_index]);
     if (played_idx == g_game_vars.played_top && (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &&
         g_game_vars.timer > FRAMES(40))
     {
@@ -1490,9 +1592,9 @@ static inline void play_ending_played_cards_update(int played_idx)
         }
     }
 
-    if (card_object_is_selected(played[played_idx]) && g_game_vars.played_top - played_idx >= g_game_vars.scored_card_index)
+    if (card_object_is_selected(g_game_vars.played[played_idx]) && g_game_vars.played_top - played_idx >= g_game_vars.scored_card_index)
     {
-        played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+        g_game_vars.played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
     }
 }
 
@@ -1520,10 +1622,10 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // card has exited the screen, now discard it and set it to NULL
-        if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
+        if (g_game_vars.played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
         {
-            discard_push(played[played_idx]->card); // Push the card to the discard pile
-            card_object_destroy(&played[played_idx]);
+            discard_push(g_game_vars.played[played_idx]->card); // Push the card to the discard pile
+            card_object_destroy(&g_game_vars.played[played_idx]);
 
             // g_game_vars.played_top--;
             cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
@@ -1550,11 +1652,11 @@ static bool play_ended_played_cards_update(int played_idx)
                 g_game_vars.timer = TM_ZERO;
             }
 
-            return true; // return early to avoid accessing played[played_idx] == NULL
+            return true; // return early to avoid accessing g_game_vars.played[played_idx] == NULL
         }
 
         // put target X position off screen to the right
-        played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
+        g_game_vars.played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
         discarded_card = true;
     }
 
@@ -1568,15 +1670,15 @@ static inline void played_cards_update_loop(void)
     // company that published Balatro is called "Playstack" and this is a play stack, but I digress)
     for (int played_idx = 0; played_idx <= g_game_vars.played_top; played_idx++)
     {
-        if (played[played_idx] == NULL)
+        if (g_game_vars.played[played_idx] == NULL)
         {
             continue;
         }
 
-        if (card_object_get_sprite(played[played_idx]) == NULL)
+        if (card_object_get_sprite(g_game_vars.played[played_idx]) == NULL)
         {
             // Set the sprite for the played card object
-            card_object_set_sprite(played[played_idx], played_idx + MAX_HAND_SIZE);
+            card_object_set_sprite(g_game_vars.played[played_idx], played_idx + MAX_HAND_SIZE);
         }
 
         switch (play_state)
@@ -1652,8 +1754,8 @@ static inline void played_cards_update_loop(void)
                 break;
         }
 
-        played[played_idx]->sprite_object->tscale = FIX_ONE;
-        card_object_update(played[played_idx]);
+        g_game_vars.played[played_idx]->sprite_object->tscale = FIX_ONE;
+        card_object_update(g_game_vars.played[played_idx]);
     }
 }
 
@@ -1687,4 +1789,84 @@ void game_round_on_update(void)
 
     // animate score flames if we exceed the score requirement
     game_playing_process_flaming_score();
+}
+
+void game_round_selecting_change_background(void)
+{
+    tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
+    REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
+
+    if (background_legacy == BG_CARD_PLAYING)
+    {
+        int offset = 11;
+        memcpy16(
+            &se_mem[MAIN_BG_SBB][SE_ROW_LEN * offset],
+            &background_gfxMap[SE_ROW_LEN * offset],
+            SE_ROW_LEN * 8
+        );
+    }
+    else
+    {
+        toggle_windows(true, true); // Enable window 0 for the hand shadow
+
+        // Load the tiles and palette
+        // Background
+        GRIT_CPY(pal_bg_mem, background_gfxPal);
+        GRIT_CPY(&tile8_mem[MAIN_BG_CBB], background_gfxTiles);
+        GRIT_CPY(&se_mem[MAIN_BG_SBB], background_gfxMap);
+
+        if (g_game_vars.current_blind ==
+            BLIND_TYPE_BIG) // Change text and palette depending on blind type
+        {
+            main_bg_se_copy_rect(BIG_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
+        }
+        else if (g_game_vars.current_blind >= BLIND_TYPE_BOSS)
+        {
+            main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
+        }
+
+        bg_copy_current_item_to_top_left_panel();
+
+        // This would change the palette of the background to match the blind, but the backgroun
+        // doesn't use the blind token's exact colors so a different approach is required
+        memset16(
+            &pal_bg_mem[BLIND_BG_PRIMARY_PAL_IDX],
+            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
+            1
+        );
+        memset16(
+            &pal_bg_mem[BLIND_BG_SECONDARY_PAL_IDX],
+            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SECONDARY_COLOR_INDEX),
+            1
+        );
+        memset16(
+            &pal_bg_mem[BLIND_BG_SHADOW_PAL_IDX],
+            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
+            1
+        );
+
+        for (int i = 0; i < NUM_ELEM_IN_ARR(game_playing_buttons); i++)
+        {
+            button_set_highlight(&game_playing_buttons[i], false);
+        }
+    }
+}
+
+void game_round_playing_change_background(void)
+{
+    if (background_legacy != BG_CARD_SELECTING)
+    {
+        change_background(BG_CARD_SELECTING, false);
+        background_legacy = BG_CARD_PLAYING;
+    }
+
+    REG_WIN0V = (REG_WIN0V << 8) | 0xA0; // Set window 0 bottom to 160
+    toggle_windows(true, true);
+
+    for (int i = 0; i <= 2; i++)
+    {
+        main_bg_se_move_rect_1_tile_vert(HAND_BG_RECT_SELECTING, SCREEN_DOWN);
+    }
+
+    tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
 }

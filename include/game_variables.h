@@ -77,15 +77,16 @@ typedef struct
     List owned_jokers_list;
     List discarded_jokers_list;
     List expired_jokers_list;
-
     ListItr joker_scored_itr;
     ListItr joker_card_scored_end_itr;
     ListItr joker_round_end_itr;
-
     int played_top;
-
     CardObject* played[MAX_SELECTION_SIZE];
     int scored_card_index;
+    int deck_top;
+    u32 chips;
+    u32 mult;
+    bool score_flames_active;
 } GameVariables;
 
 extern GameVariables g_game_vars;

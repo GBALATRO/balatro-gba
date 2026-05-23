@@ -6,6 +6,8 @@
 #include "game/options_menu.h"
 #include "game/round_end.h"
 #include "game/shop.h"
+#include "round.h"
+#include "round.h"
 
 typedef void (*BackgroundRenderCallback)(void);
 
@@ -14,8 +16,8 @@ static enum BackgroundId background = BG_NONE;
 // Map to fill in for refactor
 static const BackgroundRenderCallback bgCallbacks[] = {
     [BG_NONE] = NULL,
-    [BG_CARD_SELECTING] = NULL,
-    [BG_CARD_PLAYING] = NULL,
+    [BG_CARD_SELECTING] = game_round_selecting_change_background,
+    [BG_CARD_PLAYING] = game_round_playing_change_background,
     [BG_ROUND_END] = game_round_end_change_background,
     [BG_SHOP] = game_shop_change_background,
     [BG_BLIND_SELECT] = game_blind_select_change_background,

@@ -51,11 +51,6 @@
 // TODO: Rename "PID" to "PAL_IDX"
 // Palette IDs
 
-#define BLIND_BG_SHADOW_PAL_IDX     5
-#define BLIND_BG_SECONDARY_PAL_IDX  18
-#define BLIND_BG_PRIMARY_PAL_IDX    19
-#define REWARD_PANEL_BORDER_PAL_IDX 19
-
 // Naming the stage where cards return from the discard pile to the deck "undiscard"
 
 /* This needs to stay a power of 2 and small enough
@@ -78,18 +73,6 @@
 // This is because when popping, the target position is blank so we just animate 
 // the whole rect so we don't have to track its position
 
-static const Rect HAND_BG_RECT_SELECTING    = {9,       11,     24,     17 };
-
-/* Contains the shop icon/current blind etc. 
- * The difference between TOP_LEFT_PANEL_ANIM_RECT and TOP_LEFT_PANEL_RECT 
- * is due to an overlap between the bottom of the top left panel
- * and the top of the score panel in the tiles connecting them.
- * TOP_LEFT_PANEL_ANIM_RECT should be used for animations, 
- * TOP_LEFT_PANEL_RECT for copies etc. but mind the overlap
- */
-static const BG_POINT TOP_LEFT_BLIND_TITLE_POINT = {0,  21, };
-static const Rect BIG_BLIND_TITLE_SRC_RECT  = {0,       26,     8,      26 };
-static const Rect BOSS_BLIND_TITLE_SRC_RECT = {0,       27,     8,      27 };
 
 // Rects for TTE (in pixels)
 // Score displayed in the same place as the hand type
@@ -151,8 +134,49 @@ GameVariables g_game_vars = {
     .high_contrast = DEFAULT_HIGH_CONTRAST,
     .music_volume = DEFAULT_MUSIC_VOLUME,
     .sound_volume = DEFAULT_SOUND_VOLUME,
+
+    .owned_jokers_list = LIST_DEFAULT,
+    .discarded_jokers_list = LIST_DEFAULT,
+    .expired_jokers_list = LIST_DEFAULT,
+    //.joker_scored_itr;
+    //.joker_card_scored_end_itr;
+    //.joker_round_end_itr;
+    .played = {NULL},
+    .scored_card_index = 0,
+    .played_top = -1,
+    .deck_top = -1,
 };
 // clang-format on
+
+#define SCORE_FLAME_FRAME_WIDTH 3 // so we only need to offset to get the next ones
+static const Rect SCORE_FLAME_RESET         = {26,      20,      28,     20};
+static const BG_POINT SCORE_FLAME_CHIPS_POS = {1,       9};
+static const BG_POINT SCORE_FLAME_MULT_POS  = {5,       9};
+
+// Show/Hide flaming score effect if we will score
+// more than the required amount or not
+static void check_flaming_score(void)
+{
+    u32 curr_score = u32_protected_mult(g_game_vars.chips, g_game_vars.mult);
+    u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
+    if (curr_score >= required_score && !g_game_vars.score_flames_active)
+    {
+        // start flaming score
+        g_game_vars.score_flames_active = true;
+        return;
+    }
+    if (curr_score < required_score && g_game_vars.score_flames_active)
+    {
+        // stop flaming score and clear rect
+        g_game_vars.score_flames_active = false;
+
+        Rect reset_rect = SCORE_FLAME_RESET;
+        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_CHIPS_POS);
+        reset_rect.left += SCORE_FLAME_FRAME_WIDTH;
+        reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
+        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
+    }
+}
 
 static bool retrigger = false;
 
@@ -486,7 +510,7 @@ void remove_owned_joker(int owned_joker_idx)
 
 int get_deck_top(void)
 {
-    return deck_top;
+    return g_game_vars.deck_top;
 }
 
 int get_num_discards_remaining(void)
@@ -501,27 +525,32 @@ int get_num_hands_remaining(void)
 
 u32 get_chips(void)
 {
-    return chips;
+    return g_game_vars.chips;
 }
 
 void set_chips(u32 new_chips)
 {
-    chips = new_chips;
+    g_game_vars.chips = new_chips;
 }
 
 u32 get_mult(void)
 {
-    return mult;
+    return g_game_vars.mult;
 }
 
 void set_mult(u32 new_mult)
 {
-    mult = new_mult;
+    g_game_vars.mult = new_mult;
 }
 
 void set_retrigger(bool new_retrigger)
 {
     retrigger = new_retrigger;
+}
+
+bool get_retrigger(void)
+{
+    return retrigger;
 }
 
 void display_money()
@@ -555,7 +584,7 @@ void display_chips(void)
 
     char chips_str_buff[UINT_MAX_DIGITS + 1];
     truncate_uint_to_suffixed_str(
-        chips,
+        g_game_vars.chips,
         rect_width(&chips_text_rect) / TTE_CHAR_SIZE,
         chips_str_buff
     );
@@ -580,7 +609,7 @@ void display_mult(void)
     tte_erase_rect_wrapper(mult_text_overflow_rect);
 
     char mult_str_buff[UINT_MAX_DIGITS + 1];
-    truncate_uint_to_suffixed_str(mult, rect_width(&MULT_TEXT_RECT) / TTE_CHAR_SIZE, mult_str_buff);
+    truncate_uint_to_suffixed_str(g_game_vars.mult, rect_width(&MULT_TEXT_RECT) / TTE_CHAR_SIZE, mult_str_buff);
 
     tte_printf(
         "#{P:%d,%d; cx:0x%X000;}%s",
@@ -603,99 +632,13 @@ bool card_is_face(Card* card)
     );
 }
 
-/* Copies the appropriate item into the top left panel (blind/shop icon)
- * from where it was put outside the screenview
- */
-static void bg_copy_current_item_to_top_left_panel(void)
-{
-    main_bg_se_copy_rect(TOP_LEFT_ITEM_SRC_RECT, TOP_LEFT_PANEL_POINT);
-}
-
 void change_background_legacy(enum BackgroundId id)
 {
     if (background_legacy == id)
     {
         return;
     }
-    else if (id == BG_CARD_SELECTING)
-    {
-        tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
-        REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
-
-        if (background_legacy == BG_CARD_PLAYING)
-        {
-            int offset = 11;
-            memcpy16(
-                &se_mem[MAIN_BG_SBB][SE_ROW_LEN * offset],
-                &background_gfxMap[SE_ROW_LEN * offset],
-                SE_ROW_LEN * 8
-            );
-        }
-        else
-        {
-            toggle_windows(true, true); // Enable window 0 for the hand shadow
-
-            // Load the tiles and palette
-            // Background
-            GRIT_CPY(pal_bg_mem, background_gfxPal);
-            GRIT_CPY(&tile8_mem[MAIN_BG_CBB], background_gfxTiles);
-            GRIT_CPY(&se_mem[MAIN_BG_SBB], background_gfxMap);
-
-            if (g_game_vars.current_blind ==
-                BLIND_TYPE_BIG) // Change text and palette depending on blind type
-            {
-                main_bg_se_copy_rect(BIG_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
-            }
-            else if (g_game_vars.current_blind >= BLIND_TYPE_BOSS)
-            {
-                main_bg_se_copy_rect(BOSS_BLIND_TITLE_SRC_RECT, TOP_LEFT_BLIND_TITLE_POINT);
-            }
-
-            bg_copy_current_item_to_top_left_panel();
-
-            // This would change the palette of the background to match the blind, but the backgroun
-            // doesn't use the blind token's exact colors so a different approach is required
-            memset16(
-                &pal_bg_mem[BLIND_BG_PRIMARY_PAL_IDX],
-                blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),
-                1
-            );
-            memset16(
-                &pal_bg_mem[BLIND_BG_SECONDARY_PAL_IDX],
-                blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SECONDARY_COLOR_INDEX),
-                1
-            );
-            memset16(
-                &pal_bg_mem[BLIND_BG_SHADOW_PAL_IDX],
-                blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),
-                1
-            );
-
-            for (int i = 0; i < NUM_ELEM_IN_ARR(game_playing_buttons); i++)
-            {
-                button_set_highlight(&game_playing_buttons[i], false);
-            }
-        }
-    }
-    else if (id == BG_CARD_PLAYING)
-    {
-        if (background_legacy != BG_CARD_SELECTING)
-        {
-            change_background(BG_CARD_SELECTING, false);
-            background_legacy = BG_CARD_PLAYING;
-        }
-
-        REG_WIN0V = (REG_WIN0V << 8) | 0xA0; // Set window 0 bottom to 160
-        toggle_windows(true, true);
-
-        for (int i = 0; i <= 2; i++)
-        {
-            main_bg_se_move_rect_1_tile_vert(HAND_BG_RECT_SELECTING, SCREEN_DOWN);
-        }
-
-        tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
-    }
-    else if (id == BG_MAIN_MENU || id == BG_BLIND_SELECT || id == BG_SHOP || id == BG_ROUND_END)
+    else if (id == BG_MAIN_MENU || id == BG_BLIND_SELECT || id == BG_SHOP || id == BG_ROUND_END || id == BG_CARD_SELECTING || id == BG_CARD_PLAYING)
     {
         // do nothing, just don't return early!
     }
@@ -764,131 +707,9 @@ void display_discards(void)
     );
 }
 
-// true if and only if we are currently moving a card around
-static bool moving_card = false;
 
 // This will prevent us from moving cards around if we selected one
 // by moving too fast after pressing the A button
-static bool card_moved_too_fast = false;
-static bool card_selected_instead_of_moved = false;
-
-// After pressing A, if we press Left/Right too fast, we should select the card
-// and change focus to the next one, instead of swapping them
-// This should fix inputs sometimes not registering when quickly selecting cards
-static const int card_swap_time_threshold = 6;
-static int selection_hit_timer = UNDEFINED;
-
-static bool game_playing_hand_row_on_selection_changed(
-    SelectionGrid* selection_grid,
-    int row_idx,
-    const Selection* prev_selection,
-    const Selection* new_selection
-)
-{
-    int prev_card_idx = UNDEFINED;
-    int next_card_idx = UNDEFINED;
-
-    // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
-    card_moved_too_fast = (selection_hit_timer != UNDEFINED) &&
-                          (g_game_vars.timer - selection_hit_timer) < card_swap_time_threshold;
-
-    if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
-    {
-        prev_card_idx = hand_sel_idx_to_card_idx(prev_selection->x);
-    }
-
-    if (new_selection->y == GAME_PLAYING_HAND_SEL_Y)
-    {
-        next_card_idx = hand_sel_idx_to_card_idx(new_selection->x);
-    }
-
-    bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
-
-    if (on_the_same_row && key_is_down(SELECT_CARD) && !card_moved_too_fast &&
-        !card_selected_instead_of_moved)
-    {
-        bool moved_by_one_tile = abs(new_selection->x - prev_selection->x) == 1;
-
-        // Avoid swapping when selection wraps
-        if (!moved_by_one_tile)
-        {
-            // Abort the selection if swapping so it doesn't wrap
-            return false;
-        }
-        else
-        {
-            swap_cards_in_hand(prev_card_idx, next_card_idx);
-            moving_card = true;
-            reorder_card_sprites_layers();
-
-            /* Not calling sprite_object_set_focus() because focus is handled by
-             * cards_in_hand_update_loop() based on the selection grid value...
-             */
-            play_sfx(
-                SFX_CARD_FOCUS,
-                MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
-                SFX_DEFAULT_VOLUME
-            );
-        }
-    }
-    else
-    {
-        // select current card if we tried moving it too fast
-        if (key_released(SELECT_CARD) || (card_moved_too_fast && !moving_card))
-        {
-            hand_select_card(prev_card_idx);
-            card_selected_instead_of_moved = true;
-        }
-        if (next_card_idx != UNDEFINED)
-        {
-            /* Not calling sprite_object_set_focus() because focus is handled by
-             * cards_in_hand_update_loop() based on the selection grid value...
-             */
-            play_sfx(
-                SFX_CARD_FOCUS,
-                MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
-                SFX_DEFAULT_VOLUME
-            );
-        }
-    }
-
-    return true;
-}
-
-static void game_playing_hand_row_on_key_transit(
-    SelectionGrid* selection_grid,
-    Selection* selection
-)
-{
-    if (key_hit(SELECT_CARD))
-    {
-        selection_hit_timer = g_game_vars.timer;
-    }
-    else if (key_released(SELECT_CARD))
-    {
-        if (!moving_card && !card_selected_instead_of_moved)
-        {
-            hand_select_card(hand_sel_idx_to_card_idx(selection->x));
-        }
-        moving_card = false;
-        card_moved_too_fast = false;
-        card_selected_instead_of_moved = false;
-        selection_hit_timer = UNDEFINED;
-    }
-    else if (key_hit(DESELECT_CARDS))
-    {
-        hand_deselect_all_cards();
-        compute_hand_value_info();
-    }
-    else if (key_hit(PLAY_HAND_KEY))
-    {
-        game_playing_execute_play_hand();
-    }
-    else if (key_hit(DISCARD_HAND_KEY))
-    {
-        game_playing_execute_discard();
-    }
-}
 
 
 void game_start(void)
@@ -909,8 +730,9 @@ void game_start(void)
     {
         for (int rank = 0; rank < NUM_RANKS; rank++)
         {
-            Card* card = card_new(suit, rank);
-            deck_push(card);
+            //Card* card = card_new(suit, rank);
+            // TODO: BIG FIX
+            //deck_push(card);
         }
     }
 
@@ -923,8 +745,11 @@ void game_start(void)
         DECK_SIZE_RECT.left,
         DECK_SIZE_RECT.top,
         TTE_WHITE_PB,
-        deck_get_size(),
-        deck_get_max_size()
+        //deck_get_size(),
+        //deck_get_max_size()
+        //nasty hack, just do what the functions do
+        g_game_vars.deck_top + 1,
+        67
     );
 
     display_round();                  // Set the round display

@@ -90,6 +90,7 @@ List* get_discarded_jokers_list(void);
 List* get_shop_jokers_list(void);
 Bitset* get_avail_jokers_bitset(void);
 void set_shop_joker_avail(int joker_id, bool avail);
+bool get_retrigger(void);
 
 int get_deck_top(void);
 int get_num_discards_remaining(void);

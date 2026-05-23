@@ -25,5 +25,7 @@ static const Rect BLIND_REQ_TEXT_RECT                = {32,      24,     64,    
 static const Rect HAND_SIZE_RECT                     = {128,     128,    152,    160}; // Seems to include both SELECT and PLAYING
 static const Rect ANTE_TEXT_RECT            = {8,       144,    UNDEFINED, UNDEFINED };
 // clang-format on
+static const Rect HAND_SIZE_RECT_PLAYING    = {120,     152,    160,    160 };
+static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
 
 #endif // LAYOUT_H

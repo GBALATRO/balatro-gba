@@ -230,5 +230,6 @@ int find_straight_in_played_cards(
     bool* out_selection
 );
 void select_paired_cards_in_hand(CardObject** played, int top, bool* selection);
+int hand_sel_idx_to_card_idx(int selection_index);
 
 #endif

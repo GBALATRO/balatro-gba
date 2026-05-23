@@ -9,7 +9,8 @@
 /**
  * @brief Change to the round background
  */
-void game_round_change_background(void);
+void game_round_selecting_change_background(void);
+void game_round_playing_change_background(void);
 
 /**
  * @brief Round state initialization

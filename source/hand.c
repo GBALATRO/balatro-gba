@@ -907,3 +907,17 @@ static enum HandType compute_hand_type(struct ContainedHandTypes contained_types
     // are no Hands contained in what we played
     return ret;
 }
+
+/**
+ * @brief Converts a selection index from the selection grid into a card index within the hand array
+ * @param selection_index The selection index from the selection grid.
+ * @return The index within the hand stack array.
+ * Note that the result is not valid if hand size is 0.
+ */
+int hand_sel_idx_to_card_idx(int selection_index)
+{
+    // This is because the hand is drawn from right to left.
+    // There is no particular reason for why that was done, it's just how it was done.
+    // Maybe one day it can be reverted and made consistent so this conversion is not needed.
+    return hand_nb_held_cards() - selection_index - 1;
+}
