@@ -102,7 +102,6 @@ void noop(void);
 
 // clang-format off
 #define STATE_INFO_UPDATE_FN_ONLY(fn) {.on_init = noop, .on_update = fn, .on_exit = noop}
-#define STATE_INFO_FNS_ONLY(init_fn, update_fn, exit_fn) {.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn}
 // clang-format on
 
 #endif // STATE_MACHINE_H

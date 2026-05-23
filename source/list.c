@@ -1,3 +1,9 @@
+/**
+ * @file list.c
+ *
+ * @brief List functions implementation.
+ */
+
 #include "list.h"
 
 #include "pool.h"
@@ -29,9 +35,9 @@ static void s_list_remove_node(List* list, ListNode* node);
  */
 static ListNode* s_list_itr_node_next(ListItr* itr);
 
-List list_create(void)
+List list_init(void)
 {
-    List list = {.head = NULL, .tail = NULL, .len = 0};
+    List list = LIST_DEFAULT;
     return list;
 }
 
@@ -307,7 +313,7 @@ void list_itr_remove_current_node(ListItr* itr)
     itr->current_node = tmp_prev;
 }
 
-bool list_remove_at(List* list, void* data)
+bool list_remove_data(List* list, void* data)
 {
     ListItr itr = list_itr_create(list);
     ListNode* ln;
