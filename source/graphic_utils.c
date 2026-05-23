@@ -438,10 +438,8 @@ void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_
     int dest_rect_width = rect_width(&se_dest_rect);
     int dest_rect_height = rect_height(&se_dest_rect);
 
-    int src_9ptch_min_width =
-        rect_width(&src_9_ptch->patch_rect) - rect_width(&src_9_ptch->margins);
-    int src_9ptch_min_height =
-        rect_height(&src_9_ptch->patch_rect) - rect_height(&src_9_ptch->margins);
+    int src_9ptch_min_width = src_9_ptch->margins.left + src_9_ptch->margins.right;
+    int src_9ptch_min_height = src_9_ptch->margins.top + src_9_ptch->margins.bottom;
 
     // Verify the dest rect is big enough to fit at least the 9-patch's corners
     if (dest_rect_width < src_9ptch_min_width || dest_rect_height < src_9ptch_min_height)
@@ -459,8 +457,8 @@ void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_
         main_bg_se_expand_9_patch_stretch_sides(
             se_dest_rect,
             src_9_ptch,
-            dest_rect_width - src_9ptch_min_width + 1,
-            dest_rect_height - src_9ptch_min_height - 1
+            dest_rect_width - src_9ptch_min_width,
+            dest_rect_height - src_9ptch_min_height
         );
 
         // Fill center
