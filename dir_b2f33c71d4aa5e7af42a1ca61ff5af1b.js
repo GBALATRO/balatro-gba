@@ -13,7 +13,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "hand.c", "hand_8c.html", "hand_8c" ],
     [ "joker.c", "joker_8c_source.html", null ],
     [ "joker_effects.c", "joker__effects_8c_source.html", null ],
-    [ "list.c", "list_8c_source.html", null ],
+    [ "list.c", "list_8c.html", "list_8c" ],
     [ "main.c", "main_8c_source.html", null ],
     [ "mgba_logger.c", "mgba__logger_8c_source.html", null ],
     [ "pool.c", "pool_8c_source.html", null ],
@@ -22,6 +22,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "selection_grid.c", "selection__grid_8c_source.html", null ],
     [ "splash_screen.c", "splash__screen_8c_source.html", null ],
     [ "sprite.c", "sprite_8c_source.html", null ],
+    [ "state_machine.c", "state__machine_8c_source.html", null ],
     [ "util.c", "util_8c_source.html", null ],
     [ "version.c", "version_8c_source.html", null ]
 ];

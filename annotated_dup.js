@@ -27,5 +27,6 @@ var annotated_dup =
     [ "SelGridRowAttributes", "structSelGridRowAttributes.html", "structSelGridRowAttributes" ],
     [ "Sprite", "structSprite.html", "structSprite" ],
     [ "SpriteObject", "structSpriteObject.html", "structSpriteObject" ],
-    [ "StateInfo", "structStateInfo.html", null ]
+    [ "StateInfo", "structStateInfo.html", null ],
+    [ "StateMachine", "structStateMachine.html", "structStateMachine" ]
 ];
