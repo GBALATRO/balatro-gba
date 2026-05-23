@@ -15,6 +15,7 @@
 #include "save.h"
 #include "selection_grid.h"
 #include "sprite.h"
+#include "state_machine.h"
 #include "util.h"
 
 #include <tonc.h>
@@ -86,20 +87,24 @@ enum RunSetupSubstate
     RUN_SETUP_SUBSTATE_MAX
 };
 
-static enum RunSetupSubstate substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
-
 static void choose_deck_substate_init(void);
-static void seed_keyboard_substate_init(void);
-static void resume_substate_init(void);
-
 static void choose_deck_substate_update(void);
+
+static void seed_keyboard_substate_init(void);
 static void seed_keyboard_substate_update(void);
+
+static void resume_substate_init(void);
 static void resume_substate_update(void);
 
-static const SubStateActionFn run_setup_update_substate[RUN_SETUP_SUBSTATE_MAX] = {
-    choose_deck_substate_update,
-    seed_keyboard_substate_update,
-    resume_substate_update
+static StateInfo state_info[] = {
+    STATE_INFO_INIT_UPDATE_FN(choose_deck_substate_init, choose_deck_substate_update),
+    STATE_INFO_INIT_UPDATE_FN(seed_keyboard_substate_init, seed_keyboard_substate_update),
+    STATE_INFO_INIT_UPDATE_FN(resume_substate_init, resume_substate_update)
+};
+
+static StateMachine run_setup_sm = {
+    .state_infos = &state_info[0],
+    .num_infos = RUN_SETUP_SUBSTATE_MAX,
 };
 
 #pragma region LAYOUT
@@ -641,6 +646,7 @@ void game_run_setup_change_background(void)
 
 void game_run_setup_on_init(void)
 {
+    state_machine_register(&run_setup_sm);
     game_run_setup_change_background();
 
     // Rank doesn't matter, won't see it
@@ -662,24 +668,25 @@ void game_run_setup_on_init(void)
     is_saved_game_valid = is_game_data_valid();
     if (is_saved_game_valid)
     {
-        resume_substate_init();
+        state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);
     }
     else
     {
         // Land on the deck swapping button when landing on this state from the Main Menu
         choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_INIT_SEL;
-        choose_deck_substate_init();
+        state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
     }
 }
 
 void game_run_setup_on_update(void)
 {
     run_setup_tabs_update();
-    run_setup_update_substate[substate]();
 }
 
 void game_run_setup_on_exit(void)
 {
+    state_machine_remove(&run_setup_sm);
+
     card_destroy(&run_setup_deck->card);
     card_object_destroy(&run_setup_deck);
 
@@ -700,8 +707,6 @@ void game_run_setup_on_exit(void)
  */
 static void choose_deck_substate_init(void)
 {
-    substate = RUN_SETUP_SUBSTATE_CHOOSE_DECK;
-
     // Show Deck sprite, name and TODO: description
     obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
     print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
@@ -862,7 +867,6 @@ static inline void update_seed_text(void)
  */
 static void seed_keyboard_substate_init(void)
 {
-    substate = RUN_SETUP_SUBSTATE_CHOOSE_SEED;
     choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;
     tte_erase_rect_wrapper(RUN_SETUP_DECK_NAME_DESC_RECT);
 
@@ -1188,7 +1192,7 @@ static void seed_on_pressed(void)
 {
     if (key_hit(SELECT_CARD) && use_seed)
     {
-        seed_keyboard_substate_init();
+        state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_SEED);
     }
 }
 
