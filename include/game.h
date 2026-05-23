@@ -8,7 +8,6 @@
 
 #include <tonc.h>
 
-#define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_JOKERS      2 // TODO: Make this dynamic and allow for other items besides jokers
 #define MAX_SELECTION_SIZE   5
