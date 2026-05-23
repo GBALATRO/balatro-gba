@@ -371,22 +371,6 @@ static inline CardObject* played_pop()
     return played[played_top--];
 }
 
-/*
-static inline void deck_push(Card* card)
-{
-    if (deck_top >= MAX_DECK_SIZE - 1)
-        return;
-    deck[++deck_top] = card;
-}
-
-static inline Card* deck_pop()
-{
-    if (deck_top < 0)
-        return NULL;
-    return deck[deck_top--];
-}
-*/
-
 static inline void jokers_available_to_shop_init(void)
 {
     reset_shop_jokers();
@@ -685,12 +669,11 @@ void remove_owned_joker(int owned_joker_idx)
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
 }
 
-/*
-int get_deck_top(void)
+// TODO: this should be removed, joker_effects.c has a dependency tho
+Stack* get_deck_stack(void)
 {
-    return deck_top;
+    return &deck_stack;
 }
-*/
 
 int get_num_discards_remaining(void)
 {
@@ -1037,13 +1020,7 @@ static int deck_get_max_size(void)
 
 static inline void deck_shuffle(void)
 {
-    for (int i = deck_top; i > 0; i--)
-    {
-        int j = rng_get_u32() % (i + 1);
-        Card* temp = deck[i];
-        deck[i] = deck[j];
-        deck[j] = temp;
-    }
+    array_shuffle(deck_stack.data_array, deck_stack.top + 1);
 }
 
 static void game_round_on_init(void)
@@ -1385,7 +1362,7 @@ static inline void card_draw(void)
         get_hand_top() >= MAX_HAND_SIZE - 1)
         return;
 
-    CardObject* card_object = card_object_new(deck_pop());
+    CardObject* card_object = card_object_new((Card*)stack_pop(&deck_stack));
 
     const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
     const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
@@ -2287,7 +2264,7 @@ static inline void game_playing_discarded_cards_loop(void)
 
             if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
             {
-                deck_push(discarded_card_object->card); // Put the card back into the deck
+                stack_push(&deck_stack, discarded_card_object->card);
                 card_object_destroy(&discarded_card_object);
 
                 play_sfx(
@@ -2599,7 +2576,7 @@ void game_start(void)
         for (int rank = 0; rank < NUM_RANKS; rank++)
         {
             Card* card = card_new(suit, rank);
-            deck_push(card);
+            stack_push(&deck_stack, card);
         }
     }
 

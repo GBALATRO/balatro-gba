@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "bitset.h"
+#include "stack.h"
 #include "game/common_ui.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
@@ -93,7 +94,7 @@ List* get_shop_jokers_list(void);
 Bitset* get_avail_jokers_bitset(void);
 void set_shop_joker_avail(int joker_id, bool avail);
 
-int get_deck_top(void);
+Stack* get_deck_stack(void);
 int get_num_discards_remaining(void);
 int get_num_hands_remaining(void);
 

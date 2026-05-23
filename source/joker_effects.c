@@ -710,7 +710,7 @@ static u32 blue_joker_effect(
 
     *joker_effect = &shared_joker_effect;
 
-    (*joker_effect)->chips = (get_deck_top() + 1) * 2;
+    (*joker_effect)->chips = (get_deck_stack()->top + 1) * 2;
 
     return JOKER_EFFECT_FLAG_CHIPS;
 }
