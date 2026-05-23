@@ -262,8 +262,6 @@ static Button game_playing_buttons[] = {
 static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
     {28, 28, 28, 28, 27, 21, 18, 15, 13, 12, 10, 9, 9, 8, 8, 7};
 
-// The current game state, this is used to determine what the game is doing at any given time
-static enum GameState game_state = GAME_STATE_UNDEFINED;
 static enum PlayState play_state = PLAY_STARTING;
 
 // Initialization of the global vars
