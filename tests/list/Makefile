@@ -1,4 +1,3 @@
-
 CC := gcc
 CFLAGS := -I../../include -I../../include/data_structures -I. \
           -g -O3 -std=gnu23 -Wall -Werror -DPOOLS_TEST_ENV=yes

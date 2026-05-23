@@ -10,7 +10,8 @@ _codeql_detected_source_root
 /tests/bitset/build
 /tests/list/build
 /tests/pool/build
-doc
+/tests/stack/build
 tests/util/.vscode
 tests/util/build
 audio/*.bak
+doc
