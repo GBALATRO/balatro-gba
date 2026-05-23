@@ -202,7 +202,7 @@ static Button tabs_buttons[RUN_SETUP_TAB_MAX] = {
  * the row it is on doesn't always have the same number of buttons.
  ******************************************************************************/
 
-static int back_row_get_size();
+static int back_row_get_size(void);
 static void back_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
 static inline void toggle_seed_enabled(bool enable);
@@ -665,17 +665,17 @@ void game_run_setup_on_init(void)
 
     card_object_update(run_setup_deck);
 
+    /* Uncomment these lines when we figure out how to properly restore a game save
     is_saved_game_valid = is_game_data_valid();
     if (is_saved_game_valid)
     {
         state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);
     }
-    else
-    {
-        // Land on the deck swapping button when landing on this state from the Main Menu
-        choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_INIT_SEL;
-        state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
-    }
+    */
+
+    // Land on the deck swapping button when landing on this state from the Main Menu
+    choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_INIT_SEL;
+    state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
 }
 
 void game_run_setup_on_update(void)
@@ -739,7 +739,7 @@ static void choose_deck_substate_init(void)
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_PLAY], false);
     button_set_highlight(&back_button, false);
 
-    // Print buttonn text
+    // Print button text
     tte_printf(
         "#{P:%d,%d; cx:0x%X000}%s",
         RUN_SETUP_PLAY_TEXT_POS.x,
@@ -1022,9 +1022,13 @@ static void keyboard_button_on_pressed(void)
 
         switch (key)
         {
-            // TODO: Generate a new 6-digit key at random
-            // Implement it in rng.c/h
             case RUN_SETUP_KEYBOARD_RAND:
+                // Need to roll a new seed and get a "real" random number
+                // Otherwise the seed is still stuck at 0 and we'll have the
+                // same sequence of generated seeds each time
+                rng_shuffle_seed();
+                u32_to_base36(rng_get_u32(), seed_str);
+                update_seed_text();
                 break;
             // Erase last character
             case RUN_SETUP_KEYBOARD_DEL:
@@ -1110,7 +1114,7 @@ static bool choose_seed_row_on_selection_changed(
  */
 static void deck_on_pressed(void)
 {
-    choose_deck_substate_init();
+    state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
     choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;
     button_set_highlight(&change_deck_button, false);
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], true);
@@ -1139,8 +1143,8 @@ static void resume_substate_update(void)
 // COMMON BUTTONS
 
 /**
- * @brief Toggle wheter or not we will use the seed chosen by the user.
- *         Changes the looks of the Sedd button to signal if it is clickable or not,
+ * @brief Toggle whether or not we will use the seed chosen by the user.
+ *         Changes the looks of the Seed button to signal if it is clickable or not,
  *         and that of the checkbox next to it.
  *
  * @param enable whether the seed is enabled or not
@@ -1250,7 +1254,7 @@ static void run_setup_tabs_update(void)
 {
     static enum RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;
 
-    // If there is no saved data, "Resume" tab is grayed out and only one tab is available
+    // If there is no saved data, "Resume" tab is left grayed out and only one tab is available
     if (!is_saved_game_valid)
     {
         return;
@@ -1259,11 +1263,13 @@ static void run_setup_tabs_update(void)
     // Not all the way to the right and pressed R
     if (key_hit(TAB_RIGHT) && current_tab < RUN_SETUP_TAB_MAX - 1)
     {
+        button_set_highlight(&tabs_buttons[current_tab], false);
         current_tab++;
     }
     // Not all the way to the left and pressed L
     else if (key_hit(TAB_LEFT) && current_tab > 0)
     {
+        button_set_highlight(&tabs_buttons[current_tab], false);
         current_tab--;
     }
     // Either not pressed anything or no space to move, return early to not change button highlight
@@ -1272,8 +1278,19 @@ static void run_setup_tabs_update(void)
         return;
     }
 
-    // We only reach here after successfuly changing Tabs
-    tab_set_highlight(current_tab);
+    button_set_highlight(&tabs_buttons[current_tab], true);
+
+    switch (current_tab)
+    {
+        case RUN_SETUP_TAB_NEW_RUN:
+            state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
+            break;
+        case RUN_SETUP_TAB_RESUME:
+            state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);
+            break;
+        default:
+            break;
+    }
 }
 
 /**

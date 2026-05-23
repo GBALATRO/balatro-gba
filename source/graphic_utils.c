@@ -318,40 +318,40 @@ static inline void main_bg_se_expand_9_patch_copy_corners(
     Rect top_left_src = {
         src_9_ptch->patch_rect.left,
         src_9_ptch->patch_rect.top,
-        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
-        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left - 1,
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top - 1
     };
 
     BG_POINT top_right_dest_pos = {
-        se_dest_rect.right - src_9_ptch->margins.right,
+        se_dest_rect.right - src_9_ptch->margins.right + 1,
         se_dest_rect.top
     };
     Rect top_right_src = {
-        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right + 1,
         src_9_ptch->patch_rect.top,
         src_9_ptch->patch_rect.right,
-        src_9_ptch->patch_rect.top + src_9_ptch->margins.top
+        src_9_ptch->patch_rect.top + src_9_ptch->margins.top - 1
     };
 
     BG_POINT bottom_right_dest_pos = {
-        se_dest_rect.right - src_9_ptch->margins.right,
-        se_dest_rect.bottom - src_9_ptch->margins.bottom
+        se_dest_rect.right - src_9_ptch->margins.right + 1,
+        se_dest_rect.bottom - src_9_ptch->margins.bottom + 1
     };
     Rect bottom_right_src = {
-        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
-        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom,
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right + 1,
+        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom + 1,
         src_9_ptch->patch_rect.right,
         src_9_ptch->patch_rect.bottom
     };
 
     BG_POINT bottom_left_dest_pos = {
         se_dest_rect.left,
-        se_dest_rect.bottom - src_9_ptch->margins.bottom
+        se_dest_rect.bottom - src_9_ptch->margins.bottom + 1
     };
     Rect bottom_left_src = {
         src_9_ptch->patch_rect.left,
-        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom,
-        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
+        src_9_ptch->patch_rect.bottom - src_9_ptch->margins.bottom + 1,
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left - 1,
         src_9_ptch->patch_rect.bottom
     };
 
@@ -402,7 +402,7 @@ static inline void main_bg_se_expand_9_patch_stretch_sides(
     Rect left_side_tiles_src = {
         src_9_ptch->patch_rect.left,
         src_9_ptch->patch_rect.top + src_9_ptch->margins.top,
-        src_9_ptch->patch_rect.left + src_9_ptch->margins.left,
+        src_9_ptch->patch_rect.left + src_9_ptch->margins.left - 1,
         src_9_ptch->patch_rect.top + src_9_ptch->margins.top
     };
     BG_POINT left_side_tiles_dest_pos = {
@@ -411,17 +411,17 @@ static inline void main_bg_se_expand_9_patch_stretch_sides(
     };
 
     Rect right_side_tiles_src = {
-        src_9_ptch->patch_rect.right - src_9_ptch->margins.right,
+        src_9_ptch->patch_rect.right - src_9_ptch->margins.right + 1,
         src_9_ptch->patch_rect.top + src_9_ptch->margins.top,
         src_9_ptch->patch_rect.right,
         src_9_ptch->patch_rect.top + src_9_ptch->margins.top
     };
     BG_POINT right_side_tiles_dest_pos = {
-        se_dest_rect.right - src_9_ptch->margins.right,
+        se_dest_rect.right - src_9_ptch->margins.right + 1,
         se_dest_rect.top + src_9_ptch->margins.top
     };
 
-    for (int i = 0; i < left_right_height - 1; i++)
+    for (int i = 0; i < left_right_height; i++)
     {
         main_bg_se_copy_rect(left_side_tiles_src, left_side_tiles_dest_pos);
         left_side_tiles_dest_pos.y++;
@@ -459,8 +459,8 @@ void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_
         main_bg_se_expand_9_patch_stretch_sides(
             se_dest_rect,
             src_9_ptch,
-            dest_rect_width - src_9ptch_min_width,
-            dest_rect_height - src_9ptch_min_height
+            dest_rect_width - src_9ptch_min_width + 1,
+            dest_rect_height - src_9ptch_min_height - 1
         );
 
         // Fill center

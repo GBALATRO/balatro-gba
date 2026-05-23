@@ -166,7 +166,7 @@ typedef RECT Rect;
  * ║   1   │  6  │ 2 ║ ├─ margins.top     │
  * ╟───────┼─────┼───╢ ╯                  │    2) margins.top  + margins.bottom <= height(patch_rect)
  * ║   5   │  0  │ 7 ║                    │
- * ║       │     │   ║                    │
+ * ║       │     │   ║                    │    3) margins values are inclusive, in number of tiles
  * ╟───────┼─────┼───╢ ╮                  │
  * ║       │     │   ║ │                  │
  * ║   4   │  8  │ 3 ║ ├─ margins.bottom  │
