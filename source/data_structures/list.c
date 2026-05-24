@@ -107,6 +107,54 @@ void list_push_back(List* list, void* data)
     list->len++;
 }
 
+void* list_pop_back(List* list)
+{
+    void* data = NULL;
+
+    if (!list_is_empty(list))
+    {
+        data = list->tail->data;
+
+        if(list->len == 1)
+        {
+            *list = list_init();
+        }
+        else
+        {
+            list->tail = list->tail->prev;
+        }
+
+        list->len--;
+        POOL_FREE(ListNode, list->tail);
+    }
+
+    return data;
+}
+
+void* list_pop_front(List* list)
+{
+    void* data = NULL;
+
+    if (!list_is_empty(list))
+    {
+        data = list->head->data;
+
+        if(list->len == 1)
+        {
+            *list = list_init();
+        }
+        else
+        {
+            list->head = list->head->next;
+        }
+
+        list->len--;
+        POOL_FREE(ListNode, list->head);
+    }
+
+    return data;
+}
+
 void list_insert(List* list, void* data, unsigned int idx)
 {
     if (idx >= list->len)

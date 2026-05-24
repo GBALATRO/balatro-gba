@@ -730,6 +730,76 @@ void test_remove_data(void)
     assert(list_is_empty(&my_cool_list));
 }
 
+
+// Test the "list_remove_data" function
+// - list_init
+// - list_push_back
+// - list_pop_back
+// - list_pop_front
+void test_list_pop(void)
+{
+    // this value MUST be 5
+    static const int initial_list_size = 5;
+    List my_cool_list = list_init();
+    void* data = NULL;
+
+    // verify no data 
+    assert(my_cool_list.head == NULL);
+    assert(my_cool_list.tail == NULL);
+    assert(list_get_len(&my_cool_list) == 0);
+    assert(list_is_empty(&my_cool_list));
+
+    int test_data[initial_list_size];
+
+    for(int i = 0; i < initial_list_size; i++)
+    {
+        // 0 -> 1 -> 2 -> 3 -> 4
+        test_data[i] = i;
+        list_push_back(&my_cool_list, &test_data[i]);
+    }
+
+    assert(my_cool_list.head->data == &test_data[0]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 1]);
+    assert(list_get_len(&my_cool_list) == initial_list_size);
+    assert(!list_is_empty(&my_cool_list));
+
+    assert(list_get_len(&my_cool_list) == initial_list_size);
+
+    // remove from the front
+    data = list_pop_back(&my_cool_list);
+
+    assert(data == &test_data[initial_list_size - 1]);
+    assert(my_cool_list.head->data == &test_data[0]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 2]);
+
+    data = list_pop_back(&my_cool_list);
+
+    assert(data == &test_data[initial_list_size - 2]);
+    assert(my_cool_list.head->data == &test_data[0]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 3]);
+
+    data = list_pop_front(&my_cool_list);
+
+    assert(data == &test_data[0]);
+    assert(my_cool_list.head->data == &test_data[1]);
+    assert(my_cool_list.tail->data == &test_data[initial_list_size - 3]);
+
+    data = list_pop_front(&my_cool_list);
+
+    assert(data == &test_data[1]);
+    assert(my_cool_list.head->data == &test_data[2]);
+    assert(my_cool_list.tail->data == &test_data[2]);
+
+    data = list_pop_front(&my_cool_list);
+
+    assert(data == &test_data[2]);
+    assert(my_cool_list.head == NULL);
+    assert(my_cool_list.tail == NULL);
+
+    assert(list_is_empty(&my_cool_list));
+}
+
+
 int main(void)
 {
     printf("Testing List Create and Clear.\n");
@@ -752,6 +822,9 @@ int main(void)
 
     printf("Testing List Remove Data.\n");
     test_remove_data();
+
+    printf("Testing List Pop Data.\n");
+    test_list_pop();
 
     printf("-------------------------------------------------------------------------------\n");
     printf("List Tests Passed :)\n");
