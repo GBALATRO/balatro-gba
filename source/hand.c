@@ -12,6 +12,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
+#include "stack.h"
 #include "util.h"
 
 #include <tonc.h>
@@ -371,18 +372,18 @@ static void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SU
     for (int i = 0; i < NUM_SUITS; i++)
         suits_out[i] = 0;
 
-    CardObject** played = get_played_array();
-    int top = get_played_top();
-    for (int i = 0; i <= top; i++)
+    Stack* played_stack = get_played_stack();
+    for (int i = 0; i < stack_len(played_stack); i++)
     {
+        CardObject* card_object = (CardObject*)stack_at(played_stack, i);
         /* The difference from get_hand_distribution() (not checking if card is selected)
          * is in line Balatro behavior,
          * see https://github.com/GBALATRO/balatro-gba/issues/341#issuecomment-3691363488
          */
-        if (!played[i])
+        if (!card_object)
             continue;
-        ranks_out[played[i]->card->rank]++;
-        suits_out[played[i]->card->suit]++;
+        ranks_out[card_object->card->rank]++;
+        suits_out[card_object->card->suit]++;
     }
 }
 
@@ -560,20 +561,22 @@ static bool hand_contains_flush(u8* suits)
 
 // Returns the number of cards in the best flush found
 // or 0 if no flush of min_len is found, and marks them in out_selection.
-int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* out_selection)
+int find_flush_in_played_cards(Stack* played_stack, int min_len, bool* out_selection)
 {
-    if (top < 0)
+    if(stack_empty(played_stack))
         return 0;
-    for (int i = 0; i <= top; i++)
+
+
+    for (int i = 0; i < stack_len(played_stack); i++)
         out_selection[i] = false;
 
     int suit_counts[NUM_SUITS] = {0};
-    for (int i = 0; i <= top; i++)
+
+    for (int i = 0; i < stack_len(played_stack); i++)
     {
-        if (played[i] && played[i]->card)
-        {
-            suit_counts[played[i]->card->suit]++;
-        }
+        CardObject* card_object = (CardObject*)played_stack->data_array[i];
+        if (card_object && card_object->card)
+            suit_counts[card_object->card->suit]++;
     }
 
     int best_suit = -1;
@@ -589,9 +592,10 @@ int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* 
 
     if (best_count >= min_len)
     {
-        for (int i = 0; i <= top; i++)
+        for (int i = 0; i < stack_len(played_stack); i++)
         {
-            if (played[i] && played[i]->card && played[i]->card->suit == best_suit)
+            CardObject* card_object = (CardObject*)played_stack->data_array[i];
+            if (card_object && card_object->card && card_object->card->suit == best_suit)
             {
                 out_selection[i] = true;
             }
@@ -603,17 +607,13 @@ int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* 
 
 // Returns the number of cards in the best straight or 0 if no straight of min_len is found, marks
 // as true them in out_selection[]. This is mostly from Google Gemini
-int find_straight_in_played_cards(
-    CardObject** played,
-    int top,
-    bool shortcut_active,
-    int min_len,
-    bool* out_selection
+int find_straight_in_played_cards(Stack* played_stack, bool shortcut_active, int min_len, bool* out_selection
 )
 {
-    if (top < 0)
+    if (stack_empty(played_stack))
         return 0;
-    for (int i = 0; i <= top; i++)
+
+    for (int i = 0; i < stack_len(played_stack); i++)
         out_selection[i] = false;
 
     // --- Setup for Backtracking DP ---
@@ -623,11 +623,12 @@ int find_straight_in_played_cards(
         parent[i] = -1;
 
     u8 ranks[NUM_RANKS] = {0};
-    for (int i = 0; i <= top; i++)
+    for (int i = 0; i <= stack_len(played_stack); i++)
     {
-        if (played[i] && played[i]->card)
+        CardObject* card_object = (CardObject*)played_stack->data_array[i];
+        if (card_object && card_object->card)
         {
-            ranks[played[i]->card->rank]++;
+            ranks[card_object->card->rank]++;
         }
     }
 
@@ -732,17 +733,18 @@ int find_straight_in_played_cards(
             best_len--;
         }
 
-        for (int i = 0; i <= top; i++)
+        for (int i = 0; i < stack_len(played_stack); i++)
         {
-            if (played[i] && played[i]->card && needed_ranks[played[i]->card->rank] > 0)
+            CardObject* card_object = (CardObject*)played_stack->data_array[i];
+            if (card_object && card_object->card && needed_ranks[card_object->card->rank] > 0)
             {
                 out_selection[i] = true;
-                needed_ranks[played[i]->card->rank]--;
+                needed_ranks[card_object->card->rank]--;
             }
         }
 
         int final_card_count = 0;
-        for (int i = 0; i <= top; i++)
+        for (int i = 0; i < stack_len(played_stack); i++)
         {
             if (out_selection[i])
                 final_card_count++;
@@ -754,17 +756,18 @@ int find_straight_in_played_cards(
 
 // This is used for the special case in "Four Fingers" where you can add a pair into a straight
 // (e.g. AA234 should score all 5 cards)
-void select_paired_cards_in_hand(CardObject** played, int played_top, bool* selection)
+void select_paired_cards_in_hand(Stack* played_stack, bool* selection)
 {
     // Build a set of ranks that are already selected
     bool rank_selected[NUM_RANKS] = {0};
     bool any_selected_rank = false;
 
-    for (int i = 0; i <= played_top; i++)
+    for (int i = 0; i < stack_len(played_stack); i++)
     {
-        if (selection[i] && played[i] && played[i]->card)
+        CardObject* card_object = (CardObject*)played_stack->data_array[i];
+        if (selection[i] && card_object && card_object->card)
         {
-            rank_selected[played[i]->card->rank] = true;
+            rank_selected[card_object->card->rank] = true;
             any_selected_rank = true;
         }
     }
@@ -774,11 +777,12 @@ void select_paired_cards_in_hand(CardObject** played, int played_top, bool* sele
         return;
 
     // Add any unselected card to the selection if if shares a rank with the selected ranks
-    for (int i = 0; i <= played_top; i++)
+    for (int i = 0; i < stack_len(played_stack); i++)
     {
-        if (played[i] && played[i]->card && !selection[i])
+        CardObject* card_object = (CardObject*)played_stack->data_array[i];
+        if (card_object && card_object->card && !selection[i])
         {
-            if (rank_selected[played[i]->card->rank])
+            if (rank_selected[card_object->card->rank])
             {
                 selection[i] = true;
             }

@@ -27,3 +27,8 @@ void* stack_pop(Stack* stack)
 {
     return (stack->top < 0) ? NULL : stack->data_array[stack->top--];
 }
+
+void* stack_at(Stack* stack, unsigned int idx)
+{
+    return (idx <= stack->top) ? stack->data_array[idx] : NULL;
+}

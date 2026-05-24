@@ -22,5 +22,6 @@ bool stack_empty(Stack* stack);
 int stack_len(Stack* stack);
 void stack_push(Stack* stack, void* data);
 void* stack_pop(Stack* stack);
+void* stack_at(Stack* stack, unsigned int idx);
 
 #endif // STACK_H

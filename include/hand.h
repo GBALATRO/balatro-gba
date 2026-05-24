@@ -8,6 +8,7 @@
 #define HAND_H
 
 #include "card.h"
+#include "stack.h"
 
 #include <tonc.h>
 
@@ -221,14 +222,8 @@ void sort_cards(void);
  * otherwise.
  * @return              The number of cards in the best flush found, or 0 if no flush meets min_len.
  */
-int find_flush_in_played_cards(CardObject** played, int top, int min_len, bool* out_selection);
-int find_straight_in_played_cards(
-    CardObject** played,
-    int top,
-    bool shortcut_active,
-    int min_len,
-    bool* out_selection
-);
-void select_paired_cards_in_hand(CardObject** played, int top, bool* selection);
+int find_flush_in_played_cards(Stack* played_stack, int min_len, bool* out_selection);
+int find_straight_in_played_cards(Stack* played_stack, bool shortcut_active, int min_len, bool* out_selection);
+void select_paired_cards_in_hand(Stack* played_stack, bool* selection);
 
 #endif

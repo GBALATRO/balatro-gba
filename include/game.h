@@ -80,8 +80,7 @@ void game_reset(void);
 void game_update(void);
 void game_change_state(enum GameState new_game_state);
 
-CardObject** get_played_array(void);
-int get_played_top(void);
+Stack* get_played_stack(void);
 int get_scored_card_index(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
