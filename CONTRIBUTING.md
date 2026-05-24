@@ -92,10 +92,14 @@ If installed locally and you'd prefer to use it in your shell. You can do the fo
 
 ```sh
 # List warnings
-clang-format --dry-run -Werror include/*.h include/game/*.h source/*.c source/game/*.c
+for file in $(find include source  -name '*.[c,h]'); do 
+    clang-format --dry-run --Werror $file
+done
 
 # Modify all files inplace
-clang-format -i include/*.h include/game/*.h source/*.c source/game/*.c
+for file in $(find include source  -name '*.[c,h]'); do 
+    clang-format -i $file
+done
 
 # Or just one
 clang-format -i include/blind.h
