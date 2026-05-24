@@ -1,6 +1,5 @@
 #include "card.h"
 
-#include "game_variables.h"
 #include "graphic_utils.h"
 
 #include <maxmod.h>
@@ -24,9 +23,13 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 
-void refresh_card_accessibility(void)
+bool high_contrast = DEFAULT_HIGH_CONTRAST;
+bool more_readable = DEFAULT_MORE_READABLE;
+
+void set_high_contrast(bool enable)
 {
-    if (g_game_vars.high_contrast)
+    high_contrast = enable;
+    if (high_contrast)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB], high_contrast_deck_pal_gfxPal);
     }
@@ -34,6 +37,21 @@ void refresh_card_accessibility(void)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB], deck_gfxPal);
     }
+}
+
+void set_more_readable(bool enable)
+{
+    more_readable = enable;
+}
+
+bool get_high_contrast(void)
+{
+    return high_contrast;
+}
+
+bool get_more_readable(void)
+{
+    return more_readable;
 }
 
 // Card methods
@@ -102,7 +120,7 @@ void card_object_update(CardObject* card_object)
 void card_object_set_sprite(CardObject* card_object, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
-    const unsigned int* card_tiles = g_game_vars.more_readable ? deck_big_gfxTiles : deck_gfxTiles;
+    const unsigned int* card_tiles = more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &card_tiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],

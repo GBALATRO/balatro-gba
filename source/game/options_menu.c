@@ -4,6 +4,7 @@
 #include "audio_utils.h"
 #include "background_options_menu_gfx.h"
 #include "button.h"
+#include "card.h"
 #include "game.h"
 #include "game/common_ui.h"
 #include "game_variables.h"
@@ -278,7 +279,7 @@ static void update_game_speed_button_graphics()
 
 static void update_high_contrast_button_graphics(void)
 {
-    if (g_game_vars.high_contrast)
+    if (get_high_contrast())
     {
         main_bg_se_copy_rect(OPTIONS_CONTRAST_CHECK_YES_SRC_RECT, OPTIONS_CONTRAST_CHECK_DEST_POS);
     }
@@ -290,7 +291,7 @@ static void update_high_contrast_button_graphics(void)
 
 static void update_more_readable_button_graphics(void)
 {
-    if (g_game_vars.more_readable)
+    if (get_more_readable())
     {
         main_bg_se_copy_rect(OPTIONS_READABLE_CHECK_YES_SRC_RECT, OPTIONS_READABLE_CHECK_DEST_POS);
     }
@@ -477,7 +478,7 @@ static void game_speed_up_on_pressed(void)
  */
 static void high_contrast_on_pressed(void)
 {
-    g_game_vars.high_contrast = (g_game_vars.high_contrast == 1) ? false : true;
+    set_high_contrast((get_high_contrast() == 1) ? false : true);
     update_high_contrast_button_graphics();
 }
 
@@ -486,7 +487,7 @@ static void high_contrast_on_pressed(void)
  */
 static void more_readable_on_pressed(void)
 {
-    g_game_vars.more_readable = (g_game_vars.more_readable == 1) ? false : true;
+    set_more_readable((get_more_readable() == 1) ? false : true);
     update_more_readable_button_graphics();
 }
 

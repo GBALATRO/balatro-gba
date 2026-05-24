@@ -305,12 +305,10 @@ void save_options(void)
     SaveOptions options = SaveOptions_default;
 
     options.game_speed = g_game_vars.game_speed;
-    options.high_contrast = g_game_vars.high_contrast;
-    options.more_readable = g_game_vars.more_readable;
+    options.high_contrast = get_high_contrast();
+    options.more_readable = get_more_readable();
     options.music_volume = g_game_vars.music_volume;
     options.sound_volume = g_game_vars.sound_volume;
-
-    refresh_card_accessibility();
 
     write_sram(OPTIONS_ADDRESS, (const u8*)&options, sizeof(options));
     set_save_header(SAVE_SECTION_FLAG_OPTIONS);
@@ -327,12 +325,11 @@ void load_options(void)
         read_sram(OPTIONS_ADDRESS, (u8*)&options, sizeof(options));
 
     g_game_vars.game_speed = options.game_speed;
-    g_game_vars.high_contrast = options.high_contrast;
-    g_game_vars.more_readable = options.more_readable;
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
 
-    refresh_card_accessibility();
+    set_high_contrast(options.high_contrast);
+    set_more_readable(options.more_readable);
 
     mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }
