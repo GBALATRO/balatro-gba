@@ -63,11 +63,13 @@ void affine_background_update()
 
 void affine_background_set_color(COLOR color)
 {
-    // Reload the palette to reset any previous color scaling
+    // Reload the palette to reset any previous color scaling.
+    // Take source color directly from `affine_background_gfxPal` to avoid excessive
+    // darkening in case this function is called twice by mistake.
     affine_background_change_background(_background);
     for (int i = 0; i < AFFINE_BG_PAL_LEN; i++)
     {
-        clr_rgbscale(&pal_bg_mem[AFFINE_BG_PB] + i, &pal_bg_mem[AFFINE_BG_PB] + i, 1, color);
+        clr_rgbscale(&pal_bg_mem[AFFINE_BG_PB] + i, affine_background_gfxPal + i, 1, color);
     }
 }
 
