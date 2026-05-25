@@ -266,14 +266,14 @@ static void update_game_speed_button_graphics()
 
 static void update_high_contrast_button_graphics(void)
 {
-    Rect contrast_btn_tiles = (get_high_contrast()) ? OPTIONS_CONTRAST_CHECK_YES_SRC_RECT
+    Rect contrast_btn_tiles = (get_cards_high_contrast()) ? OPTIONS_CONTRAST_CHECK_YES_SRC_RECT
                                                     : OPTIONS_CONTRAST_CHECK_NO_SRC_RECT;
     main_bg_se_copy_rect(contrast_btn_tiles, OPTIONS_CONTRAST_CHECK_DEST_POS);
 }
 
 static void update_more_readable_button_graphics(void)
 {
-    Rect readable_btn_tiles = (get_more_readable()) ? OPTIONS_READABLE_CHECK_YES_SRC_RECT
+    Rect readable_btn_tiles = (get_cards_more_readable()) ? OPTIONS_READABLE_CHECK_YES_SRC_RECT
                                                     : OPTIONS_READABLE_CHECK_NO_SRC_RECT;
     main_bg_se_copy_rect(readable_btn_tiles, OPTIONS_READABLE_CHECK_DEST_POS);
 }
@@ -455,7 +455,7 @@ static void game_speed_up_on_pressed(void)
  */
 static void high_contrast_on_pressed(void)
 {
-    set_high_contrast(!get_high_contrast());
+    set_cards_high_contrast(!get_cards_high_contrast());
     update_high_contrast_button_graphics();
 }
 
@@ -464,7 +464,7 @@ static void high_contrast_on_pressed(void)
  */
 static void more_readable_on_pressed(void)
 {
-    set_more_readable(!get_more_readable());
+    set_cards_more_readable(!get_cards_more_readable());
     update_more_readable_button_graphics();
 }
 

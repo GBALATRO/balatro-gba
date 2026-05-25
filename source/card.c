@@ -26,7 +26,7 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
 bool high_contrast = DEFAULT_HIGH_CONTRAST;
 bool more_readable = DEFAULT_MORE_READABLE;
 
-void set_high_contrast(bool enable)
+void set_cards_high_contrast(bool enable)
 {
     high_contrast = enable;
     if (high_contrast)
@@ -39,17 +39,17 @@ void set_high_contrast(bool enable)
     }
 }
 
-void set_more_readable(bool enable)
+void set_cards_more_readable(bool enable)
 {
     more_readable = enable;
 }
 
-bool get_high_contrast(void)
+bool get_cards_high_contrast(void)
 {
     return high_contrast;
 }
 
-bool get_more_readable(void)
+bool get_cards_more_readable(void)
 {
     return more_readable;
 }

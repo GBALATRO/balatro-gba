@@ -59,10 +59,10 @@ typedef struct CardObject
 } CardObject;
 
 // Card sprites accessibility functions
-void set_high_contrast(bool enable);
-void set_more_readable(bool enable);
-bool get_high_contrast(void);
-bool get_more_readable(void);
+void set_cards_high_contrast(bool enable);
+void set_cards_more_readable(bool enable);
+bool get_cards_high_contrast(void);
+bool get_cards_more_readable(void);
 
 // Card methods
 Card* card_new(u8 suit, u8 rank);

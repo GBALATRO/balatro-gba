@@ -86,8 +86,8 @@ typedef struct SaveOptions
 {
     char tag_options[SAVE_LABEL_SIZE];
     u8 game_speed;
-    bool high_contrast;
-    bool more_readable;
+    bool cards_high_contrast;
+    bool cards_more_readable;
     u8 music_volume;
     u8 sound_volume;
     s8 padding[11];
@@ -100,8 +100,8 @@ typedef struct SaveOptions
 static const SaveOptions SaveOptions_default = {
     .tag_options = "- OPTIONS DATA -",
     .game_speed = GAME_SPEED_MIN,
-    .high_contrast = DEFAULT_HIGH_CONTRAST,
-    .more_readable = DEFAULT_MORE_READABLE,
+    .cards_high_contrast = DEFAULT_HIGH_CONTRAST,
+    .cards_more_readable = DEFAULT_MORE_READABLE,
     .music_volume = VOLUME_OPTION_MAX,
     .sound_volume = VOLUME_OPTION_MAX,
     .padding = {
@@ -305,8 +305,8 @@ void save_options(void)
     SaveOptions options = SaveOptions_default;
 
     options.game_speed = g_game_vars.game_speed;
-    options.high_contrast = get_high_contrast();
-    options.more_readable = get_more_readable();
+    options.cards_high_contrast = get_cards_high_contrast();
+    options.cards_more_readable = get_cards_more_readable();
     options.music_volume = g_game_vars.music_volume;
     options.sound_volume = g_game_vars.sound_volume;
 
@@ -328,8 +328,8 @@ void load_options(void)
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
 
-    set_high_contrast(options.high_contrast);
-    set_more_readable(options.more_readable);
+    set_cards_high_contrast(options.cards_high_contrast);
+    set_cards_more_readable(options.cards_more_readable);
 
     mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }
