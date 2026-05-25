@@ -1130,9 +1130,11 @@ static bool choose_seed_row_on_selection_changed(
         }
 
         // From row 4 to 3
-        else if (prev_selection->x >= 1 && prev_selection->x <= 3 &&
+        else if (
+            prev_selection->x >= 1 && prev_selection->x <= 3 &&
             prev_selection->y == RUN_SETUP_SEED_ROW_KEY3 &&
-            new_selection->y == RUN_SETUP_SEED_ROW_KEY2)
+            new_selection->y == RUN_SETUP_SEED_ROW_KEY2
+        )
         {
             shifted_selection.x++;
             selection_grid->selection = shifted_selection;
