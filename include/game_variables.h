@@ -8,7 +8,6 @@
 
 #include "blind.h"
 #include "random.h"
-#include "state_machine.h"
 
 #include <tonc.h>
 

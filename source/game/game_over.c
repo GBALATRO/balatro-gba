@@ -6,7 +6,6 @@
 #include "game.h"
 #include "graphic_utils.h"
 #include "layout.h"
-#include "maxmod.h"
 #include "random.h"
 #include "soundbank.h"
 #include "timer.h"
