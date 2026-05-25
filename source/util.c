@@ -253,7 +253,7 @@ static inline uint32_t get_base36_power(uint8_t i)
         return 0;
     }
 
-    static uint32_t powers_of_36[BASE36_MAX_DIGITS] = {1, 36, 1296, 46656, 1679616, 60466176};
+    static const uint32_t powers_of_36[BASE36_MAX_DIGITS] = {1, 36, 1296, 46656, 1679616, 60466176};
     return powers_of_36[i];
 }
 
