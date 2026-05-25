@@ -1108,17 +1108,40 @@ static bool choose_seed_row_on_selection_changed(
 {
     // TODO: since some rows don't have the same number of buttons but their widths line up,
     // need to find a way to shift selection.x to left or right to keep navigation consistent
+    bool proceed_selection = true;
 
-    if (row_idx == new_selection->y)
+    if (row_idx == prev_selection->y)
     {
         button_set_highlight(choose_seed_get_button_from_sel(prev_selection), false);
     }
 
     if (row_idx == new_selection->y)
     {
-        button_set_highlight(choose_seed_get_button_from_sel(new_selection), true);
+        Selection shifted_selection = *new_selection;
+
+        // From row 3 to 4
+        if (prev_selection->y == RUN_SETUP_SEED_ROW_KEY2 &&
+            new_selection->y == RUN_SETUP_SEED_ROW_KEY3 && prev_selection->x >= 5 &&
+            prev_selection->x <= 8)
+        {
+            shifted_selection.x++;
+            selection_grid->selection = shifted_selection;
+            proceed_selection = false;
+        }
+
+        // From row 4 to 3
+        else if (prev_selection->x >= 1 && prev_selection->x <= 3 &&
+            prev_selection->y == RUN_SETUP_SEED_ROW_KEY3 &&
+            new_selection->y == RUN_SETUP_SEED_ROW_KEY2)
+        {
+            shifted_selection.x++;
+            selection_grid->selection = shifted_selection;
+            proceed_selection = false;
+        }
+        button_set_highlight(choose_seed_get_button_from_sel(&shifted_selection), true);
     }
-    return true;
+
+    return proceed_selection;
 }
 
 /**
