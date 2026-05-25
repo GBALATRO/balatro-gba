@@ -16,17 +16,16 @@
 
 typedef struct
 {
-    s32 target_tempo;
-    s32 target_pitch;
-    s32 num_steps;
-    s32 tempo_itr;
-    s32 pitch_itr;
-} MusicSpeedChangeReq;
+    s32 current;
+    s32 target;
+    s32 step;
+} AudioParam;
 
 typedef struct
 {
-    s32 pitch;
-    s32 tempo;
+    AudioParam pitch;
+    AudioParam tempo;
+    AudioParam volume;
 } MusicPlayerState;
 
 static MusicSpeedChangeReq make_music_speed_change_req(
@@ -34,14 +33,20 @@ static MusicSpeedChangeReq make_music_speed_change_req(
     s32 target_tempo,
     s32 num_steps
 );
+
 static void request_music_speed_change(const MusicSpeedChangeReq req);
 static void speed_change_update(void);
 
 static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
+static const u32 DEFAULT_VOLUME = MM_MODULE_FULL_VOLUME;
 static const u32 MUSIC_CHANGE_FRAMES = 75;
-static MusicPlayerState music_player = {.pitch = DEFAULT_PITCH, .tempo = DEFAULT_TEMPO};
-static MusicSpeedChangeReq current_req;
+// TODO: make the functions required to build the audio params 
+static MusicPlayerState music_player = {
+    .pitch = {.current = DEFAULT_PITCH,  .target = DEFAULT_PITCH,  .step = 0},
+    .tempo = {.current = DEFAULT_TEMPO,  .target = DEFAULT_TEMPO,  .step = 0},
+    .volume = {.current = DEFAULT_VOLUME, .target = DEFAULT_VOLUME, .step = 0},
+};
 
 static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(speed_change_update),
@@ -127,6 +132,17 @@ static inline bool pitch_update(void)
         return true;
     }
     music_player.pitch += current_req.pitch_itr;
+    return false;
+}
+
+static inline bool audio_param_update(AudioParam* param)
+{
+    if (abs(param->current - param->target) <= abs(param->step))
+    {
+        param->current = param->target;
+        return true;
+    }
+    param->current += param->step;
     return false;
 }
 
