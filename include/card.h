@@ -40,6 +40,10 @@
 
 #define IMPOSSIBLY_HIGH_CARD_VALUE 100
 
+// Card sprites
+#define DEFAULT_HIGH_CONTRAST false
+#define DEFAULT_MORE_READABLE false
+
 // Card types
 typedef struct Card
 {
@@ -54,9 +58,11 @@ typedef struct CardObject
     bool selected;
 } CardObject;
 
-// Card functions
-void card_init();
-void toggle_high_contrast_cards(bool enable);
+// Card sprites accessibility functions
+void set_cards_high_contrast(bool enable);
+void set_cards_more_readable(bool enable);
+bool get_cards_high_contrast(void);
+bool get_cards_more_readable(void);
 
 // Card methods
 Card* card_new(u8 suit, u8 rank);
