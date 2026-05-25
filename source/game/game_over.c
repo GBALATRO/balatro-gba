@@ -62,12 +62,16 @@ static void game_over_init(enum EndCondition init_condition)
 
 void game_win_on_init(void)
 {
+    play_sfx(SFX_GAME_WIN, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+
     game_over_init(END_CONDITION_WIN);
 }
 
 void game_lose_on_init(void)
 {
     play_lose_music();
+    play_sfx(SFX_GAME_LOSE, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+
     game_over_init(END_CONDITION_LOSS);
 }
 
