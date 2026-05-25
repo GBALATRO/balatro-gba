@@ -15,7 +15,7 @@ void noop(void) {};
 
 void state_machine_register(StateMachine* state_machine)
 {
-    if(state_machine->registered)
+    if (state_machine->registered)
         return;
 
     state_machine->registered = true;
@@ -28,9 +28,9 @@ void state_machine_register(StateMachine* state_machine)
 
 void state_machine_remove(StateMachine* state_machine)
 {
-    if(!state_machine->registered)
+    if (!state_machine->registered)
         return;
-    
+
     state_machine->registered = false;
     list_remove_data(&update_cbs, &state_machine->active_update);
 }
@@ -47,7 +47,7 @@ void state_machine_update(void)
 
 void state_machine_change_state(StateMachine* state_machine, int new_state)
 {
-    if(!state_machine->registered)
+    if (!state_machine->registered)
         return;
 
     if (state_machine->state >= 0 && state_machine->state < state_machine->num_infos)

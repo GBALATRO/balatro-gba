@@ -29,7 +29,6 @@ typedef struct
     s32 tempo;
 } MusicPlayerState;
 
-
 static MusicSpeedChangeReq make_music_speed_change_req(
     s32 target_pitch,
     s32 target_tempo,
@@ -37,7 +36,6 @@ static MusicSpeedChangeReq make_music_speed_change_req(
 );
 static void request_music_speed_change(const MusicSpeedChangeReq req);
 static void speed_change_update(void);
-
 
 static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
@@ -50,7 +48,6 @@ static StateInfo state_info[] = {
 };
 
 static StateMachine song_speed_sm = STATE_MACHINE_DEFINE(state_info, 1);
-
 
 static void request_music_speed_change(const MusicSpeedChangeReq req)
 {
