@@ -9,21 +9,10 @@
 #include "game_variables.h"
 #include "mgba_logger.h"
 #include "state_machine.h"
+#include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
-
-void play_sfx(mm_word id, mm_word rate, mm_byte volume)
-{
-    mm_sound_effect sfx = {
-        {id},
-        rate,
-        0,
-        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,
-        SFX_DEFAULT_PAN,
-    };
-    mmEffectEx(&sfx);
-}
 
 typedef struct
 {
@@ -40,19 +29,28 @@ typedef struct
     s32 tempo;
 } MusicPlayerState;
 
+
+static MusicSpeedChangeReq make_music_speed_change_req(
+    s32 target_pitch,
+    s32 target_tempo,
+    s32 num_steps
+);
+static void request_music_speed_change(const MusicSpeedChangeReq req);
+static void speed_change_update(void);
+
+
 static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
 static const u32 MUSIC_CHANGE_FRAMES = 60;
 static MusicPlayerState music_player = {.pitch = DEFAULT_PITCH, .tempo = DEFAULT_TEMPO};
 static MusicSpeedChangeReq current_req;
 
-static void speed_change_update(void);
-
 static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(speed_change_update),
 };
 
 static StateMachine song_speed_sm = STATE_MACHINE_DEFINE(state_info, 1);
+
 
 static void request_music_speed_change(const MusicSpeedChangeReq req)
 {
@@ -68,15 +66,22 @@ static MusicSpeedChangeReq make_music_speed_change_req(
 )
 {
     MusicSpeedChangeReq req;
-    req.tempo_itr = (target_tempo - music_player.tempo) / num_steps;
-    req.pitch_itr = (target_pitch - music_player.pitch) / num_steps;
+
+    int tempo_offset = target_tempo - music_player.tempo;
+    int pitch_offset = target_pitch - music_player.pitch;
+
+    num_steps |= !num_steps; // always ensure it's at least 1 for division
+
+    req.tempo_itr = tempo_offset / num_steps;
+    req.pitch_itr = pitch_offset / num_steps;
     // This needs to always be at least 1. Integer division above can lead to
     // to some infinite loops.
-    req.tempo_itr |= !req.tempo_itr;
-    req.pitch_itr |= !req.pitch_itr;
+    req.tempo_itr = !req.tempo_itr ? SIGN(tempo_offset) : req.tempo_itr;
+    req.pitch_itr = !req.pitch_itr ? SIGN(pitch_offset) : req.pitch_itr;
     req.target_pitch = target_pitch;
     req.target_tempo = target_tempo;
     req.num_steps = num_steps;
+
     return req;
 }
 
@@ -138,4 +143,16 @@ static void speed_change_update(void)
 
     if (tempo_reached && pitch_reached)
         state_machine_remove(&song_speed_sm);
+}
+
+void play_sfx(mm_word id, mm_word rate, mm_byte volume)
+{
+    mm_sound_effect sfx = {
+        {id},
+        rate,
+        0,
+        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,
+        SFX_DEFAULT_PAN,
+    };
+    mmEffectEx(&sfx);
 }

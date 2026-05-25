@@ -18,6 +18,14 @@
 #define UNDEFINED -1
 
 /**
+ * @def SIGN
+ * @brief Get the sign (signum) of an integer
+ *
+ * @return 1,-1,0 if the number is positive,negative, or 0, respectively.
+ */
+#define SIGN(x) ((x > 0) - (x < 0))
+
+/**
  * @def NUM_ELEM_IN_ARR
  * @brief Get the number of elements in an array
  *
