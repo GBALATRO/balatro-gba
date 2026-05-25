@@ -16,10 +16,19 @@
 
 typedef struct
 {
-    s32 current;
     s32 target;
-    s32 step;
+    s32 stride;
+} AudioParamReq;
+
+#define AUDIO_PARAM_REQ_DEFAULT {.target = 0, .stride = 0}
+
+typedef struct
+{
+    s32 current;
+    AudioParamReq req;
 } AudioParam;
+
+#define AUDIO_PARAM_DEFINE(init_val) {.current = init_val, .req = AUDIO_PARAM_REQ_DEFAULT}
 
 typedef struct
 {
@@ -28,24 +37,19 @@ typedef struct
     AudioParam volume;
 } MusicPlayerState;
 
-static MusicSpeedChangeReq make_music_speed_change_req(
-    s32 target_pitch,
-    s32 target_tempo,
-    s32 num_steps
-);
-
-static void request_music_speed_change(const MusicSpeedChangeReq req);
-static void speed_change_update(void);
-
 static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
 static const u32 DEFAULT_VOLUME = MM_MODULE_FULL_VOLUME;
 static const u32 MUSIC_CHANGE_FRAMES = 75;
-// TODO: make the functions required to build the audio params 
+static const u32 VOLUME_CHANGE_FRAMES = MUSIC_CHANGE_FRAMES / 2;
+
+static void set_audio_param_req(AudioParam* param, s32 target, s32 steps);
+static void speed_change_update(void);
+
 static MusicPlayerState music_player = {
-    .pitch = {.current = DEFAULT_PITCH,  .target = DEFAULT_PITCH,  .step = 0},
-    .tempo = {.current = DEFAULT_TEMPO,  .target = DEFAULT_TEMPO,  .step = 0},
-    .volume = {.current = DEFAULT_VOLUME, .target = DEFAULT_VOLUME, .step = 0},
+    .pitch = AUDIO_PARAM_DEFINE(DEFAULT_PITCH),
+    .tempo = AUDIO_PARAM_DEFINE(DEFAULT_TEMPO),
+    .volume = AUDIO_PARAM_DEFINE(DEFAULT_VOLUME),
 };
 
 static StateInfo state_info[] = {
@@ -54,108 +58,89 @@ static StateInfo state_info[] = {
 
 static StateMachine song_speed_sm = STATE_MACHINE_DEFINE(state_info, 1);
 
-static void request_music_speed_change(const MusicSpeedChangeReq req)
+static void set_audio_param_req(AudioParam* param, s32 target, s32 steps)
 {
-    current_req = req;
-    state_machine_register(&song_speed_sm);
-    state_machine_change_state(&song_speed_sm, 0);
-}
+    int offset = target - param->current;
 
-static MusicSpeedChangeReq make_music_speed_change_req(
-    s32 target_pitch,
-    s32 target_tempo,
-    s32 num_steps
-)
-{
-    MusicSpeedChangeReq req;
-
-    int tempo_offset = target_tempo - music_player.tempo;
-    int pitch_offset = target_pitch - music_player.pitch;
-
-    num_steps |= !num_steps; // always ensure it's at least 1 for division
-
-    req.tempo_itr = tempo_offset / num_steps;
-    req.pitch_itr = pitch_offset / num_steps;
-    // This needs to always be at least 1. Integer division above can lead to
-    // to some infinite loops.
-    req.tempo_itr = !req.tempo_itr ? SIGN(tempo_offset) : req.tempo_itr;
-    req.pitch_itr = !req.pitch_itr ? SIGN(pitch_offset) : req.pitch_itr;
-    req.target_pitch = target_pitch;
-    req.target_tempo = target_tempo;
-    req.num_steps = num_steps;
-
-    return req;
+    // if '0' set to '1'
+    steps |= !steps;
+    param->req.stride = offset / steps;
+    param->req.stride = !param->req.stride ? SIGN(offset) : param->req.stride;
+    param->req.target = target;
 }
 
 void play_lose_music(void)
 {
     const u32 slow_music_speed = 0x200;
+    // Don't adjust the volume if already on the lowest setting, otherwise it's not audible
+    u32 target_vol = volume_module_step_to_val(g_game_vars.music_volume) / 2;
 
-    MusicSpeedChangeReq req =
-        make_music_speed_change_req(slow_music_speed, slow_music_speed, MUSIC_CHANGE_FRAMES);
-    request_music_speed_change(req);
+    set_audio_param_req(&music_player.pitch, slow_music_speed, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.tempo, slow_music_speed, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
+
+    state_machine_register(&song_speed_sm);
+    state_machine_change_state(&song_speed_sm, 0);
 }
 
 void play_regular_music(void)
 {
-    MusicSpeedChangeReq req =
-        make_music_speed_change_req(DEFAULT_PITCH, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
-    request_music_speed_change(req);
+    u32 target_vol = volume_module_step_to_val(g_game_vars.music_volume);
+    set_audio_param_req(&music_player.pitch, DEFAULT_PITCH, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.tempo, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
+
+    state_machine_register(&song_speed_sm);
+    state_machine_change_state(&song_speed_sm, 0);
 }
 
 /**
- * @brief Update the tempo for the music speed state machine for audio transitions
+ * @brief Update the @ref AudioParam for the music transition state machine for audio transitions
  *
- * @return true if target tempo is reached, false otherwise
+ * @return true if target is reached, false otherwise
  */
-static inline bool tempo_update(void)
-{
-    if (abs(music_player.tempo - current_req.target_tempo) <= abs(current_req.tempo_itr))
-    {
-        music_player.tempo = current_req.target_tempo;
-        return true;
-    }
-    music_player.tempo += current_req.tempo_itr;
-    return false;
-}
-
-/**
- * @brief Update the pitch for the music speed state machine for audio transitions
- *
- * @return true if target pitch is reached, false otherwise
- */
-static inline bool pitch_update(void)
-{
-    if (abs(music_player.pitch - current_req.target_pitch) <= abs(current_req.pitch_itr))
-    {
-        music_player.pitch = current_req.target_pitch;
-        return true;
-    }
-    music_player.pitch += current_req.pitch_itr;
-    return false;
-}
-
 static inline bool audio_param_update(AudioParam* param)
 {
-    if (abs(param->current - param->target) <= abs(param->step))
+    if (abs(param->current - param->req.target) <= abs(param->req.stride))
     {
-        param->current = param->target;
+        param->current = param->req.target;
         return true;
     }
-    param->current += param->step;
+    param->current += param->req.stride;
     return false;
 }
 
 static void speed_change_update(void)
 {
-    bool tempo_reached = tempo_update();
-    bool pitch_reached = pitch_update();
+    bool tempo_reached = audio_param_update(&music_player.tempo);
+    bool pitch_reached = audio_param_update(&music_player.pitch);
+    bool volume_reached = audio_param_update(&music_player.volume);
 
-    mmSetModuleTempo(music_player.tempo);
-    mmSetModulePitch(music_player.pitch);
+    mmSetModuleTempo(music_player.tempo.current);
+    mmSetModulePitch(music_player.pitch.current);
+    set_volume(music_player.volume.current);
 
-    if (tempo_reached && pitch_reached)
+    MGBA_WARN(
+        "Tempo, Cur: 0x%x, Req 0x%x",
+        music_player.tempo.current,
+        music_player.tempo.req.target
+    );
+    MGBA_WARN(
+        "Pitch, Cur: 0x%x, Req 0x%x",
+        music_player.pitch.current,
+        music_player.pitch.req.target
+    );
+    MGBA_WARN(
+        "Volume, Cur: 0x%x, Req 0x%x",
+        music_player.volume.current,
+        music_player.volume.req.target
+    );
+
+    if (tempo_reached && pitch_reached && volume_reached)
+    {
         state_machine_remove(&song_speed_sm);
+        MGBA_WARN("All done! Removing state machine");
+    }
 }
 
 void play_sfx(mm_word id, mm_word rate, mm_byte volume)
@@ -164,8 +149,14 @@ void play_sfx(mm_word id, mm_word rate, mm_byte volume)
         {id},
         rate,
         0,
-        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,
+        volume_sfx_step_to_val(g_game_vars.sound_volume),
         SFX_DEFAULT_PAN,
     };
     mmEffectEx(&sfx);
+}
+
+void set_volume(int volume)
+{
+    music_player.volume.current = volume;
+    mmSetModuleVolume(volume);
 }

@@ -8,6 +8,8 @@
 
 #include <mm_types.h>
 
+#include "game_variables.h"
+
 /**
  * @def MM_MODULE_FULL_VOLUME
  * @brief The maximum volume for maxmod module volume (main theme)
@@ -73,5 +75,17 @@ void play_lose_music(void);
  * @brief Play music at a normal pitch and tempo
  */
 void play_regular_music(void);
+
+void set_volume(int volume);
+
+inline int volume_module_step_to_val(unsigned char step)
+{
+    return MM_MODULE_FULL_VOLUME * step / VOLUME_OPTION_MAX;
+}
+
+inline int volume_sfx_step_to_val(unsigned char step)
+{
+    return MM_SFX_FULL_VOLUME * step / VOLUME_OPTION_MAX;
+}
 
 #endif

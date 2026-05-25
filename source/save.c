@@ -316,7 +316,7 @@ void load_options(void)
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
 
-    mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
+    set_volume(volume_module_step_to_val(g_game_vars.music_volume));
 }
 
 void save_game(void)
