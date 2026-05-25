@@ -236,39 +236,38 @@ $(document).ready(function(){initNavTree('main_8c_source.html',''); initResizabl
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_function" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>();</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <a class="code hl_function" href="affine__background_8h.html#a32fe827b730b073b17abff9dfb5adb65">affine_background_init</a>();</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <a class="code hl_function" href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a>();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    card_init();</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    blind_init();</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    joker_init();</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    game_init();</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    game_change_state(GAME_STATE_SPLASH_SCREEN);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> update()</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>{</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_function" href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a>();</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    game_update();</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> draw()</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>{</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_function" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a>();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keywordtype">int</span> main()</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>{</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    init();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    {</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        VBlankIntrWait();</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        mmFrame();</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        key_poll();</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        update();</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        draw();</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    blind_init();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    joker_init();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    game_init();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    game_change_state(GAME_STATE_SPLASH_SCREEN);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">void</span> update()</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>{</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_function" href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a>();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    game_update();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keywordtype">void</span> draw()</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>{</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <a class="code hl_function" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keywordtype">int</span> main()</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    init();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        VBlankIntrWait();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        mmFrame();</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        key_poll();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        update();</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        draw();</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
 <div class="ttc" id="aaffine__background_8h_html"><div class="ttname"><a href="affine__background_8h.html">affine_background.h</a></div><div class="ttdoc">Utilities for affine background on GBA.</div></div>
 <div class="ttc" id="aaffine__background_8h_html_a32fe827b730b073b17abff9dfb5adb65"><div class="ttname"><a href="affine__background_8h.html#a32fe827b730b073b17abff9dfb5adb65">affine_background_init</a></div><div class="ttdeci">void affine_background_init()</div><div class="ttdoc">Initialize resources for affine background rendering.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00019">affine_background.c:19</a></div></div>
 <div class="ttc" id="aaffine__background_8h_html_a55fdb6345d3e66a7c7af446e3dd5f070"><div class="ttname"><a href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a></div><div class="ttdeci">IWRAM_CODE void affine_background_update()</div><div class="ttdoc">Per-frame update of the affine background.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00039">affine_background.c:39</a></div></div>
@@ -282,7 +281,7 @@ $(document).ready(function(){initNavTree('main_8c_source.html',''); initResizabl
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
 <div class="ttc" id="arandom_8h_html_ad5a3df3d0092f55f6ea54ccaa7daf3dc"><div class="ttname"><a href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a></div><div class="ttdeci">void rng_init(void)</div><div class="ttdoc">Starts counting CPU cycles, this will be used by rng_shuffle_seed to generate a more random seed....</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00012">random.c:12</a></div></div>
 <div class="ttc" id="asave_8h_html"><div class="ttname"><a href="save_8h.html">save.h</a></div><div class="ttdoc">Utils functions to save/load data structures from/to the SRAM.</div></div>
-<div class="ttc" id="asave_8h_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00304">save.c:304</a></div></div>
+<div class="ttc" id="asave_8h_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00315">save.c:315</a></div></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
 <div class="ttc" id="asprite_8h_html_a564c9484883d28c4904b382c2eec5db9"><div class="ttname"><a href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a></div><div class="ttdeci">void sprite_init(void)</div><div class="ttdoc">Initialize GBAlatro sprite system.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00149">sprite.c:149</a></div></div>
 <div class="ttc" id="asprite_8h_html_aeae667aa51109000495c9a7f19fa08e8"><div class="ttname"><a href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a></div><div class="ttdeci">void sprite_draw(void)</div><div class="ttdoc">Draw Sprites to screen, to be called once per frame.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00154">sprite.c:154</a></div></div>
