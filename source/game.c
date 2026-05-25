@@ -211,10 +211,7 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
-static StateMachine game_sm = {
-    .state_infos = &state_info[0],
-    .num_infos = GAME_STATE_MAX,
-};
+static StateMachine game_sm = STATE_MACHINE_DEFINE(state_info, GAME_STATE_MAX);
 
 // clang-format off
 static SelectionGridRow game_playing_selection_rows[] = {

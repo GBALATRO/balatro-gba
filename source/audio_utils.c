@@ -52,10 +52,7 @@ static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(speed_change_update),
 };
 
-static StateMachine song_speed_sm = {
-    .state_infos = &state_info[0],
-    .num_infos = 1,
-};
+static StateMachine song_speed_sm = STATE_MACHINE_DEFINE(state_info, 1);
 
 static void request_music_speed_change(const MusicSpeedChangeReq req)
 {
