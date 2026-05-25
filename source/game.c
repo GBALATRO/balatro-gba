@@ -289,6 +289,7 @@ GameVariables g_game_vars = {
     .round_end_blind_token = NULL,
 
     .game_speed = DEFAULT_GAME_SPEED,
+    .high_contrast = DEFAULT_HIGH_CONTRAST,
     .music_volume = DEFAULT_MUSIC_VOLUME,
     .sound_volume = DEFAULT_SOUND_VOLUME,
 };
@@ -2597,6 +2598,9 @@ void game_start(void)
 
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
+
+    // Activate high contrast palette for cards if loaded settings tell us to
+    toggle_high_contrast_cards(g_game_vars.high_contrast);
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
     // that allows for different decks and card types.
