@@ -180,48 +180,54 @@ $(document).ready(function(){initNavTree('card_8h_source.html',''); initResizabl
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#define IMPOSSIBLY_HIGH_CARD_VALUE 100</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Card types</span></div>
-<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structCard.html">   44</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCard.html">Card</a></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>{</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    u8 suit;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    u8 rank;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>} <a class="code hl_struct" href="structCard.html">Card</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Card sprites</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#define DEFAULT_HIGH_CONTRAST false</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#define DEFAULT_MORE_READABLE false</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Card types</span></div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="};">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structCard.html">   48</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCard.html">Card</a></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    u8 suit;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    u8 rank;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>} <a class="code hl_struct" href="structCard.html">Card</a>;</div>
 </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="foldopen" id="foldopen00050" data-start="{" data-end="};">
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structCardObject.html">   50</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCardObject.html">CardObject</a></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>{</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_struct" href="structCard.html">Card</a>* card;</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">bool</span> selected;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>} <a class="code hl_struct" href="structCardObject.html">CardObject</a>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="};">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structCardObject.html">   54</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structCardObject.html">CardObject</a></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>{</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_struct" href="structCard.html">Card</a>* card;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">bool</span> selected;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>} <a class="code hl_struct" href="structCardObject.html">CardObject</a>;</div>
 </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">// Card functions</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keywordtype">void</span> card_init();</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">void</span> toggle_high_contrast_cards(<span class="keywordtype">bool</span> enable);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">// Card methods</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><a class="code hl_struct" href="structCard.html">Card</a>* card_new(u8 suit, u8 rank);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">void</span> card_destroy(<a class="code hl_struct" href="structCard.html">Card</a>** card);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>u8 card_get_value(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">// CardObject methods</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object_new(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keywordtype">void</span> card_object_destroy(<a class="code hl_struct" href="structCardObject.html">CardObject</a>** card_object);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keywordtype">void</span> card_object_update(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object); <span class="comment">// Update the card object position and scale</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">void</span> card_object_set_sprite(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, <span class="keywordtype">int</span> layer);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">void</span> card_object_shake(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, mm_word sound_id);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keywordtype">void</span> card_object_set_selected(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, <span class="keywordtype">bool</span> selected);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">bool</span> card_object_is_selected(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* card_object_get_sprite(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object);</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif </span><span class="comment">// CARD_H</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">// Card sprites accessibility functions</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">void</span> set_cards_high_contrast(<span class="keywordtype">bool</span> enable);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">void</span> set_cards_more_readable(<span class="keywordtype">bool</span> enable);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keywordtype">bool</span> get_cards_high_contrast(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> get_cards_more_readable(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">// Card methods</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><a class="code hl_struct" href="structCard.html">Card</a>* card_new(u8 suit, u8 rank);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keywordtype">void</span> card_destroy(<a class="code hl_struct" href="structCard.html">Card</a>** card);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>u8 card_get_value(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="comment">// CardObject methods</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object_new(<a class="code hl_struct" href="structCard.html">Card</a>* card);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> card_object_destroy(<a class="code hl_struct" href="structCardObject.html">CardObject</a>** card_object);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keywordtype">void</span> card_object_update(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object); <span class="comment">// Update the card object position and scale</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">void</span> card_object_set_sprite(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, <span class="keywordtype">int</span> layer);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keywordtype">void</span> card_object_shake(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, mm_word sound_id);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">void</span> card_object_set_selected(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, <span class="keywordtype">bool</span> selected);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keywordtype">bool</span> card_object_is_selected(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* card_object_get_sprite(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif </span><span class="comment">// CARD_H</span></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
-<div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00050">card.h:51</a></div></div>
-<div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00044">card.h:45</a></div></div>
+<div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00054">card.h:55</a></div></div>
+<div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00048">card.h:49</a></div></div>
 <div class="ttc" id="astructSpriteObject_html"><div class="ttname"><a href="structSpriteObject.html">SpriteObject</a></div><div class="ttdoc">A sprite object is a sprite that is focusable and movable in animation.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00054">sprite.h:55</a></div></div>
 <div class="ttc" id="astructSprite_html"><div class="ttname"><a href="structSprite.html">Sprite</a></div><div class="ttdoc">Sprite struct for GBA hardware specifics.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00028">sprite.h:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

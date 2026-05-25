@@ -145,14 +145,16 @@ Data Fields</h2></td></tr>
 <tr class="separator:a619310cbf199b6b5de8d74f4b6bac7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44da63eb710d08aaa5ba4f8c0c05163e" id="r_a44da63eb710d08aaa5ba4f8c0c05163e"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a44da63eb710d08aaa5ba4f8c0c05163e">game_speed</a></td></tr>
 <tr class="separator:a44da63eb710d08aaa5ba4f8c0c05163e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a411138710c92fe2788db2089c67a9aea" id="r_a411138710c92fe2788db2089c67a9aea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a411138710c92fe2788db2089c67a9aea">high_contrast</a></td></tr>
-<tr class="separator:a411138710c92fe2788db2089c67a9aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe9164f9c0a684184edda8ba3457120" id="r_adfe9164f9c0a684184edda8ba3457120"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#adfe9164f9c0a684184edda8ba3457120">cards_high_contrast</a></td></tr>
+<tr class="separator:adfe9164f9c0a684184edda8ba3457120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67a30b4c43b253786a635ed629458d2d" id="r_a67a30b4c43b253786a635ed629458d2d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a67a30b4c43b253786a635ed629458d2d">cards_more_readable</a></td></tr>
+<tr class="separator:a67a30b4c43b253786a635ed629458d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28b13ba982928d57e8b9dc8d90af56f4" id="r_a28b13ba982928d57e8b9dc8d90af56f4"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a28b13ba982928d57e8b9dc8d90af56f4">music_volume</a></td></tr>
 <tr class="separator:a28b13ba982928d57e8b9dc8d90af56f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a84543abe6741a90bbd5aaecf42420bba" id="r_a84543abe6741a90bbd5aaecf42420bba"><td class="memItemLeft" align="right" valign="top">u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a84543abe6741a90bbd5aaecf42420bba">sound_volume</a></td></tr>
 <tr class="separator:a84543abe6741a90bbd5aaecf42420bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad391f20bf20dca1e9d83b4c9b0859a2a" id="r_ad391f20bf20dca1e9d83b4c9b0859a2a"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#ad391f20bf20dca1e9d83b4c9b0859a2a">padding</a> [3]</td></tr>
-<tr class="separator:ad391f20bf20dca1e9d83b4c9b0859a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50bf46a0a06c6b4865a9a3d9df51d0c6" id="r_a50bf46a0a06c6b4865a9a3d9df51d0c6"><td class="memItemLeft" align="right" valign="top">s8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSaveOptions.html#a50bf46a0a06c6b4865a9a3d9df51d0c6">padding</a> [11]</td></tr>
+<tr class="separator:a50bf46a0a06c6b4865a9a3d9df51d0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> will only contain options data set in the Options Menu. </p>
@@ -168,17 +170,49 @@ Data Fields</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">'T'   </td><td class="markdownTableBodyNone">'A'   </td><td class="markdownTableBodyNone">' '   </td><td class="markdownTableBodyNone">'-'   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">SPEED   </td><td class="markdownTableBodyNone">CNTRST   </td><td class="markdownTableBodyNone">MUSIC   </td><td class="markdownTableBodyNone">SOUND   </td><td class="markdownTableBodyNone">OPTN_VALUES   </td><td class="markdownTableBodyNone">All 4 option values, packed in a single word.    </td></tr>
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">SPEED   </td><td class="markdownTableBodyNone">CNTRST   </td><td class="markdownTableBodyNone">READBL   </td><td class="markdownTableBodyNone">MUSIC   </td><td class="markdownTableBodyNone">OPTN_VALUES   </td><td class="markdownTableBodyNone">All 5 option values, followed by some padding,    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">PADDING   </td><td class="markdownTableBodyNone">Padding, so that the next section starts at the beginning of the    </td></tr>
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">SOUND   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">so that the next section starts at the beginning of the    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">next 4-word row in a hex viewer    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">UNDEF   </td><td class="markdownTableBodyNone">-   </td><td class="markdownTableBodyNone">-   </td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00074">74</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00085">85</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="adfe9164f9c0a684184edda8ba3457120" name="adfe9164f9c0a684184edda8ba3457120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe9164f9c0a684184edda8ba3457120">&#9670;&#160;</a></span>cards_high_contrast</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cards_high_contrast</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00089">89</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
+<a id="a67a30b4c43b253786a635ed629458d2d" name="a67a30b4c43b253786a635ed629458d2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67a30b4c43b253786a635ed629458d2d">&#9670;&#160;</a></span>cards_more_readable</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool cards_more_readable</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00090">90</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
 <a id="a44da63eb710d08aaa5ba4f8c0c05163e" name="a44da63eb710d08aaa5ba4f8c0c05163e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a44da63eb710d08aaa5ba4f8c0c05163e">&#9670;&#160;</a></span>game_speed</h2>
 
@@ -191,23 +225,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00077">77</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
-
-</div>
-</div>
-<a id="a411138710c92fe2788db2089c67a9aea" name="a411138710c92fe2788db2089c67a9aea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a411138710c92fe2788db2089c67a9aea">&#9670;&#160;</a></span>high_contrast</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool high_contrast</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00078">78</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00088">88</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -223,23 +241,23 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00079">79</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00091">91</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
-<a id="ad391f20bf20dca1e9d83b4c9b0859a2a" name="ad391f20bf20dca1e9d83b4c9b0859a2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad391f20bf20dca1e9d83b4c9b0859a2a">&#9670;&#160;</a></span>padding</h2>
+<a id="a50bf46a0a06c6b4865a9a3d9df51d0c6" name="a50bf46a0a06c6b4865a9a3d9df51d0c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50bf46a0a06c6b4865a9a3d9df51d0c6">&#9670;&#160;</a></span>padding</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 padding[3]</td>
+          <td class="memname">s8 padding[11]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00081">81</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00093">93</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -255,7 +273,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00080">80</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00092">92</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -271,7 +289,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00076">76</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00087">87</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
