@@ -135,10 +135,30 @@ In the repo we use custom scripts located in the [`scripts`](https://github.com/
 
 🟡 **Note**: `python3` and `bash` are required for these scripts.
 
-- **get_hash.py**: Get git hash from ROM.
+- **get_hash.py**: Get git hash from ROM. Pass the `.gba` file as the first argument:
+  ```sh
+  python3 scripts/get_hash.py build/balatro-gba.gba
+  ```
+
 - **generate_font.py**: Generate a font manually.
-- **get_memory_map.sh**: Print the memory map of the pre-allocated pools.
-- **save_build.sh**: Save a timestamped copy of build outputs (.elf, .gba, .map).
+
+- **get_memory_map.sh**: Print the memory map of the pre-allocated pools. Pass the `.elf` file as the first argument. The pool definition header and `readelf` path are optional:
+  ```sh
+  # Minimal usage
+  ./scripts/get_memory_map.sh build/balatro-gba.elf
+
+  # With optional arguments
+  ./scripts/get_memory_map.sh build/balatro-gba.elf include/def_balatro_mempool.h /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf
+  ```
+
+- **save_build.sh**: Save a timestamped copy of build outputs (`.elf`, `.gba`, `.map`). Pass the `.gba` ROM file as the first argument. An optional build label can be provided as the second argument:
+  ```sh
+  # Minimal usage
+  ./scripts/save_build.sh build/balatro-gba.gba
+
+  # With optional build label
+  ./scripts/save_build.sh build/balatro-gba.gba my-feature
+  ```
 
 ## Debugging
 It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).

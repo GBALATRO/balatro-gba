@@ -1,30 +1,43 @@
 #!/usr/bin/env bash
 
+# Usage: get_memory_map.sh <elf-file> [pool-def-file] [readelf-path]
+#   <elf-file>       Path to the built .elf file (required)
+#   [pool-def-file]  Path to the mempool definition header
+#                    (default: ./include/def_balatro_mempool.h)
+#   [readelf-path]   Path to arm-none-eabi-readelf
+#                    (default: /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf)
+
 set -euo pipefail
 
-ELF_FILE="${ELF_FILE-./build/balatro-gba.elf}"
-POOL_DEF_FILE="${POOL_DEF_FILE-./include/def_balatro_mempool.h}"
-READELF="${READELF-/opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf}"
+if [ $# -lt 1 ]; then
+    echo "Usage: $(basename "$0") <elf-file> [pool-def-file] [readelf-path]"
+    echo "  <elf-file>       Path to the built .elf file (e.g. build/balatro-gba.elf)"
+    echo "  [pool-def-file]  Path to the mempool definition header"
+    echo "                   (default: ./include/def_balatro_mempool.h)"
+    echo "  [readelf-path]   Path to arm-none-eabi-readelf"
+    echo "                   (default: /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf)"
+    exit 1
+fi
+
+ELF_FILE="$1"
+POOL_DEF_FILE="${2-./include/def_balatro_mempool.h}"
+READELF="${3-/opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf}"
 TOTAL_BYTES=0
 
 if [ ! -f "$POOL_DEF_FILE" ]; then
     echo "Mempool definition file not found: $POOL_DEF_FILE"
-    echo "You can set your mempool definition file with:"
-    echo "    POOL_DEF_FILE=<mempool-def-file> $(basename $0)"
     exit 1
 fi
 
 if [ ! -f "$ELF_FILE" ]; then
-    echo "elf file not found: $ELF_FILE"
-    echo "You can set your elf file with:"
-    echo "    ELF_FILE=<elf-file> $(basename $0)"
+    echo "ELF file not found or is not a regular file: $ELF_FILE"
     exit 1
 fi
 
 if [ ! -x "$READELF" ]; then
     echo "ERROR: \"$READELF\" is not an executable file."
-    echo "You can override the file location for 'arm-none-eabi-readelf' with the READELF env variable."
-    echo "  e.g. $ READELF=\"/my/custom/location/arm-none-eabi-readelf\" $(basename $0) <file>"
+    echo "You can override the file location for 'arm-none-eabi-readelf' by passing it as the third argument."
+    echo "  e.g. $ $(basename "$0") <elf-file> <pool-def-file> \"/my/custom/location/arm-none-eabi-readelf\""
     exit 1
 fi
 
@@ -67,7 +80,7 @@ for name in $(get_pool_names); do
     pool_size="$(cut -d ' ' -f 3 <<< $output_pool)"
     func_size="$(cut -d ' ' -f 3 <<< $output_func)"
     bitset_size="$(cut -d ' ' -f 3 <<< $output_bitset)"
-    
+
     TOTAL_BYTES=$(( TOTAL_BYTES + pool_size + func_size + bitset_size ))
 
     printf "%-16s| 0x%8s | %-10u | %-10u | %-10u \n" "$name" "$address" "$pool_size" "$func_size" "$bitset_size"
