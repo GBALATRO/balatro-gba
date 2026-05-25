@@ -254,8 +254,8 @@ static void update_game_speed_button_graphics()
     main_bg_se_copy_rect(speed_down_btn_tiles, OPTIONS_SPEED_DOWN_BTN_DEST_POS);
 
     Rect speed_up_btn_tiles = (g_game_vars.game_speed == GAME_SPEED_MAX)
-                                  ? OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT
-                                  : OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT;
+                                ? OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT
+                                : OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT;
     main_bg_se_copy_rect(speed_up_btn_tiles, OPTIONS_SPEED_UP_BTN_DEST_POS);
 
     main_bg_se_copy_rect(
@@ -273,9 +273,8 @@ static void update_high_contrast_button_graphics(void)
 
 static void update_more_readable_button_graphics(void)
 {
-    Rect readable_btn_tiles = (get_more_readable())
-                                  ? OPTIONS_READABLE_CHECK_YES_SRC_RECT
-                                  : OPTIONS_READABLE_CHECK_NO_SRC_RECT;
+    Rect readable_btn_tiles = (get_more_readable()) ? OPTIONS_READABLE_CHECK_YES_SRC_RECT
+                                                    : OPTIONS_READABLE_CHECK_NO_SRC_RECT;
     main_bg_se_copy_rect(readable_btn_tiles, OPTIONS_READABLE_CHECK_DEST_POS);
 }
 
