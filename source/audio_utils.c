@@ -39,7 +39,7 @@ static void speed_change_update(void);
 
 static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
-static const u32 MUSIC_CHANGE_FRAMES = 60;
+static const u32 MUSIC_CHANGE_FRAMES = 75;
 static MusicPlayerState music_player = {.pitch = DEFAULT_PITCH, .tempo = DEFAULT_TEMPO};
 static MusicSpeedChangeReq current_req;
 
