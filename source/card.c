@@ -1,8 +1,6 @@
 #include "card.h"
 
-#include "deck_gfx.h"
 #include "graphic_utils.h"
-#include "high_contrast_deck_pal_gfx.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
@@ -10,6 +8,11 @@
 // Audio
 #include "pool.h"
 #include "soundbank.h"
+
+// Card Sprites and Palettes
+#include "deck_big_gfx.h"
+#include "deck_gfx.h"
+#include "high_contrast_deck_pal_gfx.h"
 
 // Card sprites lookup table. First index is the suit, second index is the rank. The value is the
 // tile index.
@@ -20,14 +23,13 @@ const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 
-void card_init()
-{
-    toggle_high_contrast_cards(false);
-}
+bool high_contrast = DEFAULT_HIGH_CONTRAST;
+bool more_readable = DEFAULT_MORE_READABLE;
 
-void toggle_high_contrast_cards(bool enable)
+void set_cards_high_contrast(bool enable)
 {
-    if (enable)
+    high_contrast = enable;
+    if (high_contrast)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB], high_contrast_deck_pal_gfxPal);
     }
@@ -35,6 +37,21 @@ void toggle_high_contrast_cards(bool enable)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB], deck_gfxPal);
     }
+}
+
+void set_cards_more_readable(bool enable)
+{
+    more_readable = enable;
+}
+
+bool get_cards_high_contrast(void)
+{
+    return high_contrast;
+}
+
+bool get_cards_more_readable(void)
+{
+    return more_readable;
 }
 
 // Card methods
@@ -103,10 +120,10 @@ void card_object_update(CardObject* card_object)
 void card_object_set_sprite(CardObject* card_object, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
+    const unsigned int* card_tiles = more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &deck_gfxTiles
-            [_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
+        &card_tiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
     Sprite* sprite = sprite_new(
