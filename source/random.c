@@ -1,6 +1,7 @@
 #include "random.h"
 
 #include "game_variables.h"
+#include "list.h"
 
 #include <stdlib.h>
 #include <tonc.h>
@@ -46,5 +47,42 @@ void rng_restore(RngInfo info)
     for (u32 i = 0; i < g_game_vars.rng_info.step; i++)
     {
         (void)rng_get_u32();
+    }
+}
+
+void rng_shuffle_array(void** array, int len)
+{
+    for (int i = len - 1; i >= 0; i--)
+    {
+        int j = rng_get_u32() % (i + 1);
+        void* temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+void rng_shuffle_list(List* list)
+{
+    // Allow shuffling up to 256 items in a list at a time
+    static const int MAX_ELEMENTS = 256;
+    void* shuffle_array[MAX_ELEMENTS];
+
+    ListItr list_itr = list_itr_create(list);
+
+    void* data;
+    int arr_idx = 0;
+    while ((data = list_itr_next(&list_itr)))
+    {
+        shuffle_array[arr_idx++] = data;
+    }
+
+    rng_shuffle_array(shuffle_array, arr_idx);
+
+    list_itr = list_itr_create(list);
+
+    arr_idx = 0;
+    while ((data = list_itr_next(&list_itr)))
+    {
+        list_itr.current_node->data = shuffle_array[arr_idx++];
     }
 }

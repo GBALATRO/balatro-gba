@@ -12,6 +12,8 @@
 
 #include <tonc.h>
 
+#include "list.h"
+
 /**
  * @brief Hex value of "ZZZZZZ" in base 36
  */
@@ -72,5 +74,9 @@ u32 rng_get_u32(void);
  * @note Consistency of the RNG after reloading the RngInfo struct has yet to be tested properly
  */
 void rng_restore(RngInfo info);
+
+void rng_shuffle_array(void** array, int len);
+
+void rng_shuffle_list(List* list);
 
 #endif // RANDOM_H
