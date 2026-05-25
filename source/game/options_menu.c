@@ -247,29 +247,16 @@ static void disable_all_outlines_except_self(Selection sel_btn)
 static void update_game_speed_button_graphics()
 {
     // check if need to disable game speed arrows
-    if (g_game_vars.game_speed == GAME_SPEED_MIN)
-    {
-        main_bg_se_copy_rect(
-            OPTIONS_SPEED_DOWN_DISABLED_BTN_SRC_RECT,
-            OPTIONS_SPEED_DOWN_BTN_DEST_POS
-        );
-    }
-    else
-    {
-        main_bg_se_copy_rect(
-            OPTIONS_SPEED_DOWN_ACTIVE_BTN_SRC_RECT,
-            OPTIONS_SPEED_DOWN_BTN_DEST_POS
-        );
-    }
 
-    if (g_game_vars.game_speed == GAME_SPEED_MAX)
-    {
-        main_bg_se_copy_rect(OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT, OPTIONS_SPEED_UP_BTN_DEST_POS);
-    }
-    else
-    {
-        main_bg_se_copy_rect(OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT, OPTIONS_SPEED_UP_BTN_DEST_POS);
-    }
+    Rect speed_down_btn_tiles = (g_game_vars.game_speed == GAME_SPEED_MIN)
+                                  ? OPTIONS_SPEED_DOWN_DISABLED_BTN_SRC_RECT
+                                  : OPTIONS_SPEED_DOWN_ACTIVE_BTN_SRC_RECT;
+    main_bg_se_copy_rect(speed_down_btn_tiles, OPTIONS_SPEED_DOWN_BTN_DEST_POS);
+
+    Rect speed_up_btn_tiles = (g_game_vars.game_speed == GAME_SPEED_MAX)
+                                  ? OPTIONS_SPEED_UP_DISABLED_BTN_SRC_RECT
+                                  : OPTIONS_SPEED_UP_ACTIVE_BTN_SRC_RECT;
+    main_bg_se_copy_rect(speed_up_btn_tiles, OPTIONS_SPEED_UP_BTN_DEST_POS);
 
     main_bg_se_copy_rect(
         OPTIONS_SPEED_VALUES[g_game_vars.game_speed - 1],
@@ -279,26 +266,17 @@ static void update_game_speed_button_graphics()
 
 static void update_high_contrast_button_graphics(void)
 {
-    if (get_high_contrast())
-    {
-        main_bg_se_copy_rect(OPTIONS_CONTRAST_CHECK_YES_SRC_RECT, OPTIONS_CONTRAST_CHECK_DEST_POS);
-    }
-    else
-    {
-        main_bg_se_copy_rect(OPTIONS_CONTRAST_CHECK_NO_SRC_RECT, OPTIONS_CONTRAST_CHECK_DEST_POS);
-    }
+    Rect contrast_btn_tiles = (get_high_contrast()) ? OPTIONS_CONTRAST_CHECK_YES_SRC_RECT
+                                                    : OPTIONS_CONTRAST_CHECK_NO_SRC_RECT;
+    main_bg_se_copy_rect(contrast_btn_tiles, OPTIONS_CONTRAST_CHECK_DEST_POS);
 }
 
 static void update_more_readable_button_graphics(void)
 {
-    if (get_more_readable())
-    {
-        main_bg_se_copy_rect(OPTIONS_READABLE_CHECK_YES_SRC_RECT, OPTIONS_READABLE_CHECK_DEST_POS);
-    }
-    else
-    {
-        main_bg_se_copy_rect(OPTIONS_READABLE_CHECK_NO_SRC_RECT, OPTIONS_READABLE_CHECK_DEST_POS);
-    }
+    Rect readable_btn_tiles = (get_more_readable())
+                                  ? OPTIONS_READABLE_CHECK_YES_SRC_RECT
+                                  : OPTIONS_READABLE_CHECK_NO_SRC_RECT;
+    main_bg_se_copy_rect(readable_btn_tiles, OPTIONS_READABLE_CHECK_DEST_POS);
 }
 
 static void update_volume_slider_graphics(enum OptionButtonRows sel_row)
@@ -478,7 +456,7 @@ static void game_speed_up_on_pressed(void)
  */
 static void high_contrast_on_pressed(void)
 {
-    set_high_contrast((get_high_contrast() == 1) ? false : true);
+    set_high_contrast(!get_high_contrast());
     update_high_contrast_button_graphics();
 }
 
@@ -487,7 +465,7 @@ static void high_contrast_on_pressed(void)
  */
 static void more_readable_on_pressed(void)
 {
-    set_more_readable((get_more_readable() == 1) ? false : true);
+    set_more_readable(!get_more_readable());
     update_more_readable_button_graphics();
 }
 
