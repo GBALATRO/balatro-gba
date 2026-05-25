@@ -1,9 +1,9 @@
 /**
- * @file deck.c
+ * @file deck_types.c
  *
  * @brief Implementation of functions related to the different types of Decks.
  */
-#include "deck.h"
+#include "deck_types.h"
 
 #include "game.h"
 

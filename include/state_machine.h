@@ -106,8 +106,8 @@ void state_machine_change_state(StateMachine* state_machine, int new_state);
 void noop(void);
 
 // clang-format off
-#define STATE_INFO_UPDATE_FN_ONLY(fn)           {.on_init = noop, .on_update = fn,     .on_exit = noop}
-#define STATE_INFO_INIT_UPDATE_FN(init, update) {.on_init = init, .on_update = update, .on_exit = noop}
+#define STATE_INFO_UPDATE_FN_ONLY(fn)           {.on_init = noop,    .on_update = fn,        .on_exit = noop}
+#define STATE_INFO_INIT_UPDATE_FN(init, update) {.on_init = init_fn, .on_update = update_fn, .on_exit = noop}
 #define STATE_MACHINE_DEFINE(infos, num) \
 {                                        \
     .state_infos = &infos[0],            \

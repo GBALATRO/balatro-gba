@@ -1,7 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "deck.h"
+#include "deck_types.h"
 #include "sprite.h"
 
 #include <maxmod.h>

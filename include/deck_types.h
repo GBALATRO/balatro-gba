@@ -1,10 +1,10 @@
 /**
- * @file deck.h
+ * @file deck_types.h
  *
  * @brief Functions related to the different types of Decks.
  */
-#ifndef DECK_H
-#define DECK_H
+#ifndef DECK_TYPES_H
+#define DECK_TYPES_H
 
 #include "graphic_utils.h"
 
@@ -42,4 +42,4 @@ void print_deck_name(enum DeckType deck, BG_POINT pos);
  */
 void print_deck_description(enum DeckType deck, BG_POINT pos);
 
-#endif // DECK_H
+#endif // DECK_TYPES_H
