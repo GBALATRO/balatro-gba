@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-# Usage: get_memory_map.sh <elf-file> [pool-def-file] [readelf-path]
-#   <elf-file>       Path to the built .elf file (required)
-#   [pool-def-file]  Path to the mempool definition header
-#                    (default: ./include/def_balatro_mempool.h)
-#   [readelf-path]   Path to arm-none-eabi-readelf
-#                    (default: /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf)
-
 set -euo pipefail
 
-if [ $# -lt 1 ]; then
+usage() {
     echo "Usage: $(basename "$0") <elf-file> [pool-def-file] [readelf-path]"
     echo "  <elf-file>       Path to the built .elf file (e.g. build/balatro-gba.elf)"
     echo "  [pool-def-file]  Path to the mempool definition header"
@@ -17,6 +10,10 @@ if [ $# -lt 1 ]; then
     echo "  [readelf-path]   Path to arm-none-eabi-readelf"
     echo "                   (default: /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf)"
     exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usage
 fi
 
 ELF_FILE="$1"
@@ -25,20 +22,17 @@ READELF="${3-/opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf}"
 TOTAL_BYTES=0
 
 if [ ! -f "$POOL_DEF_FILE" ]; then
-    echo "Mempool definition file not found: $POOL_DEF_FILE"
-    exit 1
+  echo "Mempool definition file not found: $POOL_DEF_FILE" 
+  usage
 fi
 
 if [ ! -f "$ELF_FILE" ]; then
     echo "ELF file not found or is not a regular file: $ELF_FILE"
-    exit 1
+    usage
 fi
 
 if [ ! -x "$READELF" ]; then
-    echo "ERROR: \"$READELF\" is not an executable file."
-    echo "You can override the file location for 'arm-none-eabi-readelf' by passing it as the third argument."
-    echo "  e.g. $ $(basename "$0") <elf-file> <pool-def-file> \"/my/custom/location/arm-none-eabi-readelf\""
-    exit 1
+    usage
 fi
 
 print_line_break() {
