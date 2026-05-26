@@ -41,7 +41,7 @@ static const u32 DEFAULT_PITCH = 0x400;
 static const u32 DEFAULT_TEMPO = 0x400;
 static const u32 DEFAULT_VOLUME = MM_MODULE_FULL_VOLUME;
 static const u32 MUSIC_CHANGE_FRAMES = 75;
-static const u32 VOLUME_CHANGE_FRAMES = MUSIC_CHANGE_FRAMES / 2;
+static const u32 VOLUME_CHANGE_FRAMES = MUSIC_CHANGE_FRAMES / 3;
 
 static void set_audio_param_req(AudioParam* param, s32 target, s32 steps);
 static void speed_change_update(void);
@@ -67,31 +67,6 @@ static void set_audio_param_req(AudioParam* param, s32 target, s32 steps)
     param->req.stride = offset / steps;
     param->req.stride = !param->req.stride ? SIGN(offset) : param->req.stride;
     param->req.target = target;
-}
-
-void play_lose_music(void)
-{
-    const u32 slow_music_speed = 0x200;
-    // Don't adjust the volume if already on the lowest setting, otherwise it's not audible
-    u32 target_vol = volume_module_step_to_val(g_game_vars.music_volume) / 2;
-
-    set_audio_param_req(&music_player.pitch, slow_music_speed, MUSIC_CHANGE_FRAMES);
-    set_audio_param_req(&music_player.tempo, slow_music_speed, MUSIC_CHANGE_FRAMES);
-    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
-
-    state_machine_register(&song_speed_sm);
-    state_machine_change_state(&song_speed_sm, 0);
-}
-
-void play_regular_music(void)
-{
-    u32 target_vol = volume_module_step_to_val(g_game_vars.music_volume);
-    set_audio_param_req(&music_player.pitch, DEFAULT_PITCH, MUSIC_CHANGE_FRAMES);
-    set_audio_param_req(&music_player.tempo, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
-    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
-
-    state_machine_register(&song_speed_sm);
-    state_machine_change_state(&song_speed_sm, 0);
 }
 
 /**
@@ -120,39 +95,51 @@ static void speed_change_update(void)
     mmSetModulePitch(music_player.pitch.current);
     set_volume(music_player.volume.current);
 
-    MGBA_WARN(
-        "Tempo, Cur: 0x%x, Req 0x%x",
-        music_player.tempo.current,
-        music_player.tempo.req.target
-    );
-    MGBA_WARN(
-        "Pitch, Cur: 0x%x, Req 0x%x",
-        music_player.pitch.current,
-        music_player.pitch.req.target
-    );
-    MGBA_WARN(
-        "Volume, Cur: 0x%x, Req 0x%x",
-        music_player.volume.current,
-        music_player.volume.req.target
-    );
-
     if (tempo_reached && pitch_reached && volume_reached)
-    {
         state_machine_remove(&song_speed_sm);
-        MGBA_WARN("All done! Removing state machine");
-    }
 }
 
 void play_sfx(mm_word id, mm_word rate, mm_byte volume)
 {
+    int adj_volume = volume * g_game_vars.sound_volume / VOLUME_OPTION_MAX;
     mm_sound_effect sfx = {
         {id},
         rate,
         0,
-        volume_sfx_step_to_val(g_game_vars.sound_volume),
+        adj_volume,
         SFX_DEFAULT_PAN,
     };
     mmEffectEx(&sfx);
+}
+
+void play_lose_music(void)
+{
+    const u32 slow_music_speed = 0x200;
+    // Don't adjust the volume if already on the lowest setting, otherwise it's not audible
+    u32 vol = g_game_vars.music_volume;
+    // Don't divide the audio by half if it's one, just sounds bad
+    // This works too, not for negative numbers. It's neat.
+    // vol |= !((vol - 1) > 0); 
+    vol = (vol == 1) ? 1 : vol / 2;
+    u32 target_vol = volume_module_step_to_val(vol);
+
+    set_audio_param_req(&music_player.pitch, slow_music_speed, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.tempo, slow_music_speed, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
+
+    state_machine_register(&song_speed_sm);
+    state_machine_change_state(&song_speed_sm, 0);
+}
+
+void play_regular_music(void)
+{
+    u32 target_vol = volume_module_step_to_val(g_game_vars.music_volume);
+    set_audio_param_req(&music_player.pitch, DEFAULT_PITCH, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.tempo, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);
+    set_audio_param_req(&music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);
+
+    state_machine_register(&song_speed_sm);
+    state_machine_change_state(&song_speed_sm, 0);
 }
 
 void set_volume(int volume)

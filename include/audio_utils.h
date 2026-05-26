@@ -78,14 +78,13 @@ void play_regular_music(void);
 
 void set_volume(int volume);
 
+/**
+ * @brief Get MaxMod module audio value from VOLUME_OPTION value
+ * @param step VOLUME_OPTION between @ref VOLUME_OPTION_MIN and @ref VOLUME_OPTION_MAX
+ */
 inline int volume_module_step_to_val(unsigned char step)
 {
     return MM_MODULE_FULL_VOLUME * step / VOLUME_OPTION_MAX;
-}
-
-inline int volume_sfx_step_to_val(unsigned char step)
-{
-    return MM_SFX_FULL_VOLUME * step / VOLUME_OPTION_MAX;
 }
 
 #endif

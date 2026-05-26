@@ -6,6 +6,7 @@
 #include "audio_utils.h"
 #include "bitset.h"
 #include "game.h"
+#include "game_variables.h"
 #include "joker.h"
 #include "list.h"
 #include "util.h"
