@@ -119,7 +119,7 @@ void play_lose_music(void)
     u32 vol = g_game_vars.music_volume;
     // Don't divide the audio by half if it's one, just sounds bad
     // This works too, not for negative numbers. It's neat.
-    // vol |= !((vol - 1) > 0); 
+    // vol |= !((vol - 1) > 0);
     vol = (vol == 1) ? 1 : vol / 2;
     u32 target_vol = volume_module_step_to_val(vol);
 

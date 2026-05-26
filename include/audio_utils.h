@@ -6,9 +6,9 @@
 #ifndef AUDIO_UTILS_H
 #define AUDIO_UTILS_H
 
-#include <mm_types.h>
-
 #include "game_variables.h"
+
+#include <mm_types.h>
 
 /**
  * @def MM_MODULE_FULL_VOLUME
