@@ -59,6 +59,8 @@ typedef struct CardObject
     bool selected;
 } CardObject;
 
+void card_init(void);
+
 // Card sprites accessibility functions
 void set_cards_high_contrast(bool enable);
 void set_cards_more_readable(bool enable);
