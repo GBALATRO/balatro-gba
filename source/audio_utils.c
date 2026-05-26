@@ -20,7 +20,7 @@ typedef struct
     s32 stride;
 } AudioParamReq;
 
-#define AUDIO_PARAM_REQ_DEFAULT {.target = 0, .stride = 0}
+#define AUDIO_PARAM_REQ_DEFAULT { .target = 0, .stride = 0 }
 
 typedef struct
 {
@@ -28,7 +28,7 @@ typedef struct
     AudioParamReq req;
 } AudioParam;
 
-#define AUDIO_PARAM_DEFINE(init_val) {.current = init_val, .req = AUDIO_PARAM_REQ_DEFAULT}
+#define AUDIO_PARAM_DEFINE(init_val) { .current = init_val, .req = AUDIO_PARAM_REQ_DEFAULT }
 
 typedef struct
 {
