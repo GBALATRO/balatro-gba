@@ -1,5 +1,6 @@
 #include "card.h"
 
+#include "pool.h"
 #include "graphic_utils.h"
 
 #include <maxmod.h>
@@ -87,6 +88,19 @@ u8 card_get_value(Card* card)
     }
 
     return 0; // Should never reach here, but just in case
+}
+
+CardInstance* card_instance_new(Card* card)
+{
+    CardInstance* inst = POOL_GET(CardInstance);
+    inst->card = card;
+    inst->obj = NULL;
+    return inst;
+}
+
+void card_instance_destroy(CardInstance* card)
+{
+    POOL_FREE(CardInstance, card);
 }
 
 // CardObject methods

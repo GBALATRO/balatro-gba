@@ -78,7 +78,7 @@ static SelectionGrid main_menu_selection_grid = {
 // clang-format on
 
 // Main menu sprite - the ace of spades
-static CardObject* main_menu_ace = NULL;
+static CardInstance* main_menu_ace = NULL;
 
 // Keep track of last highlighted button
 static enum MainButtons last_highlighted_button = PLAY_BTN_IDX;
@@ -103,15 +103,17 @@ void game_main_menu_on_init(void)
 {
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU, false);
-    main_menu_ace = card_object_new(card_new(SPADES, ACE));
-    card_object_set_sprite(main_menu_ace, 0);
-    main_menu_ace->sprite_object->sprite->obj->attr0 |= ATTR0_AFF_DBL;
-    main_menu_ace->sprite_object->tx = int2fx(MAIN_MENU_ACE_T_X);
-    main_menu_ace->sprite_object->x = main_menu_ace->sprite_object->tx;
-    main_menu_ace->sprite_object->ty = int2fx(MAIN_MENU_ACE_T_Y);
-    main_menu_ace->sprite_object->y = main_menu_ace->sprite_object->ty;
-    main_menu_ace->sprite_object->tscale = float2fx(0.8f);
-    card_object_update(main_menu_ace);
+    Card* card = card_new(SPADES, ACE);
+    main_menu_ace = card_instance_new(card);
+    main_menu_ace->obj = card_object_new(card);
+    card_object_set_sprite(main_menu_ace->obj, 0);
+    main_menu_ace->obj->sprite_object->sprite->obj->attr0 |= ATTR0_AFF_DBL;
+    main_menu_ace->obj->sprite_object->tx = int2fx(MAIN_MENU_ACE_T_X);
+    main_menu_ace->obj->sprite_object->x = main_menu_ace->obj->sprite_object->tx;
+    main_menu_ace->obj->sprite_object->ty = int2fx(MAIN_MENU_ACE_T_Y);
+    main_menu_ace->obj->sprite_object->y = main_menu_ace->obj->sprite_object->ty;
+    main_menu_ace->obj->sprite_object->tscale = float2fx(0.8f);
+    card_object_update(main_menu_ace->obj);
 
     // Select last highlighted button, Play button by default.
     // e.g. if we return from the options menu, we want the Options button to be highlighted.
@@ -124,8 +126,8 @@ void game_main_menu_on_init(void)
 
 void game_main_menu_on_update(void)
 {
-    main_menu_ace->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
-    card_object_update(main_menu_ace);
+    main_menu_ace->obj->sprite_object->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
+    card_object_update(main_menu_ace->obj);
 
     selection_grid_process_input(&main_menu_selection_grid);
 }
@@ -137,8 +139,9 @@ void game_main_menu_on_exit(void)
 
     // Normally I would just cache these and hide/unhide but I didn't feel like dealing with
     // defining a layer for it
-    card_destroy(&main_menu_ace->card);
-    card_object_destroy(&main_menu_ace);
+    card_destroy(&main_menu_ace->obj->card);
+    card_object_destroy(&main_menu_ace->obj);
+    card_instance_destroy(main_menu_ace);
 }
 
 // Implement SelectionGrid handler functions

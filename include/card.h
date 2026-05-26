@@ -58,6 +58,11 @@ typedef struct CardObject
     bool selected;
 } CardObject;
 
+typedef struct {
+    void* card;
+    CardObject* obj;
+} CardInstance;
+
 // Card sprites accessibility functions
 void set_cards_high_contrast(bool enable);
 void set_cards_more_readable(bool enable);
@@ -70,6 +75,8 @@ void card_destroy(Card** card);
 u8 card_get_value(Card* card);
 
 // CardObject methods
+CardInstance* card_instance_new(Card* card); // playing cards only rn
+void card_instance_destroy(CardInstance* card); // playing cards only rn
 CardObject* card_object_new(Card* card);
 void card_object_destroy(CardObject** card_object);
 void card_object_update(CardObject* card_object); // Update the card object position and scale
