@@ -2,18 +2,18 @@
 
 # NOTE: This script is meant to be run from
 # the root repository directory to work as intended.
-#
-# Usage: save_build.sh <rom-file> [build-label]
-#   <rom-file>    Path to the .gba ROM file (required)
-#   [build-label] Optional label for the saved build directory (default: "build")
 
 set -e
 
-if [ $# -lt 1 ]; then
+usage() {
     echo "Usage: $(basename "$0") <rom-file> [build-label]"
     echo "  <rom-file>    Path to the .gba ROM file (e.g. build/balatro-gba.gba)"
     echo "  [build-label] Optional label for the saved build directory (default: \"build\")"
     exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usage
 fi
 
 ROM_FILE="$1"
@@ -22,7 +22,7 @@ make
 
 if [ ! -f "$ROM_FILE" ]; then
     echo "Error: ROM file not found or is not a regular file: $ROM_FILE"
-    exit 1
+    usage
 fi
 
 # Derive the game base name from the ROM file (strip directory and .gba extension)
