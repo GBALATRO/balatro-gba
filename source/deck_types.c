@@ -48,9 +48,7 @@ void print_deck_name(enum DeckType deck, BG_POINT pos)
 void print_deck_description(enum DeckType deck, BG_POINT pos)
 {
     if (deck_description_functions[deck] == NULL)
-    {
         return;
-    }
 
     deck_description_functions[deck](pos);
 }
