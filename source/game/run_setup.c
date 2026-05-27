@@ -1036,7 +1036,6 @@ static bool choose_seed_row_on_selection_changed(
     if (row_idx == prev_selection->y)
         button_set_highlight(choose_seed_get_button_from_sel(prev_selection), false);
 
-
     if (row_idx == new_selection->y)
     {
         Selection shifted_selection = *new_selection;
