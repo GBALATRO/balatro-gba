@@ -69,9 +69,7 @@ static void bg_se_copy_or_move_rect_1_tile_vert(
 )
 {
     if (se_rect.left > se_rect.right || (direction != SCREEN_UP && direction != SCREEN_DOWN))
-    {
         return;
-    }
 
     // Clip to avoid read/write overflow of the screenblock
     clip_se_rect_within_step_of_full_screen_vert(&se_rect, direction);
@@ -174,6 +172,7 @@ void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src)
 void main_bg_se_copy_expand_3x3_rect(Rect se_dest_rect, BG_POINT src_top_left_pnt)
 {
     // New implementation: uses a 9-patch to factorize as much code as we can
+    // clang-format off
     NinePatchRect src_9_ptch = {
         .patch_rect =
             {
@@ -184,6 +183,7 @@ void main_bg_se_copy_expand_3x3_rect(Rect se_dest_rect, BG_POINT src_top_left_pn
             },
         .margins = {1, 1, 1, 1}
     };
+    // clang-format on
     main_bg_se_copy_expand_9_patch(se_dest_rect, &src_9_ptch);
 }
 
@@ -211,9 +211,7 @@ void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt)
     clip_se_rect_to_screenblock(&se_dest_rect);
     int dest_rect_width = rect_width(&se_dest_rect);
     if (dest_rect_width < 2)
-    {
         return;
-    }
 
     // Copy left and right sides
     main_bg_se_3w_copy_expand_left_right_sides(&se_dest_rect, &src_row_left_pnt);
@@ -366,9 +364,7 @@ void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_
 
     // Verify the dest rect is big enough to fit at least the 9-patch's corners
     if (dest_rect_width < src_9ptch_min_width || dest_rect_height < src_9ptch_min_height)
-    {
         return;
-    }
 
     // Copy the corners
     main_bg_se_expand_9_patch_copy_corners(se_dest_rect, src_9_ptch);
@@ -427,9 +423,7 @@ void update_text_rect_to_right_align_str(
 void update_text_rect_to_center_str(Rect* rect, const char* str, enum ScreenHorzDir bias_direction)
 {
     if (rect == NULL || str == NULL)
-    {
         return;
-    }
 
     int text_width_chars = strlen(str);
     int rect_width_chars = rect_width(rect) / TTE_CHAR_SIZE;

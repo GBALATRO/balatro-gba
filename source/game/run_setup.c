@@ -713,12 +713,12 @@ static inline Button* change_deck_get_button_from_sel(const Selection* sel)
     {
         case RUN_SETUP_DECK_ROW_CHANGE_DECK:
             return &change_deck_button;
+
         case RUN_SETUP_DECK_ROW_SEED_PLAY:
             if (sel->x >= RUN_SETUP_DECK_BB_MAX)
-            {
                 return NULL;
-            }
             return &choose_deck_bottom_buttons[sel->x];
+
         case RUN_SETUP_DECK_ROW_BACK:
             return &back_button;
     }
@@ -901,9 +901,8 @@ static inline void reroll_seed_str(void)
 static inline void delete_seed_char(void)
 {
     if (seed_cursor_pos == 0)
-    {
         return;
-    }
+
     seed_str[--seed_cursor_pos] = '\0';
     update_seed_text();
 }
@@ -916,9 +915,8 @@ static inline void delete_seed_char(void)
 static inline void type_seed_char(enum RunSetupKeyboardButtons key)
 {
     if (seed_cursor_pos >= BASE36_MAX_DIGITS)
-    {
         return;
-    }
+
     seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];
     update_seed_text();
 }
@@ -949,14 +947,11 @@ static void keyboard_button_on_pressed(void)
     // ensure it doersn't go out of bounds by more than 1 so that we can always
     // substract 1 from it when erasing a character from the seed string.
     if (seed_cursor_pos > BASE36_MAX_DIGITS)
-    {
         seed_cursor_pos = BASE36_MAX_DIGITS;
-    }
 
     if (key_hit(DESELECT_CARDS))
-    {
         delete_seed_char();
-    }
+
     else if (key_hit(SELECT_CARD))
     {
         // Get keyboard button index from selection
@@ -968,10 +963,12 @@ static void keyboard_button_on_pressed(void)
             case RUN_SETUP_KEYBOARD_RAND:
                 reroll_seed_str();
                 break;
+
             // Erase last character
             case RUN_SETUP_KEYBOARD_DEL:
                 delete_seed_char();
                 break;
+
             default:
                 type_seed_char(key);
                 break;
@@ -994,8 +991,10 @@ static inline Button* choose_seed_get_button_from_sel(const Selection* sel)
         case RUN_SETUP_SEED_ROW_KEY2:
         case RUN_SETUP_SEED_ROW_KEY3:
             return &keyboard_buttons[get_keyboard_index_from_sel(sel)];
+
         case RUN_SETUP_SEED_ROW_DECK_PLAY:
             return &choose_seed_bottom_buttons[sel->x];
+
         case RUN_SETUP_SEED_ROW_BACK:
             return &back_button;
     }
@@ -1011,9 +1010,7 @@ static inline Button* choose_seed_get_button_from_sel(const Selection* sel)
 static void choose_seed_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
     if (key_hit(SELECT_CARD) || key_hit(DESELECT_CARDS))
-    {
         button_press(choose_seed_get_button_from_sel(selection));
-    }
 }
 
 /**
@@ -1037,9 +1034,8 @@ static bool choose_seed_row_on_selection_changed(
     bool proceed_selection = true;
 
     if (row_idx == prev_selection->y)
-    {
         button_set_highlight(choose_seed_get_button_from_sel(prev_selection), false);
-    }
+
 
     if (row_idx == new_selection->y)
     {
@@ -1064,6 +1060,7 @@ static bool choose_seed_row_on_selection_changed(
             selection_grid->selection = shifted_selection;
             proceed_selection = false;
         }
+
         button_set_highlight(choose_seed_get_button_from_sel(&shifted_selection), true);
     }
 
@@ -1138,9 +1135,7 @@ static inline void toggle_seed_enabled(bool enable)
 static void use_seed_on_pressed(void)
 {
     if (key_hit(SELECT_CARD))
-    {
         toggle_seed_enabled(!use_seed);
-    }
 }
 
 /**
@@ -1149,9 +1144,7 @@ static void use_seed_on_pressed(void)
 static void seed_on_pressed(void)
 {
     if (key_hit(SELECT_CARD) && use_seed)
-    {
         state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_SEED);
-    }
 }
 
 /**
@@ -1161,13 +1154,9 @@ static void play_on_pressed(void)
 {
     // Apply provided Seed if enabled
     if (use_seed)
-    {
         rng_set_seed(base36_to_u32(seed_str));
-    }
     else
-    {
         rng_shuffle_seed();
-    }
 
     game_change_state(GAME_STATE_GAME_START);
 }
@@ -1208,11 +1197,10 @@ static void run_setup_tabs_update(void)
 {
     static enum RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;
 
-    // If there is no saved data, "Resume" tab is left grayed out and only one tab is available
-    if (!is_saved_game_valid)
-    {
+    // Either not pressed anything or there is no saved data, "Resume" tab is left grayed out and
+    // only one tab is available. Return early to not spend time on tab-changing logic
+    if (!key_hit(KEY_ANY) || !is_saved_game_valid)
         return;
-    }
 
     // Not all the way to the right and pressed R
     if (key_hit(TAB_RIGHT) && current_tab < RUN_SETUP_TAB_MAX - 1)
@@ -1226,11 +1214,6 @@ static void run_setup_tabs_update(void)
         button_set_highlight(&tabs_buttons[current_tab], false);
         current_tab--;
     }
-    // Either not pressed anything or no space to move, return early to not change button highlight
-    else
-    {
-        return;
-    }
 
     button_set_highlight(&tabs_buttons[current_tab], true);
 
@@ -1239,9 +1222,11 @@ static void run_setup_tabs_update(void)
         case RUN_SETUP_TAB_NEW_RUN:
             state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
             break;
+
         case RUN_SETUP_TAB_RESUME:
             state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);
             break;
+
         default:
             break;
     }
@@ -1260,9 +1245,7 @@ static int back_row_get_size()
 static void back_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
     if (key_hit(SELECT_CARD))
-    {
         button_press(&back_button);
-    }
 }
 
 #pragma endregion
