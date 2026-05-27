@@ -260,7 +260,25 @@ void main_bg_se_copy_rect(Rect se_rect, BG_POINT dest_pos);
 void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src);
 
 /**
- * @brief Copies a 3x3 rect and expands it to fit a passed rect.
+ * @brief Copies a 9-patch and expands it to fit a passed rect.
+ *
+ * Performs the following operation:
+ *
+ * 1. The corners are copied
+ * 2. The sides are stretched
+ * 3. The center is stretched to fill `se_rect_dest` minus the patch's margins.
+ *
+ * @param se_rect_dest Destination for the 9-patch copy. Needs to be at least large enough to fit
+ *                      the corners and sides of the patch, (`margins.left + margins.right` by
+ *                      `margins.top + margins.bottom`) in which case only the corners are copied.
+ * @param src_9_ptch Pointer to the properties of the 9-patch we want to stretch.
+ *
+ * @sa NinePatchRect
+ */
+void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_9_ptch);
+
+/**
+ * @brief Copies a 3x3 rect and expands it to fit a passed rect. Special case of the 9-patch.
  *
  * Performs the following operation:
  *
@@ -293,24 +311,6 @@ void main_bg_se_copy_expand_3x3_rect(Rect se_rect_dest, BG_POINT se_rect_src_3x3
  * @param src_row_left_pnt points to the leftmost tile of the source 3-width rect.
  */
 void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt);
-
-/**
- * @brief Copies a 9-patch and expands it to fit a passed rect.
- *
- * Performs the following operation:
- *
- * 1. The corners are copied
- * 2. The sides are stretched
- * 3. The center is stretched to fill `se_rect_dest` minus the patch's margins.
- *
- * @param se_rect_dest Destination for the 9-patch copy. Needs to be at least large enough to fit
- *                      the corners and sides of the patch, (`margins.left + margins.right` by
- *                      `margins.top + margins.bottom`) in which case only the corners are copied.
- * @param src_9_ptch Pointer to the properties of the 9-patch we want to stretch.
- *
- * @sa NinePatchRect
- */
-void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_9_ptch);
 
 /**
  * @brief Moves a rect in the main background vertically in direction by a single tile.

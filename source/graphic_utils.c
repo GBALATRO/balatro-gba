@@ -171,51 +171,20 @@ void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src)
     main_bg_se_fill_rect_with_se(se_mat[MAIN_BG_SBB][se_tile_src.y][se_tile_src.x], se_rect_dest);
 }
 
-// Helper: Copy the corners of a 3x3 tile block
-static inline void main_bg_se_expand_3x3_copy_corners(
-    const Rect* se_dest_rect,
-    const BG_POINT* src_top_left_pnt,
-    int dest_rect_width,
-    int dest_rect_height
-)
+void main_bg_se_copy_expand_3x3_rect(Rect se_dest_rect, BG_POINT src_top_left_pnt)
 {
-    SE top_left_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y][src_top_left_pnt->x];
-    se_mat[MAIN_BG_SBB][se_dest_rect->top][se_dest_rect->left] = top_left_se;
-
-    SE top_right_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y][src_top_left_pnt->x + 2];
-    se_mat[MAIN_BG_SBB][se_dest_rect->top][se_dest_rect->left + dest_rect_width - 1] = top_right_se;
-
-    SE bottom_left_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y + 2][src_top_left_pnt->x];
-    se_mat[MAIN_BG_SBB][se_dest_rect->top + dest_rect_height - 1][se_dest_rect->left] =
-        bottom_left_se;
-
-    SE bottom_right_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y + 2][src_top_left_pnt->x + 2];
-    se_mat[MAIN_BG_SBB][se_dest_rect->top + dest_rect_height - 1]
-          [se_dest_rect->left + dest_rect_width - 1] = bottom_right_se;
-}
-
-// Helper: Copy the top and bottom sides of a 3x3 tile block
-static inline void main_bg_se_expand_3x3_copy_top_bottom(
-    const Rect* se_dest_rect,
-    const BG_POINT* src_top_left_pnt,
-    int dest_rect_width
-)
-{
-    if (dest_rect_width > 2)
-    {
-        SE top_middle_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y][src_top_left_pnt->x + 1];
-        SE bottom_middle_se = se_mat[MAIN_BG_SBB][src_top_left_pnt->y + 2][src_top_left_pnt->x + 1];
-        memset16(
-            &se_mat[MAIN_BG_SBB][se_dest_rect->top][se_dest_rect->left + 1],
-            top_middle_se,
-            dest_rect_width - 2
-        );
-        memset16(
-            &se_mat[MAIN_BG_SBB][se_dest_rect->bottom][se_dest_rect->left + 1],
-            bottom_middle_se,
-            dest_rect_width - 2
-        );
-    }
+    // New implementation: uses a 9-patch to factorize as much code as we can
+    NinePatchRect src_9_ptch = {
+        .patch_rect =
+            {
+                src_top_left_pnt.x,
+                src_top_left_pnt.y,
+                src_top_left_pnt.x + 2,
+                src_top_left_pnt.y + 2
+            },
+        .margins = {1, 1, 1, 1}
+    };
+    main_bg_se_copy_expand_9_patch(se_dest_rect, &src_9_ptch);
 }
 
 // Helper: Copy the left and right sides of a 3x3 tile block
@@ -234,54 +203,6 @@ static inline void main_bg_se_3w_copy_expand_left_right_sides(
         se_mat[MAIN_BG_SBB][se_dest_rect->top + y][se_dest_rect->left] = middle_left_se;
         se_mat[MAIN_BG_SBB][se_dest_rect->top + y][se_dest_rect->left + dest_rect_width - 1] =
             middle_right_se;
-    }
-}
-
-void main_bg_se_copy_expand_3x3_rect(Rect se_dest_rect, BG_POINT src_top_left_pnt)
-{
-    clip_se_rect_to_screenblock(&se_dest_rect);
-
-    int dest_rect_width = rect_width(&se_dest_rect);
-    int dest_rect_height = rect_height(&se_dest_rect);
-
-    // Verify the dest rect is at least 2x2
-    if (dest_rect_width < 2 || dest_rect_height < 2)
-    {
-        return;
-    }
-
-    // Copy the corners
-    main_bg_se_expand_3x3_copy_corners(
-        &se_dest_rect,
-        &src_top_left_pnt,
-        dest_rect_width,
-        dest_rect_height
-    );
-
-    // Copy top and bottom sides
-    main_bg_se_expand_3x3_copy_top_bottom(&se_dest_rect, &src_top_left_pnt, dest_rect_width);
-
-    BG_POINT src_middle_left_pnt = {src_top_left_pnt.x, src_top_left_pnt.y + 1};
-
-    // Avoid the corners when copying the sides
-    Rect dest_sides_rect = se_dest_rect;
-    dest_sides_rect.top += 1;
-    dest_sides_rect.bottom -= 1;
-
-    // Copy left and right sides
-    main_bg_se_3w_copy_expand_left_right_sides(&dest_sides_rect, &src_middle_left_pnt);
-
-    // Fill the center if needed
-    if (dest_rect_width > 2 && dest_rect_height > 2)
-    {
-        SE middle_fill_se = se_mat[MAIN_BG_SBB][src_top_left_pnt.y + 1][src_top_left_pnt.x + 1];
-        Rect dest_inner_fill_rect = {
-            se_dest_rect.left + 1,
-            se_dest_rect.top + 1,
-            se_dest_rect.right - 1,
-            se_dest_rect.bottom - 1
-        };
-        main_bg_se_fill_rect_with_se(middle_fill_se, dest_inner_fill_rect);
     }
 }
 
@@ -309,6 +230,7 @@ void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt)
     }
 }
 
+// Helper: Copy the four corners of a 9-patch
 static inline void main_bg_se_expand_9_patch_copy_corners(
     Rect se_dest_rect,
     const NinePatchRect* src_9_ptch
@@ -361,6 +283,7 @@ static inline void main_bg_se_expand_9_patch_copy_corners(
     main_bg_se_copy_rect(bottom_left_src, bottom_left_dest_pos);
 }
 
+// Helper: Copy the four sides of a 9-patch
 static inline void main_bg_se_expand_9_patch_stretch_sides(
     Rect se_dest_rect,
     const NinePatchRect* src_9_ptch,
