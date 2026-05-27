@@ -94,12 +94,11 @@ static void seed_keyboard_substate_init(void);
 static void seed_keyboard_substate_update(void);
 
 static void resume_substate_init(void);
-static void resume_substate_update(void);
 
 static StateInfo state_info[] = {
     STATE_INFO_INIT_UPDATE_FN(choose_deck_substate_init, choose_deck_substate_update),
     STATE_INFO_INIT_UPDATE_FN(seed_keyboard_substate_init, seed_keyboard_substate_update),
-    STATE_INFO_INIT_UPDATE_FN(resume_substate_init, resume_substate_update)
+    STATE_INFO_INIT_UPDATE_FN(resume_substate_init, noop)
 };
 
 static StateMachine run_setup_sm = {
@@ -464,130 +463,57 @@ static SelectionGrid choose_seed_selection_grid = {
 static void keyboard_button_on_pressed(void);
 
 // clang-format off
+
+#define DEF_SEED_KEYBOARD_BUTTON_OBJECT(key)                                    \
+    {                                                                           \
+        KEYBOARD_##key##_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX, \
+        keyboard_button_on_pressed, NULL                                        \
+    }                                                                           \
+
 // Button at [3][0] is there for consistency but is not used since it corresponds to the "Random" key
 static Button keyboard_buttons[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
     // Row 0
-    {
-        KEYBOARD_1_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_2_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_3_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_4_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_5_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_6_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_7_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_8_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_9_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_0_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    },
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(1),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(2),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(3),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(4),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(5),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(6),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(7),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(8),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(9),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(0),
     // Row 1
-    {
-        KEYBOARD_A_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_B_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_C_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_D_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_E_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_F_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_G_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_H_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_I_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_J_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    },
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(A),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(B),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(C),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(D),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(E),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(F),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(G),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(H),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(I),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(J),
     // Row 2
-    {
-        KEYBOARD_K_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_L_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_M_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_N_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_O_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_P_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_Q_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_R_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_S_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_T_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    },
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(K),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(L),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(M),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(N),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(O),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(P),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(Q),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(R),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(S),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(T),
     // Row 3
-    {
-        KEYBOARD_RAND_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_U_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_V_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_W_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_X_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_Y_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_Z_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }, {
-        KEYBOARD_DEL_BTN_OUTLINE_COLOR_PAL_IDX, RED_BTN_MAIN_COLOR_PAL_IDX,
-        keyboard_button_on_pressed, NULL
-    }
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(RAND),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(U),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(V),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(W),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(X),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(Y),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(Z),
+    DEF_SEED_KEYBOARD_BUTTON_OBJECT(DEL)
 };
 
 static Button choose_seed_bottom_buttons[2] = {
@@ -609,7 +535,7 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 // clang-format on
 
 // Size BASE36_MAX_DIGITS + 1 to always have '\0' at the end
-static char seed_str[BASE36_MAX_DIGITS + 1] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+static char seed_str[BASE36_MAX_DIGITS + 1] = {'\0'};
 static u8 seed_cursor_pos = 0;
 
 #pragma endregion
@@ -1166,13 +1092,6 @@ static void resume_substate_init(void)
 
     // Show Deck card sprite
     obj_unhide(run_setup_deck->sprite_object->sprite->obj, 0);
-}
-
-/**
- * @brief Update the "Resume Previous Run" substate
- */
-static void resume_substate_update(void)
-{
 }
 
 // COMMON BUTTONS
