@@ -118,7 +118,7 @@ ContainedHandTypes* get_contained_hands(void);
  *
  * @return CardObject**
  */
-CardObject** get_hand_array(void);
+CardInstance** get_hand_array(void);
 
 /**
  * @brief Get the position in hand array of the last card obtained

@@ -63,6 +63,8 @@ typedef struct {
     CardObject* obj;
 } CardInstance;
 
+#define PLAYING_CARD(instance) ((Card*)instance->card)
+
 // Card sprites accessibility functions
 void set_cards_high_contrast(bool enable);
 void set_cards_more_readable(bool enable);

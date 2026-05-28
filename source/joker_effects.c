@@ -677,10 +677,10 @@ static u32 blackboard_joker_effect(
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
     bool all_cards_are_spades_or_clubs = true;
-    CardObject** hand = get_hand_array();
+    CardInstance** hand = get_hand_array();
     for (int i = 0; i < g_game_vars.hand_size; i++)
     {
-        u8 suit = hand[i]->card->suit;
+        u8 suit = PLAYING_CARD(hand[i])->suit;
         if (suit == HEARTS || suit == DIAMONDS)
         {
             all_cards_are_spades_or_clubs = false;
@@ -735,10 +735,10 @@ static u32 raised_fist_joker_effect(
             // hand_size > 0 so we're never out of bounds
             *p_lowest_value_index = 0;
             u8 lowest_value = IMPOSSIBLY_HIGH_CARD_VALUE;
-            CardObject** hand = get_hand_array();
+            CardInstance** hand = get_hand_array();
             for (int i = 0; i < g_game_vars.hand_size; i++)
             {
-                u8 value = card_get_value(hand[i]->card);
+                u8 value = card_get_value(PLAYING_CARD(hand[i]));
                 if (lowest_value > value)
                 {
                     *p_lowest_value_index = i;
