@@ -145,247 +145,247 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="bitset_8h.html">bitset.h</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;card.h&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;joker.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="list_8h.html">list.h</a>&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="version_8h.html">version.h</a>&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// See https://gbadev.net/gbadoc/memory.html for more details on SRAM</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// A few important pieces of info:</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">//   - Read/Writes are limited to 8-bits words so they are done byte per byte</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">//   - Memory is filled with 1s by default</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">//     (at least in mgba, not sure about real HW)</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#define HEADER_ADDRESS  0x0</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define OPTIONS_ADDRESS 0x10</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define GAME_ADDRESS    0x30</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define SAVE_SECTION_FLAG_NONE    0</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define SAVE_SECTION_FLAG_OPTIONS (1 &lt;&lt; 0)</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define SAVE_SECTION_FLAG_GAME    (1 &lt;&lt; 1)</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#define CHECK_MAGIC     0x4C414247 </span><span class="comment">// Spells GBAL, used to determine if the save data is junk</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define CHECK_HASH_SIZE 7</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define GIT_HASH_START  17 </span><span class="comment">// starts after &quot;GBALATRO-VERSION:&quot; in the gbalatro_version var</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define SAVE_LABEL_SIZE 16</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">// clang-format on</span></div>
-<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structSaveHeader.html">   51</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>{</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    u32 magic;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">bool</span> dirty;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">char</span> githash[CHECK_HASH_SIZE];</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    u32 valid_sections;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="save_8c.html#a2279e64a424ee61d2c76715b839cbf4d">   57</a></span>} <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;joker.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="list_8h.html">list.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="version_8h.html">version.h</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;string.h&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// See https://gbadev.net/gbadoc/memory.html for more details on SRAM</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">// A few important pieces of info:</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">//   - Read/Writes are limited to 8-bits words so they are done byte per byte</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">//   - Memory is filled with 1s by default</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">//     (at least in mgba, not sure about real HW)</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define HEADER_ADDRESS  0x0</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define OPTIONS_ADDRESS 0x10</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define GAME_ADDRESS    0x30</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define SAVE_SECTION_FLAG_NONE    0</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define SAVE_SECTION_FLAG_OPTIONS (1 &lt;&lt; 0)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define SAVE_SECTION_FLAG_GAME    (1 &lt;&lt; 1)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define CHECK_MAGIC     0x4C414247 </span><span class="comment">// Spells GBAL, used to determine if the save data is junk</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define CHECK_HASH_SIZE 7</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#define GIT_HASH_START  17 </span><span class="comment">// starts after &quot;GBALATRO-VERSION:&quot; in the gbalatro_version var</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#define SAVE_LABEL_SIZE 16</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="comment">// clang-format on</span></div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="};">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="structSaveHeader.html">   52</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    u32 magic;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">bool</span> dirty;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">char</span> githash[CHECK_HASH_SIZE];</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    u32 valid_sections;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="save_8c.html#a2279e64a424ee61d2c76715b839cbf4d">   58</a></span>} <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a>;</div>
 </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="foldopen" id="foldopen00062" data-start="{" data-end="};">
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">   62</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> <a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a> = {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    .magic = CHECK_MAGIC,</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    .dirty = <span class="keyword">false</span>,</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    .githash = <span class="stringliteral">&quot;fffffff&quot;</span>,</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    .valid_sections = SAVE_SECTION_FLAG_NONE</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>};</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="};">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">   63</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> <a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a> = {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    .magic = CHECK_MAGIC,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    .dirty = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    .githash = <span class="stringliteral">&quot;fffffff&quot;</span>,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    .valid_sections = SAVE_SECTION_FLAG_NONE</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
 </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="comment">// clang-format on</span></div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="};">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="structSaveOptions.html">   85</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a></div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>{</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">char</span> tag_options[SAVE_LABEL_SIZE];</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    u8 game_speed;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">bool</span> cards_high_contrast;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">bool</span> cards_more_readable;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    u8 music_volume;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    u8 sound_volume;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    s8 padding[11];</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="save_8c.html#a700fd6a8d06a1534a5a66a781215b63b">   94</a></span>} <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">// clang-format on</span></div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="};">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="structSaveOptions.html">   86</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>{</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">char</span> tag_options[SAVE_LABEL_SIZE];</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    u8 game_speed;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">bool</span> cards_high_contrast;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordtype">bool</span> cards_more_readable;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    u8 music_volume;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    u8 sound_volume;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    s8 padding[11];</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="save_8c.html#a700fd6a8d06a1534a5a66a781215b63b">   95</a></span>} <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a>;</div>
 </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">// clang-format off</span></div>
-<div class="foldopen" id="foldopen00100" data-start="{" data-end="};">
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">  100</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a> = {</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    .tag_options = <span class="stringliteral">&quot;- OPTIONS DATA -&quot;</span>,</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    .game_speed = GAME_SPEED_MIN,</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    .cards_high_contrast = DEFAULT_HIGH_CONTRAST,</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    .cards_more_readable = DEFAULT_MORE_READABLE,</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    .music_volume = VOLUME_OPTION_MAX,</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    .sound_volume = VOLUME_OPTION_MAX,</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    .padding = {</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        UNDEFINED, UNDEFINED, UNDEFINED,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">// clang-format off</span></div>
+<div class="foldopen" id="foldopen00101" data-start="{" data-end="};">
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">  101</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a> = {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    .tag_options = <span class="stringliteral">&quot;- OPTIONS DATA -&quot;</span>,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    .game_speed = GAME_SPEED_MIN,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    .cards_high_contrast = DEFAULT_HIGH_CONTRAST,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    .cards_more_readable = DEFAULT_MORE_READABLE,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    .music_volume = VOLUME_OPTION_MAX,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    .sound_volume = VOLUME_OPTION_MAX,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    .padding = {</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        UNDEFINED, UNDEFINED, UNDEFINED,</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        UNDEFINED, UNDEFINED, UNDEFINED,</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        UNDEFINED, UNDEFINED</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>};</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        UNDEFINED, UNDEFINED, UNDEFINED,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        UNDEFINED, UNDEFINED</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>};</div>
 </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">// clang-format on</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="foldopen" id="foldopen00121" data-start="{" data-end="};">
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="structJokerObjectSaveData.html">  121</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>{</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    u32 id;</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    u32 persistent_state;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="save_8c.html#acab90751e92c8ddb2bdf741c6d51245a">  125</a></span>} <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="};">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="structJokerObjectSaveData.html">  122</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>{</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    u32 id;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    u32 persistent_state;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="save_8c.html#acab90751e92c8ddb2bdf741c6d51245a">  126</a></span>} <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a>;</div>
 </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="comment">// clang-format on</span></div>
-<div class="foldopen" id="foldopen00158" data-start="{" data-end="};">
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="structSaveGame.html">  158</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveGame.html">SaveGame</a></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>{</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keywordtype">char</span> tag_internal[SAVE_LABEL_SIZE];</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    s32 timer;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <a class="code hl_struct" href="structRngInfo.html">RngInfo</a> rng_info;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordtype">int</span> round;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordtype">int</span> ante;</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordtype">int</span> money;</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    s32 padding[2];</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordtype">char</span> tag_jokers[SAVE_LABEL_SIZE];</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> jokers_data[MAX_JOKERS_HELD_SIZE];</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordtype">char</span> tag_end[4];</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="save_8c.html#ad1dc334d7a91175e24b988b8a05b6042">  172</a></span>} <a class="code hl_struct" href="structSaveGame.html">SaveGame</a>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">// clang-format on</span></div>
+<div class="foldopen" id="foldopen00159" data-start="{" data-end="};">
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="structSaveGame.html">  159</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structSaveGame.html">SaveGame</a></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>{</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <span class="keywordtype">char</span> tag_internal[SAVE_LABEL_SIZE];</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    s32 timer;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <a class="code hl_struct" href="structRngInfo.html">RngInfo</a> rng_info;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordtype">int</span> round;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordtype">int</span> ante;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordtype">int</span> money;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    s32 padding[2];</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keywordtype">char</span> tag_jokers[SAVE_LABEL_SIZE];</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> jokers_data[MAX_JOKERS_HELD_SIZE];</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordtype">char</span> tag_end[4];</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="save_8c.html#ad1dc334d7a91175e24b988b8a05b6042">  173</a></span>} <a class="code hl_struct" href="structSaveGame.html">SaveGame</a>;</div>
 </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="foldopen" id="foldopen00177" data-start="{" data-end="};">
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">  177</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a> = {</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    .tag_internal = <span class="stringliteral">&quot;-INTERNAL DATA -&quot;</span>,</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    .timer = 0,</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    .rng_info = {0, 0},</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    .round = 0,</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    .ante = 0,</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    .money = 0,</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    .padding = {UNDEFINED, UNDEFINED},</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    .tag_jokers = <span class="stringliteral">&quot;- OWNED JOKERS -&quot;</span>,</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    .jokers_data = {},</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    .tag_end = <span class="stringliteral">&quot;_END&quot;</span></div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>};</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="foldopen" id="foldopen00178" data-start="{" data-end="};">
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">  178</a></span><span class="keyword">static</span> <span class="keyword">const</span> <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a> = {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    .tag_internal = <span class="stringliteral">&quot;-INTERNAL DATA -&quot;</span>,</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    .timer = 0,</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    .rng_info = {0, 0},</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    .round = 0,</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    .ante = 0,</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    .money = 0,</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    .padding = {UNDEFINED, UNDEFINED},</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    .tag_jokers = <span class="stringliteral">&quot;- OWNED JOKERS -&quot;</span>,</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    .jokers_data = {},</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    .tag_end = <span class="stringliteral">&quot;_END&quot;</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>};</div>
 </div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="foldopen" id="foldopen00199" data-start="{" data-end="}">
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno"><a class="line" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">  199</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(u32 sram_base, <span class="keyword">const</span> u8* bytes, u32 size)</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>{</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordflow">if</span> (sram_base + size &gt; SRAM_SIZE)</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; size; i++)</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    {</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        sram_mem[sram_base + i] = bytes[i];</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    }</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>}</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="foldopen" id="foldopen00200" data-start="{" data-end="}">
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno"><a class="line" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">  200</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(u32 sram_base, <span class="keyword">const</span> u8* bytes, u32 size)</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>{</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">if</span> (sram_base + size &gt; SRAM_SIZE)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; size; i++)</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        sram_mem[sram_base + i] = bytes[i];</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>}</div>
 </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
-<div class="foldopen" id="foldopen00215" data-start="{" data-end="}">
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="save_8c.html#a74c728ad1200cdda976410f883966567">  215</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(u32 sram_base, u8* bytes, u32 size)</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>{</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordflow">if</span> (sram_base + size &gt; SRAM_SIZE)</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; size; i++)</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        bytes[i] = sram_mem[sram_base + i];</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>}</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="foldopen" id="foldopen00216" data-start="{" data-end="}">
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="save_8c.html#a74c728ad1200cdda976410f883966567">  216</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(u32 sram_base, u8* bytes, u32 size)</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>{</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">if</span> (sram_base + size &gt; SRAM_SIZE)</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; size; i++)</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    {</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        bytes[i] = sram_mem[sram_base + i];</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    }</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>}</div>
 </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
-<div class="foldopen" id="foldopen00233" data-start="{" data-end="}">
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">  233</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* prefix)</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>{</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; CHECK_HASH_SIZE; i++)</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    {</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        <span class="keywordflow">if</span> (gbalatro_version[GIT_HASH_START + i] != prefix[i])</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        {</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        }</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    }</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>}</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="foldopen" id="foldopen00234" data-start="{" data-end="}">
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">  234</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a>(<span class="keyword">const</span> <span class="keywordtype">char</span>* prefix)</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>{</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; CHECK_HASH_SIZE; i++)</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        <span class="keywordflow">if</span> (gbalatro_version[GIT_HASH_START + i] != prefix[i])</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        }</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    }</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>}</div>
 </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
-<div class="foldopen" id="foldopen00253" data-start="{" data-end="}">
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">  253</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>{</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">return</span> strlen(gbalatro_version) &gt; GIT_HASH_START + CHECK_HASH_SIZE;</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>}</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
+<div class="foldopen" id="foldopen00254" data-start="{" data-end="}">
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno"><a class="line" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">  254</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>{</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keywordflow">return</span> strlen(gbalatro_version) &gt; GIT_HASH_START + CHECK_HASH_SIZE;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>}</div>
 </div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="foldopen" id="foldopen00264" data-start="{" data-end="}">
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">  264</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(<a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a>* header)</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>{</div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(HEADER_ADDRESS, (u8*)header, <span class="keyword">sizeof</span>(*header));</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keywordflow">return</span> (header-&gt;magic == CHECK_MAGIC) &amp;&amp; header-&gt;dirty == <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>() &amp;&amp;</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>           <a class="code hl_function" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a>(header-&gt;githash);</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>}</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="foldopen" id="foldopen00265" data-start="{" data-end="}">
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno"><a class="line" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">  265</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(<a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a>* header)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>{</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(HEADER_ADDRESS, (u8*)header, <span class="keyword">sizeof</span>(*header));</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordflow">return</span> (header-&gt;magic == CHECK_MAGIC) &amp;&amp; header-&gt;dirty == <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>() &amp;&amp;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>           <a class="code hl_function" href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a>(header-&gt;githash);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>}</div>
 </div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
-<div class="foldopen" id="foldopen00282" data-start="{" data-end="}">
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">  282</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(u32 section_flag)</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>{</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="comment">// Check for valid data. If it&#39;s junk, set all sections as invalid, else keep the flags.</span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="comment">// Then add the requested flag.</span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header))</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    {</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        memcpy(&amp;header, &amp;<a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a>, <span class="keyword">sizeof</span>(<a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a>));</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    }</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    header.valid_sections |= section_flag;</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    header.dirty = <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>();</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    memcpy(&amp;(header.githash), gbalatro_version + GIT_HASH_START, CHECK_HASH_SIZE);</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(HEADER_ADDRESS, (<span class="keyword">const</span> u8*)&amp;header, <span class="keyword">sizeof</span>(header));</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>}</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="foldopen" id="foldopen00283" data-start="{" data-end="}">
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno"><a class="line" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">  283</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(u32 section_flag)</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>{</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="comment">// Check for valid data. If it&#39;s junk, set all sections as invalid, else keep the flags.</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="comment">// Then add the requested flag.</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header))</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    {</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>        memcpy(&amp;header, &amp;<a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a>, <span class="keyword">sizeof</span>(<a class="code hl_variable" href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a>));</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    }</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    header.valid_sections |= section_flag;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span> </div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    header.dirty = <a class="code hl_function" href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a>();</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    memcpy(&amp;(header.githash), gbalatro_version + GIT_HASH_START, CHECK_HASH_SIZE);</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(HEADER_ADDRESS, (<span class="keyword">const</span> u8*)&amp;header, <span class="keyword">sizeof</span>(header));</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>}</div>
 </div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
-<div class="foldopen" id="foldopen00301" data-start="{" data-end="}">
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e">  301</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>{</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    options.game_speed = g_game_vars.game_speed;</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    options.cards_high_contrast = get_cards_high_contrast();</div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>    options.cards_more_readable = get_cards_more_readable();</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    options.music_volume = g_game_vars.music_volume;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    options.sound_volume = g_game_vars.sound_volume;</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(OPTIONS_ADDRESS, (<span class="keyword">const</span> u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(SAVE_SECTION_FLAG_OPTIONS);</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>}</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="foldopen" id="foldopen00302" data-start="{" data-end="}">
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="save_8h.html#af08a6f81dc09e7abbf2e4f33f99bec6e">  302</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>{</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    options.game_speed = g_game_vars.game_speed;</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>    options.cards_high_contrast = get_cards_high_contrast();</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    options.cards_more_readable = get_cards_more_readable();</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    options.music_volume = g_game_vars.music_volume;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    options.sound_volume = g_game_vars.sound_volume;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(OPTIONS_ADDRESS, (<span class="keyword">const</span> u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(SAVE_SECTION_FLAG_OPTIONS);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
 </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
-<div class="foldopen" id="foldopen00315" data-start="{" data-end="}">
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno"><a class="line" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">  315</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>{</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    <span class="comment">// If options data doesn&#39;t exist or is invalid, just don&#39;t read from</span></div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="comment">// SRAM and apply the default values</span></div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) &amp;&amp; (header.valid_sections &amp; SAVE_SECTION_FLAG_OPTIONS))</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(OPTIONS_ADDRESS, (u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    g_game_vars.game_speed = options.game_speed;</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    g_game_vars.music_volume = options.music_volume;</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    g_game_vars.sound_volume = options.sound_volume;</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    set_cards_high_contrast(options.cards_high_contrast);</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    set_cards_more_readable(options.cards_more_readable);</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span> </div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    mmSetModuleVolume(<a class="code hl_define" href="audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9">MM_MODULE_FULL_VOLUME</a> * g_game_vars.music_volume / VOLUME_OPTION_MAX);</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
+<div class="foldopen" id="foldopen00316" data-start="{" data-end="}">
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno"><a class="line" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">  316</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>{</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <a class="code hl_struct" href="structSaveOptions.html">SaveOptions</a> options = <a class="code hl_variable" href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a>;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="comment">// If options data doesn&#39;t exist or is invalid, just don&#39;t read from</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="comment">// SRAM and apply the default values</span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) &amp;&amp; (header.valid_sections &amp; SAVE_SECTION_FLAG_OPTIONS))</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(OPTIONS_ADDRESS, (u8*)&amp;options, <span class="keyword">sizeof</span>(options));</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    g_game_vars.game_speed = options.game_speed;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    g_game_vars.music_volume = options.music_volume;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    g_game_vars.sound_volume = options.sound_volume;</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    set_volume(<a class="code hl_function" href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a>(g_game_vars.music_volume));</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    set_cards_high_contrast(options.cards_high_contrast);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    set_cards_more_readable(options.cards_more_readable);</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>}</div>
 </div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
@@ -449,33 +449,34 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
-<div class="ttc" id="aaudio__utils_8h_html_a6d01a856f8b7240cbc462a5ffee7d8a9"><div class="ttname"><a href="audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9">MM_MODULE_FULL_VOLUME</a></div><div class="ttdeci">#define MM_MODULE_FULL_VOLUME</div><div class="ttdoc">The maximum volume for maxmod module volume (main theme)</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00015">audio_utils.h:15</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_a9bcb541674be186faebfd4b6d5de35e0"><div class="ttname"><a href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a></div><div class="ttdeci">int volume_module_step_to_val(unsigned char step)</div><div class="ttdoc">Get MaxMod module audio value from VOLUME_OPTION value.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00085">audio_utils.h:85</a></div></div>
 <div class="ttc" id="abitset_8h_html"><div class="ttname"><a href="bitset_8h.html">bitset.h</a></div><div class="ttdoc">A bitset for operating on flags.</div></div>
+<div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="alist_8h_html"><div class="ttname"><a href="list_8h.html">list.h</a></div><div class="ttdoc">A doubly-linked list.</div></div>
 <div class="ttc" id="alist_8h_html_a3c604970a7f427ee628ab97749fde17c"><div class="ttname"><a href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a></div><div class="ttdeci">void * list_get_at_idx(List *list, unsigned int idx)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00219">list.c:219</a></div></div>
 <div class="ttc" id="alist_8h_html_a74047e9a2e7b4652b675fa8be6086b13"><div class="ttname"><a href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a></div><div class="ttdeci">int list_get_len(const List *list)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00214">list.c:214</a></div></div>
 <div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00041">random.c:41</a></div></div>
-<div class="ttc" id="asave_8c_html_a30da5688e7e13a0664958bde6af12b20"><div class="ttname"><a href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a></div><div class="ttdeci">static const SaveOptions SaveOptions_default</div><div class="ttdoc">Default value for the SaveOptions struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00100">save.c:100</a></div></div>
-<div class="ttc" id="asave_8c_html_a5ecd52e574ea02292941949278d4776e"><div class="ttname"><a href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a></div><div class="ttdeci">static bool is_version_dirty(void)</div><div class="ttdoc">Determines if the current build is considered &quot;dirty&quot; aka has uncommitted changes....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00253">save.c:253</a></div></div>
-<div class="ttc" id="asave_8c_html_a72e508492f7ca40a43660db261c47f67"><div class="ttname"><a href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a></div><div class="ttdeci">static bool check_hash(const char *prefix)</div><div class="ttdoc">Checks the 7 chars of gbalatro_version after the &quot;GBALATRO_VERSION&quot; prefix representing the git hash ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00233">save.c:233</a></div></div>
-<div class="ttc" id="asave_8c_html_a74c728ad1200cdda976410f883966567"><div class="ttname"><a href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a></div><div class="ttdeci">static void read_sram(u32 sram_base, u8 *bytes, u32 size)</div><div class="ttdoc">Read raw binary data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00215">save.c:215</a></div></div>
+<div class="ttc" id="asave_8c_html_a30da5688e7e13a0664958bde6af12b20"><div class="ttname"><a href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a></div><div class="ttdeci">static const SaveOptions SaveOptions_default</div><div class="ttdoc">Default value for the SaveOptions struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00101">save.c:101</a></div></div>
+<div class="ttc" id="asave_8c_html_a5ecd52e574ea02292941949278d4776e"><div class="ttname"><a href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a></div><div class="ttdeci">static bool is_version_dirty(void)</div><div class="ttdoc">Determines if the current build is considered &quot;dirty&quot; aka has uncommitted changes....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00254">save.c:254</a></div></div>
+<div class="ttc" id="asave_8c_html_a72e508492f7ca40a43660db261c47f67"><div class="ttname"><a href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a></div><div class="ttdeci">static bool check_hash(const char *prefix)</div><div class="ttdoc">Checks the 7 chars of gbalatro_version after the &quot;GBALATRO_VERSION&quot; prefix representing the git hash ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00234">save.c:234</a></div></div>
+<div class="ttc" id="asave_8c_html_a74c728ad1200cdda976410f883966567"><div class="ttname"><a href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a></div><div class="ttdeci">static void read_sram(u32 sram_base, u8 *bytes, u32 size)</div><div class="ttdoc">Read raw binary data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00216">save.c:216</a></div></div>
 <div class="ttc" id="asave_8c_html_a9e232271002ca804d61417ca6773b07a"><div class="ttname"><a href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a></div><div class="ttdeci">void save_game(void)</div><div class="ttdoc">Save current run data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00335">save.c:335</a></div></div>
-<div class="ttc" id="asave_8c_html_aa7c710df5af72243541a55e499e53bd9"><div class="ttname"><a href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a></div><div class="ttdeci">static bool get_save_header(SaveHeader *header)</div><div class="ttdoc">Reads whether the save data exists and is valid.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00264">save.c:264</a></div></div>
+<div class="ttc" id="asave_8c_html_aa7c710df5af72243541a55e499e53bd9"><div class="ttname"><a href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a></div><div class="ttdeci">static bool get_save_header(SaveHeader *header)</div><div class="ttdoc">Reads whether the save data exists and is valid.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00265">save.c:265</a></div></div>
 <div class="ttc" id="asave_8c_html_aaa21de2652c53c85a56f9d5af9544fe1"><div class="ttname"><a href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a></div><div class="ttdeci">void load_game(void)</div><div class="ttdoc">Load previous run data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00372">save.c:372</a></div></div>
-<div class="ttc" id="asave_8c_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00315">save.c:315</a></div></div>
-<div class="ttc" id="asave_8c_html_ac6be8ba75db77c350611aa6a05a923b3"><div class="ttname"><a href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a></div><div class="ttdeci">static const SaveGame SaveGame_default</div><div class="ttdoc">Default value for the SaveGame struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00177">save.c:177</a></div></div>
-<div class="ttc" id="asave_8c_html_ad4c7a26ce01920da160afb04e0ab756f"><div class="ttname"><a href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a></div><div class="ttdeci">static const SaveHeader SaveHeader_default</div><div class="ttdoc">Default value for the SaveHeader struct.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00062">save.c:62</a></div></div>
-<div class="ttc" id="asave_8c_html_ae0171ac7798cc10a4915844e79f050d0"><div class="ttname"><a href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a></div><div class="ttdeci">static void write_sram(u32 sram_base, const u8 *bytes, u32 size)</div><div class="ttdoc">Write raw binary data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00199">save.c:199</a></div></div>
-<div class="ttc" id="asave_8c_html_ae0dd7506669cf4ae699a6e232dd59364"><div class="ttname"><a href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a></div><div class="ttdeci">static void set_save_header(u32 section_flag)</div><div class="ttdoc">Writes a magic number and ROM version info to SRAM to signal that the save data exists and allow the ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00282">save.c:282</a></div></div>
-<div class="ttc" id="asave_8c_html_af08a6f81dc09e7abbf2e4f33f99bec6e"><div class="ttname"><a href="save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a></div><div class="ttdeci">void save_options(void)</div><div class="ttdoc">Save options values to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00301">save.c:301</a></div></div>
+<div class="ttc" id="asave_8c_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00316">save.c:316</a></div></div>
+<div class="ttc" id="asave_8c_html_ac6be8ba75db77c350611aa6a05a923b3"><div class="ttname"><a href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a></div><div class="ttdeci">static const SaveGame SaveGame_default</div><div class="ttdoc">Default value for the SaveGame struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00178">save.c:178</a></div></div>
+<div class="ttc" id="asave_8c_html_ad4c7a26ce01920da160afb04e0ab756f"><div class="ttname"><a href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a></div><div class="ttdeci">static const SaveHeader SaveHeader_default</div><div class="ttdoc">Default value for the SaveHeader struct.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00063">save.c:63</a></div></div>
+<div class="ttc" id="asave_8c_html_ae0171ac7798cc10a4915844e79f050d0"><div class="ttname"><a href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a></div><div class="ttdeci">static void write_sram(u32 sram_base, const u8 *bytes, u32 size)</div><div class="ttdoc">Write raw binary data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00200">save.c:200</a></div></div>
+<div class="ttc" id="asave_8c_html_ae0dd7506669cf4ae699a6e232dd59364"><div class="ttname"><a href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a></div><div class="ttdeci">static void set_save_header(u32 section_flag)</div><div class="ttdoc">Writes a magic number and ROM version info to SRAM to signal that the save data exists and allow the ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00283">save.c:283</a></div></div>
+<div class="ttc" id="asave_8c_html_af08a6f81dc09e7abbf2e4f33f99bec6e"><div class="ttname"><a href="save_8c.html#af08a6f81dc09e7abbf2e4f33f99bec6e">save_options</a></div><div class="ttdeci">void save_options(void)</div><div class="ttdoc">Save options values to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00302">save.c:302</a></div></div>
 <div class="ttc" id="asave_8h_html"><div class="ttname"><a href="save_8h.html">save.h</a></div><div class="ttdoc">Utils functions to save/load data structures from/to the SRAM.</div></div>
-<div class="ttc" id="astructJokerObjectSaveData_html"><div class="ttname"><a href="structJokerObjectSaveData.html">JokerObjectSaveData</a></div><div class="ttdoc">JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00121">save.c:122</a></div></div>
+<div class="ttc" id="astructJokerObjectSaveData_html"><div class="ttname"><a href="structJokerObjectSaveData.html">JokerObjectSaveData</a></div><div class="ttdoc">JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00122">save.c:123</a></div></div>
 <div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00106">joker.h:107</a></div></div>
 <div class="ttc" id="astructList_html"><div class="ttname"><a href="structList.html">List</a></div><div class="ttdoc">A doubly-linked list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00060">list.h:61</a></div></div>
 <div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00023">random.h:24</a></div></div>
-<div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00158">save.c:159</a></div></div>
-<div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00051">save.c:52</a></div></div>
-<div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00085">save.c:86</a></div></div>
+<div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00159">save.c:160</a></div></div>
+<div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00052">save.c:53</a></div></div>
+<div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00086">save.c:87</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>
 <div class="ttc" id="aversion_8h_html"><div class="ttname"><a href="version_8h.html">version.h</a></div><div class="ttdoc">Game ROM version global var declaration.</div></div>
 </div><!-- fragment --></div><!-- contents -->

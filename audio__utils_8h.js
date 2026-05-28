@@ -7,5 +7,8 @@ var audio__utils_8h =
     [ "MM_SFX_FULL_VOLUME", "audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312", null ],
     [ "SFX_DEFAULT_PAN", "audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11", null ],
     [ "SFX_DEFAULT_VOLUME", "audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86", null ],
-    [ "play_sfx", "audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69", null ]
+    [ "play_lose_music", "audio__utils_8h.html#a1a7cfeec3ed0632c446a2ac125b947ca", null ],
+    [ "play_regular_music", "audio__utils_8h.html#a0805d40ac3ce386caec3227b03c66344", null ],
+    [ "play_sfx", "audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69", null ],
+    [ "volume_module_step_to_val", "audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0", null ]
 ];

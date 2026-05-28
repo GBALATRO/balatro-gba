@@ -19,5 +19,9 @@ var searchData=
   ['affinebackgroundid_16',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
   ['and_20won_20t_20compile_17',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
   ['art_18',['Art',['../index.html#autotoc_md2',1,'']]],
-  ['audio_5futils_2eh_19',['audio_utils.h',['../audio__utils_8h.html',1,'']]]
+  ['audio_5fparam_5fupdate_19',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]],
+  ['audio_5futils_2ec_20',['audio_utils.c',['../audio__utils_8c.html',1,'']]],
+  ['audio_5futils_2eh_21',['audio_utils.h',['../audio__utils_8h.html',1,'']]],
+  ['audioparam_22',['AudioParam',['../structAudioParam.html',1,'']]],
+  ['audioparamreq_23',['AudioParamReq',['../structAudioParamReq.html',1,'']]]
 ];

@@ -138,35 +138,187 @@ $(document).ready(function(){initNavTree('audio__utils_8c_source.html',''); init
   <div class="headertitle"><div class="title">audio_utils.c</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;maxmod.h&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">    7</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume)</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    mm_sound_effect sfx = {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        {<span class="keywordtype">id</span>},</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        rate,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        0,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        (volume * g_game_vars.sound_volume) / VOLUME_OPTION_MAX,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_define" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a>,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    };</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    mmEffectEx(&amp;sfx);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
+<a href="audio__utils_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="mgba__logger_8h.html">mgba_logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="state__machine_8h.html">state_machine.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;maxmod.h&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structAudioParamReq.html">   17</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    s32 target;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    s32 stride;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>} <a class="code hl_struct" href="structAudioParamReq.html">AudioParamReq</a>;</div>
 </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structAudioParam.html">   23</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    s32 current;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_struct" href="structAudioParamReq.html">AudioParamReq</a> req;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <a class="code hl_struct" href="structAudioParam.html">AudioParam</a>;</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define AUDIO_PARAM_REQ_DEFAULT { .target = 0, .stride = 0 }</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define AUDIO_PARAM_DEFINE(init_val) { .current = init_val, .req = AUDIO_PARAM_REQ_DEFAULT }</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structMusicPlayerState.html">   34</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_struct" href="structAudioParam.html">AudioParam</a> pitch;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_struct" href="structAudioParam.html">AudioParam</a> tempo;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_struct" href="structAudioParam.html">AudioParam</a> volume;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>} <a class="code hl_struct" href="structMusicPlayerState.html">MusicPlayerState</a>;</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">static</span> <span class="keyword">const</span> u32 DEFAULT_PITCH = 0x400;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">static</span> <span class="keyword">const</span> u32 DEFAULT_TEMPO = 0x400;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keyword">static</span> <span class="keyword">const</span> u32 DEFAULT_VOLUME = <a class="code hl_define" href="audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9">MM_MODULE_FULL_VOLUME</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">static</span> <span class="keyword">const</span> u32 MUSIC_CHANGE_FRAMES = 75;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">static</span> <span class="keyword">const</span> u32 VOLUME_CHANGE_FRAMES = MUSIC_CHANGE_FRAMES / 3;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">static</span> <span class="keywordtype">void</span> set_audio_param_req(<a class="code hl_struct" href="structAudioParam.html">AudioParam</a>* param, s32 target, s32 steps);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">static</span> <span class="keywordtype">void</span> speed_change_update(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">static</span> <a class="code hl_struct" href="structMusicPlayerState.html">MusicPlayerState</a> music_player = {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    .pitch = AUDIO_PARAM_DEFINE(DEFAULT_PITCH),</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    .tempo = AUDIO_PARAM_DEFINE(DEFAULT_TEMPO),</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    .volume = AUDIO_PARAM_DEFINE(DEFAULT_VOLUME),</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>};</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keyword">static</span> <a class="code hl_struct" href="structStateInfo.html">StateInfo</a> state_info[] = {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    STATE_INFO_UPDATE_FN_ONLY(speed_change_update),</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>};</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">static</span> <a class="code hl_struct" href="structStateMachine.html">StateMachine</a> song_speed_sm = STATE_MACHINE_DEFINE(state_info, 1);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">static</span> <span class="keywordtype">void</span> set_audio_param_req(<a class="code hl_struct" href="structAudioParam.html">AudioParam</a>* param, s32 target, s32 steps)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">int</span> offset = target - param-&gt;current;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// if &#39;0&#39; set to &#39;1&#39;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    steps |= !steps;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    param-&gt;req.stride = offset / steps;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    param-&gt;req.stride = !param-&gt;req.stride ? <a class="code hl_define" href="util_8h.html#a8c5ff70b6b28cd0157c50a22406f92c4">SIGN</a>(offset) : param-&gt;req.stride;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    param-&gt;req.target = target;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">   78</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">audio_param_update</a>(<a class="code hl_struct" href="structAudioParam.html">AudioParam</a>* param)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>{</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">if</span> (abs(param-&gt;current - param-&gt;req.target) &lt;= abs(param-&gt;req.stride))</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        param-&gt;current = param-&gt;req.target;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    param-&gt;current += param-&gt;req.stride;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">static</span> <span class="keywordtype">void</span> speed_change_update(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordtype">bool</span> tempo_reached = <a class="code hl_function" href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">audio_param_update</a>(&amp;music_player.tempo);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">bool</span> pitch_reached = <a class="code hl_function" href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">audio_param_update</a>(&amp;music_player.pitch);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">bool</span> volume_reached = <a class="code hl_function" href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">audio_param_update</a>(&amp;music_player.volume);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    mmSetModuleTempo(music_player.tempo.current);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    mmSetModulePitch(music_player.pitch.current);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    set_volume(music_player.volume.current);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (tempo_reached &amp;&amp; pitch_reached &amp;&amp; volume_reached)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <a class="code hl_function" href="state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a">state_machine_remove</a>(&amp;song_speed_sm);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">  103</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8c.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(mm_word <span class="keywordtype">id</span>, mm_word rate, mm_byte volume)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>{</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordtype">int</span> adj_volume = volume * g_game_vars.sound_volume / VOLUME_OPTION_MAX;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    mm_sound_effect sfx = {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        {<span class="keywordtype">id</span>},</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        rate,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        0,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        adj_volume,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <a class="code hl_define" href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a>,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    };</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    mmEffectEx(&amp;sfx);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a1a7cfeec3ed0632c446a2ac125b947ca">  116</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8c.html#a1a7cfeec3ed0632c446a2ac125b947ca">play_lose_music</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keyword">const</span> u32 slow_music_speed = 0x200;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="comment">// Don&#39;t adjust the volume if already on the lowest setting, otherwise it&#39;s not audible</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    u32 vol = g_game_vars.music_volume;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// Don&#39;t divide the audio by half if it&#39;s one, just sounds bad</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="comment">// This works too, not for negative numbers. It&#39;s neat.</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="comment">// vol |= !((vol - 1) &gt; 0);</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    vol = (vol == 1) ? 1 : vol / 2;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    u32 target_vol = <a class="code hl_function" href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a>(vol);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    set_audio_param_req(&amp;music_player.pitch, slow_music_speed, MUSIC_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    set_audio_param_req(&amp;music_player.tempo, slow_music_speed, MUSIC_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    set_audio_param_req(&amp;music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <a class="code hl_function" href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a>(&amp;song_speed_sm);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;song_speed_sm, 0);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
+</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="foldopen" id="foldopen00135" data-start="{" data-end="}">
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="audio__utils_8h.html#a0805d40ac3ce386caec3227b03c66344">  135</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="audio__utils_8c.html#a0805d40ac3ce386caec3227b03c66344">play_regular_music</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>{</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    u32 target_vol = <a class="code hl_function" href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a>(g_game_vars.music_volume);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    set_audio_param_req(&amp;music_player.pitch, DEFAULT_PITCH, MUSIC_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    set_audio_param_req(&amp;music_player.tempo, DEFAULT_TEMPO, MUSIC_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    set_audio_param_req(&amp;music_player.volume, target_vol, VOLUME_CHANGE_FRAMES);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <a class="code hl_function" href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a>(&amp;song_speed_sm);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;song_speed_sm, 0);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>}</div>
+</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keywordtype">void</span> set_volume(<span class="keywordtype">int</span> volume)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>{</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    music_player.volume.current = volume;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    mmSetModuleVolume(volume);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>}</div>
+<div class="ttc" id="aaudio__utils_8c_html_a0805d40ac3ce386caec3227b03c66344"><div class="ttname"><a href="audio__utils_8c.html#a0805d40ac3ce386caec3227b03c66344">play_regular_music</a></div><div class="ttdeci">void play_regular_music(void)</div><div class="ttdoc">Play music at a normal pitch and tempo.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00135">audio_utils.c:135</a></div></div>
+<div class="ttc" id="aaudio__utils_8c_html_a1a7cfeec3ed0632c446a2ac125b947ca"><div class="ttname"><a href="audio__utils_8c.html#a1a7cfeec3ed0632c446a2ac125b947ca">play_lose_music</a></div><div class="ttdeci">void play_lose_music(void)</div><div class="ttdoc">Play music at a low pitch and slow tempo (lose screen)</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00116">audio_utils.c:116</a></div></div>
+<div class="ttc" id="aaudio__utils_8c_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8c.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00103">audio_utils.c:103</a></div></div>
+<div class="ttc" id="aaudio__utils_8c_html_af8f10383ee9bbeff6ed044e16c7374e9"><div class="ttname"><a href="audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9">audio_param_update</a></div><div class="ttdeci">static bool audio_param_update(AudioParam *param)</div><div class="ttdoc">Update the AudioParam for the music transition state machine for audio transitions.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00078">audio_utils.c:78</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
-<div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00007">audio_utils.c:7</a></div></div>
-<div class="ttc" id="aaudio__utils_8h_html_abcf10c76d1f03448e68b593bbc1e1f11"><div class="ttname"><a href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a></div><div class="ttdeci">#define SFX_DEFAULT_PAN</div><div class="ttdoc">The default stereo pan, will always be center pan.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00047">audio_utils.h:47</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_a6d01a856f8b7240cbc462a5ffee7d8a9"><div class="ttname"><a href="audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9">MM_MODULE_FULL_VOLUME</a></div><div class="ttdeci">#define MM_MODULE_FULL_VOLUME</div><div class="ttdoc">The maximum volume for maxmod module volume (main theme)</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00017">audio_utils.h:17</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_a9bcb541674be186faebfd4b6d5de35e0"><div class="ttname"><a href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a></div><div class="ttdeci">int volume_module_step_to_val(unsigned char step)</div><div class="ttdoc">Get MaxMod module audio value from VOLUME_OPTION value.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00085">audio_utils.h:85</a></div></div>
+<div class="ttc" id="aaudio__utils_8h_html_abcf10c76d1f03448e68b593bbc1e1f11"><div class="ttname"><a href="audio__utils_8h.html#abcf10c76d1f03448e68b593bbc1e1f11">SFX_DEFAULT_PAN</a></div><div class="ttdeci">#define SFX_DEFAULT_PAN</div><div class="ttdoc">The default stereo pan, will always be center pan.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00049">audio_utils.h:49</a></div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
+<div class="ttc" id="amgba__logger_8h_html"><div class="ttname"><a href="mgba__logger_8h.html">mgba_logger.h</a></div><div class="ttdoc">Interface to interact with the mgba logger.</div></div>
+<div class="ttc" id="astate__machine_8h_html"><div class="ttname"><a href="state__machine_8h.html">state_machine.h</a></div><div class="ttdoc">State Machine.</div></div>
+<div class="ttc" id="astate__machine_8h_html_aa9b1230f7acdd39a63af8065b6729b5a"><div class="ttname"><a href="state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a">state_machine_remove</a></div><div class="ttdeci">void state_machine_remove(StateMachine *state_machine)</div><div class="ttdoc">Remove a statemachine's update function.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8c_source.html#l00029">state_machine.c:29</a></div></div>
+<div class="ttc" id="astate__machine_8h_html_ac3b2a011559ddbcb1f949f0da73ac239"><div class="ttname"><a href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a></div><div class="ttdeci">void state_machine_register(StateMachine *state_machine)</div><div class="ttdoc">Register a statemachine to run it's update function once per frame.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8c_source.html#l00016">state_machine.c:16</a></div></div>
+<div class="ttc" id="astate__machine_8h_html_ac887ec8b325e136d801a6d1c30e55d15"><div class="ttname"><a href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a></div><div class="ttdeci">void state_machine_change_state(StateMachine *state_machine, int new_state)</div><div class="ttdoc">Calls the current state's on_exit, the new state's on_init, and sets the active update fn.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8c_source.html#l00048">state_machine.c:48</a></div></div>
+<div class="ttc" id="astructAudioParamReq_html"><div class="ttname"><a href="structAudioParamReq.html">AudioParamReq</a></div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00017">audio_utils.c:18</a></div></div>
+<div class="ttc" id="astructAudioParam_html"><div class="ttname"><a href="structAudioParam.html">AudioParam</a></div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00023">audio_utils.c:24</a></div></div>
+<div class="ttc" id="astructMusicPlayerState_html"><div class="ttname"><a href="structMusicPlayerState.html">MusicPlayerState</a></div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00034">audio_utils.c:35</a></div></div>
+<div class="ttc" id="astructStateInfo_html"><div class="ttname"><a href="structStateInfo.html">StateInfo</a></div><div class="ttdoc">State machine callbacks.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8h_source.html#l00038">state_machine.h:39</a></div></div>
+<div class="ttc" id="astructStateMachine_html"><div class="ttname"><a href="structStateMachine.html">StateMachine</a></div><div class="ttdoc">State machine instance.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8h_source.html#l00048">state_machine.h:49</a></div></div>
+<div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>
+<div class="ttc" id="autil_8h_html_a8c5ff70b6b28cd0157c50a22406f92c4"><div class="ttname"><a href="util_8h.html#a8c5ff70b6b28cd0157c50a22406f92c4">SIGN</a></div><div class="ttdeci">#define SIGN(x)</div><div class="ttdoc">Get the sign (signum) of an integer.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00026">util.h:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><b>audio_utils.c</b></li>
+    <li class="navelem"><a class="el" href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a></li><li class="navelem"><a class="el" href="audio__utils_8c.html">audio_utils.c</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>

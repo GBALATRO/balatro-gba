@@ -1,5 +1,7 @@
 var annotated_dup =
 [
+    [ "AudioParam", "structAudioParam.html", null ],
+    [ "AudioParamReq", "structAudioParamReq.html", null ],
     [ "Bitset", "structBitset.html", "structBitset" ],
     [ "BitsetItr", "structBitsetItr.html", "structBitsetItr" ],
     [ "Blind", "structBlind.html", null ],
@@ -18,6 +20,7 @@ var annotated_dup =
     [ "List", "structList.html", "structList" ],
     [ "ListItr", "structListItr.html", "structListItr" ],
     [ "ListNode", "structListNode.html", "structListNode" ],
+    [ "MusicPlayerState", "structMusicPlayerState.html", null ],
     [ "RngInfo", "structRngInfo.html", "structRngInfo" ],
     [ "SaveGame", "structSaveGame.html", null ],
     [ "SaveHeader", "structSaveHeader.html", null ],

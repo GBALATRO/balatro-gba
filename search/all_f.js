@@ -22,5 +22,6 @@ var searchData=
   ['mm_5fmodule_5ffull_5fvolume_19',['MM_MODULE_FULL_VOLUME',['../audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9',1,'audio_utils.h']]],
   ['mm_5fpan_5fcenter_20',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
   ['mm_5fsfx_5ffull_5fvolume_21',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
-  ['music_20strong_22',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md42',1,'']]]
+  ['music_20strong_22',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md42',1,'']]],
+  ['musicplayerstate_23',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
 ];
