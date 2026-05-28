@@ -765,7 +765,7 @@ void test_list_pop(void)
 
     assert(list_get_len(&my_cool_list) == initial_list_size);
 
-    // remove from the front
+    // remove from the back
     data = list_pop_back(&my_cool_list);
 
     assert(data == &test_data[initial_list_size - 1]);

@@ -114,18 +114,7 @@ void* list_pop_back(List* list)
     if (!list_is_empty(list))
     {
         data = list->tail->data;
-
-        if(list->len == 1)
-        {
-            *list = list_init();
-        }
-        else
-        {
-            list->tail = list->tail->prev;
-        }
-
-        list->len--;
-        POOL_FREE(ListNode, list->tail);
+        s_list_remove_node(list, list->tail);
     }
 
     return data;
@@ -138,18 +127,7 @@ void* list_pop_front(List* list)
     if (!list_is_empty(list))
     {
         data = list->head->data;
-
-        if(list->len == 1)
-        {
-            *list = list_init();
-        }
-        else
-        {
-            list->head = list->head->next;
-        }
-
-        list->len--;
-        POOL_FREE(ListNode, list->head);
+        s_list_remove_node(list, list->head);
     }
 
     return data;

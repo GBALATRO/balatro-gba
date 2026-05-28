@@ -164,16 +164,20 @@ void list_push_back(List* list, void* data);
 /**
  * Pop the data at the `tail` of a @ref list
  *
+ * @note The returned pointer is not freed and the list does not own the pointers lifecycle
+ *
  * @param list pointer to a @ref List
- * @return the data pointer at the `tail`
+ * @return the data pointer at the `tail` or NULL if the list is empty
  */
 void* list_pop_back(List* list);
 
 /**
  * Pop the data at the `head` of a @ref list
  *
+ * @note The returned pointer is not freed and the list does not own the pointers lifecycle
+ *
  * @param list pointer to a @ref List
- * @return the data pointer at the `head`
+ * @return the data pointer at the `head` or NULL if the list is empty
  */
 void* list_pop_front(List* list);
 
