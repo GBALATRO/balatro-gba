@@ -15,9 +15,10 @@ void noop(void) {};
 
 void state_machine_register(StateMachine* state_machine)
 {
-    // Always try to remove the state machine first. Only one can exist at a time
-    // So ensure that calling this function doesn't add two update functions
-    state_machine_remove(state_machine);
+    if (state_machine->registered)
+        return;
+
+    state_machine->registered = true;
 
     state_machine->active_update = noop;
     state_machine->state = UNDEFINED;
@@ -27,6 +28,10 @@ void state_machine_register(StateMachine* state_machine)
 
 void state_machine_remove(StateMachine* state_machine)
 {
+    if (!state_machine->registered)
+        return;
+
+    state_machine->registered = false;
     list_remove_data(&update_cbs, &state_machine->active_update);
 }
 
@@ -42,6 +47,9 @@ void state_machine_update(void)
 
 void state_machine_change_state(StateMachine* state_machine, int new_state)
 {
+    if (!state_machine->registered)
+        return;
+
     if (state_machine->state >= 0 && state_machine->state < state_machine->num_infos)
     {
         state_machine->state_infos[state_machine->state].on_exit();

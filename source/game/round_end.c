@@ -79,10 +79,7 @@ static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_round_end_dismiss_round_end_panel),
 };
 
-static StateMachine round_end_sm = {
-    .state_infos = &state_info[0],
-    .num_infos = ROUND_END_STATES_MAX,
-};
+static StateMachine round_end_sm = STATE_MACHINE_DEFINE(state_info, ROUND_END_STATES_MAX);
 
 static int calculate_interest_reward(void)
 {

@@ -612,7 +612,7 @@ static bool music_volume_row_on_selection_changed(
     }
 
     update_volume_slider_graphics(MUSIC_VOLUME_ROW_IDX);
-    mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
+    set_volume(volume_module_step_to_val(g_game_vars.music_volume));
 
     return true;
 }

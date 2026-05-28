@@ -7,6 +7,7 @@
 #include "bitset.h"
 #include "card.h"
 #include "game.h"
+#include "game_variables.h"
 #include "joker.h"
 #include "list.h"
 #include "util.h"
@@ -326,10 +327,9 @@ void load_options(void)
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
 
+    set_volume(volume_module_step_to_val(g_game_vars.music_volume));
     set_cards_high_contrast(options.cards_high_contrast);
     set_cards_more_readable(options.cards_more_readable);
-
-    mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }
 
 void save_game(void)

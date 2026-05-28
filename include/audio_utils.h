@@ -6,6 +6,8 @@
 #ifndef AUDIO_UTILS_H
 #define AUDIO_UTILS_H
 
+#include "game_variables.h"
+
 #include <mm_types.h>
 
 /**
@@ -63,5 +65,26 @@
  * @param volume the volume ranging from 0 (silent) to 255 (loudest)
  */
 void play_sfx(mm_word id, mm_word rate, mm_byte volume);
+
+/**
+ * @brief Play music at a low pitch and slow tempo (lose screen)
+ */
+void play_lose_music(void);
+
+/**
+ * @brief Play music at a normal pitch and tempo
+ */
+void play_regular_music(void);
+
+void set_volume(int volume);
+
+/**
+ * @brief Get MaxMod module audio value from VOLUME_OPTION value
+ * @param step VOLUME_OPTION between @ref VOLUME_OPTION_MIN and @ref VOLUME_OPTION_MAX
+ */
+inline int volume_module_step_to_val(unsigned char step)
+{
+    return MM_MODULE_FULL_VOLUME * step / VOLUME_OPTION_MAX;
+}
 
 #endif

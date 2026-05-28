@@ -56,10 +56,7 @@ static StateInfo state_info[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_blind_select_exit),
 };
 
-static StateMachine blind_select_sm = {
-    .state_infos = &state_info[0],
-    .num_infos = BLIND_SELECT_MAX,
-};
+static StateMachine blind_select_sm = STATE_MACHINE_DEFINE(state_info, BLIND_SELECT_MAX);
 
 // clang-format off
 // Points                                                x        y

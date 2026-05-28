@@ -211,10 +211,7 @@ static StateInfo state_info[] = {
 #undef DEF_STATE_INFO
 };
 
-static StateMachine game_sm = {
-    .state_infos = &state_info[0],
-    .num_infos = GAME_STATE_MAX,
-};
+static StateMachine game_sm = STATE_MACHINE_DEFINE(state_info, GAME_STATE_MAX);
 
 // clang-format off
 static SelectionGridRow game_playing_selection_rows[] = {
@@ -1583,135 +1580,96 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     }
 }
 
-static inline void select_all_five_cards_in_played_hand(void)
+static inline void select_match(u32 num)
 {
-    for (int i = 0; i <= played_top; i++)
+    u32 matches[NUM_RANKS] = {0};
+
+    for(int i = 0; i <= played_top; i++)
     {
-        card_object_set_selected(played[i], true);
+        matches[played[i]->card->rank]++;
     }
-}
-
-static inline void select_four_of_a_kind_cards_in_played_hand(void)
-{
-    // find four cards with the same rank
-    // If there are 5 cards selected we just need to find the one card that doesn't match, and
-    // select the others
-    if (played_top >= 3)
+    
+    for(int i = 0; i <= played_top; i++)
     {
-        int unmatched_index = -1;
-
-        for (int i = 0; i <= played_top; i++)
-        {
-            if (played[i]->card->rank != played[(i + 1) % played_top]->card->rank &&
-                played[i]->card->rank != played[(i + 2) % played_top]->card->rank)
-            {
-                unmatched_index = i;
-                break;
-            }
-        }
-
-        for (int i = 0; i <= played_top; i++)
-        {
-            if (i != unmatched_index)
-            {
-                card_object_set_selected(played[i], true);
-            }
-        }
-    }
-    else // If there are only 4 cards selected we know they match
-    {
-        for (int i = 0; i <= played_top; i++)
-        {
+        if(matches[played[i]->card->rank] >= num)
             card_object_set_selected(played[i], true);
-        }
     }
-}
 
-static inline void select_three_of_a_kind_cards_in_played_hand(void)
-{
-    // find three cards with the same rank
-    for (int i = 0; i <= played_top - 1; i++)
+    /*
+    ListItr itr = list_itr_create(&played_list);
+    CardObject* obj = NULL;
+
+    while((obj = list_itr_next(&itr)))
     {
-        for (int j = i + 1; j <= played_top; j++)
-        {
-            if (played[i]->card->rank == played[j]->card->rank)
-            {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
-
-                for (int k = j + 1; k <= played_top; k++)
-                {
-                    if (played[i]->card->rank == played[k]->card->rank &&
-                        !card_object_is_selected(played[k]))
-                    {
-                        card_object_set_selected(played[k], true);
-                        break;
-                    }
-                }
-
-                break;
-            }
-        }
-
-        if (card_object_is_selected(played[i]))
-            break;
+        matches[obj->card->rank]++;
     }
+
+    itr = list_itr_create(&played_list);
+    obj = NULL;
+
+    while((obj = list_itr_next(&itr)))
+    {
+        if(matches[obj->card->rank] >= num)
+            card_object_set_selected(obj, true);
+    }
+    */
 }
 
 static inline void select_two_pair_cards_in_played_hand(void)
 {
-    // find two pairs of cards with the same rank
-    int i;
+    u32 matches[NUM_RANKS] = {0};
 
-    for (i = 0; i <= played_top - 1; i++)
+    for(int i = 0; i <= played_top; i++)
     {
-        for (int j = i + 1; j <= played_top; j++)
-        {
-            if (played[i]->card->rank == played[j]->card->rank)
-            {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+        matches[played[i]->card->rank]++;
+    }
+    
+    /*
+    ListItr itr = list_itr_create(&played_list);
+    CardObject* obj = NULL;
 
-                break;
-            }
-        }
-
-        if (card_object_is_selected(played[i]))
-            break;
+    while((obj = list_itr_next(&itr)))
+    {
+        matches[obj->card->rank]++;
     }
 
-    for (; i <= played_top - 1; i++) // Find second pair
+    */
+
+    bool found_one_pair, found_two_pair = false;
+
+    for(int i = 0; i < NUM_RANKS; i++)
     {
-        for (int j = i + 1; j <= played_top; j++)
+        if(matches[i] >= 2)
         {
-            if (played[i]->card->rank == played[j]->card->rank &&
-                !card_object_is_selected(played[i]) && !card_object_is_selected(played[j]))
+            if(found_one_pair)
             {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
+                found_two_pair = true;
                 break;
+            }
+            else
+            {
+                found_one_pair = true;
             }
         }
     }
-}
 
-static inline void select_pair_cards_in_played_hand(void)
-{
-    // find two cards with the same rank
-    for (int i = 0; i <= played_top - 1; i++)
+    if(!found_two_pair)
+        return;
+
+    /*
+    itr = list_itr_create(&played_list);
+    obj = NULL;
+    while((obj = list_itr_next(&itr)))
     {
-        for (int j = i + 1; j <= played_top; j++)
-        {
-            if (played[i]->card->rank == played[j]->card->rank)
-            {
-                card_object_set_selected(played[i], true);
-                card_object_set_selected(played[j], true);
-                break;
-            }
-        }
+        if(matches[obj->card->rank] >= num)
+            card_object_set_selected(obj, true);
+    }
+    */
 
-        if (card_object_is_selected(played[i]))
-            break;
+    for(int i = 0; i <= played_top; i++)
+    {
+        if(matches[played[i]->card->rank] >= 2)
+            card_object_set_selected(played[i], true);
     }
 }
 
@@ -2326,16 +2284,16 @@ static inline void select_cards_in_played_hand()
             select_highcard_cards_in_played_hand();
             break;
         case PAIR:
-            select_pair_cards_in_played_hand();
+            select_match(2);
             break;
         case TWO_PAIR:
-            select_two_pair_cards_in_played_hand();
+            select_match(2);
             break;
         case THREE_OF_A_KIND:
-            select_three_of_a_kind_cards_in_played_hand();
+            select_match(3);
             break;
         case FOUR_OF_A_KIND:
-            select_four_of_a_kind_cards_in_played_hand();
+            select_match(4);
             break;
         case STRAIGHT:
             /* FALL THROUGH */
@@ -2353,7 +2311,8 @@ static inline void select_cards_in_played_hand()
         case FLUSH_HOUSE:
             /* FALL THROUGH */
         case FLUSH_FIVE: // Select all played cards in the hand
-            select_all_five_cards_in_played_hand();
+            // Match all 1-pairs, haha
+            select_match(1); 
             break;
     }
 }

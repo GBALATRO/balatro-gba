@@ -81,10 +81,7 @@ static StateInfo shop_state_actions[] = {
     STATE_INFO_UPDATE_FN_ONLY(game_shop_outro),
 };
 
-static StateMachine shop_sm = {
-    .state_infos = &shop_state_actions[0],
-    .num_infos = GAME_SHOP_MAX,
-};
+static StateMachine shop_sm = STATE_MACHINE_DEFINE(shop_state_actions, GAME_SHOP_MAX);
 
 // Shop SelectionGrid
 
