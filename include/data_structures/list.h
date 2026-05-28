@@ -162,6 +162,26 @@ void list_push_front(List* list, void* data);
 void list_push_back(List* list, void* data);
 
 /**
+ * Pop the data at the `tail` of a @ref list
+ *
+ * @note The returned pointer is not freed and the list does not own the pointers lifecycle
+ *
+ * @param list pointer to a @ref List
+ * @return the data pointer at the `tail` or NULL if the list is empty
+ */
+void* list_pop_back(List* list);
+
+/**
+ * Pop the data at the `head` of a @ref list
+ *
+ * @note The returned pointer is not freed and the list does not own the pointers lifecycle
+ *
+ * @param list pointer to a @ref List
+ * @return the data pointer at the `head` or NULL if the list is empty
+ */
+void* list_pop_front(List* list);
+
+/**
  * Insert data into a @ref List a specific index
  *
  * If the index specified is larger than the length of the list

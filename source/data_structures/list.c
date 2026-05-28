@@ -107,6 +107,32 @@ void list_push_back(List* list, void* data)
     list->len++;
 }
 
+void* list_pop_back(List* list)
+{
+    void* data = NULL;
+
+    if (!list_is_empty(list))
+    {
+        data = list->tail->data;
+        s_list_remove_node(list, list->tail);
+    }
+
+    return data;
+}
+
+void* list_pop_front(List* list)
+{
+    void* data = NULL;
+
+    if (!list_is_empty(list))
+    {
+        data = list->head->data;
+        s_list_remove_node(list, list->head);
+    }
+
+    return data;
+}
+
 void list_insert(List* list, void* data, unsigned int idx)
 {
     if (idx >= list->len)
