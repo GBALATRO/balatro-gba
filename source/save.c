@@ -5,6 +5,7 @@
 
 #include "audio_utils.h"
 #include "bitset.h"
+#include "card.h"
 #include "game.h"
 #include "joker.h"
 #include "list.h"
@@ -55,6 +56,16 @@ typedef struct SaveHeader
     u32 valid_sections;
 } SaveHeader;
 
+/**
+ * @brief Default value for the SaveHeader struct.
+ */
+static const SaveHeader SaveHeader_default = {
+    .magic = CHECK_MAGIC,
+    .dirty = false,
+    .githash = "fffffff",
+    .valid_sections = SAVE_SECTION_FLAG_NONE
+};
+
 // clang-format off
 /**
  * @brief SaveOptions will only contain options data set in the Options Menu
@@ -65,8 +76,8 @@ typedef struct SaveHeader
  * 1    | 'T'    | 'I'    | 'O'    | 'N'    | -            | Spells "- OPTIONS DATA -"
  * 2    | 'S'    | ' '    | 'D'    | 'A'    | -            | -
  * 3    | 'T'    | 'A'    | ' '    | '-'    | -            | -
- * 4    | SPEED  | CNTRST | MUSIC  | SOUND  | OPTN_VALUES  | All 4 option values, packed in a single word.
- * 5    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | PADDING      | Padding, so that the next section starts at the beginning of the
+ * 4    | SPEED  | CNTRST | READBL | MUSIC  | OPTN_VALUES  | All 5 option values, followed by some padding,
+ * 5    | SOUND  | UNDEF  | UNDEF  | UNDEF  | -            | so that the next section starts at the beginning of the
  * 6    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | next 4-word row in a hex viewer
  * 7    | UNDEF  | UNDEF  | UNDEF  | UNDEF  | -            | -
  */
@@ -75,11 +86,32 @@ typedef struct SaveOptions
 {
     char tag_options[SAVE_LABEL_SIZE];
     u8 game_speed;
-    bool high_contrast;
+    bool cards_high_contrast;
+    bool cards_more_readable;
     u8 music_volume;
     u8 sound_volume;
-    u32 padding[3];
+    s8 padding[11];
 } SaveOptions;
+
+/**
+ * @brief Default value for the SaveOptions struct, with tags already set.
+ */
+// clang-format off
+static const SaveOptions SaveOptions_default = {
+    .tag_options = "- OPTIONS DATA -",
+    .game_speed = GAME_SPEED_MIN,
+    .cards_high_contrast = DEFAULT_HIGH_CONTRAST,
+    .cards_more_readable = DEFAULT_MORE_READABLE,
+    .music_volume = VOLUME_OPTION_MAX,
+    .sound_volume = VOLUME_OPTION_MAX,
+    .padding = {
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED, UNDEFINED,
+        UNDEFINED, UNDEFINED
+    }
+};
+// clang-format on
 
 /**
  * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.
@@ -131,35 +163,13 @@ typedef struct SaveGame
     int round;
     int ante;
     int money;
-    u32 padding[2];
+    s32 padding[2];
 
     char tag_jokers[SAVE_LABEL_SIZE];
     JokerObjectSaveData jokers_data[MAX_JOKERS_HELD_SIZE];
 
     char tag_end[4];
 } SaveGame;
-
-/**
- * @brief Default value for the SaveHeader struct.
- */
-static const SaveHeader SaveHeader_default = {
-    .magic = CHECK_MAGIC,
-    .dirty = false,
-    .githash = "fffffff",
-    .valid_sections = SAVE_SECTION_FLAG_NONE
-};
-
-/**
- * @brief Default value for the SaveOptions struct, with tags already set.
- */
-static const SaveOptions SaveOptions_default = {
-    .tag_options = "- OPTIONS DATA -",
-    .game_speed = GAME_SPEED_MIN,
-    .high_contrast = DEFAULT_HIGH_CONTRAST,
-    .music_volume = VOLUME_OPTION_MAX,
-    .sound_volume = VOLUME_OPTION_MAX,
-    .padding = {UNDEFINED, UNDEFINED, UNDEFINED},
-};
 
 /**
  * @brief Default value for the SaveGame struct, with tags already set.
@@ -293,7 +303,8 @@ void save_options(void)
     SaveOptions options = SaveOptions_default;
 
     options.game_speed = g_game_vars.game_speed;
-    options.high_contrast = g_game_vars.high_contrast;
+    options.cards_high_contrast = get_cards_high_contrast();
+    options.cards_more_readable = get_cards_more_readable();
     options.music_volume = g_game_vars.music_volume;
     options.sound_volume = g_game_vars.sound_volume;
 
@@ -312,9 +323,11 @@ void load_options(void)
         read_sram(OPTIONS_ADDRESS, (u8*)&options, sizeof(options));
 
     g_game_vars.game_speed = options.game_speed;
-    g_game_vars.high_contrast = options.high_contrast;
     g_game_vars.music_volume = options.music_volume;
     g_game_vars.sound_volume = options.sound_volume;
+
+    set_cards_high_contrast(options.cards_high_contrast);
+    set_cards_more_readable(options.cards_more_readable);
 
     mmSetModuleVolume(MM_MODULE_FULL_VOLUME * g_game_vars.music_volume / VOLUME_OPTION_MAX);
 }
