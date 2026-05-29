@@ -328,8 +328,7 @@ static int played_top = -1;
 static Card* deck[MAX_DECK_SIZE] = {NULL};
 static int deck_top = -1;
 
-static Card* discard_pile[MAX_DECK_SIZE] = {NULL};
-static int discard_top = -1;
+static List discard_list;
 
 // Joker Special Variables
 static int shortcut_joker_count = 0;
@@ -378,20 +377,6 @@ static inline Card* deck_pop()
     if (deck_top < 0)
         return NULL;
     return deck[deck_top--];
-}
-
-static inline void discard_push(Card* card)
-{
-    if (discard_top >= MAX_DECK_SIZE - 1)
-        return;
-    discard_pile[++discard_top] = card;
-}
-
-static inline Card* discard_pop()
-{
-    if (discard_top < 0)
-        return NULL;
-    return discard_pile[discard_top--];
 }
 
 static inline void jokers_available_to_shop_init(void)
@@ -1037,7 +1022,7 @@ static int deck_get_size(void)
 static int deck_get_max_size(void)
 {
     // This is the max amount of cards that the player currently has in their possession
-    return get_hand_top() + played_top + deck_top + discard_top + 4;
+    return MAX_CARDS;
 }
 
 static inline void deck_shuffle(void)
@@ -1476,7 +1461,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
             if (hand[card_idx]->sprite_object->x >= *hand_x)
             {
-                discard_push(hand[card_idx]->card);
+                list_push_back(&discard_list, hand[card_idx]->card);
                 card_object_destroy(&hand[card_idx]);
                 reorder_card_sprites_layers();
 
@@ -1773,7 +1758,7 @@ static bool play_ended_played_cards_update(int played_idx)
         // card has exited the screen, now discard it and set it to NULL
         if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
         {
-            discard_push(played[played_idx]->card); // Push the card to the discard pile
+            list_push_back(&discard_list, played[played_idx]->card);
             card_object_destroy(&played[played_idx]);
 
             // played_top--;
@@ -2260,8 +2245,7 @@ static inline void game_playing_process_card_draw()
 static inline void game_playing_discarded_cards_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
-    if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
-        g_game_vars.timer > FRAMES(10))
+    if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && g_game_vars.timer > FRAMES(10))
     {
         // Change the background to the round end background. This is how it works in Balatro, so
         // I'm doing it this way too.
@@ -2271,7 +2255,7 @@ static inline void game_playing_discarded_cards_loop(void)
         static CardObject* discarded_card_object = NULL;
         if (discarded_card_object == NULL)
         {
-            discarded_card_object = card_object_new(discard_pop());
+            discarded_card_object = card_object_new((Card*)list_pop_back(&discard_list));
             // discarded_card_object->sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             // ATTR1_SIZE_32,
             // card_sprite_lut[discarded_card_object->card->suit][discarded_card_object->card->rank],
@@ -2305,7 +2289,7 @@ static inline void game_playing_discarded_cards_loop(void)
         }
 
         // If there are no more discarded cards, stop shuffling
-        if (discard_top == -1 && discarded_card_object == NULL)
+        if (list_is_empty(&discard_list) && discarded_card_object == NULL)
         {
             // After HAND_SHUFFLING the round is over
             game_playing_handle_round_over();
