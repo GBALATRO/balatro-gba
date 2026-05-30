@@ -12,7 +12,7 @@
  * @brief Initialize the shop for a run.
  * Resets all the shop data for the run, needs to be called once per run.
  */
-void game_shop_init_run(void);
+void game_shop_reset(void);
 
 /**
  * @brief Set whether a Joker can appear in the shop.

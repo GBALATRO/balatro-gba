@@ -63,8 +63,8 @@ static const Rect     SHOP_REROLL_RECT      = { 88,  96, UNDEFINED, UNDEFINED };
 static const BG_POINT SHOP_JOKER_SPRITES_INIT_POS = {120, 160};
 // clang-format on
 
-static List _shop_jokers_list = LIST_DEFAULT;
-BITSET_DEFINE(_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
+static List s_shop_jokers_list = LIST_DEFAULT;
+BITSET_DEFINE(s_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
 
 enum GameShopStates
 {
@@ -143,17 +143,17 @@ static inline void reset_shop_jokers(void)
 {
     int num_jokers = get_joker_registry_size();
 
-    bitset_clear(&_avail_jokers_bitset);
+    bitset_clear(&s_avail_jokers_bitset);
     for (int i = 0; i < num_jokers; i++)
     {
-        bitset_set_idx(&_avail_jokers_bitset, i, true);
+        bitset_set_idx(&s_avail_jokers_bitset, i, true);
     }
 }
 
-void game_shop_init_run(void)
+void game_shop_reset(void)
 {
-    list_clear(&_shop_jokers_list);
-    _shop_jokers_list = list_init();
+    list_clear(&s_shop_jokers_list);
+    s_shop_jokers_list = list_init();
     reset_shop_jokers();
 }
 
@@ -162,7 +162,7 @@ void game_shop_init_run(void)
  */
 void game_shop_set_joker_avail(int joker_id, bool avail)
 {
-    bitset_set_idx(&_avail_jokers_bitset, joker_id, avail);
+    bitset_set_idx(&s_avail_jokers_bitset, joker_id, avail);
 }
 
 void game_shop_change_background(void)
@@ -210,7 +210,7 @@ void game_shop_on_init(void)
  */
 static inline int get_num_shop_jokers_avail(void)
 {
-    return bitset_num_set_bits(&_avail_jokers_bitset);
+    return bitset_num_set_bits(&s_avail_jokers_bitset);
 }
 
 /**
@@ -232,7 +232,7 @@ static inline int game_shop_get_rand_available_joker_id(void)
     int fallback_random_joker_id = UNDEFINED;
     int match_count = 0;
 
-    BitsetItr itr = bitset_itr_create(&_avail_jokers_bitset);
+    BitsetItr itr = bitset_itr_create(&s_avail_jokers_bitset);
 
     int i = 0;
     int joker_id = UNDEFINED;
@@ -258,13 +258,13 @@ static inline int game_shop_get_rand_available_joker_id(void)
  */
 static inline bool no_avail_jokers(void)
 {
-    return bitset_is_empty(&_avail_jokers_bitset);
+    return bitset_is_empty(&s_avail_jokers_bitset);
 }
 
 GBAL_UNUSED
 static inline bool is_shop_joker_avail(int joker_id)
 {
-    return bitset_get_idx(&_avail_jokers_bitset, joker_id);
+    return bitset_get_idx(&s_avail_jokers_bitset, joker_id);
 }
 
 /**
@@ -279,7 +279,7 @@ static void game_shop_create_items(void)
     if (no_avail_jokers())
         return;
 
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
 
     list_clear(shop_jokers_list);
     *shop_jokers_list = list_init();
@@ -384,7 +384,7 @@ static void game_shop_intro()
 static int shop_top_row_get_size(void)
 {
     // + 1 to account for next round button
-    return list_get_len(&_shop_jokers_list) + 1;
+    return list_get_len(&s_shop_jokers_list) + 1;
 }
 
 /**
@@ -401,7 +401,7 @@ static inline void add_to_held_jokers(JokerObject* joker_object)
  */
 static inline void game_shop_buy_joker(int shop_joker_idx)
 {
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(shop_jokers_list, shop_joker_idx);
 
     g_game_vars.money -= joker_object->joker->value;
@@ -428,7 +428,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
     {
         int shop_joker_idx = selection->x - 1; // - 1 to account for next round button
         JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(&_shop_jokers_list, shop_joker_idx);
+            (JokerObject*)list_get_at_idx(&s_shop_jokers_list, shop_joker_idx);
         if (joker_object == NULL || list_get_len(get_jokers_list()) >= MAX_JOKERS_HELD_SIZE ||
             g_game_vars.money < joker_object->joker->value)
         {
@@ -450,7 +450,7 @@ static bool shop_top_row_on_selection_changed(
     const Selection* new_selection
 )
 {
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
     // Guard if we move down while on jokers
     if (new_selection->y > row_idx && prev_selection->x > 0)
         return false;
@@ -517,7 +517,7 @@ static bool shop_reroll_row_on_selection_changed(
         if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             int idx = new_selection->x - 1;
-            JokerObject* joker_object = (JokerObject*)list_get_at_idx(&_shop_jokers_list, idx);
+            JokerObject* joker_object = (JokerObject*)list_get_at_idx(&s_shop_jokers_list, idx);
             sprite_object_set_focus(joker_object->sprite_object, true);
         }
     }
@@ -538,7 +538,7 @@ static inline void game_shop_reroll(int* reroll_cost)
     g_game_vars.money -= *reroll_cost;
     display_money(); // Update the money display
 
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
     ListItr itr = list_itr_create(shop_jokers_list);
     JokerObject* joker_object;
 
@@ -639,7 +639,7 @@ static void game_shop_outro()
     {
         tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT); // Erase the shop prices text
 
-        ListItr itr = list_itr_create(&_shop_jokers_list);
+        ListItr itr = list_itr_create(&s_shop_jokers_list);
         JokerObject* joker_object;
         while ((joker_object = list_itr_next(&itr)))
         {
@@ -698,7 +698,7 @@ void game_shop_on_update(void)
 {
     timer++;
 
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
 
     if (!list_is_empty(shop_jokers_list))
     {
@@ -721,7 +721,7 @@ void game_shop_on_update(void)
 
 void game_shop_on_exit(void)
 {
-    List* shop_jokers_list = &_shop_jokers_list;
+    List* shop_jokers_list = &s_shop_jokers_list;
     ListItr itr = list_itr_create(shop_jokers_list);
     JokerObject* joker_object;
 

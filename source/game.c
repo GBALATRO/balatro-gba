@@ -386,7 +386,7 @@ void game_init()
     // TODO: Move this to an initialization of the play scoring states
     _joker_scored_itr = list_itr_create(&_owned_jokers_list);
 
-    game_shop_init_run();
+    game_shop_reset();
 
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
