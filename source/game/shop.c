@@ -261,7 +261,6 @@ static inline bool no_avail_jokers(void)
     return bitset_is_empty(&_avail_jokers_bitset);
 }
 
-
 GBAL_UNUSED
 static inline bool is_shop_joker_avail(int joker_id)
 {
