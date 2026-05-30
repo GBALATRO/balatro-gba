@@ -6,6 +6,22 @@
 #ifndef GAME_SHOP_H
 #define GAME_SHOP_H
 
+#include <stdbool.h>
+
+/**
+ * @brief Initialize the shop for a run.
+ * Resets all the shop data for the run, needs to be called once per run.
+ */
+void game_shop_init_run(void);
+
+/**
+ * @brief Set whether a Joker can appear in the shop.
+ * 
+ * @param avail - true to make it available to appear in the shop
+ *                false to make it unavailable.
+ */
+void game_shop_set_joker_avail(int joker_id, bool avail);
+
 /**
  * @brief Change to the shop background
  */
