@@ -1580,18 +1580,29 @@ static inline void select_flush_and_straight_cards_in_played_hand(void)
     }
 }
 
+/**
+ * @brief Select card objects with a certain number of matches
+ *
+ * Select all card objects from the "played" stack that have the passed number of matching cards
+ * num = 3, match cards with 3 of-a-kind. num = 2, match all cards that have a pair.
+ *
+ * In the special case of num = 0/1, all cards will be selected. Since, they logically have to match
+ * 0 or 1 sized groups of cards, so, all of them in the hand.
+ *
+ * @param num the number of cards of equal rank to match.
+ */
 static inline void select_match(u32 num)
 {
     u32 matches[NUM_RANKS] = {0};
 
-    for(int i = 0; i <= played_top; i++)
+    for (int i = 0; i <= played_top; i++)
     {
         matches[played[i]->card->rank]++;
     }
-    
-    for(int i = 0; i <= played_top; i++)
+
+    for (int i = 0; i <= played_top; i++)
     {
-        if(matches[played[i]->card->rank] >= num)
+        if (matches[played[i]->card->rank] >= num)
             card_object_set_selected(played[i], true);
     }
 
@@ -1613,64 +1624,6 @@ static inline void select_match(u32 num)
             card_object_set_selected(obj, true);
     }
     */
-}
-
-static inline void select_two_pair_cards_in_played_hand(void)
-{
-    u32 matches[NUM_RANKS] = {0};
-
-    for(int i = 0; i <= played_top; i++)
-    {
-        matches[played[i]->card->rank]++;
-    }
-    
-    /*
-    ListItr itr = list_itr_create(&played_list);
-    CardObject* obj = NULL;
-
-    while((obj = list_itr_next(&itr)))
-    {
-        matches[obj->card->rank]++;
-    }
-
-    */
-
-    bool found_one_pair, found_two_pair = false;
-
-    for(int i = 0; i < NUM_RANKS; i++)
-    {
-        if(matches[i] >= 2)
-        {
-            if(found_one_pair)
-            {
-                found_two_pair = true;
-                break;
-            }
-            else
-            {
-                found_one_pair = true;
-            }
-        }
-    }
-
-    if(!found_two_pair)
-        return;
-
-    /*
-    itr = list_itr_create(&played_list);
-    obj = NULL;
-    while((obj = list_itr_next(&itr)))
-    {
-        if(matches[obj->card->rank] >= num)
-            card_object_set_selected(obj, true);
-    }
-    */
-
-    for(int i = 0; i <= played_top; i++)
-    {
-        if(matches[played[i]->card->rank] >= 2)
-            card_object_set_selected(played[i], true);
-    }
 }
 
 static inline void select_highcard_cards_in_played_hand(void)
@@ -2274,6 +2227,9 @@ static inline void game_playing_discarded_cards_loop(void)
     }
 }
 
+/**
+ * @brief Select all cards that will count toward scoring in a played hand
+ */
 static inline void select_cards_in_played_hand()
 {
     switch (get_hand_type()) // select the cards that apply to the hand type
@@ -2285,7 +2241,7 @@ static inline void select_cards_in_played_hand()
             break;
         case PAIR:
             select_match(2);
-            break;
+            /* FALL THROUGH */
         case TWO_PAIR:
             select_match(2);
             break;
@@ -2312,7 +2268,7 @@ static inline void select_cards_in_played_hand()
             /* FALL THROUGH */
         case FLUSH_FIVE: // Select all played cards in the hand
             // Match all 1-pairs, haha
-            select_match(1); 
+            select_match(1);
             break;
     }
 }
