@@ -32,7 +32,7 @@ static const Rect     NEW_RUN_BTN_SRC_RECT       = {  0,  30,   4,  31};
 // clang-format on
 
 static const u32 GAME_OVER_ANIM_FRAMES = 15;
-static const mm_byte GAME_OVER_SFX_VOL = 178; // 70% of MM_SFX_FULL_VOLUME
+static const mm_byte GAME_OVER_SFX_VOL = 178;     // 70% of MM_SFX_FULL_VOLUME
 static const mm_word GAME_OVER_WHOOSH_RATE = 922; // 90% of MM_BASE_PITCH_RATE
 
 static enum EndCondition condition = END_CONDITION_NONE;
