@@ -138,11 +138,18 @@ $(document).ready(function(){initNavTree('shop_8h.html',''); initResizable(); })
 
 <p>Shop state functions.  
 <a href="#details">More...</a></p>
-
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+</div>
 <p><a href="shop_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5fa7df04d461d36854de8de527fb3a5f" id="r_a5fa7df04d461d36854de8de527fb3a5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#a5fa7df04d461d36854de8de527fb3a5f">game_shop_reset</a> (void)</td></tr>
+<tr class="memdesc:a5fa7df04d461d36854de8de527fb3a5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the shop for a run. Resets all the shop data for the run, needs to be called once per run.  <br /></td></tr>
+<tr class="separator:a5fa7df04d461d36854de8de527fb3a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30c209d005cafe4cb9bd1c454c84a59" id="r_ab30c209d005cafe4cb9bd1c454c84a59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#ab30c209d005cafe4cb9bd1c454c84a59">game_shop_set_joker_avail</a> (int joker_id, bool avail)</td></tr>
+<tr class="memdesc:ab30c209d005cafe4cb9bd1c454c84a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether a <a class="el" href="structJoker.html">Joker</a> can appear in the shop.  <br /></td></tr>
+<tr class="separator:ab30c209d005cafe4cb9bd1c454c84a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af86278c35e595a2e8d07740d58b9601d" id="r_af86278c35e595a2e8d07740d58b9601d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#af86278c35e595a2e8d07740d58b9601d">game_shop_change_background</a> (void)</td></tr>
 <tr class="memdesc:af86278c35e595a2e8d07740d58b9601d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change to the shop background.  <br /></td></tr>
 <tr class="separator:af86278c35e595a2e8d07740d58b9601d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,7 +186,7 @@ Functions</h2></td></tr>
 
 <p>Change to the shop background. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00139">139</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00168">168</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -201,7 +208,7 @@ Functions</h2></td></tr>
 
 <p>Shop cleanup. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00687">687</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00722">722</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -223,7 +230,7 @@ Functions</h2></td></tr>
 
 <p>Shop state initialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00163">163</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00192">192</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -245,7 +252,67 @@ Functions</h2></td></tr>
 
 <p>Shop state update. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00662">662</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00697">697</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a5fa7df04d461d36854de8de527fb3a5f" name="a5fa7df04d461d36854de8de527fb3a5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fa7df04d461d36854de8de527fb3a5f">&#9670;&#160;</a></span>game_shop_reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_shop_reset </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the shop for a run. Resets all the shop data for the run, needs to be called once per run. </p>
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00153">153</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="ab30c209d005cafe4cb9bd1c454c84a59" name="ab30c209d005cafe4cb9bd1c454c84a59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab30c209d005cafe4cb9bd1c454c84a59">&#9670;&#160;</a></span>game_shop_set_joker_avail()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void game_shop_set_joker_avail </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>joker_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>avail</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set whether a <a class="el" href="structJoker.html">Joker</a> can appear in the shop. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">avail</td><td>- true to make it available to the shop to appear in false to make it unavailable. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00163">163</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>

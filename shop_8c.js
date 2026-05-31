@@ -13,6 +13,8 @@ var shop_8c =
     [ "game_shop_outro", "shop_8c.html#aa10fa0331a4ed28dfd9f1d69eabca925", null ],
     [ "game_shop_process_user_input", "shop_8c.html#ab3321c677dd5f9605d6895b97222e937", null ],
     [ "game_shop_reroll", "shop_8c.html#ad9948c1ba7c455f0b70b362b3d2fb4a5", null ],
+    [ "game_shop_reset", "shop_8c.html#a5fa7df04d461d36854de8de527fb3a5f", null ],
+    [ "game_shop_set_joker_avail", "shop_8c.html#ab30c209d005cafe4cb9bd1c454c84a59", null ],
     [ "get_num_shop_jokers_avail", "shop_8c.html#a287b24e14301ee3170861a3801b6cb27", null ],
     [ "no_avail_jokers", "shop_8c.html#a96f2c4056d32f68f01ae0e844bdb369a", null ],
     [ "shop_reroll_row_get_size", "shop_8c.html#a6c9b1b5c9e762eadffd7156376d9b52f", null ],
