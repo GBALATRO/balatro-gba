@@ -32,6 +32,8 @@ static const Rect     NEW_RUN_BTN_SRC_RECT       = {  0,  30,   4,  31};
 // clang-format on
 
 static const u32 GAME_OVER_ANIM_FRAMES = 15;
+#define GAME_OVER_SFX_VOL       178 // 70% of MM_SFX_FULL_VOLUME
+#define GAME_OVER_WHOOSH_RATE   922 // 90% of MM_BASE_PITCH_RATE
 
 static enum EndCondition condition = END_CONDITION_NONE;
 static u32 timer = TM_ZERO;
@@ -69,7 +71,9 @@ void game_win_on_init(void)
 
 void game_lose_on_init(void)
 {
-    play_sfx(SFX_GAME_LOSE, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    play_sfx(SFX_NEGATIVE_LOSE, MM_BASE_PITCH_RATE/2, GAME_OVER_SFX_VOL);
+    play_sfx(SFX_WHOOSH2_LOSE, GAME_OVER_WHOOSH_RATE, GAME_OVER_SFX_VOL);
+
     play_lose_music();
 
     game_over_init(END_CONDITION_LOSS);
