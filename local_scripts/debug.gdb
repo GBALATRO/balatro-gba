@@ -13,7 +13,7 @@ define print_frame_tick
     enable 1
     continue
     set $i = 0
-    while $i < 2
+    while $i < 50
         next
         set logging enabled on
         print frame_time
