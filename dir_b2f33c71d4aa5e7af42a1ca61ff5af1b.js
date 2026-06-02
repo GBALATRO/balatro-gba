@@ -7,6 +7,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "blind.c", "blind_8c_source.html", null ],
     [ "button.c", "button_8c_source.html", null ],
     [ "card.c", "card_8c_source.html", null ],
+    [ "deck_types.c", "deck__types_8c.html", "deck__types_8c" ],
     [ "font.c", "font_8c_source.html", null ],
     [ "game.c", "game_8c_source.html", null ],
     [ "graphic_utils.c", "graphic__utils_8c_source.html", null ],

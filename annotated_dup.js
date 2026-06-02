@@ -21,6 +21,7 @@ var annotated_dup =
     [ "ListItr", "structListItr.html", "structListItr" ],
     [ "ListNode", "structListNode.html", "structListNode" ],
     [ "MusicPlayerState", "structMusicPlayerState.html", null ],
+    [ "NinePatchRect", "structNinePatchRect.html", null ],
     [ "RngInfo", "structRngInfo.html", "structRngInfo" ],
     [ "SaveGame", "structSaveGame.html", null ],
     [ "SaveHeader", "structSaveHeader.html", null ],

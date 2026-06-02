@@ -234,6 +234,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ac26962eff871bc587f90a94b6eef1aaf" id="r_ac26962eff871bc587f90a94b6eef1aaf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a> (void)</td></tr>
 <tr class="memdesc:ac26962eff871bc587f90a94b6eef1aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load options values from SRAM.  <br /></td></tr>
 <tr class="separator:ac26962eff871bc587f90a94b6eef1aaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f9f87c5b74807464390321d01eeef80" id="r_a0f9f87c5b74807464390321d01eeef80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a0f9f87c5b74807464390321d01eeef80">is_game_data_valid</a> (void)</td></tr>
+<tr class="memdesc:a0f9f87c5b74807464390321d01eeef80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> section is present and valid.  <br /></td></tr>
+<tr class="separator:a0f9f87c5b74807464390321d01eeef80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e232271002ca804d61417ca6773b07a" id="r_a9e232271002ca804d61417ca6773b07a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a> (void)</td></tr>
 <tr class="memdesc:a9e232271002ca804d61417ca6773b07a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save current run data to SRAM.  <br /></td></tr>
 <tr class="separator:a9e232271002ca804d61417ca6773b07a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -610,6 +613,29 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a0f9f87c5b74807464390321d01eeef80" name="a0f9f87c5b74807464390321d01eeef80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f9f87c5b74807464390321d01eeef80">&#9670;&#160;</a></span>is_game_data_valid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool is_game_data_valid </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks whether the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> section is present and valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if it is, false if not. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00335">335</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+
+</div>
+</div>
 <a id="a5ecd52e574ea02292941949278d4776e" name="a5ecd52e574ea02292941949278d4776e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5ecd52e574ea02292941949278d4776e">&#9670;&#160;</a></span>is_version_dirty()</h2>
 
@@ -660,7 +686,7 @@ Variables</h2></td></tr>
 <p>Load previous run data from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="save_8h.html#a9e232271002ca804d61417ca6773b07a" title="Save current run data to SRAM.">save_game</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00372">372</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00378">378</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -752,7 +778,7 @@ Variables</h2></td></tr>
 
 <p>Save current run data to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00335">335</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00341">341</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>

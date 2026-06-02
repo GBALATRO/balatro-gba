@@ -1,15 +1,16 @@
 var searchData=
 [
-  ['read_5fsram_0',['read_sram',['../save_8c.html#a74c728ad1200cdda976410f883966567',1,'save.c']]],
-  ['rect_5fheight_1',['rect_height',['../graphic__utils_8h.html#a06ee61cf542dc9bb5885fbf5a6b6e17d',1,'graphic_utils.h']]],
-  ['rect_5fwidth_2',['rect_width',['../graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b',1,'graphic_utils.h']]],
-  ['reorder_5fcard_5fsprites_5flayers_3',['reorder_card_sprites_layers',['../hand_8h.html#acb2998d3f72cd139e7dbc9a2a0437c28',1,'reorder_card_sprites_layers(void):&#160;hand.c'],['../hand_8c.html#acb2998d3f72cd139e7dbc9a2a0437c28',1,'reorder_card_sprites_layers(void):&#160;hand.c']]],
-  ['reset_5ftop_5fleft_5fpanel_5fbottom_5frow_4',['reset_top_left_panel_bottom_row',['../graphic__utils_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9',1,'graphic_utils.c']]],
-  ['rev_5flist_5fitr_5fcreate_5',['rev_list_itr_create',['../list_8h.html#a9dd6c8825c0862926490ab49ec008a63',1,'rev_list_itr_create(List *list):&#160;list.c'],['../list_8c.html#a9dd6c8825c0862926490ab49ec008a63',1,'rev_list_itr_create(List *list):&#160;list.c']]],
-  ['rng_5fget_5fu32_6',['rng_get_u32',['../random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b',1,'random.c']]],
-  ['rng_5finit_7',['rng_init',['../random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc',1,'random.c']]],
-  ['rng_5frestore_8',['rng_restore',['../random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e',1,'random.c']]],
-  ['rng_5fset_5fseed_9',['rng_set_seed',['../random_8h.html#a53482f39207d0f9884dda144723fb518',1,'random.c']]],
-  ['rng_5fshuffle_5fseed_10',['rng_shuffle_seed',['../random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737',1,'random.c']]],
-  ['rng_5fupdate_11',['rng_update',['../random_8h.html#a3364aa4a4ff4352d9df2222c4735151a',1,'random.c']]]
+  ['play_5flose_5fmusic_0',['play_lose_music',['../audio__utils_8c.html#a1a7cfeec3ed0632c446a2ac125b947ca',1,'play_lose_music(void):&#160;audio_utils.c'],['../audio__utils_8h.html#a1a7cfeec3ed0632c446a2ac125b947ca',1,'play_lose_music(void):&#160;audio_utils.c']]],
+  ['play_5fon_5fpressed_1',['play_on_pressed',['../run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f',1,'run_setup.c']]],
+  ['play_5fregular_5fmusic_2',['play_regular_music',['../audio__utils_8h.html#a0805d40ac3ce386caec3227b03c66344',1,'play_regular_music(void):&#160;audio_utils.c'],['../audio__utils_8c.html#a0805d40ac3ce386caec3227b03c66344',1,'play_regular_music(void):&#160;audio_utils.c']]],
+  ['play_5fsfx_3',['play_sfx',['../audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c'],['../audio__utils_8c.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c']]],
+  ['print_5fdeck_5fdescription_4',['print_deck_description',['../deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542',1,'print_deck_description(enum DeckType deck, BG_POINT pos):&#160;deck_types.c'],['../deck__types_8c.html#aeb6c51fe050fea32811f33e01f5c8542',1,'print_deck_description(enum DeckType deck, BG_POINT pos):&#160;deck_types.c']]],
+  ['print_5fdeck_5fname_5',['print_deck_name',['../deck__types_8h.html#a339c1fe49beee05dda44a8b2ae414d15',1,'print_deck_name(enum DeckType deck, BG_POINT pos):&#160;deck_types.c'],['../deck__types_8c.html#a339c1fe49beee05dda44a8b2ae414d15',1,'print_deck_name(enum DeckType deck, BG_POINT pos):&#160;deck_types.c']]],
+  ['print_5fdesc_5fblack_5fdeck_6',['print_desc_black_deck',['../deck__types_8c.html#a5ce548a07b49068e4b2718fb02939a28',1,'deck_types.c']]],
+  ['print_5fdesc_5fblue_5fdeck_7',['print_desc_blue_deck',['../deck__types_8c.html#a994dd3e5b28e324cbff3f7c3d69d28ce',1,'deck_types.c']]],
+  ['print_5fdesc_5fgreen_5fdeck_8',['print_desc_green_deck',['../deck__types_8c.html#ab4e7764cc1e6cf64ebb03078795d2be4',1,'deck_types.c']]],
+  ['print_5fdesc_5fpainted_5fdeck_9',['print_desc_painted_deck',['../deck__types_8c.html#a736be51786cebff18770985e85d6a24e',1,'deck_types.c']]],
+  ['print_5fdesc_5fred_5fdeck_10',['print_desc_red_deck',['../deck__types_8c.html#ae06a285687193be23c00a00b209eb521',1,'deck_types.c']]],
+  ['print_5fdesc_5fyellow_5fdeck_11',['print_desc_yellow_deck',['../deck__types_8c.html#a0428dc33e219e8dd950bf541b57a4ef7',1,'deck_types.c']]],
+  ['print_5fempty_5fdesc_5fline_12',['print_empty_desc_line',['../deck__types_8c.html#a72695ce33b02b8163efcd58a1d3190c2',1,'deck_types.c']]]
 ];

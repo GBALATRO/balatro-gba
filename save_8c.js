@@ -10,6 +10,7 @@ var save_8c =
     [ "SaveOptions", "save_8c.html#a700fd6a8d06a1534a5a66a781215b63b", null ],
     [ "check_hash", "save_8c.html#a72e508492f7ca40a43660db261c47f67", null ],
     [ "get_save_header", "save_8c.html#aa7c710df5af72243541a55e499e53bd9", null ],
+    [ "is_game_data_valid", "save_8c.html#a0f9f87c5b74807464390321d01eeef80", null ],
     [ "is_version_dirty", "save_8c.html#a5ecd52e574ea02292941949278d4776e", null ],
     [ "load_game", "save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1", null ],
     [ "load_options", "save_8c.html#ac26962eff871bc587f90a94b6eef1aaf", null ],

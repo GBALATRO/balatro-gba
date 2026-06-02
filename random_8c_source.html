@@ -141,77 +141,79 @@ $(document).ready(function(){initNavTree('random_8c_source.html',''); initResiza
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="random_8h.html">random.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">// Accumulate timer 1 into a bigger variable so we can generate more diverse seeds</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">static</span> u32 timer_acc = 0;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">// Timers usage docs: https://gbadev.net/tonc/timers.html</span></div>
-<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">   12</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    REG_TM1D = 0;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    REG_TM1CNT = TM_FREQ_1 | TM_ENABLE; <span class="comment">// using timer with x1 prescale</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>}</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">// Accumulate timer 1 into a bigger variable so we can generate more diverse seeds</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">static</span> u32 timer_acc = 0;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Timers usage docs: https://gbadev.net/tonc/timers.html</span></div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">   13</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    REG_TM1D = 0;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    REG_TM1CNT = TM_FREQ_1 | TM_ENABLE; <span class="comment">// using timer with x1 prescale</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
 </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">   18</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    timer_acc += (u32)REG_TM1D;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">   19</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    timer_acc += (u32)REG_TM1D;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
 </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="random_8h.html#a53482f39207d0f9884dda144723fb518">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(u32 seed)</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a> = seed % (<a class="code hl_define" href="random_8h.html#a3c2a49da4657870823ba03983a88dd9e">MAX_SEED</a> + 1);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a> = 0;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    srand(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="random_8h.html#a53482f39207d0f9884dda144723fb518">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(u32 seed)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>{</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a> = seed % (<a class="code hl_define" href="util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d">MAX_BASE36</a> + 1);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a> = 0;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    srand(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
 </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">   30</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(timer_acc);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">   31</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(timer_acc);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
 </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">   35</a></span>u32 <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a>++;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> rand();</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">   36</a></span>u32 <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a>++;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">return</span> rand();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
 </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">   41</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a>(<a class="code hl_struct" href="structRngInfo.html">RngInfo</a> info)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>{</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    g_game_vars.rng_info = info;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    srand(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a>; i++)</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        (void)<a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">   42</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a>(<a class="code hl_struct" href="structRngInfo.html">RngInfo</a> info)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    g_game_vars.rng_info = info;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    srand(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">for</span> (u32 i = 0; i &lt; g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a>; i++)</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        (void)<a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
 </div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
-<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Update the CPU cycles counter and accumulate it into a bigger u32 timer_acc variable.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00018">random.c:18</a></div></div>
-<div class="ttc" id="arandom_8h_html_a3c2a49da4657870823ba03983a88dd9e"><div class="ttname"><a href="random_8h.html#a3c2a49da4657870823ba03983a88dd9e">MAX_SEED</a></div><div class="ttdeci">#define MAX_SEED</div><div class="ttdoc">Hex value of &quot;ZZZZZZ&quot; in base 36.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00018">random.h:18</a></div></div>
-<div class="ttc" id="arandom_8h_html_a43bd63e66bebf4e4d463a7bee43dd737"><div class="ttname"><a href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a></div><div class="ttdeci">void rng_shuffle_seed(void)</div><div class="ttdoc">Uses the CPU cycles counter to randomize the RNG seed as much as possible. This will be called by the...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00030">random.c:30</a></div></div>
-<div class="ttc" id="arandom_8h_html_a53482f39207d0f9884dda144723fb518"><div class="ttname"><a href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a></div><div class="ttdeci">void rng_set_seed(u32 seed)</div><div class="ttdoc">Set the rng seed to the chosen value, and reset the step counter to 0. The seed will be capped at MAX...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00023">random.c:23</a></div></div>
-<div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00041">random.c:41</a></div></div>
-<div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00035">random.c:35</a></div></div>
-<div class="ttc" id="arandom_8h_html_ad5a3df3d0092f55f6ea54ccaa7daf3dc"><div class="ttname"><a href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a></div><div class="ttdeci">void rng_init(void)</div><div class="ttdoc">Starts counting CPU cycles, this will be used by rng_shuffle_seed to generate a more random seed....</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00012">random.c:12</a></div></div>
-<div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00023">random.h:24</a></div></div>
-<div class="ttc" id="astructRngInfo_html_a7cbcfdb2051ed9fffc1cc294a820b7f5"><div class="ttname"><a href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">RngInfo::seed</a></div><div class="ttdeci">u32 seed</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00026">random.h:26</a></div></div>
-<div class="ttc" id="astructRngInfo_html_add7060bb1806fc83671041faf7c1643a"><div class="ttname"><a href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">RngInfo::step</a></div><div class="ttdeci">u32 step</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00028">random.h:28</a></div></div>
+<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Update the CPU cycles counter and accumulate it into a bigger u32 timer_acc variable.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00019">random.c:19</a></div></div>
+<div class="ttc" id="arandom_8h_html_a43bd63e66bebf4e4d463a7bee43dd737"><div class="ttname"><a href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a></div><div class="ttdeci">void rng_shuffle_seed(void)</div><div class="ttdoc">Uses the CPU cycles counter to randomize the RNG seed as much as possible. This will be called by the...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00031">random.c:31</a></div></div>
+<div class="ttc" id="arandom_8h_html_a53482f39207d0f9884dda144723fb518"><div class="ttname"><a href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a></div><div class="ttdeci">void rng_set_seed(u32 seed)</div><div class="ttdoc">Set the rng seed to the chosen value, and reset the step counter to 0. The seed will be capped at MAX...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00024">random.c:24</a></div></div>
+<div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00042">random.c:42</a></div></div>
+<div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00036">random.c:36</a></div></div>
+<div class="ttc" id="arandom_8h_html_ad5a3df3d0092f55f6ea54ccaa7daf3dc"><div class="ttname"><a href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a></div><div class="ttdeci">void rng_init(void)</div><div class="ttdoc">Starts counting CPU cycles, this will be used by rng_shuffle_seed to generate a more random seed....</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00013">random.c:13</a></div></div>
+<div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00018">random.h:19</a></div></div>
+<div class="ttc" id="astructRngInfo_html_a7cbcfdb2051ed9fffc1cc294a820b7f5"><div class="ttname"><a href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">RngInfo::seed</a></div><div class="ttdeci">u32 seed</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00021">random.h:21</a></div></div>
+<div class="ttc" id="astructRngInfo_html_add7060bb1806fc83671041faf7c1643a"><div class="ttname"><a href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">RngInfo::step</a></div><div class="ttdeci">u32 step</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00023">random.h:23</a></div></div>
+<div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>
+<div class="ttc" id="autil_8h_html_a1ce076ed9d155bf8e50c66f6f6c24d5d"><div class="ttname"><a href="util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d">MAX_BASE36</a></div><div class="ttdeci">#define MAX_BASE36</div><div class="ttdoc">Hex value of &quot;ZZZZZZ&quot; in base 36.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00024">util.h:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

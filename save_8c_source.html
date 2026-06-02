@@ -390,63 +390,71 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 </div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
 <div class="foldopen" id="foldopen00335" data-start="{" data-end="}">
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="save_8h.html#a9e232271002ca804d61417ca6773b07a">  335</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="save_8h.html#a0f9f87c5b74807464390321d01eeef80">  335</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="save_8c.html#a0f9f87c5b74807464390321d01eeef80">is_game_data_valid</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>{</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="comment">// Fixed data</span></div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    game.timer = g_game_vars.timer;</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    game.rng_info = g_game_vars.rng_info;</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    game.round = g_game_vars.round;</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    game.ante = g_game_vars.ante;</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    game.money = g_game_vars.money;</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="comment">// Lists</span></div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    <a class="code hl_struct" href="structList.html">List</a>* jokers_list = get_jokers_list();</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    <span class="keywordtype">int</span> nb_jokers = <a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(jokers_list);</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    <span class="keywordtype">int</span> i = 0;</div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="keywordflow">for</span> (; i &lt; nb_jokers; i++)</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    {</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(jokers_list, (u32)i);</div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> data = {</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>            (u32)joker_object-&gt;joker-&gt;id,</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>            joker_object-&gt;joker-&gt;persistent_state</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        };</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        game.jokers_data[i] = data;</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    }</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    <span class="keywordflow">for</span> (; i &lt; MAX_JOKERS_HELD_SIZE; i++)</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    {</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>        <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> data = {UNDEFINED, UNDEFINED};</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        game.jokers_data[i] = data;</div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    }</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(GAME_ADDRESS, (<span class="keyword">const</span> u8*)&amp;game, <span class="keyword">sizeof</span>(game));</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(SAVE_SECTION_FLAG_GAME);</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>}</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) &amp;&amp; (header.valid_sections &amp; SAVE_SECTION_FLAG_GAME);</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>}</div>
 </div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
-<div class="foldopen" id="foldopen00372" data-start="{" data-end="}">
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno"><a class="line" href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">  372</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>{</div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) || !(header.valid_sections &amp; SAVE_SECTION_FLAG_GAME))</div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span> </div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(GAME_ADDRESS, (u8*)&amp;game, <span class="keyword">sizeof</span>(game));</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="foldopen" id="foldopen00341" data-start="{" data-end="}">
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="save_8h.html#a9e232271002ca804d61417ca6773b07a">  341</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>{</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="comment">// Fixed data</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    game.timer = g_game_vars.timer;</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    game.rng_info = g_game_vars.rng_info;</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    game.round = g_game_vars.round;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    game.ante = g_game_vars.ante;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    game.money = g_game_vars.money;</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="comment">// Lists</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    <a class="code hl_struct" href="structList.html">List</a>* jokers_list = get_jokers_list();</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <span class="keywordtype">int</span> nb_jokers = <a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(jokers_list);</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    <span class="keywordflow">for</span> (; i &lt; nb_jokers; i++)</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    {</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(jokers_list, (u32)i);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> data = {</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>            (u32)joker_object-&gt;joker-&gt;id,</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>            joker_object-&gt;joker-&gt;persistent_state</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        };</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        game.jokers_data[i] = data;</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    }</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <span class="keywordflow">for</span> (; i &lt; MAX_JOKERS_HELD_SIZE; i++)</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    {</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        <a class="code hl_struct" href="structJokerObjectSaveData.html">JokerObjectSaveData</a> data = {UNDEFINED, UNDEFINED};</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        game.jokers_data[i] = data;</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    }</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    <a class="code hl_function" href="save_8c.html#ae0171ac7798cc10a4915844e79f050d0">write_sram</a>(GAME_ADDRESS, (<span class="keyword">const</span> u8*)&amp;game, <span class="keyword">sizeof</span>(game));</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    <a class="code hl_function" href="save_8c.html#ae0dd7506669cf4ae699a6e232dd59364">set_save_header</a>(SAVE_SECTION_FLAG_GAME);</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>}</div>
+</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="foldopen" id="foldopen00378" data-start="{" data-end="}">
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno"><a class="line" href="save_8h.html#aaa21de2652c53c85a56f9d5af9544fe1">  378</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>{</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <a class="code hl_struct" href="structSaveHeader.html">SaveHeader</a> header;</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    g_game_vars.timer = game.timer;</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    <a class="code hl_function" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a>(game.rng_info);</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    g_game_vars.round = game.round;</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    g_game_vars.ante = game.ante;</div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>    g_game_vars.money = game.money;</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a>(&amp;header) || !(header.valid_sections &amp; SAVE_SECTION_FLAG_GAME))</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span> </div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    <a class="code hl_struct" href="structSaveGame.html">SaveGame</a> game = <a class="code hl_variable" href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a>;</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>    <a class="code hl_function" href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a>(GAME_ADDRESS, (u8*)&amp;game, <span class="keyword">sizeof</span>(game));</div>
 <div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <span class="comment">// TODO: load Jokers from stored minimal data</span></div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>}</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    g_game_vars.timer = game.timer;</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    <a class="code hl_function" href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a>(game.rng_info);</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    g_game_vars.round = game.round;</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    g_game_vars.ante = game.ante;</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>    g_game_vars.money = game.money;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="comment">// TODO: load Jokers from stored minimal data</span></div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
 <div class="ttc" id="aaudio__utils_8h_html_a9bcb541674be186faebfd4b6d5de35e0"><div class="ttname"><a href="audio__utils_8h.html#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a></div><div class="ttdeci">int volume_module_step_to_val(unsigned char step)</div><div class="ttdoc">Get MaxMod module audio value from VOLUME_OPTION value.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00085">audio_utils.h:85</a></div></div>
@@ -455,14 +463,15 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="ttc" id="alist_8h_html"><div class="ttname"><a href="list_8h.html">list.h</a></div><div class="ttdoc">A doubly-linked list.</div></div>
 <div class="ttc" id="alist_8h_html_a3c604970a7f427ee628ab97749fde17c"><div class="ttname"><a href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a></div><div class="ttdeci">void * list_get_at_idx(List *list, unsigned int idx)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00219">list.c:219</a></div></div>
 <div class="ttc" id="alist_8h_html_a74047e9a2e7b4652b675fa8be6086b13"><div class="ttname"><a href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a></div><div class="ttdeci">int list_get_len(const List *list)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00214">list.c:214</a></div></div>
-<div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00041">random.c:41</a></div></div>
+<div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00042">random.c:42</a></div></div>
+<div class="ttc" id="asave_8c_html_a0f9f87c5b74807464390321d01eeef80"><div class="ttname"><a href="save_8c.html#a0f9f87c5b74807464390321d01eeef80">is_game_data_valid</a></div><div class="ttdeci">bool is_game_data_valid(void)</div><div class="ttdoc">Checks whether the SaveGame section is present and valid.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00335">save.c:335</a></div></div>
 <div class="ttc" id="asave_8c_html_a30da5688e7e13a0664958bde6af12b20"><div class="ttname"><a href="save_8c.html#a30da5688e7e13a0664958bde6af12b20">SaveOptions_default</a></div><div class="ttdeci">static const SaveOptions SaveOptions_default</div><div class="ttdoc">Default value for the SaveOptions struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00101">save.c:101</a></div></div>
 <div class="ttc" id="asave_8c_html_a5ecd52e574ea02292941949278d4776e"><div class="ttname"><a href="save_8c.html#a5ecd52e574ea02292941949278d4776e">is_version_dirty</a></div><div class="ttdeci">static bool is_version_dirty(void)</div><div class="ttdoc">Determines if the current build is considered &quot;dirty&quot; aka has uncommitted changes....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00254">save.c:254</a></div></div>
 <div class="ttc" id="asave_8c_html_a72e508492f7ca40a43660db261c47f67"><div class="ttname"><a href="save_8c.html#a72e508492f7ca40a43660db261c47f67">check_hash</a></div><div class="ttdeci">static bool check_hash(const char *prefix)</div><div class="ttdoc">Checks the 7 chars of gbalatro_version after the &quot;GBALATRO_VERSION&quot; prefix representing the git hash ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00234">save.c:234</a></div></div>
 <div class="ttc" id="asave_8c_html_a74c728ad1200cdda976410f883966567"><div class="ttname"><a href="save_8c.html#a74c728ad1200cdda976410f883966567">read_sram</a></div><div class="ttdeci">static void read_sram(u32 sram_base, u8 *bytes, u32 size)</div><div class="ttdoc">Read raw binary data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00216">save.c:216</a></div></div>
-<div class="ttc" id="asave_8c_html_a9e232271002ca804d61417ca6773b07a"><div class="ttname"><a href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a></div><div class="ttdeci">void save_game(void)</div><div class="ttdoc">Save current run data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00335">save.c:335</a></div></div>
+<div class="ttc" id="asave_8c_html_a9e232271002ca804d61417ca6773b07a"><div class="ttname"><a href="save_8c.html#a9e232271002ca804d61417ca6773b07a">save_game</a></div><div class="ttdeci">void save_game(void)</div><div class="ttdoc">Save current run data to SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00341">save.c:341</a></div></div>
 <div class="ttc" id="asave_8c_html_aa7c710df5af72243541a55e499e53bd9"><div class="ttname"><a href="save_8c.html#aa7c710df5af72243541a55e499e53bd9">get_save_header</a></div><div class="ttdeci">static bool get_save_header(SaveHeader *header)</div><div class="ttdoc">Reads whether the save data exists and is valid.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00265">save.c:265</a></div></div>
-<div class="ttc" id="asave_8c_html_aaa21de2652c53c85a56f9d5af9544fe1"><div class="ttname"><a href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a></div><div class="ttdeci">void load_game(void)</div><div class="ttdoc">Load previous run data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00372">save.c:372</a></div></div>
+<div class="ttc" id="asave_8c_html_aaa21de2652c53c85a56f9d5af9544fe1"><div class="ttname"><a href="save_8c.html#aaa21de2652c53c85a56f9d5af9544fe1">load_game</a></div><div class="ttdeci">void load_game(void)</div><div class="ttdoc">Load previous run data from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00378">save.c:378</a></div></div>
 <div class="ttc" id="asave_8c_html_ac26962eff871bc587f90a94b6eef1aaf"><div class="ttname"><a href="save_8c.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a></div><div class="ttdeci">void load_options(void)</div><div class="ttdoc">Load options values from SRAM.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00316">save.c:316</a></div></div>
 <div class="ttc" id="asave_8c_html_ac6be8ba75db77c350611aa6a05a923b3"><div class="ttname"><a href="save_8c.html#ac6be8ba75db77c350611aa6a05a923b3">SaveGame_default</a></div><div class="ttdeci">static const SaveGame SaveGame_default</div><div class="ttdoc">Default value for the SaveGame struct, with tags already set.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00178">save.c:178</a></div></div>
 <div class="ttc" id="asave_8c_html_ad4c7a26ce01920da160afb04e0ab756f"><div class="ttname"><a href="save_8c.html#ad4c7a26ce01920da160afb04e0ab756f">SaveHeader_default</a></div><div class="ttdeci">static const SaveHeader SaveHeader_default</div><div class="ttdoc">Default value for the SaveHeader struct.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00063">save.c:63</a></div></div>
@@ -473,7 +482,7 @@ $(document).ready(function(){initNavTree('save_8c_source.html',''); initResizabl
 <div class="ttc" id="astructJokerObjectSaveData_html"><div class="ttname"><a href="structJokerObjectSaveData.html">JokerObjectSaveData</a></div><div class="ttdoc">JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker....</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00122">save.c:123</a></div></div>
 <div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00106">joker.h:107</a></div></div>
 <div class="ttc" id="astructList_html"><div class="ttname"><a href="structList.html">List</a></div><div class="ttdoc">A doubly-linked list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00060">list.h:61</a></div></div>
-<div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00023">random.h:24</a></div></div>
+<div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00018">random.h:19</a></div></div>
 <div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00159">save.c:160</a></div></div>
 <div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00052">save.c:53</a></div></div>
 <div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00086">save.c:87</a></div></div>

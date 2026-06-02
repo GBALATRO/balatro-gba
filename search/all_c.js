@@ -10,9 +10,10 @@ var searchData=
   ['installation_7',['installation',['../index.html#autotoc_md9',1,'Installation'],['../index.html#autotoc_md10',1,'Verify Installation']]],
   ['installed_8',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
   ['instructions_20strong_9',['&lt;strong&gt;Build Instructions&lt;/strong&gt;',['../index.html#autotoc_md17',1,'']]],
-  ['is_5fversion_5fdirty_10',['is_version_dirty',['../save_8c.html#a5ecd52e574ea02292941949278d4776e',1,'save.c']]],
-  ['issues_3a_11',['Common Issues:',['../index.html#autotoc_md25',1,'']]],
-  ['it_20errors_20out_20and_20won_20t_20compile_12',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
-  ['it_20says_20i_20don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_13',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
-  ['itr_14',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
+  ['is_5fgame_5fdata_5fvalid_10',['is_game_data_valid',['../save_8c.html#a0f9f87c5b74807464390321d01eeef80',1,'is_game_data_valid(void):&#160;save.c'],['../save_8h.html#a0f9f87c5b74807464390321d01eeef80',1,'is_game_data_valid(void):&#160;save.c']]],
+  ['is_5fversion_5fdirty_11',['is_version_dirty',['../save_8c.html#a5ecd52e574ea02292941949278d4776e',1,'save.c']]],
+  ['issues_3a_12',['Common Issues:',['../index.html#autotoc_md25',1,'']]],
+  ['it_20errors_20out_20and_20won_20t_20compile_13',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
+  ['it_20says_20i_20don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_14',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
+  ['itr_15',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
 ];

@@ -313,15 +313,87 @@ $(document).ready(function(){initNavTree('util_8c_source.html',''); initResizabl
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="keywordflow">return</span> (a == 0 || b == 0) ? 0 : (a &gt; (UINT16_MAX / b) ? UINT16_MAX : a * b);</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>}</div>
 </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t base36_digit_value(<span class="keywordtype">char</span> c)</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>{</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <span class="keywordflow">switch</span> (c)</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <span class="keywordflow">case</span> <span class="charliteral">&#39;0&#39;</span> ... <span class="charliteral">&#39;9&#39;</span>:</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            <span class="keywordflow">return</span> c - <span class="charliteral">&#39;0&#39;</span>;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordflow">case</span> <span class="charliteral">&#39;A&#39;</span> ... <span class="charliteral">&#39;Z&#39;</span>:</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keywordflow">return</span> 10 + c - <span class="charliteral">&#39;A&#39;</span>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <span class="keywordflow">case</span> <span class="charliteral">&#39;a&#39;</span> ... <span class="charliteral">&#39;z&#39;</span>:</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <span class="keywordflow">return</span> 10 + c - <span class="charliteral">&#39;a&#39;</span>;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    }</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>}</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">char</span> base36_digit_char(uint32_t n)</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>{</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordflow">switch</span> (n)</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordflow">case</span> 0 ... 9:</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">return</span> n + <span class="charliteral">&#39;0&#39;</span>;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>        <span class="keywordflow">case</span> 10 ... 35:</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            <span class="keywordflow">return</span> n - 10 + <span class="charliteral">&#39;A&#39;</span>;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            <span class="keywordflow">return</span> <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    }</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>}</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t get_base36_power(uint8_t i)</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>{</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordflow">if</span> (i &gt;= BASE36_MAX_DIGITS)</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    }</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keyword">static</span> <span class="keyword">const</span> uint32_t powers_of_36[BASE36_MAX_DIGITS] = {1, 36, 1296, 46656, 1679616, 60466176};</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <span class="keywordflow">return</span> powers_of_36[i];</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>}</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="foldopen" id="foldopen00260" data-start="{" data-end="}">
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">  260</a></span>uint32_t <a class="code hl_function" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> b36_str[])</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>{</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    uint32_t res = 0;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; BASE36_MAX_DIGITS; i++)</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    {</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        res += base36_digit_value(b36_str[i]) * get_base36_power(BASE36_MAX_DIGITS - i - 1);</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>}</div>
+</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="foldopen" id="foldopen00272" data-start="{" data-end="}">
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">  272</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(<span class="keyword">const</span> uint32_t n, <span class="keywordtype">char</span> b36_str[])</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>{</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    uint32_t power;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    uint32_t acc = (n &gt; <a class="code hl_define" href="util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d">MAX_BASE36</a>) ? <a class="code hl_define" href="util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d">MAX_BASE36</a> : n;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; BASE36_MAX_DIGITS; i++)</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    {</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        power = get_base36_power(BASE36_MAX_DIGITS - i - 1);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        b36_str[i] = base36_digit_char(acc / power);</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        acc = acc % power;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    }</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="comment">// Properly end the string</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    b36_str[BASE36_MAX_DIGITS] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>}</div>
+</div>
 <div class="ttc" id="afont_8h_html"><div class="ttname"><a href="font_8h.html">font.h</a></div><div class="ttdoc">Utility file to interact with custom font.</div></div>
 <div class="ttc" id="afont_8h_html_a5c5982b0302d3d4d83f3a245952aab4b"><div class="ttname"><a href="font_8h.html#a5c5982b0302d3d4d83f3a245952aab4b">digit_char_to_font_point</a></div><div class="ttdeci">char digit_char_to_font_point(char digit_char)</div><div class="ttdoc">Get the decimal point char equivalent of 0-9 from char param.</div><div class="ttdef"><b>Definition</b> <a href="font_8c_source.html#l00026">font.c:26</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>
 <div class="ttc" id="autil_8h_html_a16040ec01b3f3d4d27f3576fa5cfa26a"><div class="ttname"><a href="util_8h.html#a16040ec01b3f3d4d27f3576fa5cfa26a">u16_protected_mult</a></div><div class="ttdeci">uint16_t u16_protected_mult(uint16_t a, uint16_t b)</div><div class="ttdoc">Avoid overflow when multiplying two u16 integers.</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00190">util.c:190</a></div></div>
 <div class="ttc" id="autil_8h_html_a1ad066a26dc9475293bfea55b96973ca"><div class="ttname"><a href="util_8h.html#a1ad066a26dc9475293bfea55b96973ca">u32_protected_add</a></div><div class="ttdeci">uint32_t u32_protected_add(uint32_t a, uint32_t b)</div><div class="ttdoc">Avoid overflow when adding two u32 integers.</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00175">util.c:175</a></div></div>
-<div class="ttc" id="autil_8h_html_a410cc1e92bb72bede52fbda4f69a6a89"><div class="ttname"><a href="util_8h.html#a410cc1e92bb72bede52fbda4f69a6a89">u32_get_digits</a></div><div class="ttdeci">static int u32_get_digits(uint32_t n)</div><div class="ttdoc">Get the number of digits in a 32-bit unsigned number https://stackoverflow.com/questions/1068849/how-...</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00130">util.h:130</a></div></div>
+<div class="ttc" id="autil_8h_html_a1ce076ed9d155bf8e50c66f6f6c24d5d"><div class="ttname"><a href="util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d">MAX_BASE36</a></div><div class="ttdeci">#define MAX_BASE36</div><div class="ttdoc">Hex value of &quot;ZZZZZZ&quot; in base 36.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00024">util.h:24</a></div></div>
+<div class="ttc" id="autil_8h_html_a410cc1e92bb72bede52fbda4f69a6a89"><div class="ttname"><a href="util_8h.html#a410cc1e92bb72bede52fbda4f69a6a89">u32_get_digits</a></div><div class="ttdeci">static int u32_get_digits(uint32_t n)</div><div class="ttdoc">Get the number of digits in a 32-bit unsigned number https://stackoverflow.com/questions/1068849/how-...</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00137">util.h:137</a></div></div>
+<div class="ttc" id="autil_8h_html_a55717746a1b3f98855213356b0aabde8"><div class="ttname"><a href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a></div><div class="ttdeci">uint32_t base36_to_u32(const char b36_str[])</div><div class="ttdoc">Convert a base-36 string representation to a 32-bit unsigned integer. Since we are dealing with base-...</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00260">util.c:260</a></div></div>
 <div class="ttc" id="autil_8h_html_a5875cff92160238ea730aba85090f224"><div class="ttname"><a href="util_8h.html#a5875cff92160238ea730aba85090f224">u16_protected_add</a></div><div class="ttdeci">uint16_t u16_protected_add(uint16_t a, uint16_t b)</div><div class="ttdoc">Avoid overflow when adding two u16 integers.</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00180">util.c:180</a></div></div>
 <div class="ttc" id="autil_8h_html_a75d2bcf3ada5a77afd676b0c7209556a"><div class="ttname"><a href="util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a">truncate_uint_to_suffixed_str</a></div><div class="ttdeci">void truncate_uint_to_suffixed_str(uint32_t num, int num_req_chars, char out_str_buff[UINT_MAX_DIGITS+1])</div><div class="ttdoc">Truncate an unsigned number into a suffixed string representation e.g. 12000 -&gt; &quot;12K&quot; The least signi...</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00116">util.c:116</a></div></div>
 <div class="ttc" id="autil_8h_html_af3c969df4739f51591b50af83c57bdf3"><div class="ttname"><a href="util_8h.html#af3c969df4739f51591b50af83c57bdf3">u32_protected_mult</a></div><div class="ttdeci">uint32_t u32_protected_mult(uint32_t a, uint32_t b)</div><div class="ttdoc">Avoid overflow when multiplying two u32 integers.</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00185">util.c:185</a></div></div>
+<div class="ttc" id="autil_8h_html_afebec7bef641870e5c6f83e0ccc21ed4"><div class="ttname"><a href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a></div><div class="ttdeci">void u32_to_base36(uint32_t n, char b36_str[])</div><div class="ttdoc">Convert a 32-bit unsigned integer to its base-36 string representation. This will perform 6 divisions...</div><div class="ttdef"><b>Definition</b> <a href="util_8c_source.html#l00272">util.c:272</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

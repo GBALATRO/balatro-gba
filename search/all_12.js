@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['play_5flose_5fmusic_0',['play_lose_music',['../audio__utils_8h.html#a1a7cfeec3ed0632c446a2ac125b947ca',1,'play_lose_music(void):&#160;audio_utils.c'],['../audio__utils_8c.html#a1a7cfeec3ed0632c446a2ac125b947ca',1,'play_lose_music(void):&#160;audio_utils.c']]],
-  ['play_5fregular_5fmusic_1',['play_regular_music',['../audio__utils_8h.html#a0805d40ac3ce386caec3227b03c66344',1,'play_regular_music(void):&#160;audio_utils.c'],['../audio__utils_8c.html#a0805d40ac3ce386caec3227b03c66344',1,'play_regular_music(void):&#160;audio_utils.c']]],
-  ['play_5fsfx_2',['play_sfx',['../audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c'],['../audio__utils_8c.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c']]],
-  ['please_20buy_20the_20official_20full_20version_20from_20these_20sources_20below_3a_3',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md33',1,'']]],
-  ['pos_4',['pos',['../structSprite.html#a27f946a5cef34e7b3e5517100838671f',1,'Sprite']]],
-  ['prev_5',['prev',['../structListNode.html#abca3b173fd255fcdd8b00254551c10cd',1,'ListNode']]]
+  ['obj_0',['obj',['../structSprite.html#abdcca0516e817f6f84009b3ace44c495',1,'Sprite']]],
+  ['official_20full_20version_20from_20these_20sources_20below_3a_1',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md33',1,'']]],
+  ['on_20the_20hand_20row_20during_20round_2',['When on the hand row during round',['../md_README.html#autotoc_md37',1,'']]],
+  ['on_20the_20joker_20row_20in_20the_20shop_20or_20during_20round_3',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
+  ['on_5fpressed_4',['on_pressed',['../structButton.html#a51656aaa63000cb64081119d2d63d5c7',1,'Button']]],
+  ['options_5fmenu_2eh_5',['options_menu.h',['../options__menu_8h.html',1,'']]],
+  ['or_20during_20round_6',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
+  ['or_20tt_20make_20tt_20installed_7',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
+  ['out_20and_20won_20t_20compile_8',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]]
 ];

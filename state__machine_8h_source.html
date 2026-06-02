@@ -179,18 +179,17 @@ $(document).ready(function(){initNavTree('state__machine_8h_source.html',''); in
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> <a class="code hl_function" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#define STATE_INFO_UPDATE_FN_ONLY(fn) {.on_init = noop, .on_update = fn, .on_exit = noop}</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#define STATE_INFO_UPDATE_FN_ONLY(fn)                 {.on_init = noop,    .on_update = fn,        .on_exit = noop}</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#define STATE_INFO_INIT_UPDATE_FN(init_fn, update_fn) {.on_init = init_fn, .on_update = update_fn, .on_exit = noop}</span></div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">#define STATE_MACHINE_DEFINE(infos, num) \</span></div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">{                                        \</span></div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">    .state_infos = &amp;infos[0],            \</span></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">    .num_infos = num,                    \</span></div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">    .registered = false,                 \</span></div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">};</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="comment">// clang-format on</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#endif </span><span class="comment">// STATE_MACHINE_H</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#endif </span><span class="comment">// STATE_MACHINE_H</span></div>
 <div class="ttc" id="astate__machine_8h_html_a9510cf55336642bad5ad888b7b6c7a21"><div class="ttname"><a href="state__machine_8h.html#a9510cf55336642bad5ad888b7b6c7a21">StateCallback</a></div><div class="ttdeci">void(* StateCallback)(void)</div><div class="ttdoc">State machine callback function pointer type.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8h_source.html#l00033">state_machine.h:33</a></div></div>
 <div class="ttc" id="astate__machine_8h_html_aa9b1230f7acdd39a63af8065b6729b5a"><div class="ttname"><a href="state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a">state_machine_remove</a></div><div class="ttdeci">void state_machine_remove(StateMachine *state_machine)</div><div class="ttdoc">Remove a statemachine's update function.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8c_source.html#l00029">state_machine.c:29</a></div></div>
 <div class="ttc" id="astate__machine_8h_html_ac3b2a011559ddbcb1f949f0da73ac239"><div class="ttname"><a href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a></div><div class="ttdeci">void state_machine_register(StateMachine *state_machine)</div><div class="ttdoc">Register a statemachine to run it's update function once per frame.</div><div class="ttdef"><b>Definition</b> <a href="state__machine_8c_source.html#l00016">state_machine.c:16</a></div></div>

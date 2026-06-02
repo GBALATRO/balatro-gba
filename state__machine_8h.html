@@ -155,8 +155,10 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a72b20b2bd131c0171a30eb7c7e27ee36" id="r_a72b20b2bd131c0171a30eb7c7e27ee36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a72b20b2bd131c0171a30eb7c7e27ee36">STATE_INFO_UPDATE_FN_ONLY</a>(fn)&#160;&#160;&#160;{.on_init = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>, .on_update = fn, .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td></tr>
+<tr class="memitem:a72b20b2bd131c0171a30eb7c7e27ee36" id="r_a72b20b2bd131c0171a30eb7c7e27ee36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a72b20b2bd131c0171a30eb7c7e27ee36">STATE_INFO_UPDATE_FN_ONLY</a>(fn)&#160;&#160;&#160;{.on_init = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>,    .on_update = fn,        .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td></tr>
 <tr class="separator:a72b20b2bd131c0171a30eb7c7e27ee36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5419804bec5f317f5f93c338f77ead02" id="r_a5419804bec5f317f5f93c338f77ead02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a5419804bec5f317f5f93c338f77ead02">STATE_INFO_INIT_UPDATE_FN</a>(init_fn,  update_fn)&#160;&#160;&#160;{.on_init = init_fn, .on_update = update_fn, .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td></tr>
+<tr class="separator:a5419804bec5f317f5f93c338f77ead02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49e14e61c0de648503323a3881c61212" id="r_a49e14e61c0de648503323a3881c61212"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a49e14e61c0de648503323a3881c61212">STATE_MACHINE_DEFINE</a>(infos,  num)</td></tr>
 <tr class="separator:a49e14e61c0de648503323a3881c61212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -194,6 +196,36 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a5419804bec5f317f5f93c338f77ead02" name="a5419804bec5f317f5f93c338f77ead02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5419804bec5f317f5f93c338f77ead02">&#9670;&#160;</a></span>STATE_INFO_INIT_UPDATE_FN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STATE_INFO_INIT_UPDATE_FN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">init_fn, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">update_fn&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;{.on_init = init_fn, .on_update = update_fn, .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="state__machine_8h_source.html#l00110">110</a> of file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
+
+</div>
+</div>
 <a id="a72b20b2bd131c0171a30eb7c7e27ee36" name="a72b20b2bd131c0171a30eb7c7e27ee36"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72b20b2bd131c0171a30eb7c7e27ee36">&#9670;&#160;</a></span>STATE_INFO_UPDATE_FN_ONLY</h2>
 
@@ -205,7 +237,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">fn</td><td>)</td>
-          <td>&#160;&#160;&#160;{.on_init = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>, .on_update = fn, .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td>
+          <td>&#160;&#160;&#160;{.on_init = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>,    .on_update = fn,        .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td>
         </tr>
       </table>
 </div><div class="memdoc">

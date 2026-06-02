@@ -8,6 +8,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "blind_gfx.h", "blind__gfx_8h_source.html", null ],
     [ "button.h", "button_8h.html", "button_8h" ],
     [ "card.h", "card_8h_source.html", null ],
+    [ "deck_types.h", "deck__types_8h.html", "deck__types_8h" ],
     [ "def_balatro_mempool.h", "def__balatro__mempool_8h_source.html", null ],
     [ "def_blind_gfx_table.h", "def__blind__gfx__table_8h_source.html", null ],
     [ "def_joker_gfx_table.h", "def__joker__gfx__table_8h_source.html", null ],
