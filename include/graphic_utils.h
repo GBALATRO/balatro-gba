@@ -63,6 +63,9 @@
 /** @def TTE_BIT_ON_CLR_IDX */
 #define TTE_BIT_ON_CLR_IDX TTE_BIT_UNPACK_OFFSET + 1
 
+/** @def TTE_BLACK_PB */
+#define TTE_BLACK_PB 0 // 0x0
+
 /** @def TTE_YELLOW_PB */
 #define TTE_YELLOW_PB 12 // 0xC
 
@@ -149,6 +152,37 @@ enum OverflowDir
 // When making this, missed that it already exists in tonc_math.h
 typedef RECT Rect;
 
+// clang-format off
+/**
+ * @brief Structure to represent arbitrary-sized 9-patches.
+ *
+ * While expanding a 3x3 rect is simple enough and has its purpose, this is an attempt
+ * to generalize the idea to a struct representing a 9-patch like this, such that areas
+ * 1, 2, 3 and 4 have no null dimensions and don't overlap:
+ * ```
+ * margins.left  margins.right            │  Such as:
+ * ╭───┴───╮     ╭─┴─╮                    │
+ * ╔═══════╤═════╤═══╗ ╮                  │    1) margins.left + margins.right  <= width (patch_rect)
+ * ║   1   │  6  │ 2 ║ ├─ margins.top     │
+ * ╟───────┼─────┼───╢ ╯                  │    2) margins.top  + margins.bottom <= height(patch_rect)
+ * ║   5   │  0  │ 7 ║                    │
+ * ║       │     │   ║                    │    3) margins values are inclusive, in number of tiles
+ * ╟───────┼─────┼───╢ ╮                  │
+ * ║       │     │   ║ │                  │
+ * ║   4   │  8  │ 3 ║ ├─ margins.bottom  │
+ * ║       │     │   ║ │                  │
+ * ╚═══════╧═════╧═══╝ ╯                  │
+ * ╰────────┬────────╯                    │
+ *      patch_rect                        │
+ * ```
+ */
+// clang-format on
+typedef struct NinePatchRect
+{
+    Rect patch_rect;
+    Rect margins;
+} NinePatchRect;
+
 /**
  * @brief Get the width of a rectangle
  *
@@ -218,7 +252,33 @@ void main_bg_se_copy_rect_1_tile_vert(Rect se_rect, enum ScreenVertDir direction
 void main_bg_se_copy_rect(Rect se_rect, BG_POINT dest_pos);
 
 /**
- * @brief Copies a 3x3 rect and expands it to fit a passed rect.
+ * @brief Copies a tile in the main background at se_tile_src to fill se_rect_dest.
+ *
+ * @param se_rect_dest dimensions are in number of tiles.
+ * @param se_tile_src x and y are the coordinates in number of tiles.
+ */
+void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src);
+
+/**
+ * @brief Copies a 9-patch and expands it to fit a passed rect.
+ *
+ * Performs the following operation:
+ *
+ * 1. The corners are copied
+ * 2. The sides are stretched
+ * 3. The center is stretched to fill `se_rect_dest` minus the patch's margins.
+ *
+ * @param se_rect_dest Destination for the 9-patch copy. Needs to be at least large enough to fit
+ *                      the corners and sides of the patch, (`margins.left + margins.right` by
+ *                      `margins.top + margins.bottom`) in which case only the corners are copied.
+ * @param src_9_ptch Pointer to the properties of the 9-patch we want to stretch.
+ *
+ * @sa NinePatchRect
+ */
+void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect* src_9_ptch);
+
+/**
+ * @brief Copies a 3x3 rect and expands it to fit a passed rect. Special case of the 9-patch.
  *
  * Performs the following operation:
  *

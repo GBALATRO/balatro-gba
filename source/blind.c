@@ -1,13 +1,27 @@
 #include "blind.h"
 
 #include "blind_gfx.h"
+#include "game.h"
 #include "graphic_utils.h"
+#include "hand.h"
 #include "list.h"
+#include "random.h"
 #include "stdbool.h"
 #include "util.h"
 
 #include <stdlib.h>
 #include <tonc.h>
+
+#define NORMAL_BLIND_PB 2
+#define BOSS_BLIND_PB   3
+
+#define BLIND_BASE_LAYER (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
+
+#define BLIND_SPRITE_OFFSET    16
+#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_OFFSET * TILE_SIZE)
+
+#define BLIND_TOKENS_PER_SPRITESHEET 2
+#define BLIND_TOKEN_PALETTE_SIZE     8
 
 static const unsigned int* blind_gfxTiles[] = {
 #define DEF_BLIND_GFX(idx) blind_gfx##idx##Tiles,
@@ -97,8 +111,8 @@ void init_unbeaten_blinds_list(bool showdown)
     if (!init)
     {
         init = true;
-        unbeaten_showdown_blinds = list_create();
-        unbeaten_boss_blinds = list_create();
+        unbeaten_showdown_blinds = list_init();
+        unbeaten_boss_blinds = list_init();
     }
 
     List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
@@ -127,7 +141,7 @@ enum BlindType roll_blind_type(bool showdown)
     }
 
     // roll a random blind among the unbeaten ones
-    int random_blind_idx = get_rand() % list_get_len(p_unbeaten_blinds);
+    int random_blind_idx = rng_get_u32() % list_get_len(p_unbeaten_blinds);
     Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
 
     return random_blind->type;

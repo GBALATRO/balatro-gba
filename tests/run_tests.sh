@@ -17,6 +17,6 @@ run_test() {
 }
 
 run_test bitset
-run_test pool
 run_test list
+run_test pool
 run_test util

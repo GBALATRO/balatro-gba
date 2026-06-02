@@ -3,7 +3,9 @@
 #include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
+#include "graphic_utils.h"
 #include "pool.h"
+#include "random.h"
 #include "soundbank.h"
 #include "util.h"
 
@@ -208,8 +210,27 @@ void sprite_object_reset_transform(SpriteObject* sprite_object)
     sprite_object->vrotation = 0;
 }
 
-void sprite_object_update(SpriteObject* sprite_object)
+static inline bool sprite_object_has_velocity(const SpriteObject* sprite_object)
 {
+    return sprite_object->vx != 0 || sprite_object->vy != 0 || sprite_object->vscale != 0 ||
+           sprite_object->vrotation != 0;
+}
+
+static inline bool sprite_object_at_target(const SpriteObject* s)
+{
+    return s->x == s->tx && s->y == s->ty && s->scale == s->tscale && s->rotation == s->trotation;
+}
+
+static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
+{
+    return !sprite_object_has_velocity(sprite_object) && sprite_object_at_target(sprite_object);
+}
+
+IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
+{
+    if (is_sprite_object_static(sprite_object))
+        return;
+
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * g_game_vars.game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * g_game_vars.game_speed) / 8;
 
@@ -219,10 +240,10 @@ void sprite_object_update(SpriteObject* sprite_object)
     // Rotate the card when it's played
     sprite_object->vrotation += (sprite_object->trotation - sprite_object->rotation) / 8;
 
-    // set velocity to 0 if it's close enough to the target
     const FIXED epsilon = (FIX_ONE >> 6); // = 1/2^6 = 0.015625
-    if (sprite_object->vx < epsilon && sprite_object->vx > -epsilon &&
-        sprite_object->vy < epsilon && sprite_object->vy > -epsilon)
+
+    // Snap to target position when velocity is negligible to avoid infinite approach
+    if (abs(sprite_object->vx) < epsilon && abs(sprite_object->vy) < epsilon)
     {
         sprite_object->vx = 0;
         sprite_object->vy = 0;
@@ -242,10 +263,10 @@ void sprite_object_update(SpriteObject* sprite_object)
     }
 
     // Set scale to 0 if it's close enough to the target
-    if (sprite_object->vscale < epsilon && sprite_object->vscale > -epsilon)
+    if (abs(sprite_object->vscale) < epsilon)
     {
         sprite_object->vscale = 0;
-        sprite_object->scale = sprite_object->tscale; // Set the scale to the target scale
+        sprite_object->scale = sprite_object->tscale;
     }
     else
     {
@@ -255,14 +276,13 @@ void sprite_object_update(SpriteObject* sprite_object)
         sprite_object->scale += sprite_object->vscale;
     }
 
-    // Set rotation to 0 if it's close enough to the target
-    if (sprite_object->vrotation < epsilon && sprite_object->vrotation > -epsilon)
+    // For rotation, prioritize snapping to target if close enough, then zero velocity.
+    if (abs(sprite_object->vrotation) < epsilon)
     {
         sprite_object->vrotation = 0;
-        // Set the rotation to the target rotation
         sprite_object->rotation = sprite_object->trotation;
     }
-    else
+    else // Apply damping and update rotation if not yet settled
     {
         sprite_object->vrotation =
             (sprite_object->vrotation * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) >>
@@ -311,7 +331,7 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 
     play_sfx(
         SFX_CARD_FOCUS,
-        MM_BASE_PITCH_RATE + get_rand() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
+        MM_BASE_PITCH_RATE + rng_get_u32() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,
         SFX_DEFAULT_VOLUME
     );
     sprite_object->ty = sprite_object->ty + int2fx((focus ? -1 : 1) * SPRITE_FOCUS_RAISE_PX);
@@ -350,4 +370,53 @@ bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* 
 bool sprite_object_is_focused(SpriteObject* sprite_object)
 {
     return sprite_object->focused;
+}
+
+static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
+{
+    int height = 0;
+    int width = 0;
+
+    if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
+    {
+        // fallback
+        height = CARD_SPRITE_SIZE;
+        width = CARD_SPRITE_SIZE;
+    }
+
+    Rect ret_rect = {0};
+
+    ret_rect.left = fx2int(sprite_object->tx);
+    ret_rect.top = fx2int(sprite_object->ty) + height + TILE_SIZE;
+    ret_rect.right = ret_rect.left + width;
+    ret_rect.bottom = ret_rect.top + TTE_CHAR_SIZE;
+
+    return ret_rect;
+}
+
+void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[])
+{
+    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
+
+    update_text_rect_to_center_str(&text_rect, text, SCREEN_LEFT);
+
+    tte_printf("#{P:%d,%d; cx:0x%X000}%s", text_rect.left, text_rect.top, TTE_YELLOW_PB, text);
+}
+
+void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
+{
+    // + 2 for null-terminator and "$"
+    char price_str_buff[INT_MAX_DIGITS + 2];
+    snprintf(price_str_buff, sizeof(price_str_buff), "$%d", price);
+    sprite_object_print_text_under(sprite_object, price_str_buff);
+}
+
+void sprite_object_erase_text_under(SpriteObject* sprite_object)
+{
+    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
+
+    // Add SPRITE_FOCUS_RAISE_PX to cover the focused case
+    text_rect.bottom = text_rect.bottom + SPRITE_FOCUS_RAISE_PX;
+
+    tte_erase_rect_wrapper(text_rect);
 }

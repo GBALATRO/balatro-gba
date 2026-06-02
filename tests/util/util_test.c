@@ -1,4 +1,5 @@
 #include <font.h>
+#include <stdint.h>
 #include <util.h>
 #include <assert.h>
 #include <string.h>
@@ -213,8 +214,87 @@ void test_truncate_uint_to_suffixed_str()
     assert(strcmp(suffixed_str_buff, max_uint_str_buff) == 0);
 }
 
+void test_base36_conversions(void)
+{
+    char base36_str[BASE36_MAX_DIGITS + 1] = {'\0'};
+    uint32_t base10_int;
+
+    // Base-36 Str => Int
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "ZZZZZZ");
+    assert(base36_to_u32(base36_str) == MAX_BASE36);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "000000");
+    assert(base36_to_u32(base36_str) == 0);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "000001");
+    assert(base36_to_u32(base36_str) == 1);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "000010");
+    assert(base36_to_u32(base36_str) == 36);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "000100");
+    assert(base36_to_u32(base36_str) == 1296);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "001000");
+    assert(base36_to_u32(base36_str) == 46656);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "010000");
+    assert(base36_to_u32(base36_str) == 1679616);
+
+    snprintf(base36_str, sizeof(base36_str), "%s", "100000");
+    assert(base36_to_u32(base36_str) == 60466176);
+
+    // Base-36 Str => Int
+
+    base10_int = 0;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "000000") == 0);
+    
+    base10_int = 1;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "000001") == 0);
+    
+    base10_int = 36;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "000010") == 0);
+    
+    base10_int = 1296;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "000100") == 0);
+    
+    base10_int = 46656;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "001000") == 0);
+    
+    base10_int = 1679616;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "010000") == 0);
+    
+    base10_int = 60466176;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "100000") == 0);
+
+    base10_int = MAX_BASE36;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "ZZZZZZ") == 0);
+
+    base10_int = UINT32_MAX;
+    u32_to_base36(base10_int, base36_str);
+    assert(strcmp(base36_str, "ZZZZZZ") == 0);
+}
+
 int main()
 {
+    printf("Testing Truncating UINT32.\n");
     test_truncate_uint_to_suffixed_str();
+
+    printf("Testing Base-36 conversions.\n");
+    test_base36_conversions();
+
+    printf("-------------------------------------------------------------------------------\n");
+    printf("Util Tests Passed :)\n");
+    printf("-------------------------------------------------------------------------------\n");
+
     return 0;
 }

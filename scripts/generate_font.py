@@ -57,6 +57,10 @@ for char_y in range(NUM_VERT_CHARS):
         crop_area = (pix_x, pix_y, pix_x + CHAR_WIDTH, pix_y + CHAR_HEIGHT)
         
         pixel_block_img = img.crop(crop_area)
+        # Note: "getdata" is a deprecated call in recent versions of pillow in
+        # favor of "get_flattened_data". However, as of May 17, 2026 the CI uses
+        # an earlier version of pillow that doesn't have "get_flattened_data"
+        # You can safely ignore the deprecation warning when builing on your host
         pixels = list(pixel_block_img.getdata())
 
         word0 = 0
