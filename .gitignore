@@ -15,4 +15,3 @@ tests/util/.vscode
 tests/util/build
 audio/*.bak
 .gdb_history
-gdb-output.txt
