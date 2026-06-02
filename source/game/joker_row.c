@@ -55,7 +55,7 @@ bool jokers_sel_row_on_selection_changed(
             {
                 sprite_object_print_price_under(
                     joker_object->sprite_object,
-                    joker_object->joker->value
+                    joker_get_sell_value(joker_object->joker)
                 );
             }
         }
@@ -110,7 +110,7 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         {
             sprite_object_print_price_under(
                 joker_object->sprite_object,
-                joker_object->joker->value
+                joker_get_sell_value(joker_object->joker)
             );
         }
     }
