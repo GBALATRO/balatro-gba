@@ -3,12 +3,10 @@
 set -euo pipefail
 
 usage() {
-    echo "Usage: $(basename "$0") <elf-file> [pool-def-file] [readelf-path]"
+    echo "Usage: $(basename "$0") <elf-file> [pool-def-file]"
     echo "  <elf-file>       Path to the built .elf file (e.g. build/balatro-gba.elf)"
     echo "  [pool-def-file]  Path to the mempool definition header"
     echo "                   (default: ./include/def_balatro_mempool.h)"
-    echo "  [readelf-path]   Path to arm-none-eabi-readelf"
-    echo "                   (default: /opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf)"
     exit 1
 }
 
@@ -18,7 +16,7 @@ fi
 
 ELF_FILE="$1"
 POOL_DEF_FILE="${2-./include/def_balatro_mempool.h}"
-READELF="${3-/opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf}"
+READELF="${READELF:-arm-none-eabi-readelf}"
 TOTAL_BYTES=0
 
 if [ ! -f "$POOL_DEF_FILE" ]; then
@@ -31,7 +29,7 @@ if [ ! -f "$ELF_FILE" ]; then
     usage
 fi
 
-if [ ! -x "$READELF" ]; then
+if ! command -v "$READELF" >/dev/null 2>&1; then
     usage
 fi
 
