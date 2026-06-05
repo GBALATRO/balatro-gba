@@ -4,6 +4,8 @@
 #include "game.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "mgba_logger.h"
+#include "object_funcs.h"
 #include "pool.h"
 #include "random.h"
 #include "soundbank.h"
@@ -172,6 +174,7 @@ int sprite_get_pb(const Sprite* sprite)
 SpriteObject sprite_object_new()
 {
     SpriteObject sprite_object;
+
     sprite_object.sprite = NULL;
     sprite_object_reset_transform(&sprite_object);
     sprite_object.focused = false;
@@ -427,6 +430,29 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
     sprite_object_print_text_under(sprite_object, price_str_buff);
 }
 
+int sprite_object_get_buy_price(SpriteObject* sprite_object)
+{
+    if (sprite_object == NULL)
+    {
+        MGBA_ERROR(__func__ " called with NULL argument");
+        return UNDEFINED;
+    }
+
+    ObjectFuncs* object_funcs = get_object_type_funcs(sprite_object->type);
+    if (object_funcs == NULL || object_funcs->get_buy_price == NULL)
+    {
+        MGBA_ERROR(__func__ ": object function not implemented");
+        return UNDEFINED;
+    }
+
+    return object_funcs->get_buy_price(sprite_object);
+}
+
+void sprite_object_print_buy_price_under(SpriteObject* sprite_object)
+{
+    sprite_object_print_price_under(sprite_object, sprite_object_get_buy_price(sprite_object));
+}
+
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
 {
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
@@ -435,4 +461,22 @@ void sprite_object_erase_text_under(SpriteObject* sprite_object)
     text_rect.bottom = text_rect.bottom + SPRITE_FOCUS_RAISE_PX;
 
     tte_erase_rect_wrapper(text_rect);
+}
+
+void sprite_object_add_to_inventory(SpriteObject* sprite_object)
+{
+    if (sprite_object == NULL)
+    {
+        MGBA_ERROR(__func__ " called with NULL argument");
+        return;
+    }
+
+    ObjectFuncs* object_funcs = get_object_type_funcs(sprite_object->type);
+    if (object_funcs == NULL || object_funcs->get_buy_price == NULL)
+    {
+        MGBA_ERROR(__func__ ": object function not implemented");
+        return;
+    }
+
+    object_funcs->add_to_inventory(sprite_object);
 }

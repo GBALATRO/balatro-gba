@@ -4,6 +4,8 @@
 #include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "layout.h"
+#include "mgba_logger.h"
 #include "pool.h"
 #include "random.h"
 #include "soundbank.h"
@@ -179,10 +181,22 @@ u16 joker_get_rarity_color(u8 rarity, bool main_color)
     return card_rarity_pal_gfxPal[1 + 2 * rarity + (main_color ? 0 : 1)];
 }
 
+int joker_get_buy_price(const Joker* joker)
+{
+    if (joker == NULL)
+    {
+        MGBA_ERROR(__func__ " called with NULL argument");
+        return UNDEFINED;
+    }
+
+    return joker->value;
+}
+
 int joker_get_sell_value(const Joker* joker)
 {
     if (joker == NULL)
     {
+        MGBA_ERROR(__func__ " called with NULL argument");
         return UNDEFINED;
     }
 
@@ -207,6 +221,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     joker_object->joker = joker;
     joker_object->sprite_object = sprite_object_new();
+    joker_object->sprite_object.type = OBJ_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
@@ -261,7 +276,41 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
     sprite_object_shake((SpriteObject*)joker_object, sound_id);
 }
 
-void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int color_pb)
+int joker_object_get_buy_price(SpriteObject* joker_object)
+{
+    // TODO: Macro...?
+    if (joker_object == NULL)
+    {
+        MGBA_ERROR(__func__ " called with NULL argument");
+        return UNDEFINED;
+    }
+    if (joker_object->type != OBJ_TYPE_JOKER)
+    {
+        MGBA_ERROR(__func__ " called with incorrect type");
+        return UNDEFINED;
+    }
+
+    return ((JokerObject*)joker_object)->joker->value;
+}
+
+void joker_object_add_to_owned(SpriteObject* joker_object)
+{
+    if (joker_object == NULL)
+    {
+        MGBA_ERROR(__func__ " called with NULL argument");
+        return;
+    }
+    if (joker_object->type != OBJ_TYPE_JOKER)
+    {
+        MGBA_ERROR(__func__ " called with incorrect type");
+        return;
+    }
+
+    joker_object->ty = int2fx(HELD_JOKERS_POS.y);
+    add_joker((JokerObject*)joker_object);
+}
+
+static void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int color_pb)
 {
     tte_set_pos(*cursor_pos_x, *cursor_pos_y);
     tte_set_special(color_pb * TTE_SPECIAL_PB_MULT_OFFSET);

@@ -197,6 +197,16 @@ JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);
 // This doesn't actually score anything, it just performs an animation and plays a sound effect
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
+
+// TODO: Document
+int joker_object_get_buy_price(SpriteObject* joker_object);
+
+// TODO: Move to an owned_jokers.c/.h file
+/**
+ * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
+ */
+void joker_object_add_to_owned(SpriteObject* joker_object);
+
 // This scores the joker and returns true if it was scored successfully
 // card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or
 // On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or

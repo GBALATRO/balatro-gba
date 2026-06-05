@@ -8,6 +8,7 @@
 
 #include <maxmod.h>
 #include <tonc.h>
+#include "object_defs.h"
 
 /**
  * @name Sprite system constants
@@ -51,12 +52,14 @@ typedef struct
 /**
  * @brief A sprite object is a sprite that is focusable and movable in animation
  */
-typedef struct
+typedef struct SpriteObject
 {
     /**
      * @brief Sprite configuration info
      */
     Sprite* sprite;
+
+    enum ObjectType type;
 
     /**
      * @brief Target position
@@ -344,6 +347,15 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
  * @sa sprite_object_print_text_under
  */
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price);
+
+// TODO: Document
+int sprite_object_get_buy_price(SpriteObject* sprite_object);
+
+// TODO: Document
+void sprite_object_print_buy_price_under(SpriteObject* sprite_object);
+
+// TODO: Document
+void sprite_object_add_to_inventory(SpriteObject* sprite_object);
 
 /**
  * @brief Erase the text within the Rect directly beneath a SpriteObject.
