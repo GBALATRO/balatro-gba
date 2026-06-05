@@ -239,7 +239,9 @@ Disregard Steps 4-5 and instead click the green code button on the main reposito
 
 ### Linux (Debian/Arch)
 
-These instructions will be only for Debian (**Ubuntu**) and Arch based systems. 
+These instructions will be only for Debian (**Ubuntu**) and Arch based systems.
+
+**Note:** _Ubuntu based distros require version >= 24.04_.
 
 1.) Follow the devkitPro Pacman installation guide for distro:   https://devkitpro.org/wiki/devkitPro_pacman
 - On **Debian** systems it will be installed as **`dkp-pacman`**.
