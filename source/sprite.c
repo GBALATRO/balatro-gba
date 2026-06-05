@@ -167,23 +167,21 @@ int sprite_get_pb(const Sprite* sprite)
 }
 
 // SpriteObject methods
-SpriteObject* sprite_object_new()
+SpriteObject sprite_object_new()
 {
-    SpriteObject* sprite_object = POOL_GET(SpriteObject);
-    sprite_object->sprite = NULL;
-    sprite_object_reset_transform(sprite_object);
-    sprite_object->focused = false;
+    SpriteObject sprite_object;
+    sprite_object.sprite = NULL;
+    sprite_object_reset_transform(&sprite_object);
+    sprite_object.focused = false;
 
     return sprite_object;
 }
 
-void sprite_object_destroy(SpriteObject** sprite_object)
+void sprite_object_destroy(SpriteObject* sprite_object)
 {
-    if (*sprite_object == NULL)
+    if (sprite_object == NULL)
         return;
-    sprite_destroy(&(*sprite_object)->sprite);
-    POOL_FREE(SpriteObject, *sprite_object);
-    *sprite_object = NULL;
+    sprite_destroy(&sprite_object->sprite);
 }
 
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)

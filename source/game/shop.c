@@ -313,18 +313,18 @@ static void game_shop_create_items(void)
 
         JokerObject* joker_object = joker_object_new(joker_new(joker_id));
 
-        joker_object->sprite_object->x =
+        joker_object->sprite_object.x =
             int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
-        joker_object->sprite_object->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
-        joker_object->sprite_object->tx = joker_object->sprite_object->x;
-        joker_object->sprite_object->ty = int2fx(ITEM_SHOP_Y);
+        joker_object->sprite_object.y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
+        joker_object->sprite_object.tx = joker_object->sprite_object.x;
+        joker_object->sprite_object.ty = int2fx(ITEM_SHOP_Y);
 
-        sprite_object_print_price_under(joker_object->sprite_object, joker_object->joker->value);
+        sprite_object_print_price_under((SpriteObject*)joker_object, joker_object->joker->value);
 
         sprite_position(
             joker_object_get_sprite(joker_object),
-            fx2int(joker_object->sprite_object->x),
-            fx2int(joker_object->sprite_object->y)
+            fx2int(joker_object->sprite_object.x),
+            fx2int(joker_object->sprite_object.y)
         );
 
         list_push_back(shop_jokers_list, joker_object);
@@ -392,7 +392,7 @@ static int shop_top_row_get_size(void)
  */
 static inline void add_to_held_jokers(JokerObject* joker_object)
 {
-    joker_object->sprite_object->ty = int2fx(HELD_JOKERS_POS.y);
+    joker_object->sprite_object.ty = int2fx(HELD_JOKERS_POS.y);
     add_joker(joker_object);
 }
 
@@ -406,8 +406,8 @@ static inline void game_shop_buy_joker(int shop_joker_idx)
 
     g_game_vars.money -= joker_object->joker->value;
     display_money();
-    sprite_object_erase_text_under(joker_object->sprite_object);
-    sprite_object_set_focus(joker_object->sprite_object, false);
+    sprite_object_erase_text_under((SpriteObject*)joker_object);
+    sprite_object_set_focus((SpriteObject*)joker_object, false);
     add_to_held_jokers(joker_object);
     list_remove_at_idx(shop_jokers_list, shop_joker_idx); // Remove the joker from the shop
 }
@@ -468,8 +468,8 @@ static bool shop_top_row_on_selection_changed(
         else
         {
             int idx = prev_selection->x - 1; // -1 to account for next round button
-            JokerObject* joker_object = (JokerObject*)list_get_at_idx(shop_jokers_list, idx);
-            sprite_object_set_focus(joker_object->sprite_object, false);
+            SpriteObject* joker_object = (SpriteObject*)list_get_at_idx(shop_jokers_list, idx);
+            sprite_object_set_focus(joker_object, false);
         }
     }
 
@@ -482,8 +482,8 @@ static bool shop_top_row_on_selection_changed(
         else
         {
             int idx = new_selection->x - 1; // -1 to account for next round button
-            JokerObject* joker_object = (JokerObject*)list_get_at_idx(shop_jokers_list, idx);
-            sprite_object_set_focus(joker_object->sprite_object, true);
+            SpriteObject* joker_object = (SpriteObject*)list_get_at_idx(shop_jokers_list, idx);
+            sprite_object_set_focus(joker_object, true);
         }
     }
 
@@ -518,7 +518,7 @@ static bool shop_reroll_row_on_selection_changed(
         {
             int idx = new_selection->x - 1;
             JokerObject* joker_object = (JokerObject*)list_get_at_idx(&s_shop_jokers_list, idx);
-            sprite_object_set_focus(joker_object->sprite_object, true);
+            sprite_object_set_focus((SpriteObject*)joker_object, true);
         }
     }
     else if (row_idx == new_selection->y)
@@ -563,7 +563,7 @@ static inline void game_shop_reroll(int* reroll_cost)
         if (joker_object != NULL)
         {
             // Set the y position to the target position
-            joker_object->sprite_object->y = joker_object->sprite_object->ty;
+            joker_object->sprite_object.y = joker_object->sprite_object.ty;
 
             // Give the joker a little wiggle animation
             joker_object_shake(joker_object, UNDEFINED);
@@ -645,7 +645,7 @@ static void game_shop_outro()
         {
             if (joker_object != NULL)
             {
-                joker_object->sprite_object->ty = int2fx(160);
+                joker_object->sprite_object.ty = int2fx(160);
             }
         }
 

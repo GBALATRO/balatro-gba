@@ -54,8 +54,8 @@ typedef struct Card
 
 typedef struct CardObject
 {
+    SpriteObject sprite_object;
     Card* card;
-    SpriteObject* sprite_object;
     bool selected;
 } CardObject;
 

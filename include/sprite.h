@@ -199,7 +199,7 @@ void sprite_draw(void);
  * @return A valid pointer to an newly allocated SpriteObject
  *         if successful, othewise return **NULL**.
  */
-SpriteObject* sprite_object_new();
+SpriteObject sprite_object_new();
 
 /**
  * @brief Destroy SpriteObject
@@ -210,7 +210,7 @@ SpriteObject* sprite_object_new();
  * @param sprite_object pointer to a pointer of SpriteObject to destroy.
  *        Cannot be **NULL**.
  */
-void sprite_object_destroy(SpriteObject** sprite_object);
+void sprite_object_destroy(SpriteObject* sprite_object);
 
 /**
  * @brief Register a Sprite to an associated SpriteObject

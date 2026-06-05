@@ -113,7 +113,7 @@ void card_object_destroy(CardObject** card_object)
 {
     if (*card_object == NULL)
         return;
-    sprite_object_destroy(&((*card_object)->sprite_object));
+    sprite_object_destroy((SpriteObject*)(*card_object));
     POOL_FREE(CardObject, *card_object);
     *card_object = NULL;
 }
@@ -122,7 +122,7 @@ void card_object_update(CardObject* card_object)
 {
     if (card_object == NULL)
         return;
-    sprite_object_update(card_object->sprite_object);
+    sprite_object_update((SpriteObject*)card_object);
 }
 
 void card_object_set_sprite(CardObject* card_object, int layer)
@@ -141,7 +141,7 @@ void card_object_set_sprite(CardObject* card_object, int layer)
         CARD_PB,
         layer + CARD_STARTING_LAYER
     );
-    sprite_object_set_sprite(card_object->sprite_object, sprite);
+    sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
 void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, int layer)
@@ -159,12 +159,12 @@ void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType dec
         DECK_SPRITES_PB,
         layer + CARD_STARTING_LAYER
     );
-    sprite_object_set_sprite(card_object->sprite_object, sprite);
+    sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
 void card_object_shake(CardObject* card_object, mm_word sound_id)
 {
-    sprite_object_shake(card_object->sprite_object, sound_id);
+    sprite_object_shake((SpriteObject*)card_object, sound_id);
 }
 
 void card_object_set_selected(CardObject* card_object, bool selected)
@@ -185,5 +185,5 @@ Sprite* card_object_get_sprite(CardObject* card_object)
 {
     if (card_object == NULL)
         return NULL;
-    return sprite_object_get_sprite(card_object->sprite_object);
+    return sprite_object_get_sprite((SpriteObject*)card_object);
 }
