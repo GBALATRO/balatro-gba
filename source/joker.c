@@ -231,8 +231,7 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_update(JokerObject* joker_object)
 {
-    CardObject* card_object = (CardObject*)joker_object;
-    card_object_update(card_object);
+    sprite_object_update(joker_object->sprite_object);
 }
 
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
