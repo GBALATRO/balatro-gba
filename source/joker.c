@@ -222,7 +222,7 @@ JokerObject* joker_object_new(Joker* joker)
     );
 
     sprite_object_set_sprite(
-        joker_object->sprite_object,
+        (SpriteObject*)joker_object,
         sprite_new(
             ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             ATTR1_SIZE_32,
@@ -258,7 +258,7 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 {
-    sprite_object_shake(joker_object->sprite_object, sound_id);
+    sprite_object_shake((SpriteObject*)joker_object, sound_id);
 }
 
 void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int color_pb)
@@ -305,12 +305,12 @@ bool joker_object_score(
     {
         // display the text on top of the card instead of below the Joker for Held Cards effects
         // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(card_object->sprite_object->x);
+        cursorPosX += fx2int(card_object->sprite_object.x);
         cursorPosY = HELD_CARD_SCORE_TEXT_Y;
     }
     else
     {
-        cursorPosX += fx2int(joker_object->sprite_object->x);
+        cursorPosX += fx2int(((SpriteObject*)joker_object)->x);
         cursorPosY = JOKER_SCORE_TEXT_Y;
     }
 
@@ -375,7 +375,7 @@ Sprite* joker_object_get_sprite(JokerObject* joker_object)
 {
     if (joker_object == NULL)
         return NULL;
-    return sprite_object_get_sprite(joker_object->sprite_object);
+    return sprite_object_get_sprite((SpriteObject*)joker_object);
 }
 
 int joker_get_random_rarity()

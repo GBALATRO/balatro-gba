@@ -253,8 +253,8 @@ static inline void discarded_jokers_update_loop(void)
 
     while ((joker_object = list_itr_next(&itr)))
     {
-        if (joker_object->sprite_object->x == joker_object->sprite_object->tx &&
-            joker_object->sprite_object->y == joker_object->sprite_object->ty)
+        if (joker_object->sprite_object.x == joker_object->sprite_object.tx &&
+            joker_object->sprite_object.y == joker_object->sprite_object.ty)
         {
             list_itr_remove_current_node(&itr);
             joker_object_destroy(&joker_object);
@@ -282,7 +282,7 @@ static inline void held_jokers_update_loop(void)
     {
         // Let the Shop handle the position of this Joker
         if (joker != game_shop_get_description_card())
-            joker->sprite_object->tx = hand_x - int2fx(spacing_lut[jokers_top][i]);
+            joker->sprite_object.tx = hand_x - int2fx(spacing_lut[jokers_top][i]);
         i++;
     }
 }

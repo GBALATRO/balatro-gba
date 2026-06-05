@@ -650,7 +650,7 @@ void game_run_setup_on_exit(void)
 static void choose_deck_substate_init(void)
 {
     // Show Deck sprite, name and TODO: description
-    obj_unhide(run_setup_deck->sprite_object->sprite->obj, ATTR0_AFF);
+    obj_unhide(run_setup_deck->sprite_object.sprite->obj, ATTR0_AFF);
     print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
     print_deck_description(g_game_vars.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
 
@@ -815,7 +815,7 @@ static void seed_keyboard_substate_init(void)
     tte_erase_rect_wrapper(RUN_SETUP_DECK_NAME_DESC_RECT);
 
     // Hide Deck card sprite
-    obj_hide(run_setup_deck->sprite_object->sprite->obj);
+    obj_hide(run_setup_deck->sprite_object.sprite->obj);
 
     // Clean deck swap screen with frame BG color
     main_bg_se_copy_expand_tile(
@@ -1110,7 +1110,7 @@ static void resume_substate_init(void)
     tab_set_highlight(RUN_SETUP_TAB_RESUME);
 
     // Show Deck card sprite
-    obj_unhide(run_setup_deck->sprite_object->sprite->obj, ATTR0_AFF);
+    obj_unhide(run_setup_deck->sprite_object.sprite->obj, ATTR0_AFF);
 }
 
 // COMMON BUTTONS

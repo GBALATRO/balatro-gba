@@ -112,8 +112,8 @@ typedef struct
 
 typedef struct JokerObject
 {
+    SpriteObject sprite_object;
     Joker* joker;
-    SpriteObject* sprite_object;
 } JokerObject;
 
 typedef struct // These jokers are triggered after the played hand has finished scoring.
