@@ -17,6 +17,7 @@
 #include "joker.h"
 #include "layout.h"
 #include "list.h"
+#include "mgba_logger.h"
 #include "random.h"
 #include "save.h"
 #include "soundbank.h"
@@ -308,6 +309,60 @@ static inline bool is_shop_joker_avail(int joker_id)
     return bitset_get_idx(&s_avail_jokers_bitset, joker_id);
 }
 
+static SpriteObject* game_shop_create_joker_object(void)
+{
+    if (no_avail_jokers())
+        return NULL;
+
+    int joker_id = 0;
+#ifdef TEST_JOKER_ID0 // Allow defining an ID for a joker to always appear in shop and be tested
+    if (is_shop_joker_avail(TEST_JOKER_ID0))
+    {
+        joker_id = TEST_JOKER_ID0;
+    }
+    else
+#endif
+#ifdef TEST_JOKER_ID1
+        if (is_shop_joker_avail(TEST_JOKER_ID1))
+    {
+        joker_id = TEST_JOKER_ID1;
+    }
+    else
+#endif
+    {
+        joker_id = game_shop_get_rand_available_joker_id();
+    }
+
+    // If for some reason only no joker is left, don't make another
+    if (joker_id == UNDEFINED)
+        return NULL;
+
+    game_shop_set_joker_avail(joker_id, false);
+
+    return (SpriteObject*)joker_object_new(joker_new(joker_id));
+}
+
+static SpriteObject* game_shop_create_item_of_type(enum ObjectType type)
+{
+    // TODO: This should be a function table when consumables are implemented
+    if (type == OBJ_TYPE_JOKER)
+    {
+        return game_shop_create_joker_object();
+    }
+    else
+    {
+        MGBA_ERROR(__func__ " called with unimplemented joker type %d", type);
+        return NULL;
+    }
+}
+
+// Meant for the top row items - jokers, consumables, and playing cards
+static SpriteObject* game_shop_create_top_row_item(void)
+{
+    // TODO: Randomize item type when consumables are implemented
+    return game_shop_create_item_of_type(OBJ_TYPE_JOKER);
+}
+
 /**
  * @brief Setup for the lists of items we can purchase in the Shop.
  *         Only Jokers are available for now, but this is where consumables and
@@ -317,43 +372,25 @@ static void game_shop_create_items(void)
 {
     tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
 
-    if (no_avail_jokers())
-        return;
-
     List* shop_objects_list = &s_shop_objects_list;
 
     list_clear(shop_objects_list);
     *shop_objects_list = list_init();
 
-    for (int i = 0; i < MAX_SHOP_JOKERS; i++)
+    for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
-        int joker_id = 0;
-#ifdef TEST_JOKER_ID0 // Allow defining an ID for a joker to always appear in shop and be tested
-        if (is_shop_joker_avail(TEST_JOKER_ID0))
-        {
-            joker_id = TEST_JOKER_ID0;
-        }
-        else
-#endif
-#ifdef TEST_JOKER_ID1
-            if (is_shop_joker_avail(TEST_JOKER_ID1))
-        {
-            joker_id = TEST_JOKER_ID1;
-        }
-        else
-#endif
-        // TODO: Extract this code
-        {
-            joker_id = game_shop_get_rand_available_joker_id();
-        }
+        SpriteObject* sprite_object = game_shop_create_top_row_item();
 
-        // If for some reason only no joker is left, don't make another
-        if (joker_id == UNDEFINED)
-            break;
+        if (sprite_object == NULL)
+        {
+            MGBA_WARN("Could not create shop item");
 
-        game_shop_set_joker_avail(joker_id, false);
-
-        SpriteObject* sprite_object = (SpriteObject*)joker_object_new(joker_new(joker_id));
+            // TODO: Decide how to handle this case gracefully
+            // If the issue for example is that we can't generate any more jokers,
+            // because for example the user owns all of them,
+            // maybe we need to generate consumables instead.
+            return;
+        }
 
         sprite_object->x =
             int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
@@ -495,8 +532,8 @@ static bool shop_top_row_on_selection_changed(
         else
         {
             int idx = prev_selection->x - 1; // -1 to account for next round button
-            SpriteObject* joker_object = (SpriteObject*)list_get_at_idx(shop_objects_list, idx);
-            sprite_object_set_focus(joker_object, false);
+            SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(shop_objects_list, idx);
+            sprite_object_set_focus(sprite_object, false);
         }
     }
 
@@ -509,8 +546,8 @@ static bool shop_top_row_on_selection_changed(
         else
         {
             int idx = new_selection->x - 1; // -1 to account for next round button
-            SpriteObject* joker_object = (SpriteObject*)list_get_at_idx(shop_objects_list, idx);
-            sprite_object_set_focus(joker_object, true);
+            SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(shop_objects_list, idx);
+            sprite_object_set_focus(sprite_object, true);
         }
     }
 
