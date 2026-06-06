@@ -1357,7 +1357,6 @@ static inline void card_draw(void)
 
     card_object->sprite_object->x = deck_x;
     card_object->sprite_object->y = deck_y;
-    sprite_position(card_object->sprite_object->sprite, fx2int(deck_x), fx2int(deck_y));
 
     set_hand_top(get_hand_top() + 1);
     get_hand_array()[get_hand_top()] = card_object;
@@ -2356,11 +2355,6 @@ static inline void cards_in_hand_update_loop(void)
                     if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
                     {
                         hand[i]->sprite_object->y = hand_y;
-                        sprite_position(
-                            hand[i]->sprite_object->sprite,
-                            fx2int(hand[i]->sprite_object->x),
-                            fx2int(hand_y)
-                        );
                         // Set target y to match y. Ensures target is updated even when vy becomes
                         // 0, preventing immediate snap back.
                         hand[i]->sprite_object->ty = hand_y;
