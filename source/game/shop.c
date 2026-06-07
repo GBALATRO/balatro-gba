@@ -627,7 +627,8 @@ static inline void game_shop_reroll(void)
         if (joker_object != NULL)
         {
             // Set the y position to the target position
-            joker_object->sprite_object.y = joker_object->sprite_object.ty;
+            SpriteObject* sprite_object = (SpriteObject*)joker_object;
+            sprite_object_set_y(sprite_object, sprite_object_get_ty(sprite_object));
 
             // Give the joker a little wiggle animation
             joker_object_shake(joker_object, UNDEFINED);
@@ -966,7 +967,7 @@ static void game_shop_outro(void)
         {
             if (joker_object != NULL)
             {
-                joker_object->sprite_object.ty = int2fx(160);
+                sprite_object_set_ty((SpriteObject*)joker_object, int2fx(160));
             }
         }
 

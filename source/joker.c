@@ -220,7 +220,7 @@ JokerObject* joker_object_new(Joker* joker)
     }
 
     joker_object->joker = joker;
-    joker_object->sprite_object = sprite_object_new();
+    joker_object->sprite_object = sprite_object_new();    
     joker_object->sprite_object.type = ITEM_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
