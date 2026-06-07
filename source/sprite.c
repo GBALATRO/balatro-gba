@@ -202,6 +202,30 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
     sprite_object->sprite = sprite;
 }
 
+FIXED sprite_object_get_x(const SpriteObject* sprite_object)
+{
+    return (sprite_object == NULL) ? 0 : sprite_object->x;
+}
+
+void sprite_object_set_x(SpriteObject* sprite_object, FIXED x)
+{
+    if (sprite_object == NULL)
+        return;
+    sprite_object->x = x;
+}
+
+FIXED sprite_object_get_y(const SpriteObject* sprite_object)
+{
+    return (sprite_object == NULL) ? 0 : sprite_object->y;
+}
+
+void sprite_object_set_y(SpriteObject* sprite_object, FIXED y)
+{
+    if (sprite_object == NULL)
+        return;
+    sprite_object->y = y;
+}
+
 FIXED sprite_object_get_tx(const SpriteObject* sprite_object)
 {
     return (sprite_object == NULL) ? 0 : sprite_object->tx;
@@ -226,28 +250,18 @@ void sprite_object_set_ty(SpriteObject* sprite_object, FIXED ty)
     sprite_object->ty = ty;
 }
 
-FIXED sprite_object_get_x(const SpriteObject* sprite_object)
-{
-    return (sprite_object == NULL) ? 0 : sprite_object->x;
-}
-
-void sprite_object_set_x(SpriteObject* sprite_object, FIXED x)
+void sprite_object_set_vx(SpriteObject* sprite_object, FIXED vx)
 {
     if (sprite_object == NULL)
         return;
-    sprite_object->x = x;
+    sprite_object->vx = vx;
 }
 
-FIXED sprite_object_get_y(const SpriteObject* sprite_object)
-{
-    return (sprite_object == NULL) ? 0 : sprite_object->y;
-}
-
-void sprite_object_set_y(SpriteObject* sprite_object, FIXED y)
+void sprite_object_set_vy(SpriteObject* sprite_object, FIXED vy)
 {
     if (sprite_object == NULL)
         return;
-    sprite_object->y = y;
+    sprite_object->vy = vy;
 }
 
 FIXED sprite_object_get_tscale(const SpriteObject* sprite_object)
@@ -273,14 +287,6 @@ void sprite_object_set_trotation(SpriteObject* sprite_object, FIXED trotation)
         return;
     sprite_object->trotation = trotation;
 }
-
-void sprite_object_set_vy(SpriteObject* sprite_object, FIXED vy)
-{
-    if (sprite_object == NULL)
-        return;
-    sprite_object->vy = vy;
-}
-
 
 void sprite_object_reset_transform(SpriteObject* sprite_object)
 {
