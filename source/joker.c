@@ -221,7 +221,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     joker_object->joker = joker;
     joker_object->sprite_object = sprite_object_new();
-    joker_object->sprite_object.type = OBJ_TYPE_JOKER;
+    joker_object->sprite_object.type = ITEM_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
@@ -284,7 +284,7 @@ int joker_object_get_buy_price(SpriteObject* joker_object)
         MGBA_ERROR(__func__ " called with NULL argument");
         return UNDEFINED;
     }
-    if (joker_object->type != OBJ_TYPE_JOKER)
+    if (joker_object->type != ITEM_TYPE_JOKER)
     {
         MGBA_ERROR(__func__ " called with incorrect type");
         return UNDEFINED;
@@ -300,7 +300,7 @@ void joker_object_add_to_owned(SpriteObject* joker_object)
         MGBA_ERROR(__func__ " called with NULL argument");
         return;
     }
-    if (joker_object->type != OBJ_TYPE_JOKER)
+    if (joker_object->type != ITEM_TYPE_JOKER)
     {
         MGBA_ERROR(__func__ " called with incorrect type");
         return;

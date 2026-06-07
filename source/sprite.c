@@ -5,7 +5,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "mgba_logger.h"
-#include "object_funcs.h"
+#include "item_funcs.h"
 #include "pool.h"
 #include "random.h"
 #include "soundbank.h"
@@ -438,14 +438,15 @@ int sprite_object_get_buy_price(SpriteObject* sprite_object)
         return UNDEFINED;
     }
 
-    ObjectFuncs* object_funcs = get_object_type_funcs(sprite_object->type);
-    if (object_funcs == NULL || object_funcs->get_buy_price == NULL)
+    ItemFuncs* item_funcs = get_item_type_funcs(sprite_object->type);
+    
+    if (item_funcs == NULL || item_funcs->get_buy_price == NULL)
     {
         MGBA_ERROR(__func__ ": object function not implemented");
         return UNDEFINED;
     }
 
-    return object_funcs->get_buy_price(sprite_object);
+    return item_funcs->get_buy_price(sprite_object);
 }
 
 void sprite_object_print_buy_price_under(SpriteObject* sprite_object)
@@ -471,12 +472,13 @@ void sprite_object_add_to_inventory(SpriteObject* sprite_object)
         return;
     }
 
-    ObjectFuncs* object_funcs = get_object_type_funcs(sprite_object->type);
-    if (object_funcs == NULL || object_funcs->get_buy_price == NULL)
+    ItemFuncs* item_funcs = get_item_type_funcs(sprite_object->type);
+
+    if (item_funcs == NULL || item_funcs->add_to_inventory == NULL)
     {
         MGBA_ERROR(__func__ ": object function not implemented");
         return;
     }
 
-    object_funcs->add_to_inventory(sprite_object);
+    item_funcs->add_to_inventory(sprite_object);
 }

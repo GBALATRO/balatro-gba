@@ -8,7 +8,7 @@
 
 #include <maxmod.h>
 #include <tonc.h>
-#include "object_defs.h"
+#include "item_defs.h"
 
 /**
  * @name Sprite system constants
@@ -59,7 +59,7 @@ typedef struct SpriteObject
      */
     Sprite* sprite;
 
-    enum ObjectType type;
+    enum ItemType type;
 
     /**
      * @brief Target position
