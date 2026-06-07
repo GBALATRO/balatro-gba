@@ -1094,7 +1094,6 @@ static void deck_on_pressed(void)
     state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
     choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;
     button_set_highlight(&change_deck_button, false);
-    button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], true);
     set_active_button(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED]);
 }
 
