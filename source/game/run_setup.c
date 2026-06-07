@@ -114,7 +114,9 @@ static Button* active_button = NULL;
 
 static int flash_select_button_timer = 0;
 static bool flash_select_button = false;
-static StateInfo select_flash_state_info[] = {STATE_INFO_INIT_UPDATE_FN(flash_select_button_init, flash_select_button_update)};
+static StateInfo select_flash_state_info[] = {
+    STATE_INFO_INIT_UPDATE_FN(flash_select_button_init, flash_select_button_update)
+};
 
 static StateMachine flash_active_button_sm = {
     .state_infos = &select_flash_state_info[0],
@@ -1283,13 +1285,13 @@ static void flash_select_button_update(void)
 {
     const int flash_frames = 15; // 2x full on/off cycles a second
 
-    if(flash_select_button_timer++ >= flash_frames)
+    if (flash_select_button_timer++ >= flash_frames)
     {
         flash_select_button_timer = 0;
-        
+
         flash_select_button = !flash_select_button;
 
-        if(active_button)
+        if (active_button)
         {
             button_set_highlight(active_button, flash_select_button);
         }
