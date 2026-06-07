@@ -106,6 +106,21 @@ static StateMachine run_setup_sm = {
     .num_infos = RUN_SETUP_SUBSTATE_MAX,
 };
 
+static void set_active_button(Button* button);
+static void flash_select_button_init(void);
+static void flash_select_button_update(void);
+
+static Button* active_button = NULL;
+
+static int flash_select_button_timer = 0;
+static bool flash_select_button = false;
+static StateInfo select_flash_state_info[] = {STATE_INFO_INIT_UPDATE_FN(flash_select_button_init, flash_select_button_update)};
+
+static StateMachine flash_active_button_sm = {
+    .state_infos = &select_flash_state_info[0],
+    .num_infos = 1,
+};
+
 #pragma region LAYOUT
 /*******************************************************************************
  * TILES LAYOUT
@@ -573,6 +588,7 @@ void game_run_setup_change_background(void)
 void game_run_setup_on_init(void)
 {
     state_machine_register(&run_setup_sm);
+    state_machine_register(&flash_active_button_sm);
     game_run_setup_change_background();
 
     // Rank doesn't matter, won't see it
@@ -612,6 +628,7 @@ void game_run_setup_on_update(void)
 void game_run_setup_on_exit(void)
 {
     state_machine_remove(&run_setup_sm);
+    state_machine_remove(&flash_active_button_sm);
 
     card_destroy(&run_setup_deck->card);
     card_object_destroy(&run_setup_deck);
@@ -659,7 +676,7 @@ static void choose_deck_substate_init(void)
     tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
 
     // Set button highlights
-    button_set_highlight(&change_deck_button, true);
+    set_active_button(&change_deck_button);
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_USE_SEED], false);
     toggle_seed_enabled(use_seed); // This just re-applies the current value
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_PLAY], false);
@@ -743,6 +760,7 @@ static bool choose_deck_row_on_selection_changed(
 {
     button_set_highlight(change_deck_get_button_from_sel(prev_selection), false);
     button_set_highlight(change_deck_get_button_from_sel(new_selection), true);
+    set_active_button(change_deck_get_button_from_sel(new_selection));
 
     // TODO: detect left/right press on Change Deck row to allow swapping
     // Decks need to be implemented for this
@@ -832,7 +850,7 @@ static void seed_keyboard_substate_init(void)
         button_set_highlight(&keyboard_buttons[key], false);
     }
     button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_PLAY], false);
-    button_set_highlight(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], true);
+    set_active_button(&choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK]);
     button_set_highlight(&back_button, false);
 
     // Print seed text
@@ -1060,7 +1078,7 @@ static bool choose_seed_row_on_selection_changed(
             proceed_selection = false;
         }
 
-        button_set_highlight(choose_seed_get_button_from_sel(&shifted_selection), true);
+        set_active_button(choose_seed_get_button_from_sel(&shifted_selection));
     }
 
     return proceed_selection;
@@ -1075,6 +1093,7 @@ static void deck_on_pressed(void)
     choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;
     button_set_highlight(&change_deck_button, false);
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], true);
+    set_active_button(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED]);
 }
 
 // RESUME GAME
@@ -1245,6 +1264,36 @@ static void back_row_on_key_transit(SelectionGrid* selection_grid, Selection* se
 {
     if (key_hit(SELECT_CARD))
         button_press(&back_button);
+}
+
+static void set_active_button(Button* button)
+{
+    active_button = button;
+    state_machine_change_state(&flash_active_button_sm, 0);
+}
+
+static void flash_select_button_init(void)
+{
+    flash_select_button = true;
+    flash_select_button_timer = 0;
+    button_set_highlight(active_button, flash_select_button);
+}
+
+static void flash_select_button_update(void)
+{
+    const int flash_frames = 15; // 2x full on/off cycles a second
+
+    if(flash_select_button_timer++ >= flash_frames)
+    {
+        flash_select_button_timer = 0;
+        
+        flash_select_button = !flash_select_button;
+
+        if(active_button)
+        {
+            button_set_highlight(active_button, flash_select_button);
+        }
+    }
 }
 
 #pragma endregion
