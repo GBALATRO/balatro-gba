@@ -9,7 +9,6 @@
 #include "card.h"
 #include "game.h"
 #include "graphic_utils.h"
-#include "sprite.h"
 
 #include <maxmod.h>
 
@@ -112,7 +111,7 @@ typedef struct
 
 typedef struct JokerObject
 {
-    SpriteObject sprite_object;
+    Item item;
     Joker* joker;
 } JokerObject;
 
@@ -199,13 +198,13 @@ void joker_object_destroy(JokerObject** joker_object);
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 
 // TODO: Document
-int joker_object_get_buy_price(SpriteObject* joker_object);
+int joker_object_get_buy_price(Item* joker_object);
 
 // TODO: Move to an owned_jokers.c/.h file
 /**
  * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
  */
-void joker_object_add_to_owned(SpriteObject* joker_object);
+void joker_object_add_to_owned(Item* joker_object);
 
 // This scores the joker and returns true if it was scored successfully
 // card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or

@@ -466,13 +466,13 @@ static int shop_top_row_get_size(void)
 static inline void game_shop_buy_item(int shop_item_idx)
 {
     List* shop_items_list = &s_shop_items_list;
-    SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(shop_items_list, shop_item_idx);
+    Item* item = (Item*)list_get_at_idx(shop_items_list, shop_item_idx);
 
-    g_game_vars.money -= sprite_object_get_buy_price(sprite_object);
+    g_game_vars.money -= item_get_buy_price(item);
     display_money();
-    sprite_object_erase_text_under(sprite_object);
-    sprite_object_set_focus(sprite_object, false);
-    sprite_object_add_to_inventory(sprite_object);
+    sprite_object_erase_text_under((SpriteObject*)item);
+    sprite_object_set_focus((SpriteObject*)item, false);
+    item_add_to_inventory(item);
     list_remove_at_idx(shop_items_list, shop_item_idx); // Remove the joker from the shop
 }
 

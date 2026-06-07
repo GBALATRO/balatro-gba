@@ -1,11 +1,11 @@
 #include "sprite.h"
+#include "item.h"
 
 #include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "mgba_logger.h"
-#include "item_funcs.h"
 #include "pool.h"
 #include "random.h"
 #include "soundbank.h"
@@ -516,28 +516,9 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
     sprite_object_print_text_under(sprite_object, price_str_buff);
 }
 
-int sprite_object_get_buy_price(SpriteObject* sprite_object)
-{
-    if (sprite_object == NULL)
-    {
-        MGBA_ERROR(__func__ " called with NULL argument");
-        return UNDEFINED;
-    }
-
-    ItemFuncs* item_funcs = get_item_type_funcs(sprite_object->type);
-    
-    if (item_funcs == NULL || item_funcs->get_buy_price == NULL)
-    {
-        MGBA_ERROR(__func__ ": object function not implemented");
-        return UNDEFINED;
-    }
-
-    return item_funcs->get_buy_price(sprite_object);
-}
-
 void sprite_object_print_buy_price_under(SpriteObject* sprite_object)
 {
-    sprite_object_print_price_under(sprite_object, sprite_object_get_buy_price(sprite_object));
+    sprite_object_print_price_under(sprite_object, item_get_buy_price((Item*)sprite_object));
 }
 
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
@@ -550,21 +531,3 @@ void sprite_object_erase_text_under(SpriteObject* sprite_object)
     tte_erase_rect_wrapper(text_rect);
 }
 
-void sprite_object_add_to_inventory(SpriteObject* sprite_object)
-{
-    if (sprite_object == NULL)
-    {
-        MGBA_ERROR(__func__ " called with NULL argument");
-        return;
-    }
-
-    ItemFuncs* item_funcs = get_item_type_funcs(sprite_object->type);
-
-    if (item_funcs == NULL || item_funcs->add_to_inventory == NULL)
-    {
-        MGBA_ERROR(__func__ ": object function not implemented");
-        return;
-    }
-
-    item_funcs->add_to_inventory(sprite_object);
-}

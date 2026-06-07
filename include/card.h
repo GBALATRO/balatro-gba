@@ -2,7 +2,7 @@
 #define CARD_H
 
 #include "deck_types.h"
-#include "sprite.h"
+#include "item.h"
 
 #include <maxmod.h>
 #include <tonc.h>
@@ -54,7 +54,7 @@ typedef struct Card
 
 typedef struct CardObject
 {
-    SpriteObject sprite_object;
+    Item item;
     Card* card;
     bool selected;
 } CardObject;

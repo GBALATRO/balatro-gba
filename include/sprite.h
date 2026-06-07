@@ -8,7 +8,6 @@
 
 #include <maxmod.h>
 #include <tonc.h>
-#include "item_defs.h"
 
 /**
  * @name Sprite system constants
@@ -58,8 +57,6 @@ typedef struct SpriteObject
      * @brief Sprite configuration info
      */
     Sprite* sprite;
-
-    enum ItemType type;
 
     /**
      * @brief Target position
@@ -111,6 +108,7 @@ typedef struct SpriteObject
      */
     bool focused;
 } SpriteObject;
+
 
 /**
  * @brief Allocate and retrieve a pointer to a valid Sprite
@@ -225,7 +223,6 @@ void sprite_object_destroy(SpriteObject* sprite_object);
  *                      Cannot be **NULL**.
  */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
-
 
 FIXED sprite_object_get_x(const SpriteObject* sprite_object);
 void sprite_object_set_x(SpriteObject* sprite_object, FIXED x);
@@ -365,14 +362,7 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
  */
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price);
 
-// TODO: Document
-int sprite_object_get_buy_price(SpriteObject* sprite_object);
-
-// TODO: Document
 void sprite_object_print_buy_price_under(SpriteObject* sprite_object);
-
-// TODO: Document
-void sprite_object_add_to_inventory(SpriteObject* sprite_object);
 
 /**
  * @brief Erase the text within the Rect directly beneath a SpriteObject.

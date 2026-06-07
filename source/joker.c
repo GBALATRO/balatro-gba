@@ -220,8 +220,8 @@ JokerObject* joker_object_new(Joker* joker)
     }
 
     joker_object->joker = joker;
-    joker_object->sprite_object = sprite_object_new();    
-    joker_object->sprite_object.type = ITEM_TYPE_JOKER;
+    joker_object->item.sprite_object = sprite_object_new();    
+    joker_object->item.type = ITEM_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
@@ -265,7 +265,7 @@ void joker_object_destroy(JokerObject** joker_object)
             UNDEFINED;
     }
 
-    sprite_object_destroy(&(*joker_object)->sprite_object); // Destroy the sprite
+    sprite_object_destroy((SpriteObject*)(*joker_object)); // Destroy the sprite
     joker_destroy(&(*joker_object)->joker);                 // Destroy the joker
     POOL_FREE(JokerObject, *joker_object);
     *joker_object = NULL;
@@ -276,7 +276,7 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
     sprite_object_shake((SpriteObject*)joker_object, sound_id);
 }
 
-int joker_object_get_buy_price(SpriteObject* joker_object)
+int joker_object_get_buy_price(Item* joker_object)
 {
     // TODO: Macro...?
     if (joker_object == NULL)
@@ -293,7 +293,7 @@ int joker_object_get_buy_price(SpriteObject* joker_object)
     return ((JokerObject*)joker_object)->joker->value;
 }
 
-void joker_object_add_to_owned(SpriteObject* joker_object)
+void joker_object_add_to_owned(Item* joker_object)
 {
     if (joker_object == NULL)
     {
@@ -306,7 +306,7 @@ void joker_object_add_to_owned(SpriteObject* joker_object)
         return;
     }
 
-    joker_object->ty = int2fx(HELD_JOKERS_POS.y);
+    sprite_object_set_ty((SpriteObject*)joker_object, int2fx(HELD_JOKERS_POS.y));
     add_joker((JokerObject*)joker_object);
 }
 
@@ -354,7 +354,7 @@ bool joker_object_score(
     {
         // display the text on top of the card instead of below the Joker for Held Cards effects
         // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(card_object->sprite_object.x);
+        cursorPosX += fx2int(sprite_object_get_x((SpriteObject*)card_object));
         cursorPosY = HELD_CARD_SCORE_TEXT_Y;
     }
     else
