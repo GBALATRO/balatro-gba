@@ -321,12 +321,6 @@ static void game_shop_create_items(void)
 
         sprite_object_print_price_under(joker_object->sprite_object, joker_object->joker->value);
 
-        sprite_position(
-            joker_object_get_sprite(joker_object),
-            fx2int(joker_object->sprite_object->x),
-            fx2int(joker_object->sprite_object->y)
-        );
-
         list_push_back(shop_jokers_list, joker_object);
     }
 }
