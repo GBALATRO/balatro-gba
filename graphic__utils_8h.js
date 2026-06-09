@@ -21,6 +21,7 @@ var graphic__utils_8h =
     [ "reset_top_left_panel_bottom_row", "graphic__utils_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9", null ],
     [ "toggle_windows", "graphic__utils_8h.html#a3da2c63a9da5eae09966791ec4d783f7", null ],
     [ "tte_erase_rect_wrapper", "graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7", null ],
+    [ "tte_printf_justified_in_rect", "graphic__utils_8h.html#a882aaf87f63de6fdbcc83014381d0af3", null ],
     [ "update_text_rect_to_center_str", "graphic__utils_8h.html#a4772becb6d0b30e799686efbe0076bcf", null ],
     [ "update_text_rect_to_right_align_str", "graphic__utils_8h.html#a42446a057326ed83d4793215df774588", null ]
 ];

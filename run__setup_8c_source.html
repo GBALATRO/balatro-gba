@@ -886,428 +886,431 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="foldopen" id="foldopen00769" data-start="{" data-end="}">
 <div class="line"><a id="l00769" name="l00769"></a><span class="lineno"><a class="line" href="run__setup_8c.html#abf5ce3f9c6d21d636eb2109e3a06a7b4">  769</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#abf5ce3f9c6d21d636eb2109e3a06a7b4">seed_play_row_on_key_transit</a>(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
 <div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>{</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;choose_deck_bottom_buttons[selection-&gt;x]);</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>}</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;choose_deck_bottom_buttons[selection-&gt;x]);</div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>}</div>
 </div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span> </div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span><span class="comment">// CHOOSE SEED</span></div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span> </div>
-<div class="foldopen" id="foldopen00779" data-start="{" data-end="}">
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">  779</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>{</div>
-<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>    tte_printf(</div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%-*s&quot;</span>,</div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>        RUN_SETUP_SEED_FIELD_TEXT_POS.x,</div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>        RUN_SETUP_SEED_FIELD_TEXT_POS.y,</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>        TTE_BLACK_PB,</div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>        BASE36_MAX_DIGITS + 1,</div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>        seed_str</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>    );</div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>}</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span> </div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span><span class="comment">// CHOOSE SEED</span></div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span> </div>
+<div class="foldopen" id="foldopen00780" data-start="{" data-end="}">
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">  780</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span>{</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>    tte_printf(</div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%-*s&quot;</span>,</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>        RUN_SETUP_SEED_FIELD_TEXT_POS.x,</div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>        RUN_SETUP_SEED_FIELD_TEXT_POS.y,</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>        TTE_BLACK_PB,</div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>        BASE36_MAX_DIGITS + 1,</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>        seed_str</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>    );</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>}</div>
 </div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span> </div>
-<div class="foldopen" id="foldopen00794" data-start="{" data-end="}">
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">  794</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">seed_keyboard_substate_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>{</div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>    choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(RUN_SETUP_DECK_NAME_DESC_RECT);</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span> </div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>    <span class="comment">// Hide Deck card sprite</span></div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    obj_hide(run_setup_deck-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>);</div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span> </div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>    <span class="comment">// Clean deck swap screen with frame BG color</span></div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>    <a class="code hl_function" href="graphic__utils_8h.html#aee9baf7cec9e985a69e948e76f074f4a">main_bg_se_copy_expand_tile</a>(</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>        RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST,</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS</div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>    );</div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span> </div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>    <span class="comment">// Copy keyboard tiles</span></div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>        RUN_SETUP_CHOOSE_SEED_KEYBOARD_SRC,</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>        RUN_SETUP_CHOOSE_SEED_KEYBOARD_DEST_POS</div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>    );</div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(RUN_SETUP_CHOOSE_SEED_FIELD_SRC, RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS);</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span> </div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>    <span class="comment">// Replace seed toggle and button by &quot;Deck&quot; button that allows going back to deck substate</span></div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>    <a class="code hl_function" href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a>(</div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>        RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST,</div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>        RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS</div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>    );</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>    tte_printf(</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>        RUN_SETUP_SEED_DECK_TEXT_POS.x,</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>        RUN_SETUP_SEED_DECK_TEXT_POS.y,</div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>        TTE_WHITE_PB,</div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>        <span class="stringliteral">&quot;Deck &quot;</span> <span class="comment">// extra space after to clean potential &quot;Seed&quot; text</span></div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>    );</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span> </div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>    <span class="comment">// Set buttons highlight</span></div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> RunSetupKeyboardButtons key = RUN_SETUP_KEYBOARD_BEGIN; key &lt; RUN_SETUP_KEYBOARD_MAX;</div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>         key++)</div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>    {</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;keyboard_buttons[key], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>    }</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_PLAY], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;back_button, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span> </div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>    <span class="comment">// Print seed text</span></div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>}</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span> </div>
+<div class="foldopen" id="foldopen00795" data-start="{" data-end="}">
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">  795</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">seed_keyboard_substate_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>{</div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>    choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(RUN_SETUP_DECK_NAME_DESC_RECT);</div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span> </div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="comment">// Hide Deck card sprite</span></div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    obj_hide(run_setup_deck-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>);</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span> </div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>    <span class="comment">// Clean deck swap screen with frame BG color</span></div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>    <a class="code hl_function" href="graphic__utils_8h.html#aee9baf7cec9e985a69e948e76f074f4a">main_bg_se_copy_expand_tile</a>(</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>        RUN_SETUP_CHOOSE_SEED_FRAME_CLEAN_DEST,</div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>    );</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span> </div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>    <span class="comment">// Copy keyboard tiles</span></div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>        RUN_SETUP_CHOOSE_SEED_KEYBOARD_SRC,</div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>        RUN_SETUP_CHOOSE_SEED_KEYBOARD_DEST_POS</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>    );</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(RUN_SETUP_CHOOSE_SEED_FIELD_SRC, RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS);</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span> </div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>    <span class="comment">// Replace seed toggle and button by &quot;Deck&quot; button that allows going back to deck substate</span></div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>    <a class="code hl_function" href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a>(</div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>        RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST,</div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>        RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>    );</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>    tte_printf(</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>        RUN_SETUP_SEED_DECK_TEXT_POS.x,</div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>        RUN_SETUP_SEED_DECK_TEXT_POS.y,</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>        TTE_WHITE_PB,</div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>        <span class="stringliteral">&quot;Deck &quot;</span> <span class="comment">// extra space after to clean potential &quot;Seed&quot; text</span></div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>    );</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span> </div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>    <span class="comment">// Set buttons highlight</span></div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> RunSetupKeyboardButtons key = RUN_SETUP_KEYBOARD_BEGIN; key &lt; RUN_SETUP_KEYBOARD_MAX;</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>         key++)</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>    {</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;keyboard_buttons[key], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>    }</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_PLAY], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_seed_bottom_buttons[RUN_SETUP_SEED_BB_DECK], <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;back_button, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span> </div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>    <span class="comment">// Print seed text</span></div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>}</div>
 </div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span> </div>
-<div class="foldopen" id="foldopen00846" data-start="{" data-end="}">
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">  846</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">seed_keyboard_substate_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>{</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>    <a class="code hl_function" href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a>(&amp;choose_seed_selection_grid);</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>}</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span> </div>
+<div class="foldopen" id="foldopen00847" data-start="{" data-end="}">
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">  847</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">seed_keyboard_substate_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>{</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>    <a class="code hl_function" href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a>(&amp;choose_seed_selection_grid);</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>}</div>
 </div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span> </div>
-<div class="foldopen" id="foldopen00856" data-start="{" data-end="}">
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno"><a class="line" href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">  856</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">choose_seed_get_keyboard_row_size</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>{</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>    <span class="keywordflow">return</span> KEYBOARD_WIDTH;</div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>}</div>
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span> </div>
+<div class="foldopen" id="foldopen00857" data-start="{" data-end="}">
+<div class="line"><a id="l00857" name="l00857"></a><span class="lineno"><a class="line" href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">  857</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">choose_seed_get_keyboard_row_size</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>{</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>    <span class="keywordflow">return</span> KEYBOARD_WIDTH;</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>}</div>
 </div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span> </div>
-<div class="foldopen" id="foldopen00866" data-start="{" data-end="}">
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">  866</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">choose_seed_get_keyboard_short_row_size</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>{</div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>    <span class="keywordflow">return</span> KEYBOARD_WIDTH - 2;</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>}</div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span> </div>
+<div class="foldopen" id="foldopen00867" data-start="{" data-end="}">
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">  867</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">choose_seed_get_keyboard_short_row_size</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>{</div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>    <span class="keywordflow">return</span> KEYBOARD_WIDTH - 2;</div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>}</div>
 </div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span> </div>
-<div class="foldopen" id="foldopen00876" data-start="{" data-end="}">
-<div class="line"><a id="l00876" name="l00876"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">  876</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">choose_seed_get_bottom_row_size</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>{</div>
-<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>    <span class="keywordflow">return</span> 2;</div>
-<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>}</div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span> </div>
+<div class="foldopen" id="foldopen00877" data-start="{" data-end="}">
+<div class="line"><a id="l00877" name="l00877"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">  877</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">choose_seed_get_bottom_row_size</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>{</div>
+<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>    <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>}</div>
 </div>
-<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span> </div>
-<div class="foldopen" id="foldopen00884" data-start="{" data-end="}">
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">  884</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>{</div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>    <span class="comment">// Need to roll a new seed and get a &quot;real&quot; random number. Otherwise the seed is still stuck at</span></div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>    <span class="comment">// 0 and we&#39;ll have the same sequence of generated seeds each time.</span></div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    <span class="comment">// Also, don&#39;t use the shuffled seed as is, or we&#39;ll just end up with sequential seeds when</span></div>
-<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>    <span class="comment">// rolling multiple times.</span></div>
-<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>    <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
-<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>    u32 new_seed = <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>();</div>
-<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(new_seed);</div>
-<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>    <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(new_seed, seed_str);</div>
-<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
-<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>    seed_cursor_pos = BASE36_MAX_DIGITS;</div>
-<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>}</div>
+<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span> </div>
+<div class="foldopen" id="foldopen00885" data-start="{" data-end="}">
+<div class="line"><a id="l00885" name="l00885"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">  885</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>{</div>
+<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>    <span class="comment">// Need to roll a new seed and get a &quot;real&quot; random number. Otherwise the seed is still stuck at</span></div>
+<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    <span class="comment">// 0 and we&#39;ll have the same sequence of generated seeds each time.</span></div>
+<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>    <span class="comment">// Also, don&#39;t use the shuffled seed as is, or we&#39;ll just end up with sequential seeds when</span></div>
+<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>    <span class="comment">// rolling multiple times.</span></div>
+<div class="line"><a id="l00891" name="l00891"></a><span class="lineno">  891</span>    <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
+<div class="line"><a id="l00892" name="l00892"></a><span class="lineno">  892</span>    u32 new_seed = <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>();</div>
+<div class="line"><a id="l00893" name="l00893"></a><span class="lineno">  893</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(new_seed);</div>
+<div class="line"><a id="l00894" name="l00894"></a><span class="lineno">  894</span>    <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(new_seed, seed_str);</div>
+<div class="line"><a id="l00895" name="l00895"></a><span class="lineno">  895</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
+<div class="line"><a id="l00896" name="l00896"></a><span class="lineno">  896</span>    seed_cursor_pos = BASE36_MAX_DIGITS;</div>
+<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span>}</div>
 </div>
-<div class="line"><a id="l00897" name="l00897"></a><span class="lineno">  897</span> </div>
-<div class="foldopen" id="foldopen00901" data-start="{" data-end="}">
-<div class="line"><a id="l00901" name="l00901"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">  901</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00902" name="l00902"></a><span class="lineno">  902</span>{</div>
-<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>    <span class="keywordflow">if</span> (seed_cursor_pos == 0)</div>
-<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span> </div>
-<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span>    seed_str[--seed_cursor_pos] = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
-<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>}</div>
+<div class="line"><a id="l00898" name="l00898"></a><span class="lineno">  898</span> </div>
+<div class="foldopen" id="foldopen00902" data-start="{" data-end="}">
+<div class="line"><a id="l00902" name="l00902"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">  902</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00903" name="l00903"></a><span class="lineno">  903</span>{</div>
+<div class="line"><a id="l00904" name="l00904"></a><span class="lineno">  904</span>    <span class="keywordflow">if</span> (seed_cursor_pos == 0)</div>
+<div class="line"><a id="l00905" name="l00905"></a><span class="lineno">  905</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00906" name="l00906"></a><span class="lineno">  906</span> </div>
+<div class="line"><a id="l00907" name="l00907"></a><span class="lineno">  907</span>    seed_str[--seed_cursor_pos] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a id="l00908" name="l00908"></a><span class="lineno">  908</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
+<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span>}</div>
 </div>
-<div class="line"><a id="l00909" name="l00909"></a><span class="lineno">  909</span> </div>
-<div class="foldopen" id="foldopen00915" data-start="{" data-end="}">
-<div class="line"><a id="l00915" name="l00915"></a><span class="lineno"><a class="line" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">  915</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a>(<span class="keyword">enum</span> RunSetupKeyboardButtons key)</div>
-<div class="line"><a id="l00916" name="l00916"></a><span class="lineno">  916</span>{</div>
-<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt;= BASE36_MAX_DIGITS)</div>
-<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span> </div>
-<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>    seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];</div>
-<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
-<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>}</div>
+<div class="line"><a id="l00910" name="l00910"></a><span class="lineno">  910</span> </div>
+<div class="foldopen" id="foldopen00916" data-start="{" data-end="}">
+<div class="line"><a id="l00916" name="l00916"></a><span class="lineno"><a class="line" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">  916</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a>(<span class="keyword">enum</span> RunSetupKeyboardButtons key)</div>
+<div class="line"><a id="l00917" name="l00917"></a><span class="lineno">  917</span>{</div>
+<div class="line"><a id="l00918" name="l00918"></a><span class="lineno">  918</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt;= BASE36_MAX_DIGITS)</div>
+<div class="line"><a id="l00919" name="l00919"></a><span class="lineno">  919</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span> </div>
+<div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>    seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];</div>
+<div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>}</div>
 </div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span> </div>
-<div class="foldopen" id="foldopen00931" data-start="{" data-end="}">
-<div class="line"><a id="l00931" name="l00931"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">  931</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">enum</span> RunSetupKeyboardButtons <a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(<span class="keyword">const</span> Selection* sel)</div>
-<div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>{</div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>    <span class="keywordflow">return</span> sel-&gt;x + KEYBOARD_WIDTH * sel-&gt;y;</div>
-<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>}</div>
+<div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span> </div>
+<div class="foldopen" id="foldopen00932" data-start="{" data-end="}">
+<div class="line"><a id="l00932" name="l00932"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">  932</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">enum</span> RunSetupKeyboardButtons <a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(<span class="keyword">const</span> Selection* sel)</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>{</div>
+<div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>    <span class="keywordflow">return</span> sel-&gt;x + KEYBOARD_WIDTH * sel-&gt;y;</div>
+<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span>}</div>
 </div>
-<div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span> </div>
-<div class="foldopen" id="foldopen00939" data-start="{" data-end="}">
-<div class="line"><a id="l00939" name="l00939"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">  939</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">keyboard_button_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00940" name="l00940"></a><span class="lineno">  940</span>{</div>
-<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>    <span class="comment">// Type something only if the button pressed in on the keyboard</span></div>
-<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>    <span class="keywordflow">if</span> (choose_seed_selection_grid.selection.y &gt; RUN_SETUP_SEED_ROW_KEY3)</div>
-<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span> </div>
-<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span>    <span class="comment">// Type only if the seed string is not full.</span></div>
-<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>    <span class="comment">// The cursor position is unsigned so always positive, but we still need to</span></div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    <span class="comment">// ensure it doersn&#39;t go out of bounds by more than 1 so that we can always</span></div>
-<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>    <span class="comment">// substract 1 from it when erasing a character from the seed string.</span></div>
-<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt; BASE36_MAX_DIGITS)</div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>        seed_cursor_pos = BASE36_MAX_DIGITS;</div>
-<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span> </div>
-<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>    <span class="keywordflow">if</span> (key_hit(DESELECT_CARDS))</div>
-<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>        <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>();</div>
-<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span> </div>
-<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
-<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>    {</div>
-<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>        <span class="comment">// Get keyboard button index from selection</span></div>
-<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>        <span class="keyword">enum</span> RunSetupKeyboardButtons key =</div>
-<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>            <a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(&amp;choose_seed_selection_grid.selection);</div>
-<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span> </div>
-<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span>        <span class="keywordflow">switch</span> (key)</div>
-<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>        {</div>
-<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>            <span class="keywordflow">case</span> RUN_SETUP_KEYBOARD_RAND:</div>
-<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>                <a class="code hl_function" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a>();</div>
-<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span> </div>
-<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span>            <span class="comment">// Erase last character</span></div>
-<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>            <span class="keywordflow">case</span> RUN_SETUP_KEYBOARD_DEL:</div>
-<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>                <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>();</div>
-<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span> </div>
-<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span>            <span class="keywordflow">default</span>:</div>
-<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>                <a class="code hl_function" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a>(key);</div>
-<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>        }</div>
-<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>    }</div>
-<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>}</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span> </div>
+<div class="foldopen" id="foldopen00940" data-start="{" data-end="}">
+<div class="line"><a id="l00940" name="l00940"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">  940</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">keyboard_button_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00941" name="l00941"></a><span class="lineno">  941</span>{</div>
+<div class="line"><a id="l00942" name="l00942"></a><span class="lineno">  942</span>    <span class="comment">// Type something only if the button pressed in on the keyboard</span></div>
+<div class="line"><a id="l00943" name="l00943"></a><span class="lineno">  943</span>    <span class="keywordflow">if</span> (choose_seed_selection_grid.selection.y &gt; RUN_SETUP_SEED_ROW_KEY3)</div>
+<div class="line"><a id="l00944" name="l00944"></a><span class="lineno">  944</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00945" name="l00945"></a><span class="lineno">  945</span> </div>
+<div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>    <span class="comment">// Type only if the seed string is not full.</span></div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    <span class="comment">// The cursor position is unsigned so always positive, but we still need to</span></div>
+<div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>    <span class="comment">// ensure it doersn&#39;t go out of bounds by more than 1 so that we can always</span></div>
+<div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span>    <span class="comment">// substract 1 from it when erasing a character from the seed string.</span></div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt; BASE36_MAX_DIGITS)</div>
+<div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>        seed_cursor_pos = BASE36_MAX_DIGITS;</div>
+<div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span> </div>
+<div class="line"><a id="l00953" name="l00953"></a><span class="lineno">  953</span>    <span class="keywordflow">if</span> (key_hit(DESELECT_CARDS))</div>
+<div class="line"><a id="l00954" name="l00954"></a><span class="lineno">  954</span>        <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>();</div>
+<div class="line"><a id="l00955" name="l00955"></a><span class="lineno">  955</span> </div>
+<div class="line"><a id="l00956" name="l00956"></a><span class="lineno">  956</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
+<div class="line"><a id="l00957" name="l00957"></a><span class="lineno">  957</span>    {</div>
+<div class="line"><a id="l00958" name="l00958"></a><span class="lineno">  958</span>        <span class="comment">// Get keyboard button index from selection</span></div>
+<div class="line"><a id="l00959" name="l00959"></a><span class="lineno">  959</span>        <span class="keyword">enum</span> RunSetupKeyboardButtons key =</div>
+<div class="line"><a id="l00960" name="l00960"></a><span class="lineno">  960</span>            <a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(&amp;choose_seed_selection_grid.selection);</div>
+<div class="line"><a id="l00961" name="l00961"></a><span class="lineno">  961</span> </div>
+<div class="line"><a id="l00962" name="l00962"></a><span class="lineno">  962</span>        <span class="keywordflow">switch</span> (key)</div>
+<div class="line"><a id="l00963" name="l00963"></a><span class="lineno">  963</span>        {</div>
+<div class="line"><a id="l00964" name="l00964"></a><span class="lineno">  964</span>            <span class="keywordflow">case</span> RUN_SETUP_KEYBOARD_RAND:</div>
+<div class="line"><a id="l00965" name="l00965"></a><span class="lineno">  965</span>                <a class="code hl_function" href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a>();</div>
+<div class="line"><a id="l00966" name="l00966"></a><span class="lineno">  966</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00967" name="l00967"></a><span class="lineno">  967</span> </div>
+<div class="line"><a id="l00968" name="l00968"></a><span class="lineno">  968</span>            <span class="comment">// Erase last character</span></div>
+<div class="line"><a id="l00969" name="l00969"></a><span class="lineno">  969</span>            <span class="keywordflow">case</span> RUN_SETUP_KEYBOARD_DEL:</div>
+<div class="line"><a id="l00970" name="l00970"></a><span class="lineno">  970</span>                <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>();</div>
+<div class="line"><a id="l00971" name="l00971"></a><span class="lineno">  971</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00972" name="l00972"></a><span class="lineno">  972</span> </div>
+<div class="line"><a id="l00973" name="l00973"></a><span class="lineno">  973</span>            <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00974" name="l00974"></a><span class="lineno">  974</span>                <a class="code hl_function" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a>(key);</div>
+<div class="line"><a id="l00975" name="l00975"></a><span class="lineno">  975</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>        }</div>
+<div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>    }</div>
+<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>}</div>
 </div>
-<div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span> </div>
-<div class="foldopen" id="foldopen00985" data-start="{" data-end="}">
-<div class="line"><a id="l00985" name="l00985"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">  985</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_struct" href="structButton.html">Button</a>* <a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(<span class="keyword">const</span> Selection* sel)</div>
-<div class="line"><a id="l00986" name="l00986"></a><span class="lineno">  986</span>{</div>
-<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>    <span class="keywordflow">switch</span> (sel-&gt;y)</div>
-<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>    {</div>
-<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY0:</div>
-<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY1:</div>
-<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY2:</div>
-<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY3:</div>
-<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>            <span class="keywordflow">return</span> &amp;keyboard_buttons[<a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(sel)];</div>
-<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span> </div>
-<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_DECK_PLAY:</div>
-<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>            <span class="keywordflow">return</span> &amp;choose_seed_bottom_buttons[sel-&gt;x];</div>
-<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span> </div>
-<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_BACK:</div>
-<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>            <span class="keywordflow">return</span> &amp;back_button;</div>
-<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>    }</div>
-<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>}</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span> </div>
+<div class="foldopen" id="foldopen00986" data-start="{" data-end="}">
+<div class="line"><a id="l00986" name="l00986"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">  986</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_struct" href="structButton.html">Button</a>* <a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(<span class="keyword">const</span> Selection* sel)</div>
+<div class="line"><a id="l00987" name="l00987"></a><span class="lineno">  987</span>{</div>
+<div class="line"><a id="l00988" name="l00988"></a><span class="lineno">  988</span>    <span class="keywordflow">switch</span> (sel-&gt;y)</div>
+<div class="line"><a id="l00989" name="l00989"></a><span class="lineno">  989</span>    {</div>
+<div class="line"><a id="l00990" name="l00990"></a><span class="lineno">  990</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY0:</div>
+<div class="line"><a id="l00991" name="l00991"></a><span class="lineno">  991</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY1:</div>
+<div class="line"><a id="l00992" name="l00992"></a><span class="lineno">  992</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY2:</div>
+<div class="line"><a id="l00993" name="l00993"></a><span class="lineno">  993</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_KEY3:</div>
+<div class="line"><a id="l00994" name="l00994"></a><span class="lineno">  994</span>            <span class="keywordflow">return</span> &amp;keyboard_buttons[<a class="code hl_function" href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a>(sel)];</div>
+<div class="line"><a id="l00995" name="l00995"></a><span class="lineno">  995</span> </div>
+<div class="line"><a id="l00996" name="l00996"></a><span class="lineno">  996</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_DECK_PLAY:</div>
+<div class="line"><a id="l00997" name="l00997"></a><span class="lineno">  997</span>            <span class="keywordflow">return</span> &amp;choose_seed_bottom_buttons[sel-&gt;x];</div>
+<div class="line"><a id="l00998" name="l00998"></a><span class="lineno">  998</span> </div>
+<div class="line"><a id="l00999" name="l00999"></a><span class="lineno">  999</span>        <span class="keywordflow">case</span> RUN_SETUP_SEED_ROW_BACK:</div>
+<div class="line"><a id="l01000" name="l01000"></a><span class="lineno"> 1000</span>            <span class="keywordflow">return</span> &amp;back_button;</div>
+<div class="line"><a id="l01001" name="l01001"></a><span class="lineno"> 1001</span>    }</div>
+<div class="line"><a id="l01002" name="l01002"></a><span class="lineno"> 1002</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span>}</div>
 </div>
-<div class="line"><a id="l01003" name="l01003"></a><span class="lineno"> 1003</span> </div>
-<div class="foldopen" id="foldopen01010" data-start="{" data-end="}">
-<div class="line"><a id="l01010" name="l01010"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49"> 1010</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49">choose_seed_row_on_key_transit</a>(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
-<div class="line"><a id="l01011" name="l01011"></a><span class="lineno"> 1011</span>{</div>
-<div class="line"><a id="l01012" name="l01012"></a><span class="lineno"> 1012</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD) || key_hit(DESELECT_CARDS))</div>
-<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"> 1013</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(selection));</div>
-<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>}</div>
+<div class="line"><a id="l01004" name="l01004"></a><span class="lineno"> 1004</span> </div>
+<div class="foldopen" id="foldopen01013" data-start="{" data-end="}">
+<div class="line"><a id="l01013" name="l01013"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49"> 1013</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49">choose_seed_row_on_key_transit</a>(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l01014" name="l01014"></a><span class="lineno"> 1014</span>{</div>
+<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD) ||</div>
+<div class="line"><a id="l01016" name="l01016"></a><span class="lineno"> 1016</span>        (selection-&gt;y &lt;= RUN_SETUP_SEED_ROW_KEY3 &amp;&amp; key_hit(DESELECT_CARDS)))</div>
+<div class="line"><a id="l01017" name="l01017"></a><span class="lineno"> 1017</span>    {</div>
+<div class="line"><a id="l01018" name="l01018"></a><span class="lineno"> 1018</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(selection));</div>
+<div class="line"><a id="l01019" name="l01019"></a><span class="lineno"> 1019</span>    }</div>
+<div class="line"><a id="l01020" name="l01020"></a><span class="lineno"> 1020</span>}</div>
 </div>
-<div class="line"><a id="l01015" name="l01015"></a><span class="lineno"> 1015</span> </div>
-<div class="foldopen" id="foldopen01025" data-start="{" data-end="}">
-<div class="line"><a id="l01025" name="l01025"></a><span class="lineno"><a class="line" href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69"> 1025</a></span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69">choose_seed_row_on_selection_changed</a>(</div>
-<div class="line"><a id="l01026" name="l01026"></a><span class="lineno"> 1026</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
-<div class="line"><a id="l01027" name="l01027"></a><span class="lineno"> 1027</span>    <span class="keywordtype">int</span> row_idx,</div>
-<div class="line"><a id="l01028" name="l01028"></a><span class="lineno"> 1028</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
-<div class="line"><a id="l01029" name="l01029"></a><span class="lineno"> 1029</span>    <span class="keyword">const</span> Selection* new_selection</div>
-<div class="line"><a id="l01030" name="l01030"></a><span class="lineno"> 1030</span>)</div>
-<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"> 1031</span>{</div>
-<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>    <span class="comment">// TODO: since some rows don&#39;t have the same number of buttons but their widths line up,</span></div>
-<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>    <span class="comment">// need to find a way to shift selection.x to left or right to keep navigation consistent</span></div>
-<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>    <span class="keywordtype">bool</span> proceed_selection = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span> </div>
-<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>    <span class="keywordflow">if</span> (row_idx == prev_selection-&gt;y)</div>
-<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(prev_selection), <span class="keyword">false</span>);</div>
-<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span> </div>
-<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>    <span class="keywordflow">if</span> (row_idx == new_selection-&gt;y)</div>
-<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>    {</div>
-<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span>        Selection shifted_selection = *new_selection;</div>
-<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span> </div>
-<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>        <span class="comment">// From row 3 to 4</span></div>
-<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span>        <span class="keywordflow">if</span> (prev_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY2 &amp;&amp;</div>
-<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>            new_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY3 &amp;&amp; prev_selection-&gt;x &gt;= 5 &amp;&amp;</div>
-<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>            prev_selection-&gt;x &lt;= 8)</div>
-<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>        {</div>
-<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span>            shifted_selection.x++;</div>
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>            selection_grid-&gt;selection = shifted_selection;</div>
-<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>            proceed_selection = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>        }</div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span> </div>
-<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>        <span class="comment">// From row 4 to 3</span></div>
-<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (prev_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY3 &amp;&amp;</div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>                 new_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY2 &amp;&amp; prev_selection-&gt;x &gt;= 1 &amp;&amp;</div>
-<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>                 prev_selection-&gt;x &lt;= 3)</div>
-<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>        {</div>
-<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>            shifted_selection.x++;</div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>            selection_grid-&gt;selection = shifted_selection;</div>
-<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>            proceed_selection = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>        }</div>
-<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span> </div>
-<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(&amp;shifted_selection), <span class="keyword">true</span>);</div>
-<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>    }</div>
-<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span> </div>
-<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>    <span class="keywordflow">return</span> proceed_selection;</div>
-<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>}</div>
-</div>
+<div class="line"><a id="l01021" name="l01021"></a><span class="lineno"> 1021</span> </div>
+<div class="foldopen" id="foldopen01031" data-start="{" data-end="}">
+<div class="line"><a id="l01031" name="l01031"></a><span class="lineno"><a class="line" href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69"> 1031</a></span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69">choose_seed_row_on_selection_changed</a>(</div>
+<div class="line"><a id="l01032" name="l01032"></a><span class="lineno"> 1032</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
+<div class="line"><a id="l01033" name="l01033"></a><span class="lineno"> 1033</span>    <span class="keywordtype">int</span> row_idx,</div>
+<div class="line"><a id="l01034" name="l01034"></a><span class="lineno"> 1034</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
+<div class="line"><a id="l01035" name="l01035"></a><span class="lineno"> 1035</span>    <span class="keyword">const</span> Selection* new_selection</div>
+<div class="line"><a id="l01036" name="l01036"></a><span class="lineno"> 1036</span>)</div>
+<div class="line"><a id="l01037" name="l01037"></a><span class="lineno"> 1037</span>{</div>
+<div class="line"><a id="l01038" name="l01038"></a><span class="lineno"> 1038</span>    <span class="comment">// TODO: since some rows don&#39;t have the same number of buttons but their widths line up,</span></div>
+<div class="line"><a id="l01039" name="l01039"></a><span class="lineno"> 1039</span>    <span class="comment">// need to find a way to shift selection.x to left or right to keep navigation consistent</span></div>
+<div class="line"><a id="l01040" name="l01040"></a><span class="lineno"> 1040</span>    <span class="keywordtype">bool</span> proceed_selection = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01041" name="l01041"></a><span class="lineno"> 1041</span> </div>
+<div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>    <span class="keywordflow">if</span> (row_idx == prev_selection-&gt;y)</div>
+<div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(prev_selection), <span class="keyword">false</span>);</div>
+<div class="line"><a id="l01044" name="l01044"></a><span class="lineno"> 1044</span> </div>
+<div class="line"><a id="l01045" name="l01045"></a><span class="lineno"> 1045</span>    <span class="keywordflow">if</span> (row_idx == new_selection-&gt;y)</div>
+<div class="line"><a id="l01046" name="l01046"></a><span class="lineno"> 1046</span>    {</div>
+<div class="line"><a id="l01047" name="l01047"></a><span class="lineno"> 1047</span>        Selection shifted_selection = *new_selection;</div>
+<div class="line"><a id="l01048" name="l01048"></a><span class="lineno"> 1048</span> </div>
+<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"> 1049</span>        <span class="comment">// From row 3 to 4</span></div>
+<div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>        <span class="keywordflow">if</span> (prev_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY2 &amp;&amp;</div>
+<div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>            new_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY3 &amp;&amp; prev_selection-&gt;x &gt;= 5 &amp;&amp;</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>            prev_selection-&gt;x &lt;= 8)</div>
+<div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>        {</div>
+<div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span>            shifted_selection.x++;</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span>            selection_grid-&gt;selection = shifted_selection;</div>
+<div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>            proceed_selection = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>        }</div>
+<div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span> </div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>        <span class="comment">// From row 4 to 3</span></div>
+<div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (prev_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY3 &amp;&amp;</div>
+<div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>                 new_selection-&gt;y == RUN_SETUP_SEED_ROW_KEY2 &amp;&amp; prev_selection-&gt;x &gt;= 1 &amp;&amp;</div>
+<div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>                 prev_selection-&gt;x &lt;= 3)</div>
+<div class="line"><a id="l01063" name="l01063"></a><span class="lineno"> 1063</span>        {</div>
+<div class="line"><a id="l01064" name="l01064"></a><span class="lineno"> 1064</span>            shifted_selection.x++;</div>
+<div class="line"><a id="l01065" name="l01065"></a><span class="lineno"> 1065</span>            selection_grid-&gt;selection = shifted_selection;</div>
+<div class="line"><a id="l01066" name="l01066"></a><span class="lineno"> 1066</span>            proceed_selection = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01067" name="l01067"></a><span class="lineno"> 1067</span>        }</div>
 <div class="line"><a id="l01068" name="l01068"></a><span class="lineno"> 1068</span> </div>
-<div class="foldopen" id="foldopen01072" data-start="{" data-end="}">
-<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"><a class="line" href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc"> 1072</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc">deck_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>{</div>
-<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span>    <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);</div>
-<div class="line"><a id="l01075" name="l01075"></a><span class="lineno"> 1075</span>    choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;</div>
-<div class="line"><a id="l01076" name="l01076"></a><span class="lineno"> 1076</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;change_deck_button, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l01077" name="l01077"></a><span class="lineno"> 1077</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], <span class="keyword">true</span>);</div>
-<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"> 1078</span>}</div>
+<div class="line"><a id="l01069" name="l01069"></a><span class="lineno"> 1069</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(<a class="code hl_function" href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a>(&amp;shifted_selection), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l01070" name="l01070"></a><span class="lineno"> 1070</span>    }</div>
+<div class="line"><a id="l01071" name="l01071"></a><span class="lineno"> 1071</span> </div>
+<div class="line"><a id="l01072" name="l01072"></a><span class="lineno"> 1072</span>    <span class="keywordflow">return</span> proceed_selection;</div>
+<div class="line"><a id="l01073" name="l01073"></a><span class="lineno"> 1073</span>}</div>
 </div>
-<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span> </div>
-<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span><span class="comment">// RESUME GAME</span></div>
-<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span> </div>
-<div class="foldopen" id="foldopen01085" data-start="{" data-end="}">
-<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"><a class="line" href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366"> 1085</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366">resume_substate_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span>{</div>
-<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span>    <a class="code hl_function" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a>(RUN_SETUP_TAB_RESUME);</div>
-<div class="line"><a id="l01088" name="l01088"></a><span class="lineno"> 1088</span> </div>
-<div class="line"><a id="l01089" name="l01089"></a><span class="lineno"> 1089</span>    <span class="comment">// Show Deck card sprite</span></div>
-<div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span>    obj_unhide(run_setup_deck-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>, 0);</div>
-<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>}</div>
+<div class="line"><a id="l01074" name="l01074"></a><span class="lineno"> 1074</span> </div>
+<div class="foldopen" id="foldopen01078" data-start="{" data-end="}">
+<div class="line"><a id="l01078" name="l01078"></a><span class="lineno"><a class="line" href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc"> 1078</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc">deck_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01079" name="l01079"></a><span class="lineno"> 1079</span>{</div>
+<div class="line"><a id="l01080" name="l01080"></a><span class="lineno"> 1080</span>    <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);</div>
+<div class="line"><a id="l01081" name="l01081"></a><span class="lineno"> 1081</span>    choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;</div>
+<div class="line"><a id="l01082" name="l01082"></a><span class="lineno"> 1082</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;change_deck_button, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l01083" name="l01083"></a><span class="lineno"> 1083</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], <span class="keyword">true</span>);</div>
+<div class="line"><a id="l01084" name="l01084"></a><span class="lineno"> 1084</span>}</div>
 </div>
-<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span> </div>
-<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span><span class="comment">// COMMON BUTTONS</span></div>
+<div class="line"><a id="l01085" name="l01085"></a><span class="lineno"> 1085</span> </div>
+<div class="line"><a id="l01086" name="l01086"></a><span class="lineno"> 1086</span><span class="comment">// RESUME GAME</span></div>
+<div class="line"><a id="l01087" name="l01087"></a><span class="lineno"> 1087</span> </div>
+<div class="foldopen" id="foldopen01091" data-start="{" data-end="}">
+<div class="line"><a id="l01091" name="l01091"></a><span class="lineno"><a class="line" href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366"> 1091</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366">resume_substate_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span>{</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>    <a class="code hl_function" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a>(RUN_SETUP_TAB_RESUME);</div>
 <div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span> </div>
-<div class="foldopen" id="foldopen01102" data-start="{" data-end="}">
-<div class="line"><a id="l01102" name="l01102"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa"> 1102</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a>(<span class="keywordtype">bool</span> enable)</div>
-<div class="line"><a id="l01103" name="l01103"></a><span class="lineno"> 1103</span>{</div>
-<div class="line"><a id="l01104" name="l01104"></a><span class="lineno"> 1104</span>    use_seed = enable;</div>
-<div class="line"><a id="l01105" name="l01105"></a><span class="lineno"> 1105</span> </div>
-<div class="line"><a id="l01106" name="l01106"></a><span class="lineno"> 1106</span>    <span class="comment">// Apply right main color to the Button</span></div>
-<div class="line"><a id="l01107" name="l01107"></a><span class="lineno"> 1107</span>    choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED].<a class="code hl_variable" href="structButton.html#aaec238974eccbed85d01a5c3a87173ce">button_pal_idx</a> =</div>
-<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"> 1108</span>        use_seed ? BLUE_BTN_MAIN_COLOR_PAL_IDX : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;</div>
-<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span> </div>
-<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span>    <span class="comment">// Replace Seed button tiles with the disabled one&#39;s</span></div>
-<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>    BG_POINT button_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS</div>
-<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>                                     : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;</div>
-<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>    <a class="code hl_function" href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a>(RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST, button_tiles);</div>
-<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span> </div>
-<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span>    <span class="comment">// Print Seed button text with the right color</span></div>
-<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>    tte_printf(</div>
-<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
-<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>        RUN_SETUP_SEED_DECK_TEXT_POS.x,</div>
-<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>        RUN_SETUP_SEED_DECK_TEXT_POS.y,</div>
-<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span>        use_seed ? TTE_WHITE_PB : TTE_BLACK_PB,</div>
-<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>        <span class="stringliteral">&quot; Seed&quot;</span> <span class="comment">// Extra space before to clean potential &quot;Deck&quot; text</span></div>
-<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>    );</div>
-<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span> </div>
-<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>    <span class="comment">// Replace toggle button tiles with either checkmark of empty circle</span></div>
-<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>    Rect toggle_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC</div>
-<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>                                 : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;</div>
-<div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(toggle_tiles, RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS);</div>
-<div class="line"><a id="l01129" name="l01129"></a><span class="lineno"> 1129</span>}</div>
+<div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>    <span class="comment">// Show Deck card sprite</span></div>
+<div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>    obj_unhide(run_setup_deck-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>, 0);</div>
+<div class="line"><a id="l01097" name="l01097"></a><span class="lineno"> 1097</span>}</div>
 </div>
+<div class="line"><a id="l01098" name="l01098"></a><span class="lineno"> 1098</span> </div>
+<div class="line"><a id="l01099" name="l01099"></a><span class="lineno"> 1099</span><span class="comment">// COMMON BUTTONS</span></div>
+<div class="line"><a id="l01100" name="l01100"></a><span class="lineno"> 1100</span> </div>
+<div class="foldopen" id="foldopen01108" data-start="{" data-end="}">
+<div class="line"><a id="l01108" name="l01108"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa"> 1108</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a>(<span class="keywordtype">bool</span> enable)</div>
+<div class="line"><a id="l01109" name="l01109"></a><span class="lineno"> 1109</span>{</div>
+<div class="line"><a id="l01110" name="l01110"></a><span class="lineno"> 1110</span>    use_seed = enable;</div>
+<div class="line"><a id="l01111" name="l01111"></a><span class="lineno"> 1111</span> </div>
+<div class="line"><a id="l01112" name="l01112"></a><span class="lineno"> 1112</span>    <span class="comment">// Apply right main color to the Button</span></div>
+<div class="line"><a id="l01113" name="l01113"></a><span class="lineno"> 1113</span>    choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED].<a class="code hl_variable" href="structButton.html#aaec238974eccbed85d01a5c3a87173ce">button_pal_idx</a> =</div>
+<div class="line"><a id="l01114" name="l01114"></a><span class="lineno"> 1114</span>        use_seed ? BLUE_BTN_MAIN_COLOR_PAL_IDX : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;</div>
+<div class="line"><a id="l01115" name="l01115"></a><span class="lineno"> 1115</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l01116" name="l01116"></a><span class="lineno"> 1116</span> </div>
+<div class="line"><a id="l01117" name="l01117"></a><span class="lineno"> 1117</span>    <span class="comment">// Replace Seed button tiles with the disabled one&#39;s</span></div>
+<div class="line"><a id="l01118" name="l01118"></a><span class="lineno"> 1118</span>    BG_POINT button_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS</div>
+<div class="line"><a id="l01119" name="l01119"></a><span class="lineno"> 1119</span>                                     : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;</div>
+<div class="line"><a id="l01120" name="l01120"></a><span class="lineno"> 1120</span>    <a class="code hl_function" href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a>(RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST, button_tiles);</div>
+<div class="line"><a id="l01121" name="l01121"></a><span class="lineno"> 1121</span> </div>
+<div class="line"><a id="l01122" name="l01122"></a><span class="lineno"> 1122</span>    <span class="comment">// Print Seed button text with the right color</span></div>
+<div class="line"><a id="l01123" name="l01123"></a><span class="lineno"> 1123</span>    tte_printf(</div>
+<div class="line"><a id="l01124" name="l01124"></a><span class="lineno"> 1124</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
+<div class="line"><a id="l01125" name="l01125"></a><span class="lineno"> 1125</span>        RUN_SETUP_SEED_DECK_TEXT_POS.x,</div>
+<div class="line"><a id="l01126" name="l01126"></a><span class="lineno"> 1126</span>        RUN_SETUP_SEED_DECK_TEXT_POS.y,</div>
+<div class="line"><a id="l01127" name="l01127"></a><span class="lineno"> 1127</span>        use_seed ? TTE_WHITE_PB : TTE_BLACK_PB,</div>
+<div class="line"><a id="l01128" name="l01128"></a><span class="lineno"> 1128</span>        <span class="stringliteral">&quot; Seed&quot;</span> <span class="comment">// Extra space before to clean potential &quot;Deck&quot; text</span></div>
+<div class="line"><a id="l01129" name="l01129"></a><span class="lineno"> 1129</span>    );</div>
 <div class="line"><a id="l01130" name="l01130"></a><span class="lineno"> 1130</span> </div>
-<div class="foldopen" id="foldopen01134" data-start="{" data-end="}">
-<div class="line"><a id="l01134" name="l01134"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4"> 1134</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4">use_seed_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01135" name="l01135"></a><span class="lineno"> 1135</span>{</div>
-<div class="line"><a id="l01136" name="l01136"></a><span class="lineno"> 1136</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
-<div class="line"><a id="l01137" name="l01137"></a><span class="lineno"> 1137</span>        <a class="code hl_function" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a>(!use_seed);</div>
-<div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>}</div>
+<div class="line"><a id="l01131" name="l01131"></a><span class="lineno"> 1131</span>    <span class="comment">// Replace toggle button tiles with either checkmark of empty circle</span></div>
+<div class="line"><a id="l01132" name="l01132"></a><span class="lineno"> 1132</span>    Rect toggle_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC</div>
+<div class="line"><a id="l01133" name="l01133"></a><span class="lineno"> 1133</span>                                 : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;</div>
+<div class="line"><a id="l01134" name="l01134"></a><span class="lineno"> 1134</span>    <a class="code hl_function" href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a>(toggle_tiles, RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS);</div>
+<div class="line"><a id="l01135" name="l01135"></a><span class="lineno"> 1135</span>}</div>
 </div>
-<div class="line"><a id="l01139" name="l01139"></a><span class="lineno"> 1139</span> </div>
-<div class="foldopen" id="foldopen01143" data-start="{" data-end="}">
-<div class="line"><a id="l01143" name="l01143"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654"> 1143</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654">seed_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span>{</div>
-<div class="line"><a id="l01145" name="l01145"></a><span class="lineno"> 1145</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD) &amp;&amp; use_seed)</div>
-<div class="line"><a id="l01146" name="l01146"></a><span class="lineno"> 1146</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_SEED);</div>
-<div class="line"><a id="l01147" name="l01147"></a><span class="lineno"> 1147</span>}</div>
+<div class="line"><a id="l01136" name="l01136"></a><span class="lineno"> 1136</span> </div>
+<div class="foldopen" id="foldopen01140" data-start="{" data-end="}">
+<div class="line"><a id="l01140" name="l01140"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4"> 1140</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4">use_seed_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>{</div>
+<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>    <a class="code hl_function" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a>(!use_seed);</div>
+<div class="line"><a id="l01143" name="l01143"></a><span class="lineno"> 1143</span>}</div>
 </div>
-<div class="line"><a id="l01148" name="l01148"></a><span class="lineno"> 1148</span> </div>
-<div class="foldopen" id="foldopen01152" data-start="{" data-end="}">
-<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f"> 1152</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f">play_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span>{</div>
-<div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>    <span class="comment">// Apply provided Seed if enabled</span></div>
-<div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>    <span class="keywordflow">if</span> (use_seed)</div>
-<div class="line"><a id="l01156" name="l01156"></a><span class="lineno"> 1156</span>        <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(<a class="code hl_function" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a>(seed_str));</div>
-<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"> 1157</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>        <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
-<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span> </div>
-<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>    game_change_state(GAME_STATE_GAME_START);</div>
-<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>}</div>
+<div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span> </div>
+<div class="foldopen" id="foldopen01148" data-start="{" data-end="}">
+<div class="line"><a id="l01148" name="l01148"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654"> 1148</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654">seed_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01149" name="l01149"></a><span class="lineno"> 1149</span>{</div>
+<div class="line"><a id="l01150" name="l01150"></a><span class="lineno"> 1150</span>    <span class="keywordflow">if</span> (use_seed)</div>
+<div class="line"><a id="l01151" name="l01151"></a><span class="lineno"> 1151</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_SEED);</div>
+<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span>}</div>
 </div>
-<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span> </div>
-<div class="foldopen" id="foldopen01166" data-start="{" data-end="}">
-<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666"> 1166</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666">back_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span>{</div>
-<div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>    game_change_state(GAME_STATE_MAIN_MENU);</div>
-<div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span>}</div>
+<div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span> </div>
+<div class="foldopen" id="foldopen01157" data-start="{" data-end="}">
+<div class="line"><a id="l01157" name="l01157"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f"> 1157</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f">play_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01158" name="l01158"></a><span class="lineno"> 1158</span>{</div>
+<div class="line"><a id="l01159" name="l01159"></a><span class="lineno"> 1159</span>    <span class="comment">// Apply provided Seed if enabled</span></div>
+<div class="line"><a id="l01160" name="l01160"></a><span class="lineno"> 1160</span>    <span class="keywordflow">if</span> (use_seed)</div>
+<div class="line"><a id="l01161" name="l01161"></a><span class="lineno"> 1161</span>        <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(<a class="code hl_function" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a>(seed_str));</div>
+<div class="line"><a id="l01162" name="l01162"></a><span class="lineno"> 1162</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01163" name="l01163"></a><span class="lineno"> 1163</span>        <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
+<div class="line"><a id="l01164" name="l01164"></a><span class="lineno"> 1164</span> </div>
+<div class="line"><a id="l01165" name="l01165"></a><span class="lineno"> 1165</span>    game_change_state(GAME_STATE_GAME_START);</div>
+<div class="line"><a id="l01166" name="l01166"></a><span class="lineno"> 1166</span>}</div>
 </div>
-<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span> </div>
-<div class="foldopen" id="foldopen01174" data-start="{" data-end="}">
-<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f"> 1174</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f">change_deck_on_pressed</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span>{</div>
-<div class="line"><a id="l01176" name="l01176"></a><span class="lineno"> 1176</span>}</div>
+<div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span> </div>
+<div class="foldopen" id="foldopen01171" data-start="{" data-end="}">
+<div class="line"><a id="l01171" name="l01171"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666"> 1171</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666">back_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>{</div>
+<div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>    game_change_state(GAME_STATE_MAIN_MENU);</div>
+<div class="line"><a id="l01174" name="l01174"></a><span class="lineno"> 1174</span>}</div>
 </div>
-<div class="line"><a id="l01177" name="l01177"></a><span class="lineno"> 1177</span> </div>
-<div class="foldopen" id="foldopen01184" data-start="{" data-end="}">
-<div class="line"><a id="l01184" name="l01184"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f"> 1184</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a>(<span class="keyword">enum</span> RunSetupTab tab_sel)</div>
-<div class="line"><a id="l01185" name="l01185"></a><span class="lineno"> 1185</span>{</div>
-<div class="line"><a id="l01186" name="l01186"></a><span class="lineno"> 1186</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> RunSetupTab tab = 0; tab &lt; RUN_SETUP_TAB_MAX; tab++)</div>
-<div class="line"><a id="l01187" name="l01187"></a><span class="lineno"> 1187</span>    {</div>
-<div class="line"><a id="l01188" name="l01188"></a><span class="lineno"> 1188</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[tab], tab == tab_sel);</div>
-<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"> 1189</span>    }</div>
-<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>}</div>
+<div class="line"><a id="l01175" name="l01175"></a><span class="lineno"> 1175</span> </div>
+<div class="foldopen" id="foldopen01179" data-start="{" data-end="}">
+<div class="line"><a id="l01179" name="l01179"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f"> 1179</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f">change_deck_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01180" name="l01180"></a><span class="lineno"> 1180</span>{</div>
+<div class="line"><a id="l01181" name="l01181"></a><span class="lineno"> 1181</span>}</div>
 </div>
-<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span> </div>
-<div class="foldopen" id="foldopen01195" data-start="{" data-end="}">
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2"> 1195</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2">run_setup_tabs_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>{</div>
-<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>    <span class="keyword">static</span> <span class="keyword">enum</span> RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;</div>
-<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span> </div>
-<div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>    <span class="comment">// Either not pressed anything or there is no saved data, &quot;Resume&quot; tab is left grayed out and</span></div>
-<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>    <span class="comment">// only one tab is available. Return early to not spend time on tab-changing logic</span></div>
-<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>    <span class="keywordflow">if</span> (!key_hit(KEY_ANY) || !is_saved_game_valid)</div>
-<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01182" name="l01182"></a><span class="lineno"> 1182</span> </div>
+<div class="foldopen" id="foldopen01189" data-start="{" data-end="}">
+<div class="line"><a id="l01189" name="l01189"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f"> 1189</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a>(<span class="keyword">enum</span> RunSetupTab tab_sel)</div>
+<div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span>{</div>
+<div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> RunSetupTab tab = 0; tab &lt; RUN_SETUP_TAB_MAX; tab++)</div>
+<div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>    {</div>
+<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[tab], tab == tab_sel);</div>
+<div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    }</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>}</div>
+</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span> </div>
+<div class="foldopen" id="foldopen01200" data-start="{" data-end="}">
+<div class="line"><a id="l01200" name="l01200"></a><span class="lineno"><a class="line" href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2"> 1200</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2">run_setup_tabs_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>{</div>
+<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>    <span class="keyword">static</span> <span class="keyword">enum</span> RunSetupTab current_tab = RUN_SETUP_TAB_RESUME;</div>
 <div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span> </div>
-<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>    <span class="comment">// Not all the way to the right and pressed R</span></div>
-<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>    <span class="keywordflow">if</span> (key_hit(TAB_RIGHT) &amp;&amp; current_tab &lt; RUN_SETUP_TAB_MAX - 1)</div>
-<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>    {</div>
-<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span>        current_tab++;</div>
-<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>    }</div>
-<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>    <span class="comment">// Not all the way to the left and pressed L</span></div>
-<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(TAB_LEFT) &amp;&amp; current_tab &gt; 0)</div>
-<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>    {</div>
-<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>        current_tab--;</div>
-<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>    }</div>
-<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span> </div>
-<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">true</span>);</div>
-<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span> </div>
-<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span>    <span class="keywordflow">switch</span> (current_tab)</div>
-<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span>    {</div>
-<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span>        <span class="keywordflow">case</span> RUN_SETUP_TAB_NEW_RUN:</div>
-<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>            <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);</div>
-<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span> </div>
-<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span>        <span class="keywordflow">case</span> RUN_SETUP_TAB_RESUME:</div>
-<div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span>            <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);</div>
-<div class="line"><a id="l01227" name="l01227"></a><span class="lineno"> 1227</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span> </div>
-<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span>        <span class="keywordflow">default</span>:</div>
-<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>    }</div>
-<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>}</div>
-</div>
+<div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>    <span class="comment">// Either not pressed anything or there is no saved data, &quot;Resume&quot; tab is left grayed out and</span></div>
+<div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>    <span class="comment">// only one tab is available. Return early to not spend time on tab-changing logic</span></div>
+<div class="line"><a id="l01206" name="l01206"></a><span class="lineno"> 1206</span>    <span class="keywordflow">if</span> (!key_hit(KEY_ANY) || !is_saved_game_valid)</div>
+<div class="line"><a id="l01207" name="l01207"></a><span class="lineno"> 1207</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01208" name="l01208"></a><span class="lineno"> 1208</span> </div>
+<div class="line"><a id="l01209" name="l01209"></a><span class="lineno"> 1209</span>    <span class="comment">// Not all the way to the right and pressed R</span></div>
+<div class="line"><a id="l01210" name="l01210"></a><span class="lineno"> 1210</span>    <span class="keywordflow">if</span> (key_hit(TAB_RIGHT) &amp;&amp; current_tab &lt; RUN_SETUP_TAB_MAX - 1)</div>
+<div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>    {</div>
+<div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>        current_tab++;</div>
+<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>    }</div>
+<div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>    <span class="comment">// Not all the way to the left and pressed L</span></div>
+<div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(TAB_LEFT) &amp;&amp; current_tab &gt; 0)</div>
+<div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>    {</div>
+<div class="line"><a id="l01218" name="l01218"></a><span class="lineno"> 1218</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l01219" name="l01219"></a><span class="lineno"> 1219</span>        current_tab--;</div>
+<div class="line"><a id="l01220" name="l01220"></a><span class="lineno"> 1220</span>    }</div>
+<div class="line"><a id="l01221" name="l01221"></a><span class="lineno"> 1221</span> </div>
+<div class="line"><a id="l01222" name="l01222"></a><span class="lineno"> 1222</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;tabs_buttons[current_tab], <span class="keyword">true</span>);</div>
+<div class="line"><a id="l01223" name="l01223"></a><span class="lineno"> 1223</span> </div>
+<div class="line"><a id="l01224" name="l01224"></a><span class="lineno"> 1224</span>    <span class="keywordflow">switch</span> (current_tab)</div>
+<div class="line"><a id="l01225" name="l01225"></a><span class="lineno"> 1225</span>    {</div>
+<div class="line"><a id="l01226" name="l01226"></a><span class="lineno"> 1226</span>        <span class="keywordflow">case</span> RUN_SETUP_TAB_NEW_RUN:</div>
+<div class="line"><a id="l01227" name="l01227"></a><span class="lineno"> 1227</span>            <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);</div>
+<div class="line"><a id="l01228" name="l01228"></a><span class="lineno"> 1228</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01229" name="l01229"></a><span class="lineno"> 1229</span> </div>
+<div class="line"><a id="l01230" name="l01230"></a><span class="lineno"> 1230</span>        <span class="keywordflow">case</span> RUN_SETUP_TAB_RESUME:</div>
+<div class="line"><a id="l01231" name="l01231"></a><span class="lineno"> 1231</span>            <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);</div>
+<div class="line"><a id="l01232" name="l01232"></a><span class="lineno"> 1232</span>            <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l01233" name="l01233"></a><span class="lineno"> 1233</span> </div>
-<div class="foldopen" id="foldopen01239" data-start="{" data-end="}">
-<div class="line"><a id="l01239" name="l01239"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a021d858e94646371f960ac039d09244d"> 1239</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a021d858e94646371f960ac039d09244d">back_row_get_size</a>()</div>
-<div class="line"><a id="l01240" name="l01240"></a><span class="lineno"> 1240</span>{</div>
-<div class="line"><a id="l01241" name="l01241"></a><span class="lineno"> 1241</span>    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a id="l01242" name="l01242"></a><span class="lineno"> 1242</span>}</div>
+<div class="line"><a id="l01234" name="l01234"></a><span class="lineno"> 1234</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l01235" name="l01235"></a><span class="lineno"> 1235</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01236" name="l01236"></a><span class="lineno"> 1236</span>    }</div>
+<div class="line"><a id="l01237" name="l01237"></a><span class="lineno"> 1237</span>}</div>
 </div>
-<div class="line"><a id="l01243" name="l01243"></a><span class="lineno"> 1243</span> </div>
-<div class="line"><a id="l01244" name="l01244"></a><span class="lineno"> 1244</span><span class="keyword">static</span> <span class="keywordtype">void</span> back_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l01238" name="l01238"></a><span class="lineno"> 1238</span> </div>
+<div class="foldopen" id="foldopen01244" data-start="{" data-end="}">
+<div class="line"><a id="l01244" name="l01244"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a021d858e94646371f960ac039d09244d"> 1244</a></span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="run__setup_8c.html#a021d858e94646371f960ac039d09244d">back_row_get_size</a>()</div>
 <div class="line"><a id="l01245" name="l01245"></a><span class="lineno"> 1245</span>{</div>
-<div class="line"><a id="l01246" name="l01246"></a><span class="lineno"> 1246</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
-<div class="line"><a id="l01247" name="l01247"></a><span class="lineno"> 1247</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;back_button);</div>
-<div class="line"><a id="l01248" name="l01248"></a><span class="lineno"> 1248</span>}</div>
-<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span> </div>
-<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"> 1250</span><span class="preprocessor">#pragma endregion</span></div>
+<div class="line"><a id="l01246" name="l01246"></a><span class="lineno"> 1246</span>    <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l01247" name="l01247"></a><span class="lineno"> 1247</span>}</div>
+</div>
+<div class="line"><a id="l01248" name="l01248"></a><span class="lineno"> 1248</span> </div>
+<div class="line"><a id="l01249" name="l01249"></a><span class="lineno"> 1249</span><span class="keyword">static</span> <span class="keywordtype">void</span> back_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l01250" name="l01250"></a><span class="lineno"> 1250</span>{</div>
+<div class="line"><a id="l01251" name="l01251"></a><span class="lineno"> 1251</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
+<div class="line"><a id="l01252" name="l01252"></a><span class="lineno"> 1252</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;back_button);</div>
+<div class="line"><a id="l01253" name="l01253"></a><span class="lineno"> 1253</span>}</div>
+<div class="line"><a id="l01254" name="l01254"></a><span class="lineno"> 1254</span> </div>
+<div class="line"><a id="l01255" name="l01255"></a><span class="lineno"> 1255</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="ttc" id="abutton_8h_html"><div class="ttname"><a href="button_8h.html">button.h</a></div><div class="ttdoc">A button structure containing the common button functionalities.</div></div>
 <div class="ttc" id="abutton_8h_html_a071a4d1bf72a16a7f4a4153722ce36db"><div class="ttname"><a href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a></div><div class="ttdeci">void button_press(Button *button)</div><div class="ttdoc">Execute a button press, by calling the button's on_pressed function. This checks the button's can_be_...</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00018">button.c:18</a></div></div>
 <div class="ttc" id="abutton_8h_html_ab07bc69b92e6642e2b986debfb152e48"><div class="ttname"><a href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a></div><div class="ttdeci">void button_set_highlight(Button *button, bool highlight)</div><div class="ttdoc">Set the button highlight on or off.</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00008">button.c:8</a></div></div>
@@ -1315,49 +1318,49 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="ttc" id="adeck__types_8h_html_aeb6c51fe050fea32811f33e01f5c8542"><div class="ttname"><a href="deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542">print_deck_description</a></div><div class="ttdeci">void print_deck_description(enum DeckType deck, BG_POINT pos)</div><div class="ttdoc">Prints the Deck description string to the screen at the given position.</div><div class="ttdef"><b>Definition</b> <a href="deck__types_8c_source.html#l00048">deck_types.c:48</a></div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
-<div class="ttc" id="agraphic__utils_8h_html_a15d8306ebc638d56bf6debc2f2c18a52"><div class="ttname"><a href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a></div><div class="ttdeci">void main_bg_se_copy_rect(Rect se_rect, BG_POINT dest_pos)</div><div class="ttdoc">Copies a rect in the main background from se_rect to the position (x, y).</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00124">graphic_utils.c:124</a></div></div>
-<div class="ttc" id="agraphic__utils_8h_html_a71f811b27a9e3895ab0be4dc68f51405"><div class="ttname"><a href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a></div><div class="ttdeci">void main_bg_se_copy_expand_3x3_rect(Rect se_rect_dest, BG_POINT se_rect_src_3x3_top_left)</div><div class="ttdoc">Copies a 3x3 rect and expands it to fit a passed rect. Special case of the 9-patch.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00172">graphic_utils.c:172</a></div></div>
-<div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00397">graphic_utils.c:397</a></div></div>
-<div class="ttc" id="agraphic__utils_8h_html_ab823bbbf97edfa1ca16fcab03cccf4dc"><div class="ttname"><a href="graphic__utils_8h.html#ab823bbbf97edfa1ca16fcab03cccf4dc">main_bg_se_copy_expand_9_patch</a></div><div class="ttdeci">void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect *src_9_ptch)</div><div class="ttdoc">Copies a 9-patch and expands it to fit a passed rect.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00355">graphic_utils.c:355</a></div></div>
-<div class="ttc" id="agraphic__utils_8h_html_aee9baf7cec9e985a69e948e76f074f4a"><div class="ttname"><a href="graphic__utils_8h.html#aee9baf7cec9e985a69e948e76f074f4a">main_bg_se_copy_expand_tile</a></div><div class="ttdeci">void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src)</div><div class="ttdoc">Copies a tile in the main background at se_tile_src to fill se_rect_dest.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00167">graphic_utils.c:167</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_a15d8306ebc638d56bf6debc2f2c18a52"><div class="ttname"><a href="graphic__utils_8h.html#a15d8306ebc638d56bf6debc2f2c18a52">main_bg_se_copy_rect</a></div><div class="ttdeci">void main_bg_se_copy_rect(Rect se_rect, BG_POINT dest_pos)</div><div class="ttdoc">Copies a rect in the main background from se_rect to the position (x, y).</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00125">graphic_utils.c:125</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_a71f811b27a9e3895ab0be4dc68f51405"><div class="ttname"><a href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a></div><div class="ttdeci">void main_bg_se_copy_expand_3x3_rect(Rect se_rect_dest, BG_POINT se_rect_src_3x3_top_left)</div><div class="ttdoc">Copies a 3x3 rect and expands it to fit a passed rect. Special case of the 9-patch.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00173">graphic_utils.c:173</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00398">graphic_utils.c:398</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_ab823bbbf97edfa1ca16fcab03cccf4dc"><div class="ttname"><a href="graphic__utils_8h.html#ab823bbbf97edfa1ca16fcab03cccf4dc">main_bg_se_copy_expand_9_patch</a></div><div class="ttdeci">void main_bg_se_copy_expand_9_patch(Rect se_dest_rect, const NinePatchRect *src_9_ptch)</div><div class="ttdoc">Copies a 9-patch and expands it to fit a passed rect.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00356">graphic_utils.c:356</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_aee9baf7cec9e985a69e948e76f074f4a"><div class="ttname"><a href="graphic__utils_8h.html#aee9baf7cec9e985a69e948e76f074f4a">main_bg_se_copy_expand_tile</a></div><div class="ttdeci">void main_bg_se_copy_expand_tile(Rect se_rect_dest, BG_POINT se_tile_src)</div><div class="ttdoc">Copies a tile in the main background at se_tile_src to fill se_rect_dest.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00168">graphic_utils.c:168</a></div></div>
 <div class="ttc" id="arandom_8h_html_a43bd63e66bebf4e4d463a7bee43dd737"><div class="ttname"><a href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a></div><div class="ttdeci">void rng_shuffle_seed(void)</div><div class="ttdoc">Uses the CPU cycles counter to randomize the RNG seed as much as possible. This will be called by the...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00031">random.c:31</a></div></div>
 <div class="ttc" id="arandom_8h_html_a53482f39207d0f9884dda144723fb518"><div class="ttname"><a href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a></div><div class="ttdeci">void rng_set_seed(u32 seed)</div><div class="ttdoc">Set the rng seed to the chosen value, and reset the step counter to 0. The seed will be capped at MAX...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00024">random.c:24</a></div></div>
 <div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00036">random.c:36</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_a000f63ebfc37e17b1e2a28912a0a6bab"><div class="ttname"><a href="run__setup_8c.html#a000f63ebfc37e17b1e2a28912a0a6bab">change_deck_get_button_from_sel</a></div><div class="ttdeci">static Button * change_deck_get_button_from_sel(const Selection *sel)</div><div class="ttdoc">Gets the Button corresponding to the current Selection in choose_deck_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00710">run_setup.c:710</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a021d858e94646371f960ac039d09244d"><div class="ttname"><a href="run__setup_8c.html#a021d858e94646371f960ac039d09244d">back_row_get_size</a></div><div class="ttdeci">static int back_row_get_size(void)</div><div class="ttdoc">Retuns the width of the Back button's row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01239">run_setup.c:1239</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a021d858e94646371f960ac039d09244d"><div class="ttname"><a href="run__setup_8c.html#a021d858e94646371f960ac039d09244d">back_row_get_size</a></div><div class="ttdeci">static int back_row_get_size(void)</div><div class="ttdoc">Retuns the width of the Back button's row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01244">run_setup.c:1244</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_a07eef7cea0b26def35da2b86655297d2"><div class="ttname"><a href="run__setup_8c.html#a07eef7cea0b26def35da2b86655297d2">game_run_setup_change_background</a></div><div class="ttdeci">void game_run_setup_change_background(void)</div><div class="ttdoc">Change to the Run Setup menu background.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00566">run_setup.c:566</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a0f1cdfa154c8147d52038214a678a6e8"><div class="ttname"><a href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">keyboard_button_on_pressed</a></div><div class="ttdeci">static void keyboard_button_on_pressed(void)</div><div class="ttdoc">Keyboard key Button callback.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00939">run_setup.c:939</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a1092fc659186157c9e79f5b8a8505e42"><div class="ttname"><a href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a></div><div class="ttdeci">static void delete_seed_char(void)</div><div class="ttdoc">Deletes the last char in the seed string base-36 representation.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00901">run_setup.c:901</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a1bb89f6f4c58f40852b4447aa2f8a654"><div class="ttname"><a href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654">seed_on_pressed</a></div><div class="ttdeci">static void seed_on_pressed(void)</div><div class="ttdoc">Seed Button Callback. Opens the seed input keyboard.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01143">run_setup.c:1143</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a281f3cfe471fce066974e31091bb0ceb"><div class="ttname"><a href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">seed_keyboard_substate_update</a></div><div class="ttdeci">static void seed_keyboard_substate_update(void)</div><div class="ttdoc">Update the Choose Seed substate by handling user inputs though the corresponding choose_seed_selectio...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00846">run_setup.c:846</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a492466e07233299a5f3e327b21ea8753"><div class="ttname"><a href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a></div><div class="ttdeci">static void update_seed_text(void)</div><div class="ttdoc">Prints the string representing the chosen seed in base-36.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00779">run_setup.c:779</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a4df8a3b9bce679d0a1b1c0299978a666"><div class="ttname"><a href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666">back_on_pressed</a></div><div class="ttdeci">static void back_on_pressed(void)</div><div class="ttdoc">Back Button Callback. Goes back to the Main Menu.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01166">run_setup.c:1166</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a4f8e645ad43810f5bc789c0385b89318"><div class="ttname"><a href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a></div><div class="ttdeci">static enum RunSetupKeyboardButtons get_keyboard_index_from_sel(const Selection *sel)</div><div class="ttdoc">Get the keyboard key index from a SelectionGrid's Selection. The returned value is valid only if the ...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00931">run_setup.c:931</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a5712e6adfa9e02ff989a8560414276fa"><div class="ttname"><a href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a></div><div class="ttdeci">static void toggle_seed_enabled(bool enable)</div><div class="ttdoc">Toggle whether or not we will use the seed chosen by the user. Changes the looks of the Seed button t...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01102">run_setup.c:1102</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a5e67c35ecc20a331f8bfd9231584d25f"><div class="ttname"><a href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f">play_on_pressed</a></div><div class="ttdeci">static void play_on_pressed(void)</div><div class="ttdoc">Play Button Callback. Applies the chosen seed if enabled and starts a new run.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01152">run_setup.c:1152</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a623cf9f201e2d3a2b715f080fe40fe37"><div class="ttname"><a href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a></div><div class="ttdeci">static Button * choose_seed_get_button_from_sel(const Selection *sel)</div><div class="ttdoc">Get the Button corresponding to a Selection within choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00985">run_setup.c:985</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a0f1cdfa154c8147d52038214a678a6e8"><div class="ttname"><a href="run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8">keyboard_button_on_pressed</a></div><div class="ttdeci">static void keyboard_button_on_pressed(void)</div><div class="ttdoc">Keyboard key Button callback.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00940">run_setup.c:940</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a1092fc659186157c9e79f5b8a8505e42"><div class="ttname"><a href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a></div><div class="ttdeci">static void delete_seed_char(void)</div><div class="ttdoc">Deletes the last char in the seed string base-36 representation.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00902">run_setup.c:902</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a1bb89f6f4c58f40852b4447aa2f8a654"><div class="ttname"><a href="run__setup_8c.html#a1bb89f6f4c58f40852b4447aa2f8a654">seed_on_pressed</a></div><div class="ttdeci">static void seed_on_pressed(void)</div><div class="ttdoc">Seed Button Callback. Opens the seed input keyboard.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01148">run_setup.c:1148</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a281f3cfe471fce066974e31091bb0ceb"><div class="ttname"><a href="run__setup_8c.html#a281f3cfe471fce066974e31091bb0ceb">seed_keyboard_substate_update</a></div><div class="ttdeci">static void seed_keyboard_substate_update(void)</div><div class="ttdoc">Update the Choose Seed substate by handling user inputs though the corresponding choose_seed_selectio...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00847">run_setup.c:847</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a492466e07233299a5f3e327b21ea8753"><div class="ttname"><a href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a></div><div class="ttdeci">static void update_seed_text(void)</div><div class="ttdoc">Prints the string representing the chosen seed in base-36.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00780">run_setup.c:780</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a4df8a3b9bce679d0a1b1c0299978a666"><div class="ttname"><a href="run__setup_8c.html#a4df8a3b9bce679d0a1b1c0299978a666">back_on_pressed</a></div><div class="ttdeci">static void back_on_pressed(void)</div><div class="ttdoc">Back Button Callback. Goes back to the Main Menu.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01171">run_setup.c:1171</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a4f8e645ad43810f5bc789c0385b89318"><div class="ttname"><a href="run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318">get_keyboard_index_from_sel</a></div><div class="ttdeci">static enum RunSetupKeyboardButtons get_keyboard_index_from_sel(const Selection *sel)</div><div class="ttdoc">Get the keyboard key index from a SelectionGrid's Selection. The returned value is valid only if the ...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00932">run_setup.c:932</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a5712e6adfa9e02ff989a8560414276fa"><div class="ttname"><a href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a></div><div class="ttdeci">static void toggle_seed_enabled(bool enable)</div><div class="ttdoc">Toggle whether or not we will use the seed chosen by the user. Changes the looks of the Seed button t...</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01108">run_setup.c:1108</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a5e67c35ecc20a331f8bfd9231584d25f"><div class="ttname"><a href="run__setup_8c.html#a5e67c35ecc20a331f8bfd9231584d25f">play_on_pressed</a></div><div class="ttdeci">static void play_on_pressed(void)</div><div class="ttdoc">Play Button Callback. Applies the chosen seed if enabled and starts a new run.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01157">run_setup.c:1157</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a623cf9f201e2d3a2b715f080fe40fe37"><div class="ttname"><a href="run__setup_8c.html#a623cf9f201e2d3a2b715f080fe40fe37">choose_seed_get_button_from_sel</a></div><div class="ttdeci">static Button * choose_seed_get_button_from_sel(const Selection *sel)</div><div class="ttdoc">Get the Button corresponding to a Selection within choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00986">run_setup.c:986</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_a8a38b7caf89af4c2de2bbfb3bfa87e69"><div class="ttname"><a href="run__setup_8c.html#a8a38b7caf89af4c2de2bbfb3bfa87e69">game_run_setup_on_exit</a></div><div class="ttdeci">void game_run_setup_on_exit(void)</div><div class="ttdoc">Run Setup menu cleanup.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00612">run_setup.c:612</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a8b50b61adfa7d1b1d74e2db26d8dac7f"><div class="ttname"><a href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a></div><div class="ttdeci">static void tab_set_highlight(enum RunSetupTab tab_sel)</div><div class="ttdoc">Highlights the tab_sel Tab at the top of the screen, and removes highlight from all the others.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01184">run_setup.c:1184</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a8d1d910d8aacd4c97b4c7a99fe3a9a8f"><div class="ttname"><a href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f">change_deck_on_pressed</a></div><div class="ttdeci">static void change_deck_on_pressed(void)</div><div class="ttdoc">Button Callback used for cycling through the Decks.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01174">run_setup.c:1174</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a9735699150ee3ada4348da95a030486d"><div class="ttname"><a href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">choose_seed_get_bottom_row_size</a></div><div class="ttdeci">static int choose_seed_get_bottom_row_size(void)</div><div class="ttdoc">Returns the width of the Deck/Play buttons' row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00876">run_setup.c:876</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_a9f8aa1689b9152706d73e32f5d237d38"><div class="ttname"><a href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">choose_seed_get_keyboard_short_row_size</a></div><div class="ttdeci">static int choose_seed_get_keyboard_short_row_size(void)</div><div class="ttdoc">Returns the width of the bottom keyboard row, the shortest one.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00866">run_setup.c:866</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a8b50b61adfa7d1b1d74e2db26d8dac7f"><div class="ttname"><a href="run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f">tab_set_highlight</a></div><div class="ttdeci">static void tab_set_highlight(enum RunSetupTab tab_sel)</div><div class="ttdoc">Highlights the tab_sel Tab at the top of the screen, and removes highlight from all the others.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01189">run_setup.c:1189</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a8d1d910d8aacd4c97b4c7a99fe3a9a8f"><div class="ttname"><a href="run__setup_8c.html#a8d1d910d8aacd4c97b4c7a99fe3a9a8f">change_deck_on_pressed</a></div><div class="ttdeci">static void change_deck_on_pressed(void)</div><div class="ttdoc">Button Callback used for cycling through the Decks.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01179">run_setup.c:1179</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a9735699150ee3ada4348da95a030486d"><div class="ttname"><a href="run__setup_8c.html#a9735699150ee3ada4348da95a030486d">choose_seed_get_bottom_row_size</a></div><div class="ttdeci">static int choose_seed_get_bottom_row_size(void)</div><div class="ttdoc">Returns the width of the Deck/Play buttons' row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00877">run_setup.c:877</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_a9f8aa1689b9152706d73e32f5d237d38"><div class="ttname"><a href="run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38">choose_seed_get_keyboard_short_row_size</a></div><div class="ttdeci">static int choose_seed_get_keyboard_short_row_size(void)</div><div class="ttdoc">Returns the width of the bottom keyboard row, the shortest one.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00867">run_setup.c:867</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_aa64f33af3c51e7fc5f9c31a6a80f0a82"><div class="ttname"><a href="run__setup_8c.html#aa64f33af3c51e7fc5f9c31a6a80f0a82">choose_deck_substate_update</a></div><div class="ttdeci">static void choose_deck_substate_update(void)</div><div class="ttdoc">Update the deck changing substate by handling user input though its corresponding SelectionGrid.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00689">run_setup.c:689</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_aaf56f9b6363b2ce378251ae6e2639c69"><div class="ttname"><a href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69">choose_seed_row_on_selection_changed</a></div><div class="ttdeci">static bool choose_seed_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle directional imputs in choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01025">run_setup.c:1025</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_ab295cea158b7e51055006f813e1a4d49"><div class="ttname"><a href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49">choose_seed_row_on_key_transit</a></div><div class="ttdeci">static void choose_seed_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button imputs in choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01010">run_setup.c:1010</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_ab7a3c35bc3341d32deadeac12fef46bf"><div class="ttname"><a href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">seed_keyboard_substate_init</a></div><div class="ttdeci">static void seed_keyboard_substate_init(void)</div><div class="ttdoc">Initialize the Choose Seed substate.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00794">run_setup.c:794</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_aaf56f9b6363b2ce378251ae6e2639c69"><div class="ttname"><a href="run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69">choose_seed_row_on_selection_changed</a></div><div class="ttdeci">static bool choose_seed_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle directional imputs in choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01031">run_setup.c:1031</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_ab295cea158b7e51055006f813e1a4d49"><div class="ttname"><a href="run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49">choose_seed_row_on_key_transit</a></div><div class="ttdeci">static void choose_seed_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button imputs in choose_seed_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01013">run_setup.c:1013</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_ab7a3c35bc3341d32deadeac12fef46bf"><div class="ttname"><a href="run__setup_8c.html#ab7a3c35bc3341d32deadeac12fef46bf">seed_keyboard_substate_init</a></div><div class="ttdeci">static void seed_keyboard_substate_init(void)</div><div class="ttdoc">Initialize the Choose Seed substate.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00795">run_setup.c:795</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_abf5ce3f9c6d21d636eb2109e3a06a7b4"><div class="ttname"><a href="run__setup_8c.html#abf5ce3f9c6d21d636eb2109e3a06a7b4">seed_play_row_on_key_transit</a></div><div class="ttdeci">static void seed_play_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs for choose_deck_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00769">run_setup.c:769</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_aca2f4d081e3b46eadc1517c073342e2b"><div class="ttname"><a href="run__setup_8c.html#aca2f4d081e3b46eadc1517c073342e2b">game_run_setup_on_update</a></div><div class="ttdeci">void game_run_setup_on_update(void)</div><div class="ttdoc">Run Setup menu state update.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00607">run_setup.c:607</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_acb466f1a1cd41dd5a87f7d3a26806fde"><div class="ttname"><a href="run__setup_8c.html#acb466f1a1cd41dd5a87f7d3a26806fde">seed_play_get_row_size</a></div><div class="ttdeci">static int seed_play_get_row_size(void)</div><div class="ttdoc">Returns the width of the Seed checkbox/Seed/Play buttons' row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00758">run_setup.c:758</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_acfad8d64b18066b45f53097cc7a4c09f"><div class="ttname"><a href="run__setup_8c.html#acfad8d64b18066b45f53097cc7a4c09f">game_run_setup_on_init</a></div><div class="ttdeci">void game_run_setup_on_init(void)</div><div class="ttdoc">Run Setup menu state initialization.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00573">run_setup.c:573</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_ad00a2328e92525b7de20c1eecf2da9bc"><div class="ttname"><a href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a></div><div class="ttdeci">static void reroll_seed_str(void)</div><div class="ttdoc">Deletes the last char in the seed string base-36 representation.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00884">run_setup.c:884</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_ad8f373b6c06e1a2b727bdc2a39dd2cd2"><div class="ttname"><a href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2">run_setup_tabs_update</a></div><div class="ttdeci">static void run_setup_tabs_update(void)</div><div class="ttdoc">Handle user input in regards to the Tabs. Tabs are cycled through using the L/R buttons.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01195">run_setup.c:1195</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_adcc3123e99b0af659149cbfa8df7d366"><div class="ttname"><a href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366">resume_substate_init</a></div><div class="ttdeci">static void resume_substate_init(void)</div><div class="ttdoc">Initialize the &quot;Resume Previous Run&quot; substate.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01085">run_setup.c:1085</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_ad00a2328e92525b7de20c1eecf2da9bc"><div class="ttname"><a href="run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc">reroll_seed_str</a></div><div class="ttdeci">static void reroll_seed_str(void)</div><div class="ttdoc">Deletes the last char in the seed string base-36 representation.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00885">run_setup.c:885</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_ad8f373b6c06e1a2b727bdc2a39dd2cd2"><div class="ttname"><a href="run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2">run_setup_tabs_update</a></div><div class="ttdeci">static void run_setup_tabs_update(void)</div><div class="ttdoc">Handle user input in regards to the Tabs. Tabs are cycled through using the L/R buttons.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01200">run_setup.c:1200</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_adcc3123e99b0af659149cbfa8df7d366"><div class="ttname"><a href="run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366">resume_substate_init</a></div><div class="ttdeci">static void resume_substate_init(void)</div><div class="ttdoc">Initialize the &quot;Resume Previous Run&quot; substate.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01091">run_setup.c:1091</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_adccabd02c56aed3f75638fe422e57d01"><div class="ttname"><a href="run__setup_8c.html#adccabd02c56aed3f75638fe422e57d01">change_deck_get_row_size</a></div><div class="ttdeci">static int change_deck_get_row_size(void)</div><div class="ttdoc">Returns the width of the Change Deck Button's row.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00699">run_setup.c:699</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_adfb29cc263e0dfc5f4140631a2ba3dbc"><div class="ttname"><a href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc">deck_on_pressed</a></div><div class="ttdeci">static void deck_on_pressed(void)</div><div class="ttdoc">Deck Button Callback.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01072">run_setup.c:1072</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_ae35eb179e3f4dcb4e6b82c71035377b4"><div class="ttname"><a href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4">use_seed_on_pressed</a></div><div class="ttdeci">static void use_seed_on_pressed(void)</div><div class="ttdoc">Seed checkbox Button Callback. Toggles custom seed usage.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01134">run_setup.c:1134</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_adfb29cc263e0dfc5f4140631a2ba3dbc"><div class="ttname"><a href="run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc">deck_on_pressed</a></div><div class="ttdeci">static void deck_on_pressed(void)</div><div class="ttdoc">Deck Button Callback.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01078">run_setup.c:1078</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_ae35eb179e3f4dcb4e6b82c71035377b4"><div class="ttname"><a href="run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4">use_seed_on_pressed</a></div><div class="ttdeci">static void use_seed_on_pressed(void)</div><div class="ttdoc">Seed checkbox Button Callback. Toggles custom seed usage.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l01140">run_setup.c:1140</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_ae8184c5951dbadce0b185dfb21be9805"><div class="ttname"><a href="run__setup_8c.html#ae8184c5951dbadce0b185dfb21be9805">choose_deck_substate_init</a></div><div class="ttdeci">static void choose_deck_substate_init(void)</div><div class="ttdoc">Initializes the Deck changing substate.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00634">run_setup.c:634</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_aec2f6732aa17912485bc9df367203f67"><div class="ttname"><a href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a></div><div class="ttdeci">static void type_seed_char(enum RunSetupKeyboardButtons key)</div><div class="ttdoc">Add a new char at the end of the seed string.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00915">run_setup.c:915</a></div></div>
-<div class="ttc" id="arun__setup_8c_html_af189764ad43c881821e2754f046a53b8"><div class="ttname"><a href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">choose_seed_get_keyboard_row_size</a></div><div class="ttdeci">static int choose_seed_get_keyboard_row_size(void)</div><div class="ttdoc">Returns the width of the 3 top keyboard rows.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00856">run_setup.c:856</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_aec2f6732aa17912485bc9df367203f67"><div class="ttname"><a href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a></div><div class="ttdeci">static void type_seed_char(enum RunSetupKeyboardButtons key)</div><div class="ttdoc">Add a new char at the end of the seed string.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00916">run_setup.c:916</a></div></div>
+<div class="ttc" id="arun__setup_8c_html_af189764ad43c881821e2754f046a53b8"><div class="ttname"><a href="run__setup_8c.html#af189764ad43c881821e2754f046a53b8">choose_seed_get_keyboard_row_size</a></div><div class="ttdeci">static int choose_seed_get_keyboard_row_size(void)</div><div class="ttdoc">Returns the width of the 3 top keyboard rows.</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00857">run_setup.c:857</a></div></div>
 <div class="ttc" id="arun__setup_8c_html_af7c0b838f5647c62ebcc1c7e41cd90d4"><div class="ttname"><a href="run__setup_8c.html#af7c0b838f5647c62ebcc1c7e41cd90d4">choose_deck_row_on_selection_changed</a></div><div class="ttdeci">static bool choose_deck_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle directional input in choose_deck_selection_grid</div><div class="ttdef"><b>Definition</b> <a href="run__setup_8c_source.html#l00737">run_setup.c:737</a></div></div>
 <div class="ttc" id="arun__setup_8h_html"><div class="ttname"><a href="run__setup_8h.html">run_setup.h</a></div><div class="ttdoc">Setup Run menu state functions.</div></div>
 <div class="ttc" id="asave_8h_html"><div class="ttname"><a href="save_8h.html">save.h</a></div><div class="ttdoc">Utils functions to save/load data structures from/to the SRAM.</div></div>
@@ -1372,7 +1375,7 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="ttc" id="astructButton_html"><div class="ttname"><a href="structButton.html">Button</a></div><div class="ttdoc">A button representation.</div><div class="ttdef"><b>Definition</b> <a href="button_8h_source.html#l00029">button.h:30</a></div></div>
 <div class="ttc" id="astructButton_html_aaec238974eccbed85d01a5c3a87173ce"><div class="ttname"><a href="structButton.html#aaec238974eccbed85d01a5c3a87173ce">Button::button_pal_idx</a></div><div class="ttdeci">u8 button_pal_idx</div><div class="ttdoc">Palette index of the color of the button itself, used for the border when not highlighted.</div><div class="ttdef"><b>Definition</b> <a href="button_8h_source.html#l00042">button.h:42</a></div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00055">card.h:56</a></div></div>
-<div class="ttc" id="astructNinePatchRect_html"><div class="ttname"><a href="structNinePatchRect.html">NinePatchRect</a></div><div class="ttdoc">Structure to represent arbitrary-sized 9-patches.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8h_source.html#l00180">graphic_utils.h:181</a></div></div>
+<div class="ttc" id="astructNinePatchRect_html"><div class="ttname"><a href="structNinePatchRect.html">NinePatchRect</a></div><div class="ttdoc">Structure to represent arbitrary-sized 9-patches.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8h_source.html#l00260">graphic_utils.h:261</a></div></div>
 <div class="ttc" id="astructSelectionGridRow_html"><div class="ttname"><a href="structSelectionGridRow.html">SelectionGridRow</a></div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00103">selection_grid.h:104</a></div></div>
 <div class="ttc" id="astructSelectionGrid_html"><div class="ttname"><a href="structSelectionGrid.html">SelectionGrid</a></div><div class="ttdoc">The core selection grid struct, represents the grid itself and its state.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00118">selection_grid.h:119</a></div></div>
 <div class="ttc" id="astructSpriteObject_html_a2017b28962f789e15c45963f8f25b5d8"><div class="ttname"><a href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">SpriteObject::x</a></div><div class="ttdeci">FIXED x</div><div class="ttdoc">Current position.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00069">sprite.h:69</a></div></div>

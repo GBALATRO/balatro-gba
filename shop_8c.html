@@ -150,7 +150,7 @@ $(document).ready(function(){initNavTree('shop_8c.html',''); initResizable(); })
 <code>#include &quot;<a class="el" href="blind__select_8h_source.html">game/blind_select.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="joker__row_8h_source.html">game/joker_row.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="game__variables_8h_source.html">game_variables.h</a>&quot;</code><br />
-<code>#include &quot;joker.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="joker_8h_source.html">joker.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="layout_8h_source.html">layout.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="list_8h_source.html">list.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="random_8h_source.html">random.h</a>&quot;</code><br />
@@ -159,6 +159,7 @@ $(document).ready(function(){initNavTree('shop_8c.html',''); initResizable(); })
 <code>#include &quot;<a class="el" href="state__machine_8h_source.html">state_machine.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="timer_8h_source.html">timer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="util_8h_source.html">util.h</a>&quot;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
 </div>
 <p><a href="shop_8c_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -170,8 +171,12 @@ Macros</h2></td></tr>
 <tr class="separator:ac7402b43ae8d5e746bc2faf6dcae2615"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67fc25537bcf40122108bd79758b7033" id="r_a67fc25537bcf40122108bd79758b7033"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a67fc25537bcf40122108bd79758b7033">TM_SHIFT_SHOP_ICON_WAIT</a>&#160;&#160;&#160;7</td></tr>
 <tr class="separator:a67fc25537bcf40122108bd79758b7033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a769c365ced334e0b0bd7d3aca5ba3555" id="r_a769c365ced334e0b0bd7d3aca5ba3555"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a769c365ced334e0b0bd7d3aca5ba3555">TM_SHOW_CARD_DESC_WAIT</a>&#160;&#160;&#160;12</td></tr>
+<tr class="separator:a769c365ced334e0b0bd7d3aca5ba3555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a265ef4a258988a8945e358660612d422" id="r_a265ef4a258988a8945e358660612d422"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a265ef4a258988a8945e358660612d422">ITEM_SHOP_Y</a>&#160;&#160;&#160;71</td></tr>
 <tr class="separator:a265ef4a258988a8945e358660612d422"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8284b6ea1c6fe64ff2843b0002cf559c" id="r_a8284b6ea1c6fe64ff2843b0002cf559c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a8284b6ea1c6fe64ff2843b0002cf559c">OWNED_CARDS_HIDE_Y_OFFSET</a>&#160;&#160;&#160;50</td></tr>
+<tr class="separator:a8284b6ea1c6fe64ff2843b0002cf559c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada97273ad1e9b68c14eb1fbf85db44b6" id="r_ada97273ad1e9b68c14eb1fbf85db44b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ada97273ad1e9b68c14eb1fbf85db44b6">REROLL_BASE_COST</a>&#160;&#160;&#160;5</td></tr>
 <tr class="separator:ada97273ad1e9b68c14eb1fbf85db44b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bdad6e7b3fccd9b467a33d4108584e8" id="r_a3bdad6e7b3fccd9b467a33d4108584e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a3bdad6e7b3fccd9b467a33d4108584e8">NEXT_ROUND_BTN_SEL_X</a>&#160;&#160;&#160;0</td></tr>
@@ -196,6 +201,10 @@ Macros</h2></td></tr>
 <tr class="separator:ac64cb96f946f463cbb7ba7b0fe2a96b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00fde0308bf900ae7de9e77d4371070f" id="r_a00fde0308bf900ae7de9e77d4371070f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a00fde0308bf900ae7de9e77d4371070f">SHOP_BOTTOM_PANEL_BORDER_PAL_IDX</a>&#160;&#160;&#160;26</td></tr>
 <tr class="separator:a00fde0308bf900ae7de9e77d4371070f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f536515d787db2d65bbea7537a55f6" id="r_a95f536515d787db2d65bbea7537a55f6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a95f536515d787db2d65bbea7537a55f6">SHOP_DESC_RARITY_MAIN_COLOR_PAL_IDX</a>&#160;&#160;&#160;27</td></tr>
+<tr class="separator:a95f536515d787db2d65bbea7537a55f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2100778ebd408db54f398fd80ad1d68" id="r_ab2100778ebd408db54f398fd80ad1d68"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ab2100778ebd408db54f398fd80ad1d68">SHOP_DESC_RARITY_SHADOW_COLOR_PAL_IDX</a>&#160;&#160;&#160;28</td></tr>
+<tr class="separator:ab2100778ebd408db54f398fd80ad1d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb129a924c020c24d6d31f47a3b3054b" id="r_aeb129a924c020c24d6d31f47a3b3054b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#aeb129a924c020c24d6d31f47a3b3054b">SHOP_LIGHTS_1_CLR</a>&#160;&#160;&#160;0xFFFF</td></tr>
 <tr class="separator:aeb129a924c020c24d6d31f47a3b3054b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29f7c785b93a19630dad61db5a157996" id="r_a29f7c785b93a19630dad61db5a157996"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a29f7c785b93a19630dad61db5a157996">SHOP_LIGHTS_2_CLR</a>&#160;&#160;&#160;0x32BE</td></tr>
@@ -207,10 +216,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a6b6bc2d14a05dfd0b851d1b4172cf364" id="r_a6b6bc2d14a05dfd0b851d1b4172cf364"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>GameShopStates</b> { <b>GAME_SHOP_INTRO</b>
+<tr class="memitem:a6b6bc2d14a05dfd0b851d1b4172cf364" id="r_a6b6bc2d14a05dfd0b851d1b4172cf364"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>GameShopStates</b> { <br />
+&#160;&#160;<b>GAME_SHOP_INTRO</b>
 , <b>GAME_SHOP_ACTIVE</b>
-, <b>GAME_SHOP_EXIT</b>
+, <b>GAME_SHOP_SHOW_CARD_DESC</b>
+, <b>GAME_SHOP_HIDE_CARD_DESC</b>
+, <br />
+&#160;&#160;<b>GAME_SHOP_EXIT</b>
 , <b>GAME_SHOP_MAX</b>
+<br />
  }</td></tr>
 <tr class="separator:a6b6bc2d14a05dfd0b851d1b4172cf364"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -219,12 +233,16 @@ Functions</h2></td></tr>
 <tr class="memitem:a484407ff53bda48be7caddeb4a3182f5" id="r_a484407ff53bda48be7caddeb4a3182f5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a484407ff53bda48be7caddeb4a3182f5">game_shop_intro</a> ()</td></tr>
 <tr class="memdesc:a484407ff53bda48be7caddeb4a3182f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Intro sequence (menu and shop icon coming into frame)  <br /></td></tr>
 <tr class="separator:a484407ff53bda48be7caddeb4a3182f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3321c677dd5f9605d6895b97222e937" id="r_ab3321c677dd5f9605d6895b97222e937"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ab3321c677dd5f9605d6895b97222e937">game_shop_process_user_input</a> ()</td></tr>
-<tr class="memdesc:ab3321c677dd5f9605d6895b97222e937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle user inputs logic in the Shop though a <a class="el" href="structSelectionGrid.html" title="The core selection grid struct, represents the grid itself and its state.">SelectionGrid</a>.  <br /></td></tr>
-<tr class="separator:ab3321c677dd5f9605d6895b97222e937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa10fa0331a4ed28dfd9f1d69eabca925" id="r_aa10fa0331a4ed28dfd9f1d69eabca925"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#aa10fa0331a4ed28dfd9f1d69eabca925">game_shop_outro</a> ()</td></tr>
-<tr class="memdesc:aa10fa0331a4ed28dfd9f1d69eabca925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outro sequence substate update. This makes the menu and shop icon go out of frame.  <br /></td></tr>
-<tr class="separator:aa10fa0331a4ed28dfd9f1d69eabca925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a427185995dbe809f35cb3637fddbcabd" id="r_a427185995dbe809f35cb3637fddbcabd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a427185995dbe809f35cb3637fddbcabd">game_shop_process_user_input</a> (void)</td></tr>
+<tr class="memdesc:a427185995dbe809f35cb3637fddbcabd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handle user inputs logic in the Shop though a <a class="el" href="structSelectionGrid.html" title="The core selection grid struct, represents the grid itself and its state.">SelectionGrid</a>.  <br /></td></tr>
+<tr class="separator:a427185995dbe809f35cb3637fddbcabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff25e02083d496773ab2c99d7dc810c4" id="r_aff25e02083d496773ab2c99d7dc810c4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#aff25e02083d496773ab2c99d7dc810c4">game_shop_show_card_desc</a> (void)</td></tr>
+<tr class="separator:aff25e02083d496773ab2c99d7dc810c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c667b10465e60c8a275438514c0efaf" id="r_a4c667b10465e60c8a275438514c0efaf"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a4c667b10465e60c8a275438514c0efaf">game_shop_hide_card_desc</a> (void)</td></tr>
+<tr class="separator:a4c667b10465e60c8a275438514c0efaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1226dfef8dc6217e92e12941de78acb" id="r_ac1226dfef8dc6217e92e12941de78acb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ac1226dfef8dc6217e92e12941de78acb">game_shop_outro</a> (void)</td></tr>
+<tr class="memdesc:ac1226dfef8dc6217e92e12941de78acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outro sequence substate update. This makes the menu and shop icon go out of frame.  <br /></td></tr>
+<tr class="separator:ac1226dfef8dc6217e92e12941de78acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75ea42eafb427a9ca2daa6d2f6d70ec9" id="r_a75ea42eafb427a9ca2daa6d2f6d70ec9"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a75ea42eafb427a9ca2daa6d2f6d70ec9">shop_top_row_get_size</a> (void)</td></tr>
 <tr class="memdesc:a75ea42eafb427a9ca2daa6d2f6d70ec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the number of Jokers up for sale, aka the number of "buttons" there are on the top row of the Shop.  <br /></td></tr>
 <tr class="separator:a75ea42eafb427a9ca2daa6d2f6d70ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -249,6 +267,9 @@ Functions</h2></td></tr>
 <tr class="separator:a4dadb3714025b72da9229f619cd8c5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae15f9888e0908038f8cc2e0741189039" id="r_ae15f9888e0908038f8cc2e0741189039"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ae15f9888e0908038f8cc2e0741189039">reroll_can_be_pressed</a> (void)</td></tr>
 <tr class="separator:ae15f9888e0908038f8cc2e0741189039"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f5e216526e8cf0cb46e46182b7a0cbc" id="r_a0f5e216526e8cf0cb46e46182b7a0cbc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJokerObject.html">JokerObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a0f5e216526e8cf0cb46e46182b7a0cbc">game_shop_get_description_card</a> (void)</td></tr>
+<tr class="memdesc:a0f5e216526e8cf0cb46e46182b7a0cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="structCard.html">Card</a> we are currently showing the description of.  <br /></td></tr>
+<tr class="separator:a0f5e216526e8cf0cb46e46182b7a0cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a9c91f7d35df2d8d94532065733fe4f" id="r_a9a9c91f7d35df2d8d94532065733fe4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a9a9c91f7d35df2d8d94532065733fe4f">reset_shop_jokers</a> (void)</td></tr>
 <tr class="separator:a9a9c91f7d35df2d8d94532065733fe4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fa7df04d461d36854de8de527fb3a5f" id="r_a5fa7df04d461d36854de8de527fb3a5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a5fa7df04d461d36854de8de527fb3a5f">game_shop_reset</a> (void)</td></tr>
@@ -283,9 +304,9 @@ Functions</h2></td></tr>
 <tr class="memitem:afa2bcfaabfdef335423c04491a80ed40" id="r_afa2bcfaabfdef335423c04491a80ed40"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#afa2bcfaabfdef335423c04491a80ed40">game_shop_buy_joker</a> (int shop_joker_idx)</td></tr>
 <tr class="memdesc:afa2bcfaabfdef335423c04491a80ed40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called when pressing A on a Shop <a class="el" href="structJoker.html">Joker</a> to buy it.  <br /></td></tr>
 <tr class="separator:afa2bcfaabfdef335423c04491a80ed40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9948c1ba7c455f0b70b362b3d2fb4a5" id="r_ad9948c1ba7c455f0b70b362b3d2fb4a5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ad9948c1ba7c455f0b70b362b3d2fb4a5">game_shop_reroll</a> (int *reroll_cost)</td></tr>
-<tr class="memdesc:ad9948c1ba7c455f0b70b362b3d2fb4a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reroll items up for sale in the Shop. Reroll cost will go up by a rate that increases by 1 each reroll.  <br /></td></tr>
-<tr class="separator:ad9948c1ba7c455f0b70b362b3d2fb4a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a363e56bc7749790b022af7520f317b74" id="r_a363e56bc7749790b022af7520f317b74"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a363e56bc7749790b022af7520f317b74">game_shop_reroll</a> (void)</td></tr>
+<tr class="memdesc:a363e56bc7749790b022af7520f317b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reroll items up for sale in the Shop. Reroll cost will go up by a rate that increases by 1 each reroll.  <br /></td></tr>
+<tr class="separator:a363e56bc7749790b022af7520f317b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eda134181fdd41d27ba407f4000f5d8" id="r_a4eda134181fdd41d27ba407f4000f5d8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a4eda134181fdd41d27ba407f4000f5d8">game_shop_lights_anim_frame</a> (void)</td></tr>
 <tr class="memdesc:a4eda134181fdd41d27ba407f4000f5d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cycling shop lights animation substate update.  <br /></td></tr>
 <tr class="separator:a4eda134181fdd41d27ba407f4000f5d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,20 +319,42 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a90fe29a81b43c6396baf037a15949ae0" id="r_a90fe29a81b43c6396baf037a15949ae0"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a90fe29a81b43c6396baf037a15949ae0">SHOP_ICON_FROM_RECT</a> = { 0, 26, 8, 26 }</td></tr>
+<tr class="memitem:ac9821e24d70e0674b9c2c98985745589" id="r_ac9821e24d70e0674b9c2c98985745589"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ac9821e24d70e0674b9c2c98985745589">SHOP_CLEAR_3X3_SRC_POS</a> = { 29, 0}</td></tr>
+<tr class="separator:ac9821e24d70e0674b9c2c98985745589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90fe29a81b43c6396baf037a15949ae0" id="r_a90fe29a81b43c6396baf037a15949ae0"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a90fe29a81b43c6396baf037a15949ae0">SHOP_ICON_FROM_RECT</a> = { 0, 26, 8, 26}</td></tr>
 <tr class="separator:a90fe29a81b43c6396baf037a15949ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8eb2946a86f53dfd7b9e1b44ce271f3d" id="r_a8eb2946a86f53dfd7b9e1b44ce271f3d"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a8eb2946a86f53dfd7b9e1b44ce271f3d">SHOP_ICON_TO_POS</a> = { 0, 0 }</td></tr>
+<tr class="memitem:a8eb2946a86f53dfd7b9e1b44ce271f3d" id="r_a8eb2946a86f53dfd7b9e1b44ce271f3d"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a8eb2946a86f53dfd7b9e1b44ce271f3d">SHOP_ICON_TO_POS</a> = { 0, 0}</td></tr>
 <tr class="separator:a8eb2946a86f53dfd7b9e1b44ce271f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4fa9525aeb9de45a2ab86869f371cb9" id="r_af4fa9525aeb9de45a2ab86869f371cb9"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#af4fa9525aeb9de45a2ab86869f371cb9">OWNED_CARDS_PANEL_3X3_SRC_POS</a> = { 29, 21}</td></tr>
+<tr class="separator:af4fa9525aeb9de45a2ab86869f371cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c7ab20d314e81e4da657a5d29dfcc69" id="r_a2c7ab20d314e81e4da657a5d29dfcc69"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a2c7ab20d314e81e4da657a5d29dfcc69">OWNED_JOKERS_PANEL_RECT</a> = { 9, 1, 21, 5}</td></tr>
+<tr class="separator:a2c7ab20d314e81e4da657a5d29dfcc69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4558e0a2cda2c1abbb5fa3594e5ec6" id="r_afd4558e0a2cda2c1abbb5fa3594e5ec6"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#afd4558e0a2cda2c1abbb5fa3594e5ec6">OWNED_CONSUMABLES_PANEL_RECT</a> = { 23, 1, 28, 5}</td></tr>
+<tr class="separator:afd4558e0a2cda2c1abbb5fa3594e5ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b1821650eb4495204c01ad734d770d8" id="r_a9b1821650eb4495204c01ad734d770d8"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a9b1821650eb4495204c01ad734d770d8">OWNED_CARDS_PANEL_RECT</a> = { 9, 1, 28, 5}</td></tr>
+<tr class="separator:a9b1821650eb4495204c01ad734d770d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1368ae5cc3d3cbcc51a6cf3caf857492" id="r_a1368ae5cc3d3cbcc51a6cf3caf857492"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a1368ae5cc3d3cbcc51a6cf3caf857492">CARD_DESC_9_PTCH_TO_RECT</a> = { 9, 6, 28, 18}</td></tr>
+<tr class="separator:a1368ae5cc3d3cbcc51a6cf3caf857492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8274b3aec1f4b4cdaf0ffe43fbd8107" id="r_ac8274b3aec1f4b4cdaf0ffe43fbd8107"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structNinePatchRect.html">NinePatchRect</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ac8274b3aec1f4b4cdaf0ffe43fbd8107">CARD_DESC_9_PTCH_SRC</a></td></tr>
+<tr class="separator:ac8274b3aec1f4b4cdaf0ffe43fbd8107"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a899a3602f9f03f530054f79d0bbead56" id="r_a899a3602f9f03f530054f79d0bbead56"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a899a3602f9f03f530054f79d0bbead56">CARD_DESC_MAX_TEXT_HEIGHT</a></td></tr>
+<tr class="separator:a899a3602f9f03f530054f79d0bbead56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2315982c9b4329a380e5d83e0b9c5a81" id="r_a2315982c9b4329a380e5d83e0b9c5a81"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a2315982c9b4329a380e5d83e0b9c5a81">CARD_DESC_TEXT_RECT</a> = { 11, 9, 26, 18}</td></tr>
+<tr class="separator:a2315982c9b4329a380e5d83e0b9c5a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0deaf53062a978227aba3d34252512c" id="r_ae0deaf53062a978227aba3d34252512c"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ae0deaf53062a978227aba3d34252512c">CARD_NAME_TEXT_RECT</a> = { 10, 7, 27, 7}</td></tr>
+<tr class="separator:ae0deaf53062a978227aba3d34252512c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf4c90289a781c06afdf8e2198a24cd0" id="r_abf4c90289a781c06afdf8e2198a24cd0"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#abf4c90289a781c06afdf8e2198a24cd0">SHOP_JOKER_SPRITES_INIT_POS</a> = {120, 160}</td></tr>
+<tr class="separator:abf4c90289a781c06afdf8e2198a24cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9875ec59ffecd7b0a22dedc7c4eeedf5" id="r_a9875ec59ffecd7b0a22dedc7c4eeedf5"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a9875ec59ffecd7b0a22dedc7c4eeedf5">CARD_DESCRIPTION_SPRITE_POS</a> = {135, 9}</td></tr>
+<tr class="separator:a9875ec59ffecd7b0a22dedc7c4eeedf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e7759726faef0648fad1b90f9495b93" id="r_a8e7759726faef0648fad1b90f9495b93"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a8e7759726faef0648fad1b90f9495b93">SHOP_PRICES_TEXT_RECT</a> = { 72, 56, 192, 160 }</td></tr>
 <tr class="separator:a8e7759726faef0648fad1b90f9495b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadf1c706bccf611eab9663751689525c" id="r_aadf1c706bccf611eab9663751689525c"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#aadf1c706bccf611eab9663751689525c">SHOP_REROLL_RECT</a> = { 88, 96, UNDEFINED, UNDEFINED }</td></tr>
 <tr class="separator:aadf1c706bccf611eab9663751689525c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf4c90289a781c06afdf8e2198a24cd0" id="r_abf4c90289a781c06afdf8e2198a24cd0"><td class="memItemLeft" align="right" valign="top">static const BG_POINT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#abf4c90289a781c06afdf8e2198a24cd0">SHOP_JOKER_SPRITES_INIT_POS</a> = {120, 160}</td></tr>
-<tr class="separator:abf4c90289a781c06afdf8e2198a24cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab840401d981cde143bb7f53d319c120e" id="r_ab840401d981cde143bb7f53d319c120e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structList.html">List</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#ab840401d981cde143bb7f53d319c120e">s_shop_jokers_list</a> = <a class="el" href="list_8h.html#ae3af686b4f37d17030e55fe7934f9afe">LIST_DEFAULT</a></td></tr>
 <tr class="separator:ab840401d981cde143bb7f53d319c120e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87acb057a3c286bbe756c63bdb990ace" id="r_a87acb057a3c286bbe756c63bdb990ace"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structStateInfo.html">StateInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a87acb057a3c286bbe756c63bdb990ace">shop_state_actions</a> []</td></tr>
-<tr class="separator:a87acb057a3c286bbe756c63bdb990ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6104669e0dd2e9f24caf818007ad830c" id="r_a6104669e0dd2e9f24caf818007ad830c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structStateInfo.html">StateInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a6104669e0dd2e9f24caf818007ad830c">shop_state_actions</a> [GAME_SHOP_MAX]</td></tr>
+<tr class="separator:a6104669e0dd2e9f24caf818007ad830c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe18f02f60efd89c3002befc99afd525" id="r_afe18f02f60efd89c3002befc99afd525"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structStateMachine.html">StateMachine</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#afe18f02f60efd89c3002befc99afd525">shop_sm</a> = STATE_MACHINE_DEFINE(shop_state_actions, GAME_SHOP_MAX)</td></tr>
 <tr class="separator:afe18f02f60efd89c3002befc99afd525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32abef3aba58db52ab241647bab3947d" id="r_a32abef3aba58db52ab241647bab3947d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structSelectionGridRow.html">SelectionGridRow</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a32abef3aba58db52ab241647bab3947d">shop_selection_rows</a> []</td></tr>
@@ -328,6 +371,14 @@ Variables</h2></td></tr>
 <tr class="separator:ae2c6087027bfdf561a2b766975b47ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc86548dd25496e26bffd10551e068fe" id="r_afc86548dd25496e26bffd10551e068fe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#afc86548dd25496e26bffd10551e068fe">reroll_cost</a> = REROLL_BASE_COST</td></tr>
 <tr class="separator:afc86548dd25496e26bffd10551e068fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a62e42256098da149ef1662fbd89df1" id="r_a1a62e42256098da149ef1662fbd89df1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structJokerObject.html">JokerObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a1a62e42256098da149ef1662fbd89df1">description_card</a> = NULL</td></tr>
+<tr class="separator:a1a62e42256098da149ef1662fbd89df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e4fc3d99c38cc83a5d39697cdfa052b" id="r_a6e4fc3d99c38cc83a5d39697cdfa052b"><td class="memItemLeft" align="right" valign="top">static FIXED&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a6e4fc3d99c38cc83a5d39697cdfa052b">description_card_original_x_pos</a> = UNDEFINED</td></tr>
+<tr class="separator:a6e4fc3d99c38cc83a5d39697cdfa052b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe9b2fb8058d928bd09dd59811ae211" id="r_acbe9b2fb8058d928bd09dd59811ae211"><td class="memItemLeft" align="right" valign="top">static FIXED&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#acbe9b2fb8058d928bd09dd59811ae211">description_card_original_y_pos</a> = UNDEFINED</td></tr>
+<tr class="separator:acbe9b2fb8058d928bd09dd59811ae211"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a577a23b703a3bcce5f6ab35fe7540357" id="r_a577a23b703a3bcce5f6ab35fe7540357"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structList.html">List</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8c.html#a577a23b703a3bcce5f6ab35fe7540357">description_card_original_list</a> = NULL</td></tr>
+<tr class="separator:a577a23b703a3bcce5f6ab35fe7540357"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Shop state functions implementation. </p>
@@ -346,7 +397,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00033">33</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00036">36</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -362,7 +413,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00046">46</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00050">50</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -378,7 +429,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00037">37</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00041">41</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -394,7 +445,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00041">41</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00045">45</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a8284b6ea1c6fe64ff2843b0002cf559c" name="a8284b6ea1c6fe64ff2843b0002cf559c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8284b6ea1c6fe64ff2843b0002cf559c">&#9670;&#160;</a></span>OWNED_CARDS_HIDE_Y_OFFSET</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define OWNED_CARDS_HIDE_Y_OFFSET&#160;&#160;&#160;50</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00037">37</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -410,7 +477,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00036">36</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00040">40</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -426,7 +493,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00040">40</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00044">44</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -442,7 +509,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00043">43</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00047">47</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -458,7 +525,39 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00049">49</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00053">53</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a95f536515d787db2d65bbea7537a55f6" name="a95f536515d787db2d65bbea7537a55f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95f536515d787db2d65bbea7537a55f6">&#9670;&#160;</a></span>SHOP_DESC_RARITY_MAIN_COLOR_PAL_IDX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SHOP_DESC_RARITY_MAIN_COLOR_PAL_IDX&#160;&#160;&#160;27</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00054">54</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="ab2100778ebd408db54f398fd80ad1d68" name="ab2100778ebd408db54f398fd80ad1d68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2100778ebd408db54f398fd80ad1d68">&#9670;&#160;</a></span>SHOP_DESC_RARITY_SHADOW_COLOR_PAL_IDX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SHOP_DESC_RARITY_SHADOW_COLOR_PAL_IDX&#160;&#160;&#160;28</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00055">55</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -474,7 +573,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00051">51</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00057">57</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -490,7 +589,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00044">44</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00048">48</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -506,7 +605,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00052">52</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00058">58</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -522,7 +621,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00045">45</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00049">49</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -538,7 +637,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00053">53</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00059">59</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -554,7 +653,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00047">47</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00051">51</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -570,7 +669,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00054">54</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00060">60</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -586,7 +685,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00048">48</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00052">52</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -602,7 +701,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00042">42</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00046">46</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -618,7 +717,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00029">29</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00031">31</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -634,7 +733,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00028">28</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00030">30</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -650,7 +749,23 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00030">30</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00032">32</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a769c365ced334e0b0bd7d3aca5ba3555" name="a769c365ced334e0b0bd7d3aca5ba3555"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a769c365ced334e0b0bd7d3aca5ba3555">&#9670;&#160;</a></span>TM_SHOW_CARD_DESC_WAIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TM_SHOW_CARD_DESC_WAIT&#160;&#160;&#160;12</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00033">33</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -667,7 +782,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00069">69</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00093">93</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -698,7 +813,7 @@ Variables</h2></td></tr>
 
 <p>Add a newly purchased <a class="el" href="structJoker.html">Joker</a> to the list of owned Jokers. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00393">393</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00434">434</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -728,7 +843,7 @@ Variables</h2></td></tr>
 
 <p>Called when pressing A on a Shop <a class="el" href="structJoker.html">Joker</a> to buy it. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00402">402</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00443">443</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -750,7 +865,7 @@ Variables</h2></td></tr>
 
 <p>Change to the shop background. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00168">168</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00209">209</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -780,7 +895,30 @@ Variables</h2></td></tr>
 
 <p>Setup for the lists of items we can purchase in the Shop. Only Jokers are available for now, but this is where consumables and booster packs will be rolled when they are implemented. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00275">275</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00316">316</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a0f5e216526e8cf0cb46e46182b7a0cbc" name="a0f5e216526e8cf0cb46e46182b7a0cbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f5e216526e8cf0cb46e46182b7a0cbc">&#9670;&#160;</a></span>game_shop_get_description_card()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structJokerObject.html">JokerObject</a> * game_shop_get_description_card </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the <a class="el" href="structCard.html">Card</a> we are currently showing the description of. </p>
+<dl class="section return"><dt>Returns</dt><dd>JokerObject* </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00178">178</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -810,7 +948,35 @@ Variables</h2></td></tr>
 
 <p>Rolls a random <a class="el" href="structJoker.html">Joker</a> among the available ones. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00219">219</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00260">260</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a4c667b10465e60c8a275438514c0efaf" name="a4c667b10465e60c8a275438514c0efaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c667b10465e60c8a275438514c0efaf">&#9670;&#160;</a></span>game_shop_hide_card_desc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void game_shop_hide_card_desc </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00812">812</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -840,7 +1006,7 @@ Variables</h2></td></tr>
 
 <p>Intro sequence (menu and shop icon coming into frame) </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00337">337</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00378">378</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -870,7 +1036,7 @@ Variables</h2></td></tr>
 
 <p>Cycling shop lights animation substate update. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00671">671</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00966">966</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -892,7 +1058,7 @@ Variables</h2></td></tr>
 
 <p>Shop cleanup. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00722">722</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l01017">1017</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -914,7 +1080,7 @@ Variables</h2></td></tr>
 
 <p>Shop state initialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00192">192</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00233">233</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -936,12 +1102,12 @@ Variables</h2></td></tr>
 
 <p>Shop state update. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00697">697</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00992">992</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
-<a id="aa10fa0331a4ed28dfd9f1d69eabca925" name="aa10fa0331a4ed28dfd9f1d69eabca925"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa10fa0331a4ed28dfd9f1d69eabca925">&#9670;&#160;</a></span>game_shop_outro()</h2>
+<a id="ac1226dfef8dc6217e92e12941de78acb" name="ac1226dfef8dc6217e92e12941de78acb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1226dfef8dc6217e92e12941de78acb">&#9670;&#160;</a></span>game_shop_outro()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -966,12 +1132,12 @@ Variables</h2></td></tr>
 
 <p>Outro sequence substate update. This makes the menu and shop icon go out of frame. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00629">629</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00924">924</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
-<a id="ab3321c677dd5f9605d6895b97222e937" name="ab3321c677dd5f9605d6895b97222e937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3321c677dd5f9605d6895b97222e937">&#9670;&#160;</a></span>game_shop_process_user_input()</h2>
+<a id="a427185995dbe809f35cb3637fddbcabd" name="a427185995dbe809f35cb3637fddbcabd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a427185995dbe809f35cb3637fddbcabd">&#9670;&#160;</a></span>game_shop_process_user_input()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -996,12 +1162,12 @@ Variables</h2></td></tr>
 
 <p>Handle user inputs logic in the Shop though a <a class="el" href="structSelectionGrid.html" title="The core selection grid struct, represents the grid itself and its state.">SelectionGrid</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00620">620</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00661">661</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
-<a id="ad9948c1ba7c455f0b70b362b3d2fb4a5" name="ad9948c1ba7c455f0b70b362b3d2fb4a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9948c1ba7c455f0b70b362b3d2fb4a5">&#9670;&#160;</a></span>game_shop_reroll()</h2>
+<a id="a363e56bc7749790b022af7520f317b74" name="a363e56bc7749790b022af7520f317b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a363e56bc7749790b022af7520f317b74">&#9670;&#160;</a></span>game_shop_reroll()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1012,8 +1178,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">static void game_shop_reroll </td>
           <td>(</td>
-          <td class="paramtype">int *&#160;</td>
-          <td class="paramname"><em>reroll_cost</em></td><td>)</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1026,7 +1192,7 @@ Variables</h2></td></tr>
 
 <p>Reroll items up for sale in the Shop. Reroll cost will go up by a rate that increases by 1 each reroll. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00536">536</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00577">577</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1048,7 +1214,7 @@ Variables</h2></td></tr>
 
 <p>Initialize the shop for a run. Resets all the shop data for the run, needs to be called once per run. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00153">153</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00194">194</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1086,7 +1252,35 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00163">163</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00204">204</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="aff25e02083d496773ab2c99d7dc810c4" name="aff25e02083d496773ab2c99d7dc810c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff25e02083d496773ab2c99d7dc810c4">&#9670;&#160;</a></span>game_shop_show_card_desc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void game_shop_show_card_desc </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00713">713</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1116,7 +1310,7 @@ Variables</h2></td></tr>
 
 <p>Computes the number of Jokers we can currently roll in the Shop. The Jokers we own is taken into account and can't be rolled again. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00211">211</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00252">252</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1144,7 +1338,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00265">265</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00306">306</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1172,7 +1366,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00596">596</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00637">637</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1202,7 +1396,7 @@ Variables</h2></td></tr>
 
 <p>Returns true if we can't roll any <a class="el" href="structJoker.html">Joker</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00259">259</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00300">300</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1230,7 +1424,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00612">612</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00653">653</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1258,7 +1452,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00606">606</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00647">647</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1286,7 +1480,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00142">142</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00183">183</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1317,7 +1511,7 @@ Variables</h2></td></tr>
 <p>Get size of the row with the "Reroll" button. </p>
 <dl class="section return"><dt>Returns</dt><dd>Always 1, because there is only the "Reroll" button on that row. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00498">498</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00539">539</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1357,7 +1551,7 @@ Variables</h2></td></tr>
 
 <p>Handle button inputs for the "Reroll" button's row. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00586">586</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00627">627</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1409,7 +1603,7 @@ Variables</h2></td></tr>
 
 <p>Handle d-pad inputs for the "Reroll" button's row. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00506">506</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00547">547</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1439,7 +1633,7 @@ Variables</h2></td></tr>
 
 <p>Computes the number of Jokers up for sale, aka the number of "buttons" there are on the top row of the Shop. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00384">384</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00425">425</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1479,7 +1673,7 @@ Variables</h2></td></tr>
 
 <p>Handle button inputs for the "Next Round" button and shop Jokers. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00418">418</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00459">459</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1531,11 +1725,259 @@ Variables</h2></td></tr>
 
 <p>Handle d-pad inputs for the "Next Round" button and shop Jokers' row. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00446">446</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00487">487</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="ac8274b3aec1f4b4cdaf0ffe43fbd8107" name="ac8274b3aec1f4b4cdaf0ffe43fbd8107"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8274b3aec1f4b4cdaf0ffe43fbd8107">&#9670;&#160;</a></span>CARD_DESC_9_PTCH_SRC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structNinePatchRect.html">NinePatchRect</a> CARD_DESC_9_PTCH_SRC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">                                        .patch_rect = { 27, 25, 31, 31},</div>
+<div class="line">                                        .margins    = {  2,  3,  2,  3}</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00072">72</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a1368ae5cc3d3cbcc51a6cf3caf857492" name="a1368ae5cc3d3cbcc51a6cf3caf857492"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1368ae5cc3d3cbcc51a6cf3caf857492">&#9670;&#160;</a></span>CARD_DESC_9_PTCH_TO_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect CARD_DESC_9_PTCH_TO_RECT = { 9, 6, 28, 18}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00071">71</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a899a3602f9f03f530054f79d0bbead56" name="a899a3602f9f03f530054f79d0bbead56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a899a3602f9f03f530054f79d0bbead56">&#9670;&#160;</a></span>CARD_DESC_MAX_TEXT_HEIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int CARD_DESC_MAX_TEXT_HEIGHT</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= CARD_DESC_9_PTCH_TO_RECT.bottom -</div>
+<div class="line">                                                      CARD_DESC_9_PTCH_TO_RECT.top + 1 -</div>
+<div class="line">                                                      CARD_DESC_9_PTCH_SRC.margins.top -</div>
+<div class="line">                                                      CARD_DESC_9_PTCH_SRC.margins.bottom</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00076">76</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a2315982c9b4329a380e5d83e0b9c5a81" name="a2315982c9b4329a380e5d83e0b9c5a81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2315982c9b4329a380e5d83e0b9c5a81">&#9670;&#160;</a></span>CARD_DESC_TEXT_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect CARD_DESC_TEXT_RECT = { 11, 9, 26, 18}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00080">80</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a9875ec59ffecd7b0a22dedc7c4eeedf5" name="a9875ec59ffecd7b0a22dedc7c4eeedf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9875ec59ffecd7b0a22dedc7c4eeedf5">&#9670;&#160;</a></span>CARD_DESCRIPTION_SPRITE_POS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const BG_POINT CARD_DESCRIPTION_SPRITE_POS = {135, 9}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00085">85</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="ae0deaf53062a978227aba3d34252512c" name="ae0deaf53062a978227aba3d34252512c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0deaf53062a978227aba3d34252512c">&#9670;&#160;</a></span>CARD_NAME_TEXT_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect CARD_NAME_TEXT_RECT = { 10, 7, 27, 7}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00081">81</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a1a62e42256098da149ef1662fbd89df1" name="a1a62e42256098da149ef1662fbd89df1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a62e42256098da149ef1662fbd89df1">&#9670;&#160;</a></span>description_card</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structJokerObject.html">JokerObject</a>* description_card = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00173">173</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a577a23b703a3bcce5f6ab35fe7540357" name="a577a23b703a3bcce5f6ab35fe7540357"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a577a23b703a3bcce5f6ab35fe7540357">&#9670;&#160;</a></span>description_card_original_list</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structList.html">List</a>* description_card_original_list = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00176">176</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a6e4fc3d99c38cc83a5d39697cdfa052b" name="a6e4fc3d99c38cc83a5d39697cdfa052b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e4fc3d99c38cc83a5d39697cdfa052b">&#9670;&#160;</a></span>description_card_original_x_pos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FIXED description_card_original_x_pos = UNDEFINED</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00174">174</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="acbe9b2fb8058d928bd09dd59811ae211" name="acbe9b2fb8058d928bd09dd59811ae211"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbe9b2fb8058d928bd09dd59811ae211">&#9670;&#160;</a></span>description_card_original_y_pos</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FIXED description_card_original_y_pos = UNDEFINED</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00175">175</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
 <a id="aa9cde9ab2da5f31d9d1c167364eb844c" name="aa9cde9ab2da5f31d9d1c167364eb844c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9cde9ab2da5f31d9d1c167364eb844c">&#9670;&#160;</a></span>next_round_button</h2>
 
@@ -1558,7 +2000,103 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">=</div>
 <div class="line">    {NEXT_ROUND_BTN_SELECTED_BORDER_PAL_IDX, NEXT_ROUND_BTN_PAL_IDX, next_round_on_pressed, NULL}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00127">127</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00157">157</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="af4fa9525aeb9de45a2ab86869f371cb9" name="af4fa9525aeb9de45a2ab86869f371cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4fa9525aeb9de45a2ab86869f371cb9">&#9670;&#160;</a></span>OWNED_CARDS_PANEL_3X3_SRC_POS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const BG_POINT OWNED_CARDS_PANEL_3X3_SRC_POS = { 29, 21}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00067">67</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a9b1821650eb4495204c01ad734d770d8" name="a9b1821650eb4495204c01ad734d770d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b1821650eb4495204c01ad734d770d8">&#9670;&#160;</a></span>OWNED_CARDS_PANEL_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect OWNED_CARDS_PANEL_RECT = { 9, 1, 28, 5}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00070">70</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="afd4558e0a2cda2c1abbb5fa3594e5ec6" name="afd4558e0a2cda2c1abbb5fa3594e5ec6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd4558e0a2cda2c1abbb5fa3594e5ec6">&#9670;&#160;</a></span>OWNED_CONSUMABLES_PANEL_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect OWNED_CONSUMABLES_PANEL_RECT = { 23, 1, 28, 5}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00069">69</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="a2c7ab20d314e81e4da657a5d29dfcc69" name="a2c7ab20d314e81e4da657a5d29dfcc69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c7ab20d314e81e4da657a5d29dfcc69">&#9670;&#160;</a></span>OWNED_JOKERS_PANEL_RECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const Rect OWNED_JOKERS_PANEL_RECT = { 9, 1, 21, 5}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00068">68</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1588,7 +2126,7 @@ Variables</h2></td></tr>
 <div class="line">    reroll_can_be_pressed</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00129">129</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00159">159</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1612,7 +2150,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00140">140</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00170">170</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1636,7 +2174,31 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00066">66</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00090">90</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+
+</div>
+</div>
+<a id="ac9821e24d70e0674b9c2c98985745589" name="ac9821e24d70e0674b9c2c98985745589"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9821e24d70e0674b9c2c98985745589">&#9670;&#160;</a></span>SHOP_CLEAR_3X3_SRC_POS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const BG_POINT SHOP_CLEAR_3X3_SRC_POS = { 29, 0}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00064">64</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1650,7 +2212,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Rect SHOP_ICON_FROM_RECT = { 0, 26, 8, 26 }</td>
+          <td class="memname">const Rect SHOP_ICON_FROM_RECT = { 0, 26, 8, 26}</td>
         </tr>
       </table>
   </td>
@@ -1660,7 +2222,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00057">57</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00065">65</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1674,7 +2236,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const BG_POINT SHOP_ICON_TO_POS = { 0, 0 }</td>
+          <td class="memname">const BG_POINT SHOP_ICON_TO_POS = { 0, 0}</td>
         </tr>
       </table>
   </td>
@@ -1684,7 +2246,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00058">58</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00066">66</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1708,7 +2270,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00114">114</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00144">144</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1732,7 +2294,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00063">63</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00084">84</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1756,7 +2318,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00059">59</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00086">86</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1780,7 +2342,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00060">60</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00087">87</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1810,7 +2372,7 @@ Variables</h2></td></tr>
 <div class="line">}</div>
 <div class="ttc" id="autil_8h_html_a3494fcb52c3d0ca1bf610facc8c81514"><div class="ttname"><a href="util_8h.html#a3494fcb52c3d0ca1bf610facc8c81514">NUM_ELEM_IN_ARR</a></div><div class="ttdeci">#define NUM_ELEM_IN_ARR(arr)</div><div class="ttdoc">Get the number of elements in an array.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00040">util.h:40</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00116">116</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00146">146</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1841,14 +2403,14 @@ Variables</h2></td></tr>
 <div class="ttc" id="ajoker__row_8h_html_a55453f830f003362afcb314bacc1efa6"><div class="ttname"><a href="joker__row_8h.html#a55453f830f003362afcb314bacc1efa6">jokers_sel_row_on_selection_changed</a></div><div class="ttdeci">bool jokers_sel_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle directional inputs on the Jokers' row at the top of the game screen.</div><div class="ttdef"><b>Definition</b> <a href="joker__row_8c_source.html#l00016">joker_row.c:16</a></div></div>
 <div class="ttc" id="ajoker__row_8h_html_a98f49a8ea7b0012762d22095ec095b27"><div class="ttname"><a href="joker__row_8h.html#a98f49a8ea7b0012762d22095ec095b27">jokers_sel_row_on_key_transit</a></div><div class="ttdeci">void jokers_sel_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs on the Jokers' row at the top of the game screen.</div><div class="ttdef"><b>Definition</b> <a href="joker__row_8c_source.html#l00100">joker_row.c:100</a></div></div>
 <div class="ttc" id="ajoker__row_8h_html_acc859dcba03228c03eb23ab24f215557"><div class="ttname"><a href="joker__row_8h.html#acc859dcba03228c03eb23ab24f215557">jokers_sel_row_get_size</a></div><div class="ttdeci">int jokers_sel_row_get_size(void)</div><div class="ttdoc">Returns the size of the Jokers' row at the top of the game screen. Is equal to the number of Jokers o...</div><div class="ttdef"><b>Definition</b> <a href="joker__row_8c_source.html#l00011">joker_row.c:11</a></div></div>
-<div class="ttc" id="ashop_8c_html_a077e8c72bb06675c7307dec45fd895cb"><div class="ttname"><a href="shop_8c.html#a077e8c72bb06675c7307dec45fd895cb">shop_reroll_row_on_selection_changed</a></div><div class="ttdeci">static bool shop_reroll_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle d-pad inputs for the &quot;Reroll&quot; button's row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00506">shop.c:506</a></div></div>
-<div class="ttc" id="ashop_8c_html_a0dd08021dc2405d8c68d03060ad6b027"><div class="ttname"><a href="shop_8c.html#a0dd08021dc2405d8c68d03060ad6b027">shop_top_row_on_key_transit</a></div><div class="ttdeci">static void shop_top_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs for the &quot;Next Round&quot; button and shop Jokers.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00418">shop.c:418</a></div></div>
-<div class="ttc" id="ashop_8c_html_a1c93ade895a41aa97a9a38bdf425c5e4"><div class="ttname"><a href="shop_8c.html#a1c93ade895a41aa97a9a38bdf425c5e4">shop_top_row_on_selection_changed</a></div><div class="ttdeci">static bool shop_top_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle d-pad inputs for the &quot;Next Round&quot; button and shop Jokers' row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00446">shop.c:446</a></div></div>
-<div class="ttc" id="ashop_8c_html_a6c9b1b5c9e762eadffd7156376d9b52f"><div class="ttname"><a href="shop_8c.html#a6c9b1b5c9e762eadffd7156376d9b52f">shop_reroll_row_get_size</a></div><div class="ttdeci">static int shop_reroll_row_get_size(void)</div><div class="ttdoc">Get size of the row with the &quot;Reroll&quot; button.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00498">shop.c:498</a></div></div>
-<div class="ttc" id="ashop_8c_html_a75ea42eafb427a9ca2daa6d2f6d70ec9"><div class="ttname"><a href="shop_8c.html#a75ea42eafb427a9ca2daa6d2f6d70ec9">shop_top_row_get_size</a></div><div class="ttdeci">static int shop_top_row_get_size(void)</div><div class="ttdoc">Computes the number of Jokers up for sale, aka the number of &quot;buttons&quot; there are on the top row of th...</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00384">shop.c:384</a></div></div>
-<div class="ttc" id="ashop_8c_html_a853d7d426bf12e36958bd2b12d87236b"><div class="ttname"><a href="shop_8c.html#a853d7d426bf12e36958bd2b12d87236b">shop_reroll_row_on_key_transit</a></div><div class="ttdeci">static void shop_reroll_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs for the &quot;Reroll&quot; button's row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00586">shop.c:586</a></div></div>
+<div class="ttc" id="ashop_8c_html_a077e8c72bb06675c7307dec45fd895cb"><div class="ttname"><a href="shop_8c.html#a077e8c72bb06675c7307dec45fd895cb">shop_reroll_row_on_selection_changed</a></div><div class="ttdeci">static bool shop_reroll_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle d-pad inputs for the &quot;Reroll&quot; button's row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00547">shop.c:547</a></div></div>
+<div class="ttc" id="ashop_8c_html_a0dd08021dc2405d8c68d03060ad6b027"><div class="ttname"><a href="shop_8c.html#a0dd08021dc2405d8c68d03060ad6b027">shop_top_row_on_key_transit</a></div><div class="ttdeci">static void shop_top_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs for the &quot;Next Round&quot; button and shop Jokers.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00459">shop.c:459</a></div></div>
+<div class="ttc" id="ashop_8c_html_a1c93ade895a41aa97a9a38bdf425c5e4"><div class="ttname"><a href="shop_8c.html#a1c93ade895a41aa97a9a38bdf425c5e4">shop_top_row_on_selection_changed</a></div><div class="ttdeci">static bool shop_top_row_on_selection_changed(SelectionGrid *selection_grid, int row_idx, const Selection *prev_selection, const Selection *new_selection)</div><div class="ttdoc">Handle d-pad inputs for the &quot;Next Round&quot; button and shop Jokers' row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00487">shop.c:487</a></div></div>
+<div class="ttc" id="ashop_8c_html_a6c9b1b5c9e762eadffd7156376d9b52f"><div class="ttname"><a href="shop_8c.html#a6c9b1b5c9e762eadffd7156376d9b52f">shop_reroll_row_get_size</a></div><div class="ttdeci">static int shop_reroll_row_get_size(void)</div><div class="ttdoc">Get size of the row with the &quot;Reroll&quot; button.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00539">shop.c:539</a></div></div>
+<div class="ttc" id="ashop_8c_html_a75ea42eafb427a9ca2daa6d2f6d70ec9"><div class="ttname"><a href="shop_8c.html#a75ea42eafb427a9ca2daa6d2f6d70ec9">shop_top_row_get_size</a></div><div class="ttdeci">static int shop_top_row_get_size(void)</div><div class="ttdoc">Computes the number of Jokers up for sale, aka the number of &quot;buttons&quot; there are on the top row of th...</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00425">shop.c:425</a></div></div>
+<div class="ttc" id="ashop_8c_html_a853d7d426bf12e36958bd2b12d87236b"><div class="ttname"><a href="shop_8c.html#a853d7d426bf12e36958bd2b12d87236b">shop_reroll_row_on_key_transit</a></div><div class="ttdeci">static void shop_reroll_row_on_key_transit(SelectionGrid *selection_grid, Selection *selection)</div><div class="ttdoc">Handle button inputs for the &quot;Reroll&quot; button's row.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00627">shop.c:627</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00108">108</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00138">138</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1872,12 +2434,12 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00087">87</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00117">117</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
-<a id="a87acb057a3c286bbe756c63bdb990ace" name="a87acb057a3c286bbe756c63bdb990ace"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87acb057a3c286bbe756c63bdb990ace">&#9670;&#160;</a></span>shop_state_actions</h2>
+<a id="a6104669e0dd2e9f24caf818007ad830c" name="a6104669e0dd2e9f24caf818007ad830c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6104669e0dd2e9f24caf818007ad830c">&#9670;&#160;</a></span>shop_state_actions</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1886,7 +2448,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structStateInfo.html">StateInfo</a> shop_state_actions[]</td>
+          <td class="memname"><a class="el" href="structStateInfo.html">StateInfo</a> shop_state_actions[GAME_SHOP_MAX]</td>
         </tr>
       </table>
   </td>
@@ -1897,14 +2459,16 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= {</div>
 <div class="line">    STATE_INFO_UPDATE_FN_ONLY(<a class="code hl_function" href="shop_8c.html#a484407ff53bda48be7caddeb4a3182f5">game_shop_intro</a>),</div>
-<div class="line">    STATE_INFO_UPDATE_FN_ONLY(<a class="code hl_function" href="shop_8c.html#ab3321c677dd5f9605d6895b97222e937">game_shop_process_user_input</a>),</div>
-<div class="line">    STATE_INFO_UPDATE_FN_ONLY(<a class="code hl_function" href="shop_8c.html#aa10fa0331a4ed28dfd9f1d69eabca925">game_shop_outro</a>),</div>
+<div class="line">    STATE_INFO_UPDATE_FN_ONLY(<a class="code hl_function" href="shop_8c.html#a427185995dbe809f35cb3637fddbcabd">game_shop_process_user_input</a>),</div>
+<div class="line">    STATE_INFO_UPDATE_FN_ONLY(game_shop_show_card_desc),</div>
+<div class="line">    STATE_INFO_UPDATE_FN_ONLY(game_shop_hide_card_desc),</div>
+<div class="line">    STATE_INFO_UPDATE_FN_ONLY(<a class="code hl_function" href="shop_8c.html#ac1226dfef8dc6217e92e12941de78acb">game_shop_outro</a>),</div>
 <div class="line">}</div>
-<div class="ttc" id="ashop_8c_html_a484407ff53bda48be7caddeb4a3182f5"><div class="ttname"><a href="shop_8c.html#a484407ff53bda48be7caddeb4a3182f5">game_shop_intro</a></div><div class="ttdeci">static void game_shop_intro(void)</div><div class="ttdoc">Intro sequence (menu and shop icon coming into frame)</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00337">shop.c:337</a></div></div>
-<div class="ttc" id="ashop_8c_html_aa10fa0331a4ed28dfd9f1d69eabca925"><div class="ttname"><a href="shop_8c.html#aa10fa0331a4ed28dfd9f1d69eabca925">game_shop_outro</a></div><div class="ttdeci">static void game_shop_outro(void)</div><div class="ttdoc">Outro sequence substate update. This makes the menu and shop icon go out of frame.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00629">shop.c:629</a></div></div>
-<div class="ttc" id="ashop_8c_html_ab3321c677dd5f9605d6895b97222e937"><div class="ttname"><a href="shop_8c.html#ab3321c677dd5f9605d6895b97222e937">game_shop_process_user_input</a></div><div class="ttdeci">static void game_shop_process_user_input(void)</div><div class="ttdoc">Handle user inputs logic in the Shop though a SelectionGrid.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00620">shop.c:620</a></div></div>
+<div class="ttc" id="ashop_8c_html_a427185995dbe809f35cb3637fddbcabd"><div class="ttname"><a href="shop_8c.html#a427185995dbe809f35cb3637fddbcabd">game_shop_process_user_input</a></div><div class="ttdeci">static void game_shop_process_user_input(void)</div><div class="ttdoc">Handle user inputs logic in the Shop though a SelectionGrid.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00661">shop.c:661</a></div></div>
+<div class="ttc" id="ashop_8c_html_a484407ff53bda48be7caddeb4a3182f5"><div class="ttname"><a href="shop_8c.html#a484407ff53bda48be7caddeb4a3182f5">game_shop_intro</a></div><div class="ttdeci">static void game_shop_intro(void)</div><div class="ttdoc">Intro sequence (menu and shop icon coming into frame)</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00378">shop.c:378</a></div></div>
+<div class="ttc" id="ashop_8c_html_ac1226dfef8dc6217e92e12941de78acb"><div class="ttname"><a href="shop_8c.html#ac1226dfef8dc6217e92e12941de78acb">game_shop_outro</a></div><div class="ttdeci">static void game_shop_outro(void)</div><div class="ttdoc">Outro sequence substate update. This makes the menu and shop icon go out of frame.</div><div class="ttdef"><b>Definition</b> <a href="shop_8c_source.html#l00924">shop.c:924</a></div></div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00081">81</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00109">109</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -1928,7 +2492,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00138">138</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00168">168</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>

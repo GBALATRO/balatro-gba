@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('main_8c_source.html',''); initResizabl
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;gbalatro_sys8.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="graphic__utils_8h.html">graphic_utils.h</a>&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;joker.h&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="joker_8h.html">joker.h</a>&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="random_8h.html">random.h</a>&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="save_8h.html">save.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="sprite_8h.html">sprite.h</a>&quot;</span></div>
@@ -157,118 +157,117 @@ $(document).ready(function(){initNavTree('main_8c_source.html',''); initResizabl
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// Graphics</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;affine_background_gfx.h&quot;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;background_gfx.h&quot;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">// Audio</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;<a class="code" href="mgba__logger_8h.html">mgba_logger.h</a>&quot;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;soundbank.h&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;soundbank_bin.h&quot;</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">void</span> init()</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>{</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_function" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a>();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    irq_init(NULL);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    irq_add(II_VBLANK, mmVBlank);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    irq_add(II_HBLANK, <a class="code hl_function" href="affine__background_8h.html#ad0deca6c4a1ae5bc7d3a7c68a0ccb198">affine_background_hblank</a>);</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifdef MGBA_LOGGING</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>();</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// Initialize text engine</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    tte_init_se(</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        0,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB),</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        0,</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        CLR_WHITE,</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        TTE_BIT_UNPACK_OFFSET,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        &amp;gbalatro_sys8Font,</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="comment">// Explicitly use 8x8 tile text drawing function to improve performance</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// See https://gbadev.net/tonc/tte.html#ssec-map-reg</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        se_drawg_w8h8</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    );</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    tte_erase_screen();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    tte_init_con();</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// TTE palette setup</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    pal_bg_bank[TTE_YELLOW_PB][TTE_BIT_ON_CLR_IDX] = TEXT_CLR_YELLOW;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    pal_bg_bank[TTE_BLUE_PB][TTE_BIT_ON_CLR_IDX] = TEXT_CLR_BLUE;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    pal_bg_bank[TTE_RED_PB][TTE_BIT_ON_CLR_IDX] = TEXT_CLR_RED;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    pal_bg_bank[TTE_WHITE_PB][TTE_BIT_ON_CLR_IDX] = TEXT_CLR_WHITE;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// Set up the video mode</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">// BG0 is the TTE text layer</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    REG_BG0CNT = BG_PRIO(0) | BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB) | BG_4BPP;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// BG1 is the main background layer</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    REG_BG1CNT = BG_PRIO(1) | BG_CBB(MAIN_BG_CBB) | BG_SBB(MAIN_BG_SBB) | BG_8BPP;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// BG2 is the affine background layer</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    REG_BG2CNT = BG_PRIO(2) | BG_CBB(AFFINE_BG_CBB) | BG_SBB(AFFINE_BG_SBB) | BG_8BPP | BG_WRAP;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">int</span> win1_left = 72;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">int</span> win1_top = 44;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">int</span> win1_right = 200;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordtype">int</span> win1_bottom = 128;</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">int</span> win2_left = 72;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">int</span> win2_top = 0;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">int</span> win2_right = 232;</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">int</span> win2_bottom = 44;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    REG_WIN0H = win1_left &lt;&lt; 8 | win1_right;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    REG_WIN0V = win1_top &lt;&lt; 8 | win1_bottom;</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    REG_WIN0CNT = WIN_ALL | WIN_BLD;</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    REG_WINOUTCNT = WIN_ALL;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    REG_WIN1H = win2_left &lt;&lt; 8 | win2_right;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    REG_WIN1V = win2_top &lt;&lt; 8 | win2_bottom;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    REG_WIN1CNT = WIN_ALL | WIN_BLD;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    REG_BLDCNT = BLD_BUILD(BLD_BG1, BLD_BG2, 1);</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    REG_BLDALPHA = BLDA_BUILD(0, 13);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    REG_DISPCNT = DCNT_MODE1 | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_OBJ | DCNT_WIN0 |</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                  DCNT_WIN1;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="comment">// Initialize subsystems</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    mmInitDefault((mm_addr)soundbank_bin, <a class="code hl_define" href="audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8">GBAL_MM_NUM_CHANNELS</a>);</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_function" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>();</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <a class="code hl_function" href="affine__background_8h.html#a32fe827b730b073b17abff9dfb5adb65">affine_background_init</a>();</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <a class="code hl_function" href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a>();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    card_init();</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    blind_init();</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    joker_init();</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    game_init();</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    game_change_state(GAME_STATE_SPLASH_SCREEN);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> update()</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>{</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_function" href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a>();</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    game_update();</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> draw()</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>{</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_function" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a>();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keywordtype">int</span> main()</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>{</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    init();</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    {</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        VBlankIntrWait();</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        mmFrame();</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        key_poll();</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        update();</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        draw();</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;<a class="code" href="graphic__utils_8h.html">graphic_utils.h</a>&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">// Audio</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;<a class="code" href="mgba__logger_8h.html">mgba_logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;soundbank.h&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &quot;soundbank_bin.h&quot;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keywordtype">void</span> init()</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_function" href="random_8h.html#ad5a3df3d0092f55f6ea54ccaa7daf3dc">rng_init</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    irq_init(NULL);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    irq_add(II_VBLANK, mmVBlank);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    irq_add(II_HBLANK, <a class="code hl_function" href="affine__background_8h.html#ad0deca6c4a1ae5bc7d3a7c68a0ccb198">affine_background_hblank</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#ifdef MGBA_LOGGING</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// Initialize text engine</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    tte_init_se(</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        0,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB),</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        0,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        CLR_WHITE,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        TTE_BIT_UNPACK_OFFSET,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        &amp;gbalatro_sys8Font,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="comment">// Explicitly use 8x8 tile text drawing function to improve performance</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="comment">// See https://gbadev.net/tonc/tte.html#ssec-map-reg</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        se_drawg_w8h8</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    );</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    tte_erase_screen();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    tte_init_con();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// Will need to be called when starting the game, as some colors will have</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// been overwritten by the logo and its whopping 10 palettes</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    tte_colors_setup();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// Set up the video mode</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// BG0 is the TTE text layer</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    REG_BG0CNT = BG_PRIO(0) | BG_CBB(TTE_CBB) | BG_SBB(TTE_SBB) | BG_4BPP;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="comment">// BG1 is the main background layer</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    REG_BG1CNT = BG_PRIO(1) | BG_CBB(MAIN_BG_CBB) | BG_SBB(MAIN_BG_SBB) | BG_8BPP;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">// BG2 is the affine background layer</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    REG_BG2CNT = BG_PRIO(2) | BG_CBB(AFFINE_BG_CBB) | BG_SBB(AFFINE_BG_SBB) | BG_8BPP | BG_WRAP;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">int</span> win1_left = 72;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">int</span> win1_top = 44;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">int</span> win1_right = 200;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordtype">int</span> win1_bottom = 128;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">int</span> win2_left = 72;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">int</span> win2_top = 0;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">int</span> win2_right = 232;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">int</span> win2_bottom = 44;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    REG_WIN0H = win1_left &lt;&lt; 8 | win1_right;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    REG_WIN0V = win1_top &lt;&lt; 8 | win1_bottom;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    REG_WIN0CNT = WIN_ALL | WIN_BLD;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    REG_WINOUTCNT = WIN_ALL;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    REG_WIN1H = win2_left &lt;&lt; 8 | win2_right;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    REG_WIN1V = win2_top &lt;&lt; 8 | win2_bottom;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    REG_WIN1CNT = WIN_ALL | WIN_BLD;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    REG_BLDCNT = BLD_BUILD(BLD_BG1, BLD_BG2, 1);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    REG_BLDALPHA = BLDA_BUILD(0, 13);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    REG_DISPCNT = DCNT_MODE1 | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_OBJ | DCNT_WIN0 |</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                  DCNT_WIN1;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="comment">// Initialize subsystems</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    mmInitDefault((mm_addr)soundbank_bin, <a class="code hl_define" href="audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8">GBAL_MM_NUM_CHANNELS</a>);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <a class="code hl_function" href="save_8h.html#ac26962eff871bc587f90a94b6eef1aaf">load_options</a>();</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_function" href="affine__background_8h.html#a32fe827b730b073b17abff9dfb5adb65">affine_background_init</a>();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <a class="code hl_function" href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    card_init();</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    blind_init();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    joker_init();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    game_init();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    game_change_state(GAME_STATE_SPLASH_SCREEN);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">void</span> update()</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>{</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_function" href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a>();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    game_update();</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keywordtype">void</span> draw()</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>{</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <a class="code hl_function" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keywordtype">int</span> main()</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    init();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        VBlankIntrWait();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        mmFrame();</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        key_poll();</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        update();</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        draw();</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
 <div class="ttc" id="aaffine__background_8h_html"><div class="ttname"><a href="affine__background_8h.html">affine_background.h</a></div><div class="ttdoc">Utilities for affine background on GBA.</div></div>
 <div class="ttc" id="aaffine__background_8h_html_a32fe827b730b073b17abff9dfb5adb65"><div class="ttname"><a href="affine__background_8h.html#a32fe827b730b073b17abff9dfb5adb65">affine_background_init</a></div><div class="ttdeci">void affine_background_init()</div><div class="ttdoc">Initialize resources for affine background rendering.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00019">affine_background.c:19</a></div></div>
 <div class="ttc" id="aaffine__background_8h_html_a55fdb6345d3e66a7c7af446e3dd5f070"><div class="ttname"><a href="affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070">affine_background_update</a></div><div class="ttdeci">IWRAM_CODE void affine_background_update()</div><div class="ttdoc">Per-frame update of the affine background.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00039">affine_background.c:39</a></div></div>
@@ -277,6 +276,7 @@ $(document).ready(function(){initNavTree('main_8c_source.html',''); initResizabl
 <div class="ttc" id="aaudio__utils_8h_html_aba0f1d3ed33ffa7e3349c6fdf8f92ab8"><div class="ttname"><a href="audio__utils_8h.html#aba0f1d3ed33ffa7e3349c6fdf8f92ab8">GBAL_MM_NUM_CHANNELS</a></div><div class="ttdeci">#define GBAL_MM_NUM_CHANNELS</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00056">audio_utils.h:56</a></div></div>
 <div class="ttc" id="afont_8h_html"><div class="ttname"><a href="font_8h.html">font.h</a></div><div class="ttdoc">Utility file to interact with custom font.</div></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
+<div class="ttc" id="ajoker_8h_html"><div class="ttname"><a href="joker_8h.html">joker.h</a></div><div class="ttdoc">Functions relative to the handling of Jokers.</div></div>
 <div class="ttc" id="amgba__logger_8h_html"><div class="ttname"><a href="mgba__logger_8h.html">mgba_logger.h</a></div><div class="ttdoc">Interface to interact with the mgba logger.</div></div>
 <div class="ttc" id="amgba__logger_8h_html_a026b5ef89a9718f68f89cbbd8a218ca0"><div class="ttname"><a href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a></div><div class="ttdeci">bool mgba_logger_init(void)</div><div class="ttdoc">Initialize mgba logger.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00044">mgba_logger.c:44</a></div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>

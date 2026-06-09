@@ -156,55 +156,58 @@ $(document).ready(function(){initNavTree('splash__screen_8c_source.html',''); in
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>{</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    timer = 0;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    tte_printf(<span class="stringliteral">&quot;#{P:72,8; cx:0xF000}DISCLAIMER&quot;</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    tte_printf(<span class="stringliteral">&quot;#{P:72,8; cx:0x%X000}DISCLAIMER&quot;</span>, TTE_WHITE_PB);</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    tte_printf(</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="stringliteral">&quot;#{P:8,24; cx:0xF000}This project is NOT endorsed \n by or affiliated with \n Playstack or &quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="stringliteral">&quot;LocalThunk.\n\n If you have paid for this, \n you have been scammed \n and should request &quot;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="stringliteral">&quot;a refund \n IMMEDIATELY. \n\n The only official place \n to obtain this is from: \n\n &quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="stringliteral">&quot;&#39;github.com/\n  GBALATRO/balatro-gba&#39;&quot;</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    );</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    tte_printf(<span class="stringliteral">&quot;#{P:8,144; cx:0xF000}(Press any key to skip)&quot;</span>);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="stringliteral">&quot;#{P:8,24; cx:0x%X000}This project is NOT endorsed \n by or affiliated with \n Playstack &quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="stringliteral">&quot;or &quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="stringliteral">&quot;LocalThunk.\n\n If you have paid for this, \n you have been scammed \n and should request &quot;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="stringliteral">&quot;a refund \n IMMEDIATELY. \n\n The only official place \n to obtain this is from: \n\n &quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="stringliteral">&quot;&#39;github.com/\n  GBALATRO/balatro-gba&#39;&quot;</span>,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        TTE_WHITE_PB</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    );</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    tte_printf(<span class="stringliteral">&quot;#{P:8,144; cx:0x%X000}(Press any key to skip)&quot;</span>, TTE_WHITE_PB);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
 </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">splash_screen_on_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    timer++;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (timer &lt; SPLASH_DURATION_FRAMES)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(COUNTDOWN_TIMER_RECT);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        tte_printf(</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="stringliteral">&quot;#{P:%d,%d; cx:0xF000}%d&quot;</span>,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            COUNTDOWN_TIMER_RECT.left,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            COUNTDOWN_TIMER_RECT.top,</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            1 + (SPLASH_DURATION_FRAMES - timer) / SPLASH_FPS</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        );</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">if</span> (!key_hit(KEY_ANY))</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    game_change_state(GAME_STATE_MAIN_MENU);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    tte_erase_screen();</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">   30</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">splash_screen_on_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    timer++;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">if</span> (timer &lt; SPLASH_DURATION_FRAMES)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(COUNTDOWN_TIMER_RECT);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        tte_printf(</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%d&quot;</span>,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            COUNTDOWN_TIMER_RECT.left,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            COUNTDOWN_TIMER_RECT.top,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            TTE_WHITE_PB,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            1 + (SPLASH_DURATION_FRAMES - timer) / SPLASH_FPS</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        );</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">if</span> (!key_hit(KEY_ANY))</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    game_change_state(GAME_STATE_MAIN_MENU);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    tte_erase_screen();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">   52</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">splash_screen_on_exit</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">   55</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">splash_screen_on_exit</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>{</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    mmStart(MOD_MAIN_THEME, MM_PLAY_LOOP);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
 </div>
 <div class="ttc" id="afont_8h_html"><div class="ttname"><a href="font_8h.html">font.h</a></div><div class="ttdoc">Utility file to interact with custom font.</div></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
-<div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00397">graphic_utils.c:397</a></div></div>
+<div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00398">graphic_utils.c:398</a></div></div>
 <div class="ttc" id="asplash__screen_8h_html"><div class="ttname"><a href="splash__screen_8h.html">splash_screen.h</a></div><div class="ttdoc">Functions and constants for the splash screen intro.</div></div>
-<div class="ttc" id="asplash__screen_8h_html_a9ca7b8370e792a84403f912b7611d2f9"><div class="ttname"><a href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">splash_screen_on_exit</a></div><div class="ttdeci">void splash_screen_on_exit(void)</div><div class="ttdoc">Exit the splash screen.</div><div class="ttdef"><b>Definition</b> <a href="splash__screen_8c_source.html#l00052">splash_screen.c:52</a></div></div>
-<div class="ttc" id="asplash__screen_8h_html_abef5b26c1b8c1a453134ae4d8662d4ed"><div class="ttname"><a href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">splash_screen_on_update</a></div><div class="ttdeci">void splash_screen_on_update(void)</div><div class="ttdoc">Update splash screen timers and print the remaining time accordingly.</div><div class="ttdef"><b>Definition</b> <a href="splash__screen_8c_source.html#l00028">splash_screen.c:28</a></div></div>
+<div class="ttc" id="asplash__screen_8h_html_a9ca7b8370e792a84403f912b7611d2f9"><div class="ttname"><a href="splash__screen_8h.html#a9ca7b8370e792a84403f912b7611d2f9">splash_screen_on_exit</a></div><div class="ttdeci">void splash_screen_on_exit(void)</div><div class="ttdoc">Exit the splash screen.</div><div class="ttdef"><b>Definition</b> <a href="splash__screen_8c_source.html#l00055">splash_screen.c:55</a></div></div>
+<div class="ttc" id="asplash__screen_8h_html_abef5b26c1b8c1a453134ae4d8662d4ed"><div class="ttname"><a href="splash__screen_8h.html#abef5b26c1b8c1a453134ae4d8662d4ed">splash_screen_on_update</a></div><div class="ttdeci">void splash_screen_on_update(void)</div><div class="ttdoc">Update splash screen timers and print the remaining time accordingly.</div><div class="ttdef"><b>Definition</b> <a href="splash__screen_8c_source.html#l00030">splash_screen.c:30</a></div></div>
 <div class="ttc" id="asplash__screen_8h_html_ad6665f68a653bd65b4a353c4ab5ee9e2"><div class="ttname"><a href="splash__screen_8h.html#ad6665f68a653bd65b4a353c4ab5ee9e2">splash_screen_on_init</a></div><div class="ttdeci">void splash_screen_on_init(void)</div><div class="ttdoc">Initialize the splash screen by printing the splash screen text.</div><div class="ttdef"><b>Definition</b> <a href="splash__screen_8c_source.html#l00014">splash_screen.c:14</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

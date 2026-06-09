@@ -26,6 +26,7 @@ var searchData=
   ['tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_23',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
   ['tte_5fchar_5fsize_24',['TTE_CHAR_SIZE',['../graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6',1,'graphic_utils.h']]],
   ['tte_5ferase_5frect_5fwrapper_25',['tte_erase_rect_wrapper',['../graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7',1,'graphic_utils.c']]],
-  ['tx_26',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
-  ['type_5fseed_5fchar_27',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
+  ['tte_5fprintf_5fjustified_5fin_5frect_26',['tte_printf_justified_in_rect',['../graphic__utils_8h.html#a882aaf87f63de6fdbcc83014381d0af3',1,'graphic_utils.c']]],
+  ['tx_27',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
+  ['type_5fseed_5fchar_28',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
 ];
