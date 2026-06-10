@@ -657,8 +657,8 @@ static void choose_deck_substate_init(void)
 
     // Set Tab to "New Run"
     // Uncomment when tab row is re-added
-    //main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC, RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS);
-    //tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
+    // main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC,
+    // RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS); tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
 
     // Set button highlights
     button_set_highlight(&change_deck_button, true);
