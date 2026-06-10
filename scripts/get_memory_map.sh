@@ -31,7 +31,7 @@ fi
 
 if ! command -v "$READELF" >/dev/null 2>&1; then
     echo "ERROR: missing tool: $READELF"
-    exit 1
+    usage
 fi
 
 print_line_break() {
@@ -69,10 +69,10 @@ for name in $(get_pool_names); do
             tr -d '\n'                               \
         )"
 
-    address="$(cut -d ' ' -f 2 <<< "$output_pool")"
-    pool_size="$(cut -d ' ' -f 3 <<< "$output_pool")"
-    func_size="$(cut -d ' ' -f 3 <<< "$output_func")"
-    bitset_size="$(cut -d ' ' -f 3 <<< "$output_bitset")"
+    address="$(cut -d ' ' -f 2 <<< $output_pool)"
+    pool_size="$(cut -d ' ' -f 3 <<< $output_pool)"
+    func_size="$(cut -d ' ' -f 3 <<< $output_func)"
+    bitset_size="$(cut -d ' ' -f 3 <<< $output_bitset)"
 
     TOTAL_BYTES=$(( TOTAL_BYTES + pool_size + func_size + bitset_size ))
 
