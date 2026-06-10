@@ -46,6 +46,7 @@ GIT_C_FLAGS := -DGIT_HASH=\"$(GIT_HASH)\" -DGIT_DIRTY=\"$(GIT_DIRTY)\"
 CFLAGS	:= -g -O3 -Wall -Werror -std=gnu23 \
         -mcpu=arm7tdmi -mtune=arm7tdmi \
         -ffast-math -fomit-frame-pointer -funroll-loops \
+		-fms-extensions \
         $(ARCH)
 
 CFLAGS  += $(GIT_C_FLAGS)

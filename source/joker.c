@@ -208,6 +208,8 @@ JokerObject* joker_object_new(Joker* joker)
 {
     JokerObject* joker_object = POOL_GET(JokerObject);
 
+    *((SpriteObject*)joker_object) = sprite_object_new();  
+
     int layer = 0;
     for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
     {
@@ -218,9 +220,9 @@ JokerObject* joker_object_new(Joker* joker)
             break;
         }
     }
-
+    
     joker_object->joker = joker;
-    joker_object->item.sprite_object = sprite_object_new();    
+      
     joker_object->item.type = ITEM_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
@@ -354,7 +356,7 @@ bool joker_object_score(
     {
         // display the text on top of the card instead of below the Joker for Held Cards effects
         // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(sprite_object_get_x((SpriteObject*)card_object));
+        cursorPosX += fx2int(card_object->x);
         cursorPosY = HELD_CARD_SCORE_TEXT_Y;
     }
     else

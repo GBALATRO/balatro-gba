@@ -6,7 +6,7 @@
 
 typedef struct Item
 {
-    SpriteObject sprite_object;
+    SpriteObject;
     enum ItemType type;
 } Item;
 
