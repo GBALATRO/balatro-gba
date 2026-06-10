@@ -356,12 +356,13 @@ bool joker_object_score(
     {
         // display the text on top of the card instead of below the Joker for Held Cards effects
         // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(card_object->x);
+        cursorPosX += fx2int(card_object->x);   
         cursorPosY = HELD_CARD_SCORE_TEXT_Y;
     }
     else
     {
-        cursorPosX += fx2int(((SpriteObject*)joker_object)->x);
+        // Adding direct access instead of cast and/or call to getter (same in card_object above)
+        cursorPosX += fx2int(joker_object->x); 
         cursorPosY = JOKER_SCORE_TEXT_Y;
     }
 

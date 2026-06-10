@@ -111,7 +111,7 @@ typedef struct
 
 typedef struct JokerObject
 {
-    Item item;
+    Item;
     Joker* joker;
 } JokerObject;
 
