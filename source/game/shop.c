@@ -721,8 +721,7 @@ static void game_shop_process_user_input(void)
     // Show description of selected card when pressing B.
     // Always wait for the card in question to be immobile to avoid accumulating
     // errors when pressing and releasing B in quick succession.
-    if (tmp_card != NULL && tmp_card->vx == 0 && tmp_card->vy == 0 &&
-        key_held(DESELECT_CARDS))
+    if (tmp_card != NULL && tmp_card->vx == 0 && tmp_card->vy == 0 && key_held(DESELECT_CARDS))
     {
         description_card = tmp_card;
         description_card_original_x_pos = description_card->x;
@@ -824,10 +823,7 @@ static void game_shop_show_card_desc(void)
 
     // Actively wait for the B button to be released, but only if the described card has stopped
     // moving
-    else if (
-        description_card->vx == 0 && description_card->vy == 0 &&
-        !key_held(DESELECT_CARDS)
-    )
+    else if (description_card->vx == 0 && description_card->vy == 0 && !key_held(DESELECT_CARDS))
     {
         timer = TM_ZERO;
         state_machine_change_state(&shop_sm, GAME_SHOP_HIDE_CARD_DESC);

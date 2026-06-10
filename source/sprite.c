@@ -1,10 +1,10 @@
 #include "sprite.h"
-#include "item.h"
 
 #include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "item.h"
 #include "mgba_logger.h"
 #include "pool.h"
 #include "random.h"
@@ -530,4 +530,3 @@ void sprite_object_erase_text_under(SpriteObject* sprite_object)
 
     tte_erase_rect_wrapper(text_rect);
 }
-
