@@ -392,8 +392,7 @@ static void game_shop_create_items(void)
             return;
         }
 
-        sprite_object->x =
-            int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
+        sprite_object->x = int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
         sprite_object->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
         sprite_object->tx = sprite_object->x;
         sprite_object->ty = int2fx(ITEM_SHOP_Y);
@@ -825,8 +824,10 @@ static void game_shop_show_card_desc(void)
 
     // Actively wait for the B button to be released, but only if the described card has stopped
     // moving
-    else if (description_card->sprite_object->vx == 0 && description_card->sprite_object->vy == 0 &&
-             !key_held(DESELECT_CARDS))
+    else if (
+        description_card->sprite_object->vx == 0 && description_card->sprite_object->vy == 0 &&
+        !key_held(DESELECT_CARDS)
+    )
     {
         timer = TM_ZERO;
         state_machine_change_state(&shop_sm, GAME_SHOP_HIDE_CARD_DESC);
@@ -933,8 +934,10 @@ static void game_shop_hide_card_desc(void)
 
     // At any point after the other prices have been printed, and while the card is still moving,
     // if we are NOT pressing A, print the price under it.
-    else if (!owned_joker_price_printed && !key_held(SELECT_CARD) &&
-             description_card_original_list == get_jokers_list())
+    else if (
+        !owned_joker_price_printed && !key_held(SELECT_CARD) &&
+        description_card_original_list == get_jokers_list()
+    )
     {
         owned_joker_price_printed = true;
         sprite_object_print_price_under(

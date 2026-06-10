@@ -208,7 +208,7 @@ JokerObject* joker_object_new(Joker* joker)
 {
     JokerObject* joker_object = POOL_GET(JokerObject);
 
-    *((SpriteObject*)joker_object) = sprite_object_new();  
+    *((SpriteObject*)joker_object) = sprite_object_new();
 
     int layer = 0;
     for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
@@ -220,10 +220,10 @@ JokerObject* joker_object_new(Joker* joker)
             break;
         }
     }
-    
+
     joker_object->joker = joker;
-      
-    joker_object->item.type = ITEM_TYPE_JOKER;
+
+    joker_object->type = ITEM_TYPE_JOKER;
 
     int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
 
@@ -268,7 +268,7 @@ void joker_object_destroy(JokerObject** joker_object)
     }
 
     sprite_object_destroy((SpriteObject*)(*joker_object)); // Destroy the sprite
-    joker_destroy(&(*joker_object)->joker);                 // Destroy the joker
+    joker_destroy(&(*joker_object)->joker);                // Destroy the joker
     POOL_FREE(JokerObject, *joker_object);
     *joker_object = NULL;
 }
@@ -356,13 +356,13 @@ bool joker_object_score(
     {
         // display the text on top of the card instead of below the Joker for Held Cards effects
         // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(card_object->x);   
+        cursorPosX += fx2int(card_object->x);
         cursorPosY = HELD_CARD_SCORE_TEXT_Y;
     }
     else
     {
         // Adding direct access instead of cast and/or call to getter (same in card_object above)
-        cursorPosX += fx2int(joker_object->x); 
+        cursorPosX += fx2int(joker_object->x);
         cursorPosY = JOKER_SCORE_TEXT_Y;
     }
 
@@ -447,7 +447,7 @@ int joker_get_random_rarity()
         joker_rarity = RARE_JOKER;
     }
     else if (rarity_roll < COMMON_JOKER_CHANCE + UNCOMMON_JOKER_CHANCE + RARE_JOKER_CHANCE +
-                               LEGENDARY_JOKER_CHANCE)
+             LEGENDARY_JOKER_CHANCE)
     {
         joker_rarity = LEGENDARY_JOKER;
     }

@@ -103,7 +103,7 @@ CardObject* card_object_new(Card* card)
     CardObject* card_object = POOL_GET(CardObject);
     *((SpriteObject*)card_object) = sprite_object_new();
     card_object->card = card;
-    
+
     card_object->type = ITEM_TYPE_PLAYING_CARD;
     card_object->selected = false;
 

@@ -109,7 +109,6 @@ typedef struct SpriteObject
     bool focused;
 } SpriteObject;
 
-
 /**
  * @brief Allocate and retrieve a pointer to a valid Sprite
  *
@@ -238,7 +237,6 @@ FIXED sprite_object_get_tscale(const SpriteObject* sprite_object);
 void sprite_object_set_tscale(SpriteObject* sprite_object, FIXED tscale);
 FIXED sprite_object_get_trotation(const SpriteObject* sprite_object);
 void sprite_object_set_trotation(SpriteObject* sprite_object, FIXED trotation);
-
 
 /**
  * @brief Reset SpriteObject's transform back to default values.

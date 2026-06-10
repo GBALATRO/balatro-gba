@@ -1,4 +1,5 @@
 #include "item.h"
+
 #include "item_funcs.h"
 #include "mgba_logger.h"
 #include "util.h"

@@ -8,7 +8,7 @@ typedef struct item_funcs
     int (*get_buy_price)(struct Item* item);
 
     /**
-     * @brief Adds the object to the inventory. 
+     * @brief Adds the object to the inventory.
      * Called when it is purchased from the shop.
      * Note that for packs this could just be to open the pack.
      */
