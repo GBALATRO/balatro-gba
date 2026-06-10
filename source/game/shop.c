@@ -930,10 +930,8 @@ static void game_shop_hide_card_desc(void)
 
     // At any point after the other prices have been printed, and while the card is still moving,
     // if we are NOT pressing A, print the price under it.
-    else if (
-        !owned_joker_price_printed && !key_held(SELECT_CARD) &&
-        description_card_original_list == get_jokers_list()
-    )
+    else if (!owned_joker_price_printed && !key_held(SELECT_CARD) &&
+             description_card_original_list == get_jokers_list())
     {
         owned_joker_price_printed = true;
         sprite_object_print_price_under(
