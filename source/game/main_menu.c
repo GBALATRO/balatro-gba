@@ -121,7 +121,11 @@ void game_main_menu_on_init(void)
 
 void game_main_menu_on_update(void)
 {
-    sprite_object_set_trotation((SpriteObject*)main_menu_ace, lu_sin((g_game_vars.timer << 8) / 2) / 3);
+    sprite_object_set_trotation(
+        (SpriteObject*)main_menu_ace,
+        lu_sin((g_game_vars.timer << 8) / 2) / 3
+    );
+    card_object_update(main_menu_ace);
 
     selection_grid_process_input(&main_menu_selection_grid);
 }

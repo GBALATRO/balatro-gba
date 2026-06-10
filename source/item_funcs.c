@@ -1,8 +1,10 @@
 #include "item_funcs.h"
-#include "joker.h"
+
 #include "card.h"
+#include "joker.h"
 #include "util.h"
 
+// clang-format off
 ItemFuncs item_func_table[] = {
     [ITEM_TYPE_JOKER] = {
         .get_buy_price = joker_object_get_buy_price,
@@ -10,6 +12,7 @@ ItemFuncs item_func_table[] = {
     }
     // TODO: ITEM_TYPE_PLAYING_CARD... etc.
 };
+// clang-format on
 
 ItemFuncs* get_item_type_funcs(enum ItemType type)
 {

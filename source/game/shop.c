@@ -701,9 +701,9 @@ static void game_shop_process_user_input(void)
         // Jokers for sale
         case 1:
         {
-            description_card_original_list = &s_shop_jokers_list;
+            description_card_original_list = &s_shop_items_list;
             tmp_card = (shop_selection_grid.selection.x > 0)
-                         ? list_get_at_idx(&s_shop_jokers_list, shop_selection_grid.selection.x - 1)
+                         ? list_get_at_idx(&s_shop_items_list, shop_selection_grid.selection.x - 1)
                          : NULL;
             break;
         }
@@ -721,12 +721,12 @@ static void game_shop_process_user_input(void)
     // Show description of selected card when pressing B.
     // Always wait for the card in question to be immobile to avoid accumulating
     // errors when pressing and releasing B in quick succession.
-    if (tmp_card != NULL && tmp_card->sprite_object->vx == 0 && tmp_card->sprite_object->vy == 0 &&
+    if (tmp_card != NULL && tmp_card->vx == 0 && tmp_card->vy == 0 &&
         key_held(DESELECT_CARDS))
     {
         description_card = tmp_card;
-        description_card_original_x_pos = description_card->sprite_object->x;
-        description_card_original_y_pos = description_card->sprite_object->y;
+        description_card_original_x_pos = description_card->x;
+        description_card_original_y_pos = description_card->y;
 
         timer = TM_ZERO;
         state_machine_change_state(&shop_sm, GAME_SHOP_SHOW_CARD_DESC);
@@ -752,21 +752,21 @@ static void game_shop_show_card_desc(void)
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != description_card)
-                joker_object->sprite_object->ty -= int2fx(OWNED_CARDS_HIDE_Y_OFFSET);
+                joker_object->ty -= int2fx(OWNED_CARDS_HIDE_Y_OFFSET);
         }
 
         // Shop Jokers
-        itr = list_itr_create(&s_shop_jokers_list);
+        itr = list_itr_create(&s_shop_items_list);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != description_card)
-                joker_object->sprite_object->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
+                joker_object->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
         }
 
         // Set description_card new target position
 
-        description_card->sprite_object->tx = int2fx(CARD_DESCRIPTION_SPRITE_POS.x);
-        description_card->sprite_object->ty = int2fx(CARD_DESCRIPTION_SPRITE_POS.y);
+        description_card->tx = int2fx(CARD_DESCRIPTION_SPRITE_POS.x);
+        description_card->ty = int2fx(CARD_DESCRIPTION_SPRITE_POS.y);
     }
 
     // First 12 anim frames
@@ -825,7 +825,7 @@ static void game_shop_show_card_desc(void)
     // Actively wait for the B button to be released, but only if the described card has stopped
     // moving
     else if (
-        description_card->sprite_object->vx == 0 && description_card->sprite_object->vy == 0 &&
+        description_card->vx == 0 && description_card->vy == 0 &&
         !key_held(DESELECT_CARDS)
     )
     {
@@ -864,19 +864,19 @@ static void game_shop_hide_card_desc(void)
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != description_card)
-                joker_object->sprite_object->ty = int2fx(HELD_JOKERS_POS.y);
+                joker_object->ty = int2fx(HELD_JOKERS_POS.y);
         }
 
         // Shop Jokers
-        itr = list_itr_create(&s_shop_jokers_list);
+        itr = list_itr_create(&s_shop_items_list);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != description_card)
-                joker_object->sprite_object->ty = int2fx(ITEM_SHOP_Y);
+                joker_object->ty = int2fx(ITEM_SHOP_Y);
         }
 
-        description_card->sprite_object->tx = description_card_original_x_pos;
-        description_card->sprite_object->ty = description_card_original_y_pos;
+        description_card->tx = description_card_original_x_pos;
+        description_card->ty = description_card_original_y_pos;
     }
 
     // First 12 anim frames
@@ -893,22 +893,22 @@ static void game_shop_hide_card_desc(void)
     else if (timer == TM_SHOW_CARD_DESC_WAIT + 1)
     {
         // Need to account for the description_card being selected if it came from the shop.
-        if (description_card_original_list == &s_shop_jokers_list)
-            description_card->sprite_object->ty += int2fx(TILE_SIZE);
+        if (description_card_original_list == &s_shop_items_list)
+            description_card->ty += int2fx(TILE_SIZE);
 
         // Print price under shop Jokers
         JokerObject* joker_object = NULL;
-        ListItr itr = list_itr_create(&s_shop_jokers_list);
+        ListItr itr = list_itr_create(&s_shop_items_list);
         while ((joker_object = list_itr_next(&itr)))
         {
             sprite_object_print_price_under(
-                joker_object->sprite_object,
+                (SpriteObject*)joker_object,
                 joker_object->joker->value
             );
         }
 
-        if (description_card_original_list == &s_shop_jokers_list)
-            description_card->sprite_object->ty -= int2fx(TILE_SIZE);
+        if (description_card_original_list == &s_shop_items_list)
+            description_card->ty -= int2fx(TILE_SIZE);
 
         // Print Reroll prince
         tte_printf(
@@ -924,7 +924,7 @@ static void game_shop_hide_card_desc(void)
     }
 
     // Cleanup and change state
-    else if (description_card->sprite_object->vx == 0 && description_card->sprite_object->vy == 0)
+    else if (description_card->vx == 0 && description_card->vy == 0)
     {
         owned_joker_price_printed = false;
         description_card = NULL;
@@ -941,7 +941,7 @@ static void game_shop_hide_card_desc(void)
     {
         owned_joker_price_printed = true;
         sprite_object_print_price_under(
-            description_card->sprite_object,
+            (SpriteObject*)description_card,
             joker_get_sell_value(description_card->joker)
         );
     }
