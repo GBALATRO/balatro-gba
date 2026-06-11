@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['macos_0',['MacOS',['../index.html#autotoc_md24',1,'']]],
+  ['macos_0',['MacOS',['../index.html#autotoc_md17',1,'']]],
   ['main_5fbg_5fse_5fclear_5frect_1',['main_bg_se_clear_rect',['../graphic__utils_8h.html#a0d3636aed3d1c8e40b6001e839684912',1,'graphic_utils.c']]],
   ['main_5fbg_5fse_5fcopy_5fexpand_5f3w_5frow_2',['main_bg_se_copy_expand_3w_row',['../graphic__utils_8h.html#a99dfe9a3eb3ff0a11bcef62e9fbb948f',1,'graphic_utils.c']]],
   ['main_5fbg_5fse_5fcopy_5fexpand_5f3x3_5frect_3',['main_bg_se_copy_expand_3x3_rect',['../graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405',1,'graphic_utils.c']]],
@@ -10,8 +10,8 @@ var searchData=
   ['main_5fbg_5fse_5fcopy_5frect_5f1_5ftile_5fvert_7',['main_bg_se_copy_rect_1_tile_vert',['../graphic__utils_8h.html#a0ad6eb02f217b725c823cec619cfdf18',1,'graphic_utils.c']]],
   ['main_5fbg_5fse_5fmove_5frect_5f1_5ftile_5fvert_8',['main_bg_se_move_rect_1_tile_vert',['../graphic__utils_8h.html#a009e80504b0e743e2c4e77de9d32fcd4',1,'graphic_utils.c']]],
   ['main_5fmenu_2eh_9',['main_menu.h',['../main__menu_8h.html',1,'']]],
-  ['make_20tt_20installed_10',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
-  ['make_20tt_20it_20errors_20out_20and_20won_20t_20compile_11',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md26',1,'']]],
+  ['make_20tt_20installed_10',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]],
+  ['make_20tt_20it_20errors_20out_20and_20won_20t_20compile_11',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
   ['manually_12',['Manually',['../index.html#autotoc_md12',1,'']]],
   ['max_5fbase36_13',['MAX_BASE36',['../util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d',1,'util.h']]],
   ['max_5flist_5fnodes_14',['MAX_LIST_NODES',['../list_8h.html#aaa7ed2609f3cb7989e83563890c30b24',1,'list.h']]],
@@ -20,10 +20,11 @@ var searchData=
   ['mgba_5flogger_2eh_17',['mgba_logger.h',['../mgba__logger_8h.html',1,'']]],
   ['mgba_5flogger_5finit_18',['mgba_logger_init',['../mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0',1,'mgba_logger.c']]],
   ['mgba_5fprintf_19',['mgba_printf',['../mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0',1,'mgba_logger.c']]],
-  ['mm_5fbase_5fpitch_5frate_20',['MM_BASE_PITCH_RATE',['../audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2',1,'audio_utils.h']]],
-  ['mm_5fmodule_5ffull_5fvolume_21',['MM_MODULE_FULL_VOLUME',['../audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9',1,'audio_utils.h']]],
-  ['mm_5fpan_5fcenter_22',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
-  ['mm_5fsfx_5ffull_5fvolume_23',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
-  ['music_20strong_24',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md42',1,'']]],
-  ['musicplayerstate_25',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
+  ['minimal_20usage_20',['Minimal usage',['../index.html#autotoc_md15',1,'']]],
+  ['mm_5fbase_5fpitch_5frate_21',['MM_BASE_PITCH_RATE',['../audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2',1,'audio_utils.h']]],
+  ['mm_5fmodule_5ffull_5fvolume_22',['MM_MODULE_FULL_VOLUME',['../audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9',1,'audio_utils.h']]],
+  ['mm_5fpan_5fcenter_23',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
+  ['mm_5fsfx_5ffull_5fvolume_24',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
+  ['music_20strong_25',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md35',1,'']]],
+  ['musicplayerstate_26',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
 ];

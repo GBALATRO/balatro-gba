@@ -140,8 +140,8 @@ var NAVTREEINDEX0 =
 "globals_enum.html":[3,1,4],
 "globals_eval.html":[3,1,5],
 "globals_f.html":[3,1,0,4],
-"globals_func.html":[3,1,1,0],
 "globals_func.html":[3,1,1],
+"globals_func.html":[3,1,1,0],
 "globals_func_b.html":[3,1,1,1],
 "globals_func_c.html":[3,1,1,2],
 "globals_func_d.html":[3,1,1,3],
@@ -246,8 +246,8 @@ var NAVTREEINDEX0 =
 "hand_8h.html#ae964ed1f7566571c174a23be50819080":[3,0,0,18,9],
 "hand_8h.html#aea7ba57e47116fba93956a21de49d7a7":[3,0,0,18,11],
 "hand_8h_source.html":[3,0,0,18],
-"index.html":[0],
 "index.html":[],
+"index.html":[0],
 "index.html#autotoc_md1":[0,0],
 "index.html#autotoc_md10":[0,5,3]
 };

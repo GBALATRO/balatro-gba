@@ -9,6 +9,7 @@ var searchData=
   ['update_5fseed_5ftext_6',['update_seed_text',['../run__setup_8c.html#a492466e07233299a5f3e327b21ea8753',1,'run_setup.c']]],
   ['update_5ftext_5frect_5fto_5fcenter_5fstr_7',['update_text_rect_to_center_str',['../graphic__utils_8h.html#a4772becb6d0b30e799686efbe0076bcf',1,'graphic_utils.c']]],
   ['update_5ftext_5frect_5fto_5fright_5falign_5fstr_8',['update_text_rect_to_right_align_str',['../graphic__utils_8h.html#a42446a057326ed83d4793215df774588',1,'graphic_utils.c']]],
-  ['use_5fseed_5fon_5fpressed_9',['use_seed_on_pressed',['../run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4',1,'run_setup.c']]],
-  ['util_2eh_10',['util.h',['../util_8h.html',1,'']]]
+  ['usage_9',['Minimal usage',['../index.html#autotoc_md15',1,'']]],
+  ['use_5fseed_5fon_5fpressed_10',['use_seed_on_pressed',['../run__setup_8c.html#ae35eb179e3f4dcb4e6b82c71035377b4',1,'run_setup.c']]],
+  ['util_2eh_11',['util.h',['../util_8h.html',1,'']]]
 ];

@@ -242,90 +242,107 @@ Custom Scripts</h2>
 <li><b>get_hash.py</b>: Get git hash from ROM.</li>
 <li><b>generate_font.py</b>: Generate a font manually.</li>
 <li><b>get_memory_map.sh</b>: Print the memory map of the pre-allocated pools.</li>
-<li><b>save_build.sh</b>: Save a timestamped copy of build outputs (.elf, .gba, .map).</li>
+<li><b>save_build.sh</b>: Save a timestamped copy of build outputs (<code>.elf</code>, <code>.gba</code>, <code>.map</code>). </li>
 </ul>
 <h1><a class="anchor" id="autotoc_md15"></a>
-Debugging</h1>
-<p>It's recommended to use <a href="https://mgba.io/">mGBA</a> for ROM testing and debugging. As it provides a <a href="https://en.wikipedia.org/wiki/Gdbserver"><code>gdbserver</code></a> via the <code>-g</code> flag <code>mgba -g build/balatro-gba.gba</code>. You can connect via <code>gdb</code> or here is a <a href="https://felixjones.co.uk/mgba_gdb/vscode.html">great guide for vscode</a>.</p>
-<h2><a class="anchor" id="autotoc_md16"></a>
-Logging</h2>
-<p>Specifically for mgba, logging can be enabled. To do this set <code>MGBA_LOGGING=1</code> when running <code>make</code>:</p>
-<div class="fragment"><div class="line">MGBA_LOGGING=1 make</div>
-</div><!-- fragment --><p>🟡 <b>Note</b>: If you don't see any logs, try running <code>make clean</code> before rebuilding</p>
-<p>Then, you can enable logging via the <code>-l</code> or <code>--log-level</code> option:</p>
-<div class="fragment"><div class="line">mgba -l 7 build/balatro-gba.gba</div>
-</div><!-- fragment --><p>See <a href="include/mgba_logger.h"><code>mgba_logger.h</code></a> for details on log levels.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
-&lt;strong&gt;Build Instructions&lt;/strong&gt;</h1>
-<details >
-<summary >
-<b>Docker</b></summary>
-<p></p>
-<p></p>
-</details>
-<h2><a class="anchor" id="autotoc_md18"></a>
-Docker</h2>
-<p>A docker compose file is provided to build this project. It provides a standard build environment for this projects CI/CD and can also be used to build the ROM locally.</p>
-<p><em>Some users may find this option to be the easiest way to build locally.</em></p><ul>
-<li><em>This option <b>avoids</b> setting up the development environment as described below.</em></li>
-<li><em>No additional software besides <b>docker desktop</b> is required.</em></li>
-</ul>
-<h3><a class="anchor" id="autotoc_md19"></a>
-Step-by-Step</h3>
-<p>1.) Install <a href="https://docs.docker.com/desktop/">docker desktop</a> for your operating system.</p>
-<p>2.) Open a terminal to this project's directory:</p><ul>
-<li>On <b>Linux</b> run <code>UID=$(id -u) GID=$(id -g) docker compose up</code></li>
-<li>On <b>Windows</b> run <code>docker compose up</code></li>
-</ul>
-<details >
-<summary >
-<em>How do I open a terminal in windows?</em></summary>
-<p></p>
-<hr  />
-<p>From the file explorer, you can open a folder in <b>powershell</b> (<em>a modern windows terminal</em>):</p>
-<ul>
-<li><b>hold 'Shift'</b> and <b>Right Click</b> on the folder.</li>
-<li>Select **"Open PowerShell window here"** from the popup menu.</li>
-</ul>
-<hr  />
-<p></p>
-</details>
-<p>3.) Docker will build the project and the ROM will be in the same location as step 8 describes below.</p>
-<details >
-<summary >
-<b>Windows</b></summary>
-<p></p>
-<p></p>
-</details>
-<h2><a class="anchor" id="autotoc_md22"></a>
-Windows</h2>
-<p>Video Tutorial: <a href="https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2">https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2</a> </p>
-<h2><a class="anchor" id="autotoc_md23"></a>
-With &lt;tt&gt;Git&lt;/tt&gt; (not required)</h2>
-<p>1.) Install <code>devkitPro</code> from <a href="https://github.com/devkitPro/installer">https://github.com/devkitPro/installer</a> by downloading the latest release, unzipping the archive, and then running the installer. You only need to install the tools for the GBA development so ensure you have it selected and install it to the default directory. You may need to create a temp folder for the project.</p>
-<p>2.) Search for <code>MSys2</code> in the Start Menu and open it.</p>
-<p>3.) Install <code>python-pillow</code> from the <code>mingw64</code> repo by copying the following script into your <code>MSys2</code> terminal and hitting <b>Enter</b> to run:</p>
-<blockquote class="doxtable">
-<p>&zwj;``<code>sh pacman-key --populate devkitpro echo -e "[mingw64]\nServer = https://mirror.msys2.org/mingw/mingw64" &gt;&gt; /etc/pacman.conf pacman -Syu --noconfirm pacman -S --noconfirm mingw-w64-x86_64-python-pillow echo "export PATH="/mingw64/bin:$PATH"" &gt;&gt; /etc/bash.bashrc source /etc/bash.bashrc @icode &lt;/blockquote&gt; 4.) Install</code>Git<code>by typing this command:</code>pacman -S git` if you don't have it already installed</p>
-<p>5.) Clone the project by putting <code>git clone <a href="https://github.com/GBALATRO/balatro-gba.git">https://github.com/GBALATRO/balatro-gba.git</a></code> in the MSys2 window.</p>
-<p>6.) Use <code>cd</code> and drag the new folder into the window to add the file path and press Enter.</p>
-<p>7.) Type <code>make</code> into the window and press Enter to start building the rom.</p>
-<p>8.) After it completes, navigate through the <code>build</code> directory in the project folder and look for <code>balatro-gba.gba</code> and load it on an emulator or flashcart. #### Without <code>Git</code> Disregard Steps 4-5 and instead click the green code button on the main repository page and press <code>Download Zip</code>. Unzip the folder and place it wherever you like. Then continue from Step 6.</p>
-<p></p>
-</blockquote>
-<details >
-<summary >
-<b>Linux</b></summary>
-<p></p>
-<p>### Linux (Debian/Arch)</p>
-<p>These instructions will be only for Debian (<b>Ubuntu</b>) and Arch based systems.</p>
-<p><b>Note:</b> <em>Ubuntu based distros require version &gt;= 24.04</em>.</p>
-<p>1.) Follow the devkitPro Pacman installation guide for distro: <a href="https://devkitpro.org/wiki/devkitPro_pacman">https://devkitpro.org/wiki/devkitPro_pacman</a></p><ul>
-<li>On <b>Debian</b> systems it will be installed as **<code>dkp-pacman</code>**.</li>
-<li>On <b>Arch</b> systems you will use regular **<code>pacman</code>**.</li>
-</ul>
-<p>2.) Install devkitPro by running </p><blockquote class="doxtable">
-<p>&zwj; sh sudo (dkp-)pacman -S &ndash;noconfirm gba-dev </p><div class="fragment"><div class="line">&lt;/blockquote&gt;</div>
+Minimal usage</h1>
+<p>./scripts/save_build.sh build/balatro-gba.gba</p>
+<h1><a class="anchor" id="autotoc_md16"></a>
+With optional build label</h1>
+<p>./scripts/save_build.sh build/balatro-gba.gba my-feature </p><div class="fragment"><div class="line">## Debugging</div>
+<div class="line">It&#39;s recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).</div>
+<div class="line"> </div>
+<div class="line">### Logging</div>
+<div class="line">Specifically for mgba, logging can be enabled. To do this set `MGBA_LOGGING=1` when running `make`:</div>
+</div><!-- fragment --><p> sh MGBA_LOGGING=1 make </p><div class="fragment"><div class="line">🟡 **Note**: If you don&#39;t see any logs, try running `make clean` before rebuilding</div>
+<div class="line"> </div>
+<div class="line">Then, you can enable logging via the `-l` or `--log-level` option:</div>
+</div><!-- fragment --><p> sh mgba -l 7 build/balatro-gba.gba </p><div class="fragment"><div class="line">See [`mgba_logger.h`](include/mgba_logger.h) for details on log levels.</div>
+<div class="line"> </div>
+<div class="line">## **Build Instructions**</div>
+<div class="line"> </div>
+<div class="line">&lt;details&gt;</div>
+<div class="line">  &lt;summary&gt;&lt;b&gt;Docker&lt;/b&gt;&lt;/summary&gt;</div>
+<div class="line"> </div>
+<div class="line">### Docker</div>
+<div class="line">A docker compose file is provided to build this project. It provides a standard build environment for this projects CI/CD and can also be used to build the ROM locally.</div>
+<div class="line"> </div>
+<div class="line">_Some users may find this option to be the easiest way to build locally._</div>
+<div class="line">- _This option **avoids** setting up the development environment as described below._</div>
+<div class="line">- _No additional software besides **docker desktop** is required._</div>
+<div class="line"> </div>
+<div class="line">#### Step-by-Step</div>
+<div class="line"> </div>
+<div class="line">1.) Install [docker desktop](https://docs.docker.com/desktop/) for your operating system.</div>
+<div class="line"> </div>
+<div class="line">2.) Open a terminal to this project&#39;s directory:</div>
+<div class="line">- On **Linux** run `UID=$(id -u) GID=$(id -g) docker compose up`</div>
+<div class="line">- On **Windows** run `docker compose up`</div>
+<div class="line"> </div>
+<div class="line">&lt;details&gt;</div>
+<div class="line">  &lt;summary&gt;&lt;i&gt;How do I open a terminal in windows?&lt;/i&gt;&lt;/summary&gt;</div>
+<div class="line"> </div>
+<div class="line">---</div>
+<div class="line"> </div>
+<div class="line">From the file explorer, you can open a folder in **powershell** (_a modern windows terminal_):</div>
+<div class="line"> </div>
+<div class="line">- **hold &#39;Shift&#39;** and **Right Click** on the folder. </div>
+<div class="line"> </div>
+<div class="line">- Select **&quot;Open PowerShell window here&quot;** from the popup menu.</div>
+<div class="line"> </div>
+<div class="line">---</div>
+<div class="line"> </div>
+<div class="line">&lt;/details&gt;</div>
+<div class="line"> </div>
+<div class="line">3.) Docker will build the project and the ROM will be in the same location as step 8 describes below.</div>
+<div class="line"> </div>
+<div class="line">&lt;/details&gt;</div>
+<div class="line"> </div>
+<div class="line">&lt;details&gt;</div>
+<div class="line">  &lt;summary&gt;&lt;b&gt;Windows&lt;/b&gt;&lt;/summary&gt;</div>
+<div class="line"> </div>
+<div class="line">### Windows</div>
+<div class="line">Video Tutorial: https://youtu.be/72Zzo1VDYzQ?si=UDmEdbST1Cx1zZV2</div>
+<div class="line">### With `Git` (not required)</div>
+<div class="line">1.) Install `devkitPro` from https://github.com/devkitPro/installer by downloading the latest release, unzipping the archive, and then running the installer. You only need to install the tools for the GBA development so ensure you have it selected and install it to the default directory. You may need to create a temp folder for the project.</div>
+<div class="line"> </div>
+<div class="line">2.) Search for `MSys2` in the Start Menu and open it.</div>
+<div class="line"> </div>
+<div class="line">3.) Install `python-pillow` from the `mingw64` repo by copying the following script into your `MSys2` terminal and hitting **Enter** to run:</div>
+<div class="line"> </div>
+<div class="line">&gt; </div>
+</div><!-- fragment --><p> sh </p><blockquote class="doxtable">
+<p>&zwj;pacman-key &ndash;populate devkitpro echo -e "[mingw64]\nServer = https://mirror.msys2.org/mingw/mingw64" &gt;&gt; /etc/pacman.conf pacman -Syu &ndash;noconfirm pacman -S &ndash;noconfirm mingw-w64-x86_64-python-pillow echo "export PATH="/mingw64/bin:$PATH"" &gt;&gt; /etc/bash.bashrc source /etc/bash.bashrc </p><div class="fragment"><div class="line">&lt;/blockquote&gt;</div>
+<div class="line">4.) Install `Git` by typing this command: `pacman -S git` if you don&#39;t have it already installed</div>
+<div class="line"> </div>
+<div class="line">5.) Clone the project by putting `git clone https://github.com/GBALATRO/balatro-gba.git` in the MSys2 window.</div>
+<div class="line"> </div>
+<div class="line">6.) Use `cd` and drag the new folder into the window to add the file path and press Enter.</div>
+<div class="line"> </div>
+<div class="line">7.) Type `make` into the window and press Enter to start building the rom.</div>
+<div class="line"> </div>
+<div class="line">8.) After it completes, navigate through the `build` directory in the project folder and look for `balatro-gba.gba` and load it on an emulator or flashcart.</div>
+<div class="line">#### Without `Git`</div>
+<div class="line">Disregard Steps 4-5 and instead click the green code button on the main repository page and press `Download Zip`. Unzip the folder and place it wherever you like. Then continue from Step 6.</div>
+<div class="line"> </div>
+<div class="line">&lt;/details&gt;</div>
+<div class="line"> </div>
+<div class="line">&lt;details&gt;</div>
+<div class="line">  &lt;summary&gt;&lt;b&gt;Linux&lt;/b&gt;&lt;/summary&gt;</div>
+<div class="line"> </div>
+<div class="line">### Linux (Debian/Arch)</div>
+<div class="line"> </div>
+<div class="line">These instructions will be only for Debian (**Ubuntu**) and Arch based systems.</div>
+<div class="line"> </div>
+<div class="line">**Note:** _Ubuntu based distros require version &gt;= 24.04_.</div>
+<div class="line"> </div>
+<div class="line">1.) Follow the devkitPro Pacman installation guide for distro:   https://devkitpro.org/wiki/devkitPro_pacman</div>
+<div class="line">- On **Debian** systems it will be installed as **`dkp-pacman`**.</div>
+<div class="line">- On **Arch** systems you will use regular **`pacman`**.</div>
+<div class="line"> </div>
+<div class="line">2.) Install devkitPro by running </div>
+<div class="line">&lt;blockquote&gt;&amp;zwj;</div>
+</div><!-- fragment --><p> sh sudo (dkp-)pacman -S &ndash;noconfirm gba-dev </p><div class="fragment"><div class="line">&lt;/blockquote&gt;</div>
 <div class="line">3.) Activate the devkitPro environment by running </div>
 <div class="line">&lt;blockquote&gt;&amp;zwj;</div>
 </div><!-- fragment --><p> sh source /etc/profile.d/devkit-env.sh </p><div class="fragment"><div class="line">&lt;/blockquote&gt;</div>
@@ -340,15 +357,14 @@ With &lt;tt&gt;Git&lt;/tt&gt; (not required)</h2>
 <div class="line">&lt;blockquote&gt;&amp;zwj;</div>
 </div><!-- fragment --><p> sh cd ~/balatro-gba &amp;&amp; make ``` </p>
 </blockquote>
-</details>
 <details >
 <summary >
 <b>MacOS</b></summary>
 <p></p>
 <p></p>
 </details>
-<h2><a class="anchor" id="autotoc_md24"></a>
-MacOS</h2>
+<h3><a class="anchor" id="autotoc_md17"></a>
+MacOS</h3>
 <p>🔴 <b>Requires python-pillow to be installed. Currently, no maintainer has a macOS machine to test on. If you have python and python-pillow tested installation instructions for MacOS, please let us know and we will add it here.</b> 🔴</p>
 <p>1.) Install devkitPro installer using: <a href="https://github.com/devkitPro/installer">https://github.com/devkitPro/installer</a> and following <a href="https://devkitpro.org/wiki/devkitPro_pacman#macOS">https://devkitpro.org/wiki/devkitPro_pacman#macOS</a>. </p><blockquote class="doxtable">
 <p>&zwj;Note: You may have to install the installers directly from their url in a browser, as the installer script may not install correctly due to Cloudflare checks on their server. You can use one of the following urls: </p>
@@ -367,25 +383,25 @@ MacOS</h2>
 <li>export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin</li>
 </ul>
 <p>5.) Follow instructions from Windows tutorial step 5</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
-Common Issues:</h2>
-<h3><a class="anchor" id="autotoc_md26"></a>
-1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won't compile!</h3>
+<h3><a class="anchor" id="autotoc_md18"></a>
+Common Issues:</h3>
+<h4><a class="anchor" id="autotoc_md19"></a>
+1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won't compile!</h4>
 <ul>
 <li>Move the project folder to your desktop and then <code>cd</code> to it by dragging the folder into the terminal window. This error could be caused by a bad file path, placing the folder on the desktop is a failsafe.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md27"></a>
-2. I can't find the compiled rom!</h3>
+<h4><a class="anchor" id="autotoc_md20"></a>
+2. I can't find the compiled rom!</h4>
 <ul>
 <li>Look for a folder called <code>build</code> inside the project folder and then find <code>balatro-gba.gba</code>.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md28"></a>
-3. The Game won't start!</h3>
+<h4><a class="anchor" id="autotoc_md21"></a>
+3. The Game won't start!</h4>
 <ul>
 <li>Try a different emulator or if you are using original hardware, make sure the rom is not corrupted and try a different flashcart or SD <a class="el" href="structCard.html">Card</a>. If this does not work, open an issue on the Github page because a recent commit may have broke the game.</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md29"></a>
-4. It says I don't have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!</h3>
+<h4><a class="anchor" id="autotoc_md22"></a>
+4. It says I don't have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!</h4>
 <ul>
 <li>Please verify you ran all the instructions required for your operating system. They will have the commands to install all required commands. </li>
 </ul>

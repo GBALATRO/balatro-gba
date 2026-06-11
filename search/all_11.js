@@ -6,8 +6,7 @@ var searchData=
   ['ninepatchrect_3',['ninepatchrect',['../structNinePatchRect.html',1,'NinePatchRect'],['../graphic__utils_8h.html#a533de5f085674ced95f37ede3b5bae7d',1,'NinePatchRect:&#160;graphic_utils.h']]],
   ['no_5favail_5fjokers_4',['no_avail_jokers',['../shop_8c.html#a96f2c4056d32f68f01ae0e844bdb369a',1,'shop.c']]],
   ['noop_5',['noop',['../state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac',1,'state_machine.c']]],
-  ['not_20required_6',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md23',1,'']]],
-  ['num_5felem_5fin_5farr_7',['NUM_ELEM_IN_ARR',['../util_8h.html#a3494fcb52c3d0ca1bf610facc8c81514',1,'util.h']]],
-  ['num_5finfos_8',['num_infos',['../structStateMachine.html#aa4b2efb54ccb39bbc11dbcfca604fe4e',1,'StateMachine']]],
-  ['nwords_9',['nwords',['../structBitset.html#a6953acccb3e7058540129d4f8f20b546',1,'Bitset']]]
+  ['num_5felem_5fin_5farr_6',['NUM_ELEM_IN_ARR',['../util_8h.html#a3494fcb52c3d0ca1bf610facc8c81514',1,'util.h']]],
+  ['num_5finfos_7',['num_infos',['../structStateMachine.html#aa4b2efb54ccb39bbc11dbcfca604fe4e',1,'StateMachine']]],
+  ['nwords_8',['nwords',['../structBitset.html#a6953acccb3e7058540129d4f8f20b546',1,'Bitset']]]
 ];

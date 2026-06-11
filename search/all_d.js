@@ -1,7 +1,7 @@
 var searchData=
 [
   ['joker_0',['Joker',['../structJoker.html',1,'']]],
-  ['joker_20row_20in_20the_20shop_20or_20during_20round_1',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md38',1,'']]],
+  ['joker_20row_20in_20the_20shop_20or_20during_20round_1',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md31',1,'']]],
   ['joker_2eh_2',['joker.h',['../joker_8h.html',1,'']]],
   ['joker_5fget_5frarity_5fcolor_3',['joker_get_rarity_color',['../joker_8h.html#a3fccdb283cc5d2f34c9252d08d695c8e',1,'joker.c']]],
   ['joker_5frow_2eh_4',['joker_row.h',['../joker__row_8h.html',1,'']]],

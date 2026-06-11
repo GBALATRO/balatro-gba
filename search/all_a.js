@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['game_20strong_0',['&lt;strong&gt;Game&lt;/strong&gt;',['../md_README.html#autotoc_md41',1,'']]],
-  ['game_20won_20t_20start_1',['3. The Game won&apos;t start!',['../index.html#autotoc_md28',1,'']]],
+  ['game_20strong_0',['&lt;strong&gt;Game&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['game_20won_20t_20start_1',['3. The Game won&apos;t start!',['../index.html#autotoc_md21',1,'']]],
   ['game_5fblind_5fselect_5fchange_5fbackground_2',['game_blind_select_change_background',['../blind__select_8h.html#a75be230022a65f2ec46711abca17ae8c',1,'blind_select.c']]],
   ['game_5fblind_5fselect_5fon_5fexit_3',['game_blind_select_on_exit',['../blind__select_8h.html#a2f3378c3cbf3fe71244d2bd073c14391',1,'blind_select.c']]],
   ['game_5fblind_5fselect_5fon_5finit_4',['game_blind_select_on_init',['../blind__select_8h.html#a658f9305013db2676130834eecc4791a',1,'blind_select.c']]],
@@ -58,8 +58,7 @@ var searchData=
   ['get_5fnum_5fshop_5fjokers_5favail_55',['get_num_shop_jokers_avail',['../shop_8c.html#a287b24e14301ee3170861a3801b6cb27',1,'shop.c']]],
   ['get_5fplayed_5fdistribution_56',['get_played_distribution',['../hand_8c.html#ace375f4cc13086b5d150e53892d471f8',1,'hand.c']]],
   ['get_5fsave_5fheader_57',['get_save_header',['../save_8c.html#aa7c710df5af72243541a55e499e53bd9',1,'save.c']]],
-  ['git_20tt_20not_20required_58',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md23',1,'']]],
-  ['git_20tt_20or_20tt_20make_20tt_20installed_59',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md29',1,'']]],
-  ['graphic_5futils_2eh_60',['graphic_utils.h',['../graphic__utils_8h.html',1,'']]],
-  ['guide_61',['Developer Guide',['../index.html',1,'']]]
+  ['git_20tt_20or_20tt_20make_20tt_20installed_58',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]],
+  ['graphic_5futils_2eh_59',['graphic_utils.h',['../graphic__utils_8h.html',1,'']]],
+  ['guide_60',['Developer Guide',['../index.html',1,'']]]
 ];

@@ -16,21 +16,6 @@ var index =
       ] ],
       [ "Custom Scripts", "index.html#autotoc_md14", null ]
     ] ],
-    [ "Debugging", "index.html#autotoc_md15", [
-      [ "Logging", "index.html#autotoc_md16", null ]
-    ] ],
-    [ "<strong>Build Instructions</strong>", "index.html#autotoc_md17", [
-      [ "Docker", "index.html#autotoc_md18", [
-        [ "Step-by-Step", "index.html#autotoc_md19", null ]
-      ] ],
-      [ "Windows", "index.html#autotoc_md22", null ],
-      [ "With <tt>Git</tt> (not required)", "index.html#autotoc_md23", null ],
-      [ "MacOS", "index.html#autotoc_md24", null ],
-      [ "Common Issues:", "index.html#autotoc_md25", [
-        [ "1. When I run <tt>make</tt> it errors out and won't compile!", "index.html#autotoc_md26", null ],
-        [ "2. I can't find the compiled rom!", "index.html#autotoc_md27", null ],
-        [ "3. The Game won't start!", "index.html#autotoc_md28", null ],
-        [ "4. It says I don't have <tt>Git</tt> or <tt>Make</tt> installed!", "index.html#autotoc_md29", null ]
-      ] ]
-    ] ]
+    [ "Minimal usage", "index.html#autotoc_md15", null ],
+    [ "With optional build label", "index.html#autotoc_md16", null ]
 ];
