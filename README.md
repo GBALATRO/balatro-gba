@@ -54,6 +54,8 @@ https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 (Hold A: Swap Owned Jokers or Playing Cards in the Shop or Round)
 
+(Hold B: Display Joker Description)
+
 # Contributing
 
 If you would like to contribute, please read CONTRIBUTING.md.
