@@ -37,22 +37,23 @@ See **_CONTRIBUTING.md_** for build instructions for Docker, Linux, MacOS, and W
 https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 
-### Controls: 
-(D-Pad: Navigation)
+### Controls:
 
-(A: Pick Card/Make Selections)
+(A: Pick Card/Make Selection)
 
-#### When on the hand row during round
 (L: Play Hand)
 
 (R: Discard Hand)
 
 (B: Deselect All Cards)
 
-#### When on the joker row in the shop or during round
+(Hold A + D-Pad: Move Owned Jokers / Cards In Hand)
+
+#### Shop Only Controls
+
 (L: Sell Joker)
 
-(Hold A: Swap Owned Jokers or Playing Cards in the Shop or Round)
+(Hold B: Display Joker Description)
 
 # Contributing
 
