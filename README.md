@@ -1,23 +1,11 @@
 <div align="center">
 
-<h1>Balatro-GBA</h1>
+# Balatro-GBA
 
-<!-- Status badges -->
-<a href="https://github.com/cellos51/balatro-gba/actions">
-  <img src="https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8dadc">
-</a>
-
-<a href="https://github.com/cellos51/balatro-gba/issues">
-  <img src="https://img.shields.io/github/issues-raw/cellos51/balatro-gba?style=flat-square&label=Issues&color=f4a261">
-</a>
-
-<a href="https://github.com/cellos51/balatro-gba/pulls">
-  <img src="https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat-square&label=PRs&color=90dbf4">
-</a>
-
-<a href="https://github.com/cellos51/balatro-gba/discussions">
-  <img src="https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat-square&label=Discussions&color=cdb4db">
-</a>
+[![Builds](https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8dadc)](https://github.com/cellos51/balatro-gba/actions)
+[![Issues](https://img.shields.io/github/issues-raw/cellos51/balatro-gba?style=flat-square&label=Issues&color=f4a261)](https://github.com/cellos51/balatro-gba/issues)
+[![PRs](https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat-square&label=PRs&color=90dbf4)](https://github.com/cellos51/balatro-gba/pulls)
+[![Discussions](https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat-square&label=Discussions&color=cdb4db)](https://github.com/cellos51/balatro-gba/discussions)
 
 </div>
 
