@@ -39,21 +39,17 @@ https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 ### Controls:
 
-(A: Pick Card/Make Selection)
-
-(L: Play Hand)
-
-(R: Discard Hand)
+(A: Pick Card / Make Selection)
 
 (B: Deselect All Cards)
 
-(Hold A + D-Pad: Move Owned Jokers / Cards In Hand)
+(L: Play Hand / Sell Joker)
 
-#### Shop Only Controls
+(R: Discard Hand)
 
-(L: Sell Joker)
+(Hold A + D-Pad: Move Cards and Jokers in Hand)
 
-(Hold B: Display Joker Description)
+(Hold B: Display Joker Description **_Shop Only_**)
 
 # Contributing
 
