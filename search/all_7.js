@@ -12,6 +12,5 @@ var searchData=
   ['disabling_20formatting_9',['Disabling Formatting',['../index.html#autotoc_md13',1,'']]],
   ['disclaimer_10',['Disclaimer',['../md_README.html#autotoc_md25',1,'']]],
   ['documentation_11',['Documentation',['../index.html#autotoc_md5',1,'']]],
-  ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_12',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]],
-  ['during_20round_13',['during round',['../md_README.html#autotoc_md30',1,'When on the hand row during round'],['../md_README.html#autotoc_md31',1,'When on the joker row in the shop or during round']]]
+  ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_12',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['game_20strong_0',['&lt;strong&gt;Game&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['game_20strong_0',['&lt;strong&gt;Game&lt;/strong&gt;',['../md_README.html#autotoc_md32',1,'']]],
   ['game_20won_20t_20start_1',['3. The Game won&apos;t start!',['../index.html#autotoc_md21',1,'']]],
   ['game_5fblind_5fselect_5fchange_5fbackground_2',['game_blind_select_change_background',['../blind__select_8h.html#a75be230022a65f2ec46711abca17ae8c',1,'blind_select.c']]],
   ['game_5fblind_5fselect_5fon_5fexit_3',['game_blind_select_on_exit',['../blind__select_8h.html#a2f3378c3cbf3fe71244d2bd073c14391',1,'blind_select.c']]],

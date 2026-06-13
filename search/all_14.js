@@ -19,15 +19,12 @@ var searchData=
   ['rnginfo_16',['RngInfo',['../structRngInfo.html',1,'']]],
   ['rom_17',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md20',1,'']]],
   ['rotation_18',['rotation',['../structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae',1,'SpriteObject']]],
-  ['round_19',['round',['../md_README.html#autotoc_md30',1,'When on the hand row during round'],['../md_README.html#autotoc_md31',1,'When on the joker row in the shop or during round']]],
-  ['round_5fend_2eh_20',['round_end.h',['../round__end_8h.html',1,'']]],
-  ['row_20during_20round_21',['When on the hand row during round',['../md_README.html#autotoc_md30',1,'']]],
-  ['row_20in_20the_20shop_20or_20during_20round_22',['When on the joker row in the shop or during round',['../md_README.html#autotoc_md31',1,'']]],
-  ['rowgetsizefunc_23',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
-  ['rowonkeytransitfunc_24',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
-  ['rowonselectionchangedfunc_25',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
-  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_26',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
-  ['run_5fsetup_2ec_27',['run_setup.c',['../run__setup_8c.html',1,'']]],
-  ['run_5fsetup_2eh_28',['run_setup.h',['../run__setup_8h.html',1,'']]],
-  ['run_5fsetup_5ftabs_5fupdate_29',['run_setup_tabs_update',['../run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2',1,'run_setup.c']]]
+  ['round_5fend_2eh_19',['round_end.h',['../round__end_8h.html',1,'']]],
+  ['rowgetsizefunc_20',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
+  ['rowonkeytransitfunc_21',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
+  ['rowonselectionchangedfunc_22',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
+  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_23',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
+  ['run_5fsetup_2ec_24',['run_setup.c',['../run__setup_8c.html',1,'']]],
+  ['run_5fsetup_2eh_25',['run_setup.h',['../run__setup_8h.html',1,'']]],
+  ['run_5fsetup_5ftabs_5fupdate_26',['run_setup_tabs_update',['../run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2',1,'run_setup.c']]]
 ];

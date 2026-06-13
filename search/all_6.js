@@ -29,9 +29,9 @@ var searchData=
   ['compiled_20rom_26',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md20',1,'']]],
   ['compute_5fhand_5fvalue_5finfo_27',['compute_hand_value_info',['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]],
   ['containedhandtypes_28',['ContainedHandTypes',['../structContainedHandTypes.html',1,'']]],
-  ['contributing_29',['Contributing',['../md_README.html#autotoc_md32',1,'']]],
+  ['contributing_29',['Contributing',['../md_README.html#autotoc_md30',1,'']]],
   ['controls_3a_30',['Controls:',['../md_README.html#autotoc_md29',1,'']]],
-  ['credits_3a_20strong_31',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md33',1,'']]],
+  ['credits_3a_20strong_31',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md31',1,'']]],
   ['current_5fnode_32',['current_node',['../structListItr.html#a2c3441f4a1cd1468d52c327737bda6f6',1,'ListItr']]],
   ['custom_20scripts_33',['Custom Scripts',['../index.html#autotoc_md14',1,'']]]
 ];
