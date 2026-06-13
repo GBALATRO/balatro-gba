@@ -2,10 +2,10 @@
 
 # Balatro-GBA
 
-[![Builds](https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8dadc)](https://github.com/cellos51/balatro-gba/actions)
-[![Issues](https://img.shields.io/github/issues-raw/cellos51/balatro-gba?style=flat-square&label=Issues&color=f4a261)](https://github.com/cellos51/balatro-gba/issues)
-[![PRs](https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat-square&label=PRs&color=90dbf4)](https://github.com/cellos51/balatro-gba/pulls)
-[![Discussions](https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat-square&label=Discussions&color=cdb4db)](https://github.com/cellos51/balatro-gba/discussions)
+[![Builds](https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8e6a1)](https://github.com/cellos51/balatro-gba/actions)
+[![Issues](https://img.shields.io/github/issues-raw/cellos51/balatro-gba?style=flat-square&label=Issues&color=ffadad)](https://github.com/cellos51/balatro-gba/issues)
+[![PRs](https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat-square&label=PRs&color=cdb4db)](https://github.com/cellos51/balatro-gba/pulls)
+[![Discussions](https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat-square&label=Discussions&color=90dbf4)](https://github.com/cellos51/balatro-gba/discussions)
 
 </div>
 
