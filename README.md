@@ -43,7 +43,7 @@ https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 (B: Deselect All Cards)
 
-(L: Play Hand / Sell Joker)
+(L: Sell Joker  / Play Hand)
 
 (R: Discard Hand)
 
