@@ -56,22 +56,19 @@ This project is a non-profit fan demake of Balatro for the Game Boy Advance, mea
 https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 
-### Controls: 
-(D-Pad: Navigation)
+### Controls:
 
-(A: Pick Card/Make Selections)
-
-#### When on the hand row during round
-(L: Play Hand)
-
-(R: Discard Hand)
+(A: Pick Card / Make Selection)
 
 (B: Deselect All Cards)
 
-#### When on the joker row in the shop or during round
-(L: Sell Joker)
+(L: Sell Joker  / Play Hand)
 
-(Hold A: Swap Owned Jokers or Playing Cards in the Shop or Round)
+(R: Discard Hand)
+
+(Hold A + D-Pad: Move Cards and Jokers in Hand)
+
+(Hold B: Display Joker Description **_Shop Only_**)
 
 # Contributing
 

@@ -773,6 +773,21 @@ void display_mult(void)
     check_flaming_score();
 }
 
+void display_deck_size_max(void)
+{
+    // TODO: the text will overflow if deck max size exceeds 99,
+    // we will need a fix at some point for this
+    tte_erase_rect_wrapper(DECK_SIZE_RECT);
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%d/%d",
+        DECK_SIZE_RECT.left,
+        DECK_SIZE_RECT.top,
+        TTE_WHITE_PB,
+        deck_get_size(),
+        deck_get_max_size()
+    );
+}
+
 // Returns true if the card is *considered* a face card
 bool card_is_face(Card* card)
 {
@@ -1360,7 +1375,6 @@ static inline void card_draw(void)
 
     card_object->sprite_object->x = deck_x;
     card_object->sprite_object->y = deck_y;
-    sprite_position(card_object->sprite_object->sprite, fx2int(deck_x), fx2int(deck_y));
 
     set_hand_top(get_hand_top() + 1);
     get_hand_array()[get_hand_top()] = card_object;
@@ -2360,11 +2374,6 @@ static inline void cards_in_hand_update_loop(void)
                     if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
                     {
                         hand[i]->sprite_object->y = hand_y;
-                        sprite_position(
-                            hand[i]->sprite_object->sprite,
-                            fx2int(hand[i]->sprite_object->x),
-                            fx2int(hand_y)
-                        );
                         // Set target y to match y. Ensures target is updated even when vy becomes
                         // 0, preventing immediate snap back.
                         hand[i]->sprite_object->ty = hand_y;
@@ -2477,17 +2486,7 @@ static inline void game_playing_ui_text_update(void)
         }
 
         // Deck size/max size
-        // TODO: the text will overflow if deck max size exceeds 99,
-        // we will need a fix at some point for this
-        tte_erase_rect_wrapper(DECK_SIZE_RECT);
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}%d/%d",
-            DECK_SIZE_RECT.left,
-            DECK_SIZE_RECT.top,
-            TTE_WHITE_PB,
-            deck_get_size(),
-            deck_get_max_size()
-        );
+        display_deck_size_max();
 
         last_hand_size = hand_nb_held_cards();
         last_deck_size = deck_get_size();

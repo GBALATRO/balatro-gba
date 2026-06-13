@@ -226,11 +226,8 @@ static inline bool is_sprite_object_static(const SpriteObject* sprite_object)
     return !sprite_object_has_velocity(sprite_object) && sprite_object_at_target(sprite_object);
 }
 
-IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
+static inline IWRAM_CODE void update_sprite_position(SpriteObject* sprite_object)
 {
-    if (is_sprite_object_static(sprite_object))
-        return;
-
     sprite_object->vx += ((sprite_object->tx - sprite_object->x) * g_game_vars.game_speed) / 8;
     sprite_object->vy += ((sprite_object->ty - sprite_object->y) * g_game_vars.game_speed) / 8;
 
@@ -297,6 +294,13 @@ IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
         sprite_object->scale,
         -sprite_object->vx + sprite_object->rotation
     );
+}
+
+IWRAM_CODE void sprite_object_update(SpriteObject* sprite_object)
+{
+    if (!is_sprite_object_static(sprite_object))
+        update_sprite_position(sprite_object);
+
     sprite_position(sprite_object->sprite, fx2int(sprite_object->x), fx2int(sprite_object->y));
 }
 

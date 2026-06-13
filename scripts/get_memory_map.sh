@@ -2,30 +2,36 @@
 
 set -euo pipefail
 
-ELF_FILE="${ELF_FILE-./build/balatro-gba.elf}"
-POOL_DEF_FILE="${POOL_DEF_FILE-./include/def_balatro_mempool.h}"
-READELF="${READELF-/opt/devkitpro/devkitARM/bin/arm-none-eabi-readelf}"
+usage() {
+    echo "Usage: $(basename "$0") <elf-file> [pool-def-file]"
+    echo "  <elf-file>       Path to the built .elf file (e.g. build/balatro-gba.elf)"
+    echo "  [pool-def-file]  Path to the mempool definition header"
+    echo "                   (default: ./include/def_balatro_mempool.h)"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+ELF_FILE="$1"
+POOL_DEF_FILE="${2-./include/def_balatro_mempool.h}"
+READELF="${READELF:-arm-none-eabi-readelf}"
 TOTAL_BYTES=0
 
 if [ ! -f "$POOL_DEF_FILE" ]; then
-    echo "Mempool definition file not found: $POOL_DEF_FILE"
-    echo "You can set your mempool definition file with:"
-    echo "    POOL_DEF_FILE=<mempool-def-file> $(basename $0)"
-    exit 1
+  echo "Mempool definition file not found: $POOL_DEF_FILE" 
+  usage
 fi
 
 if [ ! -f "$ELF_FILE" ]; then
-    echo "elf file not found: $ELF_FILE"
-    echo "You can set your elf file with:"
-    echo "    ELF_FILE=<elf-file> $(basename $0)"
-    exit 1
+    echo "ELF file not found or is not a regular file: $ELF_FILE"
+    usage
 fi
 
-if [ ! -x "$READELF" ]; then
-    echo "ERROR: \"$READELF\" is not an executable file."
-    echo "You can override the file location for 'arm-none-eabi-readelf' with the READELF env variable."
-    echo "  e.g. $ READELF=\"/my/custom/location/arm-none-eabi-readelf\" $(basename $0) <file>"
-    exit 1
+if ! command -v "$READELF" >/dev/null 2>&1; then
+    echo "ERROR: missing tool: $READELF"
+    usage
 fi
 
 print_line_break() {
@@ -67,7 +73,7 @@ for name in $(get_pool_names); do
     pool_size="$(cut -d ' ' -f 3 <<< $output_pool)"
     func_size="$(cut -d ' ' -f 3 <<< $output_func)"
     bitset_size="$(cut -d ' ' -f 3 <<< $output_bitset)"
-    
+
     TOTAL_BYTES=$(( TOTAL_BYTES + pool_size + func_size + bitset_size ))
 
     printf "%-16s| 0x%8s | %-10u | %-10u | %-10u \n" "$name" "$address" "$pool_size" "$func_size" "$bitset_size"

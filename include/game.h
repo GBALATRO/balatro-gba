@@ -96,6 +96,7 @@ int get_deck_top(void);
 int get_num_discards_remaining(void);
 int get_num_hands_remaining(void);
 
+void display_deck_size_max(void);
 u32 get_chips(void);
 void set_chips(u32 new_chips);
 void display_chips(void);

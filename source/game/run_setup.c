@@ -112,8 +112,9 @@ static StateMachine run_setup_sm = {
  ******************************************************************************/
 
 // clang-format off
-static const Rect     RUN_SETUP_RESUME_TAB_DISABLED_SRC                   = {19, 22, 23, 23};
-static const BG_POINT RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS              = {15, 1};
+// Uncomment when tab row is re-added
+//static const Rect     RUN_SETUP_RESUME_TAB_DISABLED_SRC                   = {19, 22, 23, 23};
+//static const BG_POINT RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS              = {15, 1};
 
 static const BG_POINT RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS                  = {9 , 31};
 
@@ -655,8 +656,9 @@ static void choose_deck_substate_init(void)
     // TODO: add left/right navigation arrows once more decks have been implemented
 
     // Set Tab to "New Run"
-    main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC, RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS);
-    tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
+    // Uncomment when tab row is re-added (clang-format made it ugly, sorry)
+    // main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC,
+    // RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS); tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
 
     // Set button highlights
     button_set_highlight(&change_deck_button, true);

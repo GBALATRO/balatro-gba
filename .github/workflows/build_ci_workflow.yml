@@ -67,7 +67,11 @@ jobs:
           echo "GID=$(id -g)" >> "$GITHUB_ENV"
 
       - name: Build the project
-        run: docker compose -f docker-compose.yml run --rm gbalatro sh -c "make -j$(nproc) && ./scripts/get_memory_map.sh"
+        run: |
+          docker compose -f docker-compose.yml run --rm \
+          -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
+          gbalatro \
+          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf"
 
       - name: 'Upload Artifact'
         if: ${{ inputs.upload-build-artifact }}
