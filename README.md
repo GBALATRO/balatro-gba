@@ -2,10 +2,10 @@
 
 # Balatro-GBA
 
-[![Builds](https://img.shields.io/github/actions/workflow/status/cellos51/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8e6a1)](https://github.com/cellos51/balatro-gba/actions)
-[![Issues](https://img.shields.io/github/issues-raw/cellos51/balatro-gba?style=flat-square&label=Issues&color=ffadad)](https://github.com/cellos51/balatro-gba/issues)
-[![PRs](https://img.shields.io/github/issues-pr/cellos51/balatro-gba?style=flat-square&label=PRs&color=cdb4db)](https://github.com/cellos51/balatro-gba/pulls)
-[![Discussions](https://img.shields.io/github/discussions/cellos51/balatro-gba?style=flat-square&label=Discussions&color=90dbf4)](https://github.com/cellos51/balatro-gba/discussions)
+[![Builds](https://img.shields.io/github/actions/workflow/status/GBALATRO/balatro-gba/build_ci_workflow.yml?style=flat-square&label=Builds&color=a8e6a1)](https://github.com/GBALATRO/balatro-gba/actions)
+[![Issues](https://img.shields.io/github/issues-raw/GBALATRO/balatro-gba?style=flat-square&label=Issues&color=ffadad)](https://github.com/GBALATRO/balatro-gba/issues)
+[![PRs](https://img.shields.io/github/issues-pr/GBALATRO/balatro-gba?style=flat-square&label=PRs&color=cdb4db)](https://github.com/GBALATRO/balatro-gba/pulls)
+[![Discussions](https://img.shields.io/github/discussions/GBALATRO/balatro-gba?style=flat-square&label=Discussions&color=90dbf4)](https://github.com/GBALATRO/balatro-gba/discussions)
 
 </div>
 
@@ -30,7 +30,7 @@ This project is a non-profit fan demake of Balatro for the Game Boy Advance, mea
 ---
 
 <p align="center">
-  <a href="https://github.com/cellos51/balatro-gba/releases">
+  <a href="https://github.com/GBALATRO/balatro-gba/releases">
     <img src="https://img.shields.io/badge/Download_ROMs-Releases-8A2BE2?style=for-the-badge&logo=github&logoColor=white" width="420">
   </a>
 </p>
