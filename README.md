@@ -11,7 +11,7 @@
 
 ### Disclaimer
 
-This project is a non-profit fan demake of Balatro for the Game Boy Advance, meant to recreate it as accurately as possible including all the visuals that make it satisfying to play. It is **not affiliated with or endorsed by Playstack or LocalThunk** and **it is not to be sold**. This version is a **minimal tech-demo**, intended for those who already own and know the official game. Refer to the [Balatro wiki](https://balatrowiki.org) below for descriptions of game mechanics and joker effects. All rights remain with the original holders.
+This project is a non-profit fan demake of Balatro for the Game Boy Advance, meant to recreate it as accurately as possible including all the visuals that make it satisfying to play. It is **not affiliated with or endorsed by Playstack or LocalThunk** and **it is not to be sold**. This version is a **minimal tech-demo**, intended for those who already own and know the official game. Refer to the [Balatro wiki](https://balatrowiki.org) for descriptions of game mechanics and joker effects. All rights remain with the original holders.
 
 ### Please buy the official full version from the sources below:
 
