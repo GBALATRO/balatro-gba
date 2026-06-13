@@ -56,17 +56,34 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 
 // clang-format off
 #ifdef MGBA_LOGGING
+
 #define MGBA_FATAL(...) mgba_printf(MGBA_LOG_FATAL, __VA_ARGS__)
 #define MGBA_ERROR(...) mgba_printf(MGBA_LOG_ERROR, __VA_ARGS__)
 #define MGBA_WARN(...)  mgba_printf(MGBA_LOG_WARN,  __VA_ARGS__)
 #define MGBA_INFO(...)  mgba_printf(MGBA_LOG_INFO,  __VA_ARGS__)
 #define MGBA_DEBUG(...) mgba_printf(MGBA_LOG_DEBUG, __VA_ARGS__)
+
+#define MGBA_FUNC_LOG(level, ...) mgba_func_printf(level, __func__, __VA_ARGS__)
+
+#define MGBA_FUNC_FATAL(...) MGBA_FUNC_LOG(MGBA_LOG_FATAL, __VA_ARGS__)
+#define MGBA_FUNC_ERROR(...) MGBA_FUNC_LOG(MGBA_LOG_ERROR, __VA_ARGS__)
+#define MGBA_FUNC_WARN(...)  MGBA_FUNC_LOG(MGBA_LOG_WARN,  __VA_ARGS__)
+#define MGBA_FUNC_INFO(...)  MGBA_FUNC_LOG(MGBA_LOG_INFO,  __VA_ARGS__)
+#define MGBA_FUNC_DEBUG(...) MGBA_FUNC_LOG(MGBA_LOG_DEBUG, __VA_ARGS__)
+
 #else
+          
 #define MGBA_FATAL(...) ((void)0)
 #define MGBA_ERROR(...) ((void)0)
 #define MGBA_WARN(...) ((void)0)
 #define MGBA_INFO(...) ((void)0)
 #define MGBA_DEBUG(...) ((void)0)
+
+#define MGBA_FUNC_FATAL(...) ((void)0)
+#define MGBA_FUNC_ERROR(...) ((void)0)
+#define MGBA_FUNC_WARN(...) ((void)0)
+#define MGBA_FUNC_INFO(...) ((void)0)
+#define MGBA_FUNC_DEBUG(...) ((void)0)
 #endif
 // clang-format on
 

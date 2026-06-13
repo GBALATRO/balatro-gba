@@ -26,18 +26,35 @@ bool mgba_logger_init(void)
     return mgba_logger_available;
 }
 
-void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
+static void mgba_vprintf(MgbaLogLevel level, const char* fmt, va_list args)
 {
     if (!mgba_logger_available || fmt == NULL)
         return;
-
-    va_list args;
-    va_start(args, fmt);
+        
     vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);
-    va_end(args);
 
     *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level & 0x7) | MGBA_LOG_SEND;
 }
+
+void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    mgba_vprintf(level, fmt, args);
+    va_end(args);
+}
+
+void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
+{ 
+    char func_name_fmt_buff[MGBA_LOG_BUFFER_SIZE];
+    snprintf(func_name_fmt_buff, sizeof(func_name_fmt_buff), "%s: %s", func_name, fmt);
+
+    va_list args;
+    va_start(args, fmt);
+    mgba_vprintf(level, func_name_fmt_buff, args);
+    va_end(args);
+}
+
 #else
 
 // Noop stubs
@@ -50,4 +67,7 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 {
 }
 
+void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
+{
+}
 #endif
