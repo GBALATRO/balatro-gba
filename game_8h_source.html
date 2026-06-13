@@ -228,34 +228,35 @@ $(document).ready(function(){initNavTree('game_8h_source.html',''); initResizabl
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keywordtype">int</span> get_num_discards_remaining(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keywordtype">int</span> get_num_hands_remaining(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>u32 get_chips(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">void</span> set_chips(u32 new_chips);</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keywordtype">void</span> display_chips(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>u32 get_mult(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keywordtype">void</span> set_mult(u32 new_mult);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">void</span> display_mult(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">void</span> display_money(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> set_retrigger(<span class="keywordtype">bool</span> new_retrigger);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">// joker specific functions</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keywordtype">bool</span> is_shortcut_joker_active(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keywordtype">int</span> get_straight_and_flush_size(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keywordtype">void</span> game_start(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">// Temporary change for Refactor. Currently this compatibility binder is to allow</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">// simultaneous integration of the new system in `common_ui` with the the existing</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">// old system incrementally and without losing functionality.</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keywordtype">void</span> change_background_legacy(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keywordtype">void</span> display_round(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keywordtype">void</span> reset_background(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keywordtype">void</span> display_hands(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keywordtype">void</span> display_discards(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keywordtype">void</span> display_score(u32 value);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#endif </span><span class="comment">// GAME_H</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keywordtype">void</span> display_deck_size_max(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>u32 get_chips(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="keywordtype">void</span> set_chips(u32 new_chips);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keywordtype">void</span> display_chips(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>u32 get_mult(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">void</span> set_mult(u32 new_mult);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keywordtype">void</span> display_mult(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keywordtype">void</span> display_money(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keywordtype">void</span> set_retrigger(<span class="keywordtype">bool</span> new_retrigger);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">// joker specific functions</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="keywordtype">bool</span> is_shortcut_joker_active(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keywordtype">int</span> get_straight_and_flush_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keywordtype">void</span> game_start(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">// Temporary change for Refactor. Currently this compatibility binder is to allow</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">// simultaneous integration of the new system in `common_ui` with the the existing</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">// old system incrementally and without losing functionality.</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="keywordtype">void</span> change_background_legacy(<span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="keywordtype">void</span> display_round(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keywordtype">void</span> reset_background(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keywordtype">void</span> display_hands(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keywordtype">void</span> display_discards(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keywordtype">void</span> display_score(u32 value);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif </span><span class="comment">// GAME_H</span></div>
 <div class="ttc" id="acommon__ui_8h_html"><div class="ttname"><a href="common__ui_8h.html">common_ui.h</a></div><div class="ttdoc">Common functions to render UI elements.</div></div>
 <div class="ttc" id="acommon__ui_8h_html_aa1dc226c31d41c9cb14cdf9e2551c5cd"><div class="ttname"><a href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a></div><div class="ttdeci">BackgroundId</div><div class="ttdoc">Enum of possible backgrounds to render with change_background.</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8h_source.html#l00014">common_ui.h:15</a></div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
