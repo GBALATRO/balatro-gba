@@ -34,7 +34,6 @@ void item_acquire(Item* item)
     item_funcs->acquire(item);
 }
 
-
 void item_print_buy_price_under(Item* item)
 {
     CHECK_NULL_ARG_VOID(item);
