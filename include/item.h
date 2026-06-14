@@ -6,8 +6,8 @@
 enum ItemType
 {
     ITEM_TYPE_JOKER,
-    ITEM_TYPE_PLAYING_CARD,
     ITEM_TYPE_CONSUMABLE, // TODO: Expand to PLANET, TAROT, and SPECTRAL?
+    ITEM_TYPE_PLAYING_CARD,
 
     ITEM_NUM_TYPES
 };
@@ -28,9 +28,9 @@ typedef struct item_funcs
  * @brief Returns the buy price of the item
  *
  * Matches ItemFuncs.get_buy_price()
- * 
+ *
  * @param item The item whose price to return.
- * 
+ *
  * @return UNDEFINED in case of error, the item's buy price otherwise.
  */
 int item_get_buy_price(Item* item);
@@ -42,9 +42,9 @@ int item_get_buy_price(Item* item);
  * that should be handled by the shop code.
  * For packs this can be to just open the pack,
  * for vouchers, this will apply their effect.
- * 
+ *
  * Matches ItemFuncs.acquire()
- * 
+ *
  * @param item The item to acquire
  */
 void item_acquire(Item* item);
