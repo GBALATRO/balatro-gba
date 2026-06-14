@@ -193,12 +193,11 @@ void sprite_init(void);
  */
 void sprite_draw(void);
 
-// TODO: Update documentation
 /**
- * @brief Allocate and retrieve a pointer to a valid SpriteObject
+ * @brief Initialize a SpriteObject to a default state.
+ * Must be called only once per SpriteObject when it is created.
  *
- * @return A valid pointer to an newly allocated SpriteObject
- *         if successful, othewise return **NULL**.
+ * @param sprite_object - The SpriteObject to initialize
  */
 void sprite_object_init(SpriteObject* sprite_object);
 
