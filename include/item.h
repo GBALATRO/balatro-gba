@@ -33,8 +33,6 @@ typedef struct item_funcs
     void (*add_to_inventory)(struct Item* item);
 } ItemFuncs;
 
-
-
 int item_get_buy_price(Item* item);
 void item_add_to_inventory(Item* item);
 
