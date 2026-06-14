@@ -22,7 +22,7 @@ int item_get_buy_price(Item* item)
 
 void item_add_to_inventory(Item* item)
 {
-    CHECK_NULL_ARG_RET(item, UNDEFINED);
+    CHECK_NULL_ARG_VOID(item);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->add_to_inventory == NULL)

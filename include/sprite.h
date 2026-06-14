@@ -51,7 +51,7 @@ typedef struct
 /**
  * @brief A sprite object is a sprite that is focusable and movable in animation
  */
-typedef struct SpriteObject
+typedef struct
 {
     /**
      * @brief Sprite configuration info

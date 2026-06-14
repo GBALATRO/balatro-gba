@@ -1,7 +1,7 @@
 #ifndef ITEM_FUNCS_H
 #define ITEM_FUNCS_H
 
-#include "item_defs.h"
+#include "item.h"
 
 // TODO: Document
 ItemFuncs* get_item_type_funcs(enum ItemType type);
