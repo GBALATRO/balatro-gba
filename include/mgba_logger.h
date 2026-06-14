@@ -79,6 +79,8 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 #define MGBA_INFO(...) ((void)0)
 #define MGBA_DEBUG(...) ((void)0)
 
+#define MGBA_FUNC_LOG(level, ...) ((void)0)
+
 #define MGBA_FUNC_FATAL(...) ((void)0)
 #define MGBA_FUNC_ERROR(...) ((void)0)
 #define MGBA_FUNC_WARN(...) ((void)0)
