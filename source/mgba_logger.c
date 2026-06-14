@@ -30,7 +30,7 @@ static void mgba_vprintf(MgbaLogLevel level, const char* fmt, va_list args)
 {
     if (!mgba_logger_available || fmt == NULL)
         return;
-        
+
     vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);
 
     *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level & 0x7) | MGBA_LOG_SEND;
@@ -45,7 +45,7 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 }
 
 void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
-{ 
+{
     char func_name_fmt_buff[MGBA_LOG_BUFFER_SIZE];
     snprintf(func_name_fmt_buff, sizeof(func_name_fmt_buff), "%s(): %s", func_name, fmt);
 
