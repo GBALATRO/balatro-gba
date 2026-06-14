@@ -16,6 +16,7 @@ static const u32 MGBA_ENABLE_MAGIC = 0xC0DE;
 static const u32 MGBA_ENABLE_OK = 0x1DEA;
 static const u32 MGBA_LOG_SEND = 0x100;
 static const u32 MGBA_LOG_BUFFER_SIZE = 0x100;
+static const u16 MGBA_LOG_LEVEL_MASK = 0x7;
 
 static bool mgba_logger_available = false;
 
@@ -33,7 +34,7 @@ static void mgba_vprintf(MgbaLogLevel level, const char* fmt, va_list args)
 
     vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);
 
-    *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level & 0x7) | MGBA_LOG_SEND;
+    *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level & MGBA_LOG_LEVEL_MASK) | MGBA_LOG_SEND;
 }
 
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
