@@ -207,7 +207,7 @@ void sprite_object_init(SpriteObject* sprite_object);
  * Destroy a SpriteObject by releasing its associated resources (e.g. the sprite).
  * This invalidates the SpriteObject and it should not be used after destroyed,
  * a new one should be created instead.
- * 
+ *
  * @param sprite_object pointer to a SpriteObject to destroy.
  *        Cannot be **NULL**.
  */
