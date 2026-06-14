@@ -494,7 +494,7 @@ void game_blind_select_change_background(void)
 {
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
-        obj_unhide(blind_select_tokens[i]->obj, 0);
+        obj_unhide(blind_select_tokens[i]->obj, ATTR0_REG);
     }
 
     // Default y position for the blind select tokens. 12 is the amount of tiles the background
