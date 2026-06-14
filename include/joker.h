@@ -199,9 +199,9 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 
 /**
  * @brief Returns the buy price of the joker object.
- * 
+ *
  * @param joker_object the joker object whose price to return.
- * 
+ *
  * @return UNDEFINED in case of error, the buy price of the joker otherwise.
  */
 int joker_object_get_buy_price(Item* joker_object);

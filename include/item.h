@@ -22,7 +22,7 @@ enum ItemType
 
 typedef struct Item
 {
-    SpriteObject;   // First member struct inheritance
+    SpriteObject; // First member struct inheritance
     // All items in the shop and inventory are SpriteObjects
 
     enum ItemType type;
