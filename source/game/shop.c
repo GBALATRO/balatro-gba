@@ -471,7 +471,7 @@ static inline void game_shop_buy_item(int shop_item_idx)
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     sprite_object_set_focus((SpriteObject*)item, false);
-    item_add_to_inventory(item);
+    item_acquire(item);
     list_remove_at_idx(shop_items_list, shop_item_idx); // Remove the joker from the shop
 }
 
