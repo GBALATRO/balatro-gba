@@ -626,9 +626,8 @@ static inline void game_shop_reroll(void)
     SpriteObject* item_sprite_object;
     while ((item_sprite_object = list_itr_next(&itr)))
     {
-        if (item != NULL)
+        if (item_sprite_object != NULL)
         {
-            
             item_sprite_object->y = item_sprite_object->ty;
 
             sprite_object_shake(item_sprite_object, UNDEFINED);
@@ -931,8 +930,10 @@ static void game_shop_hide_card_desc(void)
 
     // At any point after the other prices have been printed, and while the card is still moving,
     // if we are NOT pressing A, print the price under it.
-    else if (!owned_joker_price_printed && !key_held(SELECT_CARD) &&
-             description_card_original_list == get_jokers_list())
+    else if (
+        !owned_joker_price_printed && !key_held(SELECT_CARD) &&
+        description_card_original_list == get_jokers_list()
+    )
     {
         owned_joker_price_printed = true;
         sprite_object_print_price_under(
