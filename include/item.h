@@ -20,7 +20,7 @@ enum ItemType
     ITEM_NUM_TYPES
 };
 
-typedef struct Item
+typedef struct
 {
     SpriteObject; // First member struct inheritance
     // All items in the shop and inventory are SpriteObjects
@@ -30,8 +30,8 @@ typedef struct Item
 
 typedef struct item_funcs
 {
-    int (*get_buy_price)(struct Item* item);
-    void (*acquire)(struct Item* item);
+    int (*get_buy_price)(Item* item);
+    void (*acquire)(Item* item);
 } ItemFuncs;
 
 /*
