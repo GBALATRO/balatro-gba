@@ -59,4 +59,10 @@ int item_get_buy_price(Item* item);
  */
 void item_acquire(Item* item);
 
+/*
+ * @brief Prints the buy price under the item
+ * Uses the fact item is a SpriteObject
+ */
+void item_print_buy_price_under(Item* item);
+
 #endif // ITEM_H

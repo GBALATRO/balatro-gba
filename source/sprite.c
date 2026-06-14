@@ -514,11 +514,6 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
     sprite_object_print_text_under(sprite_object, price_str_buff);
 }
 
-void sprite_object_print_buy_price_under(SpriteObject* sprite_object)
-{
-    sprite_object_print_price_under(sprite_object, item_get_buy_price((Item*)sprite_object));
-}
-
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
 {
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);

@@ -361,8 +361,6 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
  */
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price);
 
-void sprite_object_print_buy_price_under(SpriteObject* sprite_object);
-
 /**
  * @brief Erase the text within the Rect directly beneath a SpriteObject.
  *         This is used only for Cards for now.

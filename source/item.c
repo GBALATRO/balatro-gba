@@ -33,3 +33,10 @@ void item_acquire(Item* item)
 
     item_funcs->acquire(item);
 }
+
+
+void item_print_buy_price_under(Item* item)
+{
+    CHECK_NULL_ARG_VOID(item);
+    sprite_object_print_price_under((SpriteObject*)item, item_get_buy_price(item));
+}

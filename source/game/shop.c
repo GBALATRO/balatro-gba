@@ -309,7 +309,7 @@ static inline bool is_shop_joker_avail(int joker_id)
     return bitset_get_idx(&s_avail_jokers_bitset, joker_id);
 }
 
-static SpriteObject* game_shop_create_joker_object(void)
+static Item* game_shop_create_joker_object(void)
 {
     if (no_avail_jokers())
         return NULL;
@@ -339,10 +339,10 @@ static SpriteObject* game_shop_create_joker_object(void)
 
     game_shop_set_joker_avail(joker_id, false);
 
-    return (SpriteObject*)joker_object_new(joker_new(joker_id));
+    return (Item*)joker_object_new(joker_new(joker_id));
 }
 
-static SpriteObject* game_shop_create_item_of_type(enum ItemType type)
+static Item* game_shop_create_item_of_type(enum ItemType type)
 {
     // TODO: This should be a function table when consumables are implemented
     if (type == ITEM_TYPE_JOKER)
@@ -357,7 +357,7 @@ static SpriteObject* game_shop_create_item_of_type(enum ItemType type)
 }
 
 // Meant for the top row items - jokers, consumables, and playing cards
-static SpriteObject* game_shop_create_top_row_item(void)
+static Item* game_shop_create_top_row_item(void)
 {
     // TODO: Randomize item type when consumables are implemented
     return game_shop_create_item_of_type(ITEM_TYPE_JOKER);
@@ -379,11 +379,11 @@ static void game_shop_create_items(void)
 
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
-        SpriteObject* sprite_object = game_shop_create_top_row_item();
+        Item* item = game_shop_create_top_row_item();
 
-        if (sprite_object == NULL)
+        if (item == NULL)
         {
-            MGBA_WARN("Could not create shop item");
+            MGBA_FUNC_WARN("Could not create shop item");
 
             // TODO: Decide how to handle this case gracefully
             // If the issue for example is that we can't generate any more jokers,
@@ -392,14 +392,14 @@ static void game_shop_create_items(void)
             return;
         }
 
-        sprite_object->x = int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
-        sprite_object->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
-        sprite_object->tx = sprite_object->x;
-        sprite_object->ty = int2fx(ITEM_SHOP_Y);
+        item->x = int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
+        item->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
+        item->tx = item->x;
+        item->ty = int2fx(ITEM_SHOP_Y);
 
-        sprite_object_print_buy_price_under((SpriteObject*)sprite_object);
+        item_print_buy_price_under(item);
 
-        list_push_back(shop_items_list, sprite_object);
+        list_push_back(shop_items_list, item);
     }
 }
 
@@ -603,12 +603,14 @@ static inline void game_shop_reroll(void)
 
     List* shop_items_list = &s_shop_items_list;
     ListItr itr = list_itr_create(shop_items_list);
-    JokerObject* joker_object;
+    Item* item;
 
-    while ((joker_object = list_itr_next(&itr)))
+    while ((item = list_itr_next(&itr)))
     {
-        if (joker_object != NULL)
+        if (item != NULL && item->type == ITEM_TYPE_JOKER)
         {
+            // TODO: Generalize
+            JokerObject* joker_object = (JokerObject*)item;
             game_shop_set_joker_avail(joker_object->joker->id, true);
             joker_object_destroy(&joker_object); // Destroy the joker object if it exists
         }
@@ -621,16 +623,15 @@ static inline void game_shop_reroll(void)
 
     itr = list_itr_create(shop_items_list);
 
-    while ((joker_object = list_itr_next(&itr)))
+    SpriteObject* item_sprite_object;
+    while ((item_sprite_object = list_itr_next(&itr)))
     {
-        if (joker_object != NULL)
+        if (item != NULL)
         {
-            // Set the y position to the target position
-            SpriteObject* sprite_object = (SpriteObject*)joker_object;
-            sprite_object_set_y(sprite_object, sprite_object_get_ty(sprite_object));
+            
+            item_sprite_object->y = item_sprite_object->ty;
 
-            // Give the joker a little wiggle animation
-            joker_object_shake(joker_object, UNDEFINED);
+            sprite_object_shake(item_sprite_object, UNDEFINED);
         }
     }
 
