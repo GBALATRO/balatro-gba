@@ -54,6 +54,18 @@ bool mgba_logger_init(void);
  */
 void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
 
+/**
+ * @brief Print to mgba log with a format string and function name
+ *
+ * @param level
+ * @param func_name Function name - prepended to the log string "<func_name>: <log_string>"
+ * @param fmt Format string
+ * @param ... variadic arguments
+ *
+ * @note for all logs, it's cutoff at the hard mgba limit of 0x100
+ */
+void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...);
+
 // clang-format off
 #ifdef MGBA_LOGGING
 
