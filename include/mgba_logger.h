@@ -101,4 +101,18 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
 #endif
 // clang-format on
 
+#define CHECK_NULL_ARG_VOID(param) \
+    if ((param) == NULL) \
+    { \
+        MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param); \
+        return; \
+    }
+
+#define CHECK_NULL_ARG_RET(param, ret_val) \
+    if ((param) == NULL) \
+    { \
+        MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param); \
+        return ret_val; \
+    }
+
 #endif
