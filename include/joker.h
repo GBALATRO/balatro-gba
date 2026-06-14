@@ -197,7 +197,13 @@ void joker_object_destroy(JokerObject** joker_object);
 // This doesn't actually score anything, it just performs an animation and plays a sound effect
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 
-// TODO: Document
+/**
+ * @brief Returns the buy price of the joker object.
+ * 
+ * @param joker_object the joker object whose price to return.
+ * 
+ * @return UNDEFINED in case of error, the buy price of the joker otherwise.
+ */
 int joker_object_get_buy_price(Item* joker_object);
 
 // TODO: Move to an owned_jokers.c/.h file
