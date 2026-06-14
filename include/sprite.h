@@ -46,6 +46,12 @@ typedef struct
      * @brief Sprite index in memory managed by GBAlatro
      */
     int idx;
+
+    /**
+     * @brief The mode of the sprite (regular, affine, etc.), set when the sprite is created
+     * corresponds to A0 & ATTR0_MODE_MASK
+     */
+    u16 mode;
 } Sprite;
 
 /**
@@ -183,6 +189,12 @@ bool sprite_get_width(Sprite* sprite, int* width);
  */
 int sprite_get_pb(const Sprite* sprite);
 
+// TODO: Document
+void sprite_hide(Sprite* sprite);
+
+// TODO: Documents
+void sprite_unhide(Sprite* sprite);
+
 /**
  * @brief Initialize GBAlatro sprite system
  */
@@ -223,6 +235,10 @@ void sprite_object_destroy(SpriteObject* sprite_object);
  *                      Cannot be **NULL**.
  */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
+
+void sprite_object_hide(SpriteObject* sprite_object);
+
+void sprite_object_unhide(SpriteObject* sprite_object);
 
 /**
  * @brief Reset SpriteObject's transform back to default values.

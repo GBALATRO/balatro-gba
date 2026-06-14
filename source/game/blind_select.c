@@ -260,7 +260,7 @@ static void game_blind_select_selected_anim_seq()
     {
         for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
-            obj_hide(blind_select_tokens[i]->obj);
+            sprite_hide(blind_select_tokens[i]);
         }
 
         s_timer = TM_ZERO;
@@ -445,7 +445,7 @@ static void blind_tokens_init()
 
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
-        obj_hide(blind_select_tokens[i]->obj);
+        sprite_hide(blind_select_tokens[i]);
     }
 }
 

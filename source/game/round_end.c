@@ -208,7 +208,7 @@ static void game_round_end_update_blind_reward(void)
     {
         tte_erase_rect_wrapper(BLIND_REWARD_RECT);
         tte_erase_rect_wrapper(BLIND_REQ_TEXT_RECT);
-        obj_hide(g_game_vars.playing_blind_token->obj);
+        sprite_hide(g_game_vars.playing_blind_token);
         affine_background_load_palette(affine_background_gfxPal);
         state_machine_change_state(&round_end_sm, BLIND_PANEL_EXIT);
         g_game_vars.timer = TM_ZERO;
@@ -411,7 +411,7 @@ static void game_round_end_display_cashout()
         state_machine_change_state(&round_end_sm, DISMISS_ROUND_END_PANEL);
         g_game_vars.timer = TM_ZERO;
 
-        obj_hide(g_game_vars.round_end_blind_token->obj); // Hide the blind token object
+        sprite_hide(g_game_vars.round_end_blind_token); // Hide the blind token object
         tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT);    // Erase the blind token text
     }
 }

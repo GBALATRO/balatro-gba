@@ -821,13 +821,7 @@ static void seed_keyboard_substate_init(void)
     tte_erase_rect_wrapper(RUN_SETUP_DECK_NAME_DESC_RECT);
 
     // Hide Deck card sprite
-    {
-        Sprite* deck_sprite = sprite_object_get_sprite((SpriteObject*)run_setup_deck);
-        if (deck_sprite != NULL)
-        {
-            obj_hide(deck_sprite->obj);
-        }
-    }
+    sprite_object_hide((SpriteObject*)run_setup_deck);
 
     // Clean deck swap screen with frame BG color
     main_bg_se_copy_expand_tile(
@@ -1122,13 +1116,7 @@ static void resume_substate_init(void)
     tab_set_highlight(RUN_SETUP_TAB_RESUME);
 
     // Show Deck card sprite
-    {
-        Sprite* deck_sprite = sprite_object_get_sprite((SpriteObject*)run_setup_deck);
-        if (deck_sprite != NULL)
-        {
-            obj_unhide(deck_sprite->obj, ATTR0_AFF);
-        }
-    }
+    sprite_object_unhide((SpriteObject*)run_setup_deck);
 }
 
 // COMMON BUTTONS

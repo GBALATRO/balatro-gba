@@ -85,6 +85,8 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
 
     sprite->idx = sprite_index;
 
+    sprite->mode = a0 & ATTR0_MODE_MASK;
+
     return sprite;
 }
 
@@ -163,11 +165,20 @@ void sprite_draw()
 
 int sprite_get_pb(const Sprite* sprite)
 {
-    if (sprite == NULL)
-    {
-        return UNDEFINED;
-    }
+    CHECK_NULL_ARG_RET(sprite, UNDEFINED);
     return (sprite->obj->attr2 & ATTR2_PALBANK_MASK) >> ATTR2_PALBANK_SHIFT;
+}
+
+void sprite_hide(Sprite* sprite)
+{
+    CHECK_NULL_ARG_VOID(sprite);
+    obj_hide(sprite->obj);
+}
+
+void sprite_unhide(Sprite* sprite)
+{
+    CHECK_NULL_ARG_VOID(sprite);
+    obj_unhide(sprite->obj, sprite->mode);
 }
 
 // SpriteObject methods
@@ -198,6 +209,18 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
         return;
     sprite_destroy(&sprite_object->sprite); // Destroy the old sprite if it exists
     sprite_object->sprite = sprite;
+}
+
+void sprite_object_hide(SpriteObject* sprite_object)
+{
+    CHECK_NULL_ARG_VOID(sprite_object);
+    sprite_hide(sprite_object->sprite);
+}
+
+void sprite_object_unhide(SpriteObject* sprite_object)
+{
+    CHECK_NULL_ARG_VOID(sprite_object);
+    sprite_unhide(sprite_object->sprite);
 }
 
 void sprite_object_reset_transform(SpriteObject* sprite_object)
