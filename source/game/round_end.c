@@ -118,7 +118,7 @@ static void game_round_end_start_expand_popup(void)
 
 static void game_round_end_display_finished_blind(void)
 {
-    obj_unhide(g_game_vars.round_end_blind_token->obj, ATTR0_REG);
+    sprite_unhide(g_game_vars.round_end_blind_token->obj);
 
     int current_ante = g_game_vars.ante;
 

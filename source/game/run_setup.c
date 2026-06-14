@@ -650,13 +650,7 @@ void game_run_setup_on_exit(void)
 static void choose_deck_substate_init(void)
 {
     // Show Deck sprite, name and TODO: description
-    {
-        Sprite* deck_sprite = sprite_object_get_sprite((SpriteObject*)run_setup_deck);
-        if (deck_sprite != NULL)
-        {
-            obj_unhide(deck_sprite->obj, ATTR0_AFF);
-        }
-    }
+    sprite_object_unhide((SpriteObject*)run_setup_deck);
     print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
     print_deck_description(g_game_vars.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
 
