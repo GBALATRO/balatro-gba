@@ -118,7 +118,7 @@ static void game_round_end_start_expand_popup(void)
 
 static void game_round_end_display_finished_blind(void)
 {
-    sprite_unhide(g_game_vars.round_end_blind_token->obj);
+    sprite_unhide(g_game_vars.round_end_blind_token);
 
     int current_ante = g_game_vars.ante;
 
@@ -412,7 +412,7 @@ static void game_round_end_display_cashout()
         g_game_vars.timer = TM_ZERO;
 
         sprite_hide(g_game_vars.round_end_blind_token); // Hide the blind token object
-        tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT);    // Erase the blind token text
+        tte_erase_rect_wrapper(BLIND_TOKEN_TEXT_RECT); // Erase the blind token text
     }
 }
 
