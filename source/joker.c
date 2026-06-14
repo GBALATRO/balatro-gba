@@ -200,7 +200,7 @@ JokerObject* joker_object_new(Joker* joker)
 {
     JokerObject* joker_object = POOL_GET(JokerObject);
 
-    *((SpriteObject*)joker_object) = sprite_object_new();
+    sprite_object_init((SpriteObject*)joker_object);
 
     int layer = 0;
     for (int i = 0; i < MAX_JOKER_OBJECTS; i++)

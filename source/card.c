@@ -101,7 +101,7 @@ u8 card_get_value(Card* card)
 CardObject* card_object_new(Card* card)
 {
     CardObject* card_object = POOL_GET(CardObject);
-    *((SpriteObject*)card_object) = sprite_object_new();
+    sprite_object_init((SpriteObject*)card_object);
     card_object->card = card;
 
     card_object->type = ITEM_TYPE_PLAYING_CARD;

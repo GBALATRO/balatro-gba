@@ -171,17 +171,15 @@ int sprite_get_pb(const Sprite* sprite)
 }
 
 // SpriteObject methods
-SpriteObject sprite_object_new()
+void sprite_object_init(SpriteObject* sprite_object)
 {
-    SpriteObject sprite_object;
+    CHECK_NULL_ARG_VOID(sprite_object);
 
-    sprite_object.sprite = NULL;
-    sprite_object_reset_transform(&sprite_object);
-    sprite_object.focused = false;
+    sprite_object->sprite = NULL;
+    sprite_object_reset_transform(sprite_object);
+    sprite_object->focused = false;
 
     list_push_back(&sprite_objects_list, sprite_object);
-
-    return sprite_object;
 }
 
 void sprite_object_destroy(SpriteObject* sprite_object)

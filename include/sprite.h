@@ -193,13 +193,14 @@ void sprite_init(void);
  */
 void sprite_draw(void);
 
+// TODO: Update documentation
 /**
  * @brief Allocate and retrieve a pointer to a valid SpriteObject
  *
  * @return A valid pointer to an newly allocated SpriteObject
  *         if successful, othewise return **NULL**.
  */
-SpriteObject sprite_object_new();
+void sprite_object_init(SpriteObject* sprite_object);
 
 /**
  * @brief Destroy SpriteObject
