@@ -8,11 +8,7 @@
 
 int item_get_buy_price(Item* item)
 {
-    if (item == NULL)
-    {
-        MGBA_ERROR(__func__ " called with NULL argument");
-        return UNDEFINED;
-    }
+    CHECK_NULL_ARG_RET(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->get_buy_price == NULL)
@@ -26,16 +22,12 @@ int item_get_buy_price(Item* item)
 
 void item_add_to_inventory(Item* item)
 {
-    if (item == NULL)
-    {
-        MGBA_ERROR(__func__ " called with NULL argument");
-        return;
-    }
+    CHECK_NULL_ARG_RET(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->add_to_inventory == NULL)
     {
-        MGBA_ERROR(__func__ ": object function not implemented");
+        MGBA_FUNC_ERROR("object function not implemented");
         return;
     }
 
