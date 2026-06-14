@@ -1,3 +1,11 @@
+/**
+ * @file item_funcs.h
+ *
+ * @brief An API for the item functions defined in item.h
+ * Separated module from item.c/.h so item_funcs.c can include joker.h and card.h etc.
+ * so the item.h doesn't depend on implementations such as jokers and cards.
+ */
+
 #ifndef ITEM_FUNCS_H
 #define ITEM_FUNCS_H
 

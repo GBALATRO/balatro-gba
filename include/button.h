@@ -2,6 +2,7 @@
  * @file button.h
  *
  * @brief A button structure containing the common button functionalities
+ * Including highlight and pressing functionalities.
  */
 
 #ifndef BUTTON_H

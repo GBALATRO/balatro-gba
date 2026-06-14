@@ -1,3 +1,11 @@
+/**
+ * @file item.h
+ *
+ * @brief The core structure for items in the shop and inventory.
+ * Provides a common API for the shop and inventory to handle all types of items.
+ * Uses struct inheritance so all items can implement an is-a relationship with Item.
+ */
+
 #ifndef ITEM_H
 #define ITEM_H
 
@@ -14,7 +22,9 @@ enum ItemType
 
 typedef struct Item
 {
-    SpriteObject;
+    SpriteObject;   // First member struct inheritance
+    // All items in the shop and inventory are SpriteObjects
+
     enum ItemType type;
 } Item;
 
