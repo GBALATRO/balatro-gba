@@ -58,7 +58,7 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
  * @brief Print to mgba log with a format string and function name
  *
  * @param level
- * @param func_name Function name - prepended to the log string "<func_name>: <log_string>"
+ * @param func_name Function name - prepended to the log string "<func_name>(): <log_string>"
  * @param fmt Format string
  * @param ... variadic arguments
  *
