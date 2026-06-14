@@ -204,10 +204,11 @@ void sprite_object_init(SpriteObject* sprite_object);
 /**
  * @brief Destroy SpriteObject
  *
- * Destroy a SpriteObject by freeing it back to the pool and releasing its
- * associated resources
- *
- * @param sprite_object pointer to a pointer of SpriteObject to destroy.
+ * Destroy a SpriteObject by releasing its associated resources (e.g. the sprite).
+ * This invalidates the SpriteObject and it should not be used after destroyed,
+ * a new one should be created instead.
+ * 
+ * @param sprite_object pointer to a SpriteObject to destroy.
  *        Cannot be **NULL**.
  */
 void sprite_object_destroy(SpriteObject* sprite_object);
