@@ -111,7 +111,7 @@ typedef struct
 
 typedef struct JokerObject
 {
-    Item;
+    Item; // First member struct inheritance
     Joker* joker;
 } JokerObject;
 

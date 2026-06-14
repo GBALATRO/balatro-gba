@@ -54,7 +54,7 @@ typedef struct Card
 
 typedef struct CardObject
 {
-    Item;
+    Item; // First member struct inheritance
     Card* card;
     bool selected;
 } CardObject;
