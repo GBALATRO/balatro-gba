@@ -108,14 +108,14 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
  * This version is for a void function, while @ref CHECK_NULL_ARG_RET is for one with
  * a return value.
  */
-#define CHECK_NULL_ARG_VOID(param)                                      \
-    do                                                                  \
-    {                                                                   \
-        if ((param) == NULL)                                            \
-        {                                                               \
-            MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param);  \
-            return;                                                     \
-        }                                                               \
+#define CHECK_NULL_ARG_VOID(param)                                     \
+    do                                                                 \
+    {                                                                  \
+        if ((param) == NULL)                                           \
+        {                                                              \
+            MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param); \
+            return;                                                    \
+        }                                                              \
     } while (0)
 
 /**
@@ -125,14 +125,14 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
  * This version is for a function that returns a value while @ref CHECK_NULL_ARG_VOID
  * is for a void function.
  */
-#define CHECK_NULL_ARG_RET(param, ret_val)                              \
-    do                                                                  \
-    {                                                                   \
-        if ((param) == NULL)                                            \
-        {                                                               \
-            MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param);  \
-            return ret_val;                                             \
-        }                                                               \
+#define CHECK_NULL_ARG_RET(param, ret_val)                             \
+    do                                                                 \
+    {                                                                  \
+        if ((param) == NULL)                                           \
+        {                                                              \
+            MGBA_FUNC_ERROR("Called with NULL '%s' argument", #param); \
+            return ret_val;                                            \
+        }                                                              \
     } while (0)
 
 #endif
