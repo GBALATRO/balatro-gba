@@ -119,7 +119,7 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
  * Useful for checking arguments to a function.
  * @param ret_val The value to return in case @p param is NULL.
  * This version is for a function that returns a value while @ref CHECK_NULL_ARG_VOID
- * us for a void function.
+ * is for a void function.
  */
 #define CHECK_NULL_ARG_RET(param, ret_val)                         \
     if ((param) == NULL)                                           \
