@@ -54,7 +54,9 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
     }
 
     char func_name_fmt_buff[MGBA_LOG_BUFFER_SIZE];
-    int chars_used = snprintf(func_name_fmt_buff, sizeof(func_name_fmt_buff), "%s(): %s", func_name, fmt);
+    int chars_used = snprintf(
+        func_name_fmt_buff, sizeof(func_name_fmt_buff), "%s(): %s", func_name, fmt
+    );
     
     char* printed_str = func_name_fmt_buff;
     
