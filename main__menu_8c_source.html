@@ -249,120 +249,117 @@ $(document).ready(function(){initNavTree('main__menu_8c_source.html',''); initRe
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    main_menu_ace = card_object_new(card_new(SPADES, ACE));</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    card_object_set_sprite(main_menu_ace, 0);</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>-&gt;attr0 |= ATTR0_AFF_DBL;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> = int2fx(MAIN_MENU_ACE_T_X);</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> = main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a>;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    main_menu_ace-&gt;sprite_object-&gt;ty = int2fx(MAIN_MENU_ACE_T_Y);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    main_menu_ace-&gt;sprite_object-&gt;y = main_menu_ace-&gt;sprite_object-&gt;ty;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> = float2fx(0.8f);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    card_object_update(main_menu_ace);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="comment">// Select last highlighted button, Play button by default.</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="comment">// e.g. if we return from the options menu, we want the Options button to be highlighted.</span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    Selection sel_init = {last_highlighted_button, 0};</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    main_menu_selection_grid.selection = sel_init;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// Highlight current button</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[main_menu_selection_grid.selection.x], <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> = float2fx(0.8f);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <a class="code hl_function" href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a>(main_menu_ace-&gt;sprite_object, MAIN_MENU_ACE_T_X, MAIN_MENU_ACE_T_Y);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    card_object_update(main_menu_ace);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="comment">// Select last highlighted button, Play button by default.</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="comment">// e.g. if we return from the options menu, we want the Options button to be highlighted.</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    Selection sel_init = {last_highlighted_button, 0};</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    main_menu_selection_grid.selection = sel_init;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="comment">// Highlight current button</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[main_menu_selection_grid.selection.x], <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
 </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="foldopen" id="foldopen00125" data-start="{" data-end="}">
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">  125</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>{</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> = lu_sin((g_game_vars.timer &lt;&lt; 8) / 2) / 3;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    card_object_update(main_menu_ace);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="foldopen" id="foldopen00122" data-start="{" data-end="}">
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">  122</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>{</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    main_menu_ace-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> = lu_sin((g_game_vars.timer &lt;&lt; 8) / 2) / 3;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    card_object_update(main_menu_ace);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <a class="code hl_function" href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a>(&amp;main_menu_selection_grid);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
+</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <a class="code hl_function" href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a>(&amp;main_menu_selection_grid);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">  130</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="comment">// Save selected button</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    last_highlighted_button = main_menu_selection_grid.selection.x;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="comment">// Normally I would just cache these and hide/unhide but I didn&#39;t feel like dealing with</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="comment">// defining a layer for it</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    card_destroy(&amp;main_menu_ace-&gt;card);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    card_object_destroy(&amp;main_menu_ace);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}</div>
 </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">  133</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>{</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="comment">// Save selected button</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    last_highlighted_button = main_menu_selection_grid.selection.x;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="comment">// Normally I would just cache these and hide/unhide but I didn&#39;t feel like dealing with</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="comment">// defining a layer for it</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    card_destroy(&amp;main_menu_ace-&gt;card);</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    card_object_destroy(&amp;main_menu_ace);</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
-</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">// Implement SelectionGrid handler functions</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="keyword">static</span> <span class="keywordtype">int</span> main_menu_return_row_size(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>{</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">return</span> MAIN_MENU_NB_BTN;</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>}</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="keyword">static</span> <span class="keywordtype">bool</span> main_menu_on_selection_changed(</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordtype">int</span> row_idx,</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keyword">const</span> Selection* new_selection</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>)</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>{</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">if</span> (prev_selection-&gt;x &gt;= 0 &amp;&amp; prev_selection-&gt;x &lt; MAIN_MENU_NB_BTN)</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[prev_selection-&gt;x], <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment">// Implement SelectionGrid handler functions</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">static</span> <span class="keywordtype">int</span> main_menu_return_row_size(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>{</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">return</span> MAIN_MENU_NB_BTN;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keyword">static</span> <span class="keywordtype">bool</span> main_menu_on_selection_changed(</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordtype">int</span> row_idx,</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keyword">const</span> Selection* new_selection</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>{</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">if</span> (prev_selection-&gt;x &gt;= 0 &amp;&amp; prev_selection-&gt;x &lt; MAIN_MENU_NB_BTN)</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[prev_selection-&gt;x], <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    }</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(SFX_BUTTON, <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>, BUTTON_SFX_VOLUME);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[new_selection-&gt;x], <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(SFX_BUTTON, <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>, BUTTON_SFX_VOLUME);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;main_menu_buttons[new_selection-&gt;x], <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">static</span> <span class="keywordtype">void</span> main_menu_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>{</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="comment">// DEBUG: toggle git hash display by pressing L+R+START+SELECT</span></div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> combo_pressed = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> show_version = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">if</span> (key_is_down(KEY_START) &amp;&amp; key_is_down(KEY_SELECT) &amp;&amp; key_is_down(KEY_L) &amp;&amp;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        key_is_down(KEY_R))</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    {</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keywordflow">if</span> (!combo_pressed)</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        {</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            show_version = !show_version;</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            <span class="keywordflow">if</span> (show_version)</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            {</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                tte_printf(</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    GBALATRO_VERSION_TEXT_POS.x,</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                    GBALATRO_VERSION_TEXT_POS.y,</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    TTE_WHITE_PB,</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                    gbalatro_version</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                );</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            }</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            {</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(GBALATRO_VERSION_TEXT_RECT);</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            }</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        }</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        combo_pressed = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    }</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    {</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        combo_pressed = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    }</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    {</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;main_menu_buttons[selection-&gt;x]);</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="keyword">static</span> <span class="keywordtype">void</span> play_on_pressed(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>{</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    game_change_state(GAME_STATE_RUN_SETUP);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>}</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="keyword">static</span> <span class="keywordtype">void</span> options_on_pressed(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>{</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    game_change_state(GAME_STATE_OPTIONS_MENU);</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>}</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">static</span> <span class="keywordtype">void</span> main_menu_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>{</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="comment">// DEBUG: toggle git hash display by pressing L+R+START+SELECT</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> combo_pressed = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> show_version = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">if</span> (key_is_down(KEY_START) &amp;&amp; key_is_down(KEY_SELECT) &amp;&amp; key_is_down(KEY_L) &amp;&amp;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        key_is_down(KEY_R))</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">if</span> (!combo_pressed)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            show_version = !show_version;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">if</span> (show_version)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                tte_printf(</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                    <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>                    GBALATRO_VERSION_TEXT_POS.x,</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                    GBALATRO_VERSION_TEXT_POS.y,</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                    TTE_WHITE_PB,</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    gbalatro_version</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                );</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            }</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(GBALATRO_VERSION_TEXT_RECT);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        }</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        combo_pressed = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        combo_pressed = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <a class="code hl_function" href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a>(&amp;main_menu_buttons[selection-&gt;x]);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    }</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>}</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">static</span> <span class="keywordtype">void</span> play_on_pressed(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>{</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    game_change_state(GAME_STATE_RUN_SETUP);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>}</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="keyword">static</span> <span class="keywordtype">void</span> options_on_pressed(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>{</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    game_change_state(GAME_STATE_OPTIONS_MENU);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
 <div class="ttc" id="aaffine__background_8h_html"><div class="ttname"><a href="affine__background_8h.html">affine_background.h</a></div><div class="ttdoc">Utilities for affine background on GBA.</div></div>
 <div class="ttc" id="aaffine__background_8h_html_a7be0cf280b30b6df358b84c785a35e64af587868d89c48c5bce509f8f5bda7677"><div class="ttname"><a href="affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64af587868d89c48c5bce509f8f5bda7677">AFFINE_BG_MAIN_MENU</a></div><div class="ttdeci">@ AFFINE_BG_MAIN_MENU</div><div class="ttdoc">Display background for main menu.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8h_source.html#l00049">affine_background.h:49</a></div></div>
 <div class="ttc" id="aaffine__background_8h_html_aa6cd0433282441f6df3317b595fef90a"><div class="ttname"><a href="affine__background_8h.html#aa6cd0433282441f6df3317b595fef90a">affine_background_change_background</a></div><div class="ttdeci">void affine_background_change_background(enum AffineBackgroundID new_bg)</div><div class="ttdoc">Update the background id.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00081">affine_background.c:81</a></div></div>
@@ -379,19 +376,18 @@ $(document).ready(function(){initNavTree('main__menu_8c_source.html',''); initRe
 <div class="ttc" id="agraphic__utils_8h_html_a3da2c63a9da5eae09966791ec4d783f7"><div class="ttname"><a href="graphic__utils_8h.html#a3da2c63a9da5eae09966791ec4d783f7">toggle_windows</a></div><div class="ttdeci">void toggle_windows(bool win0, bool win1)</div><div class="ttdoc">Toggles the visibility of the window layers.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00461">graphic_utils.c:461</a></div></div>
 <div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00398">graphic_utils.c:398</a></div></div>
 <div class="ttc" id="amain__menu_8h_html"><div class="ttname"><a href="main__menu_8h.html">main_menu.h</a></div><div class="ttdoc">Main menu state functions.</div></div>
-<div class="ttc" id="amain__menu_8h_html_a237352b9db2e855528bcb139d9ab0658"><div class="ttname"><a href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a></div><div class="ttdeci">void game_main_menu_on_update(void)</div><div class="ttdoc">Main menu state update.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00125">main_menu.c:125</a></div></div>
-<div class="ttc" id="amain__menu_8h_html_a2ae0d8537f19eec780480fa97f15bb8c"><div class="ttname"><a href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a></div><div class="ttdeci">void game_main_menu_on_exit(void)</div><div class="ttdoc">Main menu cleanup (called when transitioning to game start)</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00133">main_menu.c:133</a></div></div>
+<div class="ttc" id="amain__menu_8h_html_a237352b9db2e855528bcb139d9ab0658"><div class="ttname"><a href="main__menu_8h.html#a237352b9db2e855528bcb139d9ab0658">game_main_menu_on_update</a></div><div class="ttdeci">void game_main_menu_on_update(void)</div><div class="ttdoc">Main menu state update.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00122">main_menu.c:122</a></div></div>
+<div class="ttc" id="amain__menu_8h_html_a2ae0d8537f19eec780480fa97f15bb8c"><div class="ttname"><a href="main__menu_8h.html#a2ae0d8537f19eec780480fa97f15bb8c">game_main_menu_on_exit</a></div><div class="ttdeci">void game_main_menu_on_exit(void)</div><div class="ttdoc">Main menu cleanup (called when transitioning to game start)</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00130">main_menu.c:130</a></div></div>
 <div class="ttc" id="amain__menu_8h_html_a75b7d91d3b3d2f75c1cc1827c749762e"><div class="ttname"><a href="main__menu_8h.html#a75b7d91d3b3d2f75c1cc1827c749762e">game_main_menu_change_background</a></div><div class="ttdeci">void game_main_menu_change_background(void)</div><div class="ttdoc">Change the main menu background.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00086">main_menu.c:86</a></div></div>
 <div class="ttc" id="amain__menu_8h_html_ac8b3b6d13677c81446e0b3bc600e3ce5"><div class="ttname"><a href="main__menu_8h.html#ac8b3b6d13677c81446e0b3bc600e3ce5">game_main_menu_on_init</a></div><div class="ttdeci">void game_main_menu_on_init(void)</div><div class="ttdoc">Main menu state initialization.</div><div class="ttdef"><b>Definition</b> <a href="main__menu_8c_source.html#l00102">main_menu.c:102</a></div></div>
 <div class="ttc" id="aselection__grid_8h_html"><div class="ttname"><a href="selection__grid_8h.html">selection_grid.h</a></div><div class="ttdoc">An implementation for a selection grid that handles directional selection.</div></div>
 <div class="ttc" id="aselection__grid_8h_html_aab5b9794029546e2418e24bd899a3032"><div class="ttname"><a href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a></div><div class="ttdeci">void selection_grid_process_input(SelectionGrid *selection_grid)</div><div class="ttdoc">Processes user input for the selection grid.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8c_source.html#l00116">selection_grid.c:116</a></div></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
+<div class="ttc" id="asprite_8h_html_a90329a888f65192cc5170085b65ebfde"><div class="ttname"><a href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a></div><div class="ttdeci">INLINE void sprite_object_position(SpriteObject *sprite_object, int x, int y)</div><div class="ttdoc">Set sprite_object position. Inlined for efficiency.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00377">sprite.h:377</a></div></div>
 <div class="ttc" id="astructButton_html"><div class="ttname"><a href="structButton.html">Button</a></div><div class="ttdoc">A button representation.</div><div class="ttdef"><b>Definition</b> <a href="button_8h_source.html#l00029">button.h:30</a></div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00055">card.h:56</a></div></div>
 <div class="ttc" id="astructSelectionGridRow_html"><div class="ttname"><a href="structSelectionGridRow.html">SelectionGridRow</a></div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00103">selection_grid.h:104</a></div></div>
 <div class="ttc" id="astructSelectionGrid_html"><div class="ttname"><a href="structSelectionGrid.html">SelectionGrid</a></div><div class="ttdoc">The core selection grid struct, represents the grid itself and its state.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00118">selection_grid.h:119</a></div></div>
-<div class="ttc" id="astructSpriteObject_html_a2017b28962f789e15c45963f8f25b5d8"><div class="ttname"><a href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">SpriteObject::x</a></div><div class="ttdeci">FIXED x</div><div class="ttdoc">Current position.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00069">sprite.h:69</a></div></div>
-<div class="ttc" id="astructSpriteObject_html_a53ba73970f94c3b60071771a6a2e26ab"><div class="ttname"><a href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">SpriteObject::tx</a></div><div class="ttdeci">FIXED tx</div><div class="ttdoc">Target position.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00064">sprite.h:64</a></div></div>
 <div class="ttc" id="astructSpriteObject_html_a5da2ef686423fa4bcc6f39c2416e0039"><div class="ttname"><a href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">SpriteObject::trotation</a></div><div class="ttdeci">FIXED trotation</div><div class="ttdoc">Target rotation.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00094">sprite.h:94</a></div></div>
 <div class="ttc" id="astructSpriteObject_html_a7c54302f990f134ca6e37a2e9ef9999d"><div class="ttname"><a href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">SpriteObject::sprite</a></div><div class="ttdeci">Sprite * sprite</div><div class="ttdoc">Sprite configuration info.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00059">sprite.h:59</a></div></div>
 <div class="ttc" id="astructSpriteObject_html_a9fac583aa7e114c134394f42e81e4253"><div class="ttname"><a href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">SpriteObject::tscale</a></div><div class="ttdeci">FIXED tscale</div><div class="ttdoc">Target Scale.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00079">sprite.h:79</a></div></div>

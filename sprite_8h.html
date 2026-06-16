@@ -246,6 +246,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a1ee0e1521651d9a8fd7773a6b4ba127e" id="r_a1ee0e1521651d9a8fd7773a6b4ba127e"><td class="memItemLeft" align="right" valign="top">INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e">sprite_position</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite, int x, int y)</td></tr>
 <tr class="memdesc:a1ee0e1521651d9a8fd7773a6b4ba127e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sprite position. Inlined for efficiency.  <br /></td></tr>
 <tr class="separator:a1ee0e1521651d9a8fd7773a6b4ba127e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90329a888f65192cc5170085b65ebfde" id="r_a90329a888f65192cc5170085b65ebfde"><td class="memItemLeft" align="right" valign="top">INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a> (<a class="el" href="structSpriteObject.html">SpriteObject</a> *sprite_object, int x, int y)</td></tr>
+<tr class="memdesc:a90329a888f65192cc5170085b65ebfde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sprite_object position. Inlined for efficiency.  <br /></td></tr>
+<tr class="separator:a90329a888f65192cc5170085b65ebfde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> system for Gbalatro. </p>
@@ -721,7 +724,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573" title="Print the given string directly beneath a SpriteObject. This is used only for Cards for now.">sprite_object_print_text_under</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00418">418</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00415">415</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -768,7 +771,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>width</code> and <code>height</code> contain valid data, otherwise, the variables are unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00364">364</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00361">361</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -808,7 +811,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>height</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00354">354</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00351">351</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -837,7 +840,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> pointer registered to <code>sprite_object</code> if successful, otherwise return <b>NULL</b>. May be successful and <b>NULL</b> if there is no <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> registered to the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00321">321</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00318">318</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -877,7 +880,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>width</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00344">344</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00341">341</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -906,7 +909,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> is focused, <code>false</code> otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00374">374</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00371">371</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -929,6 +932,52 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A valid pointer to an newly allocated <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> if successful, othewise return <b>NULL</b>. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00170">170</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+
+</div>
+</div>
+<a id="a90329a888f65192cc5170085b65ebfde" name="a90329a888f65192cc5170085b65ebfde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90329a888f65192cc5170085b65ebfde">&#9670;&#160;</a></span>sprite_object_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">INLINE void sprite_object_position </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSpriteObject.html">SpriteObject</a> *&#160;</td>
+          <td class="paramname"><em>sprite_object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set sprite_object position. Inlined for efficiency. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite_object</td><td>poitner to a <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> to adjust the position of. A <b>NULL</b> check is not performed, though the value cannot be <b>NULL</b>.</td></tr>
+    <tr><td class="paramname">x</td><td>horizontal position in pixels </td></tr>
+    <tr><td class="paramname">y</td><td>vertical position in pixels </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00377">377</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -968,7 +1017,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573" title="Print the given string directly beneath a SpriteObject. This is used only for Cards for now.">sprite_object_print_text_under</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00410">410</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00407">407</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1007,7 +1056,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00401">401</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00398">398</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1075,7 +1124,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00328">328</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00325">325</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1153,7 +1202,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00307">307</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00304">304</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1181,7 +1230,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00299">299</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00296">296</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>

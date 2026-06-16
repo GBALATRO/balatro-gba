@@ -19,6 +19,7 @@ var sprite_8h =
     [ "sprite_object_get_width", "sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999", null ],
     [ "sprite_object_is_focused", "sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b", null ],
     [ "sprite_object_new", "sprite_8h.html#a53389557010d53538f0b510ae675b003", null ],
+    [ "sprite_object_position", "sprite_8h.html#a90329a888f65192cc5170085b65ebfde", null ],
     [ "sprite_object_print_price_under", "sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91", null ],
     [ "sprite_object_print_text_under", "sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573", null ],
     [ "sprite_object_reset_transform", "sprite_8h.html#a673f791a81943a40619c246e8eed8f0f", null ],
