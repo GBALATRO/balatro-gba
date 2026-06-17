@@ -165,19 +165,19 @@ void sprite_draw()
 
 int sprite_get_pb(const Sprite* sprite)
 {
-    CHECK_NULL_ARG_RET(sprite, UNDEFINED);
+    GBAL_RETURN_IF_NULL_RET(sprite, UNDEFINED);
     return (sprite->obj->attr2 & ATTR2_PALBANK_MASK) >> ATTR2_PALBANK_SHIFT;
 }
 
 void sprite_hide(Sprite* sprite)
 {
-    CHECK_NULL_ARG_VOID(sprite);
+    GBAL_RETURN_IF_NULL_VOID(sprite);
     obj_hide(sprite->obj);
 }
 
 void sprite_unhide(Sprite* sprite)
 {
-    CHECK_NULL_ARG_VOID(sprite);
+    GBAL_RETURN_IF_NULL_VOID(sprite);
     obj_unhide(sprite->obj, sprite->mode);
 }
 
@@ -213,13 +213,13 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 
 void sprite_object_hide(SpriteObject* sprite_object)
 {
-    CHECK_NULL_ARG_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
     sprite_hide(sprite_object->sprite);
 }
 
 void sprite_object_unhide(SpriteObject* sprite_object)
 {
-    CHECK_NULL_ARG_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
     sprite_unhide(sprite_object->sprite);
 }
 
