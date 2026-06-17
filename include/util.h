@@ -68,36 +68,51 @@
 
 /**
  * @brief Checks if @p param is NULL and prints error message and returns in case it is.
- * Useful for checking arguments to a function.
- * This version is for a void function, while @ref GBAL_CHECK_NULL_ARG_RET is for one with
+ * Useful for checking arguments to a function or general error values in code flow.
+ * 
+ * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
  * a return value.
  */
-#define GBAL_CHECK_NULL_ARG_VOID(param)                          \
-    do                                                           \
-    {                                                            \
-        if ((param) == NULL)                                     \
-        {                                                        \
-            LOG_ERROR("Called with NULL '%s' argument", #param); \
-            return;                                              \
-        }                                                        \
+#define GBAL_RETURN_ON_ERROR_VAL_VOID(param, err_val)                      \
+    do                                                                     \
+    {                                                                      \
+        if ((param) == (err_val))                                          \
+        {                                                                  \
+            LOG_ERROR("Unexpected error value %s = %s", #param, #err_val); \
+            return;                                                        \
+        }                                                                  \
     } while (0)
 
 /**
- * @brief Checks if @p param is NULL and prints error message and returns in case it is.
- * Useful for checking arguments to a function.
- * @param ret_val The value to return in case @p param is NULL.
- * This version is for a function that returns a value while @ref GBAL_CHECK_NULL_ARG_VOID
+ * @brief Checks if @p param is equal to @p err_val
+ * and prints error message and returns in case it is.
+ * Useful for checking arguments to a function or error values.
+ * @param ret_val The value to return in case @p param is equal to @p err_val.
+ * 
+ * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
  * is for a void function.
  */
-#define GBAL_CHECK_NULL_ARG_RET(param, ret_val)                  \
-    do                                                           \
-    {                                                            \
-        if ((param) == NULL)                                     \
-        {                                                        \
-            LOG_ERROR("Called with NULL '%s' argument", #param); \
-            return (ret_val);                                    \
-        }                                                        \
+#define GBAL_RETURN_ON_ERROR_VAL_RET(param, err_val, ret_val)              \
+    do                                                                     \
+    {                                                                      \
+        if ((param) == (err_val))                                          \
+        {                                                                  \
+            LOG_ERROR("Unexpected error value %s = %s", #param, #err_val); \
+            return (ret_val);                                              \
+        }                                                                  \
     } while (0)
+
+/**
+ * @brief Returns if @p param is NULL.
+ * Like @ref GBAL_RETURN_ON_ERROR_VAL_VOID but specifically for NULL
+ */
+#define GBAL_RETURN_IF_NULL_VOID(param) GBAL_RETURN_ON_ERROR_VAL_VOID(param, NULL);
+
+/**
+ * @brief Returns @p ret_val if @p param is NULL.
+ * Like @ref GBAL_RETURN_ON_ERROR_VAL_RET but specifically for NULL
+ */
+#define GBAL_RETURN_IF_NULL_RET(param, ret_val) GBAL_RETURN_ON_ERROR_VAL_RET(param, NULL, ret_val);
 
 /**
  * @brief Avoid overflow when adding two u32 integers
