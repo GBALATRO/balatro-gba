@@ -62,42 +62,42 @@
 #ifdef MGBA_LOGGING
 #define LOG_ERROR(...) MGBA_FUNC_ERROR(__VA_ARGS__)
 #else
+// TODO: Add a define to conditionally compile print error to console and add it to the tests?
 #define LOG_ERROR(...) ((void)(0))
 #endif
 
 /**
  * @brief Checks if @p param is NULL and prints error message and returns in case it is.
  * Useful for checking arguments to a function.
- * This version is for a void function, while @ref CHECK_NULL_ARG_RET is for one with
+ * This version is for a void function, while @ref GBAL_CHECK_NULL_ARG_RET is for one with
  * a return value.
  */
-#define CHECK_NULL_ARG_VOID(param)                                     \
-    do                                                                 \
-    {                                                                  \
-        if ((param) == NULL)                                           \
-        {                                                              \
-            LOG_ERROR("Called with NULL '%s' argument", #param);       \
-            return;                                                    \
-        }                                                              \
+#define GBAL_CHECK_NULL_ARG_VOID(param)                          \
+    do                                                           \
+    {                                                            \
+        if ((param) == NULL)                                     \
+        {                                                        \
+            LOG_ERROR("Called with NULL '%s' argument", #param); \
+            return;                                              \
+        }                                                        \
     } while (0)
 
 /**
  * @brief Checks if @p param is NULL and prints error message and returns in case it is.
  * Useful for checking arguments to a function.
  * @param ret_val The value to return in case @p param is NULL.
- * This version is for a function that returns a value while @ref CHECK_NULL_ARG_VOID
+ * This version is for a function that returns a value while @ref GBAL_CHECK_NULL_ARG_VOID
  * is for a void function.
  */
-#define CHECK_NULL_ARG_RET(param, ret_val)                             \
-    do                                                                 \
-    {                                                                  \
-        if ((param) == NULL)                                           \
-        {                                                              \
-            LOG_ERROR("Called with NULL '%s' argument", #param);       \
-            return (ret_val);                                          \
-        }                                                              \
+#define GBAL_CHECK_NULL_ARG_RET(param, ret_val)                  \
+    do                                                           \
+    {                                                            \
+        if ((param) == NULL)                                     \
+        {                                                        \
+            LOG_ERROR("Called with NULL '%s' argument", #param); \
+            return (ret_val);                                    \
+        }                                                        \
     } while (0)
-
 
 /**
  * @brief Avoid overflow when adding two u32 integers
@@ -241,7 +241,5 @@ uint32_t base36_to_u32(const char b36_str[]);
  * @sa base36_to_u32
  */
 void u32_to_base36(uint32_t n, char b36_str[]);
-
-
 
 #endif // UTIL_H
