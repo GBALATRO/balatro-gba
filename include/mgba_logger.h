@@ -63,7 +63,6 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...);
  * @param ... variadic arguments
  *
  * @note for all logs, it's cutoff at the hard mgba limit of 0x100
- * @note The function name may be dropped if the resulting string exceeds this limit.
  */
 void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...);
 
