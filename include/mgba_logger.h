@@ -17,7 +17,7 @@
  * mgba -l 14 game.rom # INFO, WARN, and ERROR
  * ```
  *
- * @note You have to fight with other logs in mgba and DEBUG can get messy.
+ * @note You have to fight with other logs in mgba and INFO can get messy.
  *
  * @note FATAL does kill the game. Use with care.
  */
