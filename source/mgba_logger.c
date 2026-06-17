@@ -59,7 +59,7 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
     va_list args;
     va_start(args, fmt);
     vsnprintf(printed_str_buff, sizeof(printed_str_buff), fmt, args);
-    va_end(args); 
+    va_end(args);
     mgba_printf(level, "%s(): %s", func_name, printed_str_buff);
 }
 
