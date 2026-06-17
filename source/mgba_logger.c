@@ -47,7 +47,7 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 
 void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
 {
-    if (func_name == NULL || fmt == NULL)
+    if (!mgba_logger_available || func_name == NULL || fmt == NULL)
     {
         // The one place where we can't log the error.
         return;
