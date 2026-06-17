@@ -54,28 +54,13 @@ void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt
     }
 
     char printed_str_buff[MGBA_LOG_BUFFER_SIZE];
-    int chars_used =
-        snprintf(printed_str_buff, sizeof(printed_str_buff), "%s(): %s", func_name, fmt);
 
-
-    if ((size_t)chars_used < sizeof(printed_str_buff))
-    {
-        va_list args;
-        va_start(args, fmt);
-        mgba_vprintf(level, printed_str_buff, args);
-        va_end(args);
-    }
-    else
-    {
-        // The buffer is not large enough, format has been truncated, expand the format
-        // and truncate the string, keeping the function name.
-        va_list args;
-        va_start(args, fmt);
-        vsnprintf(printed_str_buff, sizeof(printed_str_buff), fmt, args);
-        va_end(args); 
-
-        mgba_printf("%s(): %s", func_name, printed_str_buff);
-    }
+    // Expand the format first so the full string is truncated in case it's too long
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(printed_str_buff, sizeof(printed_str_buff), fmt, args);
+    va_end(args); 
+    mgba_printf(level, "%s(): %s", func_name, printed_str_buff);
 }
 
 #else
