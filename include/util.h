@@ -69,7 +69,7 @@
 /**
  * @brief Checks if @p param is NULL and prints error message and returns in case it is.
  * Useful for checking arguments to a function or general error values in code flow.
- * 
+ *
  * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
  * a return value.
  */
@@ -88,7 +88,7 @@
  * and prints error message and returns in case it is.
  * Useful for checking arguments to a function or error values.
  * @param ret_val The value to return in case @p param is equal to @p err_val.
- * 
+ *
  * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
  * is for a void function.
  */
