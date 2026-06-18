@@ -139,6 +139,20 @@ int get_hand_top(void);
 void set_hand_top(int new_hand_top);
 
 /**
+ * @brief Determines whether the "Discard" button can be pressed or not
+ *
+ * @return true if yes, false otherwise
+ */
+bool can_discard_hand(void);
+
+/**
+ * @brief Determines whether the "Play" button can be pressed or not
+ *
+ * @return true if yes, false otherwise
+ */
+bool can_play_hand(void);
+
+/**
  * @brief Get the current number of Cards in hand.
  *
  * @return `hand_top + 1`

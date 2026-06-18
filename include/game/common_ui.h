@@ -24,6 +24,8 @@ enum BackgroundId
     BG_MAIN_MENU
 };
 
+enum BackgroundId get_current_background(void);
+
 /**
  * Change the background
  *

@@ -1,6 +1,7 @@
 #include "joker.h"
 
 #include "card.h"
+#include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "pool.h"

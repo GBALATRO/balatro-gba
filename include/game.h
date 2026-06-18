@@ -81,9 +81,6 @@ void game_update(void);
 void game_change_state(enum GameState new_game_state);
 enum GameState game_get_state(void);
 
-CardObject** get_played_array(void);
-int get_played_top(void);
-int get_scored_card_index(void);
 bool is_joker_owned(int joker_id);
 bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
@@ -92,19 +89,24 @@ List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
 List* get_discarded_jokers_list(void);
 
+int deck_get_size(void);
 int get_deck_top(void);
+void deck_push(Card* card);
+Card* deck_pop(void);
+void deck_shuffle(void);
 int get_num_discards_remaining(void);
 int get_num_hands_remaining(void);
 
 void display_deck_size_max(void);
 u32 get_chips(void);
 void set_chips(u32 new_chips);
+void add_chips(u32 more_chips);
 void display_chips(void);
 u32 get_mult(void);
 void set_mult(u32 new_mult);
 void display_mult(void);
 void display_money(void);
-void set_retrigger(bool new_retrigger);
+void display_ante(void);
 
 // joker specific functions
 bool is_shortcut_joker_active(void);
@@ -112,16 +114,11 @@ int get_straight_and_flush_size(void);
 
 void game_start(void);
 
-// Temporary change for Refactor. Currently this compatibility binder is to allow
-// simultaneous integration of the new system in `common_ui` with the the existing
-// old system incrementally and without losing functionality.
-void change_background_legacy(enum BackgroundId id);
-
 void display_round(void);
-
-void reset_background(void);
 void display_hands(void);
 void display_discards(void);
+void display_temp_score(u32 value);
+void erase_temp_score(void);
 void display_score(u32 value);
 
 #endif // GAME_H
