@@ -6,6 +6,7 @@ var NAVTREEINDEX2 =
 "sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d":[3,0,0,29,7],
 "sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999":[3,0,0,29,16],
 "sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf":[3,0,0,29,24],
+"sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a":[3,0,0,29,27],
 "sprite_8h.html#a892674d2db5b33bb55aacffa2686632a":[3,0,0,29,4],
 "sprite_8h.html#a8d34edee191f8be820d00fbb35a93c7b":[3,0,0,29,11],
 "sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7":[3,0,0,29,14],

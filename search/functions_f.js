@@ -50,10 +50,11 @@ var searchData=
   ['sprite_5fobject_5fset_5fsprite_47',['sprite_object_set_sprite',['../sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf',1,'sprite.c']]],
   ['sprite_5fobject_5fshake_48',['sprite_object_shake',['../sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6',1,'sprite.c']]],
   ['sprite_5fobject_5fupdate_49',['sprite_object_update',['../sprite_8h.html#aec29df852662063447ff72082fb3ad30',1,'sprite.c']]],
-  ['sprite_5fposition_50',['sprite_position',['../sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e',1,'sprite.h']]],
-  ['state_5fmachine_5fchange_5fstate_51',['state_machine_change_state',['../state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15',1,'state_machine.c']]],
-  ['state_5fmachine_5fregister_52',['state_machine_register',['../state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239',1,'state_machine.c']]],
-  ['state_5fmachine_5fremove_53',['state_machine_remove',['../state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a',1,'state_machine.c']]],
-  ['state_5fmachine_5fupdate_54',['state_machine_update',['../state__machine_8h.html#ad9adae7509d62d10d3f0ad00356ea1e2',1,'state_machine.c']]],
-  ['swap_5fcards_5fin_5fhand_55',['swap_cards_in_hand',['../hand_8h.html#a62aab8570b58813e94d12b33124ccf6c',1,'swap_cards_in_hand(int idx_a, int idx_b):&#160;hand.c'],['../hand_8c.html#a62aab8570b58813e94d12b33124ccf6c',1,'swap_cards_in_hand(int idx_a, int idx_b):&#160;hand.c']]]
+  ['sprite_5fobject_5fupdate_5fall_50',['sprite_object_update_all',['../sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a',1,'sprite.c']]],
+  ['sprite_5fposition_51',['sprite_position',['../sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e',1,'sprite.h']]],
+  ['state_5fmachine_5fchange_5fstate_52',['state_machine_change_state',['../state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15',1,'state_machine.c']]],
+  ['state_5fmachine_5fregister_53',['state_machine_register',['../state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239',1,'state_machine.c']]],
+  ['state_5fmachine_5fremove_54',['state_machine_remove',['../state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a',1,'state_machine.c']]],
+  ['state_5fmachine_5fupdate_55',['state_machine_update',['../state__machine_8h.html#ad9adae7509d62d10d3f0ad00356ea1e2',1,'state_machine.c']]],
+  ['swap_5fcards_5fin_5fhand_56',['swap_cards_in_hand',['../hand_8h.html#a62aab8570b58813e94d12b33124ccf6c',1,'swap_cards_in_hand(int idx_a, int idx_b):&#160;hand.c'],['../hand_8c.html#a62aab8570b58813e94d12b33124ccf6c',1,'swap_cards_in_hand(int idx_a, int idx_b):&#160;hand.c']]]
 ];

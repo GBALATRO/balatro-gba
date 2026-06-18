@@ -322,23 +322,22 @@ $(document).ready(function(){initNavTree('joker_8h_source.html',''); initResizab
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object_new(<a class="code hl_struct" href="structJoker.html">Joker</a>* joker);</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="keywordtype">void</span> joker_object_destroy(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>** joker_object);</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keywordtype">void</span> joker_object_update(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object);</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="comment">// This doesn&#39;t actually score anything, it just performs an animation and plays a sound effect</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="keywordtype">void</span> joker_object_shake(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object, mm_word sound_id);</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="comment">// This scores the joker and returns true if it was scored successfully</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="comment">// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="comment">// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">// On_Card_Held</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="keywordtype">bool</span> joker_object_score(</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object,</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object,</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keyword">enum</span> JokerEvent joker_event</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* joker_object_get_sprite(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keywordtype">int</span> joker_get_random_rarity();</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="preprocessor">#endif </span><span class="comment">// JOKER_H</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="comment">// This doesn&#39;t actually score anything, it just performs an animation and plays a sound effect</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="keywordtype">void</span> joker_object_shake(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object, mm_word sound_id);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="comment">// This scores the joker and returns true if it was scored successfully</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="comment">// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="comment">// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="comment">// On_Card_Held</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="keywordtype">bool</span> joker_object_score(</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object,</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object,</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keyword">enum</span> JokerEvent joker_event</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* joker_object_get_sprite(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="keywordtype">int</span> joker_get_random_rarity();</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">#endif </span><span class="comment">// JOKER_H</span></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
 <div class="ttc" id="ajoker_8h_html_a3fccdb283cc5d2f34c9252d08d695c8e"><div class="ttname"><a href="joker_8h.html#a3fccdb283cc5d2f34c9252d08d695c8e">joker_get_rarity_color</a></div><div class="ttdeci">u16 joker_get_rarity_color(u8 rarity, bool main_color)</div><div class="ttdoc">Get Joker rarity panel color.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00171">joker.c:171</a></div></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
