@@ -1100,13 +1100,9 @@ static inline void game_round_discarded_cards_loop(void)
             discarded_card_object->sprite_object->ty = int2fx(112);
             discarded_card_object->sprite_object->x = int2fx(240);
             discarded_card_object->sprite_object->y = int2fx(80);
-
-            card_object_update(discarded_card_object);
         }
         else
         {
-            card_object_update(discarded_card_object);
-
             if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
             {
                 deck_push(discarded_card_object->card); // Put the card back into the deck
@@ -1286,7 +1282,6 @@ static inline void cards_in_hand_update_loop(void)
 
             hand[i]->sprite_object->tx = hand_x;
             hand[i]->sprite_object->ty = hand_y;
-            card_object_update(hand[i]);
         }
     }
 }
@@ -1825,7 +1820,6 @@ static inline void played_cards_update_loop(void)
         }
 
         played[played_idx]->sprite_object->tscale = FIX_ONE;
-        card_object_update(played[played_idx]);
     }
 }
 
