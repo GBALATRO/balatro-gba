@@ -1475,7 +1475,8 @@ static bool check_and_score_joker_for_event(
 }
 
 /**
- * @brief Returns true if the card at index played_idx has been discarded. Basically a copy of HAND_DISCARD.
+ * @brief Returns true if the card at index played_idx has been discarded. Basically a copy of
+ *         HAND_DISCARD.
  *
  * @param played_idx the index of the played card being considered.
  *
@@ -1565,7 +1566,8 @@ static inline void play_starting_played_cards_update(int played_idx)
 }
 
 /**
- * @brief Returns true if the Jokers scoring loop has returned early for event JOKER_EVENT_ON_HAND_PLAYED.
+ * @brief Returns true if the Jokers scoring loop has returned early for event
+ *         JOKER_EVENT_ON_HAND_PLAYED.
  *
  * @return bool
  * @sa check_and_score_joker_for_event
@@ -1801,7 +1803,7 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
 /**
  * @brief This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position
  *         sequentially.
- * 
+ *
  * @param played_idx index of the card currently considered
  */
 static inline void play_ending_played_cards_update(int played_idx)
