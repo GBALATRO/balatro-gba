@@ -112,10 +112,7 @@ static bool game_round_button_row_on_selection_changed(
 );
 static void game_round_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection);
 
-static void game_round_hand_row_on_key_transit(
-    SelectionGrid* selection_grid,
-    Selection* selection
-);
+static void game_round_hand_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
 static bool game_round_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -541,10 +538,7 @@ static bool game_round_hand_row_on_selection_changed(
     return true;
 }
 
-static void game_round_hand_row_on_key_transit(
-    SelectionGrid* selection_grid,
-    Selection* selection
-)
+static void game_round_hand_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
     if (key_hit(SELECT_CARD))
     {
