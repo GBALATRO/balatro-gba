@@ -1017,7 +1017,7 @@ static inline void select_highcard_cards_in_played_hand(void)
 /**
  * @brief Determines if the round is over, be it because we lost or won the round.
  *
- * @return true if the round is over, false if we can still play. 
+ * @return true if the round is over, false if we can still play.
  */
 static inline bool game_round_is_over(void)
 {
@@ -1446,17 +1446,16 @@ static inline void game_round_process_flaming_score(void)
  * CARD/JOKER SCORING LOGIC
  ******************************************************************************/
 
- /**
-  * @brief Iterate over the Jokers List until we encounter one that scores for the specified event.
-  *
-  * @param starting_joker_itr iterator for the owned Jokers List
-  * @param card_object card currently scored, can be NULL for some joker_event
-  * @param joker_event the event we are scoring the Jokers for
-  *
-  * @return true if a scoring Joker was encountered, false if not
-  * @sa JokerEvent
-  */
-// returns true if a joker was scored, false otherwise
+/**
+ * @brief Iterate over the Jokers List until we encounter one that scores for the specified event.
+ *
+ * @param starting_joker_itr iterator for the owned Jokers List
+ * @param card_object card currently scored, can be NULL for some joker_event
+ * @param joker_event the event we are scoring the Jokers for
+ *
+ * @return true if a scoring Joker was encountered, false if not
+ * @sa JokerEvent
+ */
 static bool check_and_score_joker_for_event(
     ListItr* starting_joker_itr,
     CardObject* card_object,
