@@ -51,19 +51,6 @@ enum GameState
     GAME_STATE_UNDEFINED
 };
 
-enum PlayState
-{
-    PLAY_STARTING,
-    PLAY_BEFORE_SCORING,
-    PLAY_SCORING_CARDS,
-    PLAY_SCORING_CARD_JOKERS,
-    PLAY_SCORING_HELD_CARDS,
-    PLAY_SCORING_INDEPENDENT_JOKERS,
-    PLAY_SCORING_HAND_SCORED_END,
-    PLAY_ENDING,
-    PLAY_ENDED
-};
-
 // Game functions
 void game_init(void);
 
@@ -98,12 +85,7 @@ int get_num_discards_remaining(void);
 int get_num_hands_remaining(void);
 
 void display_deck_size_max(void);
-u32 get_chips(void);
-void set_chips(u32 new_chips);
-void add_chips(u32 more_chips);
 void display_chips(void);
-u32 get_mult(void);
-void set_mult(u32 new_mult);
 void display_mult(void);
 void display_money(void);
 void display_ante(void);

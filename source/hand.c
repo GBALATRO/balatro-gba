@@ -161,8 +161,8 @@ void compute_hand_value_info(void)
 
     HandValues hand_values = hand_base_values[hand.hand_type];
 
-    set_chips(hand_values.chips);
-    set_mult(hand_values.mult);
+    g_game_vars.chips = hand_values.chips;
+    g_game_vars.mult = hand_values.mult;
 
     print_hand_type(hand_values.display_name);
     display_chips();

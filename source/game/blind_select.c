@@ -310,7 +310,7 @@ static void game_blind_select_display_blind_panel()
 static void game_blind_select_exit(void)
 {
     change_background(BG_NONE, false);
-    game_change_state(GAME_STATE_PLAYING);
+    game_change_state(GAME_STATE_ROUND);
 }
 
 static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind)

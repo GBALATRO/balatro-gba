@@ -292,10 +292,6 @@ bool joker_object_score(
         return false;
     }
 
-    u32 chips = get_chips();
-    u32 mult = get_mult();
-    int money = g_game_vars.money;
-
     if (effect_flags_ret & JOKER_EFFECT_FLAG_RETRIGGER)
     {
         set_retrigger(joker_effect->retrigger);
@@ -321,7 +317,7 @@ bool joker_object_score(
     mm_word sfx_id;
     if (effect_flags_ret & JOKER_EFFECT_FLAG_CHIPS)
     {
-        chips = u32_protected_add(chips, joker_effect->chips);
+        g_game_vars.chips = u32_protected_add(g_game_vars.chips, joker_effect->chips);
         char score_buffer[INT_MAX_DIGITS + 2]; // For '+' and null terminator
         snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->chips);
         set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_BLUE_PB);
@@ -329,7 +325,7 @@ bool joker_object_score(
     }
     if (effect_flags_ret & JOKER_EFFECT_FLAG_MULT)
     {
-        mult = u32_protected_add(mult, joker_effect->mult);
+        g_game_vars.mult = u32_protected_add(g_game_vars.mult, joker_effect->mult);
         char score_buffer[INT_MAX_DIGITS + 2];
         snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->mult);
         set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
@@ -338,7 +334,7 @@ bool joker_object_score(
     // if xmult is zero, DO NOT multiply by it
     if (effect_flags_ret & JOKER_EFFECT_FLAG_XMULT && joker_effect->xmult > 0)
     {
-        mult = u32_protected_mult(mult, joker_effect->xmult);
+        g_game_vars.mult = u32_protected_mult(g_game_vars.mult, joker_effect->xmult);
         char score_buffer[INT_MAX_DIGITS + 2];
         snprintf(score_buffer, sizeof(score_buffer), "X%lu", joker_effect->xmult);
         set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
@@ -346,7 +342,7 @@ bool joker_object_score(
     }
     if (effect_flags_ret & JOKER_EFFECT_FLAG_MONEY)
     {
-        money += joker_effect->money;
+        g_game_vars.money += joker_effect->money;
         char score_buffer[INT_MAX_DIGITS + 2];
         snprintf(score_buffer, sizeof(score_buffer), "%d$", joker_effect->money);
         set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_YELLOW_PB);
@@ -364,11 +360,6 @@ bool joker_object_score(
         joker_object_shake(joker_object, UNDEFINED);
         list_push_back(get_expired_jokers_list(), joker_object);
     }
-
-    // Update values
-    set_chips(chips);
-    set_mult(mult);
-    g_game_vars.money = money;
 
     // Update displays
     display_chips();

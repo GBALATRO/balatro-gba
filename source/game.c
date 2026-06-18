@@ -112,6 +112,8 @@ GameVariables g_game_vars = {
     .hands = 0,
     .discards = 0,
     .score = 0,
+    .chips = 0,
+    .mult = 0,
 
     .playing_blind_token = NULL,
     .round_end_blind_token = NULL,
@@ -121,9 +123,6 @@ GameVariables g_game_vars = {
     .sound_volume = DEFAULT_SOUND_VOLUME,
 };
 // clang-format on
-
-static u32 chips = 0;
-static u32 mult = 0;
 
 static List _owned_jokers_list;
 static List _discarded_jokers_list;
@@ -437,31 +436,6 @@ int get_num_hands_remaining(void)
     return g_game_vars.hands;
 }
 
-u32 get_chips(void)
-{
-    return chips;
-}
-
-void set_chips(u32 new_chips)
-{
-    chips = new_chips;
-}
-
-void add_chips(u32 more_chips)
-{
-    chips = u32_protected_add(chips, more_chips);
-}
-
-u32 get_mult(void)
-{
-    return mult;
-}
-
-void set_mult(u32 new_mult)
-{
-    mult = new_mult;
-}
-
 void display_money()
 {
     Rect money_text_rect = MONEY_TEXT_RECT;
@@ -493,7 +467,7 @@ void display_chips(void)
 
     char chips_str_buff[UINT_MAX_DIGITS + 1];
     truncate_uint_to_suffixed_str(
-        chips,
+        g_game_vars.chips,
         rect_width(&chips_text_rect) / TTE_CHAR_SIZE,
         chips_str_buff
     );
@@ -507,7 +481,7 @@ void display_chips(void)
         TTE_WHITE_PB,
         chips_str_buff
     );
-    check_flaming_score();
+    toggle_flaming_score();
 }
 
 void display_mult(void)
@@ -518,7 +492,11 @@ void display_mult(void)
     tte_erase_rect_wrapper(mult_text_overflow_rect);
 
     char mult_str_buff[UINT_MAX_DIGITS + 1];
-    truncate_uint_to_suffixed_str(mult, rect_width(&MULT_TEXT_RECT) / TTE_CHAR_SIZE, mult_str_buff);
+    truncate_uint_to_suffixed_str(
+        g_game_vars.mult,
+        rect_width(&MULT_TEXT_RECT) / TTE_CHAR_SIZE,
+        mult_str_buff
+    );
 
     tte_printf(
         "#{P:%d,%d; cx:0x%X000;}%s",
@@ -528,7 +506,7 @@ void display_mult(void)
         mult_str_buff
     );
 
-    check_flaming_score();
+    toggle_flaming_score();
 }
 
 void display_deck_size_max(void)

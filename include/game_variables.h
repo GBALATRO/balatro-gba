@@ -58,6 +58,8 @@ typedef struct
     s32 hands;
     s32 discards;
     u32 score;
+    u32 chips;
+    u32 mult;
 
     Sprite* playing_blind_token;
     Sprite* round_end_blind_token;

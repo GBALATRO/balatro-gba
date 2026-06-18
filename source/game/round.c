@@ -164,9 +164,7 @@ static SelectionGrid game_round_selection_grid = {
  ******************************************************************************/
 
 static void game_round_discard_on_pressed(void);
-static void game_round_execute_discard(void);
 static void game_round_play_hand_on_pressed(void);
-static void game_round_execute_play_hand(void);
 static void game_round_sort_by_rank_on_pressed(void);
 static void game_round_sort_by_suit_on_pressed(void);
 
@@ -181,14 +179,31 @@ static Button game_round_buttons[] = {
 // clang-format on
 
 /*******************************************************************************
+ * CARD PLAYING STATE
+ ******************************************************************************/
+
+enum PlayState
+{
+    PLAY_STARTING,
+    PLAY_BEFORE_SCORING,
+    PLAY_SCORING_CARDS,
+    PLAY_SCORING_CARD_JOKERS,
+    PLAY_SCORING_HELD_CARDS,
+    PLAY_SCORING_INDEPENDENT_JOKERS,
+    PLAY_SCORING_HAND_SCORED_END,
+    PLAY_ENDING,
+    PLAY_ENDED
+};
+
+static enum PlayState play_state = PLAY_STARTING;
+
+/*******************************************************************************
  * INTERNAL VARIABLES
  ******************************************************************************/
 
 // This is a stupid way to do this but I don't care
 static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
     {28, 28, 28, 28, 27, 21, 18, 15, 13, 12, 10, 9, 9, 8, 8, 7};
-
-static enum PlayState play_state = PLAY_STARTING;
 
 // Stacks
 static CardObject* played[MAX_SELECTION_SIZE] = {NULL};
@@ -226,6 +241,11 @@ int get_played_top(void)
     return played_top;
 }
 
+/**
+ * @brief Push a new card to play at the end of the associated array
+ *
+ * @param card_object the CardObject we just played
+ */
 static inline void played_push(CardObject* card_object)
 {
     if (played_top >= MAX_SELECTION_SIZE - 1)
@@ -233,6 +253,11 @@ static inline void played_push(CardObject* card_object)
     played[++played_top] = card_object;
 }
 
+/**
+ * @brief Remove and recover the last played card
+ *
+ * @return pointer to the CardObject representing the last played card
+ */
 static inline CardObject* played_pop()
 {
     if (played_top < 0)
@@ -245,6 +270,13 @@ int get_discard_top(void)
     return discard_top;
 }
 
+/**
+ * @brief Push a new card to discard at the end of the associated array
+ *
+ * @param card_object the CardObject we just discarded
+ *
+ * @sa played_push
+ */
 static inline void discard_push(Card* card)
 {
     if (discard_top >= MAX_DECK_SIZE - 1)
@@ -252,6 +284,13 @@ static inline void discard_push(Card* card)
     discard_pile[++discard_top] = card;
 }
 
+/**
+ * @brief Remove and recover the last discarded card
+ *
+ * @return pointer to the CardObject representing the last discarded card
+ *
+ * @sa played_pop
+ */
 static inline Card* discard_pop()
 {
     if (discard_top < 0)
@@ -385,6 +424,23 @@ void game_round_change_background_playing(void)
  * BUTTONS IMPLEMENTATION
  ******************************************************************************/
 
+/**
+ * @brief Triggers the discard of the currently selected cards in hand
+ */
+static inline void game_round_execute_discard(void)
+{
+    if (!can_discard_hand())
+        return;
+
+    set_hand_state(HAND_DISCARD);
+    --g_game_vars.discards;
+    display_discards();
+    compute_hand_value_info();
+}
+
+/**
+ * @brief "Discard" button implementation.
+ */
 static void game_round_discard_on_pressed(void)
 {
     if (!can_discard_hand())
@@ -396,27 +452,38 @@ static void game_round_discard_on_pressed(void)
     selection_grid_move_selection_vert(&game_round_selection_grid, -1);
 }
 
-static void game_round_execute_discard(void)
-{
-    if (!can_discard_hand())
-        return;
-
-    set_hand_state(HAND_DISCARD);
-    --g_game_vars.discards;
-    display_discards();
-    compute_hand_value_info();
-}
-
+/**
+ * @brief "Rank" sorting button implementation.
+ */
 static void game_round_sort_by_rank_on_pressed(void)
 {
     hand_change_sort(false);
 }
 
+/**
+ * @brief "Suit" sorting button implementation.
+ */
 static void game_round_sort_by_suit_on_pressed(void)
 {
     hand_change_sort(true);
 }
 
+/**
+ * @brief Triggers the playing of the currently selected cards in hand
+ */
+static inline void game_round_execute_play_hand(void)
+{
+    if (!can_play_hand())
+        return;
+
+    set_hand_state(HAND_PLAY);
+    --g_game_vars.hands;
+    display_hands();
+}
+
+/**
+ * @brief "Play" button implementation.
+ */
 static void game_round_play_hand_on_pressed(void)
 {
     if (!can_play_hand())
@@ -426,16 +493,6 @@ static void game_round_play_hand_on_pressed(void)
 
     // Move back to hand selection
     selection_grid_move_selection_vert(&game_round_selection_grid, -1);
-}
-
-static void game_round_execute_play_hand(void)
-{
-    if (!can_play_hand())
-        return;
-
-    set_hand_state(HAND_PLAY);
-    --g_game_vars.hands;
-    display_hands();
 }
 
 static int game_round_hand_row_get_size(void)
@@ -571,7 +628,7 @@ static void game_round_hand_row_on_key_transit(SelectionGrid* selection_grid, Se
 }
 
 /*******************************************************************************
- * SELECTIONGRID IMPLEMENTATION
+ * OTHER SELECTIONGRID IMPLEMENTATION
  ******************************************************************************/
 
 static int game_round_button_row_get_size(void)
@@ -636,6 +693,10 @@ static inline void game_round_process_hand_select_input(void)
     selection_grid_process_input(&game_round_selection_grid);
 }
 
+/**
+ * @brief Evaluates if we have won or lost when we can no longer play so that we land on the correct
+ *         Game Over screen
+ */
 static inline void game_round_handle_round_over(void)
 {
     enum GameState next_state = GAME_STATE_ROUND_END;
@@ -953,6 +1014,11 @@ static inline void select_highcard_cards_in_played_hand(void)
     card_object_set_selected(played[highest_rank_index], true);
 }
 
+/**
+ * @brief Determines if the round is over, be it because we lost or won the round.
+ *
+ * @return true if the round is over, false if we can still play. 
+ */
 static inline bool game_round_is_over(void)
 {
     return g_game_vars.hands == 0 ||
@@ -967,17 +1033,17 @@ static inline void game_round_process_input_and_state(void)
     }
     else if (play_state == PLAY_ENDING)
     {
-        if (get_mult() > 0)
+        if (g_game_vars.mult > 0)
         {
             // protect against score overflow
-            temp_score = u32_protected_mult(get_chips(), get_mult());
+            temp_score = u32_protected_mult(g_game_vars.chips, g_game_vars.mult);
             lerped_temp_score = int2fx(temp_score);
             lerped_score = int2fx(g_game_vars.score);
 
             display_temp_score(temp_score);
 
-            set_chips(0);
-            set_mult(0);
+            g_game_vars.chips = 0;
+            g_game_vars.mult = 0;
             display_mult();
             display_chips();
 
@@ -1022,6 +1088,10 @@ static inline void game_round_process_input_and_state(void)
     }
 }
 
+/**
+ * @brief Draw the next card at the top of the Deck and play a little Sprite animation to position
+ *         it in our hand.
+ */
 static inline void card_draw(void)
 {
     if (get_deck_top() < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
@@ -1049,7 +1119,7 @@ static inline void card_draw(void)
     );
 }
 
-static inline void game_round_process_card_draw()
+static inline void game_round_process_card_draw(void)
 {
     if (get_hand_state() == HAND_DRAW && cards_drawn < g_game_vars.hand_size)
     {
@@ -1119,7 +1189,7 @@ static inline void game_round_discarded_cards_loop(void)
     }
 }
 
-static inline void select_cards_in_played_hand()
+static inline void select_cards_in_played_hand(void)
 {
     switch (get_hand_type()) // select the cards that apply to the hand type
     {
@@ -1325,11 +1395,9 @@ static inline void game_round_ui_text_update(void)
     }
 }
 
-// Show/Hide flaming score effect if we will score
-// more than the required amount or not
-void check_flaming_score(void)
+void toggle_flaming_score(void)
 {
-    u32 curr_score = u32_protected_mult(get_chips(), get_mult());
+    u32 curr_score = u32_protected_mult(g_game_vars.chips, g_game_vars.mult);
     u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
     if (curr_score >= required_score && !score_flames_active)
     {
@@ -1378,6 +1446,16 @@ static inline void game_round_process_flaming_score(void)
  * CARD/JOKER SCORING LOGIC
  ******************************************************************************/
 
+ /**
+  * @brief Iterate over the Jokers List until we encounter one that scores for the specified event.
+  *
+  * @param starting_joker_itr iterator for the owned Jokers List
+  * @param card_object card currently scored, can be NULL for some joker_event
+  * @param joker_event the event we are scoring the Jokers for
+  *
+  * @return true if a scoring Joker was encountered, false if not
+  * @sa JokerEvent
+  */
 // returns true if a joker was scored, false otherwise
 static bool check_and_score_joker_for_event(
     ListItr* starting_joker_itr,
@@ -1397,8 +1475,13 @@ static bool check_and_score_joker_for_event(
     return false;
 }
 
-// Basically a copy of HAND_DISCARD
-// returns true if the current card has been discarded
+/**
+ * @brief Returns true if the card at index played_idx has been discarded. Basically a copy of HAND_DISCARD.
+ *
+ * @param played_idx the index of the played card being considered.
+ *
+ * @return bool
+ */
 static bool play_ended_played_cards_update(int played_idx)
 {
     if (!discarded_card && g_game_vars.timer > FRAMES(40))
@@ -1420,7 +1503,6 @@ static bool play_ended_played_cards_update(int played_idx)
             discard_push(played[played_idx]->card); // Push the card to the discard pile
             card_object_destroy(&played[played_idx]);
 
-            // played_top--;
             cards_drawn++; // This technically isn't drawing cards, I'm just reusing the variable
             sound_played = false; // Allow for the sound for the next card to be played
 
@@ -1483,7 +1565,12 @@ static inline void play_starting_played_cards_update(int played_idx)
     }
 }
 
-// returns true if the scoring loop has returned early
+/**
+ * @brief Returns true if the Jokers scoring loop has returned early for event JOKER_EVENT_ON_HAND_PLAYED.
+ *
+ * @return bool
+ * @sa check_and_score_joker_for_event
+ */
 static inline bool play_before_scoring_cards_update(void)
 {
     // Activate Jokers with an effect just before the hand is scored
@@ -1496,7 +1583,11 @@ static inline bool play_before_scoring_cards_update(void)
     return false;
 }
 
-// returns true if the scoring loop has returned early
+/**
+ * @brief Score all played cards in order, then Jokers after each one.
+ *
+ * @return true if the Cards scoring loop has returned early.
+ */
 static inline bool play_scoring_cards_update(void)
 {
     if (g_game_vars.timer % FRAMES(30) == 0 && g_game_vars.timer > FRAMES(40))
@@ -1547,7 +1638,7 @@ static inline bool play_scoring_cards_update(void)
             card_object_shake(scored_card_object, SFX_CHIPS_CARD);
 
             // Relocated card scoring logic here
-            add_chips(card_value);
+            g_game_vars.chips = u32_protected_add(g_game_vars.chips, card_value);
             display_chips();
 
             // Allow Joker scoring
@@ -1562,8 +1653,13 @@ static inline bool play_scoring_cards_update(void)
     return false;
 }
 
-// Activate "on scored" Jokers for the previous scored card if any
-// returns true if the scoring loop has returned early
+/**
+ * @brief Activate Jokers for event JOKER_EVENT_ON_CARD_SCORED_END for the previous scored card, if
+ *         any.
+ *
+ * @return true if the Joker scoring loop has returned early
+ * @sa check_and_score_joker_for_event
+ */
 static inline bool play_scoring_card_jokers_update(void)
 {
     if (g_game_vars.timer % FRAMES(30) == 0 && g_game_vars.timer > FRAMES(40))
@@ -1608,7 +1704,12 @@ static inline bool play_scoring_card_jokers_update(void)
     return false;
 }
 
-// returns true if the scoring loop has returned early
+/**
+ * @brief Activate Jokers for event JOKER_EVENT_ON_CARD_HELD for the previous scored card, if any.
+ *
+ * @return true if the Joker scoring loop has returned early
+ * @sa check_and_score_joker_for_event
+ */
 static inline bool play_scoring_held_cards_update(int played_idx)
 {
     if (played_idx == 0 && (g_game_vars.timer % FRAMES(30) == 0) && g_game_vars.timer > FRAMES(40))
@@ -1640,8 +1741,12 @@ static inline bool play_scoring_held_cards_update(int played_idx)
     return false;
 }
 
-// Score Jokers normally (independent)
-// returns true if the scoring loop has returned early
+/**
+ * @brief Score Jokers normally for event JOKER_EVENT_INDEPENDENT.
+ *
+ * @return true if the Joker scoring loop has returned early
+ * @sa check_and_score_joker_for_event
+ */
 static inline bool play_scoring_independent_jokers_update(int played_idx)
 {
     if (played_idx == 0 && (g_game_vars.timer % FRAMES(30) == 0) && g_game_vars.timer > FRAMES(40))
@@ -1663,7 +1768,12 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
     return false;
 }
 
-// Trigger hand end effect for all jokers once they are done scoring
+/**
+ * @brief Trigger all Jokers for event JOKER_EVENT_ON_HAND_SCORED_END once they are done scoring.
+ *
+ * @return true if the Joker scoring loop has returned early
+ * @sa check_and_score_joker_for_event
+ */
 static inline bool play_scoring_hand_scored_end_update(int played_idx)
 {
     if (played_idx == 0 && (g_game_vars.timer % FRAMES(30) == 0) && g_game_vars.timer > FRAMES(40))
@@ -1689,8 +1799,12 @@ static inline bool play_scoring_hand_scored_end_update(int played_idx)
     return false;
 }
 
-// This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position
-// sequentially
+/**
+ * @brief This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position
+ *         sequentially.
+ * 
+ * @param played_idx index of the card currently considered
+ */
 static inline void play_ending_played_cards_update(int played_idx)
 {
     bool card_selected = card_object_is_selected(played[played_top - scored_card_index]);
