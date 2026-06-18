@@ -367,36 +367,6 @@ static void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUIT
     }
 }
 
-/**
- * @brief Outputs the distribution of ranks and suits in the played stack
- * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
- *                  played stack. Must be of size NUM_RANKS.
- * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
- *                  played stack. Must be of size NUM_SUITS
- */
-GBAL_UNUSED
-static void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
-{
-    for (int i = 0; i < NUM_RANKS; i++)
-        ranks_out[i] = 0;
-    for (int i = 0; i < NUM_SUITS; i++)
-        suits_out[i] = 0;
-
-    CardObject** played = get_played_array();
-    int top = get_played_top();
-    for (int i = 0; i <= top; i++)
-    {
-        /* The difference from get_hand_distribution() (not checking if card is selected)
-         * is in line Balatro behavior,
-         * see https://github.com/GBALATRO/balatro-gba/issues/341#issuecomment-3691363488
-         */
-        if (!played[i])
-            continue;
-        ranks_out[played[i]->card->rank]++;
-        suits_out[played[i]->card->suit]++;
-    }
-}
-
 // Returns the highest N of a kind. So a full-house would return 3.
 static u8 hand_contains_n_of_a_kind(u8* ranks)
 {

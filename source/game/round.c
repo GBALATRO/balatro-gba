@@ -1,3 +1,8 @@
+/**
+ * @file round.c
+ * @brief Data structures and implementation of functions relative to the Rounds we play
+ */
+
 #include "game/round.h"
 
 #include "audio_utils.h"
@@ -18,8 +23,11 @@
 #include <stdlib.h>
 #include <tonc.h>
 
-// Palette IDs
+/*******************************************************************************
+ * CONSTS
+ ******************************************************************************/
 
+// Palette IDs
 #define PLAY_HAND_BTN_PAL_IDX           6
 #define PLAY_HAND_BTN_BORDER_PAL_IDX    7
 #define DISCARD_BTN_PAL_IDX             13
@@ -27,10 +35,9 @@
 #define SORT_BTNS_PAL_IDX               9
 #define SORT_BY_RANK_BTN_BORDER_PAL_IDX 22
 #define SORT_BY_SUIT_BTN_BORDER_PAL_IDX 23
-
-#define BLIND_BG_SHADOW_PAL_IDX     5
-#define BLIND_BG_SECONDARY_PAL_IDX  18
-#define BLIND_BG_PRIMARY_PAL_IDX    19
+#define BLIND_BG_SHADOW_PAL_IDX         5
+#define BLIND_BG_SECONDARY_PAL_IDX      18
+#define BLIND_BG_PRIMARY_PAL_IDX        19
 
 // Naming the stage where cards return from the discard pile to the deck "undiscard"
 #define PITCH_STEP_DISCARD_SFX   (-64)
@@ -45,13 +52,13 @@
 
 #define GAME_PLAYING_HAND_SEL_Y 1
 
-// clang-format off
-
 // Pixel sizes
 #define CARD_FOCUSED_UNSEL_Y 10
 #define CARD_UNFOCUSED_SEL_Y 15
 #define CARD_FOCUSED_SEL_Y   20
 #define SCORED_CARD_TEXT_Y   48
+
+// clang-format off
 
 // Flaming score animation frames
 #define SCORE_FLAMES_ANIM_FREQ  5 // animation will run at 12FPS
@@ -92,7 +99,9 @@ static const BG_POINT HAND_START_POS             = {120,     90};
 static const BG_POINT HAND_PLAY_POS              = {120,     70};
 // clang-format on
 
-// Round SelectionGrid
+/*******************************************************************************
+ * ROUND SELECTIONGRID
+ ******************************************************************************/
 
 static int game_round_button_row_get_size(void);
 static bool game_round_button_row_on_selection_changed(
@@ -153,7 +162,9 @@ static SelectionGrid game_round_selection_grid = {
     GAME_PLAYING_INIT_SEL
 };
 
-// Round Buttons
+/*******************************************************************************
+ * ROUND BUTTONS
+ ******************************************************************************/
 
 static void game_round_discard_on_pressed(void);
 static void game_round_execute_discard(void);
@@ -162,6 +173,7 @@ static void game_round_execute_play_hand(void);
 static void game_round_sort_by_rank_on_pressed(void);
 static void game_round_sort_by_suit_on_pressed(void);
 
+// clang-format off
 // Array of buttons by horizontal selection index (x)
 static Button game_round_buttons[] = {
     {PLAY_HAND_BTN_BORDER_PAL_IDX,    PLAY_HAND_BTN_PAL_IDX, game_round_play_hand_on_pressed,    can_play_hand   },
@@ -169,6 +181,11 @@ static Button game_round_buttons[] = {
     {SORT_BY_SUIT_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     game_round_sort_by_suit_on_pressed, NULL            },
     {DISCARD_BTN_BORDER_PAL_IDX,      DISCARD_BTN_PAL_IDX,   game_round_discard_on_pressed,      can_discard_hand},
 };
+// clang-format on
+
+/*******************************************************************************
+ * INTERNAL VARIABLES
+ ******************************************************************************/
 
 // This is a stupid way to do this but I don't care
 static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
@@ -203,7 +220,9 @@ static bool discarded_card = false;
 
 static int cards_drawn = 0;
 
-// Utils
+/*******************************************************************************
+ * UTILS FUNCTIONS
+ ******************************************************************************/
 
 int get_played_top(void)
 {
@@ -222,11 +241,6 @@ static inline CardObject* played_pop()
     if (played_top < 0)
         return NULL;
     return played[played_top--];
-}
-
-CardObject** get_played_array(void)
-{
-    return played;
 }
 
 int get_discard_top(void)
@@ -258,7 +272,37 @@ void set_retrigger(bool new_retrigger)
     retrigger = new_retrigger;
 }
 
-// Selecting and Playing backgrounds
+/**
+ * @brief Outputs the distribution of ranks and suits in the played stack
+ * @param ranks_out output - updated such as ranks_out[rank] is the number of cards of rank in the
+ *                  played stack. Must be of size NUM_RANKS.
+ * @param suits_out output - updated such as suits_out[suit] is the number of cards if suit in the
+ *                  played stack. Must be of size NUM_SUITS
+ */
+GBAL_UNUSED
+static void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])
+{
+    for (int i = 0; i < NUM_RANKS; i++)
+        ranks_out[i] = 0;
+    for (int i = 0; i < NUM_SUITS; i++)
+        suits_out[i] = 0;
+
+    for (int i = 0; i <= played_top; i++)
+    {
+        /* The difference from get_hand_distribution() (not checking if card is selected)
+         * is in line Balatro behavior,
+         * see https://github.com/GBALATRO/balatro-gba/issues/341#issuecomment-3691363488
+         */
+        if (!played[i])
+            continue;
+        ranks_out[played[i]->card->rank]++;
+        suits_out[played[i]->card->suit]++;
+    }
+}
+
+/*******************************************************************************
+ * BACKGROUND MANIPULATION
+ ******************************************************************************/
 
 void game_round_change_background_selecting(void)
 {
@@ -340,7 +384,9 @@ void game_round_change_background_playing(void)
     tte_erase_rect_wrapper(HAND_SIZE_RECT_SELECT);
 }
 
-// Round button implementation
+/*******************************************************************************
+ * BUTTONS IMPLEMENTATION
+ ******************************************************************************/
 
 static void game_round_discard_on_pressed(void)
 {
@@ -400,7 +446,9 @@ static int game_round_hand_row_get_size(void)
     return hand_nb_held_cards();
 }
 
-// card moving logic
+/*******************************************************************************
+ * CARD MOVING LOGIC
+ ******************************************************************************/
 
 // true if and only if we are currently moving a card around
 static bool moving_card = false;
@@ -528,6 +576,10 @@ static void game_round_hand_row_on_key_transit(
     }
 }
 
+/*******************************************************************************
+ * SELECTIONGRID IMPLEMENTATION
+ ******************************************************************************/
+
 static int game_round_button_row_get_size(void)
 {
     return NUM_ELEM_IN_ARR(game_round_buttons);
@@ -588,33 +640,6 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
 static inline void game_round_process_hand_select_input(void)
 {
     selection_grid_process_input(&game_round_selection_grid);
-}
-
-static inline void card_draw(void)
-{
-    if (get_deck_top() < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
-        get_hand_top() >= MAX_HAND_SIZE - 1)
-        return;
-
-    CardObject* card_object = card_object_new(deck_pop());
-
-    const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
-    const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
-
-    card_object->sprite_object->x = deck_x;
-    card_object->sprite_object->y = deck_y;
-
-    set_hand_top(get_hand_top() + 1);
-    get_hand_array()[get_hand_top()] = card_object;
-
-    // Sort the hand after drawing a card
-    sort_cards();
-
-    play_sfx(
-        SFX_CARD_DRAW,
-        MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DRAW_SFX,
-        SFX_DEFAULT_VOLUME
-    );
 }
 
 static inline void game_round_handle_round_over(void)
@@ -934,6 +959,436 @@ static inline void select_highcard_cards_in_played_hand(void)
     card_object_set_selected(played[highest_rank_index], true);
 }
 
+static inline bool game_round_is_over(void)
+{
+    return g_game_vars.hands == 0 ||
+           g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
+}
+
+static inline void game_round_process_input_and_state(void)
+{
+    if (get_hand_state() == HAND_SELECT)
+    {
+        game_round_process_hand_select_input();
+    }
+    else if (play_state == PLAY_ENDING)
+    {
+        if (get_mult() > 0)
+        {
+            // protect against score overflow
+            temp_score = u32_protected_mult(get_chips(), get_mult());
+            lerped_temp_score = int2fx(temp_score);
+            lerped_score = int2fx(g_game_vars.score);
+
+            display_temp_score(temp_score);
+
+            set_chips(0);
+            set_mult(0);
+            display_mult();
+            display_chips();
+
+            static const int SCORE_CALC_SFX_PITCH_SHIFT = -102; // -10% OF MM_BASE_PITCH_RATE
+            static const int SCORE_CALC_SFX_VOLUME = 204;       // 80% MM_SFX_FULL_VOLUME
+
+            // The chips calculation SFX is the same as button
+            play_sfx(
+                SFX_BUTTON,
+                MM_BASE_PITCH_RATE + SCORE_CALC_SFX_PITCH_SHIFT,
+                SCORE_CALC_SFX_VOLUME
+            );
+        }
+    }
+    else if (play_state == PLAY_ENDED && g_game_vars.timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
+    {
+        /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
+         * then the division rounds it down to 0 and it's never added to the total.
+         * The operation is equivalent to
+         * fxdiv(int2fx(temp_score * g_game_vars.game_speed), int2fx(NUM_SCORE_LERP_STEPS))
+         */
+        lerped_temp_score -= int2fx(temp_score * g_game_vars.game_speed) / NUM_SCORE_LERP_STEPS;
+        lerped_score += int2fx(temp_score * g_game_vars.game_speed) / NUM_SCORE_LERP_STEPS;
+
+        if (lerped_temp_score > 0)
+        {
+            // Set the score display first because it's more important
+            // in case there isn't enough time within the frame to display both
+            display_score(fx2uint(lerped_score));
+            display_temp_score(fx2uint(lerped_temp_score));
+        }
+        else
+        {
+            g_game_vars.score = u32_protected_add(g_game_vars.score, temp_score);
+            temp_score = 0;
+            lerped_temp_score = 0;
+            lerped_score = 0;
+
+            erase_temp_score();
+            display_score(g_game_vars.score);
+        }
+    }
+}
+
+static inline void card_draw(void)
+{
+    if (get_deck_top() < 0 || get_hand_top() >= g_game_vars.hand_size - 1 ||
+        get_hand_top() >= MAX_HAND_SIZE - 1)
+        return;
+
+    CardObject* card_object = card_object_new(deck_pop());
+
+    const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
+    const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
+
+    card_object->sprite_object->x = deck_x;
+    card_object->sprite_object->y = deck_y;
+
+    set_hand_top(get_hand_top() + 1);
+    get_hand_array()[get_hand_top()] = card_object;
+
+    // Sort the hand after drawing a card
+    sort_cards();
+
+    play_sfx(
+        SFX_CARD_DRAW,
+        MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DRAW_SFX,
+        SFX_DEFAULT_VOLUME
+    );
+}
+
+static inline void game_round_process_card_draw()
+{
+    if (get_hand_state() == HAND_DRAW && cards_drawn < g_game_vars.hand_size)
+    {
+        if (g_game_vars.timer % FRAMES(10) == 0) // Draw a card every 10 frames
+        {
+            cards_drawn++;
+            card_draw();
+        }
+    }
+    else if (get_hand_state() == HAND_DRAW)
+    {
+        set_hand_state(HAND_SELECT); // Change the hand state to select after drawing all the cards
+        cards_drawn = 0;
+        g_game_vars.timer = TM_ZERO;
+    }
+}
+
+static inline void game_round_discarded_cards_loop(void)
+{
+    // Discarded cards loop (mainly for shuffling)
+    if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
+        g_game_vars.timer > FRAMES(10))
+    {
+        // Change the background to the round end background. This is how it works in Balatro, so
+        // I'm doing it this way too.
+        change_background(BG_ROUND_END, false);
+
+        // We take each discarded card and put it back into the deck with a short animation
+        static CardObject* discarded_card_object = NULL;
+        if (discarded_card_object == NULL)
+        {
+            discarded_card_object = card_object_new(discard_pop());
+            // discarded_card_object->sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
+            // ATTR1_SIZE_32,
+            // card_sprite_lut[discarded_card_object->card->suit][discarded_card_object->card->rank],
+            // 0, 0);
+            // Set the sprite for the discarded card object
+            card_object_set_sprite(discarded_card_object, 0);
+            sprite_object_reset_transform(discarded_card_object->sprite_object);
+
+            discarded_card_object->sprite_object->tx = int2fx(204);
+            discarded_card_object->sprite_object->ty = int2fx(112);
+            discarded_card_object->sprite_object->x = int2fx(240);
+            discarded_card_object->sprite_object->y = int2fx(80);
+
+            card_object_update(discarded_card_object);
+        }
+        else
+        {
+            card_object_update(discarded_card_object);
+
+            if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
+            {
+                deck_push(discarded_card_object->card); // Put the card back into the deck
+                card_object_destroy(&discarded_card_object);
+
+                play_sfx(
+                    SFX_CARD_DRAW,
+                    MM_BASE_PITCH_RATE + PITCH_STEP_UNDISCARD_SFX,
+                    SFX_DEFAULT_VOLUME
+                );
+            }
+        }
+
+        // If there are no more discarded cards, stop shuffling
+        if (discard_top == -1 && discarded_card_object == NULL)
+        {
+            // After HAND_SHUFFLING the round is over
+            game_round_handle_round_over();
+        }
+    }
+}
+
+static inline void select_cards_in_played_hand()
+{
+    switch (get_hand_type()) // select the cards that apply to the hand type
+    {
+        case NONE:
+            break;
+        case HIGH_CARD:
+            select_highcard_cards_in_played_hand();
+            break;
+        case PAIR:
+            select_pair_cards_in_played_hand();
+            break;
+        case TWO_PAIR:
+            select_two_pair_cards_in_played_hand();
+            break;
+        case THREE_OF_A_KIND:
+            select_three_of_a_kind_cards_in_played_hand();
+            break;
+        case FOUR_OF_A_KIND:
+            select_four_of_a_kind_cards_in_played_hand();
+            break;
+        case STRAIGHT:
+            /* FALL THROUGH */
+        case FLUSH:
+            /* FALL THROUGH */
+        case STRAIGHT_FLUSH:
+            /* FALL THROUGH */
+        case ROYAL_FLUSH:
+            select_flush_and_straight_cards_in_played_hand();
+            break;
+        case FULL_HOUSE:
+            /* FALL THROUGH */
+        case FIVE_OF_A_KIND:
+            /* FALL THROUGH */
+        case FLUSH_HOUSE:
+            /* FALL THROUGH */
+        case FLUSH_FIVE: // Select all played cards in the hand
+            select_all_five_cards_in_played_hand();
+            break;
+    }
+}
+
+static inline void cards_in_hand_update_loop(void)
+{
+    int selected_card_idx = hand_sel_idx_to_card_idx(game_round_selection_grid.selection.x);
+
+    // TODO: Break this function up into smaller ones, Gods be good
+    // Start from the end of the hand and work backwards because that's how Balatro does it
+    CardObject** hand = get_hand_array();
+
+    for (int i = get_hand_top(); i >= 0; i--)
+    {
+        if (hand[i] != NULL)
+        {
+            FIXED hand_x = int2fx(HAND_START_POS.x);
+            FIXED hand_y = int2fx(HAND_START_POS.y);
+
+            switch (get_hand_state())
+            {
+                case HAND_DRAW:
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
+                    break;
+                case HAND_SELECT:
+                    bool is_focused =
+                        (i == selected_card_idx &&
+                         game_round_selection_grid.selection.y == GAME_PLAYING_HAND_SEL_Y);
+
+                    if (is_focused && !card_object_is_selected(hand[i]))
+                    {
+                        hand_y -= int2fx(CARD_FOCUSED_UNSEL_Y);
+                    }
+                    else if (!is_focused && card_object_is_selected(hand[i]))
+                    {
+                        hand_y -= int2fx(CARD_UNFOCUSED_SEL_Y);
+                    }
+                    else if (is_focused && card_object_is_selected(hand[i]))
+                    {
+                        hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
+                    }
+                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
+                    {
+                        hand[i]->sprite_object->y = hand_y;
+                        // Set target y to match y. Ensures target is updated even when vy becomes
+                        // 0, preventing immediate snap back.
+                        hand[i]->sprite_object->ty = hand_y;
+                        hand[i]->sprite_object->vy = 0;
+                    }
+
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()]; // TODO: Change this
+                                                                             // later to reference a
+                                                                             // 2D LUT of positions
+                    break;
+                case HAND_SHUFFLING:
+                    /* FALL THROUGH */
+                case HAND_DISCARD: // TODO: Add sound
+                    bool break_loop;
+                    card_in_hand_loop_handle_discard_and_shuffling(
+                        i,
+                        &hand_x,
+                        &hand_y,
+                        &break_loop
+                    );
+                    if (break_loop)
+                        break;
+
+                    break;
+                case HAND_PLAY:
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
+                    hand_y += int2fx(24);
+
+                    if (card_object_is_selected(hand[i]) && discarded_card == false &&
+                        g_game_vars.timer % FRAMES(10) == 0)
+                    {
+                        card_object_set_selected(hand[i], false);
+                        played_push(hand[i]);
+                        sprite_destroy(&hand[i]->sprite_object->sprite);
+                        hand[i] = NULL;
+                        reorder_card_sprites_layers();
+
+                        play_sfx(
+                            SFX_CARD_DRAW,
+                            MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DISCARD_SFX,
+                            SFX_DEFAULT_VOLUME
+                        );
+
+                        set_hand_top(get_hand_top() - 1);
+                        hand_set_nb_selected_cards(hand_get_nb_selected_cards() - 1);
+                        cards_drawn++;
+
+                        discarded_card = true;
+                    }
+
+                    if (i == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
+                    {
+                        set_hand_state(HAND_PLAYING);
+                        cards_drawn = 0;
+                        hand_set_nb_selected_cards(0);
+                        g_game_vars.timer = TM_ZERO;
+                        scored_card_index = played_top + 1;
+
+                        select_cards_in_played_hand();
+                    }
+
+                    break;
+                // Don't need to do anything here, just wait for the player to select cards
+                case HAND_PLAYING:
+                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
+                                          -HAND_SPACING_LUT[get_hand_top()];
+                    hand_y += int2fx(24);
+                    break;
+            }
+
+            hand[i]->sprite_object->tx = hand_x;
+            hand[i]->sprite_object->ty = hand_y;
+            card_object_update(hand[i]);
+        }
+    }
+}
+
+static inline void game_round_ui_text_update(void)
+{
+    static int last_hand_size = 0;
+    static int last_deck_size = 0;
+
+    if (last_hand_size != hand_nb_held_cards() || last_deck_size != deck_get_size())
+    {
+        switch (get_current_background())
+        {
+            case BG_CARD_SELECTING:
+                // Hand size/max size
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
+                    HAND_SIZE_RECT_SELECT.left,
+                    HAND_SIZE_RECT_SELECT.top,
+                    TTE_WHITE_PB,
+                    hand_nb_held_cards(),
+                    g_game_vars.hand_size
+                );
+                break;
+
+            case BG_CARD_PLAYING:
+                // Hand size/max size
+                tte_printf(
+                    "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
+                    HAND_SIZE_RECT_PLAYING.left,
+                    HAND_SIZE_RECT_PLAYING.top,
+                    TTE_WHITE_PB,
+                    hand_nb_held_cards(),
+                    g_game_vars.hand_size
+                );
+                break;
+
+            default:
+                break;
+        }
+
+        // Deck size/max size
+        display_deck_size_max();
+
+        last_hand_size = hand_nb_held_cards();
+        last_deck_size = deck_get_size();
+    }
+}
+
+// Show/Hide flaming score effect if we will score
+// more than the required amount or not
+void check_flaming_score(void)
+{
+    u32 curr_score = u32_protected_mult(get_chips(), get_mult());
+    u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
+    if (curr_score >= required_score && !score_flames_active)
+    {
+        // start flaming score
+        score_flames_active = true;
+        return;
+    }
+    if (curr_score < required_score && score_flames_active)
+    {
+        // stop flaming score and clear rect
+        score_flames_active = false;
+
+        Rect reset_rect = SCORE_FLAME_RESET;
+        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_CHIPS_POS);
+        reset_rect.left += SCORE_FLAME_FRAME_WIDTH;
+        reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
+        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
+    }
+}
+
+static inline void game_round_process_flaming_score(void)
+{
+    static u8 flame_score_frame = 0;
+
+    if (score_flames_active)
+    {
+        if (g_game_vars.timer % SCORE_FLAMES_ANIM_FREQ == 0)
+        {
+            Rect frame_rect = SCORE_FLAME_FRAMES_START;
+            flame_score_frame = (flame_score_frame + 1) % NUM_SCORE_FLAMES_FRAMES;
+
+            // chips flame (blue)
+            frame_rect.top += flame_score_frame;
+            frame_rect.bottom += flame_score_frame;
+            main_bg_se_copy_rect(frame_rect, SCORE_FLAME_CHIPS_POS);
+
+            // mult flame (red)
+            frame_rect.left += SCORE_FLAME_FRAME_WIDTH;
+            frame_rect.right += SCORE_FLAME_FRAME_WIDTH;
+            main_bg_se_copy_rect(frame_rect, SCORE_FLAME_MULT_POS);
+        }
+    }
+}
+
+/*******************************************************************************
+ * CARD/JOKER SCORING LOGIC
+ ******************************************************************************/
+
 // returns true if a joker was scored, false otherwise
 static bool check_and_score_joker_for_event(
     ListItr* starting_joker_itr,
@@ -951,12 +1406,6 @@ static bool check_and_score_joker_for_event(
         }
     }
     return false;
-}
-
-static inline bool game_round_is_over(void)
-{
-    return g_game_vars.hands == 0 ||
-           g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
 }
 
 // Basically a copy of HAND_DISCARD
@@ -1380,400 +1829,9 @@ static inline void played_cards_update_loop(void)
     }
 }
 
-static inline void game_round_process_input_and_state(void)
-{
-    if (get_hand_state() == HAND_SELECT)
-    {
-        game_round_process_hand_select_input();
-    }
-    else if (play_state == PLAY_ENDING)
-    {
-        if (get_mult() > 0)
-        {
-            // protect against score overflow
-            temp_score = u32_protected_mult(get_chips(), get_mult());
-            lerped_temp_score = int2fx(temp_score);
-            lerped_score = int2fx(g_game_vars.score);
-
-            display_temp_score(temp_score);
-
-            set_chips(0);
-            set_mult(0);
-            display_mult();
-            display_chips();
-
-            static const int SCORE_CALC_SFX_PITCH_SHIFT = -102; // -10% OF MM_BASE_PITCH_RATE
-            static const int SCORE_CALC_SFX_VOLUME = 204;       // 80% MM_SFX_FULL_VOLUME
-
-            // The chips calculation SFX is the same as button
-            play_sfx(
-                SFX_BUTTON,
-                MM_BASE_PITCH_RATE + SCORE_CALC_SFX_PITCH_SHIFT,
-                SCORE_CALC_SFX_VOLUME
-            );
-        }
-    }
-    else if (play_state == PLAY_ENDED && g_game_vars.timer % FRAMES(TM_SCORE_LERP_INTERVAL) == 0)
-    {
-        /* Using fixed point in case the score is lower than NUM_SCORE_LERP_STEPS and then
-         * then the division rounds it down to 0 and it's never added to the total.
-         * The operation is equivalent to
-         * fxdiv(int2fx(temp_score * g_game_vars.game_speed), int2fx(NUM_SCORE_LERP_STEPS))
-         */
-        lerped_temp_score -= int2fx(temp_score * g_game_vars.game_speed) / NUM_SCORE_LERP_STEPS;
-        lerped_score += int2fx(temp_score * g_game_vars.game_speed) / NUM_SCORE_LERP_STEPS;
-
-        if (lerped_temp_score > 0)
-        {
-            // Set the score display first because it's more important
-            // in case there isn't enough time within the frame to display both
-            display_score(fx2uint(lerped_score));
-            display_temp_score(fx2uint(lerped_temp_score));
-        }
-        else
-        {
-            g_game_vars.score = u32_protected_add(g_game_vars.score, temp_score);
-            temp_score = 0;
-            lerped_temp_score = 0;
-            lerped_score = 0;
-
-            erase_temp_score();
-            display_score(g_game_vars.score);
-        }
-    }
-}
-
-static inline void game_round_process_card_draw()
-{
-    if (get_hand_state() == HAND_DRAW && cards_drawn < g_game_vars.hand_size)
-    {
-        if (g_game_vars.timer % FRAMES(10) == 0) // Draw a card every 10 frames
-        {
-            cards_drawn++;
-            card_draw();
-        }
-    }
-    else if (get_hand_state() == HAND_DRAW)
-    {
-        set_hand_state(HAND_SELECT); // Change the hand state to select after drawing all the cards
-        cards_drawn = 0;
-        g_game_vars.timer = TM_ZERO;
-    }
-}
-
-static inline void game_round_discarded_cards_loop(void)
-{
-    // Discarded cards loop (mainly for shuffling)
-    if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && discard_top >= -1 &&
-        g_game_vars.timer > FRAMES(10))
-    {
-        // Change the background to the round end background. This is how it works in Balatro, so
-        // I'm doing it this way too.
-        change_background(BG_ROUND_END, false);
-
-        // We take each discarded card and put it back into the deck with a short animation
-        static CardObject* discarded_card_object = NULL;
-        if (discarded_card_object == NULL)
-        {
-            discarded_card_object = card_object_new(discard_pop());
-            // discarded_card_object->sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
-            // ATTR1_SIZE_32,
-            // card_sprite_lut[discarded_card_object->card->suit][discarded_card_object->card->rank],
-            // 0, 0);
-            // Set the sprite for the discarded card object
-            card_object_set_sprite(discarded_card_object, 0);
-            sprite_object_reset_transform(discarded_card_object->sprite_object);
-
-            discarded_card_object->sprite_object->tx = int2fx(204);
-            discarded_card_object->sprite_object->ty = int2fx(112);
-            discarded_card_object->sprite_object->x = int2fx(240);
-            discarded_card_object->sprite_object->y = int2fx(80);
-
-            card_object_update(discarded_card_object);
-        }
-        else
-        {
-            card_object_update(discarded_card_object);
-
-            if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
-            {
-                deck_push(discarded_card_object->card); // Put the card back into the deck
-                card_object_destroy(&discarded_card_object);
-
-                play_sfx(
-                    SFX_CARD_DRAW,
-                    MM_BASE_PITCH_RATE + PITCH_STEP_UNDISCARD_SFX,
-                    SFX_DEFAULT_VOLUME
-                );
-            }
-        }
-
-        // If there are no more discarded cards, stop shuffling
-        if (discard_top == -1 && discarded_card_object == NULL)
-        {
-            // After HAND_SHUFFLING the round is over
-            game_round_handle_round_over();
-        }
-    }
-}
-
-static inline void select_cards_in_played_hand()
-{
-    switch (get_hand_type()) // select the cards that apply to the hand type
-    {
-        case NONE:
-            break;
-        case HIGH_CARD:
-            select_highcard_cards_in_played_hand();
-            break;
-        case PAIR:
-            select_pair_cards_in_played_hand();
-            break;
-        case TWO_PAIR:
-            select_two_pair_cards_in_played_hand();
-            break;
-        case THREE_OF_A_KIND:
-            select_three_of_a_kind_cards_in_played_hand();
-            break;
-        case FOUR_OF_A_KIND:
-            select_four_of_a_kind_cards_in_played_hand();
-            break;
-        case STRAIGHT:
-            /* FALL THROUGH */
-        case FLUSH:
-            /* FALL THROUGH */
-        case STRAIGHT_FLUSH:
-            /* FALL THROUGH */
-        case ROYAL_FLUSH:
-            select_flush_and_straight_cards_in_played_hand();
-            break;
-        case FULL_HOUSE:
-            /* FALL THROUGH */
-        case FIVE_OF_A_KIND:
-            /* FALL THROUGH */
-        case FLUSH_HOUSE:
-            /* FALL THROUGH */
-        case FLUSH_FIVE: // Select all played cards in the hand
-            select_all_five_cards_in_played_hand();
-            break;
-    }
-}
-
-static inline void cards_in_hand_update_loop(void)
-{
-    int selected_card_idx = hand_sel_idx_to_card_idx(game_round_selection_grid.selection.x);
-
-    // TODO: Break this function up into smaller ones, Gods be good
-    // Start from the end of the hand and work backwards because that's how Balatro does it
-    CardObject** hand = get_hand_array();
-
-    for (int i = get_hand_top(); i >= 0; i--)
-    {
-        if (hand[i] != NULL)
-        {
-            FIXED hand_x = int2fx(HAND_START_POS.x);
-            FIXED hand_y = int2fx(HAND_START_POS.y);
-
-            switch (get_hand_state())
-            {
-                case HAND_DRAW:
-                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
-                                          -HAND_SPACING_LUT[get_hand_top()];
-                    break;
-                case HAND_SELECT:
-                    bool is_focused =
-                        (i == selected_card_idx &&
-                         game_round_selection_grid.selection.y == GAME_PLAYING_HAND_SEL_Y);
-
-                    if (is_focused && !card_object_is_selected(hand[i]))
-                    {
-                        hand_y -= int2fx(CARD_FOCUSED_UNSEL_Y);
-                    }
-                    else if (!is_focused && card_object_is_selected(hand[i]))
-                    {
-                        hand_y -= int2fx(CARD_UNFOCUSED_SEL_Y);
-                    }
-                    else if (is_focused && card_object_is_selected(hand[i]))
-                    {
-                        hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
-                    }
-                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
-                    {
-                        hand[i]->sprite_object->y = hand_y;
-                        // Set target y to match y. Ensures target is updated even when vy becomes
-                        // 0, preventing immediate snap back.
-                        hand[i]->sprite_object->ty = hand_y;
-                        hand[i]->sprite_object->vy = 0;
-                    }
-
-                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
-                                          -HAND_SPACING_LUT[get_hand_top()]; // TODO: Change this
-                                                                             // later to reference a
-                                                                             // 2D LUT of positions
-                    break;
-                case HAND_SHUFFLING:
-                    /* FALL THROUGH */
-                case HAND_DISCARD: // TODO: Add sound
-                    bool break_loop;
-                    card_in_hand_loop_handle_discard_and_shuffling(
-                        i,
-                        &hand_x,
-                        &hand_y,
-                        &break_loop
-                    );
-                    if (break_loop)
-                        break;
-
-                    break;
-                case HAND_PLAY:
-                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
-                                          -HAND_SPACING_LUT[get_hand_top()];
-                    hand_y += int2fx(24);
-
-                    if (card_object_is_selected(hand[i]) && discarded_card == false &&
-                        g_game_vars.timer % FRAMES(10) == 0)
-                    {
-                        card_object_set_selected(hand[i], false);
-                        played_push(hand[i]);
-                        sprite_destroy(&hand[i]->sprite_object->sprite);
-                        hand[i] = NULL;
-                        reorder_card_sprites_layers();
-
-                        play_sfx(
-                            SFX_CARD_DRAW,
-                            MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DISCARD_SFX,
-                            SFX_DEFAULT_VOLUME
-                        );
-
-                        set_hand_top(get_hand_top() - 1);
-                        hand_set_nb_selected_cards(hand_get_nb_selected_cards() - 1);
-                        cards_drawn++;
-
-                        discarded_card = true;
-                    }
-
-                    if (i == 0 && discarded_card == false && g_game_vars.timer % FRAMES(10) == 0)
-                    {
-                        set_hand_state(HAND_PLAYING);
-                        cards_drawn = 0;
-                        hand_set_nb_selected_cards(0);
-                        g_game_vars.timer = TM_ZERO;
-                        scored_card_index = played_top + 1;
-
-                        select_cards_in_played_hand();
-                    }
-
-                    break;
-                // Don't need to do anything here, just wait for the player to select cards
-                case HAND_PLAYING:
-                    hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
-                                          -HAND_SPACING_LUT[get_hand_top()];
-                    hand_y += int2fx(24);
-                    break;
-            }
-
-            hand[i]->sprite_object->tx = hand_x;
-            hand[i]->sprite_object->ty = hand_y;
-            card_object_update(hand[i]);
-        }
-    }
-}
-
-static inline void game_round_ui_text_update(void)
-{
-    static int last_hand_size = 0;
-    static int last_deck_size = 0;
-
-    if (last_hand_size != hand_nb_held_cards() || last_deck_size != deck_get_size())
-    {
-        switch (get_current_background())
-        {
-            case BG_CARD_SELECTING:
-                // Hand size/max size
-                tte_printf(
-                    "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
-                    HAND_SIZE_RECT_SELECT.left,
-                    HAND_SIZE_RECT_SELECT.top,
-                    TTE_WHITE_PB,
-                    hand_nb_held_cards(),
-                    g_game_vars.hand_size
-                );
-                break;
-
-            case BG_CARD_PLAYING:
-                // Hand size/max size
-                tte_printf(
-                    "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
-                    HAND_SIZE_RECT_PLAYING.left,
-                    HAND_SIZE_RECT_PLAYING.top,
-                    TTE_WHITE_PB,
-                    hand_nb_held_cards(),
-                    g_game_vars.hand_size
-                );
-                break;
-
-            default:
-                break;
-        }
-
-        // Deck size/max size
-        display_deck_size_max();
-
-        last_hand_size = hand_nb_held_cards();
-        last_deck_size = deck_get_size();
-    }
-}
-
-// Show/Hide flaming score effect if we will score
-// more than the required amount or not
-void check_flaming_score(void)
-{
-    u32 curr_score = u32_protected_mult(get_chips(), get_mult());
-    u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
-    if (curr_score >= required_score && !score_flames_active)
-    {
-        // start flaming score
-        score_flames_active = true;
-        return;
-    }
-    if (curr_score < required_score && score_flames_active)
-    {
-        // stop flaming score and clear rect
-        score_flames_active = false;
-
-        Rect reset_rect = SCORE_FLAME_RESET;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_CHIPS_POS);
-        reset_rect.left += SCORE_FLAME_FRAME_WIDTH;
-        reset_rect.right += SCORE_FLAME_FRAME_WIDTH;
-        main_bg_se_copy_rect(reset_rect, SCORE_FLAME_MULT_POS);
-    }
-}
-
-static inline void game_round_process_flaming_score(void)
-{
-    static u8 flame_score_frame = 0;
-
-    if (score_flames_active)
-    {
-        if (g_game_vars.timer % SCORE_FLAMES_ANIM_FREQ == 0)
-        {
-            Rect frame_rect = SCORE_FLAME_FRAMES_START;
-            flame_score_frame = (flame_score_frame + 1) % NUM_SCORE_FLAMES_FRAMES;
-
-            // chips flame (blue)
-            frame_rect.top += flame_score_frame;
-            frame_rect.bottom += flame_score_frame;
-            main_bg_se_copy_rect(frame_rect, SCORE_FLAME_CHIPS_POS);
-
-            // mult flame (red)
-            frame_rect.left += SCORE_FLAME_FRAME_WIDTH;
-            frame_rect.right += SCORE_FLAME_FRAME_WIDTH;
-            main_bg_se_copy_rect(frame_rect, SCORE_FLAME_MULT_POS);
-        }
-    }
-}
-
-// Round state functions
+/*******************************************************************************
+ * FOUND STATE FUNCTIONS
+ ******************************************************************************/
 
 void game_round_on_init(void)
 {

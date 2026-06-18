@@ -1,10 +1,12 @@
+/**
+ * @file round.h
+ * @brief API relative to the Rounds we play
+ */
+
 #ifndef GAME_ROUND_H
 #define GAME_ROUND_H
 
-#include "card.h"
-
 void check_flaming_score(void);
-CardObject** get_played_array(void);
 int get_played_top(void);
 int get_discard_top(void);
 int get_scored_card_index(void);
