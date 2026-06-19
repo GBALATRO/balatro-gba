@@ -873,7 +873,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     // find four cards with the same rank
     // If there are 5 cards selected we just need to find the one card that doesn't match, and
     // select the others
-    if (played_top >= 3)
+    if (played_top >= 4)
     {
         int unmatched_index = -1;
 
