@@ -186,6 +186,8 @@ void game_init()
     g_game_vars.ante = STARTING_ANTE;
     g_game_vars.money = STARTING_MONEY;
     g_game_vars.score = STARTING_SCORE;
+    g_game_vars.chips = 0;
+    g_game_vars.mult = 0;
     g_game_vars.round = STARTING_ROUND;
 
     // Initialize/reset unbeaten Boss/Showdown Blinds so they are all available

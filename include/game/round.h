@@ -6,6 +6,8 @@
 #ifndef GAME_ROUND_H
 #define GAME_ROUND_H
 
+#include <stdbool.h>
+
 /**
  * @brief Checks whether the score that would result from the current Chips and Mult exceeds the
  *         current Blind's score requirement, and applies the flaming effect if needed.

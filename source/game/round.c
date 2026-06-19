@@ -253,18 +253,6 @@ static inline void played_push(CardObject* card_object)
     played[++played_top] = card_object;
 }
 
-/**
- * @brief Remove and recover the last played card
- *
- * @return pointer to the CardObject representing the last played card
- */
-static inline CardObject* played_pop()
-{
-    if (played_top < 0)
-        return NULL;
-    return played[played_top--];
-}
-
 int get_discard_top(void)
 {
     return discard_top;
@@ -288,8 +276,6 @@ static inline void discard_push(Card* card)
  * @brief Remove and recover the last discarded card
  *
  * @return pointer to the CardObject representing the last discarded card
- *
- * @sa played_pop
  */
 static inline Card* discard_pop()
 {
