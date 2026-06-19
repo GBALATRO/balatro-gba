@@ -1143,13 +1143,10 @@ static inline void game_round_discarded_cards_loop(void)
 
         // We take each discarded card and put it back into the deck with a short animation
         static CardObject* discarded_card_object = NULL;
-        if (discarded_card_object == NULL)
+        if (discard_top >= 0 && discarded_card_object == NULL)
         {
             discarded_card_object = card_object_new(discard_pop());
-            // discarded_card_object->sprite = sprite_new(ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
-            // ATTR1_SIZE_32,
-            // card_sprite_lut[discarded_card_object->card->suit][discarded_card_object->card->rank],
-            // 0, 0);
+
             // Set the sprite for the discarded card object
             card_object_set_sprite(discarded_card_object, 0);
             sprite_object_reset_transform(discarded_card_object->sprite_object);
