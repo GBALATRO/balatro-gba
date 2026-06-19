@@ -231,6 +231,7 @@ static bool sound_played = false;
 static bool discarded_card = false;
 
 static int cards_drawn = 0;
+static int cards_discarded = 0;
 
 /*******************************************************************************
  * UTILS FUNCTIONS
@@ -740,7 +741,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
             {
                 play_sfx(
                     SFX_CARD_DRAW,
-                    MM_BASE_PITCH_RATE + cards_drawn * PITCH_STEP_DISCARD_SFX,
+                    MM_BASE_PITCH_RATE + cards_discarded * PITCH_STEP_DISCARD_SFX,
                     SFX_DEFAULT_VOLUME
                 );
                 sound_played = true;
@@ -749,17 +750,24 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
             if (hand[card_idx]->sprite_object->x >= *hand_x)
             {
                 discard_push(hand[card_idx]->card);
+
+                // Remove discarded card from hand and shift the ones after it
                 card_object_destroy(&hand[card_idx]);
                 reorder_card_sprites_layers();
-
                 set_hand_top(get_hand_top() - 1);
-                // This technically isn't drawing cards, I'm just reusing the variable
-                cards_drawn++;
+
+                cards_discarded++;
                 sound_played = false;
                 g_game_vars.timer = TM_ZERO;
 
-                *hand_y = hand[card_idx]->sprite_object->y;
-                *hand_x = hand[card_idx]->sprite_object->x;
+                // Protect against an edge case where `card_idx == hand_top` before discarding. In
+                // that case, calling `reorder_card_sprites_layers` cannot shift the discarded card,
+                // and we end up with an element at `card_idx` that is still NULL.
+                if (hand[card_idx] != NULL)
+                {
+                    *hand_y = hand[card_idx]->sprite_object->y;
+                    *hand_x = hand[card_idx]->sprite_object->x;
+                }
             }
 
             discarded_card = true;
@@ -791,7 +799,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
         // supposed to be.
         set_hand_state(HAND_DRAW);
         sound_played = false;
-        cards_drawn = 0;
+        cards_discarded = 0;
         hand_set_nb_selected_cards(0);
         g_game_vars.timer = TM_ZERO;
         *break_loop = true;
