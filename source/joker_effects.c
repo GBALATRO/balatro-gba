@@ -1035,7 +1035,7 @@ static u32 half_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    int played_size = get_played_top() + 1;
+    int played_size = get_played_size();
     if (played_size <= 3)
     {
         *joker_effect = &shared_joker_effect;

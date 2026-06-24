@@ -242,6 +242,11 @@ int get_played_top(void)
     return played_top;
 }
 
+int get_played_size(void)
+{
+    return played_top + 1;
+}
+
 /**
  * @brief Push a new card to play at the end of the associated array
  *
@@ -870,24 +875,26 @@ static inline void select_all_five_cards_in_played_hand(void)
 
 static inline void select_four_of_a_kind_cards_in_played_hand(void)
 {
+    int played_size = get_played_size();
+
     // find four cards with the same rank
     // If there are 5 cards selected we just need to find the one card that doesn't match, and
     // select the others
-    if (played_top >= 4)
+    if (played_size >= 5)
     {
         int unmatched_index = -1;
 
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= played_size; i++)
         {
-            if (played[i]->card->rank != played[(i + 1) % played_top]->card->rank &&
-                played[i]->card->rank != played[(i + 2) % played_top]->card->rank)
+            if (played[i]->card->rank != played[(i + 1) % played_size]->card->rank &&
+                played[i]->card->rank != played[(i + 2) % played_size]->card->rank)
             {
                 unmatched_index = i;
                 break;
             }
         }
 
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= played_size; i++)
         {
             if (i != unmatched_index)
             {
@@ -897,7 +904,7 @@ static inline void select_four_of_a_kind_cards_in_played_hand(void)
     }
     else // If there are only 4 cards selected we know they match
     {
-        for (int i = 0; i <= played_top; i++)
+        for (int i = 0; i <= played_size; i++)
         {
             card_object_set_selected(played[i], true);
         }
@@ -1321,7 +1328,7 @@ static inline void cards_in_hand_update_loop(void)
                         cards_drawn = 0;
                         hand_set_nb_selected_cards(0);
                         g_game_vars.timer = TM_ZERO;
-                        scored_card_index = played_top + 1;
+                        scored_card_index = get_played_size();
 
                         select_cards_in_played_hand();
                     }
@@ -1691,8 +1698,8 @@ static inline bool play_scoring_independent_jokers_update(int played_idx)
             return true;
         }
 
-        scored_card_index =
-            played_top + 1; // Reset the scored card index to the top of the played stack
+        // Reset the scored card index to past the top of the played stack
+        scored_card_index = get_played_size();
 
         play_state = PLAY_SCORING_HAND_SCORED_END;
     }

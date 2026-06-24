@@ -22,6 +22,13 @@ void toggle_flaming_score(void);
 int get_played_top(void);
 
 /**
+ * @brief Get the number of cards played
+ *
+ * @return int
+ */
+int get_played_size(void);
+
+/**
  * @brief Get the index of the last discarded card
  *
  * @return int
