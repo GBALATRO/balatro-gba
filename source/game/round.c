@@ -168,6 +168,9 @@ static void game_round_play_hand_on_pressed(void);
 static void game_round_sort_by_rank_on_pressed(void);
 static void game_round_sort_by_suit_on_pressed(void);
 
+static bool can_discard_hand(void);
+static bool can_play_hand(void);
+
 // clang-format off
 // Array of buttons by horizontal selection index (x)
 static Button game_round_buttons[] = {
@@ -415,6 +418,31 @@ void game_round_change_background_playing(void)
 /*******************************************************************************
  * BUTTONS IMPLEMENTATION
  ******************************************************************************/
+
+/**
+ * @brief Determines whether the "Discard" button can be pressed or not
+ *
+ * @return true if the hand can be discarded, false otherwise
+ */
+static bool can_discard_hand(void)
+{
+    return (
+        g_game_vars.discards > 0 && get_hand_state() == HAND_SELECT &&
+        hand_get_nb_selected_cards() > 0
+    );
+}
+
+/**
+ * @brief Determines whether the "Play" button can be pressed or not
+ *
+ * @return true if the hand can be played, false otherwise
+ */
+static bool can_play_hand(void)
+{
+    return (
+        g_game_vars.hands > 0 && get_hand_state() == HAND_SELECT && hand_get_nb_selected_cards() > 0
+    );
+}
 
 /**
  * @brief Triggers the discard of the currently selected cards in hand

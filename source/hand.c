@@ -127,16 +127,6 @@ ContainedHandTypes* get_contained_hands(void)
     return &hand.contained_hands;
 }
 
-bool can_discard_hand(void)
-{
-    return (g_game_vars.discards > 0 && hand.state == HAND_SELECT && hand.hand_selections > 0);
-}
-
-bool can_play_hand(void)
-{
-    return (g_game_vars.hands > 0 && hand.state == HAND_SELECT && hand.hand_selections > 0);
-}
-
 static void print_hand_type(const char* hand_type_str)
 {
     if (hand_type_str == NULL)
