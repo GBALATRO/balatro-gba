@@ -78,7 +78,7 @@
     {                                                         \
         if ((param) == NULL)                                  \
         {                                                     \
-            LOG_ERROR("Unexpected value: %s = NULL", #param); \
+            LOG_ERROR("Unexpected value: %s == NULL", #param); \
             return;                                           \
         }                                                     \
     } while (0)
