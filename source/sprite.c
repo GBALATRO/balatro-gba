@@ -173,7 +173,7 @@ int sprite_get_pb(const Sprite* sprite)
 // SpriteObject methods
 void sprite_object_init(SpriteObject* sprite_object)
 {
-    CHECK_NULL_ARG_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
 
     sprite_object->sprite = NULL;
     sprite_object_reset_transform(sprite_object);

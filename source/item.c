@@ -8,12 +8,12 @@
 
 int item_get_buy_price(Item* item)
 {
-    CHECK_NULL_ARG_RET(item, UNDEFINED);
+    GBAL_RETURN_IF_NULL_RET(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->get_buy_price == NULL)
     {
-        MGBA_ERROR(__func__ ": object function not implemented");
+        MGBA_FUNC_ERROR("Item function not implemented");
         return UNDEFINED;
     }
 
@@ -22,7 +22,7 @@ int item_get_buy_price(Item* item)
 
 void item_acquire(Item* item)
 {
-    CHECK_NULL_ARG_VOID(item);
+    GBAL_RETURN_IF_NULL_VOID(item);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->acquire == NULL)
@@ -36,6 +36,6 @@ void item_acquire(Item* item)
 
 void item_print_buy_price_under(Item* item)
 {
-    CHECK_NULL_ARG_VOID(item);
+    GBAL_RETURN_IF_NULL_VOID(item);
     sprite_object_print_price_under((SpriteObject*)item, item_get_buy_price(item));
 }

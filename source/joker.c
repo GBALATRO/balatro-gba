@@ -183,14 +183,14 @@ u16 joker_get_rarity_color(u8 rarity, bool main_color)
 
 int joker_get_buy_price(const Joker* joker)
 {
-    CHECK_NULL_ARG_RET(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
 
     return joker->value;
 }
 
 int joker_get_sell_value(const Joker* joker)
 {
-    CHECK_NULL_ARG_RET(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
 
     return joker->value / 2;
 }
@@ -272,7 +272,7 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 
 int joker_object_get_buy_price(Item* joker_object)
 {
-    CHECK_NULL_ARG_RET(joker_object, UNDEFINED);
+    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
     if (joker_object->type != ITEM_TYPE_JOKER)
     {
         MGBA_ERROR(__func__ " called with incorrect type");
@@ -284,10 +284,10 @@ int joker_object_get_buy_price(Item* joker_object)
 
 void joker_object_add_to_owned(Item* joker_object)
 {
-    CHECK_NULL_ARG_VOID(joker_object);
+    GBAL_RETURN_IF_NULL_VOID(joker_object);
     if (joker_object->type != ITEM_TYPE_JOKER)
     {
-        MGBA_ERROR(__func__ " called with incorrect type");
+        MGBA_FUNC_ERROR("Called with incorrect type");
         return;
     }
 
