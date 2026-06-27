@@ -5,7 +5,7 @@
  * Provides a common API for the shop and inventory to handle all types of items.
  * Uses struct inheritance so all items can implement an is-a relationship with Item.
  *
- * This means that pointers to structs that inherit Item using first member struct inhertance
+ * This means that pointers to structs that inherit Item using first member struct inheritance
  * can and should be cast to Item* so code that expects an Item* can use them.
  */
 
