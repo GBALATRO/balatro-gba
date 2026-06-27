@@ -602,7 +602,7 @@ void game_run_setup_on_init(void)
     card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
 
     sprite_object_position(
-        run_setup_deck->sprite_object,
+        (SpriteObject*)run_setup_deck,
         RUN_SETUP_DECK_SPRITE_T_X,
         RUN_SETUP_DECK_SPRITE_T_Y
     );
