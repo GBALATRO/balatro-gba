@@ -74,7 +74,7 @@ void item_print_buy_price_under(Item* item);
  * @brief Returns true if the item can be acquired, i.e. added to inventory
  * Does not check if the player has enough money to buy the item, that is the shop's job,
  * as this will be used both when purchasing and when selecting in a pack.
- */ 
+ */
 bool item_can_acquire(Item* item);
 
 #endif // ITEM_H

@@ -1,9 +1,9 @@
 #include "item_funcs.h"
 
 #include "card.h"
+#include "game.h"
 #include "joker.h"
 #include "util.h"
-#include "game.h"
 
 // clang-format off
 ItemFuncs item_func_table[] = {
