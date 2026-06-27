@@ -20,18 +20,18 @@ int item_get_buy_price(Item* item)
     return item_funcs->get_buy_price(item);
 }
 
-void item_acquire(Item* item)
+void item_on_acquired(Item* item)
 {
     GBAL_RETURN_IF_NULL_VOID(item);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    if (item_funcs == NULL || item_funcs->acquire == NULL)
+    if (item_funcs == NULL || item_funcs->on_acquired == NULL)
     {
         MGBA_FUNC_ERROR("object function not implemented");
         return;
     }
 
-    item_funcs->acquire(item);
+    item_funcs->on_acquired(item);
 }
 
 void item_print_buy_price_under(Item* item)

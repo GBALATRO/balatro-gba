@@ -35,7 +35,7 @@ typedef struct
 typedef struct item_funcs
 {
     int (*get_buy_price)(Item* item);
-    void (*acquire)(Item* item);
+    void (*on_acquired)(Item* item);
 } ItemFuncs;
 
 /*
@@ -52,16 +52,16 @@ int item_get_buy_price(Item* item);
 /**
  * @brief Acquires the item, adding to inventory if applicable.
  * Called when it is purchased from the shop, note that it does not
- * perform the pruchase operation of decrementing the player's money,
+ * perform the purchase operation of decrementing the player's money,
  * that should be handled by the shop code.
  * For packs this can be to just open the pack,
  * for vouchers, this will apply their effect.
  *
- * Matches ItemFuncs.acquire()
+ * Matches ItemFuncs.on_acquired()
  *
- * @param item The item to acquire
+ * @param item The item to on_acquired
  */
-void item_acquire(Item* item);
+void item_on_acquired(Item* item);
 
 /*
  * @brief Prints the buy price under the item
