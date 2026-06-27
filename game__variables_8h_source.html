@@ -189,22 +189,24 @@ $(document).ready(function(){initNavTree('game__variables_8h_source.html',''); i
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    s32 hands;</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    s32 discards;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    u32 score;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* playing_blind_token;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* round_end_blind_token;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Options variables</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="comment">// game aspects that should be sped up by speed, as in the original game.</span></div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    u8 game_speed;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    u8 music_volume;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    u8 sound_volume;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>} <a class="code hl_struct" href="structGameVariables.html">GameVariables</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    u32 chips;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    u32 mult;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* playing_blind_token;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* round_end_blind_token;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// Options variables</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">// BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="comment">// game aspects that should be sped up by speed, as in the original game.</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    u8 game_speed;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    u8 music_volume;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    u8 sound_volume;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>} <a class="code hl_struct" href="structGameVariables.html">GameVariables</a>;</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif </span><span class="comment">// GAME_VARIABLES_H</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif </span><span class="comment">// GAME_VARIABLES_H</span></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
 <div class="ttc" id="astructGameVariables_html"><div class="ttname"><a href="structGameVariables.html">GameVariables</a></div><div class="ttdoc">A central location for all game variables.</div><div class="ttdef"><b>Definition</b> <a href="game__variables_8h_source.html#l00037">game_variables.h:38</a></div></div>
 <div class="ttc" id="astructRngInfo_html"><div class="ttname"><a href="structRngInfo.html">RngInfo</a></div><div class="ttdoc">Information to track and restore RNG state.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00018">random.h:19</a></div></div>

@@ -10,7 +10,9 @@ var searchData=
   ['digit_5fchar_5fto_5ffont_5fpoint_7',['digit_char_to_font_point',['../font_8h.html#a5c5982b0302d3d4d83f3a245952aab4b',1,'font.c']]],
   ['direction_8',['direction',['../structListItr.html#aa41b077984fb967ea256625056b09145',1,'ListItr']]],
   ['disabling_20formatting_9',['Disabling Formatting',['../index.html#autotoc_md13',1,'']]],
-  ['disclaimer_10',['Disclaimer',['../md_README.html#autotoc_md25',1,'']]],
-  ['documentation_11',['Documentation',['../index.html#autotoc_md5',1,'']]],
-  ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_12',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]]
+  ['discard_5fpop_10',['discard_pop',['../round_8c.html#a81b9604048e903b67beb87bf60db1f8e',1,'round.c']]],
+  ['discard_5fpush_11',['discard_push',['../round_8c.html#a0b3070c9da10e0dace0a7547748307d7',1,'round.c']]],
+  ['disclaimer_12',['Disclaimer',['../md_README.html#autotoc_md25',1,'']]],
+  ['documentation_13',['Documentation',['../index.html#autotoc_md5',1,'']]],
+  ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_14',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]]
 ];

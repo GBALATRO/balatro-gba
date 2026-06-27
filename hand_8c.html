@@ -145,6 +145,7 @@ $(document).ready(function(){initNavTree('hand_8c.html',''); initResizable(); })
 <code>#include &quot;<a class="el" href="audio__utils_8h_source.html">audio_utils.h</a>&quot;</code><br />
 <code>#include &quot;card.h&quot;</code><br />
 <code>#include &quot;game.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="round_8h_source.html">game/round.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="game__variables_8h_source.html">game_variables.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="graphic__utils_8h_source.html">graphic_utils.h</a>&quot;</code><br />
 <code>#include &quot;soundbank.h&quot;</code><br />
@@ -234,9 +235,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a8c39bac46f180817e774ddb765326979" id="r_a8c39bac46f180817e774ddb765326979"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a8c39bac46f180817e774ddb765326979">get_hand_distribution</a> (u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])</td></tr>
 <tr class="memdesc:a8c39bac46f180817e774ddb765326979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outputs the distribution of ranks and suits in the hand.  <br /></td></tr>
 <tr class="separator:a8c39bac46f180817e774ddb765326979"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace375f4cc13086b5d150e53892d471f8" id="r_ace375f4cc13086b5d150e53892d471f8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="util_8h.html#aabfb019556c44576446cc201a0ac5459">GBAL_UNUSED</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#ace375f4cc13086b5d150e53892d471f8">get_played_distribution</a> (u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])</td></tr>
-<tr class="memdesc:ace375f4cc13086b5d150e53892d471f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outputs the distribution of ranks and suits in the played stack.  <br /></td></tr>
-<tr class="separator:ace375f4cc13086b5d150e53892d471f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cf519099deb51b08cd5c4369d77e907" id="r_a9cf519099deb51b08cd5c4369d77e907"><td class="memItemLeft" align="right" valign="top">static u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a9cf519099deb51b08cd5c4369d77e907">hand_contains_n_of_a_kind</a> (u8 *ranks)</td></tr>
 <tr class="separator:a9cf519099deb51b08cd5c4369d77e907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1376049df5efa5975cb31b8b58397b53" id="r_a1376049df5efa5975cb31b8b58397b53"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a1376049df5efa5975cb31b8b58397b53">hand_contains_two_pair</a> (u8 *ranks)</td></tr>
@@ -292,7 +290,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00789">789</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00760">760</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -320,7 +318,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00887">887</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00858">858</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -342,7 +340,7 @@ Variables</h2></td></tr>
 
 <p>Determine the HandType and <a class="el" href="structContainedHandTypes.html">ContainedHandTypes</a> of the currently selected Cards, then print the <a class="el" href="structHand.html">Hand</a>'s name, chips, and mult on screen. </p>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00145">145</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00146">146</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -395,7 +393,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of cards in the best flush found, or 0 if no flush meets min_len. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00563">563</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00534">534</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -443,7 +441,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00606">606</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00577">577</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -467,7 +465,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>ContainedHandTypes*</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#ae7bd4b295ad0106d523da0c57c798748" title="Determine the HandType and ContainedHandTypes of the currently selected Cards, then print the Hand&#39;s ...">compute_hand_value_info</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00124">124</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00125">125</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -490,7 +488,7 @@ Variables</h2></td></tr>
 <p>Get the hand array of Cards currently held in hand. </p>
 <dl class="section return"><dt>Returns</dt><dd>CardObject** </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00089">89</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00090">90</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -537,7 +535,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00341">341</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00342">342</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -561,7 +559,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>enum HandState</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f" title="Set the hand state. Primarily used by the GAME_PLAYING game state.">set_hand_state</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00079">79</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00080">80</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -585,7 +583,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>int</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#aa5beb0f8bda5c454fea80be021e51df1" title="Get the hand array of Cards currently held in hand.">get_hand_array</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00094">94</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00095">95</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -609,54 +607,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>enum HandType</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#ae7bd4b295ad0106d523da0c57c798748" title="Determine the HandType and ContainedHandTypes of the currently selected Cards, then print the Hand&#39;s ...">compute_hand_value_info</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00119">119</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
-
-</div>
-</div>
-<a id="ace375f4cc13086b5d150e53892d471f8" name="ace375f4cc13086b5d150e53892d471f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace375f4cc13086b5d150e53892d471f8">&#9670;&#160;</a></span>get_played_distribution()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="util_8h.html#aabfb019556c44576446cc201a0ac5459">GBAL_UNUSED</a> void get_played_distribution </td>
-          <td>(</td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>ranks_out</em>[NUM_RANKS], </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">u8&#160;</td>
-          <td class="paramname"><em>suits_out</em>[NUM_SUITS]&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Outputs the distribution of ranks and suits in the played stack. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ranks_out</td><td>output - updated such as ranks_out[rank] is the number of cards of rank in the played stack. Must be of size NUM_RANKS. </td></tr>
-    <tr><td class="paramname">suits_out</td><td>output - updated such as suits_out[suit] is the number of cards if suit in the played stack. Must be of size NUM_SUITS </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00367">367</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00120">120</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -685,7 +636,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00283">283</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00284">284</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -713,7 +664,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00549">549</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00520">520</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -741,7 +692,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00416">416</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00387">387</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -769,7 +720,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00390">390</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00361">361</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -797,7 +748,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00440">440</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00411">411</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -825,7 +776,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00401">401</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00372">372</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -847,7 +798,7 @@ Variables</h2></td></tr>
 
 <p>Deselect all cards in hand. </p>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00313">313</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00314">314</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -870,7 +821,7 @@ Variables</h2></td></tr>
 <p>Get the current number of selected Cards. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>card_selections</code> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00109">109</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00110">110</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -894,7 +845,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>hand_top + 1</code></dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e" title="Get the position in hand array of the last card obtained.">get_hand_top</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00104">104</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00105">105</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -922,7 +873,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00292">292</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00293">293</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -951,7 +902,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#aac8c352a03a71c29be4634442721a502" title="Get the current number of selected Cards.">hand_get_nb_selected_cards</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00114">114</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00115">115</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -979,7 +930,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00129">129</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00130">130</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1001,7 +952,7 @@ Variables</h2></td></tr>
 
 <p>Destroy the sprites of the Cards held in hand and recreate then in the same order as the Cards in the hand array. This allows Cards to render properly when help in hand during the round or a Tarot/Spectral booster pack. </p>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00233">233</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00234">234</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1037,7 +988,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00757">757</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00728">728</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1060,7 +1011,7 @@ Variables</h2></td></tr>
 <p>Set the hand state. Primarily used by the GAME_PLAYING game state. </p>
 <dl class="section see"><dt>See also</dt><dd>HandState </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00084">84</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00085">85</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1089,7 +1040,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e" title="Get the position in hand array of the last card obtained.">get_hand_top</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00099">99</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00100">100</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1117,7 +1068,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00204">204</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00205">205</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1140,7 +1091,7 @@ Variables</h2></td></tr>
 <p>Sort the hand array according to the selected method to do that. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="hand_8h.html#ae31189b3cd0a76afd9fea79b94ea017f" title="Switch to the given sort method. Can sort playing cards in two ways: by rank and suit....">hand_change_sort</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00269">269</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00270">270</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1168,7 +1119,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00188">188</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00189">189</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1196,7 +1147,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00170">170</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00171">171</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1235,7 +1186,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00163">163</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00164">164</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1269,7 +1220,7 @@ Variables</h2></td></tr>
 <div class="line">    .sort_by_suit = <span class="keyword">false</span></div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00063">63</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00064">64</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1309,7 +1260,7 @@ Variables</h2></td></tr>
 <div class="line">    {.chips = 160, .mult = 16, .display_name = <span class="stringliteral">&quot;Flush 5&quot;</span>}  </div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00026">26</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00027">27</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -1333,7 +1284,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00045">45</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00046">46</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
