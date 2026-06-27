@@ -4,6 +4,9 @@
  * @brief The core structure for items in the shop and inventory.
  * Provides a common API for the shop and inventory to handle all types of items.
  * Uses struct inheritance so all items can implement an is-a relationship with Item.
+ *
+ * This means that pointers to structs that inherit Item using first member struct inhertiance
+ * can and should be cast to Item* so code that expects an Item* can use them.
  */
 
 #ifndef ITEM_H
@@ -23,7 +26,8 @@ enum ItemType
 typedef struct
 {
     SpriteObject; // First member struct inheritance
-    // All items in the shop and inventory are SpriteObjects
+    // All items in the shop and inventory are SpriteObjects.
+    // Casts from Item* (or inheriting structs) to SpriteObject* are allowed and intentional.
 
     enum ItemType type;
 } Item;
