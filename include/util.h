@@ -73,14 +73,14 @@
  * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
  * a return value.
  */
-#define GBAL_RETURN_IF_NULL_VOID(param)                       \
-    do                                                        \
-    {                                                         \
-        if ((param) == NULL)                                  \
-        {                                                     \
+#define GBAL_RETURN_IF_NULL_VOID(param)                        \
+    do                                                         \
+    {                                                          \
+        if ((param) == NULL)                                   \
+        {                                                      \
             LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return;                                           \
-        }                                                     \
+            return;                                            \
+        }                                                      \
     } while (0)
 
 /**
