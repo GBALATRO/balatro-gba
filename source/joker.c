@@ -291,7 +291,7 @@ void joker_object_add_to_owned(Item* joker_object)
         return;
     }
 
-    sprite_object_set_ty((SpriteObject*)joker_object, int2fx(HELD_JOKERS_POS.y));
+    joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
 }
 

@@ -270,8 +270,8 @@ void reorder_card_sprites_layers(void)
             card_object_set_sprite(hand.cards[i], i);
             sprite_position(
                 card_object_get_sprite(hand.cards[i]),
-                fx2int(sprite_object_get_x((SpriteObject*)hand.cards[i])),
-                fx2int(sprite_object_get_y((SpriteObject*)hand.cards[i]))
+                fx2int(hand.cards[i]->x),
+                fx2int(hand.cards[i]->y)
             );
         }
     }

@@ -75,9 +75,8 @@ bool jokers_sel_row_on_selection_changed(
 
 static inline void joker_start_discard_animation(JokerObject* joker_object)
 {
-    SpriteObject* sprite_object = (SpriteObject*)joker_object;
-    sprite_object_set_tx(sprite_object, int2fx(JOKER_DISCARD_TARGET.x));
-    sprite_object_set_ty(sprite_object, int2fx(JOKER_DISCARD_TARGET.y));
+    joker_object->tx = int2fx(JOKER_DISCARD_TARGET.x);
+    joker_object->ty = int2fx(JOKER_DISCARD_TARGET.y);
     list_push_back(get_discarded_jokers_list(), joker_object);
 }
 

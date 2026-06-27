@@ -224,21 +224,6 @@ void sprite_object_destroy(SpriteObject* sprite_object);
  */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
 
-FIXED sprite_object_get_x(const SpriteObject* sprite_object);
-void sprite_object_set_x(SpriteObject* sprite_object, FIXED x);
-FIXED sprite_object_get_y(const SpriteObject* sprite_object);
-void sprite_object_set_y(SpriteObject* sprite_object, FIXED y);
-FIXED sprite_object_get_tx(const SpriteObject* sprite_object);
-void sprite_object_set_tx(SpriteObject* sprite_object, FIXED tx);
-FIXED sprite_object_get_ty(const SpriteObject* sprite_object);
-void sprite_object_set_ty(SpriteObject* sprite_object, FIXED ty);
-void sprite_object_set_vx(SpriteObject* sprite_object, FIXED vx);
-void sprite_object_set_vy(SpriteObject* sprite_object, FIXED vy);
-FIXED sprite_object_get_tscale(const SpriteObject* sprite_object);
-void sprite_object_set_tscale(SpriteObject* sprite_object, FIXED tscale);
-FIXED sprite_object_get_trotation(const SpriteObject* sprite_object);
-void sprite_object_set_trotation(SpriteObject* sprite_object, FIXED trotation);
-
 /**
  * @brief Reset SpriteObject's transform back to default values.
  *

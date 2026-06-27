@@ -964,7 +964,7 @@ static void game_shop_outro(void)
         {
             if (joker_object != NULL)
             {
-                sprite_object_set_ty((SpriteObject*)joker_object, int2fx(160));
+                joker_object->ty = int2fx(160);
             }
         }
 
