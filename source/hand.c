@@ -258,7 +258,7 @@ void reorder_card_sprites_layers(void)
         }
 
         // card_object_get_sprite() will not work here since we need the address
-        sprite_object_destroy((SpriteObject*)hand.cards[i]);
+        sprite_destroy(&(hand.cards[i]->sprite));
     }
 
     // Recreate the sprites for the remaining non NULL cards, in order
