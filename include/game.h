@@ -4,6 +4,7 @@
 #include "game/common_ui.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "item.h"
 
 #include <tonc.h>
 
@@ -69,6 +70,7 @@ void game_change_state(enum GameState new_game_state);
 enum GameState game_get_state(void);
 
 bool is_joker_owned(int joker_id);
+bool joker_object_can_acquire(Item* item);
 bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);

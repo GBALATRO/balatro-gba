@@ -489,16 +489,14 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
     }
     else
     {
-        int shop_joker_idx = selection->x - 1; // - 1 to account for next round button
-        JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(&s_shop_items_list, shop_joker_idx);
-        if (joker_object == NULL || list_get_len(get_jokers_list()) >= MAX_JOKERS_HELD_SIZE ||
-            g_game_vars.money < joker_object->joker->value)
+        int shop_item_idx = selection->x - 1; // - 1 to account for next round button
+        Item* item = (Item*)list_get_at_idx(&s_shop_items_list, shop_item_idx);
+        if (!item_can_acquire(item) || g_game_vars.money < item_get_buy_price(item))
         {
             return;
         }
 
-        game_shop_buy_item(shop_joker_idx);
+        game_shop_buy_item(shop_item_idx);
         selection_grid_move_selection_horz(selection_grid, -1);
     }
 }

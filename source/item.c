@@ -27,11 +27,24 @@ void item_on_acquired(Item* item)
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->on_acquired == NULL)
     {
-        MGBA_FUNC_ERROR("object function not implemented");
+        MGBA_FUNC_ERROR("Object function not implemented");
         return;
     }
 
     item_funcs->on_acquired(item);
+}
+
+bool item_can_acquire(Item* item)
+{
+    GBAL_RETURN_IF_NULL_RET(item, false);
+    ItemFuncs* item_funcs = get_item_type_funcs(item->type);
+    if (item_funcs == NULL || item_funcs->on_acquired == NULL)
+    {
+        MGBA_FUNC_ERROR("Object function not implemented");
+        return false;
+    }
+
+    return item_funcs->can_acquire(item);
 }
 
 void item_print_buy_price_under(Item* item)

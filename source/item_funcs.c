@@ -3,12 +3,14 @@
 #include "card.h"
 #include "joker.h"
 #include "util.h"
+#include "game.h"
 
 // clang-format off
 ItemFuncs item_func_table[] = {
     [ITEM_TYPE_JOKER] = {
         .get_buy_price = joker_object_get_buy_price,
-        .on_acquired = joker_object_add_to_owned
+        .on_acquired = joker_object_add_to_owned,
+        .can_acquire = joker_object_can_acquire
     }
     // TODO: implement for ITEM_TYPE_PLAYING_CARD... etc.
     // Currently unimplemented functions are handled by get_item_type_funcs()
