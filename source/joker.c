@@ -265,6 +265,11 @@ void joker_object_destroy(JokerObject** joker_object)
     *joker_object = NULL;
 }
 
+void joker_object_item_destroy(Item** joker_object)
+{
+    joker_object_destroy((JokerObject**)joker_object);
+}
+
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 {
     sprite_object_shake((SpriteObject*)joker_object, sound_id);

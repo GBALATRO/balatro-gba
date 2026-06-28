@@ -194,6 +194,7 @@ int joker_get_sell_value(const Joker* joker);
 
 JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);
+void joker_object_item_destroy(Item** joker_object);
 // This doesn't actually score anything, it just performs an animation and plays a sound effect
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 

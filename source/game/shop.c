@@ -351,7 +351,7 @@ static Item* game_shop_create_item_of_type(enum ItemType type)
     }
     else
     {
-        MGBA_ERROR(__func__ " called with unimplemented joker type %d", type);
+        MGBA_FUNC_ERROR("Called with unimplemented joker type %d", type);
         return NULL;
     }
 }
@@ -608,9 +608,8 @@ static inline void game_shop_reroll(void)
         if (item != NULL && item->type == ITEM_TYPE_JOKER)
         {
             // TODO: Generalize
-            JokerObject* joker_object = (JokerObject*)item;
-            game_shop_set_joker_avail(joker_object->joker->id, true);
-            joker_object_destroy(&joker_object); // Destroy the joker object if it exists
+            game_shop_set_joker_avail(((JokerObject*)item)->joker->id, true);
+            item_destroy(&item); // Destroy the joker object if it exists
         }
     }
 
@@ -1025,16 +1024,16 @@ void game_shop_on_exit(void)
 {
     List* shop_items_list = &s_shop_items_list;
     ListItr itr = list_itr_create(shop_items_list);
-    JokerObject* joker_object;
+    Item* item;
 
-    while ((joker_object = list_itr_next(&itr)))
+    while ((item = list_itr_next(&itr)))
     {
-        if (joker_object != NULL)
+        if (item != NULL)
         {
-            // Make the joker available back to shop
-            game_shop_set_joker_avail(joker_object->joker->id, true);
+            // TODO: Make generic
+            game_shop_set_joker_avail(((JokerObject*)item)->joker->id, true);
         }
-        joker_object_destroy(&joker_object); // Destroy the joker objects
+        item_destroy(&item); // Destroy the joker objects
     }
 
     list_clear(shop_items_list);
