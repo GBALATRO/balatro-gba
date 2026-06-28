@@ -156,6 +156,18 @@ Macros</h2></td></tr>
 <tr class="separator:ab65ed99e8b0d70f0d00cb45058b2be5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1585708194aab154979a9f71c84b350a" id="r_a1585708194aab154979a9f71c84b350a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a1585708194aab154979a9f71c84b350a">MGBA_DEBUG</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
 <tr class="separator:a1585708194aab154979a9f71c84b350a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80f73df31b2e1891e075ade77549291f" id="r_a80f73df31b2e1891e075ade77549291f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a80f73df31b2e1891e075ade77549291f">MGBA_FUNC_LOG</a>(level, ...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a80f73df31b2e1891e075ade77549291f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a398a1c445900ab00155d75de9776da40" id="r_a398a1c445900ab00155d75de9776da40"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a398a1c445900ab00155d75de9776da40">MGBA_FUNC_FATAL</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a398a1c445900ab00155d75de9776da40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cb2f7d026d672eee7d23cafadac5a78" id="r_a4cb2f7d026d672eee7d23cafadac5a78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a4cb2f7d026d672eee7d23cafadac5a78">MGBA_FUNC_ERROR</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a4cb2f7d026d672eee7d23cafadac5a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78085df56a50b802e504b2d4c3d951c7" id="r_a78085df56a50b802e504b2d4c3d951c7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a78085df56a50b802e504b2d4c3d951c7">MGBA_FUNC_WARN</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a78085df56a50b802e504b2d4c3d951c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea5bc7481e7dc0a62463a2953da827da" id="r_aea5bc7481e7dc0a62463a2953da827da"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#aea5bc7481e7dc0a62463a2953da827da">MGBA_FUNC_INFO</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:aea5bc7481e7dc0a62463a2953da827da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ccee212f36962955ddc4e72a3f76ce7" id="r_a2ccee212f36962955ddc4e72a3f76ce7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a2ccee212f36962955ddc4e72a3f76ce7">MGBA_FUNC_DEBUG</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a2ccee212f36962955ddc4e72a3f76ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -178,6 +190,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a45cefecf88f84f818869a3cd4fe858a0" id="r_a45cefecf88f84f818869a3cd4fe858a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a> (MgbaLogLevel level, const char *fmt,...)</td></tr>
 <tr class="memdesc:a45cefecf88f84f818869a3cd4fe858a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print to mgba log with a format string.  <br /></td></tr>
 <tr class="separator:a45cefecf88f84f818869a3cd4fe858a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07ed1d7470021bf6bcd0574cc9d2f3d6" id="r_a07ed1d7470021bf6bcd0574cc9d2f3d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mgba__logger_8h.html#a07ed1d7470021bf6bcd0574cc9d2f3d6">mgba_func_printf</a> (MgbaLogLevel level, const char *func_name, const char *fmt,...)</td></tr>
+<tr class="memdesc:a07ed1d7470021bf6bcd0574cc9d2f3d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print to mgba log with a format string and function name.  <br /></td></tr>
+<tr class="separator:a07ed1d7470021bf6bcd0574cc9d2f3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface to interact with the mgba logger. </p>
@@ -191,7 +206,7 @@ Functions</h2></td></tr>
 </table>
 <div class="fragment"><div class="line">mgba -l 3 game.rom # ERROR and FATAL</div>
 <div class="line">mgba -l 14 game.rom # INFO, WARN, and ERROR</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>You have to fight with other logs in mgba and DEBUG can get messy.</dd>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>You have to fight with other logs in mgba and INFO can get messy.</dd>
 <dd>
 FATAL does kill the game. Use with care. </dd></dl>
 
@@ -213,7 +228,7 @@ FATAL does kill the game. Use with care. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00069">69</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00092">92</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
 
 </div>
 </div>
@@ -233,7 +248,7 @@ FATAL does kill the game. Use with care. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00066">66</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00089">89</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
 
 </div>
 </div>
@@ -253,7 +268,137 @@ FATAL does kill the game. Use with care. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00065">65</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00088">88</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="a2ccee212f36962955ddc4e72a3f76ce7" name="a2ccee212f36962955ddc4e72a3f76ce7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ccee212f36962955ddc4e72a3f76ce7">&#9670;&#160;</a></span>MGBA_FUNC_DEBUG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_DEBUG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00100">100</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="a4cb2f7d026d672eee7d23cafadac5a78" name="a4cb2f7d026d672eee7d23cafadac5a78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb2f7d026d672eee7d23cafadac5a78">&#9670;&#160;</a></span>MGBA_FUNC_ERROR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_ERROR</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00097">97</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="a398a1c445900ab00155d75de9776da40" name="a398a1c445900ab00155d75de9776da40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a398a1c445900ab00155d75de9776da40">&#9670;&#160;</a></span>MGBA_FUNC_FATAL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_FATAL</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00096">96</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="aea5bc7481e7dc0a62463a2953da827da" name="aea5bc7481e7dc0a62463a2953da827da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea5bc7481e7dc0a62463a2953da827da">&#9670;&#160;</a></span>MGBA_FUNC_INFO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_INFO</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00099">99</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="a80f73df31b2e1891e075ade77549291f" name="a80f73df31b2e1891e075ade77549291f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80f73df31b2e1891e075ade77549291f">&#9670;&#160;</a></span>MGBA_FUNC_LOG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_LOG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">level, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00094">94</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+
+</div>
+</div>
+<a id="a78085df56a50b802e504b2d4c3d951c7" name="a78085df56a50b802e504b2d4c3d951c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78085df56a50b802e504b2d4c3d951c7">&#9670;&#160;</a></span>MGBA_FUNC_WARN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MGBA_FUNC_WARN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00098">98</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +418,7 @@ FATAL does kill the game. Use with care. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00068">68</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00091">91</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
 
 </div>
 </div>
@@ -293,7 +438,7 @@ FATAL does kill the game. Use with care. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00067">67</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8h_source.html#l00090">90</a> of file <a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>.</p>
 
 </div>
 </div>
@@ -315,6 +460,60 @@ FATAL does kill the game. Use with care. </dd></dl>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a07ed1d7470021bf6bcd0574cc9d2f3d6" name="a07ed1d7470021bf6bcd0574cc9d2f3d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07ed1d7470021bf6bcd0574cc9d2f3d6">&#9670;&#160;</a></span>mgba_func_printf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void mgba_func_printf </td>
+          <td>(</td>
+          <td class="paramtype">MgbaLogLevel&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>func_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>fmt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print to mgba log with a format string and function name. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td></td></tr>
+    <tr><td class="paramname">func_name</td><td>Function name - prepended to the log string "&lt;func_name&gt;(): &lt;log_string&gt;" </td></tr>
+    <tr><td class="paramname">fmt</td><td>Format string </td></tr>
+    <tr><td class="paramname">...</td><td>variadic arguments</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>for all logs, it's cutoff at the hard mgba limit of 0x100 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8c_source.html#l00078">78</a> of file <a class="el" href="mgba__logger_8c_source.html">mgba_logger.c</a>.</p>
+
+</div>
+</div>
 <a id="a026b5ef89a9718f68f89cbbd8a218ca0" name="a026b5ef89a9718f68f89cbbd8a218ca0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a026b5ef89a9718f68f89cbbd8a218ca0">&#9670;&#160;</a></span>mgba_logger_init()</h2>
 
@@ -334,7 +533,7 @@ FATAL does kill the game. Use with care. </dd></dl>
 <p>Initialize mgba logger. </p>
 <p>Checks that the logger is available by checking the expected registers magic number </p>
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8c_source.html#l00044">44</a> of file <a class="el" href="mgba__logger_8c_source.html">mgba_logger.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8c_source.html#l00069">69</a> of file <a class="el" href="mgba__logger_8c_source.html">mgba_logger.c</a>.</p>
 
 </div>
 </div>
@@ -381,7 +580,7 @@ FATAL does kill the game. Use with care. </dd></dl>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>for all logs, it's cutoff at the hard mgba limit of 0x100 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="mgba__logger_8c_source.html#l00049">49</a> of file <a class="el" href="mgba__logger_8c_source.html">mgba_logger.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="mgba__logger_8c_source.html#l00074">74</a> of file <a class="el" href="mgba__logger_8c_source.html">mgba_logger.c</a>.</p>
 
 </div>
 </div>

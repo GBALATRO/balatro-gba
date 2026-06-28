@@ -1,5 +1,7 @@
 var util_8h =
 [
+    [ "GBAL_RETURN_IF_NULL_RET", "util_8h.html#a481a57617133b2772dd268c341ec98cf", null ],
+    [ "GBAL_RETURN_IF_NULL_VOID", "util_8h.html#a532ad828cb5176e78825f0a9230312d2", null ],
     [ "GBAL_UNUSED", "util_8h.html#aabfb019556c44576446cc201a0ac5459", null ],
     [ "MAX_BASE36", "util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d", null ],
     [ "NUM_ELEM_IN_ARR", "util_8h.html#a3494fcb52c3d0ca1bf610facc8c81514", null ],

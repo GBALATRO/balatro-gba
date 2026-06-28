@@ -156,48 +156,79 @@ $(document).ready(function(){initNavTree('mgba__logger_8c_source.html',''); init
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">static</span> <span class="keyword">const</span> u32 MGBA_ENABLE_OK = 0x1DEA;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">static</span> <span class="keyword">const</span> u32 MGBA_LOG_SEND = 0x100;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">static</span> <span class="keyword">const</span> u32 MGBA_LOG_BUFFER_SIZE = 0x100;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">static</span> <span class="keywordtype">bool</span> mgba_logger_available = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">bool</span> <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>{</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    *MGBA_REG_DEBUG_ENABLE = MGBA_ENABLE_MAGIC;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    mgba_logger_available = (*MGBA_REG_DEBUG_ENABLE == MGBA_ENABLE_OK);</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> mgba_logger_available;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>{</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">if</span> (!mgba_logger_available || fmt == NULL)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    va_list args;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    va_start(args, fmt);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    va_end(args);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level &amp; 0x7) | MGBA_LOG_SEND;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// Noop stubs</span></div>
-<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">   44</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>{</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">static</span> <span class="keyword">const</span> u16 MGBA_LOG_LEVEL_MASK = 0x7;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">static</span> <span class="keywordtype">bool</span> mgba_logger_available = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keywordtype">bool</span> <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    *MGBA_REG_DEBUG_ENABLE = MGBA_ENABLE_MAGIC;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    mgba_logger_available = (*MGBA_REG_DEBUG_ENABLE == MGBA_ENABLE_OK);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">return</span> mgba_logger_available;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">static</span> <span class="keywordtype">void</span> mgba_vprintf(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, va_list args)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (!mgba_logger_available || fmt == NULL)</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    *MGBA_REG_DEBUG_FLAGS = ((uint16_t)level &amp; MGBA_LOG_LEVEL_MASK) | MGBA_LOG_SEND;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    va_list args;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    va_start(args, fmt);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    mgba_vprintf(level, fmt, args);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    va_end(args);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a07ed1d7470021bf6bcd0574cc9d2f3d6">mgba_func_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* func_name, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (!mgba_logger_available || func_name == NULL || fmt == NULL)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="comment">// The one place where we can&#39;t log the error.</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">char</span> printed_str_buff[MGBA_LOG_BUFFER_SIZE];</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// Expand the format first so the full string is truncated in case it&#39;s too long</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    va_list args;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    va_start(args, fmt);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    vsnprintf(printed_str_buff, <span class="keyword">sizeof</span>(printed_str_buff), fmt, args);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    va_end(args);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_function" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a>(level, <span class="stringliteral">&quot;%s(): %s&quot;</span>, func_name, printed_str_buff);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">// Noop stubs</span></div>
+<div class="foldopen" id="foldopen00069" data-start="{" data-end="}">
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">   69</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>{</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
 </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">   49</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>{</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">   74</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>{</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
 </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="mgba__logger_8h.html#a07ed1d7470021bf6bcd0574cc9d2f3d6">   78</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="mgba__logger_8h.html#a07ed1d7470021bf6bcd0574cc9d2f3d6">mgba_func_printf</a>(MgbaLogLevel level, <span class="keyword">const</span> <span class="keywordtype">char</span>* func_name, <span class="keyword">const</span> <span class="keywordtype">char</span>* fmt, ...)</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>{</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="amgba__logger_8h_html"><div class="ttname"><a href="mgba__logger_8h.html">mgba_logger.h</a></div><div class="ttdoc">Interface to interact with the mgba logger.</div></div>
-<div class="ttc" id="amgba__logger_8h_html_a026b5ef89a9718f68f89cbbd8a218ca0"><div class="ttname"><a href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a></div><div class="ttdeci">bool mgba_logger_init(void)</div><div class="ttdoc">Initialize mgba logger.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00044">mgba_logger.c:44</a></div></div>
-<div class="ttc" id="amgba__logger_8h_html_a45cefecf88f84f818869a3cd4fe858a0"><div class="ttname"><a href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a></div><div class="ttdeci">void mgba_printf(MgbaLogLevel level, const char *fmt,...)</div><div class="ttdoc">Print to mgba log with a format string.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00049">mgba_logger.c:49</a></div></div>
+<div class="ttc" id="amgba__logger_8h_html_a026b5ef89a9718f68f89cbbd8a218ca0"><div class="ttname"><a href="mgba__logger_8h.html#a026b5ef89a9718f68f89cbbd8a218ca0">mgba_logger_init</a></div><div class="ttdeci">bool mgba_logger_init(void)</div><div class="ttdoc">Initialize mgba logger.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00069">mgba_logger.c:69</a></div></div>
+<div class="ttc" id="amgba__logger_8h_html_a07ed1d7470021bf6bcd0574cc9d2f3d6"><div class="ttname"><a href="mgba__logger_8h.html#a07ed1d7470021bf6bcd0574cc9d2f3d6">mgba_func_printf</a></div><div class="ttdeci">void mgba_func_printf(MgbaLogLevel level, const char *func_name, const char *fmt,...)</div><div class="ttdoc">Print to mgba log with a format string and function name.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00078">mgba_logger.c:78</a></div></div>
+<div class="ttc" id="amgba__logger_8h_html_a45cefecf88f84f818869a3cd4fe858a0"><div class="ttname"><a href="mgba__logger_8h.html#a45cefecf88f84f818869a3cd4fe858a0">mgba_printf</a></div><div class="ttdeci">void mgba_printf(MgbaLogLevel level, const char *fmt,...)</div><div class="ttdoc">Print to mgba log with a format string.</div><div class="ttdef"><b>Definition</b> <a href="mgba__logger_8c_source.html#l00074">mgba_logger.c:74</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
