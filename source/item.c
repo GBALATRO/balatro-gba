@@ -27,7 +27,7 @@ void item_on_acquired(Item* item)
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->on_acquired == NULL)
     {
-        MGBA_FUNC_ERROR("Object function not implemented");
+        MGBA_FUNC_ERROR("Item function not implemented");
         return;
     }
 
@@ -40,7 +40,7 @@ bool item_can_acquire(Item* item)
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     if (item_funcs == NULL || item_funcs->on_acquired == NULL)
     {
-        MGBA_FUNC_ERROR("Object function not implemented");
+        MGBA_FUNC_ERROR("Item function not implemented");
         return false;
     }
 
