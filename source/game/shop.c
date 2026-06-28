@@ -578,8 +578,8 @@ static bool shop_reroll_row_on_selection_changed(
         if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             int idx = new_selection->x - 1;
-            JokerObject* joker_object = (JokerObject*)list_get_at_idx(&s_shop_items_list, idx);
-            sprite_object_set_focus((SpriteObject*)joker_object, true);
+            SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(&s_shop_items_list, idx);
+            sprite_object_set_focus(sprite_object, true);
         }
     }
     else if (row_idx == new_selection->y)
