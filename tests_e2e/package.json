@@ -10,7 +10,7 @@
     "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "@gba-kit/gba-node": "0.1.0",
+    "@gba-kit/gba-node": "0.2.0",
     "@types/node": "^25.5.0",
     "prettier": "^3.5.3",
     "typescript": "^6.0.2",
