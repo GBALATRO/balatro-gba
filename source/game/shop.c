@@ -89,6 +89,8 @@ static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFI
 // clang-format on
 
 static List s_shop_items_list = LIST_DEFAULT;
+
+// TODO: Move joker-specific bitset away from shop?
 BITSET_DEFINE(s_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
 
 enum GameShopStates
@@ -894,14 +896,11 @@ static void game_shop_hide_card_desc(void)
             description_card->ty += int2fx(TILE_SIZE);
 
         // Print price under shop Jokers
-        JokerObject* joker_object = NULL;
+        Item* item = NULL;
         ListItr itr = list_itr_create(&s_shop_items_list);
-        while ((joker_object = list_itr_next(&itr)))
+        while ((item = list_itr_next(&itr)))
         {
-            sprite_object_print_price_under(
-                (SpriteObject*)joker_object,
-                joker_object->joker->value
-            );
+            item_print_buy_price_under(item);
         }
 
         if (description_card_original_list == &s_shop_items_list)
@@ -953,19 +952,17 @@ static void game_shop_outro(void)
 
     main_bg_se_copy_rect_1_tile_vert(TOP_LEFT_PANEL_ANIM_RECT, SCREEN_UP);
 
-    // TODO: make heads or tails of what's going on here and replace
-    // magic numbers.
     if (timer == 1)
     {
         tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT); // Erase the shop prices text
 
         ListItr itr = list_itr_create(&s_shop_items_list);
-        JokerObject* joker_object;
-        while ((joker_object = list_itr_next(&itr)))
+        SpriteObject* shop_item;
+        while ((shop_item = list_itr_next(&itr)))
         {
-            if (joker_object != NULL)
+            if (shop_item != NULL)
             {
-                joker_object->ty = int2fx(160);
+                shop_item->ty = int2fx(160);
             }
         }
 
@@ -973,6 +970,8 @@ static void game_shop_outro(void)
     }
     else if (timer == 2)
     {
+        // TODO: make heads or tails of what's going on here and replace
+        // magic numbers.
         int y = 5;
         memset16(&se_mat[MAIN_BG_SBB][y - 1][0], 0x0001, 1);
         memset16(&se_mat[MAIN_BG_SBB][y - 1][1], 0x0002, 7);
