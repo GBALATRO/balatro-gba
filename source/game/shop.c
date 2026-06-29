@@ -199,12 +199,16 @@ void game_shop_reset(void)
     reset_shop_jokers();
 }
 
-/**
- * @brief Set whether a Joker can appear in the shop.
- */
 void game_shop_set_joker_avail(int joker_id, bool avail)
 {
     bitset_set_idx(&s_avail_jokers_bitset, joker_id, avail);
+}
+
+void game_shop_set_joker_object_avail(Item* joker_object, bool avail)
+{
+    GBAL_RETURN_IF_NULL_VOID(joker_object);
+    CHECK_ITEM_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
+    game_shop_set_joker_avail(((JokerObject*)joker_object)->joker->id, avail);
 }
 
 void game_shop_change_background(void)
@@ -344,7 +348,7 @@ static Item* game_shop_create_joker_object(void)
 
 static Item* game_shop_create_item_of_type(enum ItemType type)
 {
-    // TODO: This should be a function table when consumables are implemented
+    // TODO: This should use the item function table...
     if (type == ITEM_TYPE_JOKER)
     {
         return game_shop_create_joker_object();
@@ -1030,10 +1034,9 @@ void game_shop_on_exit(void)
     {
         if (item != NULL)
         {
-            // TODO: Make generic
-            game_shop_set_joker_avail(((JokerObject*)item)->joker->id, true);
+            item_set_available_to_shop(item, true);
         }
-        item_destroy(&item); // Destroy the joker objects
+        item_destroy(&item);
     }
 
     list_clear(shop_items_list);

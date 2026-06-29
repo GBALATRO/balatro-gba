@@ -26,10 +26,20 @@ JokerObject* game_shop_get_description_card(void);
 /**
  * @brief Set whether a Joker can appear in the shop.
  *
- * @param avail - true to make it available to the shop to appear in
- *                false to make it unavailable.
+ * @param joker_id The ID of the joker whose availability to set.
+ * @param avail true to make it available to the shop to appear in
+ *              false to make it unavailable.
  */
 void game_shop_set_joker_avail(int joker_id, bool avail);
+
+/**
+ * @brief Set whether a Joker can appear in the shop.
+ *
+ * @param joker_object A @ref JokerObject cast to @ref Item* whose ID to set availability.
+ * @param avail true to make it available to the shop to appear in
+ *              false to make it unavailable.
+ */
+void game_shop_set_joker_object_avail(Item* joker_object, bool avail);
 
 /**
  * @brief Change to the shop background

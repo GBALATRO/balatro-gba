@@ -278,11 +278,7 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 int joker_object_get_buy_price(Item* joker_object)
 {
     GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
-    if (joker_object->type != ITEM_TYPE_JOKER)
-    {
-        MGBA_ERROR(__func__ " called with incorrect type");
-        return UNDEFINED;
-    }
+    CHECK_ITEM_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
     return ((JokerObject*)joker_object)->joker->value;
 }
@@ -290,11 +286,7 @@ int joker_object_get_buy_price(Item* joker_object)
 void joker_object_add_to_owned(Item* joker_object)
 {
     GBAL_RETURN_IF_NULL_VOID(joker_object);
-    if (joker_object->type != ITEM_TYPE_JOKER)
-    {
-        MGBA_FUNC_ERROR("Called with incorrect type");
-        return;
-    }
+    CHECK_ITEM_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
 
     joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);

@@ -14,6 +14,28 @@
 
 #include "sprite.h"
 
+// TODO: Document
+#define CHECK_ITEM_TYPE_RET(item, expected_type, ret_val)                        \
+    do                                                                           \
+    {                                                                            \
+        if ((item)->type != expected_type)                                       \
+        {                                                                        \
+            MGBA_FUNC_ERROR("Unexpected %s->type != %s", #item, #expected_type); \
+            return (ret_val);                                                    \
+        }                                                                        \
+    } while (0)
+
+// TODO: Document
+#define CHECK_ITEM_TYPE_VOID(item, expected_type)                                \
+    do                                                                           \
+    {                                                                            \
+        if ((item)->type != expected_type)                                       \
+        {                                                                        \
+            MGBA_FUNC_ERROR("Unexpected %s->type != %s", #item, #expected_type); \
+            return;                                                              \
+        }                                                                        \
+    } while (0)
+
 enum ItemType
 {
     ITEM_TYPE_JOKER,
@@ -34,10 +56,15 @@ typedef struct
 
 typedef struct item_funcs
 {
+    /**
+     * All items must implement the following since they are called by the shop.
+     * For some of them they can be no-op or return true implementations.
+     */
     int (*get_buy_price)(Item* item);
     void (*on_acquired)(Item* item);
-    bool (*can_acquire)(Item* item);
     void (*destroy)(Item** item);
+    bool (*can_acquire)(Item* item);
+    void (*set_available_to_shop)(Item* item, bool available);
 } ItemFuncs;
 
 /*
@@ -72,7 +99,12 @@ void item_on_acquired(Item* item);
  */
 bool item_can_acquire(Item* item);
 
+// TODO: Document
 void item_destroy(Item** item);
+
+// TODO: Document
+// Not actually limited to shop, can also be packs
+void item_set_available_to_shop(Item* item, bool available);
 
 /*
  * @brief Prints the buy price under the item
