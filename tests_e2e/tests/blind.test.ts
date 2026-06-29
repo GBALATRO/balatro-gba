@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { createRuntime, getGameState, skipDisclaimer, startGame, readAddr } from '../helpers/runtime.js';
-import { GameState, ADDR, BlindType } from '../helpers/addresses.js';
+import { createRuntime, getGameState, skipDisclaimer, startGame, readVar } from '../helpers/runtime.js';
+import { GameState, BlindType } from '../helpers/addresses.js';
 
 describe('Blind selection', () => {
   it('a blind can be selected', async () => {
@@ -12,7 +12,7 @@ describe('Blind selection', () => {
 
     // We're at BLIND_SELECT — wait for the start animation to finish
     expect(getGameState(runtime)).toBe(GameState.BLIND_SELECT);
-    const roundBefore = readAddr(runtime, 'round');
+    const roundBefore = readVar(runtime, 'g_game_vars.round');
 
     // Wait for animation substate to reach BLIND_SELECT (substate=1)
     await engine.wait({ frames: 30 });
@@ -22,15 +22,15 @@ describe('Blind selection', () => {
     await engine.wait({ frames: 5 });
     await engine.press('a');
 
-    // Wait through animation substates until GAME_STATE_PLAYING
+    // Wait through animation substates until GAME_STATE_ROUND
     await engine.wait({
-      memory: { address: ADDR.game_state.address, equals: GameState.PLAYING },
+      memory: { address: 'game_sm.state', equals: GameState.ROUND },
       timeout: 600,
     });
 
-    expect(getGameState(runtime)).toBe(GameState.PLAYING);
+    expect(getGameState(runtime)).toBe(GameState.ROUND);
     // Round should have incremented
-    expect(readAddr(runtime, 'round')).toBe(roundBefore + 1);
+    expect(readVar(runtime, 'g_game_vars.round')).toBe(roundBefore + 1);
   });
 
   it('a blind can be skipped', async () => {
@@ -42,7 +42,7 @@ describe('Blind selection', () => {
 
     // We're at BLIND_SELECT for the small blind
     expect(getGameState(runtime)).toBe(GameState.BLIND_SELECT);
-    expect(readAddr(runtime, 'current_blind')).toBe(BlindType.SMALL);
+    expect(readVar(runtime, 'g_game_vars.current_blind')).toBe(BlindType.SMALL);
 
     // Wait for animation substate
     await engine.wait({ frames: 30 });
@@ -54,7 +54,7 @@ describe('Blind selection', () => {
     await engine.wait({ frames: 10 });
 
     // After skipping, current_blind should advance from SMALL to BIG
-    expect(readAddr(runtime, 'current_blind')).toBe(BlindType.BIG);
+    expect(readVar(runtime, 'g_game_vars.current_blind')).toBe(BlindType.BIG);
     // Should still be on BLIND_SELECT (showing the big blind now)
     expect(getGameState(runtime)).toBe(GameState.BLIND_SELECT);
   });

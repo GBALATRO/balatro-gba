@@ -71,7 +71,7 @@ jobs:
           docker compose -f docker-compose.yml run --rm \
           -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
           gbalatro \
-          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf && ./tests_e2e/helpers/extract_addresses.sh"
+          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf"
 
       - name: Setup Node.js
         uses: actions/setup-node@v6

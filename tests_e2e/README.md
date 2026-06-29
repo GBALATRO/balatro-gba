@@ -7,16 +7,10 @@ Runs the compiled ROM using [`@gba-kit/gba-node`](https://github.com/macabeus/gb
 Before running the E2E tests locally, make sure you have:
 
 - Node.js >= 22
-- `bash` available in your environment
-- devkitARM installed with `$DEVKITARM` set (same toolchain required for `make`), or any `arm-none-eabi-nm` in `PATH`
-- A built ROM available before running the tests
-
-> On Windows, you may need Git Bash, WSL, or another bash-compatible shell for the address extraction step.
->
-> If you don't have devkitARM installed locally, run the extraction inside the container: `docker compose run --rm gbalatro ./tests_e2e/helpers/extract_addresses.sh`.
+- A built ROM and its ELF file (`build/balatro-gba.elf` + `build/balatro-gba.gba`), e.g. `UID=$(id -u) GID=$(id -g) docker compose up`
 
 ```bash
-# Install dependencies
+# Install dependencies (pulls @gba-kit/* from npm)
 cd tests_e2e
 npm install
 ```
@@ -59,11 +53,11 @@ describe('Shop', () => {
 
 ### 2. Key concepts
 
-- **`createRuntime(name)`** boots a fresh emulator with the ROM. Each test gets an isolated instance.
-- **`readAddr(runtime, addressName)`** reads a game variable by name.
+- **`createRuntime(name)`** boots a fresh emulator with the ROM **and ELF** (so the engine owns the symbols + DWARF). Each test gets an isolated instance.
+- **`runtime.engine.readVariable('symbol.field')`** reads a game variable by its C `symbol.field` path (built into gba-kit).
 - **`engine.press(button)`** presses a GBA button (`a`, `b`, `l`, `r`, `up`, `down`, `left`, `right`, `start`, `select`).
 - **`engine.wait({ frames })`** advances the emulator by N frames (~60 fps).
-- **`engine.wait({ memory: { address: ADDR.game_state.address, equals }, timeout })`** advances until a memory address holds the expected value, or throws after `timeout` frames.
+- **`engine.wait({ memory: { address: 'game_sm.state', equals }, timeout })`** advances until a variable (a `symbol.field` path, resolved from the DWARF) holds the expected value, or throws after `timeout` frames.
 
 > 🔖 Discover all the engine methods available by reading the [Scripting Guide](https://github.com/macabeus/gba-kit/blob/main/docs/scripting.md)
 
@@ -79,25 +73,18 @@ describe('Shop', () => {
 | `waitForHandSelect(runtime)` | Playing (cards in hand, ready for input) |
 | `navigateToPlaying(runtime)` | All of the above combined                |
 
-### 4. Available addresses
+### 4. Reading game variables
 
-`helpers/addresses.ts` exports `ADDR` with all known game variable addresses and enum constants (`GameState`, `HandState`, `BlindType`, `HandType`). The contents of `ADDR` come from [`var_names.json`](./var_names.json), which maps each test-side name (JSON key, used by the tests and `addresses.ts`) to the actual C symbol name in the ROM (JSON value):
+There's no name→address mapping file to maintain. Tests reference the game's C names directly and the engine resolves them from the build it was created with — the symbol address from the ELF's symbol table, and the field's byte offset + size from the variable's DWARF type:
 
-```json
-{
-  "score": "score",
-  "current_blind": "current_blind"
-}
+```ts
+runtime.engine.readVariable('play_state'); // a standalone global (a global/file-static)
+runtime.engine.readVariable('g_game_vars.score'); // a struct field
+runtime.engine.readVariable('g_game_vars.rng_info.seed'); // a nested field
 ```
 
-To add a new address, add an entry to this file. `ADDR` and its TypeScript key type pick it up automatically.
+`readVariable` reads the right number of bytes automatically and decodes bitfields. `engine.wait({ memory })` accepts the same `symbol.field` path for its `address`, so waiting on a variable needs no manual address resolution either.
 
-If a C variable gets renamed in the game source (e.g. `current_blind` → `active_blind`), update only the **value**:
+If the game source moves a variable into a struct, or changes a field's type/size, nothing here needs updating — only a renamed symbol/field changes the path string at its call sites.
 
-```json
-{
-  "current_blind": "active_blind"
-}
-```
-
-The next test run resolves the new symbol, and no test code or helper needs to change.
+> The enum constants (`GameState`, `HandState`, `BlindType`, `HandType`) are read from the build's DWARF too, so they never go stale when the game's enums change.

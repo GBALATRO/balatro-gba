@@ -15,5 +15,4 @@ tests/util/.vscode
 tests/util/build
 tests_e2e/node_modules/
 tests_e2e/output/
-tests_e2e/nm_output.txt
 audio/*.bak

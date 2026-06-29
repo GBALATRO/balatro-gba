@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createRuntime, getGameState } from '../helpers/runtime.js';
-import { GameState, ADDR } from '../helpers/addresses.js';
+import { GameState } from '../helpers/addresses.js';
 
 describe('Splash screen', () => {
   it('pressing any key dismisses the splash', async () => {
@@ -16,7 +16,7 @@ describe('Splash screen', () => {
 
     // Should transition to main menu
     await engine.wait({
-      memory: { address: ADDR.game_state.address, equals: GameState.MAIN_MENU },
+      memory: { address: 'game_sm.state', equals: GameState.MAIN_MENU },
       timeout: 60,
     });
 
@@ -38,7 +38,7 @@ describe('Splash screen', () => {
 
     // Now wait for the auto-dismiss transition
     await engine.wait({
-      memory: { address: ADDR.game_state.address, equals: GameState.MAIN_MENU },
+      memory: { address: 'game_sm.state', equals: GameState.MAIN_MENU },
       timeout: 60,
     });
     expect(getGameState(runtime)).toBe(GameState.MAIN_MENU);
