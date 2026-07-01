@@ -909,7 +909,7 @@ static void game_shop_hide_card_desc(void)
         owned_joker_price_printed = true;
         sprite_object_print_price_under(
             description_card->sprite_object,
-            description_card->joker->value
+            joker_get_sell_value(description_card->joker)
         );
     }
 }
