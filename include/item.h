@@ -12,11 +12,17 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "sprite.h"
 #include "mgba_logger.h"
+#include "sprite.h"
 
-// TODO: Document
-#define CHECK_ITEM_TYPE_RET(item, expected_type, ret_val)                        \
+// TODO: Merge these with GBAL_RETURN_IF_NULL macros?
+/**
+ * @brief Checks if @p item is of type @p expected_type and logs error message and returns otherwise
+ *
+ *  This version is for a function that returns a value, while
+ *  @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID is for a void function.
+ */
+#define ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(item, expected_type, ret_val)         \
     do                                                                           \
     {                                                                            \
         if ((item)->type != expected_type)                                       \
@@ -26,8 +32,13 @@
         }                                                                        \
     } while (0)
 
-// TODO: Document
-#define CHECK_ITEM_TYPE_VOID(item, expected_type)                                \
+/**
+ * @brief Checks if @p item is of type @p expected_type and logs error message and returns otherwise
+ *
+ * This version is for a void function, while @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_RET is for one
+ * with a return value.
+ */
+#define ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(item, expected_type)                 \
     do                                                                           \
     {                                                                            \
         if ((item)->type != expected_type)                                       \
@@ -42,7 +53,7 @@ enum ItemType
     ITEM_TYPE_JOKER,
     ITEM_TYPE_PLAYING_CARD,
 
-    // Future planned item implementations
+    // Future planned item types
     // ITEM_TYPE_CONSUMABLE, // Expand to PLANET, TAROT, and SPECTRAL?
     // ITEM_TYPE_VOUCHER,
     // ITEM_TYPE_PACK
@@ -72,13 +83,23 @@ typedef struct item_funcs
     bool (*can_acquire)(Item* item);
 } ItemFuncs;
 
-// TODO: Document
+/**
+ * @brief Rolls a random item of type @p item_type and returns a newly created one.
+ * Manages rollable items set if necessary (i.e. not rolling items already in inventory)
+ * To be used when rolling new items for the shop or packs.
+ *
+ * Matches @ref ItemFuncs.roll_new()
+ *
+ * @param item_type The type of the item to roll
+ *
+ * @return The newly created randomly rolled item
+ */
 Item* item_roll_new(enum ItemType item_type);
 
-/*
- * @brief Returns the buy price of the item
+/**
+ * @brief Returns the buy price of the item.
  *
- * Matches ItemFuncs.get_buy_price()
+ * Matches @ref ItemFuncs.get_buy_price()
  *
  * @param item The item whose price to return.
  *
@@ -94,25 +115,36 @@ int item_get_buy_price(Item* item);
  * For packs this can be to just open the pack,
  * for vouchers, this will apply their effect.
  *
- * Matches ItemFuncs.on_acquired()
+ * Matches @ref ItemFuncs.acquire()
  *
- * @param item The item to on_acquired
+ * @param item The item to acquire
  */
 void item_acquire(Item* item);
 
 /**
- * @brief Returns true if the item can be acquired, i.e. added to inventory
+ * @brief Returns true if the item can be acquired, i.e. added to inventory.
  * Does not check if the player has enough money to buy the item, that is the shop's job,
  * as this will be used both when purchasing and when selecting in a pack.
+ *
+ * Matches @ref ItemFuncs.can_acquire()
+ *
+ * @param item The item to check
  */
 bool item_can_acquire(Item* item);
 
-// TODO: Document
+/**
+ * @brief Destroys an item and manages rollable items sets if necessary.
+ * To be used when destroying items from the inventory, shop, or packs.
+ *
+ * @param item A pointer to an item for destruction.
+ */
 void item_dispose(Item** item);
 
-/*
+/**
  * @brief Prints the buy price under the item
- * Uses the fact item is a SpriteObject
+ * Relies on the fact item is a SpriteObject
+ *
+ * @param item The item to print under
  */
 void item_print_buy_price_under(Item* item);
 

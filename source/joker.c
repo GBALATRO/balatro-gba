@@ -272,7 +272,7 @@ void joker_object_dispose(Item** joker_object_item)
 {
     GBAL_RETURN_IF_NULL_VOID(joker_object_item);
     GBAL_RETURN_IF_NULL_VOID(*joker_object_item);
-    CHECK_ITEM_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
 
     JokerObject** joker_object = (JokerObject**)joker_object_item;
     GBAL_RETURN_IF_NULL_VOID((*joker_object)->joker);
@@ -289,7 +289,7 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 int joker_object_get_buy_price(Item* joker_object)
 {
     GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
-    CHECK_ITEM_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
     return ((JokerObject*)joker_object)->joker->value;
 }
@@ -297,7 +297,7 @@ int joker_object_get_buy_price(Item* joker_object)
 void joker_object_add_to_owned(Item* joker_object)
 {
     GBAL_RETURN_IF_NULL_VOID(joker_object);
-    CHECK_ITEM_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
 
     joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
