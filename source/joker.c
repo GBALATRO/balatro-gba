@@ -274,11 +274,13 @@ void joker_object_dispose(Item** joker_object_item)
     GBAL_RETURN_IF_NULL_VOID(*joker_object_item);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
 
-    JokerObject** joker_object = (JokerObject**)joker_object_item;
-    GBAL_RETURN_IF_NULL_VOID((*joker_object)->joker);
+    JokerObject* joker_object = (JokerObject*)(*joker_object_item);
+    GBAL_RETURN_IF_NULL_VOID(joker_object->joker);
 
-    joker_set_rollable((*joker_object)->joker->id, true);
-    joker_object_destroy((JokerObject**)joker_object_item);
+    joker_set_rollable(joker_object->joker->id, true);
+
+    joker_object_destroy(&joker_object);
+    *joker_object_item = NULL;
 }
 
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)

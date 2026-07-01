@@ -197,5 +197,8 @@ void card_object_dispose(Item** card_object_item)
     GBAL_RETURN_IF_NULL_VOID(card_object_item);
     GBAL_RETURN_IF_NULL_VOID(*card_object_item);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*card_object_item, ITEM_TYPE_PLAYING_CARD);
-    card_object_destroy((CardObject**)card_object_item);
+
+    CardObject* card_object = (CardObject*)(*card_object_item);
+    card_object_destroy(&card_object);
+    *card_object_item = NULL;
 }
