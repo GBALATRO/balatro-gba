@@ -189,10 +189,17 @@ bool sprite_get_width(Sprite* sprite, int* width);
  */
 int sprite_get_pb(const Sprite* sprite);
 
-// TODO: Document
+/**
+ * @brief Hides the sprite by manipulating ATTR0_HIDE in OAM.
+ * @param sprite The sprite to hide
+ */
 void sprite_hide(Sprite* sprite);
 
-// TODO: Documents
+/**
+ * @brief Unhides the sprite by manipulating ATTR0_HIDE in OAM.
+ * The sprite's ATTR0_MODE is maintained from the sprite's creation with @ref sprite_new()
+ * @param sprite The sprite to unhide
+ */
 void sprite_unhide(Sprite* sprite);
 
 /**
@@ -236,8 +243,17 @@ void sprite_object_destroy(SpriteObject* sprite_object);
  */
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite);
 
+/**
+ * @brief Hides the SpriteObject by manipulating ATTR0_HIDE in OAM.
+ * @param sprite_object The SpriteObject to hide
+ */
 void sprite_object_hide(SpriteObject* sprite_object);
 
+/**
+ * @brief Unhides the SpriteObject by manipulating ATTR0_HIDE in OAM.
+ * The sprite's ATTR0_MODE is maintained from the sprite's creation with @ref sprite_new()
+ * @param sprite_object The SpriteObject to unhide
+ */
 void sprite_object_unhide(SpriteObject* sprite_object);
 
 /**
