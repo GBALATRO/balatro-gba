@@ -90,8 +90,6 @@ static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFI
 
 static List s_shop_items_list = LIST_DEFAULT;
 
-// TODO: Move joker-specific bitset away from shop?
-
 enum GameShopStates
 {
     GAME_SHOP_INTRO,

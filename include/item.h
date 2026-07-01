@@ -13,6 +13,7 @@
 #define ITEM_H
 
 #include "sprite.h"
+#include "mgba_logger.h"
 
 // TODO: Document
 #define CHECK_ITEM_TYPE_RET(item, expected_type, ret_val)                        \
@@ -39,8 +40,12 @@
 enum ItemType
 {
     ITEM_TYPE_JOKER,
-    ITEM_TYPE_CONSUMABLE, // TODO: Expand to PLANET, TAROT, and SPECTRAL?
     ITEM_TYPE_PLAYING_CARD,
+
+    // Future planned item implementations
+    // ITEM_TYPE_CONSUMABLE, // Expand to PLANET, TAROT, and SPECTRAL?
+    // ITEM_TYPE_VOUCHER,
+    // ITEM_TYPE_PACK
 
     ITEM_NUM_TYPES
 };

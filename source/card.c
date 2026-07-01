@@ -1,6 +1,8 @@
 #include "card.h"
 
 #include "graphic_utils.h"
+#include "item.h"
+#include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
@@ -180,4 +182,17 @@ Sprite* card_object_get_sprite(CardObject* card_object)
     if (card_object == NULL)
         return NULL;
     return sprite_object_get_sprite((SpriteObject*)card_object);
+}
+
+int card_object_get_buy_price(Item* card_object)
+{
+    return 1;
+}
+
+void card_object_dispose(Item** card_object_item)
+{
+    GBAL_RETURN_IF_NULL_VOID(card_object_item);
+    GBAL_RETURN_IF_NULL_VOID(*card_object_item);
+    CHECK_ITEM_TYPE_VOID(*card_object_item, ITEM_TYPE_PLAYING_CARD);
+    card_object_destroy((CardObject**)card_object_item);
 }
