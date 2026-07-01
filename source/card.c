@@ -186,6 +186,9 @@ Sprite* card_object_get_sprite(CardObject* card_object)
 
 int card_object_get_buy_price(Item* card_object)
 {
+    GBAL_RETURN_IF_NULL_RET(card_object, UNDEFINED);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(card_object, ITEM_TYPE_PLAYING_CARD, UNDEFINED);
+
     return 1;
 }
 
