@@ -276,7 +276,7 @@ void joker_object_dispose(Item** joker_object_item)
 
     JokerObject** joker_object = (JokerObject**)joker_object_item;
     GBAL_RETURN_IF_NULL_VOID((*joker_object)->joker);
-    
+
     joker_set_rollable((*joker_object)->joker->id, true);
     joker_object_destroy((JokerObject**)joker_object_item);
 }

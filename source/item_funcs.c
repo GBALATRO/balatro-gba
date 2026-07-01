@@ -2,9 +2,9 @@
 
 #include "card.h"
 #include "game.h"
+#include "game/shop.h"
 #include "joker.h"
 #include "util.h"
-#include "game/shop.h"
 
 // clang-format off
 ItemFuncs item_func_table[] = {
@@ -19,7 +19,6 @@ ItemFuncs item_func_table[] = {
     // Currently unimplemented functions are handled by get_item_type_funcs()
 };
 // clang-format on
-
 
 ItemFuncs* get_item_type_funcs(enum ItemType type)
 {

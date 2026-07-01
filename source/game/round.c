@@ -783,7 +783,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 sound_played = true;
             }
 
-            if (hand[card_idx]->sprite_object->x >= *hand_x)
+            if (hand[card_idx]->x >= *hand_x)
             {
                 discard_push(hand[card_idx]->card);
 
@@ -801,8 +801,8 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 // and we end up with an element at `card_idx` that is still NULL.
                 if (hand[card_idx] != NULL)
                 {
-                    *hand_y = hand[card_idx]->sprite_object->y;
-                    *hand_x = hand[card_idx]->sprite_object->x;
+                    *hand_y = hand[card_idx]->y;
+                    *hand_x = hand[card_idx]->x;
                 }
             }
 
@@ -1138,8 +1138,8 @@ static inline void card_draw(void)
     const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
     const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
 
-    card_object->sprite_object->x = deck_x;
-    card_object->sprite_object->y = deck_y;
+    card_object->x = deck_x;
+    card_object->y = deck_y;
 
     set_hand_top(get_hand_top() + 1);
     get_hand_array()[get_hand_top()] = card_object;
@@ -1190,16 +1190,16 @@ static inline void game_round_discarded_cards_loop(void)
 
             // Set the sprite for the discarded card object
             card_object_set_sprite(discarded_card_object, 0);
-            sprite_object_reset_transform(discarded_card_object->sprite_object);
+            sprite_object_reset_transform((SpriteObject*)discarded_card_object);
 
-            discarded_card_object->sprite_object->tx = int2fx(204);
-            discarded_card_object->sprite_object->ty = int2fx(112);
-            discarded_card_object->sprite_object->x = int2fx(240);
-            discarded_card_object->sprite_object->y = int2fx(80);
+            discarded_card_object->tx = int2fx(204);
+            discarded_card_object->ty = int2fx(112);
+            discarded_card_object->x = int2fx(240);
+            discarded_card_object->y = int2fx(80);
         }
         else
         {
-            if (discarded_card_object->sprite_object->y >= discarded_card_object->sprite_object->ty)
+            if (discarded_card_object->y >= discarded_card_object->ty)
             {
                 deck_push(discarded_card_object->card); // Put the card back into the deck
                 card_object_destroy(&discarded_card_object);
@@ -1301,13 +1301,13 @@ static inline void cards_in_hand_update_loop(void)
                     {
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
-                    if (i != selected_card_idx && hand[i]->sprite_object->y > hand_y)
+                    if (i != selected_card_idx && hand[i]->y > hand_y)
                     {
-                        hand[i]->sprite_object->y = hand_y;
+                        hand[i]->y = hand_y;
                         // Set target y to match y. Ensures target is updated even when vy becomes
                         // 0, preventing immediate snap back.
-                        hand[i]->sprite_object->ty = hand_y;
-                        hand[i]->sprite_object->vy = 0;
+                        hand[i]->ty = hand_y;
+                        hand[i]->vy = 0;
                     }
 
                     hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
@@ -1339,7 +1339,7 @@ static inline void cards_in_hand_update_loop(void)
                     {
                         card_object_set_selected(hand[i], false);
                         played_push(hand[i]);
-                        sprite_destroy(&hand[i]->sprite_object->sprite);
+                        sprite_destroy(&hand[i]->sprite);
                         hand[i] = NULL;
                         reorder_card_sprites_layers();
 
@@ -1376,8 +1376,8 @@ static inline void cards_in_hand_update_loop(void)
                     break;
             }
 
-            hand[i]->sprite_object->tx = hand_x;
-            hand[i]->sprite_object->ty = hand_y;
+            hand[i]->tx = hand_x;
+            hand[i]->ty = hand_y;
         }
     }
 }
@@ -1526,14 +1526,14 @@ static inline void play_starting_played_cards_update(int played_idx)
         }
     }
 
-    played[played_idx]->sprite_object->tx =
+    played[played_idx]->tx =
         int2fx(HAND_PLAY_POS.x) + (int2fx(played_top - played_idx) - int2fx(played_top) / 2) * -27;
-    played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+    played[played_idx]->ty = int2fx(HAND_PLAY_POS.y);
 
     card_selected = card_object_is_selected(played[played_idx]);
     if (card_selected && played_top - played_idx >= scored_card_index)
     {
-        played[played_idx]->sprite_object->ty -= int2fx(10);
+        played[played_idx]->ty -= int2fx(10);
     }
 }
 
@@ -1593,10 +1593,7 @@ static inline bool play_scoring_cards_update(void)
         if (card_object_is_selected(scored_card_object))
         {
             // Offset of 1 tile to keep the text on the card
-            tte_set_pos(
-                fx2int(scored_card_object->sprite_object->x) + TILE_SIZE,
-                SCORED_CARD_TEXT_Y
-            );
+            tte_set_pos(fx2int(scored_card_object->x) + TILE_SIZE, SCORED_CARD_TEXT_Y);
 
             // Set text color to blue from background memory
             tte_set_special(TTE_BLUE_PB * TTE_SPECIAL_PB_MULT_OFFSET);
@@ -1809,7 +1806,7 @@ static inline void play_ending_played_cards_update(int played_idx)
 
     if (card_object_is_selected(played[played_idx]) && played_top - played_idx >= scored_card_index)
     {
-        played[played_idx]->sprite_object->ty = int2fx(HAND_PLAY_POS.y);
+        played[played_idx]->ty = int2fx(HAND_PLAY_POS.y);
     }
 }
 
@@ -1837,7 +1834,7 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // card has exited the screen, now discard it and set it to NULL
-        if (played[played_idx]->sprite_object->x >= int2fx(CARD_DISCARD_PNT.x))
+        if (played[played_idx]->x >= int2fx(CARD_DISCARD_PNT.x))
         {
             discard_push(played[played_idx]->card); // Push the card to the discard pile
             card_object_destroy(&played[played_idx]);
@@ -1870,7 +1867,7 @@ static bool play_ended_played_cards_update(int played_idx)
         }
 
         // put target X position off screen to the right
-        played[played_idx]->sprite_object->tx = int2fx(CARD_DISCARD_PNT.x);
+        played[played_idx]->tx = int2fx(CARD_DISCARD_PNT.x);
         discarded_card = true;
     }
 
@@ -1968,7 +1965,7 @@ static inline void played_cards_update_loop(void)
                 break;
         }
 
-        played[played_idx]->sprite_object->tscale = FIX_ONE;
+        played[played_idx]->tscale = FIX_ONE;
     }
 }
 
