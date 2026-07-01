@@ -6,8 +6,6 @@
 #include "joker.h"
 #include "util.h"
 
-// TODO: Change file to LF from CRLF
-
 static Item* item_roll_new_unimplemented();
 static void item_acquire_unimplemented(Item* item);
 static bool item_always_can_acquire(Item* item);
