@@ -60,12 +60,15 @@ typedef struct item_funcs
      * All items must implement the following since they are called by the shop.
      * For some of them they can be no-op or return true implementations.
      */
+    Item* (*roll_new)(void);
     int (*get_buy_price)(Item* item);
-    void (*on_acquired)(Item* item);
-    void (*destroy)(Item** item);
+    void (*acquire)(Item* item);
+    void (*dispose)(Item** item);
     bool (*can_acquire)(Item* item);
-    void (*set_available_to_shop)(Item* item, bool available);
 } ItemFuncs;
+
+// TODO: Document
+Item* item_roll_new(enum ItemType item_type);
 
 /*
  * @brief Returns the buy price of the item
@@ -90,7 +93,7 @@ int item_get_buy_price(Item* item);
  *
  * @param item The item to on_acquired
  */
-void item_on_acquired(Item* item);
+void item_acquire(Item* item);
 
 /**
  * @brief Returns true if the item can be acquired, i.e. added to inventory
@@ -100,11 +103,7 @@ void item_on_acquired(Item* item);
 bool item_can_acquire(Item* item);
 
 // TODO: Document
-void item_destroy(Item** item);
-
-// TODO: Document
-// Not actually limited to shop, can also be packs
-void item_set_available_to_shop(Item* item, bool available);
+void item_dispose(Item** item);
 
 /*
  * @brief Prints the buy price under the item

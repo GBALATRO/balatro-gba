@@ -91,7 +91,7 @@ static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFI
 static List s_shop_items_list = LIST_DEFAULT;
 
 // TODO: Move joker-specific bitset away from shop?
-BITSET_DEFINE(s_avail_jokers_bitset, MAX_DEFINABLE_JOKERS)
+
 
 enum GameShopStates
 {
@@ -183,34 +183,11 @@ JokerObject* game_shop_get_description_card(void)
     return description_card;
 }
 
-static inline void reset_shop_jokers(void)
-{
-    int num_jokers = get_joker_registry_size();
-
-    bitset_clear(&s_avail_jokers_bitset);
-    for (int i = 0; i < num_jokers; i++)
-    {
-        bitset_set_idx(&s_avail_jokers_bitset, i, true);
-    }
-}
-
 void game_shop_reset(void)
 {
     list_clear(&s_shop_items_list);
     s_shop_items_list = list_init();
-    reset_shop_jokers();
-}
-
-void game_shop_set_joker_avail(int joker_id, bool avail)
-{
-    bitset_set_idx(&s_avail_jokers_bitset, joker_id, avail);
-}
-
-void game_shop_set_joker_object_avail(Item* joker_object, bool avail)
-{
-    GBAL_RETURN_IF_NULL_VOID(joker_object);
-    CHECK_ITEM_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
-    game_shop_set_joker_avail(((JokerObject*)joker_object)->joker->id, avail);
+    joker_reset_rollable_jokers();
 }
 
 void game_shop_change_background(void)
@@ -253,128 +230,20 @@ void game_shop_on_init(void)
 }
 
 /**
- * @brief Computes the number of Jokers we can currently roll in the Shop.
- *         The Jokers we own is taken into account and can't be rolled again.
+ * @brief Create a shop top row item - jokers, consumables, and possibly playing cards
+ * Currently only jokers are implemented.
  */
-static inline int get_num_shop_jokers_avail(void)
-{
-    return bitset_num_set_bits(&s_avail_jokers_bitset);
-}
-
-/**
- * @brief Rolls a random Joker among the available ones
- */
-static inline int game_shop_get_rand_available_joker_id(void)
-{
-    // Roll for what rarity the joker will be
-    int joker_rarity = joker_get_random_rarity();
-
-    // Now determine how many jokers are available based on the rarity
-    int jokers_avail_size = get_num_shop_jokers_avail();
-
-    if (jokers_avail_size == 0)
-        return UNDEFINED;
-
-    int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = rng_get_u32() % jokers_avail_size;
-    int fallback_random_joker_id = UNDEFINED;
-    int match_count = 0;
-
-    BitsetItr itr = bitset_itr_create(&s_avail_jokers_bitset);
-
-    int i = 0;
-    int joker_id = UNDEFINED;
-    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
-    {
-        if (i++ == fallback_random_idx)
-            fallback_random_joker_id = joker_id;
-        const JokerInfo* info = get_joker_registry_entry(joker_id);
-        if (info->rarity == joker_rarity)
-        {
-            matching_joker_ids[match_count++] = joker_id;
-        }
-    }
-
-    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32() % match_count]
-                                              : fallback_random_joker_id;
-
-    return selected_joker_id;
-}
-
-/**
- * @brief Returns true if we can't roll any Joker
- */
-static inline bool no_avail_jokers(void)
-{
-    return bitset_is_empty(&s_avail_jokers_bitset);
-}
-
-GBAL_UNUSED
-static inline bool is_shop_joker_avail(int joker_id)
-{
-    return bitset_get_idx(&s_avail_jokers_bitset, joker_id);
-}
-
-static Item* game_shop_create_joker_object(void)
-{
-    if (no_avail_jokers())
-        return NULL;
-
-    int joker_id = 0;
-#ifdef TEST_JOKER_ID0 // Allow defining an ID for a joker to always appear in shop and be tested
-    if (is_shop_joker_avail(TEST_JOKER_ID0))
-    {
-        joker_id = TEST_JOKER_ID0;
-    }
-    else
-#endif
-#ifdef TEST_JOKER_ID1
-        if (is_shop_joker_avail(TEST_JOKER_ID1))
-    {
-        joker_id = TEST_JOKER_ID1;
-    }
-    else
-#endif
-    {
-        joker_id = game_shop_get_rand_available_joker_id();
-    }
-
-    // If for some reason only no joker is left, don't make another
-    if (joker_id == UNDEFINED)
-        return NULL;
-
-    game_shop_set_joker_avail(joker_id, false);
-
-    return (Item*)joker_object_new(joker_new(joker_id));
-}
-
-static Item* game_shop_create_item_of_type(enum ItemType type)
-{
-    // TODO: This should use the item function table...
-    if (type == ITEM_TYPE_JOKER)
-    {
-        return game_shop_create_joker_object();
-    }
-    else
-    {
-        MGBA_FUNC_ERROR("Called with unimplemented joker type %d", type);
-        return NULL;
-    }
-}
-
-// Meant for the top row items - jokers, consumables, and playing cards
 static Item* game_shop_create_top_row_item(void)
 {
     // TODO: Randomize item type when consumables are implemented
-    return game_shop_create_item_of_type(ITEM_TYPE_JOKER);
+    return item_roll_new(ITEM_TYPE_JOKER);
 }
 
 /**
- * @brief Setup for the lists of items we can purchase in the Shop.
- *         Only Jokers are available for now, but this is where consumables and
- *         booster packs will be rolled when they are implemented.
+ * @brief Setup for the lists of items we can purchase in the top row of the Shop.
+ *        i.e. Jokers and consumables and possibly playing cards.
  */
-static void game_shop_create_items(void)
+static void game_shop_create_top_row_items(void)
 {
     tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
 
@@ -418,7 +287,7 @@ static void game_shop_intro()
 
     if (timer == TM_CREATE_SHOP_ITEMS_WAIT)
     {
-        game_shop_create_items();
+        game_shop_create_top_row_items();
     }
 
     if (timer >= TM_SHIFT_SHOP_ICON_WAIT) // Shift the shop icon
@@ -477,7 +346,7 @@ static inline void game_shop_buy_item(int shop_item_idx)
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     sprite_object_set_focus((SpriteObject*)item, false);
-    item_on_acquired(item);
+    item_acquire(item);
     list_remove_at_idx(shop_items_list, shop_item_idx); // Remove the joker from the shop
 }
 
@@ -613,16 +482,14 @@ static inline void game_shop_reroll(void)
     {
         if (item != NULL && item->type == ITEM_TYPE_JOKER)
         {
-            // TODO: Generalize
-            game_shop_set_joker_avail(((JokerObject*)item)->joker->id, true);
-            item_destroy(&item); // Destroy the joker object if it exists
+            item_dispose(&item);
         }
     }
 
     list_clear(shop_items_list);
     *shop_items_list = list_init();
 
-    game_shop_create_items();
+    game_shop_create_top_row_items();
 
     itr = list_itr_create(shop_items_list);
 
@@ -1031,11 +898,7 @@ void game_shop_on_exit(void)
 
     while ((item = list_itr_next(&itr)))
     {
-        if (item != NULL)
-        {
-            item_set_available_to_shop(item, true);
-        }
-        item_destroy(&item);
+        item_dispose(&item);
     }
 
     list_clear(shop_items_list);

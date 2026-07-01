@@ -13,6 +13,7 @@
 
 // Tiles and palettes
 #include "card_rarity_pal_gfx.h"
+#include "item.h"
 #include "joker_gfx.h"
 
 #include <maxmod.h>
@@ -59,6 +60,8 @@ static bool used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for j
 // Spritesheets that were not allocated are
 static int joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
+
+BITSET_DEFINE(s_rollable_jokers_bitset, MAX_DEFINABLE_JOKERS)
 
 // See linked issue for context of maps
 // https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
@@ -265,9 +268,17 @@ void joker_object_destroy(JokerObject** joker_object)
     *joker_object = NULL;
 }
 
-void joker_object_item_destroy(Item** joker_object)
+void joker_object_dispose(Item** joker_object_item)
 {
-    joker_object_destroy((JokerObject**)joker_object);
+    GBAL_RETURN_IF_NULL_VOID(joker_object_item);
+    GBAL_RETURN_IF_NULL_VOID(*joker_object_item);
+    CHECK_ITEM_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
+
+    JokerObject** joker_object = (JokerObject**)joker_object_item;
+    GBAL_RETURN_IF_NULL_VOID((*joker_object)->joker);
+    
+    joker_set_rollable((*joker_object)->joker->id, true);
+    joker_object_destroy((JokerObject**)joker_object_item);
 }
 
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
@@ -290,6 +301,118 @@ void joker_object_add_to_owned(Item* joker_object)
 
     joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
+}
+
+void joker_set_rollable(int joker_id, bool rollable)
+{
+    bitset_set_idx(&s_rollable_jokers_bitset, joker_id, rollable);
+}
+
+/**
+ * @brief Computes the number of Jokers we can currently roll in the Shop.
+ *         The Jokers we own is taken into account and can't be rolled again.
+ */
+static inline int get_num_rollable_jokers(void)
+{
+    return bitset_num_set_bits(&s_rollable_jokers_bitset);
+}
+
+/**
+ * @brief Returns true if we can't roll any Joker
+ */
+static inline bool no_rollable_jokers(void)
+{
+    return bitset_is_empty(&s_rollable_jokers_bitset);
+}
+
+GBAL_UNUSED
+static inline bool joker_is_rollable(int joker_id)
+{
+    return bitset_get_idx(&s_rollable_jokers_bitset, joker_id);
+}
+
+void joker_reset_rollable_jokers(void)
+{
+    int num_jokers = get_joker_registry_size();
+
+    bitset_clear(&s_rollable_jokers_bitset);
+    for (int i = 0; i < num_jokers; i++)
+    {
+        bitset_set_idx(&s_rollable_jokers_bitset, i, true);
+    }
+}
+
+/**
+ * @brief Rolls a random Joker among the available ones
+ */
+static int joker_roll_id(void)
+{
+    // Roll for what rarity the joker will be
+    int joker_rarity = joker_get_random_rarity();
+
+    // Now determine how many jokers are available based on the rarity
+    int jokers_avail_size = get_num_rollable_jokers();
+
+    if (jokers_avail_size == 0)
+        return UNDEFINED;
+
+    int matching_joker_ids[jokers_avail_size];
+    int fallback_random_idx = rng_get_u32() % jokers_avail_size;
+    int fallback_random_joker_id = UNDEFINED;
+    int match_count = 0;
+
+    BitsetItr itr = bitset_itr_create(&s_rollable_jokers_bitset);
+
+    int i = 0;
+    int joker_id = UNDEFINED;
+    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
+    {
+        if (i++ == fallback_random_idx)
+            fallback_random_joker_id = joker_id;
+        const JokerInfo* info = get_joker_registry_entry(joker_id);
+        if (info->rarity == joker_rarity)
+        {
+            matching_joker_ids[match_count++] = joker_id;
+        }
+    }
+
+    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32() % match_count]
+                                              : fallback_random_joker_id;
+
+    return selected_joker_id;
+}
+
+Item* joker_object_roll_new(void)
+{
+    if (no_rollable_jokers())
+        return NULL;
+
+    int joker_id = 0;
+#ifdef TEST_JOKER_ID0 // Allow defining an ID for a joker to always appear in shop and be tested
+    if (joker_is_rollable(TEST_JOKER_ID0))
+    {
+        joker_id = TEST_JOKER_ID0;
+    }
+    else
+#endif
+#ifdef TEST_JOKER_ID1
+        if (joker_is_rollable(TEST_JOKER_ID1))
+    {
+        joker_id = TEST_JOKER_ID1;
+    }
+    else
+#endif
+    {
+        joker_id = joker_roll_id();
+    }
+
+    // If for some reason only no joker is left, don't make another
+    if (joker_id == UNDEFINED)
+        return NULL;
+
+    joker_set_rollable(joker_id, false);
+
+    return (Item*)joker_object_new(joker_new(joker_id));
 }
 
 static void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int color_pb)

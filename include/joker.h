@@ -9,6 +9,7 @@
 #include "card.h"
 #include "game.h"
 #include "graphic_utils.h"
+#include "item.h"
 
 #include <maxmod.h>
 
@@ -194,7 +195,6 @@ int joker_get_sell_value(const Joker* joker);
 
 JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);
-void joker_object_item_destroy(Item** joker_object);
 // This doesn't actually score anything, it just performs an animation and plays a sound effect
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
 
@@ -207,11 +207,30 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
  */
 int joker_object_get_buy_price(Item* joker_object);
 
-// TODO: Move to an owned_jokers.c/.h file
+// TODO: Move to an owned_jokers.c/.h file?
 /**
  * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
  */
 void joker_object_add_to_owned(Item* joker_object);
+
+// TODO: Document
+void joker_object_dispose(Item** joker_object);
+
+// TODO: Update documentation
+/**
+ * @brief Set whether a Joker can appear in the shop.
+ *
+ * @param joker_id The ID of the joker whose availability to set.
+ * @param rollable true to make it available to the shop to appear in
+ *              false to make it unavailable.
+ */
+void joker_set_rollable(int joker_id, bool rollable);
+
+// TODO: Document
+void joker_reset_rollable_jokers(void);
+
+// TODO: Document
+Item* joker_object_roll_new(void);
 
 // This scores the joker and returns true if it was scored successfully
 // card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or

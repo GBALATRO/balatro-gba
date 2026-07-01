@@ -256,6 +256,7 @@ static inline void discarded_jokers_update_loop(void)
         if (joker_object->x == joker_object->tx && joker_object->y == joker_object->ty)
         {
             list_itr_remove_current_node(&itr);
+            // TODO: joker_object_dispose() instead?
             joker_object_destroy(&joker_object);
         }
     }
@@ -434,7 +435,8 @@ void remove_owned_joker(int owned_joker_idx)
         shortcut_joker_count--;
     }
 
-    game_shop_set_joker_avail(joker_object->joker->id, true);
+    // TODO: Move to site of joker_destroy()?
+    joker_set_rollable(joker_object->joker->id, true);
     list_remove_at_idx(&_owned_jokers_list, owned_joker_idx);
 }
 

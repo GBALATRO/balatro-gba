@@ -6,6 +6,21 @@
 
 #include <tonc.h>
 
+Item* item_roll_new(enum ItemType item_type)
+{
+    if (item_type < 0 && item_type >= ITEM_NUM_TYPES)
+    {
+        MGBA_FUNC_ERROR("Undefined type %d", item_type);
+        return NULL;
+    }
+
+    ItemFuncs* item_funcs = get_item_type_funcs(item_type);
+    GBAL_RETURN_IF_NULL_RET(item_funcs, NULL);
+    GBAL_RETURN_IF_NULL_RET(item_funcs->roll_new, NULL);
+
+    return item_funcs->roll_new();
+}
+
 int item_get_buy_price(Item* item)
 {
     GBAL_RETURN_IF_NULL_RET(item, UNDEFINED);
@@ -17,15 +32,15 @@ int item_get_buy_price(Item* item)
     return item_funcs->get_buy_price(item);
 }
 
-void item_on_acquired(Item* item)
+void item_acquire(Item* item)
 {
     GBAL_RETURN_IF_NULL_VOID(item);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     GBAL_RETURN_IF_NULL_VOID(item_funcs);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs->on_acquired);
+    GBAL_RETURN_IF_NULL_VOID(item_funcs->acquire);
 
-    item_funcs->on_acquired(item);
+    item_funcs->acquire(item);
 }
 
 bool item_can_acquire(Item* item)
@@ -38,26 +53,15 @@ bool item_can_acquire(Item* item)
     return item_funcs->can_acquire(item);
 }
 
-void item_destroy(Item** item)
+void item_dispose(Item** item)
 {
     GBAL_RETURN_IF_NULL_VOID(item);
     GBAL_RETURN_IF_NULL_VOID(*item);
     ItemFuncs* item_funcs = get_item_type_funcs((*item)->type);
     GBAL_RETURN_IF_NULL_VOID(item_funcs);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs->destroy);
+    GBAL_RETURN_IF_NULL_VOID(item_funcs->dispose);
 
-    return item_funcs->destroy(item);
-}
-
-void item_set_available_to_shop(Item* item, bool available)
-{
-    GBAL_RETURN_IF_NULL_VOID(item);
-
-    ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs->set_available_to_shop);
-
-    item_funcs->set_available_to_shop(item, available);
+    return item_funcs->dispose(item);
 }
 
 void item_print_buy_price_under(Item* item)
