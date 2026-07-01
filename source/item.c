@@ -8,7 +8,7 @@
 
 Item* item_roll_new(enum ItemType item_type)
 {
-    if (item_type < 0 && item_type >= ITEM_NUM_TYPES)
+    if ((int)item_type < 0 || item_type >= ITEM_NUM_TYPES)
     {
         MGBA_FUNC_ERROR("Undefined type %d", item_type);
         return NULL;
@@ -61,7 +61,7 @@ void item_dispose(Item** item)
     GBAL_RETURN_IF_NULL_VOID(item_funcs);
     GBAL_RETURN_IF_NULL_VOID(item_funcs->dispose);
 
-    return item_funcs->dispose(item);
+    item_funcs->dispose(item);
 }
 
 void item_print_buy_price_under(Item* item)

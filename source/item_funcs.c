@@ -38,15 +38,13 @@ ItemFuncs item_func_table[] = {
 
 ItemFuncs* get_item_type_funcs(enum ItemType type)
 {
-    ItemFuncs* ret_func = NULL;
-    if (type >= ITEM_NUM_TYPES || type >= NUM_ELEM_IN_ARR(item_func_table))
+    if ((int)type < 0 || type >= ITEM_NUM_TYPES || type >= NUM_ELEM_IN_ARR(item_func_table))
     {
         MGBA_FUNC_ERROR("Invalid type %d", type);
+        return NULL;
     }
-    {
-        ret_func = &item_func_table[type];
-    }
-    return ret_func;
+
+    return &item_func_table[type];
 }
 
 static Item* item_roll_new_unimplemented()
