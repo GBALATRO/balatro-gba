@@ -210,26 +210,36 @@ int joker_object_get_buy_price(Item* joker_object);
 // TODO: Move to an owned_jokers.c/.h file?
 /**
  * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
+ *
+ * @param joker_object The JokerObject to add cast to Item*
  */
 void joker_object_add_to_owned(Item* joker_object);
 
-// TODO: Document
+/**
+ * @brief Destroy a JokerObject item, free its resources, and make it available to be rolled.
+ *
+ * @param joker_object Pointer to the JokerObject Item* to destroy; set to NULL.
+ */
 void joker_object_dispose(Item** joker_object);
 
-// TODO: Update documentation
 /**
- * @brief Set whether a Joker can appear in the shop.
+ * @brief Set whether a Joker is available to be rolled for the shop, packs, etc.
  *
  * @param joker_id The ID of the joker whose availability to set.
- * @param rollable true to make it available to the shop to appear in
- *              false to make it unavailable.
+ * @param rollable true to make it rollable, false otherwise.
  */
 void joker_set_rollable(int joker_id, bool rollable);
 
-// TODO: Document
+/**
+ * @brief Reset rollable jokers to include all jokers in the registry.
+ */
 void joker_reset_rollable_jokers(void);
 
-// TODO: Document
+/**
+ * @brief Roll and create a new JokerObject item.
+ *
+ * @return Newly created `Item*` (JokerObject) or NULL if none available.
+ */
 Item* joker_object_roll_new(void);
 
 // This scores the joker and returns true if it was scored successfully

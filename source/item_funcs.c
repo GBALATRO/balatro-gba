@@ -19,6 +19,7 @@ ItemFuncs item_func_table[] = {
         .can_acquire = joker_object_can_acquire,
         .dispose = joker_object_dispose
     },
+    
     /* Currently playing cards have partial implementations since Magic Trick is not implemented
      * and playing cards can't appear in the shop.
      * If the Magic Trick voucher is implemented, these need to be completed.
@@ -37,12 +38,15 @@ ItemFuncs item_func_table[] = {
 
 ItemFuncs* get_item_type_funcs(enum ItemType type)
 {
-    ItemFuncs* ret_val = NULL;
-    if (type < ITEM_NUM_TYPES && type < NUM_ELEM_IN_ARR(item_func_table))
+    ItemFuncs* ret_func = NULL;
+    if (type >= ITEM_NUM_TYPES || type >= NUM_ELEM_IN_ARR(item_func_table))
     {
-        ret_val = &item_func_table[type];
+        MGBA_FUNC_ERROR("Invalid type %d", type);
     }
-    return ret_val;
+    {
+        ret_func = &item_func_table[type];
+    }
+    return ret_func;
 }
 
 static Item* item_roll_new_unimplemented()

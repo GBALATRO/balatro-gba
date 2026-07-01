@@ -170,6 +170,8 @@ static int timer;
 static int reroll_cost = REROLL_BASE_COST;
 
 // Variables relative to the Card we are showing the description of
+
+// TODO: Change this to item once it has description printing API.
 static JokerObject* description_card = NULL;
 static FIXED description_card_original_x_pos = UNDEFINED;
 static FIXED description_card_original_y_pos = UNDEFINED;

@@ -3,8 +3,7 @@
  *
  * @brief The core structure for items in the shop and inventory.
  * Provides a common API for the shop and inventory to handle all types of items.
- * Uses struct inheritance so all items can implement an is-a relationship with Item.
- *
+ * Uses struct inheritance so all inherited items can implement an is-a relationship with Item.
  * This means that pointers to structs that inherit Item using first member struct inheritance
  * can and should be cast to Item* so code that expects an Item* can use them.
  */
@@ -17,7 +16,7 @@
 
 // TODO: Merge these with GBAL_RETURN_IF_NULL macros?
 /**
- * @brief Checks if @p item is of type @p expected_type and logs error message and returns otherwise
+ * @brief Checks if @p item is of type @p expected_type - logs error message and returns otherwise
  *
  *  This version is for a function that returns a value, while
  *  @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID is for a void function.
@@ -33,7 +32,7 @@
     } while (0)
 
 /**
- * @brief Checks if @p item is of type @p expected_type and logs error message and returns otherwise
+ * @brief Checks if @p item is of type @p expected_type - logs error message and returns otherwise
  *
  * This version is for a void function, while @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_RET is for one
  * with a return value.
@@ -73,14 +72,17 @@ typedef struct
 typedef struct item_funcs
 {
     /**
-     * All items must implement the following since they are called by the shop.
-     * For some of them they can be no-op or return true implementations.
+     * All items must implement the following since they are called by the shop and all items
+     * must be capable of appearing in the shop.
      */
     Item* (*roll_new)(void);
     int (*get_buy_price)(Item* item);
+    bool (*can_acquire)(Item* item);
     void (*acquire)(Item* item);
     void (*dispose)(Item** item);
-    bool (*can_acquire)(Item* item);
+    // TODO: void (*print_description)(Item* item); // or something of the form
+
+    // Optional implementation functions will be added here
 } ItemFuncs;
 
 /**
@@ -133,7 +135,7 @@ void item_acquire(Item* item);
 bool item_can_acquire(Item* item);
 
 /**
- * @brief Destroys an item and manages rollable items sets if necessary.
+ * @brief Destroys an item, freeing underlying resources, and manages rollable items sets if needed.
  * To be used when destroying items from the inventory, shop, or packs.
  *
  * @param item A pointer to an item for destruction.
