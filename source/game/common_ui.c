@@ -8,6 +8,7 @@
 #include "game/round_end.h"
 #include "game/run_setup.h"
 #include "game/shop.h"
+#include "layout.h"
 
 typedef void (*BackgroundRenderCallback)(void);
 
@@ -42,4 +43,12 @@ void change_background(enum BackgroundId id, bool force_redraw)
         bgCallbacks[id]();
     }
     background = id;
+}
+
+void reset_top_left_panel_bottom_row(void)
+{
+    BG_POINT top_left_panel_bottom_row_pos = TOP_LEFT_PANEL_POINT;
+    // Use the source rect height to offset to the bottom row point
+    top_left_panel_bottom_row_pos.y += rect_height(&TOP_LEFT_ITEM_SRC_RECT) - 1;
+    main_bg_se_copy_rect(TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT, top_left_panel_bottom_row_pos);
 }

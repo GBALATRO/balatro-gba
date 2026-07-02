@@ -511,11 +511,6 @@ void memcpy32_tile8_with_palette_offset(u32* dst, const u32* src, uint wcount, u
 void toggle_windows(bool win0, bool win1);
 
 /**
- * @brief Restores the bottom row of the top-left panel from the background map.
- */
-void reset_top_left_panel_bottom_row(void);
-
-/**
  * @brief Justify a text with custom formatting tags according to the given
  *         justification and bias direction tags
  *
