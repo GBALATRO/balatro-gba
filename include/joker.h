@@ -245,15 +245,6 @@ void joker_reset_rollable_jokers(void);
  */
 Item* joker_object_roll_new(enum RngSequence key);
 
-// This scores the joker and returns true if it was scored successfully
-// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or
-// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or
-// On_Card_Held
-bool joker_object_score(
-    JokerObject* joker_object,
-    CardObject* card_object,
-    enum JokerEvent joker_event
-);
 
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 

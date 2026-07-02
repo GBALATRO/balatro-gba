@@ -53,10 +53,13 @@
 #define GAME_PLAYING_HAND_SEL_Y 1
 
 // Pixel sizes
-#define CARD_FOCUSED_UNSEL_Y 10
-#define CARD_UNFOCUSED_SEL_Y 15
-#define CARD_FOCUSED_SEL_Y   20
-#define SCORED_CARD_TEXT_Y   48
+#define CARD_FOCUSED_UNSEL_Y   10
+#define CARD_UNFOCUSED_SEL_Y   15
+#define CARD_FOCUSED_SEL_Y     20
+#define SCORED_CARD_TEXT_Y     48
+#define JOKER_SCORE_TEXT_Y     48
+#define HELD_CARD_SCORE_TEXT_Y 108
+#define MAX_CARD_SCORE_STR_LEN 2
 
 // clang-format off
 
@@ -1472,6 +1475,130 @@ static inline void game_round_process_flaming_score(void)
 /*******************************************************************************
  * CARD/JOKER SCORING LOGIC
  ******************************************************************************/
+
+static void joker_scoring_set_and_shift_text(
+    char* str,
+    int* cursor_pos_x,
+    int* cursor_pos_y,
+    int color_pb
+)
+{
+    tte_set_pos(*cursor_pos_x, *cursor_pos_y);
+    tte_set_special(color_pb * TTE_SPECIAL_PB_MULT_OFFSET);
+    tte_write(str);
+
+    // + 1 For space
+    const int joker_score_display_offset_px = (MAX_CARD_SCORE_STR_LEN + 1) * TTE_CHAR_SIZE;
+    *cursor_pos_x += joker_score_display_offset_px;
+}
+
+// This scores the joker and returns true if it was scored successfully
+// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or
+// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or
+// On_Card_Held
+static bool joker_object_score(
+    JokerObject* joker_object,
+    CardObject* card_object,
+    enum JokerEvent joker_event
+)
+{
+    if (joker_object == NULL)
+    {
+        return false;
+    }
+
+    JokerEffect* joker_effect = NULL;
+    u32 effect_flags_ret =
+        joker_get_score_effect(joker_object->joker, card_object->card, joker_event, &joker_effect);
+
+    if (effect_flags_ret == JOKER_EFFECT_FLAG_NONE)
+    {
+        return false;
+    }
+
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_RETRIGGER)
+    {
+        set_retrigger(joker_effect->retrigger);
+    }
+
+    // joker_effect.message will have been set if the Joker had anything custom to say
+
+    int cursorPosX = TILE_SIZE; // Offset of one tile to better center the text on the card
+    int cursorPosY = 0;
+    if (joker_event == JOKER_EVENT_ON_CARD_HELD)
+    {
+        // display the text on top of the card instead of below the Joker for Held Cards effects
+        // scored_card cannot be NULL here because of the joker event
+        cursorPosX += fx2int(card_object->sprite_object->x);
+        cursorPosY = HELD_CARD_SCORE_TEXT_Y;
+    }
+    else
+    {
+        cursorPosX += fx2int(joker_object->sprite_object->x);
+        cursorPosY = JOKER_SCORE_TEXT_Y;
+    }
+
+    mm_word sfx_id;
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_CHIPS)
+    {
+        g_game_vars.chips = u32_protected_add(g_game_vars.chips, joker_effect->chips);
+        char score_buffer[INT_MAX_DIGITS + 2]; // For '+' and null terminator
+        snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->chips);
+        joker_scoring_set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_BLUE_PB);
+        sfx_id = SFX_CHIPS_GENERIC; // The joker chips effect is "generic"
+    }
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_MULT)
+    {
+        g_game_vars.mult = u32_protected_add(g_game_vars.mult, joker_effect->mult);
+        char score_buffer[INT_MAX_DIGITS + 2];
+        snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->mult);
+        joker_scoring_set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
+        sfx_id = SFX_MULT;
+    }
+    // if xmult is zero, DO NOT multiply by it
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_XMULT && joker_effect->xmult > 0)
+    {
+        g_game_vars.mult = u32_protected_mult(g_game_vars.mult, joker_effect->xmult);
+        char score_buffer[INT_MAX_DIGITS + 2];
+        snprintf(score_buffer, sizeof(score_buffer), "X%lu", joker_effect->xmult);
+        joker_scoring_set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
+        sfx_id = SFX_XMULT;
+    }
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_MONEY)
+    {
+        g_game_vars.money += joker_effect->money;
+        char score_buffer[INT_MAX_DIGITS + 2];
+        snprintf(score_buffer, sizeof(score_buffer), "%d$", joker_effect->money);
+        joker_scoring_set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_YELLOW_PB);
+        // TODO: Money sound effect
+    }
+    // custom message for Jokers (including retriggers where Jokers will say "Again!")
+    // joker_effect->message will have been set if the Joker had anything custom to say
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_MESSAGE)
+    {
+        joker_scoring_set_and_shift_text(
+            joker_effect->message,
+            &cursorPosX,
+            &cursorPosY,
+            TTE_WHITE_PB
+        );
+    }
+    // this will start the Joker expire animation
+    if (effect_flags_ret & JOKER_EFFECT_FLAG_EXPIRE && joker_effect->expire)
+    {
+        joker_object_shake(joker_object, UNDEFINED);
+        list_push_back(get_expired_jokers_list(), joker_object);
+    }
+
+    // Update displays
+    display_chips();
+    display_mult();
+    display_money();
+
+    joker_object_shake(joker_object, sfx_id);
+
+    return true;
+}
 
 /**
  * @brief Iterate over the Jokers List until we encounter one that scores for the specified event.
