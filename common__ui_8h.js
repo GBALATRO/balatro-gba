@@ -11,5 +11,6 @@ var common__ui_8h =
       [ "BG_OPTIONS_MENU", "common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cda1ebac80807c51beb20f04699be69b3d7", null ],
       [ "BG_MAIN_MENU", "common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cdad824995ec847add1578945788885b1e4", null ]
     ] ],
-    [ "change_background", "common__ui_8h.html#a7cc065b753e494969940447dfb3fb599", null ]
+    [ "change_background", "common__ui_8h.html#a7cc065b753e494969940447dfb3fb599", null ],
+    [ "reset_top_left_panel_bottom_row", "common__ui_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9", null ]
 ];

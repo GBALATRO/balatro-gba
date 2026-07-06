@@ -5,7 +5,7 @@ var searchData=
   ['rect_5fwidth_2',['rect_width',['../graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b',1,'graphic_utils.h']]],
   ['reorder_5fcard_5fsprites_5flayers_3',['reorder_card_sprites_layers',['../hand_8h.html#acb2998d3f72cd139e7dbc9a2a0437c28',1,'reorder_card_sprites_layers(void):&#160;hand.c'],['../hand_8c.html#acb2998d3f72cd139e7dbc9a2a0437c28',1,'reorder_card_sprites_layers(void):&#160;hand.c']]],
   ['reroll_5fseed_5fstr_4',['reroll_seed_str',['../run__setup_8c.html#ad00a2328e92525b7de20c1eecf2da9bc',1,'run_setup.c']]],
-  ['reset_5ftop_5fleft_5fpanel_5fbottom_5frow_5',['reset_top_left_panel_bottom_row',['../graphic__utils_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9',1,'graphic_utils.c']]],
+  ['reset_5ftop_5fleft_5fpanel_5fbottom_5frow_5',['reset_top_left_panel_bottom_row',['../common__ui_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9',1,'common_ui.c']]],
   ['resume_5fsubstate_5finit_6',['resume_substate_init',['../run__setup_8c.html#adcc3123e99b0af659149cbfa8df7d366',1,'run_setup.c']]],
   ['rev_5flist_5fitr_5fcreate_7',['rev_list_itr_create',['../list_8h.html#a9dd6c8825c0862926490ab49ec008a63',1,'rev_list_itr_create(List *list):&#160;list.c'],['../list_8c.html#a9dd6c8825c0862926490ab49ec008a63',1,'rev_list_itr_create(List *list):&#160;list.c']]],
   ['rng_5fget_5fu32_8',['rng_get_u32',['../random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b',1,'random.c']]],
