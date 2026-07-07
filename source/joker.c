@@ -349,14 +349,14 @@ void joker_reset_rollable_jokers(void)
  */
 static int joker_roll_id(void)
 {
-    // Roll for what rarity the joker will be
-    int joker_rarity = joker_get_random_rarity();
-
     // Now determine how many jokers are available based on the rarity
     int jokers_avail_size = get_num_rollable_jokers();
 
     if (jokers_avail_size == 0)
         return UNDEFINED;
+        
+    // Roll for what rarity the joker will be
+    int joker_rarity = joker_get_random_rarity();
 
     int matching_joker_ids[jokers_avail_size];
     int fallback_random_idx = rng_get_u32() % jokers_avail_size;
