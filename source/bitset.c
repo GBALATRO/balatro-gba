@@ -59,6 +59,16 @@ void bitset_clear(Bitset* bitset)
     }
 }
 
+void bitset_set_all(Bitset*  bitset)
+{
+    for (int i = 0; i < bitset->nwords; i++)
+    {
+        // Using bitwise not instead of 0xFFFFFFFF so the number of bits is
+        // implied by the type rather than hardcoded
+        bitset->w[i] = ~((uint32_t)0);
+    }
+}
+
 bool bitset_is_empty(Bitset* bitset)
 {
     for (int i = 0; i < bitset->nwords; i++)

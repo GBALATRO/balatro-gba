@@ -128,6 +128,13 @@ int bitset_set_next_free_idx(Bitset* bitset);
 void bitset_clear(Bitset* bitset);
 
 /**
+ * @brief Set the bitset, all to 1
+ *
+ * @param bitset A @ref Bitset to operate on
+ */
+void bitset_set_all(Bitset* bitset);
+
+/**
  * @brief Check if a bitset is empty (all 0's)
  *
  * @param bitset A @ref Bitset to operate on

@@ -1,5 +1,6 @@
 #include "joker.h"
 
+#include "bitset.h"
 #include "card.h"
 #include "game/round.h"
 #include "game_variables.h"
