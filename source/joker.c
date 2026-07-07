@@ -262,8 +262,8 @@ void joker_object_destroy(JokerObject** joker_object)
             UNDEFINED;
     }
 
-    sprite_object_destroy((SpriteObject*)(*joker_object)); // Destroy the sprite
-    joker_destroy(&(*joker_object)->joker);                // Destroy the joker
+    sprite_object_destroy((SpriteObject*)(*joker_object));
+    joker_destroy(&(*joker_object)->joker);
     POOL_FREE(JokerObject, *joker_object);
     *joker_object = NULL;
 }
