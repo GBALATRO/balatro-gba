@@ -182,13 +182,7 @@ JokerObject* game_shop_get_description_card(void)
 
 static inline void reset_shop_jokers(void)
 {
-    int num_jokers = get_joker_registry_size();
-
-    bitset_clear(&s_avail_jokers_bitset);
-    for (int i = 0; i < num_jokers; i++)
-    {
-        bitset_set_idx(&s_avail_jokers_bitset, i, true);
-    }
+    bitset_set_all(&s_avail_jokers_bitset);
 }
 
 void game_shop_reset(void)

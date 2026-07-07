@@ -59,7 +59,7 @@ void bitset_clear(Bitset* bitset)
     }
 }
 
-void bitset_set_all(Bitset*  bitset)
+void bitset_set_all(Bitset* bitset)
 {
     for (int i = 0; i < bitset->nwords; i++)
     {
