@@ -38,7 +38,7 @@ ItemFuncs item_func_table[] = {
 
 ItemFuncs* get_item_type_funcs(enum ItemType type)
 {
-    if ((int)type < 0 || type >= ITEM_NUM_TYPES || type >= NUM_ELEM_IN_ARR(item_func_table))
+    if ((int)type < 0 || type >= NUM_ELEM_IN_ARR(item_func_table))
     {
         MGBA_FUNC_ERROR("Invalid type %d", type);
         return NULL;

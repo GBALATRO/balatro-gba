@@ -69,7 +69,7 @@ typedef struct
     enum ItemType type;
 } Item;
 
-typedef struct item_funcs
+typedef struct
 {
     /**
      * All items must implement the following since they are called by the shop and all items
