@@ -528,7 +528,7 @@ static Button choose_seed_bottom_buttons[2] = {
     }
 };
 
-static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
+static const char KEYBOARD_BUTTONS_TO_CHAR[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
     '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
     'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
@@ -947,7 +947,7 @@ static inline void type_seed_char(enum RunSetupKeyboardButtons key)
     if (s_seed_cursor_pos >= BASE36_MAX_DIGITS)
         return;
 
-    s_seed_str[s_seed_cursor_pos++] = keyboard_buttons_to_char[key];
+    s_seed_str[s_seed_cursor_pos++] = KEYBOARD_BUTTONS_TO_CHAR[key];
     update_seed_text();
 }
 

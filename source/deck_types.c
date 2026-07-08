@@ -14,7 +14,7 @@
 /**
  * @brief List of DeckType names, all formatted to be centered in a string of 13 characters.
  */
-static const char deck_names[DECK_TYPE_MAX][DECK_NAME_LENGTH] = {
+static const char DECK_NAMES[DECK_TYPE_MAX][DECK_NAME_LENGTH] = {
     "  Red Deck   ",
     "  Blue Deck  ",
     " Yellow Deck ",
@@ -42,7 +42,7 @@ static const PrintDescCallback deck_description_functions[DECK_TYPE_MAX] = {
 
 void print_deck_name(enum DeckType deck, BG_POINT pos)
 {
-    tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_WHITE_PB, deck_names[deck]);
+    tte_printf("#{P:%d,%d; cx:0x%X000}%s", pos.x, pos.y, TTE_WHITE_PB, DECK_NAMES[deck]);
 }
 
 void print_deck_description(enum DeckType deck, BG_POINT pos)

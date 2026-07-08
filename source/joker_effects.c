@@ -1974,9 +1974,9 @@ static u32 seltzer_joker_effect(
             {
                 // Need to do this for now because the message's memory can't really be allocated
                 // So we can't use snprintf to craft a message depending on the number of hands left
-                static const char* seltzer_messages[] =
+                static const char* SELTZER_MESSAGES[] =
                     {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
-                (*joker_effect)->message = (char*)seltzer_messages[(*p_hands_left_until_exp) - 1];
+                (*joker_effect)->message = (char*)SELTZER_MESSAGES[(*p_hands_left_until_exp) - 1];
             }
             else
             {
