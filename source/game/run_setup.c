@@ -537,8 +537,8 @@ static const char keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {
 // clang-format on
 
 // Size BASE36_MAX_DIGITS + 1 to always have '\0' at the end
-static char seed_str[BASE36_MAX_DIGITS + 1] = {'\0'};
-static u8 seed_cursor_pos = 0;
+static char s_seed_str[BASE36_MAX_DIGITS + 1] = {'\0'};
+static u8 s_seed_cursor_pos = 0;
 
 #pragma endregion
 
@@ -582,14 +582,14 @@ void game_run_setup_on_init(void)
     if (g_game_vars.rng_info.seed == UNDEFINED)
     {
         // Make the string empty instead of showing all zeroes
-        memset(seed_str, '\0', BASE36_MAX_DIGITS + 1);
-        seed_cursor_pos = 0;
+        memset(s_seed_str, '\0', BASE36_MAX_DIGITS + 1);
+        s_seed_cursor_pos = 0;
     }
     // Or use previous Run's seed if it hasn't been reset
     else
     {
-        u32_to_base36(g_game_vars.rng_info.seed, seed_str);
-        seed_cursor_pos = BASE36_MAX_DIGITS;
+        u32_to_base36(g_game_vars.rng_info.seed, s_seed_str);
+        s_seed_cursor_pos = BASE36_MAX_DIGITS;
         use_seed = true;
     }
     toggle_seed_enabled(use_seed);
@@ -808,7 +808,7 @@ static inline void update_seed_text(void)
         RUN_SETUP_SEED_FIELD_TEXT_POS.y,
         TTE_BLACK_PB,
         BASE36_MAX_DIGITS + 1,
-        seed_str
+        s_seed_str
     );
 }
 
@@ -920,9 +920,9 @@ static inline void reroll_seed_str(void)
     rng_shuffle_seed();
     u32 new_seed = rng_get_u32();
     rng_set_seed(new_seed);
-    u32_to_base36(new_seed, seed_str);
+    u32_to_base36(new_seed, s_seed_str);
     update_seed_text();
-    seed_cursor_pos = BASE36_MAX_DIGITS;
+    s_seed_cursor_pos = BASE36_MAX_DIGITS;
 }
 
 /**
@@ -930,10 +930,10 @@ static inline void reroll_seed_str(void)
  */
 static inline void delete_seed_char(void)
 {
-    if (seed_cursor_pos == 0)
+    if (s_seed_cursor_pos == 0)
         return;
 
-    seed_str[--seed_cursor_pos] = '\0';
+    s_seed_str[--s_seed_cursor_pos] = '\0';
     update_seed_text();
 }
 
@@ -944,10 +944,10 @@ static inline void delete_seed_char(void)
  */
 static inline void type_seed_char(enum RunSetupKeyboardButtons key)
 {
-    if (seed_cursor_pos >= BASE36_MAX_DIGITS)
+    if (s_seed_cursor_pos >= BASE36_MAX_DIGITS)
         return;
 
-    seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];
+    s_seed_str[s_seed_cursor_pos++] = keyboard_buttons_to_char[key];
     update_seed_text();
 }
 
@@ -976,8 +976,8 @@ static void keyboard_button_on_pressed(void)
     // The cursor position is unsigned so always positive, but we still need to
     // ensure it doersn't go out of bounds by more than 1 so that we can always
     // substract 1 from it when erasing a character from the seed string.
-    if (seed_cursor_pos > BASE36_MAX_DIGITS)
-        seed_cursor_pos = BASE36_MAX_DIGITS;
+    if (s_seed_cursor_pos > BASE36_MAX_DIGITS)
+        s_seed_cursor_pos = BASE36_MAX_DIGITS;
 
     if (key_hit(DESELECT_CARDS))
         delete_seed_char();
@@ -1193,7 +1193,7 @@ static void play_on_pressed(void)
 {
     // Apply provided Seed if enabled
     if (use_seed)
-        rng_set_seed(base36_to_u32(seed_str));
+        rng_set_seed(base36_to_u32(s_seed_str));
     else
         rng_shuffle_seed();
 

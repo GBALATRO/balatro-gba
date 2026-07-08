@@ -4,7 +4,7 @@
 #include "list.h"
 #include "util.h"
 
-static List update_cbs = LIST_DEFAULT;
+static List s_update_cbs = LIST_DEFAULT;
 
 // Used as a No Operation for game states that have no init and/or exit function.
 // ricfehr3 did the work of determining whether a noop or a NULL check was more
@@ -23,7 +23,7 @@ void state_machine_register(StateMachine* state_machine)
     state_machine->active_update = noop;
     state_machine->state = UNDEFINED;
 
-    list_push_back(&update_cbs, &state_machine->active_update);
+    list_push_back(&s_update_cbs, &state_machine->active_update);
 }
 
 void state_machine_remove(StateMachine* state_machine)
@@ -32,12 +32,12 @@ void state_machine_remove(StateMachine* state_machine)
         return;
 
     state_machine->registered = false;
-    list_remove_data(&update_cbs, &state_machine->active_update);
+    list_remove_data(&s_update_cbs, &state_machine->active_update);
 }
 
 void state_machine_update(void)
 {
-    ListItr itr = list_itr_create(&update_cbs);
+    ListItr itr = list_itr_create(&s_update_cbs);
     StateCallback* cb;
     while ((cb = list_itr_next(&itr)))
     {

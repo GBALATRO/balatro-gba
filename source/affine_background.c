@@ -11,10 +11,10 @@
 // done in VBLANK so the HBLANK code can just fetch the values quickly.
 static IWRAM_CODE void s_affine_background_prep_bgaff_arr();
 
-static BG_AFFINE _bgaff_arr[SCREEN_HEIGHT + 1];
-static AFF_SRC_EX _asx = {0};
-static enum AffineBackgroundID _background = AFFINE_BG_NONE;
-static uint _timer = 0;
+static BG_AFFINE s_bgaff_arr[SCREEN_HEIGHT + 1];
+static AFF_SRC_EX s_asx = {0};
+static enum AffineBackgroundID s_background = AFFINE_BG_NONE;
+static uint s_timer = 0;
 
 void affine_background_init()
 {
@@ -33,7 +33,7 @@ IWRAM_CODE void affine_background_hblank()
     }
 
     // See comment in affine_background_prep_bgaff_arr()
-    REG_BG_AFFINE[AFFINE_BG_IDX] = _bgaff_arr[vcount + 1];
+    REG_BG_AFFINE[AFFINE_BG_IDX] = s_bgaff_arr[vcount + 1];
 }
 
 void affine_background_update()
@@ -44,21 +44,21 @@ void affine_background_update()
     }
     else // Low quality mode without HBLANK interrupt
     {
-        _asx.scr_x = 0;
-        _asx.scr_y = 0;
-        _asx.tex_x += 5;
-        _asx.tex_y += 12;
+        s_asx.scr_x = 0;
+        s_asx.scr_y = 0;
+        s_asx.tex_x += 5;
+        s_asx.tex_y += 12;
         // Scale the sine value to fit in a s16
-        _asx.sx = ((lu_sin(_timer * 100)) >> 8) + 256;
+        s_asx.sx = ((lu_sin(s_timer * 100)) >> 8) + 256;
         // Scale the sine value to fit in a s16
-        _asx.sy = ((lu_sin(_timer * 100 + 0x4000)) >> 8) + 256;
-        _asx.alpha = 0;
+        s_asx.sy = ((lu_sin(s_timer * 100 + 0x4000)) >> 8) + 256;
+        s_asx.alpha = 0;
 
-        bg_rotscale_ex(&_bgaff_arr[0], &_asx);
-        REG_BG_AFFINE[AFFINE_BG_IDX] = _bgaff_arr[0];
+        bg_rotscale_ex(&s_bgaff_arr[0], &s_asx);
+        REG_BG_AFFINE[AFFINE_BG_IDX] = s_bgaff_arr[0];
     }
 
-    _timer++;
+    s_timer++;
 }
 
 void affine_background_set_color(COLOR color)
@@ -66,7 +66,7 @@ void affine_background_set_color(COLOR color)
     // Reload the palette to reset any previous color scaling.
     // Take source color directly from `affine_background_gfxPal` to avoid excessive
     // darkening in case this function is called twice by mistake.
-    affine_background_change_background(_background);
+    affine_background_change_background(s_background);
     for (int i = 0; i < AFFINE_BG_PAL_LEN; i++)
     {
         clr_rgbscale(&pal_bg_mem[AFFINE_BG_PB] + i, affine_background_gfxPal + i, 1, color);
@@ -80,14 +80,14 @@ void affine_background_load_palette(const u16* src)
 
 void affine_background_change_background(enum AffineBackgroundID new_bg)
 {
-    if (_background == new_bg)
+    if (s_background == new_bg)
     {
         return;
     }
 
-    _background = new_bg;
+    s_background = new_bg;
 
-    switch (_background)
+    switch (s_background)
     {
         case AFFINE_BG_MAIN_MENU:
             REG_BG2CNT &= ~BG_AFF_32x32;
@@ -126,26 +126,26 @@ static IWRAM_CODE void s_affine_background_prep_bgaff_arr()
 {
     for (u16 vcount = 0; vcount < SCREEN_HEIGHT; vcount++)
     {
-        const s32 timer_s32 = _timer << 8;
+        const s32 timer_s32 = s_timer << 8;
         const s32 vcount_s32 = vcount << 8;
         const s16 vcount_s16 = vcount;
         const s32 vcount_sine = lu_sin(vcount_s32 + timer_s32 / ANIMATION_SPEED_DIVISOR);
 
-        _asx.scr_x = (SCREEN_WIDTH / 2);
+        s_asx.scr_x = (SCREEN_WIDTH / 2);
         // scr_y must equal vcount otherwise the background will have no vertical difference
-        _asx.scr_y = vcount_s16 - (SCREEN_HEIGHT / 2);
-        _asx.tex_x = (1000 * 1000) + (vcount_sine);
-        _asx.tex_y = (1000 * 1000);
-        _asx.sx = 128;
-        _asx.sy = 128;
-        _asx.alpha = vcount_sine + (timer_s32 / ANIMATION_SPEED_DIVISOR);
+        s_asx.scr_y = vcount_s16 - (SCREEN_HEIGHT / 2);
+        s_asx.tex_x = (1000 * 1000) + (vcount_sine);
+        s_asx.tex_y = (1000 * 1000);
+        s_asx.sx = 128;
+        s_asx.sy = 128;
+        s_asx.alpha = vcount_sine + (timer_s32 / ANIMATION_SPEED_DIVISOR);
 
-        bg_rotscale_ex(&_bgaff_arr[vcount], &_asx);
+        bg_rotscale_ex(&s_bgaff_arr[vcount], &s_asx);
     }
 
     /* HBLANK occurs after the scanline so REG_VCOUNT represents the
      * the scanline that just passed, so when it's SCREEN_HEIGHT we will
      * actually be updating the first line
      */
-    _bgaff_arr[SCREEN_HEIGHT] = _bgaff_arr[0];
+    s_bgaff_arr[SCREEN_HEIGHT] = s_bgaff_arr[0];
 }

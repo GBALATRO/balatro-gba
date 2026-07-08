@@ -19,17 +19,17 @@
 
 // Card sprites lookup table. First index is the suit, second index is the rank. The value is the
 // tile index.
-const static u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {
+const static u16 CARD_SPRITE_LUT[NUM_SUITS][NUM_RANKS] = {
     {0,   16,  32,  48,  64,  80,  96,  112, 128, 144, 160, 176, 192},
     {208, 224, 240, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400},
     {416, 432, 448, 464, 480, 496, 512, 528, 544, 560, 576, 592, 608},
     {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}
 };
 // Deck sprites lookup table. Index is the deck Id. The value is the tile index.
-const static u16 _deck_sprite_lut[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};
+const static u16 DECK_SPRITE_LUT[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};
 
-bool high_contrast = DEFAULT_HIGH_CONTRAST;
-bool more_readable = DEFAULT_MORE_READABLE;
+bool s_high_contrast = DEFAULT_HIGH_CONTRAST;
+bool s_more_readable = DEFAULT_MORE_READABLE;
 
 void card_init()
 {
@@ -38,8 +38,8 @@ void card_init()
 
 void set_cards_high_contrast(bool enable)
 {
-    high_contrast = enable;
-    if (high_contrast)
+    s_high_contrast = enable;
+    if (s_high_contrast)
     {
         GRIT_CPY(&pal_obj_mem[CARD_PB * PAL_ROW_LEN], high_contrast_deck_pal_gfxPal);
     }
@@ -51,17 +51,17 @@ void set_cards_high_contrast(bool enable)
 
 void set_cards_more_readable(bool enable)
 {
-    more_readable = enable;
+    s_more_readable = enable;
 }
 
 bool get_cards_high_contrast(void)
 {
-    return high_contrast;
+    return s_high_contrast;
 }
 
 bool get_cards_more_readable(void)
 {
-    return more_readable;
+    return s_more_readable;
 }
 
 // Card methods
@@ -124,10 +124,10 @@ void card_object_destroy(CardObject** card_object)
 void card_object_set_sprite(CardObject* card_object, int layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
-    const unsigned int* card_tiles = more_readable ? deck_big_gfxTiles : deck_gfxTiles;
+    const unsigned int* card_tiles = s_more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &card_tiles[_card_sprite_lut[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
+        &card_tiles[CARD_SPRITE_LUT[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
     Sprite* sprite = sprite_new(
@@ -145,7 +145,7 @@ void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType dec
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &decks_face_down_gfxTiles[_deck_sprite_lut[deck] * TILE_SIZE],
+        &decks_face_down_gfxTiles[DECK_SPRITE_LUT[deck] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_OFFSET
     );
     Sprite* sprite = sprite_new(

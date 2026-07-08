@@ -18,18 +18,18 @@ static const u32 MGBA_LOG_SEND = 0x100;
 static const u32 MGBA_LOG_BUFFER_SIZE = 0x100;
 static const u16 MGBA_LOG_LEVEL_MASK = 0x7;
 
-static bool mgba_logger_available = false;
+static bool s_mgba_logger_available = false;
 
 bool mgba_logger_init(void)
 {
     *MGBA_REG_DEBUG_ENABLE = MGBA_ENABLE_MAGIC;
-    mgba_logger_available = (*MGBA_REG_DEBUG_ENABLE == MGBA_ENABLE_OK);
-    return mgba_logger_available;
+    s_mgba_logger_available = (*MGBA_REG_DEBUG_ENABLE == MGBA_ENABLE_OK);
+    return s_mgba_logger_available;
 }
 
 static void mgba_vprintf(MgbaLogLevel level, const char* fmt, va_list args)
 {
-    if (!mgba_logger_available || fmt == NULL)
+    if (!s_mgba_logger_available || fmt == NULL)
         return;
 
     vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);
@@ -47,7 +47,7 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 
 void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
 {
-    if (!mgba_logger_available || func_name == NULL || fmt == NULL)
+    if (!s_mgba_logger_available || func_name == NULL || fmt == NULL)
     {
         // The one place where we can't log the error.
         return;

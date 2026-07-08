@@ -36,16 +36,16 @@ static const unsigned short* blind_gfxPal[] = {
 };
 
 // Bitfields storing blinds we have yet to beat during the current run
-static List unbeaten_boss_blinds;
-static List unbeaten_showdown_blinds;
+static List s_unbeaten_boss_blinds;
+static List s_unbeaten_showdown_blinds;
 
 // Maps the ante number to the base blind requirement for that ante.
 // The game starts at ante 1 which is at index 1 for base requirement 300.
 // Ante 0 is also there in case it is ever reached.
-static const u32 ante_lut[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};
+static const u32 ANTE_LUT[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};
 
 // clang-format off
-static Blind _blind_type_map[BLIND_TYPE_MAX] = {
+static Blind s_blind_type_map[BLIND_TYPE_MAX] = {
     {BLIND_TYPE_SMALL,   FIX_ONE,          3},
     {BLIND_TYPE_BIG,    (FIX_ONE * 3) / 2, 4},
     {BLIND_TYPE_HOOK,    FIX_ONE * 2,      5},
@@ -94,12 +94,12 @@ u32 blind_get_requirement(enum BlindType type, int ante)
     if (ante < 0 || ante > MAX_ANTE)
         ante = 0;
 
-    return fx2int(_blind_type_map[type].score_req_multipler * ante_lut[ante]);
+    return fx2int(s_blind_type_map[type].score_req_multipler * ANTE_LUT[ante]);
 }
 
 int blind_get_reward(enum BlindType type)
 {
-    return _blind_type_map[type].reward;
+    return s_blind_type_map[type].reward;
 }
 
 // Fills the unbeaten boss blinds lists
@@ -111,11 +111,11 @@ void init_unbeaten_blinds_list(bool showdown)
     if (!init)
     {
         init = true;
-        unbeaten_showdown_blinds = list_init();
-        unbeaten_boss_blinds = list_init();
+        s_unbeaten_showdown_blinds = list_init();
+        s_unbeaten_boss_blinds = list_init();
     }
 
-    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+    List* p_unbeaten_blinds = showdown ? &s_unbeaten_showdown_blinds : &s_unbeaten_boss_blinds;
 
     // empty the list just to be sure
     list_clear(p_unbeaten_blinds);
@@ -125,13 +125,13 @@ void init_unbeaten_blinds_list(bool showdown)
 
     for (int i = lower_blind; i <= upper_blind; i++)
     {
-        list_push_back(p_unbeaten_blinds, &_blind_type_map[i]);
+        list_push_back(p_unbeaten_blinds, &s_blind_type_map[i]);
     }
 }
 
 enum BlindType roll_blind_type(bool showdown)
 {
-    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+    List* p_unbeaten_blinds = showdown ? &s_unbeaten_showdown_blinds : &s_unbeaten_boss_blinds;
 
     // Fill the list with all blinds if it is empty
     // (happens on startup or if we have beaten all blinds)
@@ -150,7 +150,7 @@ enum BlindType roll_blind_type(bool showdown)
 void set_blind_beaten(enum BlindType type)
 {
     bool showdown = (type >= BLIND_TYPE_SHOWDOWN);
-    List* p_unbeaten_blinds = showdown ? &unbeaten_showdown_blinds : &unbeaten_boss_blinds;
+    List* p_unbeaten_blinds = showdown ? &s_unbeaten_showdown_blinds : &s_unbeaten_boss_blinds;
 
     // find the beaten blind idx in the list
     int beaten_idx = 0;

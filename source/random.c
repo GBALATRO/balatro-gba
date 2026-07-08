@@ -7,7 +7,7 @@
 #include <tonc.h>
 
 // Accumulate timer 1 into a bigger variable so we can generate more diverse seeds
-static u32 timer_acc = 0;
+static u32 s_timer_acc = 0;
 
 // Timers usage docs: https://gbadev.net/tonc/timers.html
 void rng_init(void)
@@ -18,7 +18,7 @@ void rng_init(void)
 
 void rng_update(void)
 {
-    timer_acc += (u32)REG_TM1D;
+    s_timer_acc += (u32)REG_TM1D;
 }
 
 void rng_set_seed(u32 seed)
@@ -30,7 +30,7 @@ void rng_set_seed(u32 seed)
 
 void rng_shuffle_seed(void)
 {
-    rng_set_seed(timer_acc);
+    rng_set_seed(s_timer_acc);
 }
 
 u32 rng_get_u32(void)

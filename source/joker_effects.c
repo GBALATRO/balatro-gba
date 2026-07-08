@@ -36,7 +36,7 @@
         return JOKER_EFFECT_FLAG_NONE;                       \
     }
 
-static JokerEffect shared_joker_effect = {0};
+static JokerEffect s_shared_joker_effect = {0};
 
 // Joker Descriptions
 
@@ -736,7 +736,7 @@ static u32 default_joker_effect(
 )
 {
     SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
-    *joker_effect = &shared_joker_effect;
+    *joker_effect = &s_shared_joker_effect;
 
     (*joker_effect)->mult = 4;
 
@@ -756,7 +756,7 @@ static u32 sinful_joker_effect(
 
     if (scored_card->suit == sinful_suit)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 3;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -817,7 +817,7 @@ static u32 jolly_joker_effect(
 
     if (get_contained_hands()->PAIR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 8;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -839,7 +839,7 @@ static u32 zany_joker_effect(
 
     if (get_contained_hands()->THREE_OF_A_KIND)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 12;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -861,7 +861,7 @@ static u32 mad_joker_effect(
 
     if (get_contained_hands()->TWO_PAIR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 10;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -883,7 +883,7 @@ static u32 crazy_joker_effect(
 
     if (get_contained_hands()->STRAIGHT)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 12;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -905,7 +905,7 @@ static u32 droll_joker_effect(
 
     if (get_contained_hands()->FLUSH)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 10;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -927,7 +927,7 @@ static u32 sly_joker_effect(
 
     if (get_contained_hands()->PAIR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 50;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -949,7 +949,7 @@ static u32 wily_joker_effect(
 
     if (get_contained_hands()->THREE_OF_A_KIND)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 100;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -971,7 +971,7 @@ static u32 clever_joker_effect(
 
     if (get_contained_hands()->TWO_PAIR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 80;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -993,7 +993,7 @@ static u32 devious_joker_effect(
 
     if (get_contained_hands()->STRAIGHT)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 100;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1015,7 +1015,7 @@ static u32 crafty_joker_effect(
 
     if (get_contained_hands()->FLUSH)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 80;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1038,7 +1038,7 @@ static u32 half_joker_effect(
     int played_size = get_played_size();
     if (played_size <= 3)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 20;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1056,7 +1056,7 @@ static u32 stencil_joker_effect(
 {
     SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
 
-    *joker_effect = &shared_joker_effect;
+    *joker_effect = &s_shared_joker_effect;
 
     List* jokers = get_jokers_list();
 
@@ -1088,7 +1088,7 @@ static u32 misprint_joker_effect(
 {
     SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
 
-    *joker_effect = &shared_joker_effect;
+    *joker_effect = &s_shared_joker_effect;
 
     (*joker_effect)->mult = rng_get_u32() % (MISPRINT_MAX_MULT + 1);
 
@@ -1108,7 +1108,7 @@ static u32 walkie_talkie_joker_effect(
 
     if (scored_card->rank == TEN || scored_card->rank == FOUR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 10;
         (*joker_effect)->mult = 4;
@@ -1136,7 +1136,7 @@ static u32 fibonnaci_joker_effect(
         case THREE:
         case FIVE:
         case EIGHT:
-            *joker_effect = &shared_joker_effect;
+            *joker_effect = &s_shared_joker_effect;
             (*joker_effect)->mult = 8;
             effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
             break;
@@ -1160,7 +1160,7 @@ static u32 banner_joker_effect(
 
     if (get_num_discards_remaining() > 0)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 30 * get_num_discards_remaining();
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1182,7 +1182,7 @@ static u32 mystic_summit_joker_effect(
 
     if (get_num_discards_remaining() == 0)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 15;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1216,7 +1216,7 @@ static u32 blackboard_joker_effect(
 
     if (all_cards_are_spades_or_clubs)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 3;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1234,7 +1234,7 @@ static u32 blue_joker_effect(
 {
     SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
 
-    *joker_effect = &shared_joker_effect;
+    *joker_effect = &s_shared_joker_effect;
 
     (*joker_effect)->chips = (get_deck_top() + 1) * 2;
 
@@ -1276,7 +1276,7 @@ static u32 raised_fist_joker_effect(
         case JOKER_EVENT_ON_CARD_HELD:
             if (get_scored_card_index() == *p_lowest_value_index)
             {
-                *joker_effect = &shared_joker_effect;
+                *joker_effect = &s_shared_joker_effect;
 
                 (*joker_effect)->mult = 2 * card_get_value(scored_card);
                 effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1303,7 +1303,7 @@ static u32 reserved_parking_joker_effect(
 
     if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->money = 1;
         effect_flags_ret = JOKER_EFFECT_FLAG_MONEY;
@@ -1325,7 +1325,7 @@ static u32 business_card_joker_effect(
 
     if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->money = 2;
         effect_flags_ret = JOKER_EFFECT_FLAG_MONEY;
@@ -1347,7 +1347,7 @@ static u32 scholar_joker_effect(
 
     if (scored_card->rank == ACE)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 20;
         (*joker_effect)->mult = 4;
@@ -1370,7 +1370,7 @@ static u32 scary_face_joker_effect(
 
     if (card_is_face(scored_card))
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 30;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1388,7 +1388,7 @@ static u32 abstract_joker_effect(
 {
     SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
 
-    *joker_effect = &shared_joker_effect;
+    *joker_effect = &s_shared_joker_effect;
 
     // +1 xmult per occupied joker slot
     int num_jokers = list_get_len(get_jokers_list());
@@ -1413,7 +1413,7 @@ static u32 bull_joker_effect(
     // This allows us to avoid scoring negative Chips
     if (g_game_vars.money > 0)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = g_game_vars.money * 2;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1435,7 +1435,7 @@ static u32 smiley_face_joker_effect(
 
     if (card_is_face(scored_card))
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 5;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1464,7 +1464,7 @@ static u32 even_steven_joker_effect(
         default:
             if (card_get_value(scored_card) % 2 == 0)
             {
-                *joker_effect = &shared_joker_effect;
+                *joker_effect = &s_shared_joker_effect;
 
                 (*joker_effect)->mult = 4;
                 effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1488,7 +1488,7 @@ static u32 odd_todd_joker_effect(
 
     if (card_get_value(scored_card) % 2 == 1) // todo test ace
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->chips = 31;
         effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
@@ -1511,7 +1511,7 @@ static u32 acrobat_joker_effect(
     // 0 remaining hands mean we're scoring the last hand
     if (get_num_hands_remaining() == 0)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 3;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1540,7 +1540,7 @@ static u32 hanging_chad_joker_effect(
         // p_remaining_retriggers will always reach 0 on the first card, then retrigger
         // will be false and scoring will go onto the next card
         case JOKER_EVENT_ON_CARD_SCORED_END:
-            *joker_effect = &shared_joker_effect;
+            *joker_effect = &s_shared_joker_effect;
 
             (*joker_effect)->retrigger = (*p_remaining_retriggers > 0);
             if ((*joker_effect)->retrigger)
@@ -1571,7 +1571,7 @@ static u32 the_duo_joker_effect(
 
     if (get_contained_hands()->PAIR)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 2;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1593,7 +1593,7 @@ static u32 the_trio_joker_effect(
 
     if (get_contained_hands()->THREE_OF_A_KIND)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 3;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1615,7 +1615,7 @@ static u32 the_family_joker_effect(
 
     if (get_contained_hands()->FOUR_OF_A_KIND)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 4;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1637,7 +1637,7 @@ static u32 the_order_joker_effect(
 
     if (get_contained_hands()->STRAIGHT)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 3;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1659,7 +1659,7 @@ static u32 the_tribe_joker_effect(
 
     if (get_contained_hands()->FLUSH)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->xmult = 2;
         effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1682,7 +1682,7 @@ static u32 bootstraps_joker_effect(
     // Same protection as the Bull Joker
     if (g_game_vars.money > 0)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = (g_game_vars.money / 5) * 2;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1704,7 +1704,7 @@ static u32 shoot_the_moon_joker_effect(
 
     if (scored_card->rank == QUEEN)
     {
-        *joker_effect = &shared_joker_effect;
+        *joker_effect = &s_shared_joker_effect;
 
         (*joker_effect)->mult = 13;
         effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
@@ -1742,7 +1742,7 @@ static u32 photograph_joker_effect(
             // and we will catch potential retriggers
             if (*p_first_face_index == get_scored_card_index())
             {
-                *joker_effect = &shared_joker_effect;
+                *joker_effect = &s_shared_joker_effect;
 
                 (*joker_effect)->xmult = 2;
                 effect_flags_ret = JOKER_EFFECT_FLAG_XMULT;
@@ -1777,7 +1777,7 @@ static u32 dusk_joker_effect(
             // Only retrigger current card if it's strictly after the last one we retriggered
             if (get_num_hands_remaining() == 0)
             {
-                *joker_effect = &shared_joker_effect;
+                *joker_effect = &s_shared_joker_effect;
 
                 (*joker_effect)->retrigger = (*p_last_retriggered_index < get_scored_card_index());
                 if ((*joker_effect)->retrigger)
@@ -1907,7 +1907,7 @@ static u32 hack_joker_effect(
                 case THREE:
                 case FOUR:
                 case FIVE:
-                    *joker_effect = &shared_joker_effect;
+                    *joker_effect = &s_shared_joker_effect;
 
                     (*joker_effect)->retrigger =
                         (*p_last_retriggered_index < get_scored_card_index());
@@ -1954,7 +1954,7 @@ static u32 seltzer_joker_effect(
             // Works the same way as Dusk
             // No need to check for p_hands_left_until_exp because the Joker
             // will be destroyed the moment we hit 0
-            *joker_effect = &shared_joker_effect;
+            *joker_effect = &s_shared_joker_effect;
 
             (*joker_effect)->retrigger = ((*p_last_retriggered_idx) < get_scored_card_index());
             if ((*joker_effect)->retrigger)
@@ -1966,7 +1966,7 @@ static u32 seltzer_joker_effect(
             break;
 
         case JOKER_EVENT_ON_HAND_SCORED_END:
-            *joker_effect = &shared_joker_effect;
+            *joker_effect = &s_shared_joker_effect;
             effect_flags_ret = JOKER_EFFECT_FLAG_MESSAGE;
 
             (*p_hands_left_until_exp)--;
@@ -2011,7 +2011,7 @@ static u32 sock_and_buskin_joker_effect(
             break;
 
         case JOKER_EVENT_ON_CARD_SCORED_END:
-            *joker_effect = &shared_joker_effect;
+            *joker_effect = &s_shared_joker_effect;
 
             // Works the same way as Dusk, but for face cards
             (*joker_effect)->retrigger =

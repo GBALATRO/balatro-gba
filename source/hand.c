@@ -24,7 +24,7 @@ typedef struct
     char* display_name;
 } HandValues;
 
-static const HandValues hand_base_values[] = {
+static const HandValues HAND_BASE_VALUES[] = {
     {.chips = 0,   .mult = 0,  .display_name = NULL     }, // NONE
     {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"}, // HIGH_CARD
     {.chips = 10,  .mult = 2,  .display_name = "Pair"   }, // PAIR
@@ -61,7 +61,7 @@ typedef struct Hand
     bool sort_by_suit;
 } Hand;
 
-static Hand hand = {
+static Hand s_hand = {
     .cards = {NULL},
     .hand_top = -1,
     .hand_selections = 0,
@@ -82,59 +82,59 @@ const char* get_hand_type_name(enum HandType hand_type)
     if (hand_type <= NONE || hand_type > FLUSH_FIVE)
         return NULL;
 
-    return hand_base_values[hand_type].display_name;
+    return HAND_BASE_VALUES[hand_type].display_name;
 }
 
 // Hand Struct Manipulation
 
 enum HandState get_hand_state(void)
 {
-    return hand.state;
+    return s_hand.state;
 }
 
 void set_hand_state(enum HandState new_hand_state)
 {
-    hand.state = new_hand_state;
+    s_hand.state = new_hand_state;
 }
 
 CardObject** get_hand_array(void)
 {
-    return hand.cards;
+    return s_hand.cards;
 }
 
 int get_hand_top(void)
 {
-    return hand.hand_top;
+    return s_hand.hand_top;
 }
 
 void set_hand_top(int new_hand_top)
 {
-    hand.hand_top = new_hand_top;
+    s_hand.hand_top = new_hand_top;
 }
 
 int hand_nb_held_cards(void)
 {
-    return hand.hand_top + 1;
+    return s_hand.hand_top + 1;
 }
 
 int hand_get_nb_selected_cards(void)
 {
-    return hand.hand_selections;
+    return s_hand.hand_selections;
 }
 
 void hand_set_nb_selected_cards(int new_selections)
 {
-    hand.hand_selections = new_selections;
+    s_hand.hand_selections = new_selections;
 }
 
 enum HandType get_hand_type(void)
 {
-    return hand.hand_type;
+    return s_hand.hand_type;
 }
 
 ContainedHandTypes* get_contained_hands(void)
 {
-    return &hand.contained_hands;
+    return &s_hand.contained_hands;
 }
 
 static void print_hand_type(const char* hand_type_str)
@@ -156,10 +156,10 @@ static void print_hand_type(const char* hand_type_str)
 void compute_hand_value_info(void)
 {
     tte_erase_rect_wrapper(HAND_TYPE_RECT);
-    hand.contained_hands = compute_contained_hand_types();
-    hand.hand_type = compute_hand_type(hand.contained_hands);
+    s_hand.contained_hands = compute_contained_hand_types();
+    s_hand.hand_type = compute_hand_type(s_hand.contained_hands);
 
-    HandValues hand_values = hand_base_values[hand.hand_type];
+    HandValues hand_values = HAND_BASE_VALUES[s_hand.hand_type];
 
     g_game_vars.chips = hand_values.chips;
     g_game_vars.mult = hand_values.mult;
@@ -173,22 +173,22 @@ void compute_hand_value_info(void)
 // no checks will be performed here for performance's sake
 void swap_cards_in_hand(int idx_a, int idx_b)
 {
-    CardObject* temp = hand.cards[idx_a];
-    hand.cards[idx_a] = hand.cards[idx_b];
-    hand.cards[idx_b] = temp;
+    CardObject* temp = s_hand.cards[idx_a];
+    s_hand.cards[idx_a] = s_hand.cards[idx_b];
+    s_hand.cards[idx_b] = temp;
 }
 
 static inline void sort_hand_by_suit(void)
 {
-    for (int idx_a = 0; idx_a < hand.hand_top; idx_a++)
+    for (int idx_a = 0; idx_a < s_hand.hand_top; idx_a++)
     {
-        for (int idx_b = idx_a + 1; idx_b <= hand.hand_top; idx_b++)
+        for (int idx_b = idx_a + 1; idx_b <= s_hand.hand_top; idx_b++)
         {
-            if (hand.cards[idx_a] == NULL ||
-                (hand.cards[idx_b] != NULL &&
-                 (hand.cards[idx_a]->card->suit > hand.cards[idx_b]->card->suit ||
-                  (hand.cards[idx_a]->card->suit == hand.cards[idx_b]->card->suit &&
-                   hand.cards[idx_a]->card->rank > hand.cards[idx_b]->card->rank))))
+            if (s_hand.cards[idx_a] == NULL ||
+                (s_hand.cards[idx_b] != NULL &&
+                 (s_hand.cards[idx_a]->card->suit > s_hand.cards[idx_b]->card->suit ||
+                  (s_hand.cards[idx_a]->card->suit == s_hand.cards[idx_b]->card->suit &&
+                   s_hand.cards[idx_a]->card->rank > s_hand.cards[idx_b]->card->rank))))
             {
                 swap_cards_in_hand(idx_a, idx_b);
             }
@@ -198,13 +198,13 @@ static inline void sort_hand_by_suit(void)
 
 static inline void sort_hand_by_rank(void)
 {
-    for (int idx_a = 0; idx_a < hand.hand_top; idx_a++)
+    for (int idx_a = 0; idx_a < s_hand.hand_top; idx_a++)
     {
-        for (int idx_b = idx_a + 1; idx_b <= hand.hand_top; idx_b++)
+        for (int idx_b = idx_a + 1; idx_b <= s_hand.hand_top; idx_b++)
         {
-            if (hand.cards[idx_a] == NULL ||
-                (hand.cards[idx_b] != NULL &&
-                 hand.cards[idx_a]->card->rank > hand.cards[idx_b]->card->rank))
+            if (s_hand.cards[idx_a] == NULL ||
+                (s_hand.cards[idx_b] != NULL &&
+                 s_hand.cards[idx_a]->card->rank > s_hand.cards[idx_b]->card->rank))
             {
                 swap_cards_in_hand(idx_a, idx_b);
             }
@@ -217,25 +217,25 @@ static inline bool shift_null_card_to_end(int null_card_idx)
     // Start by searching any non NULL cards after the NULL one
     // don't start at null_card_idx+1 to avoid potential illegal array access
     int non_null_card_idx = null_card_idx;
-    for (; non_null_card_idx <= hand.hand_top; non_null_card_idx++)
+    for (; non_null_card_idx <= s_hand.hand_top; non_null_card_idx++)
     {
-        if (hand.cards[non_null_card_idx] != NULL)
+        if (s_hand.cards[non_null_card_idx] != NULL)
         {
             break;
         }
     }
 
     // return false if there are no non-NULL cards left/there are no more sprites to destroy
-    if (non_null_card_idx > hand.hand_top)
+    if (non_null_card_idx > s_hand.hand_top)
     {
         return false;
     }
 
     // If there is one, shift it and all the cards that follow forward
     // This way we close the gap and ensure the next card is not NULL
-    for (int j = 0; j <= hand.hand_top - non_null_card_idx; j++)
+    for (int j = 0; j <= s_hand.hand_top - non_null_card_idx; j++)
     {
-        hand.cards[null_card_idx + j] = hand.cards[non_null_card_idx + j];
+        s_hand.cards[null_card_idx + j] = s_hand.cards[non_null_card_idx + j];
     }
 
     return true;
@@ -245,11 +245,11 @@ void reorder_card_sprites_layers(void)
 {
     // Update the sprites in the hand by destroying them and creating new ones in the correct order
     // (This feels like a diabolical solution but like literally how else would you do this)
-    for (int i = 0; i <= hand.hand_top; i++)
+    for (int i = 0; i <= s_hand.hand_top; i++)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
         // before. Any NULL CardObject will be sent to the end by shifting all elements forward
-        if (hand.cards[i] == NULL)
+        if (s_hand.cards[i] == NULL)
         {
             if (!shift_null_card_to_end(i))
             {
@@ -258,20 +258,20 @@ void reorder_card_sprites_layers(void)
         }
 
         // card_object_get_sprite() will not work here since we need the address
-        sprite_destroy(&(hand.cards[i]->sprite));
+        sprite_destroy(&(s_hand.cards[i]->sprite));
     }
 
     // Recreate the sprites for the remaining non NULL cards, in order
-    for (int i = 0; i <= hand.hand_top; i++)
+    for (int i = 0; i <= s_hand.hand_top; i++)
     {
-        if (hand.cards[i] != NULL)
+        if (s_hand.cards[i] != NULL)
         {
             // Set the sprite for the card object
-            card_object_set_sprite(hand.cards[i], i);
+            card_object_set_sprite(s_hand.cards[i], i);
             sprite_position(
-                card_object_get_sprite(hand.cards[i]),
-                fx2int(hand.cards[i]->x),
-                fx2int(hand.cards[i]->y)
+                card_object_get_sprite(s_hand.cards[i]),
+                fx2int(s_hand.cards[i]->x),
+                fx2int(s_hand.cards[i]->y)
             );
         }
     }
@@ -279,7 +279,7 @@ void reorder_card_sprites_layers(void)
 
 void sort_cards(void)
 {
-    if (hand.sort_by_suit)
+    if (s_hand.sort_by_suit)
     {
         sort_hand_by_suit();
     }
@@ -293,29 +293,29 @@ void sort_cards(void)
 
 void hand_change_sort(bool to_sort_by_suit)
 {
-    if (to_sort_by_suit != hand.sort_by_suit)
+    if (to_sort_by_suit != s_hand.sort_by_suit)
     {
-        hand.sort_by_suit = to_sort_by_suit;
+        s_hand.sort_by_suit = to_sort_by_suit;
         sort_cards();
     }
 }
 
 void hand_select_card(int index)
 {
-    if (index < 0 || index >= hand_nb_held_cards() || hand.state != HAND_SELECT ||
-        hand.cards[index] == NULL)
+    if (index < 0 || index >= hand_nb_held_cards() || s_hand.state != HAND_SELECT ||
+        s_hand.cards[index] == NULL)
         return;
 
-    if (card_object_is_selected(hand.cards[index]))
+    if (card_object_is_selected(s_hand.cards[index]))
     {
-        card_object_set_selected(hand.cards[index], false);
-        hand.hand_selections--;
+        card_object_set_selected(s_hand.cards[index], false);
+        s_hand.hand_selections--;
         play_sfx(SFX_CARD_DESELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
-    else if (hand.hand_selections < MAX_SELECTION_SIZE)
+    else if (s_hand.hand_selections < MAX_SELECTION_SIZE)
     {
-        card_object_set_selected(hand.cards[index], true);
-        hand.hand_selections++;
+        card_object_set_selected(s_hand.cards[index], true);
+        s_hand.hand_selections++;
         play_sfx(SFX_CARD_SELECT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
     compute_hand_value_info();
@@ -324,12 +324,12 @@ void hand_select_card(int index)
 void hand_deselect_all_cards(void)
 {
     bool any_cards_deselected = false;
-    for (int i = 0; i <= hand.hand_top; i++)
+    for (int i = 0; i <= s_hand.hand_top; i++)
     {
-        if (card_object_is_selected(hand.cards[i]))
+        if (card_object_is_selected(s_hand.cards[i]))
         {
-            card_object_set_selected(hand.cards[i], false);
-            hand.hand_selections--;
+            card_object_set_selected(s_hand.cards[i], false);
+            s_hand.hand_selections--;
             any_cards_deselected = true;
         }
     }
@@ -356,13 +356,13 @@ static void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUIT
     for (int i = 0; i < NUM_SUITS; i++)
         suits_out[i] = 0;
 
-    int top = hand.hand_top;
+    int top = s_hand.hand_top;
     for (int i = 0; i <= top; i++)
     {
-        if (hand.cards[i] && card_object_is_selected(hand.cards[i]))
+        if (s_hand.cards[i] && card_object_is_selected(s_hand.cards[i]))
         {
-            ranks_out[hand.cards[i]->card->rank]++;
-            suits_out[hand.cards[i]->card->suit]++;
+            ranks_out[s_hand.cards[i]->card->rank]++;
+            suits_out[s_hand.cards[i]->card->suit]++;
         }
     }
 }
@@ -765,7 +765,7 @@ static ContainedHandTypes compute_contained_hand_types(void)
     ContainedHandTypes hand_types = {0};
 
     // Idk if this is how Balatro does it but this is how I'm doing it
-    if (hand.hand_selections == 0 || hand.state == HAND_DISCARD)
+    if (s_hand.hand_selections == 0 || s_hand.state == HAND_DISCARD)
     {
         return hand_types;
     }

@@ -126,17 +126,17 @@ static Button game_over_buttons[GAME_OVER_ROW_MAX][2] = {
 
 // Internal Variables
 
-static enum EndCondition condition = END_CONDITION_NONE;
-static u32 timer = TM_ZERO;
-static bool reuse_seed = false;
-static bool continue_run = false;
+static enum EndCondition s_end_condition = END_CONDITION_NONE;
+static u32 s_timer = TM_ZERO;
+static bool s_reuse_seed = false;
+static bool s_continue_run = false;
 
 static void game_over_common_init(enum EndCondition init_condition)
 {
-    condition = init_condition;
-    timer = TM_ZERO;
-    reuse_seed = false;
-    continue_run = false;
+    s_end_condition = init_condition;
+    s_timer = TM_ZERO;
+    s_reuse_seed = false;
+    s_continue_run = false;
 
     // Hide all Joker sprites
     JokerObject* joker_object = NULL;
@@ -208,14 +208,14 @@ void game_lose_on_init(void)
 
 void game_over_on_update(void)
 {
-    timer++;
+    s_timer++;
 
     // Need to clear text here or the number of cards remaining in deck stays for some reason
-    if (timer == 1)
+    if (s_timer == 1)
         tte_erase_screen();
 
     // Move whole panel and Blind Token sprite up by a tile each frame
-    if (timer < GAME_OVER_ANIM_FRAMES)
+    if (s_timer < GAME_OVER_ANIM_FRAMES)
     {
         main_bg_se_move_rect_1_tile_vert(GAME_OVER_ANIM_RECT, SCREEN_UP);
 
@@ -227,7 +227,7 @@ void game_over_on_update(void)
     }
 
     // Print values and buttons text
-    else if (timer == GAME_OVER_ANIM_FRAMES)
+    else if (s_timer == GAME_OVER_ANIM_FRAMES)
     {
         char best_hand_str[UINT_MAX_DIGITS + 1];
         truncate_uint_to_suffixed_str(
@@ -291,7 +291,7 @@ void game_over_on_update(void)
         );
     }
 
-    if (timer >= GAME_OVER_ANIM_FRAMES)
+    if (s_timer >= GAME_OVER_ANIM_FRAMES)
         selection_grid_process_input(&game_over_selection_grid);
 }
 
@@ -300,14 +300,14 @@ void game_over_on_exit(void)
     toggle_windows(false, false);
 
     play_regular_music();
-    condition = END_CONDITION_NONE;
+    s_end_condition = END_CONDITION_NONE;
 
     u32 previous_seed = g_game_vars.rng_info.seed;
 
-    if (!continue_run)
+    if (!s_continue_run)
         game_reset();
 
-    if (reuse_seed)
+    if (s_reuse_seed)
         rng_set_seed(previous_seed);
     else
         g_game_vars.rng_info.seed = UNDEFINED;
@@ -346,9 +346,9 @@ static bool game_over_on_selection_changed(
 
 static void reuse_seed_on_pressed(void)
 {
-    reuse_seed = !reuse_seed;
+    s_reuse_seed = !s_reuse_seed;
     main_bg_se_copy_rect(
-        reuse_seed ? REUSE_SEED_BTN_ON_SRC_RECT : REUSE_SEED_BTN_OFF_SRC_RECT,
+        s_reuse_seed ? REUSE_SEED_BTN_ON_SRC_RECT : REUSE_SEED_BTN_OFF_SRC_RECT,
         REUSE_SEED_BTN_DEST_POS
     );
 }

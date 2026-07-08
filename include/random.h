@@ -30,7 +30,7 @@ typedef struct
 void rng_init(void);
 
 /**
- * @brief Update the CPU cycles counter and accumulate it into a bigger u32 `timer_acc` variable.
+ * @brief Update the CPU cycles counter and accumulate it into a bigger u32 `s_timer_acc` variable.
  */
 void rng_update(void);
 

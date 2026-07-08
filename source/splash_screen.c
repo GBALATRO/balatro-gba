@@ -9,11 +9,11 @@
 #include <tonc.h>
 
 static const Rect COUNTDOWN_TIMER_RECT = {208, 144, 240, 152};
-static uint timer = 0;
+static uint s_timer = 0;
 
 void splash_screen_on_init(void)
 {
-    timer = 0;
+    s_timer = 0;
 
     tte_printf("#{P:72,8; cx:0x%X000}DISCLAIMER", TTE_WHITE_PB);
     tte_printf(
@@ -29,9 +29,9 @@ void splash_screen_on_init(void)
 
 void splash_screen_on_update(void)
 {
-    timer++;
+    s_timer++;
 
-    if (timer < SPLASH_DURATION_FRAMES)
+    if (s_timer < SPLASH_DURATION_FRAMES)
     {
         tte_erase_rect_wrapper(COUNTDOWN_TIMER_RECT);
         tte_printf(
@@ -39,7 +39,7 @@ void splash_screen_on_update(void)
             COUNTDOWN_TIMER_RECT.left,
             COUNTDOWN_TIMER_RECT.top,
             TTE_WHITE_PB,
-            1 + (SPLASH_DURATION_FRAMES - timer) / SPLASH_FPS
+            1 + (SPLASH_DURATION_FRAMES - s_timer) / SPLASH_FPS
         );
 
         if (!key_hit(KEY_ANY))

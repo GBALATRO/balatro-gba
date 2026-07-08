@@ -12,7 +12,7 @@
 
 typedef void (*BackgroundRenderCallback)(void);
 
-static enum BackgroundId background = BG_NONE;
+static enum BackgroundId s_background = BG_NONE;
 
 // Map to fill in for refactor
 static const BackgroundRenderCallback bgCallbacks[] = {
@@ -29,20 +29,20 @@ static const BackgroundRenderCallback bgCallbacks[] = {
 
 enum BackgroundId get_current_background(void)
 {
-    return background;
+    return s_background;
 }
 
 void change_background(enum BackgroundId id, bool force_redraw)
 {
     if (force_redraw)
     {
-        background = BG_NONE;
+        s_background = BG_NONE;
     }
-    if (id != background && bgCallbacks[id] != NULL)
+    if (id != s_background && bgCallbacks[id] != NULL)
     {
         bgCallbacks[id]();
     }
-    background = id;
+    s_background = id;
 }
 
 void reset_top_left_panel_bottom_row(void)
