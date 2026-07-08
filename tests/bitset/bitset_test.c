@@ -18,7 +18,9 @@ void test_bitset_fill_all_and_empty(void)
 
     for(int i = 0; i < BITSET_MAX_BITS; i++)
     {
+        assert(!bitset_get_idx(&test_bitset, i));
         bitset_set_idx(&test_bitset, i, true);
+        assert(bitset_get_idx(&test_bitset, i));
         assert(bitset_num_set_bits(&test_bitset) == (i + 1));
     }
 
@@ -82,9 +84,9 @@ void test_bitset_iterator(void)
 {
     assert(bitset_is_empty(&test_bitset));
 
-    int test_indices[6] = {0, 31, 32, 63, 64, 100};
+    int test_indices[] = {0, 31, 32, 63, 64, 100};
 
-    for(int i = 0; i < 6; i++)
+    for(int i = 0; i < NUM_ELEM_IN_ARR(test_indices); i++)
     {
         bitset_set_idx(&test_bitset, test_indices[i], true);
     }
@@ -98,10 +100,27 @@ void test_bitset_iterator(void)
         assert(test_val == test_indices[index++]);
     }
 
-    assert(index == 6);
+    assert(index == NUM_ELEM_IN_ARR(test_indices));
 
     bitset_clear(&test_bitset);
 
+    assert(bitset_is_empty(&test_bitset));
+}
+
+void test_bitset_set_all(void)
+{
+    assert(bitset_is_empty(&test_bitset));
+
+    bitset_set_all(&test_bitset);
+
+    assert(bitset_num_set_bits(&test_bitset) == BITSET_MAX_BITS);
+
+    for (int i = 0; i < BITSET_MAX_BITS; i++)
+    {
+        assert(bitset_get_idx(&test_bitset, i));
+    }
+
+    bitset_clear(&test_bitset);
     assert(bitset_is_empty(&test_bitset));
 }
 
@@ -113,6 +132,8 @@ int main(void)
     test_bitset_insertions_at_boundry();
     printf("Testing Bitset Iterator.\n");
     test_bitset_iterator();
+    printf("Testing bitset_set_all().\n");
+    test_bitset_set_all();
 
     printf("-------------------------------------------------------------------------------\n");
     printf("Bitset Tests Passed :)\n");
