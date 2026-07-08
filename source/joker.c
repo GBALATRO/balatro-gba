@@ -1,5 +1,6 @@
 #include "joker.h"
 
+#include "bitset.h"
 #include "card.h"
 #include "game/round.h"
 #include "game_variables.h"
@@ -192,6 +193,7 @@ int joker_get_sell_value(const Joker* joker)
 // JokerObject methods
 JokerObject* joker_object_new(Joker* joker)
 {
+    GBAL_RETURN_IF_NULL_RET(joker, NULL);
     JokerObject* joker_object = POOL_GET(JokerObject);
 
     int layer = 0;

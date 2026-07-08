@@ -182,13 +182,7 @@ JokerObject* game_shop_get_description_card(void)
 
 static inline void reset_shop_jokers(void)
 {
-    int num_jokers = get_joker_registry_size();
-
-    bitset_clear(&s_avail_jokers_bitset);
-    for (int i = 0; i < num_jokers; i++)
-    {
-        bitset_set_idx(&s_avail_jokers_bitset, i, true);
-    }
+    bitset_set_all(&s_avail_jokers_bitset);
 }
 
 void game_shop_reset(void)
@@ -353,6 +347,8 @@ static void game_shop_create_items(void)
         game_shop_set_joker_avail(joker_id, false);
 
         JokerObject* joker_object = joker_object_new(joker_new(joker_id));
+
+        GBAL_RETURN_IF_NULL_VOID(joker_object);
 
         joker_object->sprite_object->x =
             int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
