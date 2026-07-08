@@ -60,16 +60,36 @@ enum ItemType
     ITEM_NUM_TYPES
 };
 
-typedef struct
+/**
+ * @brief A generic interface for all items that can appear in the shop or be in the inventory.
+ * This uses first member struct inheritance - other structs are meant to inherit it by
+ * making their first member field Item.
+ * Then casts from inheriting structs to Item* are allowed and intentional and this allows for
+ * generic code that uses polymorphism.
+ * The -fms-extensions compile flag allows for anonymous members making it behave fully
+ * as inheritance. It makes all member fields be fully inherited so any struct
+ * that inherits Item for example will have all its fields accessible directly,
+ * e.g. `JokerObject joker_object; joker_object.type = ITEM_TYPE_JOKER`
+ */
+typedef struct Item
 {
-    SpriteObject; // First member struct inheritance
-    // All items in the shop and inventory are SpriteObjects.
-    // Casts from Item* (or inheriting structs) to SpriteObject* are allowed and intentional.
+    /**
+     * @brief First member struct inheritance
+     * all items that can appear in the shop are SpriteObjects.
+     * Note that this is an anonymous member.
+     */
+    SpriteObject;
 
+    /**
+     * @brief The item type - used to dispatch the function implementations for inheriting types.
+     */
     enum ItemType type;
 } Item;
 
-typedef struct
+/**
+ * @brief The set of functions that each item type implements.
+ */
+typedef struct ItemFuncs
 {
     /**
      * All items must implement the following since they are called by the shop and all items
