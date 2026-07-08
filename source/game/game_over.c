@@ -143,7 +143,7 @@ static void game_over_common_init(enum EndCondition init_condition)
     ListItr itr = list_itr_create(get_jokers_list());
     while ((joker_object = list_itr_next(&itr)))
     {
-        obj_hide(joker_object->sprite_object->sprite->obj);
+        obj_hide(joker_object->sprite->obj);
     }
 
     // Destroy any preexisting cards in the deck, which will be present if we restart a run
