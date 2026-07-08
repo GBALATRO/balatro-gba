@@ -354,7 +354,7 @@ static int joker_roll_id(void)
 
     if (jokers_avail_size == 0)
         return UNDEFINED;
-        
+
     // Roll for what rarity the joker will be
     int joker_rarity = joker_get_random_rarity();
 
