@@ -528,18 +528,18 @@ static int game_round_hand_row_get_size(void)
  ******************************************************************************/
 
 // true if and only if we are currently moving a card around
-static bool moving_card = false;
+static bool s_moving_card = false;
 
 // This will prevent us from moving cards around if we selected one
 // by moving too fast after pressing the A button
-static bool card_moved_too_fast = false;
-static bool card_selected_instead_of_moved = false;
+static bool s_card_moved_too_fast = false;
+static bool s_card_selected_instead_of_moved = false;
 
 // After pressing A, if we press Left/Right too fast, we should select the card
 // and change focus to the next one, instead of swapping them
 // This should fix inputs sometimes not registering when quickly selecting cards
-static const int card_swap_time_threshold = 6;
-static int selection_hit_timer = UNDEFINED;
+static const int CARD_SWAP_TIME_THRESHOLD = 6;
+static int s_selection_hit_timer = UNDEFINED;
 
 static bool game_round_hand_row_on_selection_changed(
     SelectionGrid* selection_grid,
@@ -552,8 +552,8 @@ static bool game_round_hand_row_on_selection_changed(
     int next_card_idx = UNDEFINED;
 
     // Do not use FRAMES(x) here as we are counting real frames ignoring game speed
-    card_moved_too_fast = (selection_hit_timer != UNDEFINED) &&
-                          (g_game_vars.timer - selection_hit_timer) < card_swap_time_threshold;
+    s_card_moved_too_fast = (s_selection_hit_timer != UNDEFINED) &&
+                            (g_game_vars.timer - s_selection_hit_timer) < CARD_SWAP_TIME_THRESHOLD;
 
     if (prev_selection->y == GAME_PLAYING_HAND_SEL_Y)
     {
@@ -567,8 +567,8 @@ static bool game_round_hand_row_on_selection_changed(
 
     bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
 
-    if (on_the_same_row && key_is_down(SELECT_CARD) && !card_moved_too_fast &&
-        !card_selected_instead_of_moved)
+    if (on_the_same_row && key_is_down(SELECT_CARD) && !s_card_moved_too_fast &&
+        !s_card_selected_instead_of_moved)
     {
         bool moved_by_one_tile = abs(new_selection->x - prev_selection->x) == 1;
 
@@ -581,7 +581,7 @@ static bool game_round_hand_row_on_selection_changed(
         else
         {
             swap_cards_in_hand(prev_card_idx, next_card_idx);
-            moving_card = true;
+            s_moving_card = true;
             reorder_card_sprites_layers();
 
             /* Not calling sprite_object_set_focus() because focus is handled by
@@ -597,10 +597,10 @@ static bool game_round_hand_row_on_selection_changed(
     else
     {
         // select current card if we tried moving it too fast
-        if (key_released(SELECT_CARD) || (card_moved_too_fast && !moving_card))
+        if (key_released(SELECT_CARD) || (s_card_moved_too_fast && !s_moving_card))
         {
             hand_select_card(prev_card_idx);
-            card_selected_instead_of_moved = true;
+            s_card_selected_instead_of_moved = true;
         }
         if (next_card_idx != UNDEFINED)
         {
@@ -622,18 +622,18 @@ static void game_round_hand_row_on_key_transit(SelectionGrid* selection_grid, Se
 {
     if (key_hit(SELECT_CARD))
     {
-        selection_hit_timer = g_game_vars.timer;
+        s_selection_hit_timer = g_game_vars.timer;
     }
     else if (key_released(SELECT_CARD))
     {
-        if (!moving_card && !card_selected_instead_of_moved)
+        if (!s_moving_card && !s_card_selected_instead_of_moved)
         {
             hand_select_card(hand_sel_idx_to_card_idx(selection->x));
         }
-        moving_card = false;
-        card_moved_too_fast = false;
-        card_selected_instead_of_moved = false;
-        selection_hit_timer = UNDEFINED;
+        s_moving_card = false;
+        s_card_moved_too_fast = false;
+        s_card_selected_instead_of_moved = false;
+        s_selection_hit_timer = UNDEFINED;
     }
     else if (key_hit(DESELECT_CARDS))
     {
