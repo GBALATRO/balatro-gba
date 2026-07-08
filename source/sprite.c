@@ -33,7 +33,7 @@ static bool free_affines[MAX_AFFINES] = {false};
 static List sprite_objects_list = LIST_DEFAULT;
 
 // Sprite methods
-Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)
+Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 {
     Sprite* sprite = POOL_GET(Sprite);
 
@@ -109,11 +109,11 @@ void sprite_destroy(Sprite** sprite)
     *sprite = NULL;
 }
 
-int sprite_get_layer(Sprite* sprite)
+s16 sprite_get_layer(Sprite* sprite)
 {
     if (sprite == NULL || sprite->obj == NULL)
         return UNDEFINED;
-    return sprite->obj - obj_buffer;
+    return (s16)(sprite->obj - obj_buffer);
 }
 
 bool sprite_get_width(Sprite* sprite, int* width)

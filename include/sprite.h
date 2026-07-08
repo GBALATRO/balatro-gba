@@ -45,7 +45,7 @@ typedef struct
     /**
      * @brief Sprite index in memory managed by GBAlatro
      */
-    int idx;
+    s16 idx;
 
     /**
      * @brief The mode of the sprite (regular, affine, etc.), set when the sprite is created
@@ -127,7 +127,7 @@ typedef struct
  * @return Valid Sprite if allocations are successful.
  *         Otherwise, return **NULL**.
  */
-Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index);
+Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index);
 
 /**
  * @brief Destroy Sprite
@@ -143,7 +143,7 @@ void sprite_destroy(Sprite** sprite);
  *
  * @return Index of sprite in object buffer if `sprite` is valid, otherwise **UNDEFINED**.
  */
-int sprite_get_layer(Sprite* sprite);
+s16 sprite_get_layer(Sprite* sprite);
 
 /**
  * @brief Get a Sprite's width and height

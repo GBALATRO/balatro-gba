@@ -121,7 +121,7 @@ void card_object_destroy(CardObject** card_object)
     *card_object = NULL;
 }
 
-void card_object_set_sprite(CardObject* card_object, int layer)
+void card_object_set_sprite(CardObject* card_object, s16 layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
     const unsigned int* card_tiles = s_more_readable ? deck_big_gfxTiles : deck_gfxTiles;
@@ -140,7 +140,7 @@ void card_object_set_sprite(CardObject* card_object, int layer)
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
-void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, int layer)
+void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
 {
     int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
     memcpy32(
