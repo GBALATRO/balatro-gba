@@ -348,6 +348,8 @@ static void game_shop_create_items(void)
 
         JokerObject* joker_object = joker_object_new(joker_new(joker_id));
 
+        GBAL_RETURN_IF_NULL_VOID(joker_object);
+
         joker_object->sprite_object->x =
             int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
         joker_object->sprite_object->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
