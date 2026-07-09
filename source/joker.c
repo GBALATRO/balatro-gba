@@ -466,7 +466,6 @@ bool joker_object_score(
     }
     else
     {
-        // Adding direct access instead of cast and/or call to getter (same in card_object above)
         cursorPosX += fx2int(joker_object->x);
         cursorPosY = JOKER_SCORE_TEXT_Y;
     }
