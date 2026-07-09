@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('joker_8h_source.html',''); initResizab
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;card.h&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="graphic__utils_8h.html">graphic_utils.h</a>&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="sprite_8h.html">sprite.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="item_8h.html">item.h</a>&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;maxmod.h&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
@@ -251,8 +251,8 @@ $(document).ready(function(){initNavTree('joker_8h_source.html',''); initResizab
 <div class="foldopen" id="foldopen00113" data-start="{" data-end="};">
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="structJokerObject.html">  113</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structJokerObject.html">JokerObject</a></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>{</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_struct" href="structJoker.html">Joker</a>* joker;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_struct" href="structItem.html">Item</a>; <span class="comment">// First member struct inheritance</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <a class="code hl_struct" href="structJoker.html">Joker</a>* joker;</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>} <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>;</div>
 </div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
@@ -324,30 +324,50 @@ $(document).ready(function(){initNavTree('joker_8h_source.html',''); initResizab
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="keywordtype">void</span> joker_object_destroy(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>** joker_object);</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="comment">// This doesn&#39;t actually score anything, it just performs an animation and plays a sound effect</span></div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="keywordtype">void</span> joker_object_shake(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object, mm_word sound_id);</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="comment">// This scores the joker and returns true if it was scored successfully</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="comment">// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="comment">// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="comment">// On_Card_Held</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="keywordtype">bool</span> joker_object_score(</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object,</div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object,</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keyword">enum</span> JokerEvent joker_event</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="keywordtype">int</span> <a class="code hl_function" href="joker_8h.html#a5ea56aa0d61cad6cfe77603861633666">joker_object_get_buy_price</a>(<a class="code hl_struct" href="structItem.html">Item</a>* joker_object);</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* joker_object_get_sprite(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object);</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="keywordtype">int</span> joker_get_random_rarity();</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">#endif </span><span class="comment">// JOKER_H</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="comment">// TODO: Move to an owned_jokers.c/.h file?</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="keywordtype">void</span> <a class="code hl_function" href="joker_8h.html#a828618bf59de4d767c02ca5ab7183940">joker_object_add_to_owned</a>(<a class="code hl_struct" href="structItem.html">Item</a>* joker_object);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="keywordtype">void</span> <a class="code hl_function" href="joker_8h.html#a03dbc1f69bd0f3a66f0e7e4538e871ea">joker_object_dispose</a>(<a class="code hl_struct" href="structItem.html">Item</a>** joker_object);</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="keywordtype">void</span> <a class="code hl_function" href="joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a">joker_set_rollable</a>(<span class="keywordtype">int</span> joker_id, <span class="keywordtype">bool</span> rollable);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="keywordtype">void</span> <a class="code hl_function" href="joker_8h.html#a918b93ef719d3c3bbd8cd08d5793467b">joker_reset_rollable_jokers</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><a class="code hl_struct" href="structItem.html">Item</a>* <a class="code hl_function" href="joker_8h.html#a4ea706caaf6dec06ac926b67d4465af5">joker_object_roll_new</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="comment">// This scores the joker and returns true if it was scored successfully</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="comment">// card_object = NULL means the joker_event does not concern a particular Card, i.e. Independend or</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="comment">// On_Blind_Selected as opposed to events that concern a particular card, i.e. On_Card_Scored or</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="comment">// On_Card_Held</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="keywordtype">bool</span> joker_object_score(</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object,</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keyword">enum</span> JokerEvent joker_event</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><a class="code hl_struct" href="structSprite.html">Sprite</a>* joker_object_get_sprite(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="keywordtype">int</span> joker_get_random_rarity();</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="preprocessor">#endif </span><span class="comment">// JOKER_H</span></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
-<div class="ttc" id="ajoker_8h_html_a3fccdb283cc5d2f34c9252d08d695c8e"><div class="ttname"><a href="joker_8h.html#a3fccdb283cc5d2f34c9252d08d695c8e">joker_get_rarity_color</a></div><div class="ttdeci">u16 joker_get_rarity_color(u8 rarity, bool main_color)</div><div class="ttdoc">Get Joker rarity panel color.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00172">joker.c:172</a></div></div>
-<div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
+<div class="ttc" id="aitem_8h_html"><div class="ttname"><a href="item_8h.html">item.h</a></div><div class="ttdoc">The core structure for items in the shop and inventory. Provides a common API for the shop and invent...</div></div>
+<div class="ttc" id="ajoker_8h_html_a03dbc1f69bd0f3a66f0e7e4538e871ea"><div class="ttname"><a href="joker_8h.html#a03dbc1f69bd0f3a66f0e7e4538e871ea">joker_object_dispose</a></div><div class="ttdeci">void joker_object_dispose(Item **joker_object)</div><div class="ttdoc">Destroy a JokerObject item, free its resources, and make it available to be rolled.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00271">joker.c:271</a></div></div>
+<div class="ttc" id="ajoker_8h_html_a3fccdb283cc5d2f34c9252d08d695c8e"><div class="ttname"><a href="joker_8h.html#a3fccdb283cc5d2f34c9252d08d695c8e">joker_get_rarity_color</a></div><div class="ttdeci">u16 joker_get_rarity_color(u8 rarity, bool main_color)</div><div class="ttdoc">Get Joker rarity panel color.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00177">joker.c:177</a></div></div>
+<div class="ttc" id="ajoker_8h_html_a4ea706caaf6dec06ac926b67d4465af5"><div class="ttname"><a href="joker_8h.html#a4ea706caaf6dec06ac926b67d4465af5">joker_object_roll_new</a></div><div class="ttdeci">Item * joker_object_roll_new(void)</div><div class="ttdoc">Roll and create a new JokerObject item.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00387">joker.c:387</a></div></div>
+<div class="ttc" id="ajoker_8h_html_a5ea56aa0d61cad6cfe77603861633666"><div class="ttname"><a href="joker_8h.html#a5ea56aa0d61cad6cfe77603861633666">joker_object_get_buy_price</a></div><div class="ttdeci">int joker_object_get_buy_price(Item *joker_object)</div><div class="ttdoc">Returns the buy price of the joker object.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00291">joker.c:291</a></div></div>
+<div class="ttc" id="ajoker_8h_html_a828618bf59de4d767c02ca5ab7183940"><div class="ttname"><a href="joker_8h.html#a828618bf59de4d767c02ca5ab7183940">joker_object_add_to_owned</a></div><div class="ttdeci">void joker_object_add_to_owned(Item *joker_object)</div><div class="ttdoc">Add a Joker to the list of owned Jokers and place it in the joker row.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00299">joker.c:299</a></div></div>
+<div class="ttc" id="ajoker_8h_html_a918b93ef719d3c3bbd8cd08d5793467b"><div class="ttname"><a href="joker_8h.html#a918b93ef719d3c3bbd8cd08d5793467b">joker_reset_rollable_jokers</a></div><div class="ttdeci">void joker_reset_rollable_jokers(void)</div><div class="ttdoc">Reset rollable jokers to include all jokers in the registry.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00336">joker.c:336</a></div></div>
+<div class="ttc" id="ajoker_8h_html_afeaee7bccd2b1da5a262b4c124a34f2a"><div class="ttname"><a href="joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a">joker_set_rollable</a></div><div class="ttdeci">void joker_set_rollable(int joker_id, bool rollable)</div><div class="ttdoc">Set whether a Joker is available to be rolled for the shop, packs, etc.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00308">joker.c:308</a></div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00055">card.h:56</a></div></div>
 <div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00049">card.h:50</a></div></div>
+<div class="ttc" id="astructItem_html"><div class="ttname"><a href="structItem.html">Item</a></div><div class="ttdoc">A generic interface for all items that can appear in the shop or be in the inventory....</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00074">item.h:75</a></div></div>
 <div class="ttc" id="astructJokerEffect_html"><div class="ttname"><a href="structJokerEffect.html">JokerEffect</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00119">joker.h:120</a></div></div>
 <div class="ttc" id="astructJokerInfo_html"><div class="ttname"><a href="structJokerInfo.html">JokerInfo</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00144">joker.h:145</a></div></div>
 <div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00113">joker.h:114</a></div></div>
 <div class="ttc" id="astructJoker_html"><div class="ttname"><a href="structJoker.html">Joker</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00100">joker.h:101</a></div></div>
-<div class="ttc" id="astructSpriteObject_html"><div class="ttname"><a href="structSpriteObject.html">SpriteObject</a></div><div class="ttdoc">A sprite object is a sprite that is focusable and movable in animation.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00054">sprite.h:55</a></div></div>
 <div class="ttc" id="astructSprite_html"><div class="ttname"><a href="structSprite.html">Sprite</a></div><div class="ttdoc">Sprite struct for GBA hardware specifics.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00028">sprite.h:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

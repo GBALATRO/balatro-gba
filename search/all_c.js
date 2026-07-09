@@ -13,5 +13,17 @@ var searchData=
   ['issues_3a_10',['Common Issues:',['../index.html#autotoc_md18',1,'']]],
   ['it_20errors_20out_20and_20won_20t_20compile_11',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
   ['it_20says_20i_20don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_12',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]],
-  ['itr_13',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
+  ['item_13',['item',['../structItem.html',1,'Item'],['../item_8h.html#a749adef16b111dddf0ab08f96707a3a0',1,'Item:&#160;item.h']]],
+  ['item_2eh_14',['item.h',['../item_8h.html',1,'']]],
+  ['item_5facquire_15',['item_acquire',['../item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db',1,'item.c']]],
+  ['item_5fcan_5facquire_16',['item_can_acquire',['../item_8h.html#aaf240301d7232be1f643177e4d5755fa',1,'item.c']]],
+  ['item_5fdispose_17',['item_dispose',['../item_8h.html#a178cee27ce8381444e135b45c9174359',1,'item.c']]],
+  ['item_5ffuncs_2eh_18',['item_funcs.h',['../item__funcs_8h.html',1,'']]],
+  ['item_5fget_5fbuy_5fprice_19',['item_get_buy_price',['../item_8h.html#aff0f2379be85d7b6a27a5761be9e7715',1,'item.c']]],
+  ['item_5fprint_5fbuy_5fprice_5funder_20',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
+  ['item_5freturn_5fif_5funexpected_5ftype_5fret_21',['ITEM_RETURN_IF_UNEXPECTED_TYPE_RET',['../item_8h.html#a03689dd6ee6d519243cdc0ac44768a04',1,'item.h']]],
+  ['item_5freturn_5fif_5funexpected_5ftype_5fvoid_22',['ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID',['../item_8h.html#a32f7cd2b81875b4ccedd715e1146e613',1,'item.h']]],
+  ['item_5froll_5fnew_23',['item_roll_new',['../item_8h.html#a1ae511d2e85bbe177e8b303726a73b3f',1,'item.c']]],
+  ['itemfuncs_24',['itemfuncs',['../item_8h.html#a96577ad5559bbb52afe7d2a8b1488824',1,'ItemFuncs:&#160;item.h'],['../structItemFuncs.html',1,'ItemFuncs']]],
+  ['itr_25',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
 ];

@@ -899,7 +899,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>                sound_played = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>            }</div>
 <div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span> </div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>            <span class="keywordflow">if</span> (hand[card_idx]-&gt;sprite_object-&gt;x &gt;= *hand_x)</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>            <span class="keywordflow">if</span> (hand[card_idx]-&gt;x &gt;= *hand_x)</div>
 <div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>            {</div>
 <div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>                <a class="code hl_function" href="round_8c.html#a0b3070c9da10e0dace0a7547748307d7">discard_push</a>(hand[card_idx]-&gt;card);</div>
 <div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span> </div>
@@ -917,8 +917,8 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>                <span class="comment">// and we end up with an element at `card_idx` that is still NULL.</span></div>
 <div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>                <span class="keywordflow">if</span> (hand[card_idx] != NULL)</div>
 <div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>                {</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>                    *hand_y = hand[card_idx]-&gt;sprite_object-&gt;y;</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>                    *hand_x = hand[card_idx]-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>;</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>                    *hand_y = hand[card_idx]-&gt;y;</div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>                    *hand_x = hand[card_idx]-&gt;x;</div>
 <div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>                }</div>
 <div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>            }</div>
 <div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span> </div>
@@ -1248,8 +1248,8 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01138" name="l01138"></a><span class="lineno"> 1138</span>    <span class="keyword">const</span> FIXED deck_x = int2fx(CARD_DRAW_POS.x);</div>
 <div class="line"><a id="l01139" name="l01139"></a><span class="lineno"> 1139</span>    <span class="keyword">const</span> FIXED deck_y = int2fx(CARD_DRAW_POS.y);</div>
 <div class="line"><a id="l01140" name="l01140"></a><span class="lineno"> 1140</span> </div>
-<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>    card_object-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> = deck_x;</div>
-<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>    card_object-&gt;sprite_object-&gt;y = deck_y;</div>
+<div class="line"><a id="l01141" name="l01141"></a><span class="lineno"> 1141</span>    card_object-&gt;x = deck_x;</div>
+<div class="line"><a id="l01142" name="l01142"></a><span class="lineno"> 1142</span>    card_object-&gt;y = deck_y;</div>
 <div class="line"><a id="l01143" name="l01143"></a><span class="lineno"> 1143</span> </div>
 <div class="line"><a id="l01144" name="l01144"></a><span class="lineno"> 1144</span>    <a class="code hl_function" href="hand_8h.html#ad3a7f85ee10f46e9e5434829904a923d">set_hand_top</a>(<a class="code hl_function" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a>() + 1);</div>
 <div class="line"><a id="l01145" name="l01145"></a><span class="lineno"> 1145</span>    <a class="code hl_function" href="hand_8h.html#aa5beb0f8bda5c454fea80be021e51df1">get_hand_array</a>()[<a class="code hl_function" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a>()] = card_object;</div>
@@ -1301,16 +1301,16 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01190" name="l01190"></a><span class="lineno"> 1190</span> </div>
 <div class="line"><a id="l01191" name="l01191"></a><span class="lineno"> 1191</span>            <span class="comment">// Set the sprite for the discarded card object</span></div>
 <div class="line"><a id="l01192" name="l01192"></a><span class="lineno"> 1192</span>            card_object_set_sprite(discarded_card_object, 0);</div>
-<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>            <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>(discarded_card_object-&gt;sprite_object);</div>
+<div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>            <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>((<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>*)discarded_card_object);</div>
 <div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span> </div>
-<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>            discarded_card_object-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> = int2fx(204);</div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>            discarded_card_object-&gt;sprite_object-&gt;ty = int2fx(112);</div>
-<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>            discarded_card_object-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> = int2fx(240);</div>
-<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>            discarded_card_object-&gt;sprite_object-&gt;y = int2fx(80);</div>
+<div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>            discarded_card_object-&gt;tx = int2fx(204);</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>            discarded_card_object-&gt;ty = int2fx(112);</div>
+<div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>            discarded_card_object-&gt;x = int2fx(240);</div>
+<div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>            discarded_card_object-&gt;y = int2fx(80);</div>
 <div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span>        }</div>
 <div class="line"><a id="l01200" name="l01200"></a><span class="lineno"> 1200</span>        <span class="keywordflow">else</span></div>
 <div class="line"><a id="l01201" name="l01201"></a><span class="lineno"> 1201</span>        {</div>
-<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>            <span class="keywordflow">if</span> (discarded_card_object-&gt;sprite_object-&gt;y &gt;= discarded_card_object-&gt;sprite_object-&gt;ty)</div>
+<div class="line"><a id="l01202" name="l01202"></a><span class="lineno"> 1202</span>            <span class="keywordflow">if</span> (discarded_card_object-&gt;y &gt;= discarded_card_object-&gt;ty)</div>
 <div class="line"><a id="l01203" name="l01203"></a><span class="lineno"> 1203</span>            {</div>
 <div class="line"><a id="l01204" name="l01204"></a><span class="lineno"> 1204</span>                deck_push(discarded_card_object-&gt;card); <span class="comment">// Put the card back into the deck</span></div>
 <div class="line"><a id="l01205" name="l01205"></a><span class="lineno"> 1205</span>                card_object_destroy(&amp;discarded_card_object);</div>
@@ -1412,13 +1412,13 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01301" name="l01301"></a><span class="lineno"> 1301</span>                    {</div>
 <div class="line"><a id="l01302" name="l01302"></a><span class="lineno"> 1302</span>                        hand_y -= int2fx(CARD_FOCUSED_SEL_Y);</div>
 <div class="line"><a id="l01303" name="l01303"></a><span class="lineno"> 1303</span>                    }</div>
-<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>                    <span class="keywordflow">if</span> (i != selected_card_idx &amp;&amp; hand[i]-&gt;sprite_object-&gt;y &gt; hand_y)</div>
+<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>                    <span class="keywordflow">if</span> (i != selected_card_idx &amp;&amp; hand[i]-&gt;y &gt; hand_y)</div>
 <div class="line"><a id="l01305" name="l01305"></a><span class="lineno"> 1305</span>                    {</div>
-<div class="line"><a id="l01306" name="l01306"></a><span class="lineno"> 1306</span>                        hand[i]-&gt;sprite_object-&gt;y = hand_y;</div>
+<div class="line"><a id="l01306" name="l01306"></a><span class="lineno"> 1306</span>                        hand[i]-&gt;y = hand_y;</div>
 <div class="line"><a id="l01307" name="l01307"></a><span class="lineno"> 1307</span>                        <span class="comment">// Set target y to match y. Ensures target is updated even when vy becomes</span></div>
 <div class="line"><a id="l01308" name="l01308"></a><span class="lineno"> 1308</span>                        <span class="comment">// 0, preventing immediate snap back.</span></div>
-<div class="line"><a id="l01309" name="l01309"></a><span class="lineno"> 1309</span>                        hand[i]-&gt;sprite_object-&gt;ty = hand_y;</div>
-<div class="line"><a id="l01310" name="l01310"></a><span class="lineno"> 1310</span>                        hand[i]-&gt;sprite_object-&gt;vy = 0;</div>
+<div class="line"><a id="l01309" name="l01309"></a><span class="lineno"> 1309</span>                        hand[i]-&gt;ty = hand_y;</div>
+<div class="line"><a id="l01310" name="l01310"></a><span class="lineno"> 1310</span>                        hand[i]-&gt;vy = 0;</div>
 <div class="line"><a id="l01311" name="l01311"></a><span class="lineno"> 1311</span>                    }</div>
 <div class="line"><a id="l01312" name="l01312"></a><span class="lineno"> 1312</span> </div>
 <div class="line"><a id="l01313" name="l01313"></a><span class="lineno"> 1313</span>                    hand_x = hand_x + (int2fx(i) - int2fx(<a class="code hl_function" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a>()) / 2) *</div>
@@ -1450,7 +1450,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01339" name="l01339"></a><span class="lineno"> 1339</span>                    {</div>
 <div class="line"><a id="l01340" name="l01340"></a><span class="lineno"> 1340</span>                        card_object_set_selected(hand[i], <span class="keyword">false</span>);</div>
 <div class="line"><a id="l01341" name="l01341"></a><span class="lineno"> 1341</span>                        <a class="code hl_function" href="round_8c.html#a2d3ef1230d3b5dad1661ef539c7c1a52">played_push</a>(hand[i]);</div>
-<div class="line"><a id="l01342" name="l01342"></a><span class="lineno"> 1342</span>                        <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;hand[i]-&gt;sprite_object-&gt;sprite);</div>
+<div class="line"><a id="l01342" name="l01342"></a><span class="lineno"> 1342</span>                        <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;hand[i]-&gt;sprite);</div>
 <div class="line"><a id="l01343" name="l01343"></a><span class="lineno"> 1343</span>                        hand[i] = NULL;</div>
 <div class="line"><a id="l01344" name="l01344"></a><span class="lineno"> 1344</span>                        <a class="code hl_function" href="hand_8h.html#acb2998d3f72cd139e7dbc9a2a0437c28">reorder_card_sprites_layers</a>();</div>
 <div class="line"><a id="l01345" name="l01345"></a><span class="lineno"> 1345</span> </div>
@@ -1487,8 +1487,8 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01376" name="l01376"></a><span class="lineno"> 1376</span>                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l01377" name="l01377"></a><span class="lineno"> 1377</span>            }</div>
 <div class="line"><a id="l01378" name="l01378"></a><span class="lineno"> 1378</span> </div>
-<div class="line"><a id="l01379" name="l01379"></a><span class="lineno"> 1379</span>            hand[i]-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> = hand_x;</div>
-<div class="line"><a id="l01380" name="l01380"></a><span class="lineno"> 1380</span>            hand[i]-&gt;sprite_object-&gt;ty = hand_y;</div>
+<div class="line"><a id="l01379" name="l01379"></a><span class="lineno"> 1379</span>            hand[i]-&gt;tx = hand_x;</div>
+<div class="line"><a id="l01380" name="l01380"></a><span class="lineno"> 1380</span>            hand[i]-&gt;ty = hand_y;</div>
 <div class="line"><a id="l01381" name="l01381"></a><span class="lineno"> 1381</span>        }</div>
 <div class="line"><a id="l01382" name="l01382"></a><span class="lineno"> 1382</span>    }</div>
 <div class="line"><a id="l01383" name="l01383"></a><span class="lineno"> 1383</span>}</div>
@@ -1631,14 +1631,14 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01526" name="l01526"></a><span class="lineno"> 1526</span>        }</div>
 <div class="line"><a id="l01527" name="l01527"></a><span class="lineno"> 1527</span>    }</div>
 <div class="line"><a id="l01528" name="l01528"></a><span class="lineno"> 1528</span> </div>
-<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>    played[played_idx]-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> =</div>
+<div class="line"><a id="l01529" name="l01529"></a><span class="lineno"> 1529</span>    played[played_idx]-&gt;tx =</div>
 <div class="line"><a id="l01530" name="l01530"></a><span class="lineno"> 1530</span>        int2fx(HAND_PLAY_POS.x) + (int2fx(played_top - played_idx) - int2fx(played_top) / 2) * -27;</div>
-<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    played[played_idx]-&gt;sprite_object-&gt;ty = int2fx(HAND_PLAY_POS.y);</div>
+<div class="line"><a id="l01531" name="l01531"></a><span class="lineno"> 1531</span>    played[played_idx]-&gt;ty = int2fx(HAND_PLAY_POS.y);</div>
 <div class="line"><a id="l01532" name="l01532"></a><span class="lineno"> 1532</span> </div>
 <div class="line"><a id="l01533" name="l01533"></a><span class="lineno"> 1533</span>    card_selected = card_object_is_selected(played[played_idx]);</div>
 <div class="line"><a id="l01534" name="l01534"></a><span class="lineno"> 1534</span>    <span class="keywordflow">if</span> (card_selected &amp;&amp; played_top - played_idx &gt;= scored_card_index)</div>
 <div class="line"><a id="l01535" name="l01535"></a><span class="lineno"> 1535</span>    {</div>
-<div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span>        played[played_idx]-&gt;sprite_object-&gt;ty -= int2fx(10);</div>
+<div class="line"><a id="l01536" name="l01536"></a><span class="lineno"> 1536</span>        played[played_idx]-&gt;ty -= int2fx(10);</div>
 <div class="line"><a id="l01537" name="l01537"></a><span class="lineno"> 1537</span>    }</div>
 <div class="line"><a id="l01538" name="l01538"></a><span class="lineno"> 1538</span>}</div>
 <div class="line"><a id="l01539" name="l01539"></a><span class="lineno"> 1539</span> </div>
@@ -1689,474 +1689,471 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01593" name="l01593"></a><span class="lineno"> 1593</span>        <span class="keywordflow">if</span> (card_object_is_selected(scored_card_object))</div>
 <div class="line"><a id="l01594" name="l01594"></a><span class="lineno"> 1594</span>        {</div>
 <div class="line"><a id="l01595" name="l01595"></a><span class="lineno"> 1595</span>            <span class="comment">// Offset of 1 tile to keep the text on the card</span></div>
-<div class="line"><a id="l01596" name="l01596"></a><span class="lineno"> 1596</span>            tte_set_pos(</div>
-<div class="line"><a id="l01597" name="l01597"></a><span class="lineno"> 1597</span>                fx2int(scored_card_object-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>) + <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>,</div>
-<div class="line"><a id="l01598" name="l01598"></a><span class="lineno"> 1598</span>                SCORED_CARD_TEXT_Y</div>
-<div class="line"><a id="l01599" name="l01599"></a><span class="lineno"> 1599</span>            );</div>
+<div class="line"><a id="l01596" name="l01596"></a><span class="lineno"> 1596</span>            tte_set_pos(fx2int(scored_card_object-&gt;x) + <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>, SCORED_CARD_TEXT_Y);</div>
+<div class="line"><a id="l01597" name="l01597"></a><span class="lineno"> 1597</span> </div>
+<div class="line"><a id="l01598" name="l01598"></a><span class="lineno"> 1598</span>            <span class="comment">// Set text color to blue from background memory</span></div>
+<div class="line"><a id="l01599" name="l01599"></a><span class="lineno"> 1599</span>            tte_set_special(TTE_BLUE_PB * TTE_SPECIAL_PB_MULT_OFFSET);</div>
 <div class="line"><a id="l01600" name="l01600"></a><span class="lineno"> 1600</span> </div>
-<div class="line"><a id="l01601" name="l01601"></a><span class="lineno"> 1601</span>            <span class="comment">// Set text color to blue from background memory</span></div>
-<div class="line"><a id="l01602" name="l01602"></a><span class="lineno"> 1602</span>            tte_set_special(TTE_BLUE_PB * TTE_SPECIAL_PB_MULT_OFFSET);</div>
-<div class="line"><a id="l01603" name="l01603"></a><span class="lineno"> 1603</span> </div>
-<div class="line"><a id="l01604" name="l01604"></a><span class="lineno"> 1604</span>            u8 card_value = card_get_value(scored_card_object-&gt;card);</div>
-<div class="line"><a id="l01605" name="l01605"></a><span class="lineno"> 1605</span> </div>
-<div class="line"><a id="l01606" name="l01606"></a><span class="lineno"> 1606</span>            <span class="comment">// Write the score to a character buffer variable</span></div>
-<div class="line"><a id="l01607" name="l01607"></a><span class="lineno"> 1607</span>            <span class="keywordtype">char</span> score_buffer[INT_MAX_DIGITS + 2]; <span class="comment">// for &#39;+&#39; and null terminator</span></div>
-<div class="line"><a id="l01608" name="l01608"></a><span class="lineno"> 1608</span>            snprintf(score_buffer, <span class="keyword">sizeof</span>(score_buffer), <span class="stringliteral">&quot;+%hhu&quot;</span>, card_value);</div>
-<div class="line"><a id="l01609" name="l01609"></a><span class="lineno"> 1609</span>            tte_write(score_buffer);</div>
-<div class="line"><a id="l01610" name="l01610"></a><span class="lineno"> 1610</span> </div>
-<div class="line"><a id="l01611" name="l01611"></a><span class="lineno"> 1611</span>            card_object_shake(scored_card_object, SFX_CHIPS_CARD);</div>
-<div class="line"><a id="l01612" name="l01612"></a><span class="lineno"> 1612</span> </div>
-<div class="line"><a id="l01613" name="l01613"></a><span class="lineno"> 1613</span>            <span class="comment">// Relocated card scoring logic here</span></div>
-<div class="line"><a id="l01614" name="l01614"></a><span class="lineno"> 1614</span>            g_game_vars.chips = <a class="code hl_function" href="util_8h.html#a1ad066a26dc9475293bfea55b96973ca">u32_protected_add</a>(g_game_vars.chips, card_value);</div>
-<div class="line"><a id="l01615" name="l01615"></a><span class="lineno"> 1615</span>            display_chips();</div>
-<div class="line"><a id="l01616" name="l01616"></a><span class="lineno"> 1616</span> </div>
-<div class="line"><a id="l01617" name="l01617"></a><span class="lineno"> 1617</span>            <span class="comment">// Allow Joker scoring</span></div>
-<div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span>            _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01619" name="l01619"></a><span class="lineno"> 1619</span>            _joker_card_scored_end_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01620" name="l01620"></a><span class="lineno"> 1620</span>        }</div>
-<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span> </div>
-<div class="line"><a id="l01622" name="l01622"></a><span class="lineno"> 1622</span>        play_state = PLAY_SCORING_CARD_JOKERS;</div>
-<div class="line"><a id="l01623" name="l01623"></a><span class="lineno"> 1623</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01624" name="l01624"></a><span class="lineno"> 1624</span>    }</div>
+<div class="line"><a id="l01601" name="l01601"></a><span class="lineno"> 1601</span>            u8 card_value = card_get_value(scored_card_object-&gt;card);</div>
+<div class="line"><a id="l01602" name="l01602"></a><span class="lineno"> 1602</span> </div>
+<div class="line"><a id="l01603" name="l01603"></a><span class="lineno"> 1603</span>            <span class="comment">// Write the score to a character buffer variable</span></div>
+<div class="line"><a id="l01604" name="l01604"></a><span class="lineno"> 1604</span>            <span class="keywordtype">char</span> score_buffer[INT_MAX_DIGITS + 2]; <span class="comment">// for &#39;+&#39; and null terminator</span></div>
+<div class="line"><a id="l01605" name="l01605"></a><span class="lineno"> 1605</span>            snprintf(score_buffer, <span class="keyword">sizeof</span>(score_buffer), <span class="stringliteral">&quot;+%hhu&quot;</span>, card_value);</div>
+<div class="line"><a id="l01606" name="l01606"></a><span class="lineno"> 1606</span>            tte_write(score_buffer);</div>
+<div class="line"><a id="l01607" name="l01607"></a><span class="lineno"> 1607</span> </div>
+<div class="line"><a id="l01608" name="l01608"></a><span class="lineno"> 1608</span>            card_object_shake(scored_card_object, SFX_CHIPS_CARD);</div>
+<div class="line"><a id="l01609" name="l01609"></a><span class="lineno"> 1609</span> </div>
+<div class="line"><a id="l01610" name="l01610"></a><span class="lineno"> 1610</span>            <span class="comment">// Relocated card scoring logic here</span></div>
+<div class="line"><a id="l01611" name="l01611"></a><span class="lineno"> 1611</span>            g_game_vars.chips = <a class="code hl_function" href="util_8h.html#a1ad066a26dc9475293bfea55b96973ca">u32_protected_add</a>(g_game_vars.chips, card_value);</div>
+<div class="line"><a id="l01612" name="l01612"></a><span class="lineno"> 1612</span>            display_chips();</div>
+<div class="line"><a id="l01613" name="l01613"></a><span class="lineno"> 1613</span> </div>
+<div class="line"><a id="l01614" name="l01614"></a><span class="lineno"> 1614</span>            <span class="comment">// Allow Joker scoring</span></div>
+<div class="line"><a id="l01615" name="l01615"></a><span class="lineno"> 1615</span>            _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01616" name="l01616"></a><span class="lineno"> 1616</span>            _joker_card_scored_end_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01617" name="l01617"></a><span class="lineno"> 1617</span>        }</div>
+<div class="line"><a id="l01618" name="l01618"></a><span class="lineno"> 1618</span> </div>
+<div class="line"><a id="l01619" name="l01619"></a><span class="lineno"> 1619</span>        play_state = PLAY_SCORING_CARD_JOKERS;</div>
+<div class="line"><a id="l01620" name="l01620"></a><span class="lineno"> 1620</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01621" name="l01621"></a><span class="lineno"> 1621</span>    }</div>
+<div class="line"><a id="l01622" name="l01622"></a><span class="lineno"> 1622</span> </div>
+<div class="line"><a id="l01623" name="l01623"></a><span class="lineno"> 1623</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01624" name="l01624"></a><span class="lineno"> 1624</span>}</div>
+</div>
 <div class="line"><a id="l01625" name="l01625"></a><span class="lineno"> 1625</span> </div>
-<div class="line"><a id="l01626" name="l01626"></a><span class="lineno"> 1626</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01627" name="l01627"></a><span class="lineno"> 1627</span>}</div>
+<div class="foldopen" id="foldopen01633" data-start="{" data-end="}">
+<div class="line"><a id="l01633" name="l01633"></a><span class="lineno"><a class="line" href="round_8c.html#aa49518129a32df4d331f2a828d29a933"> 1633</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01634" name="l01634"></a><span class="lineno"> 1634</span>{</div>
+<div class="line"><a id="l01635" name="l01635"></a><span class="lineno"> 1635</span>    <span class="keywordflow">if</span> (g_game_vars.timer % FRAMES(30) == 0 &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01636" name="l01636"></a><span class="lineno"> 1636</span>    {</div>
+<div class="line"><a id="l01637" name="l01637"></a><span class="lineno"> 1637</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
+<div class="line"><a id="l01638" name="l01638"></a><span class="lineno"> 1638</span> </div>
+<div class="line"><a id="l01639" name="l01639"></a><span class="lineno"> 1639</span>        <span class="comment">// since we sought the next scoring card index in the previous state,</span></div>
+<div class="line"><a id="l01640" name="l01640"></a><span class="lineno"> 1640</span>        <span class="comment">// scored_card_index is guaranteed to be a scoring card</span></div>
+<div class="line"><a id="l01641" name="l01641"></a><span class="lineno"> 1641</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
+<div class="line"><a id="l01642" name="l01642"></a><span class="lineno"> 1642</span>                &amp;_joker_scored_itr,</div>
+<div class="line"><a id="l01643" name="l01643"></a><span class="lineno"> 1643</span>                played[scored_card_index],</div>
+<div class="line"><a id="l01644" name="l01644"></a><span class="lineno"> 1644</span>                JOKER_EVENT_ON_CARD_SCORED</div>
+<div class="line"><a id="l01645" name="l01645"></a><span class="lineno"> 1645</span>            ))</div>
+<div class="line"><a id="l01646" name="l01646"></a><span class="lineno"> 1646</span>        {</div>
+<div class="line"><a id="l01647" name="l01647"></a><span class="lineno"> 1647</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01648" name="l01648"></a><span class="lineno"> 1648</span>        }</div>
+<div class="line"><a id="l01649" name="l01649"></a><span class="lineno"> 1649</span> </div>
+<div class="line"><a id="l01650" name="l01650"></a><span class="lineno"> 1650</span>        <span class="comment">// Trigger all Jokers that have an effect when a card finishes scoring</span></div>
+<div class="line"><a id="l01651" name="l01651"></a><span class="lineno"> 1651</span>        <span class="comment">// (e.g. retriggers) after activating all the other scored_card Jokers normally</span></div>
+<div class="line"><a id="l01652" name="l01652"></a><span class="lineno"> 1652</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
+<div class="line"><a id="l01653" name="l01653"></a><span class="lineno"> 1653</span>                &amp;_joker_card_scored_end_itr,</div>
+<div class="line"><a id="l01654" name="l01654"></a><span class="lineno"> 1654</span>                played[scored_card_index],</div>
+<div class="line"><a id="l01655" name="l01655"></a><span class="lineno"> 1655</span>                JOKER_EVENT_ON_CARD_SCORED_END</div>
+<div class="line"><a id="l01656" name="l01656"></a><span class="lineno"> 1656</span>            ))</div>
+<div class="line"><a id="l01657" name="l01657"></a><span class="lineno"> 1657</span>        {</div>
+<div class="line"><a id="l01658" name="l01658"></a><span class="lineno"> 1658</span>            <span class="comment">// If we just scored a retrigger, return early and go back to the</span></div>
+<div class="line"><a id="l01659" name="l01659"></a><span class="lineno"> 1659</span>            <span class="comment">// previous state score the same card again without incrementing</span></div>
+<div class="line"><a id="l01660" name="l01660"></a><span class="lineno"> 1660</span>            <span class="comment">// scored_card_index to score the current card again</span></div>
+<div class="line"><a id="l01661" name="l01661"></a><span class="lineno"> 1661</span>            <span class="keywordflow">if</span> (retrigger)</div>
+<div class="line"><a id="l01662" name="l01662"></a><span class="lineno"> 1662</span>            {</div>
+<div class="line"><a id="l01663" name="l01663"></a><span class="lineno"> 1663</span>                retrigger = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01664" name="l01664"></a><span class="lineno"> 1664</span>                play_state = PLAY_SCORING_CARDS;</div>
+<div class="line"><a id="l01665" name="l01665"></a><span class="lineno"> 1665</span>            }</div>
+<div class="line"><a id="l01666" name="l01666"></a><span class="lineno"> 1666</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01667" name="l01667"></a><span class="lineno"> 1667</span>        }</div>
+<div class="line"><a id="l01668" name="l01668"></a><span class="lineno"> 1668</span> </div>
+<div class="line"><a id="l01669" name="l01669"></a><span class="lineno"> 1669</span>        <span class="comment">// increment index to start seeking the next scoring card from the next card</span></div>
+<div class="line"><a id="l01670" name="l01670"></a><span class="lineno"> 1670</span>        scored_card_index++;</div>
+<div class="line"><a id="l01671" name="l01671"></a><span class="lineno"> 1671</span>        play_state = PLAY_SCORING_CARDS;</div>
+<div class="line"><a id="l01672" name="l01672"></a><span class="lineno"> 1672</span>    }</div>
+<div class="line"><a id="l01673" name="l01673"></a><span class="lineno"> 1673</span> </div>
+<div class="line"><a id="l01674" name="l01674"></a><span class="lineno"> 1674</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01675" name="l01675"></a><span class="lineno"> 1675</span>}</div>
 </div>
-<div class="line"><a id="l01628" name="l01628"></a><span class="lineno"> 1628</span> </div>
-<div class="foldopen" id="foldopen01636" data-start="{" data-end="}">
-<div class="line"><a id="l01636" name="l01636"></a><span class="lineno"><a class="line" href="round_8c.html#aa49518129a32df4d331f2a828d29a933"> 1636</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01637" name="l01637"></a><span class="lineno"> 1637</span>{</div>
-<div class="line"><a id="l01638" name="l01638"></a><span class="lineno"> 1638</span>    <span class="keywordflow">if</span> (g_game_vars.timer % FRAMES(30) == 0 &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01639" name="l01639"></a><span class="lineno"> 1639</span>    {</div>
-<div class="line"><a id="l01640" name="l01640"></a><span class="lineno"> 1640</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
-<div class="line"><a id="l01641" name="l01641"></a><span class="lineno"> 1641</span> </div>
-<div class="line"><a id="l01642" name="l01642"></a><span class="lineno"> 1642</span>        <span class="comment">// since we sought the next scoring card index in the previous state,</span></div>
-<div class="line"><a id="l01643" name="l01643"></a><span class="lineno"> 1643</span>        <span class="comment">// scored_card_index is guaranteed to be a scoring card</span></div>
-<div class="line"><a id="l01644" name="l01644"></a><span class="lineno"> 1644</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
-<div class="line"><a id="l01645" name="l01645"></a><span class="lineno"> 1645</span>                &amp;_joker_scored_itr,</div>
-<div class="line"><a id="l01646" name="l01646"></a><span class="lineno"> 1646</span>                played[scored_card_index],</div>
-<div class="line"><a id="l01647" name="l01647"></a><span class="lineno"> 1647</span>                JOKER_EVENT_ON_CARD_SCORED</div>
-<div class="line"><a id="l01648" name="l01648"></a><span class="lineno"> 1648</span>            ))</div>
-<div class="line"><a id="l01649" name="l01649"></a><span class="lineno"> 1649</span>        {</div>
-<div class="line"><a id="l01650" name="l01650"></a><span class="lineno"> 1650</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01651" name="l01651"></a><span class="lineno"> 1651</span>        }</div>
-<div class="line"><a id="l01652" name="l01652"></a><span class="lineno"> 1652</span> </div>
-<div class="line"><a id="l01653" name="l01653"></a><span class="lineno"> 1653</span>        <span class="comment">// Trigger all Jokers that have an effect when a card finishes scoring</span></div>
-<div class="line"><a id="l01654" name="l01654"></a><span class="lineno"> 1654</span>        <span class="comment">// (e.g. retriggers) after activating all the other scored_card Jokers normally</span></div>
-<div class="line"><a id="l01655" name="l01655"></a><span class="lineno"> 1655</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
-<div class="line"><a id="l01656" name="l01656"></a><span class="lineno"> 1656</span>                &amp;_joker_card_scored_end_itr,</div>
-<div class="line"><a id="l01657" name="l01657"></a><span class="lineno"> 1657</span>                played[scored_card_index],</div>
-<div class="line"><a id="l01658" name="l01658"></a><span class="lineno"> 1658</span>                JOKER_EVENT_ON_CARD_SCORED_END</div>
-<div class="line"><a id="l01659" name="l01659"></a><span class="lineno"> 1659</span>            ))</div>
-<div class="line"><a id="l01660" name="l01660"></a><span class="lineno"> 1660</span>        {</div>
-<div class="line"><a id="l01661" name="l01661"></a><span class="lineno"> 1661</span>            <span class="comment">// If we just scored a retrigger, return early and go back to the</span></div>
-<div class="line"><a id="l01662" name="l01662"></a><span class="lineno"> 1662</span>            <span class="comment">// previous state score the same card again without incrementing</span></div>
-<div class="line"><a id="l01663" name="l01663"></a><span class="lineno"> 1663</span>            <span class="comment">// scored_card_index to score the current card again</span></div>
-<div class="line"><a id="l01664" name="l01664"></a><span class="lineno"> 1664</span>            <span class="keywordflow">if</span> (retrigger)</div>
-<div class="line"><a id="l01665" name="l01665"></a><span class="lineno"> 1665</span>            {</div>
-<div class="line"><a id="l01666" name="l01666"></a><span class="lineno"> 1666</span>                retrigger = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01667" name="l01667"></a><span class="lineno"> 1667</span>                play_state = PLAY_SCORING_CARDS;</div>
-<div class="line"><a id="l01668" name="l01668"></a><span class="lineno"> 1668</span>            }</div>
-<div class="line"><a id="l01669" name="l01669"></a><span class="lineno"> 1669</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01670" name="l01670"></a><span class="lineno"> 1670</span>        }</div>
-<div class="line"><a id="l01671" name="l01671"></a><span class="lineno"> 1671</span> </div>
-<div class="line"><a id="l01672" name="l01672"></a><span class="lineno"> 1672</span>        <span class="comment">// increment index to start seeking the next scoring card from the next card</span></div>
-<div class="line"><a id="l01673" name="l01673"></a><span class="lineno"> 1673</span>        scored_card_index++;</div>
-<div class="line"><a id="l01674" name="l01674"></a><span class="lineno"> 1674</span>        play_state = PLAY_SCORING_CARDS;</div>
-<div class="line"><a id="l01675" name="l01675"></a><span class="lineno"> 1675</span>    }</div>
 <div class="line"><a id="l01676" name="l01676"></a><span class="lineno"> 1676</span> </div>
-<div class="line"><a id="l01677" name="l01677"></a><span class="lineno"> 1677</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01678" name="l01678"></a><span class="lineno"> 1678</span>}</div>
+<div class="foldopen" id="foldopen01683" data-start="{" data-end="}">
+<div class="line"><a id="l01683" name="l01683"></a><span class="lineno"><a class="line" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1"> 1683</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
+<div class="line"><a id="l01684" name="l01684"></a><span class="lineno"> 1684</span>{</div>
+<div class="line"><a id="l01685" name="l01685"></a><span class="lineno"> 1685</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01686" name="l01686"></a><span class="lineno"> 1686</span>    {</div>
+<div class="line"><a id="l01687" name="l01687"></a><span class="lineno"> 1687</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(HELD_CARDS_SCORES_RECT);</div>
+<div class="line"><a id="l01688" name="l01688"></a><span class="lineno"> 1688</span> </div>
+<div class="line"><a id="l01689" name="l01689"></a><span class="lineno"> 1689</span>        <a class="code hl_struct" href="structCardObject.html">CardObject</a>** hand = <a class="code hl_function" href="hand_8h.html#aa5beb0f8bda5c454fea80be021e51df1">get_hand_array</a>();</div>
+<div class="line"><a id="l01690" name="l01690"></a><span class="lineno"> 1690</span> </div>
+<div class="line"><a id="l01691" name="l01691"></a><span class="lineno"> 1691</span>        <span class="comment">// Go through all held cards and see if they activate Jokers</span></div>
+<div class="line"><a id="l01692" name="l01692"></a><span class="lineno"> 1692</span>        <span class="keywordflow">for</span> (; scored_card_index &gt;= 0; scored_card_index--)</div>
+<div class="line"><a id="l01693" name="l01693"></a><span class="lineno"> 1693</span>        {</div>
+<div class="line"><a id="l01694" name="l01694"></a><span class="lineno"> 1694</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
+<div class="line"><a id="l01695" name="l01695"></a><span class="lineno"> 1695</span>                    &amp;_joker_scored_itr,</div>
+<div class="line"><a id="l01696" name="l01696"></a><span class="lineno"> 1696</span>                    hand[scored_card_index],</div>
+<div class="line"><a id="l01697" name="l01697"></a><span class="lineno"> 1697</span>                    JOKER_EVENT_ON_CARD_HELD</div>
+<div class="line"><a id="l01698" name="l01698"></a><span class="lineno"> 1698</span>                ))</div>
+<div class="line"><a id="l01699" name="l01699"></a><span class="lineno"> 1699</span>            {</div>
+<div class="line"><a id="l01700" name="l01700"></a><span class="lineno"> 1700</span>                card_object_shake(hand[scored_card_index], SFX_CARD_SELECT);</div>
+<div class="line"><a id="l01701" name="l01701"></a><span class="lineno"> 1701</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01702" name="l01702"></a><span class="lineno"> 1702</span>            }</div>
+<div class="line"><a id="l01703" name="l01703"></a><span class="lineno"> 1703</span>            _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01704" name="l01704"></a><span class="lineno"> 1704</span>        }</div>
+<div class="line"><a id="l01705" name="l01705"></a><span class="lineno"> 1705</span> </div>
+<div class="line"><a id="l01706" name="l01706"></a><span class="lineno"> 1706</span>        scored_card_index = 0;</div>
+<div class="line"><a id="l01707" name="l01707"></a><span class="lineno"> 1707</span>        _joker_round_end_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01708" name="l01708"></a><span class="lineno"> 1708</span>        play_state = PLAY_SCORING_INDEPENDENT_JOKERS;</div>
+<div class="line"><a id="l01709" name="l01709"></a><span class="lineno"> 1709</span>    }</div>
+<div class="line"><a id="l01710" name="l01710"></a><span class="lineno"> 1710</span> </div>
+<div class="line"><a id="l01711" name="l01711"></a><span class="lineno"> 1711</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01712" name="l01712"></a><span class="lineno"> 1712</span>}</div>
 </div>
-<div class="line"><a id="l01679" name="l01679"></a><span class="lineno"> 1679</span> </div>
-<div class="foldopen" id="foldopen01686" data-start="{" data-end="}">
-<div class="line"><a id="l01686" name="l01686"></a><span class="lineno"><a class="line" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1"> 1686</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
-<div class="line"><a id="l01687" name="l01687"></a><span class="lineno"> 1687</span>{</div>
-<div class="line"><a id="l01688" name="l01688"></a><span class="lineno"> 1688</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01689" name="l01689"></a><span class="lineno"> 1689</span>    {</div>
-<div class="line"><a id="l01690" name="l01690"></a><span class="lineno"> 1690</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(HELD_CARDS_SCORES_RECT);</div>
-<div class="line"><a id="l01691" name="l01691"></a><span class="lineno"> 1691</span> </div>
-<div class="line"><a id="l01692" name="l01692"></a><span class="lineno"> 1692</span>        <a class="code hl_struct" href="structCardObject.html">CardObject</a>** hand = <a class="code hl_function" href="hand_8h.html#aa5beb0f8bda5c454fea80be021e51df1">get_hand_array</a>();</div>
-<div class="line"><a id="l01693" name="l01693"></a><span class="lineno"> 1693</span> </div>
-<div class="line"><a id="l01694" name="l01694"></a><span class="lineno"> 1694</span>        <span class="comment">// Go through all held cards and see if they activate Jokers</span></div>
-<div class="line"><a id="l01695" name="l01695"></a><span class="lineno"> 1695</span>        <span class="keywordflow">for</span> (; scored_card_index &gt;= 0; scored_card_index--)</div>
-<div class="line"><a id="l01696" name="l01696"></a><span class="lineno"> 1696</span>        {</div>
-<div class="line"><a id="l01697" name="l01697"></a><span class="lineno"> 1697</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
-<div class="line"><a id="l01698" name="l01698"></a><span class="lineno"> 1698</span>                    &amp;_joker_scored_itr,</div>
-<div class="line"><a id="l01699" name="l01699"></a><span class="lineno"> 1699</span>                    hand[scored_card_index],</div>
-<div class="line"><a id="l01700" name="l01700"></a><span class="lineno"> 1700</span>                    JOKER_EVENT_ON_CARD_HELD</div>
-<div class="line"><a id="l01701" name="l01701"></a><span class="lineno"> 1701</span>                ))</div>
-<div class="line"><a id="l01702" name="l01702"></a><span class="lineno"> 1702</span>            {</div>
-<div class="line"><a id="l01703" name="l01703"></a><span class="lineno"> 1703</span>                card_object_shake(hand[scored_card_index], SFX_CARD_SELECT);</div>
-<div class="line"><a id="l01704" name="l01704"></a><span class="lineno"> 1704</span>                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01705" name="l01705"></a><span class="lineno"> 1705</span>            }</div>
-<div class="line"><a id="l01706" name="l01706"></a><span class="lineno"> 1706</span>            _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01707" name="l01707"></a><span class="lineno"> 1707</span>        }</div>
-<div class="line"><a id="l01708" name="l01708"></a><span class="lineno"> 1708</span> </div>
-<div class="line"><a id="l01709" name="l01709"></a><span class="lineno"> 1709</span>        scored_card_index = 0;</div>
-<div class="line"><a id="l01710" name="l01710"></a><span class="lineno"> 1710</span>        _joker_round_end_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01711" name="l01711"></a><span class="lineno"> 1711</span>        play_state = PLAY_SCORING_INDEPENDENT_JOKERS;</div>
-<div class="line"><a id="l01712" name="l01712"></a><span class="lineno"> 1712</span>    }</div>
 <div class="line"><a id="l01713" name="l01713"></a><span class="lineno"> 1713</span> </div>
-<div class="line"><a id="l01714" name="l01714"></a><span class="lineno"> 1714</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01715" name="l01715"></a><span class="lineno"> 1715</span>}</div>
-</div>
-<div class="line"><a id="l01716" name="l01716"></a><span class="lineno"> 1716</span> </div>
-<div class="foldopen" id="foldopen01723" data-start="{" data-end="}">
-<div class="line"><a id="l01723" name="l01723"></a><span class="lineno"><a class="line" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95"> 1723</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a>(<span class="keywordtype">int</span> played_idx)</div>
-<div class="line"><a id="l01724" name="l01724"></a><span class="lineno"> 1724</span>{</div>
-<div class="line"><a id="l01725" name="l01725"></a><span class="lineno"> 1725</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01726" name="l01726"></a><span class="lineno"> 1726</span>    {</div>
-<div class="line"><a id="l01727" name="l01727"></a><span class="lineno"> 1727</span> </div>
-<div class="line"><a id="l01728" name="l01728"></a><span class="lineno"> 1728</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
-<div class="line"><a id="l01729" name="l01729"></a><span class="lineno"> 1729</span> </div>
-<div class="line"><a id="l01730" name="l01730"></a><span class="lineno"> 1730</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(&amp;_joker_scored_itr, NULL, JOKER_EVENT_INDEPENDENT))</div>
-<div class="line"><a id="l01731" name="l01731"></a><span class="lineno"> 1731</span>        {</div>
-<div class="line"><a id="l01732" name="l01732"></a><span class="lineno"> 1732</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01733" name="l01733"></a><span class="lineno"> 1733</span>        }</div>
+<div class="foldopen" id="foldopen01720" data-start="{" data-end="}">
+<div class="line"><a id="l01720" name="l01720"></a><span class="lineno"><a class="line" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95"> 1720</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a>(<span class="keywordtype">int</span> played_idx)</div>
+<div class="line"><a id="l01721" name="l01721"></a><span class="lineno"> 1721</span>{</div>
+<div class="line"><a id="l01722" name="l01722"></a><span class="lineno"> 1722</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01723" name="l01723"></a><span class="lineno"> 1723</span>    {</div>
+<div class="line"><a id="l01724" name="l01724"></a><span class="lineno"> 1724</span> </div>
+<div class="line"><a id="l01725" name="l01725"></a><span class="lineno"> 1725</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
+<div class="line"><a id="l01726" name="l01726"></a><span class="lineno"> 1726</span> </div>
+<div class="line"><a id="l01727" name="l01727"></a><span class="lineno"> 1727</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(&amp;_joker_scored_itr, NULL, JOKER_EVENT_INDEPENDENT))</div>
+<div class="line"><a id="l01728" name="l01728"></a><span class="lineno"> 1728</span>        {</div>
+<div class="line"><a id="l01729" name="l01729"></a><span class="lineno"> 1729</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01730" name="l01730"></a><span class="lineno"> 1730</span>        }</div>
+<div class="line"><a id="l01731" name="l01731"></a><span class="lineno"> 1731</span> </div>
+<div class="line"><a id="l01732" name="l01732"></a><span class="lineno"> 1732</span>        <span class="comment">// Reset the scored card index to past the top of the played stack</span></div>
+<div class="line"><a id="l01733" name="l01733"></a><span class="lineno"> 1733</span>        scored_card_index = <a class="code hl_function" href="round_8c.html#a39727c2ef1584b79537ff9bee3e6a5a5">get_played_size</a>();</div>
 <div class="line"><a id="l01734" name="l01734"></a><span class="lineno"> 1734</span> </div>
-<div class="line"><a id="l01735" name="l01735"></a><span class="lineno"> 1735</span>        <span class="comment">// Reset the scored card index to past the top of the played stack</span></div>
-<div class="line"><a id="l01736" name="l01736"></a><span class="lineno"> 1736</span>        scored_card_index = <a class="code hl_function" href="round_8c.html#a39727c2ef1584b79537ff9bee3e6a5a5">get_played_size</a>();</div>
+<div class="line"><a id="l01735" name="l01735"></a><span class="lineno"> 1735</span>        play_state = PLAY_SCORING_HAND_SCORED_END;</div>
+<div class="line"><a id="l01736" name="l01736"></a><span class="lineno"> 1736</span>    }</div>
 <div class="line"><a id="l01737" name="l01737"></a><span class="lineno"> 1737</span> </div>
-<div class="line"><a id="l01738" name="l01738"></a><span class="lineno"> 1738</span>        play_state = PLAY_SCORING_HAND_SCORED_END;</div>
-<div class="line"><a id="l01739" name="l01739"></a><span class="lineno"> 1739</span>    }</div>
+<div class="line"><a id="l01738" name="l01738"></a><span class="lineno"> 1738</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01739" name="l01739"></a><span class="lineno"> 1739</span>}</div>
+</div>
 <div class="line"><a id="l01740" name="l01740"></a><span class="lineno"> 1740</span> </div>
-<div class="line"><a id="l01741" name="l01741"></a><span class="lineno"> 1741</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01742" name="l01742"></a><span class="lineno"> 1742</span>}</div>
+<div class="foldopen" id="foldopen01747" data-start="{" data-end="}">
+<div class="line"><a id="l01747" name="l01747"></a><span class="lineno"><a class="line" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d"> 1747</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a>(<span class="keywordtype">int</span> played_idx)</div>
+<div class="line"><a id="l01748" name="l01748"></a><span class="lineno"> 1748</span>{</div>
+<div class="line"><a id="l01749" name="l01749"></a><span class="lineno"> 1749</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01750" name="l01750"></a><span class="lineno"> 1750</span>    {</div>
+<div class="line"><a id="l01751" name="l01751"></a><span class="lineno"> 1751</span> </div>
+<div class="line"><a id="l01752" name="l01752"></a><span class="lineno"> 1752</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
+<div class="line"><a id="l01753" name="l01753"></a><span class="lineno"> 1753</span> </div>
+<div class="line"><a id="l01754" name="l01754"></a><span class="lineno"> 1754</span>        <span class="keywordtype">bool</span> scored = <a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
+<div class="line"><a id="l01755" name="l01755"></a><span class="lineno"> 1755</span>            &amp;_joker_round_end_itr,</div>
+<div class="line"><a id="l01756" name="l01756"></a><span class="lineno"> 1756</span>            NULL,</div>
+<div class="line"><a id="l01757" name="l01757"></a><span class="lineno"> 1757</span>            JOKER_EVENT_ON_HAND_SCORED_END</div>
+<div class="line"><a id="l01758" name="l01758"></a><span class="lineno"> 1758</span>        );</div>
+<div class="line"><a id="l01759" name="l01759"></a><span class="lineno"> 1759</span> </div>
+<div class="line"><a id="l01760" name="l01760"></a><span class="lineno"> 1760</span>        <span class="keywordflow">if</span> (scored)</div>
+<div class="line"><a id="l01761" name="l01761"></a><span class="lineno"> 1761</span>        {</div>
+<div class="line"><a id="l01762" name="l01762"></a><span class="lineno"> 1762</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01763" name="l01763"></a><span class="lineno"> 1763</span>        }</div>
+<div class="line"><a id="l01764" name="l01764"></a><span class="lineno"> 1764</span> </div>
+<div class="line"><a id="l01765" name="l01765"></a><span class="lineno"> 1765</span>        g_game_vars.timer = TM_ZERO;</div>
+<div class="line"><a id="l01766" name="l01766"></a><span class="lineno"> 1766</span>        play_state = PLAY_ENDING;</div>
+<div class="line"><a id="l01767" name="l01767"></a><span class="lineno"> 1767</span>    }</div>
+<div class="line"><a id="l01768" name="l01768"></a><span class="lineno"> 1768</span> </div>
+<div class="line"><a id="l01769" name="l01769"></a><span class="lineno"> 1769</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01770" name="l01770"></a><span class="lineno"> 1770</span>}</div>
 </div>
-<div class="line"><a id="l01743" name="l01743"></a><span class="lineno"> 1743</span> </div>
-<div class="foldopen" id="foldopen01750" data-start="{" data-end="}">
-<div class="line"><a id="l01750" name="l01750"></a><span class="lineno"><a class="line" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d"> 1750</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a>(<span class="keywordtype">int</span> played_idx)</div>
-<div class="line"><a id="l01751" name="l01751"></a><span class="lineno"> 1751</span>{</div>
-<div class="line"><a id="l01752" name="l01752"></a><span class="lineno"> 1752</span>    <span class="keywordflow">if</span> (played_idx == 0 &amp;&amp; (g_game_vars.timer % FRAMES(30) == 0) &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01753" name="l01753"></a><span class="lineno"> 1753</span>    {</div>
-<div class="line"><a id="l01754" name="l01754"></a><span class="lineno"> 1754</span> </div>
-<div class="line"><a id="l01755" name="l01755"></a><span class="lineno"> 1755</span>        <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(PLAYED_CARDS_SCORES_RECT);</div>
-<div class="line"><a id="l01756" name="l01756"></a><span class="lineno"> 1756</span> </div>
-<div class="line"><a id="l01757" name="l01757"></a><span class="lineno"> 1757</span>        <span class="keywordtype">bool</span> scored = <a class="code hl_function" href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a>(</div>
-<div class="line"><a id="l01758" name="l01758"></a><span class="lineno"> 1758</span>            &amp;_joker_round_end_itr,</div>
-<div class="line"><a id="l01759" name="l01759"></a><span class="lineno"> 1759</span>            NULL,</div>
-<div class="line"><a id="l01760" name="l01760"></a><span class="lineno"> 1760</span>            JOKER_EVENT_ON_HAND_SCORED_END</div>
-<div class="line"><a id="l01761" name="l01761"></a><span class="lineno"> 1761</span>        );</div>
-<div class="line"><a id="l01762" name="l01762"></a><span class="lineno"> 1762</span> </div>
-<div class="line"><a id="l01763" name="l01763"></a><span class="lineno"> 1763</span>        <span class="keywordflow">if</span> (scored)</div>
-<div class="line"><a id="l01764" name="l01764"></a><span class="lineno"> 1764</span>        {</div>
-<div class="line"><a id="l01765" name="l01765"></a><span class="lineno"> 1765</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01766" name="l01766"></a><span class="lineno"> 1766</span>        }</div>
-<div class="line"><a id="l01767" name="l01767"></a><span class="lineno"> 1767</span> </div>
-<div class="line"><a id="l01768" name="l01768"></a><span class="lineno"> 1768</span>        g_game_vars.timer = TM_ZERO;</div>
-<div class="line"><a id="l01769" name="l01769"></a><span class="lineno"> 1769</span>        play_state = PLAY_ENDING;</div>
-<div class="line"><a id="l01770" name="l01770"></a><span class="lineno"> 1770</span>    }</div>
 <div class="line"><a id="l01771" name="l01771"></a><span class="lineno"> 1771</span> </div>
-<div class="line"><a id="l01772" name="l01772"></a><span class="lineno"> 1772</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01773" name="l01773"></a><span class="lineno"> 1773</span>}</div>
+<div class="foldopen" id="foldopen01778" data-start="{" data-end="}">
+<div class="line"><a id="l01778" name="l01778"></a><span class="lineno"><a class="line" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e"> 1778</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
+<div class="line"><a id="l01779" name="l01779"></a><span class="lineno"> 1779</span>{</div>
+<div class="line"><a id="l01780" name="l01780"></a><span class="lineno"> 1780</span>    <span class="comment">// Same protection against out of bounds access as `play_starting_played_cards_update`</span></div>
+<div class="line"><a id="l01781" name="l01781"></a><span class="lineno"> 1781</span>    <span class="keywordtype">bool</span> card_selected = (played_top &lt; scored_card_index)</div>
+<div class="line"><a id="l01782" name="l01782"></a><span class="lineno"> 1782</span>                           ? <span class="keyword">false</span></div>
+<div class="line"><a id="l01783" name="l01783"></a><span class="lineno"> 1783</span>                           : card_object_is_selected(played[played_top - scored_card_index]);</div>
+<div class="line"><a id="l01784" name="l01784"></a><span class="lineno"> 1784</span> </div>
+<div class="line"><a id="l01785" name="l01785"></a><span class="lineno"> 1785</span>    <span class="keywordflow">if</span> (played_idx == played_top &amp;&amp; (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &amp;&amp;</div>
+<div class="line"><a id="l01786" name="l01786"></a><span class="lineno"> 1786</span>        g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01787" name="l01787"></a><span class="lineno"> 1787</span>    {</div>
+<div class="line"><a id="l01788" name="l01788"></a><span class="lineno"> 1788</span>        scored_card_index--;</div>
+<div class="line"><a id="l01789" name="l01789"></a><span class="lineno"> 1789</span> </div>
+<div class="line"><a id="l01790" name="l01790"></a><span class="lineno"> 1790</span>        <span class="comment">/* SFX_CHIPS_ACCUM has been pitch shifted to perserve high frequencies in downsampling.</span></div>
+<div class="line"><a id="l01791" name="l01791"></a><span class="lineno"> 1791</span><span class="comment">         * Now it needs to be pitch shifted back to the original frequency.</span></div>
+<div class="line"><a id="l01792" name="l01792"></a><span class="lineno"> 1792</span><span class="comment">         */</span></div>
+<div class="line"><a id="l01793" name="l01793"></a><span class="lineno"> 1793</span>        <span class="keywordtype">int</span> <span class="keyword">static</span> <span class="keyword">const</span> CHIPS_ACCUM_SFX_PITCH_RATIO = 2;</div>
+<div class="line"><a id="l01794" name="l01794"></a><span class="lineno"> 1794</span> </div>
+<div class="line"><a id="l01795" name="l01795"></a><span class="lineno"> 1795</span>        <span class="keywordflow">if</span> (scored_card_index == 0)</div>
+<div class="line"><a id="l01796" name="l01796"></a><span class="lineno"> 1796</span>        {</div>
+<div class="line"><a id="l01797" name="l01797"></a><span class="lineno"> 1797</span>            <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
+<div class="line"><a id="l01798" name="l01798"></a><span class="lineno"> 1798</span>                SFX_CHIPS_ACCUM,</div>
+<div class="line"><a id="l01799" name="l01799"></a><span class="lineno"> 1799</span>                CHIPS_ACCUM_SFX_PITCH_RATIO * <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>,</div>
+<div class="line"><a id="l01800" name="l01800"></a><span class="lineno"> 1800</span>                <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
+<div class="line"><a id="l01801" name="l01801"></a><span class="lineno"> 1801</span>            );</div>
+<div class="line"><a id="l01802" name="l01802"></a><span class="lineno"> 1802</span>            g_game_vars.timer = TM_ZERO;</div>
+<div class="line"><a id="l01803" name="l01803"></a><span class="lineno"> 1803</span>            play_state = PLAY_ENDED;</div>
+<div class="line"><a id="l01804" name="l01804"></a><span class="lineno"> 1804</span>        }</div>
+<div class="line"><a id="l01805" name="l01805"></a><span class="lineno"> 1805</span>    }</div>
+<div class="line"><a id="l01806" name="l01806"></a><span class="lineno"> 1806</span> </div>
+<div class="line"><a id="l01807" name="l01807"></a><span class="lineno"> 1807</span>    <span class="keywordflow">if</span> (card_object_is_selected(played[played_idx]) &amp;&amp; played_top - played_idx &gt;= scored_card_index)</div>
+<div class="line"><a id="l01808" name="l01808"></a><span class="lineno"> 1808</span>    {</div>
+<div class="line"><a id="l01809" name="l01809"></a><span class="lineno"> 1809</span>        played[played_idx]-&gt;ty = int2fx(HAND_PLAY_POS.y);</div>
+<div class="line"><a id="l01810" name="l01810"></a><span class="lineno"> 1810</span>    }</div>
+<div class="line"><a id="l01811" name="l01811"></a><span class="lineno"> 1811</span>}</div>
 </div>
-<div class="line"><a id="l01774" name="l01774"></a><span class="lineno"> 1774</span> </div>
-<div class="foldopen" id="foldopen01781" data-start="{" data-end="}">
-<div class="line"><a id="l01781" name="l01781"></a><span class="lineno"><a class="line" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e"> 1781</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
-<div class="line"><a id="l01782" name="l01782"></a><span class="lineno"> 1782</span>{</div>
-<div class="line"><a id="l01783" name="l01783"></a><span class="lineno"> 1783</span>    <span class="comment">// Same protection against out of bounds access as `play_starting_played_cards_update`</span></div>
-<div class="line"><a id="l01784" name="l01784"></a><span class="lineno"> 1784</span>    <span class="keywordtype">bool</span> card_selected = (played_top &lt; scored_card_index)</div>
-<div class="line"><a id="l01785" name="l01785"></a><span class="lineno"> 1785</span>                           ? <span class="keyword">false</span></div>
-<div class="line"><a id="l01786" name="l01786"></a><span class="lineno"> 1786</span>                           : card_object_is_selected(played[played_top - scored_card_index]);</div>
-<div class="line"><a id="l01787" name="l01787"></a><span class="lineno"> 1787</span> </div>
-<div class="line"><a id="l01788" name="l01788"></a><span class="lineno"> 1788</span>    <span class="keywordflow">if</span> (played_idx == played_top &amp;&amp; (g_game_vars.timer % FRAMES(10) == 0 || !card_selected) &amp;&amp;</div>
-<div class="line"><a id="l01789" name="l01789"></a><span class="lineno"> 1789</span>        g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01790" name="l01790"></a><span class="lineno"> 1790</span>    {</div>
-<div class="line"><a id="l01791" name="l01791"></a><span class="lineno"> 1791</span>        scored_card_index--;</div>
-<div class="line"><a id="l01792" name="l01792"></a><span class="lineno"> 1792</span> </div>
-<div class="line"><a id="l01793" name="l01793"></a><span class="lineno"> 1793</span>        <span class="comment">/* SFX_CHIPS_ACCUM has been pitch shifted to perserve high frequencies in downsampling.</span></div>
-<div class="line"><a id="l01794" name="l01794"></a><span class="lineno"> 1794</span><span class="comment">         * Now it needs to be pitch shifted back to the original frequency.</span></div>
-<div class="line"><a id="l01795" name="l01795"></a><span class="lineno"> 1795</span><span class="comment">         */</span></div>
-<div class="line"><a id="l01796" name="l01796"></a><span class="lineno"> 1796</span>        <span class="keywordtype">int</span> <span class="keyword">static</span> <span class="keyword">const</span> CHIPS_ACCUM_SFX_PITCH_RATIO = 2;</div>
-<div class="line"><a id="l01797" name="l01797"></a><span class="lineno"> 1797</span> </div>
-<div class="line"><a id="l01798" name="l01798"></a><span class="lineno"> 1798</span>        <span class="keywordflow">if</span> (scored_card_index == 0)</div>
-<div class="line"><a id="l01799" name="l01799"></a><span class="lineno"> 1799</span>        {</div>
-<div class="line"><a id="l01800" name="l01800"></a><span class="lineno"> 1800</span>            <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
-<div class="line"><a id="l01801" name="l01801"></a><span class="lineno"> 1801</span>                SFX_CHIPS_ACCUM,</div>
-<div class="line"><a id="l01802" name="l01802"></a><span class="lineno"> 1802</span>                CHIPS_ACCUM_SFX_PITCH_RATIO * <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>,</div>
-<div class="line"><a id="l01803" name="l01803"></a><span class="lineno"> 1803</span>                <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
-<div class="line"><a id="l01804" name="l01804"></a><span class="lineno"> 1804</span>            );</div>
-<div class="line"><a id="l01805" name="l01805"></a><span class="lineno"> 1805</span>            g_game_vars.timer = TM_ZERO;</div>
-<div class="line"><a id="l01806" name="l01806"></a><span class="lineno"> 1806</span>            play_state = PLAY_ENDED;</div>
-<div class="line"><a id="l01807" name="l01807"></a><span class="lineno"> 1807</span>        }</div>
-<div class="line"><a id="l01808" name="l01808"></a><span class="lineno"> 1808</span>    }</div>
-<div class="line"><a id="l01809" name="l01809"></a><span class="lineno"> 1809</span> </div>
-<div class="line"><a id="l01810" name="l01810"></a><span class="lineno"> 1810</span>    <span class="keywordflow">if</span> (card_object_is_selected(played[played_idx]) &amp;&amp; played_top - played_idx &gt;= scored_card_index)</div>
-<div class="line"><a id="l01811" name="l01811"></a><span class="lineno"> 1811</span>    {</div>
-<div class="line"><a id="l01812" name="l01812"></a><span class="lineno"> 1812</span>        played[played_idx]-&gt;sprite_object-&gt;ty = int2fx(HAND_PLAY_POS.y);</div>
-<div class="line"><a id="l01813" name="l01813"></a><span class="lineno"> 1813</span>    }</div>
-<div class="line"><a id="l01814" name="l01814"></a><span class="lineno"> 1814</span>}</div>
-</div>
-<div class="line"><a id="l01815" name="l01815"></a><span class="lineno"> 1815</span> </div>
-<div class="foldopen" id="foldopen01824" data-start="{" data-end="}">
-<div class="line"><a id="l01824" name="l01824"></a><span class="lineno"><a class="line" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5"> 1824</a></span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
-<div class="line"><a id="l01825" name="l01825"></a><span class="lineno"> 1825</span>{</div>
-<div class="line"><a id="l01826" name="l01826"></a><span class="lineno"> 1826</span>    <span class="keywordflow">if</span> (!discarded_card &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
-<div class="line"><a id="l01827" name="l01827"></a><span class="lineno"> 1827</span>    {</div>
-<div class="line"><a id="l01828" name="l01828"></a><span class="lineno"> 1828</span>        <span class="comment">// play the sound only once per card, when it is pushed off-screen to the right</span></div>
-<div class="line"><a id="l01829" name="l01829"></a><span class="lineno"> 1829</span>        <span class="keywordflow">if</span> (!sound_played)</div>
-<div class="line"><a id="l01830" name="l01830"></a><span class="lineno"> 1830</span>        {</div>
-<div class="line"><a id="l01831" name="l01831"></a><span class="lineno"> 1831</span>            <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
-<div class="line"><a id="l01832" name="l01832"></a><span class="lineno"> 1832</span>                SFX_CARD_DRAW,</div>
-<div class="line"><a id="l01833" name="l01833"></a><span class="lineno"> 1833</span>                <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a> + cards_drawn * PITCH_STEP_DISCARD_SFX,</div>
-<div class="line"><a id="l01834" name="l01834"></a><span class="lineno"> 1834</span>                <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
-<div class="line"><a id="l01835" name="l01835"></a><span class="lineno"> 1835</span>            );</div>
-<div class="line"><a id="l01836" name="l01836"></a><span class="lineno"> 1836</span>            sound_played = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01837" name="l01837"></a><span class="lineno"> 1837</span>        }</div>
-<div class="line"><a id="l01838" name="l01838"></a><span class="lineno"> 1838</span> </div>
-<div class="line"><a id="l01839" name="l01839"></a><span class="lineno"> 1839</span>        <span class="comment">// card has exited the screen, now discard it and set it to NULL</span></div>
-<div class="line"><a id="l01840" name="l01840"></a><span class="lineno"> 1840</span>        <span class="keywordflow">if</span> (played[played_idx]-&gt;sprite_object-&gt;x &gt;= int2fx(CARD_DISCARD_PNT.x))</div>
-<div class="line"><a id="l01841" name="l01841"></a><span class="lineno"> 1841</span>        {</div>
-<div class="line"><a id="l01842" name="l01842"></a><span class="lineno"> 1842</span>            <a class="code hl_function" href="round_8c.html#a0b3070c9da10e0dace0a7547748307d7">discard_push</a>(played[played_idx]-&gt;card); <span class="comment">// Push the card to the discard pile</span></div>
-<div class="line"><a id="l01843" name="l01843"></a><span class="lineno"> 1843</span>            card_object_destroy(&amp;played[played_idx]);</div>
+<div class="line"><a id="l01812" name="l01812"></a><span class="lineno"> 1812</span> </div>
+<div class="foldopen" id="foldopen01821" data-start="{" data-end="}">
+<div class="line"><a id="l01821" name="l01821"></a><span class="lineno"><a class="line" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5"> 1821</a></span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a>(<span class="keywordtype">int</span> played_idx)</div>
+<div class="line"><a id="l01822" name="l01822"></a><span class="lineno"> 1822</span>{</div>
+<div class="line"><a id="l01823" name="l01823"></a><span class="lineno"> 1823</span>    <span class="keywordflow">if</span> (!discarded_card &amp;&amp; g_game_vars.timer &gt; FRAMES(40))</div>
+<div class="line"><a id="l01824" name="l01824"></a><span class="lineno"> 1824</span>    {</div>
+<div class="line"><a id="l01825" name="l01825"></a><span class="lineno"> 1825</span>        <span class="comment">// play the sound only once per card, when it is pushed off-screen to the right</span></div>
+<div class="line"><a id="l01826" name="l01826"></a><span class="lineno"> 1826</span>        <span class="keywordflow">if</span> (!sound_played)</div>
+<div class="line"><a id="l01827" name="l01827"></a><span class="lineno"> 1827</span>        {</div>
+<div class="line"><a id="l01828" name="l01828"></a><span class="lineno"> 1828</span>            <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
+<div class="line"><a id="l01829" name="l01829"></a><span class="lineno"> 1829</span>                SFX_CARD_DRAW,</div>
+<div class="line"><a id="l01830" name="l01830"></a><span class="lineno"> 1830</span>                <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a> + cards_drawn * PITCH_STEP_DISCARD_SFX,</div>
+<div class="line"><a id="l01831" name="l01831"></a><span class="lineno"> 1831</span>                <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
+<div class="line"><a id="l01832" name="l01832"></a><span class="lineno"> 1832</span>            );</div>
+<div class="line"><a id="l01833" name="l01833"></a><span class="lineno"> 1833</span>            sound_played = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01834" name="l01834"></a><span class="lineno"> 1834</span>        }</div>
+<div class="line"><a id="l01835" name="l01835"></a><span class="lineno"> 1835</span> </div>
+<div class="line"><a id="l01836" name="l01836"></a><span class="lineno"> 1836</span>        <span class="comment">// card has exited the screen, now discard it and set it to NULL</span></div>
+<div class="line"><a id="l01837" name="l01837"></a><span class="lineno"> 1837</span>        <span class="keywordflow">if</span> (played[played_idx]-&gt;x &gt;= int2fx(CARD_DISCARD_PNT.x))</div>
+<div class="line"><a id="l01838" name="l01838"></a><span class="lineno"> 1838</span>        {</div>
+<div class="line"><a id="l01839" name="l01839"></a><span class="lineno"> 1839</span>            <a class="code hl_function" href="round_8c.html#a0b3070c9da10e0dace0a7547748307d7">discard_push</a>(played[played_idx]-&gt;card); <span class="comment">// Push the card to the discard pile</span></div>
+<div class="line"><a id="l01840" name="l01840"></a><span class="lineno"> 1840</span>            card_object_destroy(&amp;played[played_idx]);</div>
+<div class="line"><a id="l01841" name="l01841"></a><span class="lineno"> 1841</span> </div>
+<div class="line"><a id="l01842" name="l01842"></a><span class="lineno"> 1842</span>            cards_drawn++; <span class="comment">// This technically isn&#39;t drawing cards, I&#39;m just reusing the variable</span></div>
+<div class="line"><a id="l01843" name="l01843"></a><span class="lineno"> 1843</span>            sound_played = <span class="keyword">false</span>; <span class="comment">// Allow for the sound for the next card to be played</span></div>
 <div class="line"><a id="l01844" name="l01844"></a><span class="lineno"> 1844</span> </div>
-<div class="line"><a id="l01845" name="l01845"></a><span class="lineno"> 1845</span>            cards_drawn++; <span class="comment">// This technically isn&#39;t drawing cards, I&#39;m just reusing the variable</span></div>
-<div class="line"><a id="l01846" name="l01846"></a><span class="lineno"> 1846</span>            sound_played = <span class="keyword">false</span>; <span class="comment">// Allow for the sound for the next card to be played</span></div>
-<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span> </div>
-<div class="line"><a id="l01848" name="l01848"></a><span class="lineno"> 1848</span>            <span class="comment">// we reached hand_top, all cards have been discarded</span></div>
-<div class="line"><a id="l01849" name="l01849"></a><span class="lineno"> 1849</span>            <span class="keywordflow">if</span> (played_idx == played_top)</div>
-<div class="line"><a id="l01850" name="l01850"></a><span class="lineno"> 1850</span>            {</div>
-<div class="line"><a id="l01851" name="l01851"></a><span class="lineno"> 1851</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a>())</div>
-<div class="line"><a id="l01852" name="l01852"></a><span class="lineno"> 1852</span>                {</div>
-<div class="line"><a id="l01853" name="l01853"></a><span class="lineno"> 1853</span>                    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_SHUFFLING);</div>
-<div class="line"><a id="l01854" name="l01854"></a><span class="lineno"> 1854</span>                }</div>
-<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span>                {</div>
-<div class="line"><a id="l01857" name="l01857"></a><span class="lineno"> 1857</span>                    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_DRAW);</div>
-<div class="line"><a id="l01858" name="l01858"></a><span class="lineno"> 1858</span>                }</div>
-<div class="line"><a id="l01859" name="l01859"></a><span class="lineno"> 1859</span> </div>
-<div class="line"><a id="l01860" name="l01860"></a><span class="lineno"> 1860</span>                play_state = PLAY_STARTING;</div>
-<div class="line"><a id="l01861" name="l01861"></a><span class="lineno"> 1861</span>                cards_drawn = 0;</div>
-<div class="line"><a id="l01862" name="l01862"></a><span class="lineno"> 1862</span>                <a class="code hl_function" href="hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d">hand_set_nb_selected_cards</a>(0);</div>
-<div class="line"><a id="l01863" name="l01863"></a><span class="lineno"> 1863</span>                played_top = -1; <span class="comment">// Reset the played stack</span></div>
-<div class="line"><a id="l01864" name="l01864"></a><span class="lineno"> 1864</span>                scored_card_index = 0;</div>
-<div class="line"><a id="l01865" name="l01865"></a><span class="lineno"> 1865</span>                _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01866" name="l01866"></a><span class="lineno"> 1866</span>                g_game_vars.timer = TM_ZERO;</div>
-<div class="line"><a id="l01867" name="l01867"></a><span class="lineno"> 1867</span>            }</div>
+<div class="line"><a id="l01845" name="l01845"></a><span class="lineno"> 1845</span>            <span class="comment">// we reached hand_top, all cards have been discarded</span></div>
+<div class="line"><a id="l01846" name="l01846"></a><span class="lineno"> 1846</span>            <span class="keywordflow">if</span> (played_idx == played_top)</div>
+<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span>            {</div>
+<div class="line"><a id="l01848" name="l01848"></a><span class="lineno"> 1848</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a>())</div>
+<div class="line"><a id="l01849" name="l01849"></a><span class="lineno"> 1849</span>                {</div>
+<div class="line"><a id="l01850" name="l01850"></a><span class="lineno"> 1850</span>                    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_SHUFFLING);</div>
+<div class="line"><a id="l01851" name="l01851"></a><span class="lineno"> 1851</span>                }</div>
+<div class="line"><a id="l01852" name="l01852"></a><span class="lineno"> 1852</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l01853" name="l01853"></a><span class="lineno"> 1853</span>                {</div>
+<div class="line"><a id="l01854" name="l01854"></a><span class="lineno"> 1854</span>                    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_DRAW);</div>
+<div class="line"><a id="l01855" name="l01855"></a><span class="lineno"> 1855</span>                }</div>
+<div class="line"><a id="l01856" name="l01856"></a><span class="lineno"> 1856</span> </div>
+<div class="line"><a id="l01857" name="l01857"></a><span class="lineno"> 1857</span>                play_state = PLAY_STARTING;</div>
+<div class="line"><a id="l01858" name="l01858"></a><span class="lineno"> 1858</span>                cards_drawn = 0;</div>
+<div class="line"><a id="l01859" name="l01859"></a><span class="lineno"> 1859</span>                <a class="code hl_function" href="hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d">hand_set_nb_selected_cards</a>(0);</div>
+<div class="line"><a id="l01860" name="l01860"></a><span class="lineno"> 1860</span>                played_top = -1; <span class="comment">// Reset the played stack</span></div>
+<div class="line"><a id="l01861" name="l01861"></a><span class="lineno"> 1861</span>                scored_card_index = 0;</div>
+<div class="line"><a id="l01862" name="l01862"></a><span class="lineno"> 1862</span>                _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01863" name="l01863"></a><span class="lineno"> 1863</span>                g_game_vars.timer = TM_ZERO;</div>
+<div class="line"><a id="l01864" name="l01864"></a><span class="lineno"> 1864</span>            }</div>
+<div class="line"><a id="l01865" name="l01865"></a><span class="lineno"> 1865</span> </div>
+<div class="line"><a id="l01866" name="l01866"></a><span class="lineno"> 1866</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">// return early to avoid accessing played[played_idx] == NULL</span></div>
+<div class="line"><a id="l01867" name="l01867"></a><span class="lineno"> 1867</span>        }</div>
 <div class="line"><a id="l01868" name="l01868"></a><span class="lineno"> 1868</span> </div>
-<div class="line"><a id="l01869" name="l01869"></a><span class="lineno"> 1869</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>; <span class="comment">// return early to avoid accessing played[played_idx] == NULL</span></div>
-<div class="line"><a id="l01870" name="l01870"></a><span class="lineno"> 1870</span>        }</div>
-<div class="line"><a id="l01871" name="l01871"></a><span class="lineno"> 1871</span> </div>
-<div class="line"><a id="l01872" name="l01872"></a><span class="lineno"> 1872</span>        <span class="comment">// put target X position off screen to the right</span></div>
-<div class="line"><a id="l01873" name="l01873"></a><span class="lineno"> 1873</span>        played[played_idx]-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> = int2fx(CARD_DISCARD_PNT.x);</div>
-<div class="line"><a id="l01874" name="l01874"></a><span class="lineno"> 1874</span>        discarded_card = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l01875" name="l01875"></a><span class="lineno"> 1875</span>    }</div>
+<div class="line"><a id="l01869" name="l01869"></a><span class="lineno"> 1869</span>        <span class="comment">// put target X position off screen to the right</span></div>
+<div class="line"><a id="l01870" name="l01870"></a><span class="lineno"> 1870</span>        played[played_idx]-&gt;tx = int2fx(CARD_DISCARD_PNT.x);</div>
+<div class="line"><a id="l01871" name="l01871"></a><span class="lineno"> 1871</span>        discarded_card = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l01872" name="l01872"></a><span class="lineno"> 1872</span>    }</div>
+<div class="line"><a id="l01873" name="l01873"></a><span class="lineno"> 1873</span> </div>
+<div class="line"><a id="l01874" name="l01874"></a><span class="lineno"> 1874</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l01875" name="l01875"></a><span class="lineno"> 1875</span>}</div>
+</div>
 <div class="line"><a id="l01876" name="l01876"></a><span class="lineno"> 1876</span> </div>
-<div class="line"><a id="l01877" name="l01877"></a><span class="lineno"> 1877</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l01878" name="l01878"></a><span class="lineno"> 1878</span>}</div>
-</div>
-<div class="line"><a id="l01879" name="l01879"></a><span class="lineno"> 1879</span> </div>
-<div class="line"><a id="l01880" name="l01880"></a><span class="lineno"> 1880</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> played_cards_update_loop(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"> 1881</span>{</div>
-<div class="line"><a id="l01882" name="l01882"></a><span class="lineno"> 1882</span>    <span class="comment">// So this one is a bit fucking weird because I have to work kinda backwards for everything</span></div>
-<div class="line"><a id="l01883" name="l01883"></a><span class="lineno"> 1883</span>    <span class="comment">// because of the order of the pushed cards from the hand to the play stack (also crazy that the</span></div>
-<div class="line"><a id="l01884" name="l01884"></a><span class="lineno"> 1884</span>    <span class="comment">// company that published Balatro is called &quot;Playstack&quot; and this is a play stack, but I digress)</span></div>
-<div class="line"><a id="l01885" name="l01885"></a><span class="lineno"> 1885</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> played_idx = 0; played_idx &lt;= played_top; played_idx++)</div>
-<div class="line"><a id="l01886" name="l01886"></a><span class="lineno"> 1886</span>    {</div>
-<div class="line"><a id="l01887" name="l01887"></a><span class="lineno"> 1887</span>        <span class="keywordflow">if</span> (played[played_idx] == NULL)</div>
-<div class="line"><a id="l01888" name="l01888"></a><span class="lineno"> 1888</span>        {</div>
-<div class="line"><a id="l01889" name="l01889"></a><span class="lineno"> 1889</span>            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l01890" name="l01890"></a><span class="lineno"> 1890</span>        }</div>
-<div class="line"><a id="l01891" name="l01891"></a><span class="lineno"> 1891</span> </div>
-<div class="line"><a id="l01892" name="l01892"></a><span class="lineno"> 1892</span>        <span class="keywordflow">if</span> (card_object_get_sprite(played[played_idx]) == NULL)</div>
-<div class="line"><a id="l01893" name="l01893"></a><span class="lineno"> 1893</span>        {</div>
-<div class="line"><a id="l01894" name="l01894"></a><span class="lineno"> 1894</span>            <span class="comment">// Set the sprite for the played card object</span></div>
-<div class="line"><a id="l01895" name="l01895"></a><span class="lineno"> 1895</span>            card_object_set_sprite(played[played_idx], played_idx + MAX_HAND_SIZE);</div>
-<div class="line"><a id="l01896" name="l01896"></a><span class="lineno"> 1896</span>        }</div>
-<div class="line"><a id="l01897" name="l01897"></a><span class="lineno"> 1897</span> </div>
-<div class="line"><a id="l01898" name="l01898"></a><span class="lineno"> 1898</span>        <span class="keywordflow">switch</span> (play_state)</div>
-<div class="line"><a id="l01899" name="l01899"></a><span class="lineno"> 1899</span>        {</div>
-<div class="line"><a id="l01900" name="l01900"></a><span class="lineno"> 1900</span>            <span class="keywordflow">case</span> PLAY_STARTING:</div>
+<div class="line"><a id="l01877" name="l01877"></a><span class="lineno"> 1877</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> played_cards_update_loop(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01878" name="l01878"></a><span class="lineno"> 1878</span>{</div>
+<div class="line"><a id="l01879" name="l01879"></a><span class="lineno"> 1879</span>    <span class="comment">// So this one is a bit fucking weird because I have to work kinda backwards for everything</span></div>
+<div class="line"><a id="l01880" name="l01880"></a><span class="lineno"> 1880</span>    <span class="comment">// because of the order of the pushed cards from the hand to the play stack (also crazy that the</span></div>
+<div class="line"><a id="l01881" name="l01881"></a><span class="lineno"> 1881</span>    <span class="comment">// company that published Balatro is called &quot;Playstack&quot; and this is a play stack, but I digress)</span></div>
+<div class="line"><a id="l01882" name="l01882"></a><span class="lineno"> 1882</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> played_idx = 0; played_idx &lt;= played_top; played_idx++)</div>
+<div class="line"><a id="l01883" name="l01883"></a><span class="lineno"> 1883</span>    {</div>
+<div class="line"><a id="l01884" name="l01884"></a><span class="lineno"> 1884</span>        <span class="keywordflow">if</span> (played[played_idx] == NULL)</div>
+<div class="line"><a id="l01885" name="l01885"></a><span class="lineno"> 1885</span>        {</div>
+<div class="line"><a id="l01886" name="l01886"></a><span class="lineno"> 1886</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l01887" name="l01887"></a><span class="lineno"> 1887</span>        }</div>
+<div class="line"><a id="l01888" name="l01888"></a><span class="lineno"> 1888</span> </div>
+<div class="line"><a id="l01889" name="l01889"></a><span class="lineno"> 1889</span>        <span class="keywordflow">if</span> (card_object_get_sprite(played[played_idx]) == NULL)</div>
+<div class="line"><a id="l01890" name="l01890"></a><span class="lineno"> 1890</span>        {</div>
+<div class="line"><a id="l01891" name="l01891"></a><span class="lineno"> 1891</span>            <span class="comment">// Set the sprite for the played card object</span></div>
+<div class="line"><a id="l01892" name="l01892"></a><span class="lineno"> 1892</span>            card_object_set_sprite(played[played_idx], played_idx + MAX_HAND_SIZE);</div>
+<div class="line"><a id="l01893" name="l01893"></a><span class="lineno"> 1893</span>        }</div>
+<div class="line"><a id="l01894" name="l01894"></a><span class="lineno"> 1894</span> </div>
+<div class="line"><a id="l01895" name="l01895"></a><span class="lineno"> 1895</span>        <span class="keywordflow">switch</span> (play_state)</div>
+<div class="line"><a id="l01896" name="l01896"></a><span class="lineno"> 1896</span>        {</div>
+<div class="line"><a id="l01897" name="l01897"></a><span class="lineno"> 1897</span>            <span class="keywordflow">case</span> PLAY_STARTING:</div>
+<div class="line"><a id="l01898" name="l01898"></a><span class="lineno"> 1898</span> </div>
+<div class="line"><a id="l01899" name="l01899"></a><span class="lineno"> 1899</span>                play_starting_played_cards_update(played_idx);</div>
+<div class="line"><a id="l01900" name="l01900"></a><span class="lineno"> 1900</span>                <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l01901" name="l01901"></a><span class="lineno"> 1901</span> </div>
-<div class="line"><a id="l01902" name="l01902"></a><span class="lineno"> 1902</span>                play_starting_played_cards_update(played_idx);</div>
-<div class="line"><a id="l01903" name="l01903"></a><span class="lineno"> 1903</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01904" name="l01904"></a><span class="lineno"> 1904</span> </div>
-<div class="line"><a id="l01905" name="l01905"></a><span class="lineno"> 1905</span>            <span class="keywordflow">case</span> PLAY_BEFORE_SCORING:</div>
-<div class="line"><a id="l01906" name="l01906"></a><span class="lineno"> 1906</span> </div>
-<div class="line"><a id="l01907" name="l01907"></a><span class="lineno"> 1907</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a386cd56fa1809a00adb3d90ddffa17d5">play_before_scoring_cards_update</a>())</div>
-<div class="line"><a id="l01908" name="l01908"></a><span class="lineno"> 1908</span>                {</div>
-<div class="line"><a id="l01909" name="l01909"></a><span class="lineno"> 1909</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01910" name="l01910"></a><span class="lineno"> 1910</span>                }</div>
-<div class="line"><a id="l01911" name="l01911"></a><span class="lineno"> 1911</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01912" name="l01912"></a><span class="lineno"> 1912</span> </div>
-<div class="line"><a id="l01913" name="l01913"></a><span class="lineno"> 1913</span>            <span class="keywordflow">case</span> PLAY_SCORING_CARDS:</div>
-<div class="line"><a id="l01914" name="l01914"></a><span class="lineno"> 1914</span> </div>
-<div class="line"><a id="l01915" name="l01915"></a><span class="lineno"> 1915</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#af765693e228f67ffcbdd74e9b2c83542">play_scoring_cards_update</a>())</div>
-<div class="line"><a id="l01916" name="l01916"></a><span class="lineno"> 1916</span>                {</div>
-<div class="line"><a id="l01917" name="l01917"></a><span class="lineno"> 1917</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01918" name="l01918"></a><span class="lineno"> 1918</span>                }</div>
-<div class="line"><a id="l01919" name="l01919"></a><span class="lineno"> 1919</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01920" name="l01920"></a><span class="lineno"> 1920</span> </div>
-<div class="line"><a id="l01921" name="l01921"></a><span class="lineno"> 1921</span>            <span class="keywordflow">case</span> PLAY_SCORING_CARD_JOKERS:</div>
-<div class="line"><a id="l01922" name="l01922"></a><span class="lineno"> 1922</span> </div>
-<div class="line"><a id="l01923" name="l01923"></a><span class="lineno"> 1923</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a>())</div>
-<div class="line"><a id="l01924" name="l01924"></a><span class="lineno"> 1924</span>                {</div>
-<div class="line"><a id="l01925" name="l01925"></a><span class="lineno"> 1925</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01926" name="l01926"></a><span class="lineno"> 1926</span>                }</div>
-<div class="line"><a id="l01927" name="l01927"></a><span class="lineno"> 1927</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01928" name="l01928"></a><span class="lineno"> 1928</span> </div>
-<div class="line"><a id="l01929" name="l01929"></a><span class="lineno"> 1929</span>            <span class="keywordflow">case</span> PLAY_SCORING_HELD_CARDS:</div>
-<div class="line"><a id="l01930" name="l01930"></a><span class="lineno"> 1930</span> </div>
-<div class="line"><a id="l01931" name="l01931"></a><span class="lineno"> 1931</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a>(played_idx))</div>
-<div class="line"><a id="l01932" name="l01932"></a><span class="lineno"> 1932</span>                {</div>
-<div class="line"><a id="l01933" name="l01933"></a><span class="lineno"> 1933</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01934" name="l01934"></a><span class="lineno"> 1934</span>                }</div>
-<div class="line"><a id="l01935" name="l01935"></a><span class="lineno"> 1935</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01936" name="l01936"></a><span class="lineno"> 1936</span> </div>
-<div class="line"><a id="l01937" name="l01937"></a><span class="lineno"> 1937</span>            <span class="keywordflow">case</span> PLAY_SCORING_INDEPENDENT_JOKERS:</div>
-<div class="line"><a id="l01938" name="l01938"></a><span class="lineno"> 1938</span> </div>
-<div class="line"><a id="l01939" name="l01939"></a><span class="lineno"> 1939</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a>(played_idx))</div>
-<div class="line"><a id="l01940" name="l01940"></a><span class="lineno"> 1940</span>                {</div>
-<div class="line"><a id="l01941" name="l01941"></a><span class="lineno"> 1941</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01942" name="l01942"></a><span class="lineno"> 1942</span>                }</div>
-<div class="line"><a id="l01943" name="l01943"></a><span class="lineno"> 1943</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01944" name="l01944"></a><span class="lineno"> 1944</span> </div>
-<div class="line"><a id="l01945" name="l01945"></a><span class="lineno"> 1945</span>            <span class="keywordflow">case</span> PLAY_SCORING_HAND_SCORED_END:</div>
-<div class="line"><a id="l01946" name="l01946"></a><span class="lineno"> 1946</span> </div>
-<div class="line"><a id="l01947" name="l01947"></a><span class="lineno"> 1947</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a>(played_idx))</div>
-<div class="line"><a id="l01948" name="l01948"></a><span class="lineno"> 1948</span>                {</div>
-<div class="line"><a id="l01949" name="l01949"></a><span class="lineno"> 1949</span>                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l01950" name="l01950"></a><span class="lineno"> 1950</span>                }</div>
-<div class="line"><a id="l01951" name="l01951"></a><span class="lineno"> 1951</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01952" name="l01952"></a><span class="lineno"> 1952</span> </div>
-<div class="line"><a id="l01953" name="l01953"></a><span class="lineno"> 1953</span>            <span class="keywordflow">case</span> PLAY_ENDING:</div>
+<div class="line"><a id="l01902" name="l01902"></a><span class="lineno"> 1902</span>            <span class="keywordflow">case</span> PLAY_BEFORE_SCORING:</div>
+<div class="line"><a id="l01903" name="l01903"></a><span class="lineno"> 1903</span> </div>
+<div class="line"><a id="l01904" name="l01904"></a><span class="lineno"> 1904</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a386cd56fa1809a00adb3d90ddffa17d5">play_before_scoring_cards_update</a>())</div>
+<div class="line"><a id="l01905" name="l01905"></a><span class="lineno"> 1905</span>                {</div>
+<div class="line"><a id="l01906" name="l01906"></a><span class="lineno"> 1906</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01907" name="l01907"></a><span class="lineno"> 1907</span>                }</div>
+<div class="line"><a id="l01908" name="l01908"></a><span class="lineno"> 1908</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01909" name="l01909"></a><span class="lineno"> 1909</span> </div>
+<div class="line"><a id="l01910" name="l01910"></a><span class="lineno"> 1910</span>            <span class="keywordflow">case</span> PLAY_SCORING_CARDS:</div>
+<div class="line"><a id="l01911" name="l01911"></a><span class="lineno"> 1911</span> </div>
+<div class="line"><a id="l01912" name="l01912"></a><span class="lineno"> 1912</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#af765693e228f67ffcbdd74e9b2c83542">play_scoring_cards_update</a>())</div>
+<div class="line"><a id="l01913" name="l01913"></a><span class="lineno"> 1913</span>                {</div>
+<div class="line"><a id="l01914" name="l01914"></a><span class="lineno"> 1914</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01915" name="l01915"></a><span class="lineno"> 1915</span>                }</div>
+<div class="line"><a id="l01916" name="l01916"></a><span class="lineno"> 1916</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01917" name="l01917"></a><span class="lineno"> 1917</span> </div>
+<div class="line"><a id="l01918" name="l01918"></a><span class="lineno"> 1918</span>            <span class="keywordflow">case</span> PLAY_SCORING_CARD_JOKERS:</div>
+<div class="line"><a id="l01919" name="l01919"></a><span class="lineno"> 1919</span> </div>
+<div class="line"><a id="l01920" name="l01920"></a><span class="lineno"> 1920</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a>())</div>
+<div class="line"><a id="l01921" name="l01921"></a><span class="lineno"> 1921</span>                {</div>
+<div class="line"><a id="l01922" name="l01922"></a><span class="lineno"> 1922</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01923" name="l01923"></a><span class="lineno"> 1923</span>                }</div>
+<div class="line"><a id="l01924" name="l01924"></a><span class="lineno"> 1924</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01925" name="l01925"></a><span class="lineno"> 1925</span> </div>
+<div class="line"><a id="l01926" name="l01926"></a><span class="lineno"> 1926</span>            <span class="keywordflow">case</span> PLAY_SCORING_HELD_CARDS:</div>
+<div class="line"><a id="l01927" name="l01927"></a><span class="lineno"> 1927</span> </div>
+<div class="line"><a id="l01928" name="l01928"></a><span class="lineno"> 1928</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a>(played_idx))</div>
+<div class="line"><a id="l01929" name="l01929"></a><span class="lineno"> 1929</span>                {</div>
+<div class="line"><a id="l01930" name="l01930"></a><span class="lineno"> 1930</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01931" name="l01931"></a><span class="lineno"> 1931</span>                }</div>
+<div class="line"><a id="l01932" name="l01932"></a><span class="lineno"> 1932</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01933" name="l01933"></a><span class="lineno"> 1933</span> </div>
+<div class="line"><a id="l01934" name="l01934"></a><span class="lineno"> 1934</span>            <span class="keywordflow">case</span> PLAY_SCORING_INDEPENDENT_JOKERS:</div>
+<div class="line"><a id="l01935" name="l01935"></a><span class="lineno"> 1935</span> </div>
+<div class="line"><a id="l01936" name="l01936"></a><span class="lineno"> 1936</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a>(played_idx))</div>
+<div class="line"><a id="l01937" name="l01937"></a><span class="lineno"> 1937</span>                {</div>
+<div class="line"><a id="l01938" name="l01938"></a><span class="lineno"> 1938</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01939" name="l01939"></a><span class="lineno"> 1939</span>                }</div>
+<div class="line"><a id="l01940" name="l01940"></a><span class="lineno"> 1940</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01941" name="l01941"></a><span class="lineno"> 1941</span> </div>
+<div class="line"><a id="l01942" name="l01942"></a><span class="lineno"> 1942</span>            <span class="keywordflow">case</span> PLAY_SCORING_HAND_SCORED_END:</div>
+<div class="line"><a id="l01943" name="l01943"></a><span class="lineno"> 1943</span> </div>
+<div class="line"><a id="l01944" name="l01944"></a><span class="lineno"> 1944</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a>(played_idx))</div>
+<div class="line"><a id="l01945" name="l01945"></a><span class="lineno"> 1945</span>                {</div>
+<div class="line"><a id="l01946" name="l01946"></a><span class="lineno"> 1946</span>                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l01947" name="l01947"></a><span class="lineno"> 1947</span>                }</div>
+<div class="line"><a id="l01948" name="l01948"></a><span class="lineno"> 1948</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01949" name="l01949"></a><span class="lineno"> 1949</span> </div>
+<div class="line"><a id="l01950" name="l01950"></a><span class="lineno"> 1950</span>            <span class="keywordflow">case</span> PLAY_ENDING:</div>
+<div class="line"><a id="l01951" name="l01951"></a><span class="lineno"> 1951</span> </div>
+<div class="line"><a id="l01952" name="l01952"></a><span class="lineno"> 1952</span>                <a class="code hl_function" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a>(played_idx);</div>
+<div class="line"><a id="l01953" name="l01953"></a><span class="lineno"> 1953</span>                <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l01954" name="l01954"></a><span class="lineno"> 1954</span> </div>
-<div class="line"><a id="l01955" name="l01955"></a><span class="lineno"> 1955</span>                <a class="code hl_function" href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a>(played_idx);</div>
-<div class="line"><a id="l01956" name="l01956"></a><span class="lineno"> 1956</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01957" name="l01957"></a><span class="lineno"> 1957</span> </div>
-<div class="line"><a id="l01958" name="l01958"></a><span class="lineno"> 1958</span>            <span class="keywordflow">case</span> PLAY_ENDED:</div>
-<div class="line"><a id="l01959" name="l01959"></a><span class="lineno"> 1959</span> </div>
-<div class="line"><a id="l01960" name="l01960"></a><span class="lineno"> 1960</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a>(played_idx))</div>
-<div class="line"><a id="l01961" name="l01961"></a><span class="lineno"> 1961</span>                {</div>
-<div class="line"><a id="l01962" name="l01962"></a><span class="lineno"> 1962</span>                    <span class="comment">// we continue here instead of returning for performance</span></div>
-<div class="line"><a id="l01963" name="l01963"></a><span class="lineno"> 1963</span>                    <span class="comment">// to instantly go to the next card to discard at played_idx+1,</span></div>
-<div class="line"><a id="l01964" name="l01964"></a><span class="lineno"> 1964</span>                    <span class="comment">// instead of  starting over from index 0 and going up</span></div>
-<div class="line"><a id="l01965" name="l01965"></a><span class="lineno"> 1965</span>                    <span class="comment">// to that card again</span></div>
-<div class="line"><a id="l01966" name="l01966"></a><span class="lineno"> 1966</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l01967" name="l01967"></a><span class="lineno"> 1967</span>                }</div>
-<div class="line"><a id="l01968" name="l01968"></a><span class="lineno"> 1968</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l01969" name="l01969"></a><span class="lineno"> 1969</span>        }</div>
-<div class="line"><a id="l01970" name="l01970"></a><span class="lineno"> 1970</span> </div>
-<div class="line"><a id="l01971" name="l01971"></a><span class="lineno"> 1971</span>        played[played_idx]-&gt;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> = FIX_ONE;</div>
-<div class="line"><a id="l01972" name="l01972"></a><span class="lineno"> 1972</span>    }</div>
-<div class="line"><a id="l01973" name="l01973"></a><span class="lineno"> 1973</span>}</div>
-<div class="line"><a id="l01974" name="l01974"></a><span class="lineno"> 1974</span> </div>
-<div class="line"><a id="l01975" name="l01975"></a><span class="lineno"> 1975</span><span class="comment">/*******************************************************************************</span></div>
-<div class="line"><a id="l01976" name="l01976"></a><span class="lineno"> 1976</span><span class="comment"> * FOUND STATE FUNCTIONS</span></div>
-<div class="line"><a id="l01977" name="l01977"></a><span class="lineno"> 1977</span><span class="comment"> ******************************************************************************/</span></div>
-<div class="line"><a id="l01978" name="l01978"></a><span class="lineno"> 1978</span> </div>
-<div class="foldopen" id="foldopen01979" data-start="{" data-end="}">
-<div class="line"><a id="l01979" name="l01979"></a><span class="lineno"><a class="line" href="round_8h.html#a621c10d9a92f0cd0ab7a0d5a94e10410"> 1979</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l01980" name="l01980"></a><span class="lineno"> 1980</span>{</div>
-<div class="line"><a id="l01981" name="l01981"></a><span class="lineno"> 1981</span>    _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
-<div class="line"><a id="l01982" name="l01982"></a><span class="lineno"> 1982</span> </div>
-<div class="line"><a id="l01983" name="l01983"></a><span class="lineno"> 1983</span>    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_DRAW);</div>
-<div class="line"><a id="l01984" name="l01984"></a><span class="lineno"> 1984</span>    <a class="code hl_function" href="hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d">hand_set_nb_selected_cards</a>(0);</div>
-<div class="line"><a id="l01985" name="l01985"></a><span class="lineno"> 1985</span>    cards_drawn = 0;</div>
-<div class="line"><a id="l01986" name="l01986"></a><span class="lineno"> 1986</span> </div>
-<div class="line"><a id="l01987" name="l01987"></a><span class="lineno"> 1987</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.playing_blind_token);</div>
-<div class="line"><a id="l01988" name="l01988"></a><span class="lineno"> 1988</span>    g_game_vars.playing_blind_token = blind_token_new(</div>
-<div class="line"><a id="l01989" name="l01989"></a><span class="lineno"> 1989</span>        g_game_vars.current_blind,</div>
-<div class="line"><a id="l01990" name="l01990"></a><span class="lineno"> 1990</span>        CUR_BLIND_TOKEN_POS.x,</div>
-<div class="line"><a id="l01991" name="l01991"></a><span class="lineno"> 1991</span>        CUR_BLIND_TOKEN_POS.y,</div>
-<div class="line"><a id="l01992" name="l01992"></a><span class="lineno"> 1992</span>        PLAYING_BLIND_TOKEN_LAYER</div>
-<div class="line"><a id="l01993" name="l01993"></a><span class="lineno"> 1993</span>    ); <span class="comment">// Create the blind token sprite at the top left corner</span></div>
-<div class="line"><a id="l01994" name="l01994"></a><span class="lineno"> 1994</span>    <span class="comment">// TODO: Hide blind token and display it after sliding blind rect animation</span></div>
-<div class="line"><a id="l01995" name="l01995"></a><span class="lineno"> 1995</span>    <span class="comment">// if (g_game_vars.playing_blind_token != NULL)</span></div>
-<div class="line"><a id="l01996" name="l01996"></a><span class="lineno"> 1996</span>    <span class="comment">//{</span></div>
-<div class="line"><a id="l01997" name="l01997"></a><span class="lineno"> 1997</span>    <span class="comment">//    obj_hide(g_game_vars.playing_blind_token-&gt;obj); // Hide the blind token sprite for now</span></div>
-<div class="line"><a id="l01998" name="l01998"></a><span class="lineno"> 1998</span>    <span class="comment">//}</span></div>
-<div class="line"><a id="l01999" name="l01999"></a><span class="lineno"> 1999</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.round_end_blind_token);</div>
-<div class="line"><a id="l02000" name="l02000"></a><span class="lineno"> 2000</span>    g_game_vars.round_end_blind_token = blind_token_new(</div>
-<div class="line"><a id="l02001" name="l02001"></a><span class="lineno"> 2001</span>        g_game_vars.current_blind,</div>
-<div class="line"><a id="l02002" name="l02002"></a><span class="lineno"> 2002</span>        81,</div>
-<div class="line"><a id="l02003" name="l02003"></a><span class="lineno"> 2003</span>        86,</div>
-<div class="line"><a id="l02004" name="l02004"></a><span class="lineno"> 2004</span>        ROUND_END_BLIND_TOKEN_LAYER</div>
-<div class="line"><a id="l02005" name="l02005"></a><span class="lineno"> 2005</span>    ); <span class="comment">// Create the blind token sprite for round end</span></div>
-<div class="line"><a id="l02006" name="l02006"></a><span class="lineno"> 2006</span> </div>
-<div class="line"><a id="l02007" name="l02007"></a><span class="lineno"> 2007</span>    <span class="keywordflow">if</span> (g_game_vars.round_end_blind_token != NULL)</div>
-<div class="line"><a id="l02008" name="l02008"></a><span class="lineno"> 2008</span>    {</div>
-<div class="line"><a id="l02009" name="l02009"></a><span class="lineno"> 2009</span>        obj_hide(g_game_vars.round_end_blind_token-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>); <span class="comment">// Hide the blind token sprite for now</span></div>
-<div class="line"><a id="l02010" name="l02010"></a><span class="lineno"> 2010</span>    }</div>
+<div class="line"><a id="l01955" name="l01955"></a><span class="lineno"> 1955</span>            <span class="keywordflow">case</span> PLAY_ENDED:</div>
+<div class="line"><a id="l01956" name="l01956"></a><span class="lineno"> 1956</span> </div>
+<div class="line"><a id="l01957" name="l01957"></a><span class="lineno"> 1957</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a>(played_idx))</div>
+<div class="line"><a id="l01958" name="l01958"></a><span class="lineno"> 1958</span>                {</div>
+<div class="line"><a id="l01959" name="l01959"></a><span class="lineno"> 1959</span>                    <span class="comment">// we continue here instead of returning for performance</span></div>
+<div class="line"><a id="l01960" name="l01960"></a><span class="lineno"> 1960</span>                    <span class="comment">// to instantly go to the next card to discard at played_idx+1,</span></div>
+<div class="line"><a id="l01961" name="l01961"></a><span class="lineno"> 1961</span>                    <span class="comment">// instead of  starting over from index 0 and going up</span></div>
+<div class="line"><a id="l01962" name="l01962"></a><span class="lineno"> 1962</span>                    <span class="comment">// to that card again</span></div>
+<div class="line"><a id="l01963" name="l01963"></a><span class="lineno"> 1963</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l01964" name="l01964"></a><span class="lineno"> 1964</span>                }</div>
+<div class="line"><a id="l01965" name="l01965"></a><span class="lineno"> 1965</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l01966" name="l01966"></a><span class="lineno"> 1966</span>        }</div>
+<div class="line"><a id="l01967" name="l01967"></a><span class="lineno"> 1967</span> </div>
+<div class="line"><a id="l01968" name="l01968"></a><span class="lineno"> 1968</span>        played[played_idx]-&gt;tscale = FIX_ONE;</div>
+<div class="line"><a id="l01969" name="l01969"></a><span class="lineno"> 1969</span>    }</div>
+<div class="line"><a id="l01970" name="l01970"></a><span class="lineno"> 1970</span>}</div>
+<div class="line"><a id="l01971" name="l01971"></a><span class="lineno"> 1971</span> </div>
+<div class="line"><a id="l01972" name="l01972"></a><span class="lineno"> 1972</span><span class="comment">/*******************************************************************************</span></div>
+<div class="line"><a id="l01973" name="l01973"></a><span class="lineno"> 1973</span><span class="comment"> * FOUND STATE FUNCTIONS</span></div>
+<div class="line"><a id="l01974" name="l01974"></a><span class="lineno"> 1974</span><span class="comment"> ******************************************************************************/</span></div>
+<div class="line"><a id="l01975" name="l01975"></a><span class="lineno"> 1975</span> </div>
+<div class="foldopen" id="foldopen01976" data-start="{" data-end="}">
+<div class="line"><a id="l01976" name="l01976"></a><span class="lineno"><a class="line" href="round_8h.html#a621c10d9a92f0cd0ab7a0d5a94e10410"> 1976</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01977" name="l01977"></a><span class="lineno"> 1977</span>{</div>
+<div class="line"><a id="l01978" name="l01978"></a><span class="lineno"> 1978</span>    _joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
+<div class="line"><a id="l01979" name="l01979"></a><span class="lineno"> 1979</span> </div>
+<div class="line"><a id="l01980" name="l01980"></a><span class="lineno"> 1980</span>    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_DRAW);</div>
+<div class="line"><a id="l01981" name="l01981"></a><span class="lineno"> 1981</span>    <a class="code hl_function" href="hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d">hand_set_nb_selected_cards</a>(0);</div>
+<div class="line"><a id="l01982" name="l01982"></a><span class="lineno"> 1982</span>    cards_drawn = 0;</div>
+<div class="line"><a id="l01983" name="l01983"></a><span class="lineno"> 1983</span> </div>
+<div class="line"><a id="l01984" name="l01984"></a><span class="lineno"> 1984</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.playing_blind_token);</div>
+<div class="line"><a id="l01985" name="l01985"></a><span class="lineno"> 1985</span>    g_game_vars.playing_blind_token = blind_token_new(</div>
+<div class="line"><a id="l01986" name="l01986"></a><span class="lineno"> 1986</span>        g_game_vars.current_blind,</div>
+<div class="line"><a id="l01987" name="l01987"></a><span class="lineno"> 1987</span>        CUR_BLIND_TOKEN_POS.x,</div>
+<div class="line"><a id="l01988" name="l01988"></a><span class="lineno"> 1988</span>        CUR_BLIND_TOKEN_POS.y,</div>
+<div class="line"><a id="l01989" name="l01989"></a><span class="lineno"> 1989</span>        PLAYING_BLIND_TOKEN_LAYER</div>
+<div class="line"><a id="l01990" name="l01990"></a><span class="lineno"> 1990</span>    ); <span class="comment">// Create the blind token sprite at the top left corner</span></div>
+<div class="line"><a id="l01991" name="l01991"></a><span class="lineno"> 1991</span>    <span class="comment">// TODO: Hide blind token and display it after sliding blind rect animation</span></div>
+<div class="line"><a id="l01992" name="l01992"></a><span class="lineno"> 1992</span>    <span class="comment">// if (g_game_vars.playing_blind_token != NULL)</span></div>
+<div class="line"><a id="l01993" name="l01993"></a><span class="lineno"> 1993</span>    <span class="comment">//{</span></div>
+<div class="line"><a id="l01994" name="l01994"></a><span class="lineno"> 1994</span>    <span class="comment">//    obj_hide(g_game_vars.playing_blind_token-&gt;obj); // Hide the blind token sprite for now</span></div>
+<div class="line"><a id="l01995" name="l01995"></a><span class="lineno"> 1995</span>    <span class="comment">//}</span></div>
+<div class="line"><a id="l01996" name="l01996"></a><span class="lineno"> 1996</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.round_end_blind_token);</div>
+<div class="line"><a id="l01997" name="l01997"></a><span class="lineno"> 1997</span>    g_game_vars.round_end_blind_token = blind_token_new(</div>
+<div class="line"><a id="l01998" name="l01998"></a><span class="lineno"> 1998</span>        g_game_vars.current_blind,</div>
+<div class="line"><a id="l01999" name="l01999"></a><span class="lineno"> 1999</span>        81,</div>
+<div class="line"><a id="l02000" name="l02000"></a><span class="lineno"> 2000</span>        86,</div>
+<div class="line"><a id="l02001" name="l02001"></a><span class="lineno"> 2001</span>        ROUND_END_BLIND_TOKEN_LAYER</div>
+<div class="line"><a id="l02002" name="l02002"></a><span class="lineno"> 2002</span>    ); <span class="comment">// Create the blind token sprite for round end</span></div>
+<div class="line"><a id="l02003" name="l02003"></a><span class="lineno"> 2003</span> </div>
+<div class="line"><a id="l02004" name="l02004"></a><span class="lineno"> 2004</span>    <span class="keywordflow">if</span> (g_game_vars.round_end_blind_token != NULL)</div>
+<div class="line"><a id="l02005" name="l02005"></a><span class="lineno"> 2005</span>    {</div>
+<div class="line"><a id="l02006" name="l02006"></a><span class="lineno"> 2006</span>        obj_hide(g_game_vars.round_end_blind_token-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>); <span class="comment">// Hide the blind token sprite for now</span></div>
+<div class="line"><a id="l02007" name="l02007"></a><span class="lineno"> 2007</span>    }</div>
+<div class="line"><a id="l02008" name="l02008"></a><span class="lineno"> 2008</span> </div>
+<div class="line"><a id="l02009" name="l02009"></a><span class="lineno"> 2009</span>    Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;</div>
+<div class="line"><a id="l02010" name="l02010"></a><span class="lineno"> 2010</span>    u32 blind_requirement = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);</div>
 <div class="line"><a id="l02011" name="l02011"></a><span class="lineno"> 2011</span> </div>
-<div class="line"><a id="l02012" name="l02012"></a><span class="lineno"> 2012</span>    Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;</div>
-<div class="line"><a id="l02013" name="l02013"></a><span class="lineno"> 2013</span>    u32 blind_requirement = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);</div>
-<div class="line"><a id="l02014" name="l02014"></a><span class="lineno"> 2014</span> </div>
-<div class="line"><a id="l02015" name="l02015"></a><span class="lineno"> 2015</span>    <span class="keywordtype">char</span> blind_req_str_buff[UINT_MAX_DIGITS + 1];</div>
-<div class="line"><a id="l02016" name="l02016"></a><span class="lineno"> 2016</span> </div>
-<div class="line"><a id="l02017" name="l02017"></a><span class="lineno"> 2017</span>    <a class="code hl_function" href="util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a">truncate_uint_to_suffixed_str</a>(</div>
-<div class="line"><a id="l02018" name="l02018"></a><span class="lineno"> 2018</span>        blind_requirement,</div>
-<div class="line"><a id="l02019" name="l02019"></a><span class="lineno"> 2019</span>        <a class="code hl_function" href="graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b">rect_width</a>(&amp;BLIND_REQ_TEXT_RECT) / <a class="code hl_define" href="graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6">TTE_CHAR_SIZE</a>,</div>
-<div class="line"><a id="l02020" name="l02020"></a><span class="lineno"> 2020</span>        blind_req_str_buff</div>
-<div class="line"><a id="l02021" name="l02021"></a><span class="lineno"> 2021</span>    );</div>
+<div class="line"><a id="l02012" name="l02012"></a><span class="lineno"> 2012</span>    <span class="keywordtype">char</span> blind_req_str_buff[UINT_MAX_DIGITS + 1];</div>
+<div class="line"><a id="l02013" name="l02013"></a><span class="lineno"> 2013</span> </div>
+<div class="line"><a id="l02014" name="l02014"></a><span class="lineno"> 2014</span>    <a class="code hl_function" href="util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a">truncate_uint_to_suffixed_str</a>(</div>
+<div class="line"><a id="l02015" name="l02015"></a><span class="lineno"> 2015</span>        blind_requirement,</div>
+<div class="line"><a id="l02016" name="l02016"></a><span class="lineno"> 2016</span>        <a class="code hl_function" href="graphic__utils_8h.html#ad687d4e104c181d6d8312e6ffa6c459b">rect_width</a>(&amp;BLIND_REQ_TEXT_RECT) / <a class="code hl_define" href="graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6">TTE_CHAR_SIZE</a>,</div>
+<div class="line"><a id="l02017" name="l02017"></a><span class="lineno"> 2017</span>        blind_req_str_buff</div>
+<div class="line"><a id="l02018" name="l02018"></a><span class="lineno"> 2018</span>    );</div>
+<div class="line"><a id="l02019" name="l02019"></a><span class="lineno"> 2019</span> </div>
+<div class="line"><a id="l02020" name="l02020"></a><span class="lineno"> 2020</span>    <span class="comment">// Update text rect for right alignment AFTER shortening the number</span></div>
+<div class="line"><a id="l02021" name="l02021"></a><span class="lineno"> 2021</span>    <a class="code hl_function" href="graphic__utils_8h.html#a42446a057326ed83d4793215df774588">update_text_rect_to_right_align_str</a>(&amp;blind_req_text_rect, blind_req_str_buff, OVERFLOW_RIGHT);</div>
 <div class="line"><a id="l02022" name="l02022"></a><span class="lineno"> 2022</span> </div>
-<div class="line"><a id="l02023" name="l02023"></a><span class="lineno"> 2023</span>    <span class="comment">// Update text rect for right alignment AFTER shortening the number</span></div>
-<div class="line"><a id="l02024" name="l02024"></a><span class="lineno"> 2024</span>    <a class="code hl_function" href="graphic__utils_8h.html#a42446a057326ed83d4793215df774588">update_text_rect_to_right_align_str</a>(&amp;blind_req_text_rect, blind_req_str_buff, OVERFLOW_RIGHT);</div>
-<div class="line"><a id="l02025" name="l02025"></a><span class="lineno"> 2025</span> </div>
-<div class="line"><a id="l02026" name="l02026"></a><span class="lineno"> 2026</span>    tte_printf(</div>
-<div class="line"><a id="l02027" name="l02027"></a><span class="lineno"> 2027</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
-<div class="line"><a id="l02028" name="l02028"></a><span class="lineno"> 2028</span>        blind_req_text_rect.left,</div>
-<div class="line"><a id="l02029" name="l02029"></a><span class="lineno"> 2029</span>        blind_req_text_rect.top,</div>
-<div class="line"><a id="l02030" name="l02030"></a><span class="lineno"> 2030</span>        TTE_RED_PB,</div>
-<div class="line"><a id="l02031" name="l02031"></a><span class="lineno"> 2031</span>        blind_req_str_buff</div>
-<div class="line"><a id="l02032" name="l02032"></a><span class="lineno"> 2032</span>    );</div>
-<div class="line"><a id="l02033" name="l02033"></a><span class="lineno"> 2033</span>    tte_printf(</div>
-<div class="line"><a id="l02034" name="l02034"></a><span class="lineno"> 2034</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}$%d&quot;</span>,</div>
-<div class="line"><a id="l02035" name="l02035"></a><span class="lineno"> 2035</span>        BLIND_REWARD_RECT.left,</div>
-<div class="line"><a id="l02036" name="l02036"></a><span class="lineno"> 2036</span>        BLIND_REWARD_RECT.top,</div>
-<div class="line"><a id="l02037" name="l02037"></a><span class="lineno"> 2037</span>        TTE_YELLOW_PB,</div>
-<div class="line"><a id="l02038" name="l02038"></a><span class="lineno"> 2038</span>        blind_get_reward(g_game_vars.current_blind)</div>
-<div class="line"><a id="l02039" name="l02039"></a><span class="lineno"> 2039</span>    ); <span class="comment">// Blind reward</span></div>
-<div class="line"><a id="l02040" name="l02040"></a><span class="lineno"> 2040</span> </div>
-<div class="line"><a id="l02041" name="l02041"></a><span class="lineno"> 2041</span>    deck_shuffle(); <span class="comment">// Shuffle the deck at the start of the round</span></div>
-<div class="line"><a id="l02042" name="l02042"></a><span class="lineno"> 2042</span> </div>
-<div class="line"><a id="l02043" name="l02043"></a><span class="lineno"> 2043</span>    <span class="comment">/* Note that since cards_in_hand_update_loop() handles card highlight there&#39;s no need</span></div>
-<div class="line"><a id="l02044" name="l02044"></a><span class="lineno"> 2044</span><span class="comment">     * to call a selection changed callback to highlight the initial card, this wouldn&#39;t work</span></div>
-<div class="line"><a id="l02045" name="l02045"></a><span class="lineno"> 2045</span><span class="comment">     * otherwise or for the buttons.</span></div>
-<div class="line"><a id="l02046" name="l02046"></a><span class="lineno"> 2046</span><span class="comment">     */</span></div>
-<div class="line"><a id="l02047" name="l02047"></a><span class="lineno"> 2047</span>    game_round_selection_grid.selection = GAME_PLAYING_INIT_SEL;</div>
-<div class="line"><a id="l02048" name="l02048"></a><span class="lineno"> 2048</span>}</div>
+<div class="line"><a id="l02023" name="l02023"></a><span class="lineno"> 2023</span>    tte_printf(</div>
+<div class="line"><a id="l02024" name="l02024"></a><span class="lineno"> 2024</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>,</div>
+<div class="line"><a id="l02025" name="l02025"></a><span class="lineno"> 2025</span>        blind_req_text_rect.left,</div>
+<div class="line"><a id="l02026" name="l02026"></a><span class="lineno"> 2026</span>        blind_req_text_rect.top,</div>
+<div class="line"><a id="l02027" name="l02027"></a><span class="lineno"> 2027</span>        TTE_RED_PB,</div>
+<div class="line"><a id="l02028" name="l02028"></a><span class="lineno"> 2028</span>        blind_req_str_buff</div>
+<div class="line"><a id="l02029" name="l02029"></a><span class="lineno"> 2029</span>    );</div>
+<div class="line"><a id="l02030" name="l02030"></a><span class="lineno"> 2030</span>    tte_printf(</div>
+<div class="line"><a id="l02031" name="l02031"></a><span class="lineno"> 2031</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}$%d&quot;</span>,</div>
+<div class="line"><a id="l02032" name="l02032"></a><span class="lineno"> 2032</span>        BLIND_REWARD_RECT.left,</div>
+<div class="line"><a id="l02033" name="l02033"></a><span class="lineno"> 2033</span>        BLIND_REWARD_RECT.top,</div>
+<div class="line"><a id="l02034" name="l02034"></a><span class="lineno"> 2034</span>        TTE_YELLOW_PB,</div>
+<div class="line"><a id="l02035" name="l02035"></a><span class="lineno"> 2035</span>        blind_get_reward(g_game_vars.current_blind)</div>
+<div class="line"><a id="l02036" name="l02036"></a><span class="lineno"> 2036</span>    ); <span class="comment">// Blind reward</span></div>
+<div class="line"><a id="l02037" name="l02037"></a><span class="lineno"> 2037</span> </div>
+<div class="line"><a id="l02038" name="l02038"></a><span class="lineno"> 2038</span>    deck_shuffle(); <span class="comment">// Shuffle the deck at the start of the round</span></div>
+<div class="line"><a id="l02039" name="l02039"></a><span class="lineno"> 2039</span> </div>
+<div class="line"><a id="l02040" name="l02040"></a><span class="lineno"> 2040</span>    <span class="comment">/* Note that since cards_in_hand_update_loop() handles card highlight there&#39;s no need</span></div>
+<div class="line"><a id="l02041" name="l02041"></a><span class="lineno"> 2041</span><span class="comment">     * to call a selection changed callback to highlight the initial card, this wouldn&#39;t work</span></div>
+<div class="line"><a id="l02042" name="l02042"></a><span class="lineno"> 2042</span><span class="comment">     * otherwise or for the buttons.</span></div>
+<div class="line"><a id="l02043" name="l02043"></a><span class="lineno"> 2043</span><span class="comment">     */</span></div>
+<div class="line"><a id="l02044" name="l02044"></a><span class="lineno"> 2044</span>    game_round_selection_grid.selection = GAME_PLAYING_INIT_SEL;</div>
+<div class="line"><a id="l02045" name="l02045"></a><span class="lineno"> 2045</span>}</div>
 </div>
-<div class="line"><a id="l02049" name="l02049"></a><span class="lineno"> 2049</span> </div>
-<div class="foldopen" id="foldopen02050" data-start="{" data-end="}">
-<div class="line"><a id="l02050" name="l02050"></a><span class="lineno"><a class="line" href="round_8h.html#a767cef821019cc29984d70192460b977"> 2050</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l02051" name="l02051"></a><span class="lineno"> 2051</span>{</div>
-<div class="line"><a id="l02052" name="l02052"></a><span class="lineno"> 2052</span>    <span class="comment">// Background logic (thissss might be moved to the card&#39;ssss logic later. I&#39;m a sssssnake)</span></div>
-<div class="line"><a id="l02053" name="l02053"></a><span class="lineno"> 2053</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DRAW || <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DISCARD ||</div>
-<div class="line"><a id="l02054" name="l02054"></a><span class="lineno"> 2054</span>        <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_SELECT)</div>
-<div class="line"><a id="l02055" name="l02055"></a><span class="lineno"> 2055</span>    {</div>
-<div class="line"><a id="l02056" name="l02056"></a><span class="lineno"> 2056</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_SELECTING, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l02057" name="l02057"></a><span class="lineno"> 2057</span>    }</div>
-<div class="line"><a id="l02058" name="l02058"></a><span class="lineno"> 2058</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() != HAND_SHUFFLING)</div>
-<div class="line"><a id="l02059" name="l02059"></a><span class="lineno"> 2059</span>    {</div>
-<div class="line"><a id="l02060" name="l02060"></a><span class="lineno"> 2060</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_PLAYING, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l02061" name="l02061"></a><span class="lineno"> 2061</span>    }</div>
-<div class="line"><a id="l02062" name="l02062"></a><span class="lineno"> 2062</span> </div>
-<div class="line"><a id="l02063" name="l02063"></a><span class="lineno"> 2063</span>    game_round_process_input_and_state();</div>
-<div class="line"><a id="l02064" name="l02064"></a><span class="lineno"> 2064</span> </div>
-<div class="line"><a id="l02065" name="l02065"></a><span class="lineno"> 2065</span>    <span class="comment">// Card logic</span></div>
-<div class="line"><a id="l02066" name="l02066"></a><span class="lineno"> 2066</span> </div>
-<div class="line"><a id="l02067" name="l02067"></a><span class="lineno"> 2067</span>    game_round_process_card_draw();</div>
-<div class="line"><a id="l02068" name="l02068"></a><span class="lineno"> 2068</span> </div>
-<div class="line"><a id="l02069" name="l02069"></a><span class="lineno"> 2069</span>    game_round_discarded_cards_loop();</div>
-<div class="line"><a id="l02070" name="l02070"></a><span class="lineno"> 2070</span> </div>
-<div class="line"><a id="l02071" name="l02071"></a><span class="lineno"> 2071</span>    discarded_card = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l02046" name="l02046"></a><span class="lineno"> 2046</span> </div>
+<div class="foldopen" id="foldopen02047" data-start="{" data-end="}">
+<div class="line"><a id="l02047" name="l02047"></a><span class="lineno"><a class="line" href="round_8h.html#a767cef821019cc29984d70192460b977"> 2047</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l02048" name="l02048"></a><span class="lineno"> 2048</span>{</div>
+<div class="line"><a id="l02049" name="l02049"></a><span class="lineno"> 2049</span>    <span class="comment">// Background logic (thissss might be moved to the card&#39;ssss logic later. I&#39;m a sssssnake)</span></div>
+<div class="line"><a id="l02050" name="l02050"></a><span class="lineno"> 2050</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DRAW || <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DISCARD ||</div>
+<div class="line"><a id="l02051" name="l02051"></a><span class="lineno"> 2051</span>        <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_SELECT)</div>
+<div class="line"><a id="l02052" name="l02052"></a><span class="lineno"> 2052</span>    {</div>
+<div class="line"><a id="l02053" name="l02053"></a><span class="lineno"> 2053</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_SELECTING, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l02054" name="l02054"></a><span class="lineno"> 2054</span>    }</div>
+<div class="line"><a id="l02055" name="l02055"></a><span class="lineno"> 2055</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() != HAND_SHUFFLING)</div>
+<div class="line"><a id="l02056" name="l02056"></a><span class="lineno"> 2056</span>    {</div>
+<div class="line"><a id="l02057" name="l02057"></a><span class="lineno"> 2057</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_PLAYING, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l02058" name="l02058"></a><span class="lineno"> 2058</span>    }</div>
+<div class="line"><a id="l02059" name="l02059"></a><span class="lineno"> 2059</span> </div>
+<div class="line"><a id="l02060" name="l02060"></a><span class="lineno"> 2060</span>    game_round_process_input_and_state();</div>
+<div class="line"><a id="l02061" name="l02061"></a><span class="lineno"> 2061</span> </div>
+<div class="line"><a id="l02062" name="l02062"></a><span class="lineno"> 2062</span>    <span class="comment">// Card logic</span></div>
+<div class="line"><a id="l02063" name="l02063"></a><span class="lineno"> 2063</span> </div>
+<div class="line"><a id="l02064" name="l02064"></a><span class="lineno"> 2064</span>    game_round_process_card_draw();</div>
+<div class="line"><a id="l02065" name="l02065"></a><span class="lineno"> 2065</span> </div>
+<div class="line"><a id="l02066" name="l02066"></a><span class="lineno"> 2066</span>    game_round_discarded_cards_loop();</div>
+<div class="line"><a id="l02067" name="l02067"></a><span class="lineno"> 2067</span> </div>
+<div class="line"><a id="l02068" name="l02068"></a><span class="lineno"> 2068</span>    discarded_card = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l02069" name="l02069"></a><span class="lineno"> 2069</span> </div>
+<div class="line"><a id="l02070" name="l02070"></a><span class="lineno"> 2070</span>    cards_in_hand_update_loop();</div>
+<div class="line"><a id="l02071" name="l02071"></a><span class="lineno"> 2071</span>    played_cards_update_loop();</div>
 <div class="line"><a id="l02072" name="l02072"></a><span class="lineno"> 2072</span> </div>
-<div class="line"><a id="l02073" name="l02073"></a><span class="lineno"> 2073</span>    cards_in_hand_update_loop();</div>
-<div class="line"><a id="l02074" name="l02074"></a><span class="lineno"> 2074</span>    played_cards_update_loop();</div>
-<div class="line"><a id="l02075" name="l02075"></a><span class="lineno"> 2075</span> </div>
-<div class="line"><a id="l02076" name="l02076"></a><span class="lineno"> 2076</span>    game_round_ui_text_update();</div>
-<div class="line"><a id="l02077" name="l02077"></a><span class="lineno"> 2077</span> </div>
-<div class="line"><a id="l02078" name="l02078"></a><span class="lineno"> 2078</span>    <span class="comment">// animate score flames if we exceed the score requirement</span></div>
-<div class="line"><a id="l02079" name="l02079"></a><span class="lineno"> 2079</span>    game_round_process_flaming_score();</div>
-<div class="line"><a id="l02080" name="l02080"></a><span class="lineno"> 2080</span>}</div>
+<div class="line"><a id="l02073" name="l02073"></a><span class="lineno"> 2073</span>    game_round_ui_text_update();</div>
+<div class="line"><a id="l02074" name="l02074"></a><span class="lineno"> 2074</span> </div>
+<div class="line"><a id="l02075" name="l02075"></a><span class="lineno"> 2075</span>    <span class="comment">// animate score flames if we exceed the score requirement</span></div>
+<div class="line"><a id="l02076" name="l02076"></a><span class="lineno"> 2076</span>    game_round_process_flaming_score();</div>
+<div class="line"><a id="l02077" name="l02077"></a><span class="lineno"> 2077</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
 <div class="ttc" id="aaudio__utils_8h_html_a44f88da4c9f39b9c23c11f565a4f5fc2"><div class="ttname"><a href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a></div><div class="ttdeci">#define MM_BASE_PITCH_RATE</div><div class="ttdoc">The default pitch rate for the sound effect played.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00037">audio_utils.h:37</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00103">audio_utils.c:103</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_ada4aed6bf6aa0cfb9b37e393f4c9de86"><div class="ttname"><a href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div><div class="ttdeci">#define SFX_DEFAULT_VOLUME</div><div class="ttdoc">Default volume for sound effects.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00043">audio_utils.h:43</a></div></div>
-<div class="ttc" id="abutton_8h_html"><div class="ttname"><a href="button_8h.html">button.h</a></div><div class="ttdoc">A button structure containing the common button functionalities.</div></div>
+<div class="ttc" id="abutton_8h_html"><div class="ttname"><a href="button_8h.html">button.h</a></div><div class="ttdoc">A button structure containing the common button functionalities Including highlight and pressing func...</div></div>
 <div class="ttc" id="abutton_8h_html_a071a4d1bf72a16a7f4a4153722ce36db"><div class="ttname"><a href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a></div><div class="ttdeci">void button_press(Button *button)</div><div class="ttdoc">Execute a button press, by calling the button's on_pressed function. This checks the button's can_be_...</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00018">button.c:18</a></div></div>
 <div class="ttc" id="abutton_8h_html_ab07bc69b92e6642e2b986debfb152e48"><div class="ttname"><a href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a></div><div class="ttdeci">void button_set_highlight(Button *button, bool highlight)</div><div class="ttdoc">Set the button highlight on or off.</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00008">button.c:8</a></div></div>
 <div class="ttc" id="acommon__ui_8h_html_a7cc065b753e494969940447dfb3fb599"><div class="ttname"><a href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a></div><div class="ttdeci">void change_background(enum BackgroundId id, bool force_redraw)</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00035">common_ui.c:35</a></div></div>
@@ -2201,7 +2198,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="ttc" id="around_8c_html_a0629b6ce6e9dfa19f2887d9eaed5bdf2"><div class="ttname"><a href="round_8c.html#a0629b6ce6e9dfa19f2887d9eaed5bdf2">card_draw</a></div><div class="ttdeci">static void card_draw(void)</div><div class="ttdoc">Draw the next card at the top of the Deck and play a little Sprite animation to position it in our ha...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01130">round.c:1130</a></div></div>
 <div class="ttc" id="around_8c_html_a0b3070c9da10e0dace0a7547748307d7"><div class="ttname"><a href="round_8c.html#a0b3070c9da10e0dace0a7547748307d7">discard_push</a></div><div class="ttdeci">static void discard_push(Card *card)</div><div class="ttdoc">Push a new card to discard at the end of the associated array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00277">round.c:277</a></div></div>
 <div class="ttc" id="around_8c_html_a0d69abfe02eda74f4107b7d4e31211dd"><div class="ttname"><a href="round_8c.html#a0d69abfe02eda74f4107b7d4e31211dd">game_round_handle_round_over</a></div><div class="ttdeci">static void game_round_handle_round_over(void)</div><div class="ttdoc">Evaluates if we have won or lost when we can no longer play so that we land on the correct Game Over ...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00723">round.c:723</a></div></div>
-<div class="ttc" id="around_8c_html_a0d78a889edeedc032d9bba02f925da95"><div class="ttname"><a href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a></div><div class="ttdeci">static bool play_scoring_independent_jokers_update(int played_idx)</div><div class="ttdoc">Score Jokers normally for event JOKER_EVENT_INDEPENDENT.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01723">round.c:1723</a></div></div>
+<div class="ttc" id="around_8c_html_a0d78a889edeedc032d9bba02f925da95"><div class="ttname"><a href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a></div><div class="ttdeci">static bool play_scoring_independent_jokers_update(int played_idx)</div><div class="ttdoc">Score Jokers normally for event JOKER_EVENT_INDEPENDENT.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01720">round.c:1720</a></div></div>
 <div class="ttc" id="around_8c_html_a248029dfeadf34f23699a003cc151c99"><div class="ttname"><a href="round_8c.html#a248029dfeadf34f23699a003cc151c99">game_round_play_hand_on_pressed</a></div><div class="ttdeci">static void game_round_play_hand_on_pressed(void)</div><div class="ttdoc">&quot;Play&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00510">round.c:510</a></div></div>
 <div class="ttc" id="around_8c_html_a2a4916e063f7e60e36f4f4f95d5a0050"><div class="ttname"><a href="round_8c.html#a2a4916e063f7e60e36f4f4f95d5a0050">get_scored_card_index</a></div><div class="ttdeci">int get_scored_card_index(void)</div><div class="ttdoc">Get the index of the card that is currently being scored.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00296">round.c:296</a></div></div>
 <div class="ttc" id="around_8c_html_a2d3ef1230d3b5dad1661ef539c7c1a52"><div class="ttname"><a href="round_8c.html#a2d3ef1230d3b5dad1661ef539c7c1a52">played_push</a></div><div class="ttdeci">static void played_push(CardObject *card_object)</div><div class="ttdoc">Push a new card to play at the end of the associated array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00258">round.c:258</a></div></div>
@@ -2211,43 +2208,41 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="ttc" id="around_8c_html_a502b904f74141ec81e736c49137622ef"><div class="ttname"><a href="round_8c.html#a502b904f74141ec81e736c49137622ef">set_retrigger</a></div><div class="ttdeci">void set_retrigger(bool new_retrigger)</div><div class="ttdoc">Set whether the current card should get triggered again.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00301">round.c:301</a></div></div>
 <div class="ttc" id="around_8c_html_a5e0d3235bf09ba829d1c806567a0e0a2"><div class="ttname"><a href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">game_round_sort_by_suit_on_pressed</a></div><div class="ttdeci">static void game_round_sort_by_suit_on_pressed(void)</div><div class="ttdoc">&quot;Suit&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00486">round.c:486</a></div></div>
 <div class="ttc" id="around_8c_html_a6110e31a259ba9c8d30f5bb493ba8a0e"><div class="ttname"><a href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a></div><div class="ttdeci">static bool check_and_score_joker_for_event(ListItr *starting_joker_itr, CardObject *card_object, enum JokerEvent joker_event)</div><div class="ttdoc">Iterate over the Jokers List until we encounter one that scores for the specified event.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01491">round.c:1491</a></div></div>
-<div class="ttc" id="around_8c_html_a621c10d9a92f0cd0ab7a0d5a94e10410"><div class="ttname"><a href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a></div><div class="ttdeci">void game_round_on_init(void)</div><div class="ttdoc">Round state initialization.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01979">round.c:1979</a></div></div>
-<div class="ttc" id="around_8c_html_a640ee0da1357a826105485ffc34e3c7e"><div class="ttname"><a href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a></div><div class="ttdeci">static void play_ending_played_cards_update(int played_idx)</div><div class="ttdoc">This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position sequentially...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01781">round.c:1781</a></div></div>
+<div class="ttc" id="around_8c_html_a621c10d9a92f0cd0ab7a0d5a94e10410"><div class="ttname"><a href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a></div><div class="ttdeci">void game_round_on_init(void)</div><div class="ttdoc">Round state initialization.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01976">round.c:1976</a></div></div>
+<div class="ttc" id="around_8c_html_a640ee0da1357a826105485ffc34e3c7e"><div class="ttname"><a href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a></div><div class="ttdeci">static void play_ending_played_cards_update(int played_idx)</div><div class="ttdoc">This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position sequentially...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01778">round.c:1778</a></div></div>
 <div class="ttc" id="around_8c_html_a6f05f3f97f4719b80f8bc8c1386c2487"><div class="ttname"><a href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">game_round_execute_discard</a></div><div class="ttdeci">static void game_round_execute_discard(void)</div><div class="ttdoc">Triggers the discard of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00450">round.c:450</a></div></div>
 <div class="ttc" id="around_8c_html_a726b484f4969a82cb7ef09b3e3c8e434"><div class="ttname"><a href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">game_round_execute_play_hand</a></div><div class="ttdeci">static void game_round_execute_play_hand(void)</div><div class="ttdoc">Triggers the playing of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00494">round.c:494</a></div></div>
-<div class="ttc" id="around_8c_html_a767cef821019cc29984d70192460b977"><div class="ttname"><a href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a></div><div class="ttdeci">void game_round_on_update(void)</div><div class="ttdoc">Round state update.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l02050">round.c:2050</a></div></div>
+<div class="ttc" id="around_8c_html_a767cef821019cc29984d70192460b977"><div class="ttname"><a href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a></div><div class="ttdeci">void game_round_on_update(void)</div><div class="ttdoc">Round state update.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l02047">round.c:2047</a></div></div>
 <div class="ttc" id="around_8c_html_a81b9604048e903b67beb87bf60db1f8e"><div class="ttname"><a href="round_8c.html#a81b9604048e903b67beb87bf60db1f8e">discard_pop</a></div><div class="ttdeci">static Card * discard_pop()</div><div class="ttdoc">Remove and recover the last discarded card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00289">round.c:289</a></div></div>
 <div class="ttc" id="around_8c_html_a8e3d34f37a1bbde2018adbe5e137022b"><div class="ttname"><a href="round_8c.html#a8e3d34f37a1bbde2018adbe5e137022b">toggle_flaming_score</a></div><div class="ttdeci">void toggle_flaming_score(void)</div><div class="ttdoc">Checks whether the score that would result from the current Chips and Mult exceeds the current Blind'...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01430">round.c:1430</a></div></div>
 <div class="ttc" id="around_8c_html_a96da9e5f8367ece054bc074316493ecf"><div class="ttname"><a href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a></div><div class="ttdeci">static bool can_play_hand(void)</div><div class="ttdoc">Determines whether the &quot;Play&quot; button can be pressed or not.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00440">round.c:440</a></div></div>
-<div class="ttc" id="around_8c_html_aa49518129a32df4d331f2a828d29a933"><div class="ttname"><a href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a></div><div class="ttdeci">static bool play_scoring_card_jokers_update(void)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_SCORED_END for the previous scored card,...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01636">round.c:1636</a></div></div>
+<div class="ttc" id="around_8c_html_aa49518129a32df4d331f2a828d29a933"><div class="ttname"><a href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a></div><div class="ttdeci">static bool play_scoring_card_jokers_update(void)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_SCORED_END for the previous scored card,...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01633">round.c:1633</a></div></div>
 <div class="ttc" id="around_8c_html_aa834c019b23c941ee96b8e51554398f7"><div class="ttname"><a href="round_8c.html#aa834c019b23c941ee96b8e51554398f7">game_round_change_background_playing</a></div><div class="ttdeci">void game_round_change_background_playing(void)</div><div class="ttdoc">Change to the round card playing background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00400">round.c:400</a></div></div>
 <div class="ttc" id="around_8c_html_ab8ce5e3b4efa05d10da22bf8e9e81599"><div class="ttname"><a href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a></div><div class="ttdeci">static bool can_discard_hand(void)</div><div class="ttdoc">Determines whether the &quot;Discard&quot; button can be pressed or not.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00427">round.c:427</a></div></div>
 <div class="ttc" id="around_8c_html_abddd5bcbcc20eb4ce460d53d448acdb4"><div class="ttname"><a href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">game_round_discard_on_pressed</a></div><div class="ttdeci">static void game_round_discard_on_pressed(void)</div><div class="ttdoc">&quot;Discard&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00464">round.c:464</a></div></div>
-<div class="ttc" id="around_8c_html_ac1a5bcbce9deda8ea2c07a8630a357d1"><div class="ttname"><a href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a></div><div class="ttdeci">static bool play_scoring_held_cards_update(int played_idx)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_HELD for the previous scored card, if any.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01686">round.c:1686</a></div></div>
+<div class="ttc" id="around_8c_html_ac1a5bcbce9deda8ea2c07a8630a357d1"><div class="ttname"><a href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a></div><div class="ttdeci">static bool play_scoring_held_cards_update(int played_idx)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_HELD for the previous scored card, if any.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01683">round.c:1683</a></div></div>
 <div class="ttc" id="around_8c_html_ac8cec2b58cfa75bf971c1013aa1e9a40"><div class="ttname"><a href="round_8c.html#ac8cec2b58cfa75bf971c1013aa1e9a40">get_played_top</a></div><div class="ttdeci">int get_played_top(void)</div><div class="ttdoc">Get the index of the last played card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00243">round.c:243</a></div></div>
 <div class="ttc" id="around_8c_html_ac922f137d1d3ab206c5583954ba346fd"><div class="ttname"><a href="round_8c.html#ac922f137d1d3ab206c5583954ba346fd">hand_sel_idx_to_card_idx</a></div><div class="ttdeci">static int hand_sel_idx_to_card_idx(int selection_index)</div><div class="ttdoc">Converts a selection index from the selection grid into a card index within the hand array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00706">round.c:706</a></div></div>
-<div class="ttc" id="around_8c_html_ac93bf760224522bf82c09b5933b3619d"><div class="ttname"><a href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a></div><div class="ttdeci">static bool play_scoring_hand_scored_end_update(int played_idx)</div><div class="ttdoc">Trigger all Jokers for event JOKER_EVENT_ON_HAND_SCORED_END once they are done scoring.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01750">round.c:1750</a></div></div>
+<div class="ttc" id="around_8c_html_ac93bf760224522bf82c09b5933b3619d"><div class="ttname"><a href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a></div><div class="ttdeci">static bool play_scoring_hand_scored_end_update(int played_idx)</div><div class="ttdoc">Trigger all Jokers for event JOKER_EVENT_ON_HAND_SCORED_END once they are done scoring.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01747">round.c:1747</a></div></div>
 <div class="ttc" id="around_8c_html_ace375f4cc13086b5d150e53892d471f8"><div class="ttname"><a href="round_8c.html#ace375f4cc13086b5d150e53892d471f8">get_played_distribution</a></div><div class="ttdeci">static GBAL_UNUSED void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])</div><div class="ttdoc">Outputs the distribution of ranks and suits in the played stack.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00314">round.c:314</a></div></div>
 <div class="ttc" id="around_8c_html_aeb9efbd6a525a3567a44fb94838ff8b4"><div class="ttname"><a href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">game_round_sort_by_rank_on_pressed</a></div><div class="ttdeci">static void game_round_sort_by_rank_on_pressed(void)</div><div class="ttdoc">&quot;Rank&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00478">round.c:478</a></div></div>
 <div class="ttc" id="around_8c_html_af2a0cfd17eb4dd80b1a41b19fd2c4c2e"><div class="ttname"><a href="round_8c.html#af2a0cfd17eb4dd80b1a41b19fd2c4c2e">game_round_change_background_selecting</a></div><div class="ttdeci">void game_round_change_background_selecting(void)</div><div class="ttdoc">Change to the round card selection background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00338">round.c:338</a></div></div>
 <div class="ttc" id="around_8c_html_af765693e228f67ffcbdd74e9b2c83542"><div class="ttname"><a href="round_8c.html#af765693e228f67ffcbdd74e9b2c83542">play_scoring_cards_update</a></div><div class="ttdeci">static bool play_scoring_cards_update(void)</div><div class="ttdoc">Score all played cards in order, then Jokers after each one.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01564">round.c:1564</a></div></div>
-<div class="ttc" id="around_8c_html_afe9276c4999f9a36a6a11cab49ce33d5"><div class="ttname"><a href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a></div><div class="ttdeci">static bool play_ended_played_cards_update(int played_idx)</div><div class="ttdoc">Returns true if the card at index played_idx has been discarded. Basically a copy of HAND_DISCARD.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01824">round.c:1824</a></div></div>
+<div class="ttc" id="around_8c_html_afe9276c4999f9a36a6a11cab49ce33d5"><div class="ttname"><a href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a></div><div class="ttdeci">static bool play_ended_played_cards_update(int played_idx)</div><div class="ttdoc">Returns true if the card at index played_idx has been discarded. Basically a copy of HAND_DISCARD.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01821">round.c:1821</a></div></div>
 <div class="ttc" id="around_8h_html"><div class="ttname"><a href="round_8h.html">round.h</a></div><div class="ttdoc">API relative to the Rounds we play.</div></div>
 <div class="ttc" id="aselection__grid_8h_html"><div class="ttname"><a href="selection__grid_8h.html">selection_grid.h</a></div><div class="ttdoc">An implementation for a selection grid that handles directional selection.</div></div>
 <div class="ttc" id="aselection__grid_8h_html_a0ce39e190a85488f03024736064a9115"><div class="ttname"><a href="selection__grid_8h.html#a0ce39e190a85488f03024736064a9115">selection_grid_move_selection_vert</a></div><div class="ttdeci">void selection_grid_move_selection_vert(SelectionGrid *selection_grid, int direction_tribool)</div><div class="ttdoc">Moves the selection vertically within the selection grid.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8c_source.html#l00066">selection_grid.c:66</a></div></div>
 <div class="ttc" id="aselection__grid_8h_html_aab5b9794029546e2418e24bd899a3032"><div class="ttname"><a href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a></div><div class="ttdeci">void selection_grid_process_input(SelectionGrid *selection_grid)</div><div class="ttdoc">Processes user input for the selection grid.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8c_source.html#l00116">selection_grid.c:116</a></div></div>
-<div class="ttc" id="asprite_8h_html_a673f791a81943a40619c246e8eed8f0f"><div class="ttname"><a href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a></div><div class="ttdeci">void sprite_object_reset_transform(SpriteObject *sprite_object)</div><div class="ttdoc">Reset SpriteObject's transform back to default values.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00204">sprite.c:204</a></div></div>
-<div class="ttc" id="asprite_8h_html_abbbc989fe5cd8e1e93f9784e1048be47"><div class="ttname"><a href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a></div><div class="ttdeci">void sprite_destroy(Sprite **sprite)</div><div class="ttdoc">Destroy Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00089">sprite.c:89</a></div></div>
-<div class="ttc" id="astructButton_html"><div class="ttname"><a href="structButton.html">Button</a></div><div class="ttdoc">A button representation.</div><div class="ttdef"><b>Definition</b> <a href="button_8h_source.html#l00029">button.h:30</a></div></div>
+<div class="ttc" id="asprite_8h_html_a673f791a81943a40619c246e8eed8f0f"><div class="ttname"><a href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a></div><div class="ttdeci">void sprite_object_reset_transform(SpriteObject *sprite_object)</div><div class="ttdoc">Reset SpriteObject's transform back to default values.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00203">sprite.c:203</a></div></div>
+<div class="ttc" id="asprite_8h_html_abbbc989fe5cd8e1e93f9784e1048be47"><div class="ttname"><a href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a></div><div class="ttdeci">void sprite_destroy(Sprite **sprite)</div><div class="ttdoc">Destroy Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00091">sprite.c:91</a></div></div>
+<div class="ttc" id="astructButton_html"><div class="ttname"><a href="structButton.html">Button</a></div><div class="ttdoc">A button representation.</div><div class="ttdef"><b>Definition</b> <a href="button_8h_source.html#l00030">button.h:31</a></div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00055">card.h:56</a></div></div>
 <div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00049">card.h:50</a></div></div>
 <div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00113">joker.h:114</a></div></div>
 <div class="ttc" id="astructListItr_html"><div class="ttname"><a href="structListItr.html">ListItr</a></div><div class="ttdoc">An iterator into a list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00090">list.h:91</a></div></div>
 <div class="ttc" id="astructSelectionGridRow_html"><div class="ttname"><a href="structSelectionGridRow.html">SelectionGridRow</a></div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00103">selection_grid.h:104</a></div></div>
 <div class="ttc" id="astructSelectionGrid_html"><div class="ttname"><a href="structSelectionGrid.html">SelectionGrid</a></div><div class="ttdoc">The core selection grid struct, represents the grid itself and its state.</div><div class="ttdef"><b>Definition</b> <a href="selection__grid_8h_source.html#l00118">selection_grid.h:119</a></div></div>
-<div class="ttc" id="astructSpriteObject_html_a2017b28962f789e15c45963f8f25b5d8"><div class="ttname"><a href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">SpriteObject::x</a></div><div class="ttdeci">FIXED x</div><div class="ttdoc">Current position.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00069">sprite.h:69</a></div></div>
-<div class="ttc" id="astructSpriteObject_html_a53ba73970f94c3b60071771a6a2e26ab"><div class="ttname"><a href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">SpriteObject::tx</a></div><div class="ttdeci">FIXED tx</div><div class="ttdoc">Target position.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00064">sprite.h:64</a></div></div>
-<div class="ttc" id="astructSpriteObject_html_a9fac583aa7e114c134394f42e81e4253"><div class="ttname"><a href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">SpriteObject::tscale</a></div><div class="ttdeci">FIXED tscale</div><div class="ttdoc">Target Scale.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00079">sprite.h:79</a></div></div>
+<div class="ttc" id="astructSpriteObject_html"><div class="ttname"><a href="structSpriteObject.html">SpriteObject</a></div><div class="ttdoc">A sprite object is a sprite that is focusable and movable in animation.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00054">sprite.h:55</a></div></div>
 <div class="ttc" id="astructSprite_html_abdcca0516e817f6f84009b3ace44c495"><div class="ttname"><a href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">Sprite::obj</a></div><div class="ttdeci">OBJ_ATTR * obj</div><div class="ttdoc">GBA sprite attribute registers info (A0-A2)</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00033">sprite.h:33</a></div></div>
 <div class="ttc" id="atimer_8h_html"><div class="ttname"><a href="timer_8h.html">timer.h</a></div><div class="ttdoc">Timer constants.</div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>

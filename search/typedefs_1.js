@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['jokerobjectsavedata_0',['JokerObjectSaveData',['../save_8c.html#acab90751e92c8ddb2bdf741c6d51245a',1,'save.c']]]
+  ['item_0',['Item',['../item_8h.html#a749adef16b111dddf0ab08f96707a3a0',1,'item.h']]],
+  ['itemfuncs_1',['ItemFuncs',['../item_8h.html#a96577ad5559bbb52afe7d2a8b1488824',1,'item.h']]]
 ];

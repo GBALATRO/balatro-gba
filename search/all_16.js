@@ -26,5 +26,6 @@ var searchData=
   ['tte_5ferase_5frect_5fwrapper_23',['tte_erase_rect_wrapper',['../graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7',1,'graphic_utils.c']]],
   ['tte_5fprintf_5fjustified_5fin_5frect_24',['tte_printf_justified_in_rect',['../graphic__utils_8h.html#a882aaf87f63de6fdbcc83014381d0af3',1,'graphic_utils.c']]],
   ['tx_25',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
-  ['type_5fseed_5fchar_26',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
+  ['type_26',['type',['../structItem.html#abcafd47dddaa3d0d1398448b8a61c48d',1,'Item']]],
+  ['type_5fseed_5fchar_27',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
 ];

@@ -6,7 +6,8 @@ var searchData=
   ['scale_3',['scale',['../structSpriteObject.html#a6fd1da2014d2160d199c728234245594',1,'SpriteObject']]],
   ['seed_4',['seed',['../structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5',1,'RngInfo']]],
   ['sprite_5',['sprite',['../structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d',1,'SpriteObject']]],
-  ['state_6',['state',['../structStateMachine.html#a89f234133d3efe315836311cbf21c64b',1,'StateMachine']]],
-  ['state_5finfos_7',['state_infos',['../structStateMachine.html#a007fb62416ee346877fa244b16fc8947',1,'StateMachine']]],
-  ['step_8',['step',['../structRngInfo.html#add7060bb1806fc83671041faf7c1643a',1,'RngInfo']]]
+  ['spriteobject_6',['SpriteObject',['../structItem.html#a89144277bc691613127f9fc4f8030b08',1,'Item']]],
+  ['state_7',['state',['../structStateMachine.html#a89f234133d3efe315836311cbf21c64b',1,'StateMachine']]],
+  ['state_5finfos_8',['state_infos',['../structStateMachine.html#a007fb62416ee346877fa244b16fc8947',1,'StateMachine']]],
+  ['step_9',['step',['../structRngInfo.html#add7060bb1806fc83671041faf7c1643a',1,'RngInfo']]]
 ];

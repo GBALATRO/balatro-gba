@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rnginfo_0',['RngInfo',['../structRngInfo.html',1,'']]]
+  ['ninepatchrect_0',['NinePatchRect',['../structNinePatchRect.html',1,'']]]
 ];

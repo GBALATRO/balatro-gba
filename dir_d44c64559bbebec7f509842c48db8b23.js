@@ -19,6 +19,8 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "gbalatro_sys8.h", "gbalatro__sys8_8h_source.html", null ],
     [ "graphic_utils.h", "graphic__utils_8h.html", "graphic__utils_8h" ],
     [ "hand.h", "hand_8h.html", "hand_8h" ],
+    [ "item.h", "item_8h.html", "item_8h" ],
+    [ "item_funcs.h", "item__funcs_8h.html", "item__funcs_8h" ],
     [ "joker.h", "joker_8h.html", "joker_8h" ],
     [ "joker_gfx.h", "joker__gfx_8h_source.html", null ],
     [ "layout.h", "layout_8h.html", null ],

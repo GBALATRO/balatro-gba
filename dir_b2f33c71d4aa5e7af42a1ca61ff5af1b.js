@@ -12,6 +12,8 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "game.c", "game_8c_source.html", null ],
     [ "graphic_utils.c", "graphic__utils_8c_source.html", null ],
     [ "hand.c", "hand_8c.html", "hand_8c" ],
+    [ "item.c", "item_8c_source.html", null ],
+    [ "item_funcs.c", "item__funcs_8c_source.html", null ],
     [ "joker.c", "joker_8c_source.html", null ],
     [ "joker_effects.c", "joker__effects_8c_source.html", null ],
     [ "list.c", "list_8c.html", "list_8c" ],
