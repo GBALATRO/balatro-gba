@@ -503,7 +503,7 @@ bool joker_object_score(
         char score_buffer[INT_MAX_DIGITS + 2];
         snprintf(score_buffer, sizeof(score_buffer), "%d$", joker_effect->money);
         set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_YELLOW_PB);
-        // TODO: Money sound effect
+        sfx_id = SFX_COIN3_MONEY_ACCUM;
     }
     // custom message for Jokers (including retriggers where Jokers will say "Again!")
     // joker_effect->message will have been set if the Joker had anything custom to say
