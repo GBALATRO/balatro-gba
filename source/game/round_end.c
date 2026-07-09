@@ -2,12 +2,18 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"
+#include "soundbank.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
+
+#include <stdlib.h>
+
+#define REWARD_INCR_PITCH_RANGE 256
 
 enum GameRoundEndStates
 {
@@ -203,6 +209,11 @@ static void game_round_end_update_blind_reward(void)
             TTE_YELLOW_PB,
             blind_get_reward(g_game_vars.current_blind) - blind_reward
         );
+        play_sfx(
+            SFX_COIN3_MONEY_ACCUM,
+            MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
+            SFX_DEFAULT_VOLUME
+        );
     }
     else if (g_game_vars.timer > FRAMES(20))
     {
@@ -282,6 +293,12 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
             TTE_YELLOW_PB,
             g_game_vars.hands - hand_reward
         );
+        play_sfx(
+            SFX_COIN3_MONEY_ACCUM,
+            MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
+            SFX_DEFAULT_VOLUME
+        );
+
         if (hand_reward == 0)
         {
             interest_start_time = g_game_vars.timer + TM_REWARD_DISPLAY_INTERVAL;
@@ -317,6 +334,11 @@ static inline void game_round_end_print_interest_reward(int interest_y_offset)
             interest_y * TILE_SIZE,
             TTE_YELLOW_PB,
             interest_reward - interest_to_count
+        );
+        play_sfx(
+            SFX_COIN3_MONEY_ACCUM,
+            MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
+            SFX_DEFAULT_VOLUME
         );
     }
 }
@@ -370,6 +392,7 @@ static inline void game_round_end_cashout(void)
     // Reward the player
     g_game_vars.money += g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
                          calculate_interest_reward();
+    play_sfx(SFX_COIN1_BALANCE_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
 
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
@@ -401,6 +424,7 @@ static void game_round_end_display_cashout()
             omit_space ? "" : " ",
             cashout_amount
         );
+        play_sfx(SFX_COIN6_CASHOUT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
 
     // Wait until the player presses A to cash out
