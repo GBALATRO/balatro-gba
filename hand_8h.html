@@ -255,10 +255,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae939d94185e29e1bbf44072c5d37c273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the hand array according to the selected method to do that.  <br /></td></tr>
 <tr class="separator:ae939d94185e29e1bbf44072c5d37c273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e66e88d21fed9071b1c725d987e28ab" id="r_a2e66e88d21fed9071b1c725d987e28ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8h.html#a2e66e88d21fed9071b1c725d987e28ab">find_flush_in_played_cards</a> (<a class="el" href="structCardObject.html">CardObject</a> **played, int top, int min_len, bool *out_selection)</td></tr>
+<tr class="memdesc:a2e66e88d21fed9071b1c725d987e28ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the best flush (set of cards with the same suit) in the given array of played cards.  <br /></td></tr>
 <tr class="separator:a2e66e88d21fed9071b1c725d987e28ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa19d0e87853c3873feffccb195e6e51a" id="r_aa19d0e87853c3873feffccb195e6e51a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8h.html#aa19d0e87853c3873feffccb195e6e51a">find_straight_in_played_cards</a> (<a class="el" href="structCardObject.html">CardObject</a> **played, int top, bool shortcut_active, int min_len, bool *out_selection)</td></tr>
-<tr class="separator:aa19d0e87853c3873feffccb195e6e51a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63dc3aad83b0d5cdb342bb4db62f67f1" id="r_a63dc3aad83b0d5cdb342bb4db62f67f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8h.html#a63dc3aad83b0d5cdb342bb4db62f67f1">find_straight_in_played_cards</a> (<a class="el" href="structCardObject.html">CardObject</a> **played, int top, int min_len, bool *out_selection)</td></tr>
+<tr class="memdesc:a63dc3aad83b0d5cdb342bb4db62f67f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the best straight in the given array of played cards.  <br /></td></tr>
+<tr class="separator:a63dc3aad83b0d5cdb342bb4db62f67f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab31c9562aa23120fd2f2f5bf25a37823" id="r_ab31c9562aa23120fd2f2f5bf25a37823"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8h.html#ab31c9562aa23120fd2f2f5bf25a37823">select_paired_cards_in_hand</a> (<a class="el" href="structCardObject.html">CardObject</a> **played, int top, bool *selection)</td></tr>
+<tr class="memdesc:ab31c9562aa23120fd2f2f5bf25a37823"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is used for the special case in "Four Fingers" where you can add a pair into a straight (e.g. AA234 should score all 5 cards)  <br /></td></tr>
 <tr class="separator:ab31c9562aa23120fd2f2f5bf25a37823"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -375,13 +378,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Finds the largest flush (set of cards with the same suit) in the given array of played cards. Marks the cards belonging to the best flush in the out_selection array.</p>
+
+<p>Finds the best flush (set of cards with the same suit) in the given array of played cards. </p>
+<p>Normally a Flush is made of 5 cards of the same suit, but this function takes into account the Four Fingers joker which allows for Flushes made of 4 cards only.</p>
+<p>The cards belonging to that flush will be marked as selected in the out_selection array.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">played</td><td>Array of pointers to <a class="el" href="structCardObject.html">CardObject</a> representing played cards. </td></tr>
     <tr><td class="paramname">top</td><td>Index of the top of the played stack. </td></tr>
     <tr><td class="paramname">min_len</td><td>Minimum number of cards required for a flush. </td></tr>
-    <tr><td class="paramname">out_selection</td><td>Output array of bools; set to true for cards in the best flush, false otherwise. </td></tr>
+    <tr><td class="paramname">out_selection</td><td>Output array of bools; set to true for cards in the best flush, false otherwise.</td></tr>
   </table>
   </dd>
 </dl>
@@ -391,8 +397,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aa19d0e87853c3873feffccb195e6e51a" name="aa19d0e87853c3873feffccb195e6e51a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa19d0e87853c3873feffccb195e6e51a">&#9670;&#160;</a></span>find_straight_in_played_cards()</h2>
+<a id="a63dc3aad83b0d5cdb342bb4db62f67f1" name="a63dc3aad83b0d5cdb342bb4db62f67f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63dc3aad83b0d5cdb342bb4db62f67f1">&#9670;&#160;</a></span>find_straight_in_played_cards()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,12 +414,6 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>top</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>shortcut_active</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -434,6 +434,20 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Finds the best straight in the given array of played cards. </p>
+<p>Normally, a Straight is a set of 5 cards with sequential ranks, but this function takes into account the Four Fingers and Shortcut jokers, which respectively allow for Straights made of 4 cards and with gaps of 1 rank between two cards.</p>
+<p>The cards belonging to that straight will be marked as selected in the out_selection array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">played</td><td>Array of pointers to <a class="el" href="structCardObject.html">CardObject</a> representing played cards. </td></tr>
+    <tr><td class="paramname">top</td><td>Index of the top of the played stack. </td></tr>
+    <tr><td class="paramname">min_len</td><td>Minimum number of cards required for a straight. </td></tr>
+    <tr><td class="paramname">out_selection</td><td>Output array of bools; set to true for cards in the best straight, false otherwise.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of cards in the best straight found, or 0 if no straight meets min_len. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00587">587</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
@@ -787,7 +801,17 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00738">738</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p>This is used for the special case in "Four Fingers" where you can add a pair into a straight (e.g. AA234 should score all 5 cards) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">played</td><td>Array of pointers to <a class="el" href="structCardObject.html">CardObject</a> representing played cards. </td></tr>
+    <tr><td class="paramname">top</td><td>Index of the top of the played stack. </td></tr>
+    <tr><td class="paramname">selection</td><td>In/Out array of bools; cards from a straight are already set to true, so we add to those the leftover ones that form a pair with an already selected card. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00731">731</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>

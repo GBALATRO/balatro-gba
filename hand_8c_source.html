@@ -753,311 +753,308 @@ $(document).ready(function(){initNavTree('hand_8c_source.html',''); initResizabl
 </div>
 <div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span> </div>
 <div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span><span class="comment">// Returns the number of cards in the best straight or 0 if no straight of min_len is found, marks</span></div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span><span class="comment">// as true them in out_selection[]. This is mostly from Google Gemini</span></div>
-<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span><span class="keywordtype">int</span> find_straight_in_played_cards(</div>
-<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>    <a class="code hl_struct" href="structCardObject.html">CardObject</a>** played,</div>
-<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>    <span class="keywordtype">int</span> top,</div>
-<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>    <span class="keywordtype">bool</span> shortcut_active,</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    <span class="keywordtype">int</span> min_len,</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>    <span class="keywordtype">bool</span>* out_selection</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>)</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>{</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    <span class="keywordflow">if</span> (top &lt; 0)</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        out_selection[i] = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span><span class="comment">// them as true in out_selection[]. This is mostly from Google Gemini</span></div>
+<div class="foldopen" id="foldopen00587" data-start="{" data-end="}">
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno"><a class="line" href="hand_8h.html#a63dc3aad83b0d5cdb342bb4db62f67f1">  587</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="hand_8c.html#a63dc3aad83b0d5cdb342bb4db62f67f1">find_straight_in_played_cards</a>(<a class="code hl_struct" href="structCardObject.html">CardObject</a>** played, <span class="keywordtype">int</span> top, <span class="keywordtype">int</span> min_len, <span class="keywordtype">bool</span>* out_selection)</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>{</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>    <span class="keywordflow">if</span> (top &lt; 0)</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        out_selection[i] = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span> </div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>    <span class="comment">// --- Setup for Backtracking DP ---</span></div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    u8 longest_straight_at[NUM_RANKS] = {0};</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>    <span class="keywordtype">int</span> parent[NUM_RANKS];</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>        parent[i] = -1;</div>
 <div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span> </div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>    <span class="comment">// --- Setup for Backtracking DP ---</span></div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    u8 longest_straight_at[NUM_RANKS] = {0};</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>    <span class="keywordtype">int</span> parent[NUM_RANKS];</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        parent[i] = -1;</div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span> </div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>    u8 ranks[NUM_RANKS] = {0};</div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
-<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>    {</div>
-<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>        <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card)</div>
-<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>        {</div>
-<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>            ranks[played[i]-&gt;card-&gt;rank]++;</div>
-<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>        }</div>
-<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>    }</div>
-<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span> </div>
-<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>    <span class="comment">// --- Run DP to find longest straight ---</span></div>
-<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>    <span class="comment">// This is nearly identical to hand_contains_straight() logic</span></div>
-<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>    <span class="comment">// TODO: Consolidate functions to avoid code duplication?</span></div>
-<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>    <span class="comment">// Might cost performance because this does a little more</span></div>
-<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    <span class="keywordtype">int</span> ace_low_len = ranks[ACE] ? 1 : 0;</div>
-<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>    {</div>
-<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        <span class="keywordflow">if</span> (ranks[i] &gt; 0)</div>
-<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        {</div>
-<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>            <span class="keywordtype">int</span> prev1 = 0, prev2 = 0;</div>
-<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>            <span class="keywordtype">int</span> parent1 = -1, parent2 = -1;</div>
-<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span> </div>
-<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>            <span class="keywordflow">if</span> (shortcut_active)</div>
-<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>            {</div>
-<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>                <span class="keywordflow">if</span> (i == TWO)</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>    u8 ranks[NUM_RANKS] = {0};</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>    {</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>        <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card)</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        {</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>            ranks[played[i]-&gt;card-&gt;rank]++;</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>        }</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    }</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span> </div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span>    <span class="comment">// --- Run DP to find longest straight ---</span></div>
+<div class="line"><a id="l00610" name="l00610"></a><span class="lineno">  610</span>    <span class="comment">// This is nearly identical to hand_contains_straight() logic</span></div>
+<div class="line"><a id="l00611" name="l00611"></a><span class="lineno">  611</span>    <span class="comment">// TODO: Consolidate functions to avoid code duplication?</span></div>
+<div class="line"><a id="l00612" name="l00612"></a><span class="lineno">  612</span>    <span class="comment">// Might cost performance because this does a little more</span></div>
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno">  613</span>    <span class="keywordtype">int</span> ace_low_len = ranks[ACE] ? 1 : 0;</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>    <span class="keywordtype">bool</span> is_shortcut_active = is_shortcut_joker_active();</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>    {</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>        <span class="keywordflow">if</span> (ranks[i] &gt; 0)</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>        {</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>            <span class="keywordtype">int</span> prev1 = 0, prev2 = 0;</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>            <span class="keywordtype">int</span> parent1 = -1, parent2 = -1;</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span> </div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>            <span class="keywordflow">if</span> (is_shortcut_active)</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>            {</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>                <span class="keywordflow">if</span> (i == TWO)</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>                {</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span>                    prev1 = ace_low_len;</div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>                    parent1 = ACE;</div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>                }</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == THREE)</div>
 <div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span>                {</div>
-<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>                    prev1 = ace_low_len;</div>
-<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                    parent1 = ACE;</div>
-<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>                }</div>
-<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == THREE)</div>
-<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>                {</div>
-<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>                    prev1 = longest_straight_at[TWO];</div>
-<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                    parent1 = TWO;</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>                    prev2 = ace_low_len;</div>
-<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>                    parent2 = ACE;</div>
-<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>                }</div>
-<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == ACE)</div>
-<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                {</div>
-<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                    prev1 = longest_straight_at[KING];</div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                    parent1 = KING;</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                    prev2 = longest_straight_at[QUEEN];</div>
-<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>                    parent2 = QUEEN;</div>
-<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                }</div>
-<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                {</div>
-<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                    prev1 = longest_straight_at[i - 1];</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                    parent1 = i - 1;</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                    <span class="keywordflow">if</span> (i &gt; 1)</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>                    {</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>                        prev2 = longest_straight_at[i - 2];</div>
-<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>                        parent2 = i - 2;</div>
-<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                    }</div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>                }</div>
-<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            }</div>
-<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>            {</div>
-<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                <span class="keywordflow">if</span> (i == TWO)</div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>                    prev1 = longest_straight_at[TWO];</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                    parent1 = TWO;</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>                    prev2 = ace_low_len;</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>                    parent2 = ACE;</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>                }</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == ACE)</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                {</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>                    prev1 = longest_straight_at[KING];</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>                    parent1 = KING;</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>                    prev2 = longest_straight_at[QUEEN];</div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>                    parent2 = QUEEN;</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>                }</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>                {</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>                    prev1 = longest_straight_at[i - 1];</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>                    parent1 = i - 1;</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>                    <span class="keywordflow">if</span> (i &gt; 1)</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>                    {</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>                        prev2 = longest_straight_at[i - 2];</div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>                        parent2 = i - 2;</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>                    }</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>                }</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>            }</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            {</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                <span class="keywordflow">if</span> (i == TWO)</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>                {</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                    prev1 = ace_low_len;</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>                    parent1 = ACE;</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                }</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == ACE)</div>
 <div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>                {</div>
-<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                    prev1 = ace_low_len;</div>
-<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                    parent1 = ACE;</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>                    prev1 = longest_straight_at[KING];</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                    parent1 = KING;</div>
 <div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>                }</div>
-<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (i == ACE)</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                {</div>
-<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    prev1 = longest_straight_at[KING];</div>
-<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                    parent1 = KING;</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                    prev1 = longest_straight_at[i - 1];</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>                    parent1 = i - 1;</div>
 <div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                }</div>
-<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                {</div>
-<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                    prev1 = longest_straight_at[i - 1];</div>
-<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                    parent1 = i - 1;</div>
-<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>                }</div>
-<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>            }</div>
-<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span> </div>
-<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>            <span class="comment">// Parallels longest_short_cut_at[i] = 1 + max(prev_len1, prev_len2);</span></div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            <span class="comment">// in hand_contains_straight()</span></div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            <span class="keywordflow">if</span> (prev1 &gt;= prev2)</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>            }</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span> </div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            <span class="comment">// Parallels longest_short_cut_at[i] = 1 + max(prev_len1, prev_len2);</span></div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>            <span class="comment">// in hand_contains_straight()</span></div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>            <span class="keywordflow">if</span> (prev1 &gt;= prev2)</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>            {</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                longest_straight_at[i] = 1 + prev1;</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                parent[i] = parent1;</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            }</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            {</div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                longest_straight_at[i] = 1 + prev1;</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                parent[i] = parent1;</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                longest_straight_at[i] = 1 + prev2;</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>                parent[i] = parent2;</div>
 <div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>            }</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>            {</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>                longest_straight_at[i] = 1 + prev2;</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>                parent[i] = parent2;</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>            }</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>        }</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>    }</div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>    <span class="comment">// --- Find best straight and backtrack ---</span></div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>    <span class="keywordtype">int</span> best_len = 0;</div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>    <span class="keywordtype">int</span> end_rank = -1;</div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>    {</div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>        <span class="keywordflow">if</span> (longest_straight_at[i] &gt;= best_len)</div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>        {</div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>            best_len = longest_straight_at[i];</div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>            end_rank = i;</div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>        }</div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>    }</div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span> </div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>    <span class="keywordflow">if</span> (best_len &gt;= min_len)</div>
-<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>    {</div>
-<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>        u8 needed_ranks[NUM_RANKS] = {0};</div>
-<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>        <span class="keywordtype">int</span> current_rank = end_rank;</div>
-<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>        <span class="keywordflow">while</span> (current_rank != -1 &amp;&amp; best_len &gt; 0)</div>
-<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>        {</div>
-<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            needed_ranks[current_rank]++;</div>
-<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            current_rank = parent[current_rank];</div>
-<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            best_len--;</div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>        }</div>
-<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span> </div>
-<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
-<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>        {</div>
-<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>            <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card &amp;&amp; needed_ranks[played[i]-&gt;card-&gt;rank] &gt; 0)</div>
-<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>            {</div>
-<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>                out_selection[i] = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>                needed_ranks[played[i]-&gt;card-&gt;rank]--;</div>
-<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            }</div>
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>        }</div>
-<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span> </div>
-<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>        <span class="keywordtype">int</span> final_card_count = 0;</div>
-<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>        {</div>
-<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>            <span class="keywordflow">if</span> (out_selection[i])</div>
-<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>                final_card_count++;</div>
-<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>        }</div>
-<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>        <span class="keywordflow">return</span> final_card_count;</div>
-<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>    }</div>
-<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>}</div>
-<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span> </div>
-<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span><span class="comment">// This is used for the special case in &quot;Four Fingers&quot; where you can add a pair into a straight</span></div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span><span class="comment">// (e.g. AA234 should score all 5 cards)</span></div>
-<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span><span class="keywordtype">void</span> select_paired_cards_in_hand(<a class="code hl_struct" href="structCardObject.html">CardObject</a>** played, <span class="keywordtype">int</span> played_top, <span class="keywordtype">bool</span>* selection)</div>
-<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>{</div>
-<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>    <span class="comment">// Build a set of ranks that are already selected</span></div>
-<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>    <span class="keywordtype">bool</span> rank_selected[NUM_RANKS] = {0};</div>
-<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>    <span class="keywordtype">bool</span> any_selected_rank = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span> </div>
-<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= played_top; i++)</div>
-<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span>    {</div>
-<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>        <span class="keywordflow">if</span> (selection[i] &amp;&amp; played[i] &amp;&amp; played[i]-&gt;card)</div>
-<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>        {</div>
-<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>            rank_selected[played[i]-&gt;card-&gt;rank] = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span>            any_selected_rank = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>        }</div>
-<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>    }</div>
-<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span> </div>
-<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>    <span class="comment">// If no ranks were selected initially, nothing to do</span></div>
-<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>    <span class="keywordflow">if</span> (!any_selected_rank)</div>
-<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span> </div>
-<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>    <span class="comment">// Add any unselected card to the selection if if shares a rank with the selected ranks</span></div>
-<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= played_top; i++)</div>
-<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>    {</div>
-<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>        <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card &amp;&amp; !selection[i])</div>
-<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>        {</div>
-<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span>            <span class="keywordflow">if</span> (rank_selected[played[i]-&gt;card-&gt;rank])</div>
-<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>            {</div>
-<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>                selection[i] = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>            }</div>
-<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>        }</div>
-<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>    }</div>
-<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>}</div>
-<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span> </div>
-<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span><span class="keyword">static</span> <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> compute_contained_hand_types(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>{</div>
-<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span>    <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> hand_types = {0};</div>
-<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span> </div>
-<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span>    <span class="comment">// Idk if this is how Balatro does it but this is how I&#39;m doing it</span></div>
-<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>    <span class="keywordflow">if</span> (hand.hand_selections == 0 || hand.state == HAND_DISCARD)</div>
-<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>    {</div>
-<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>        <span class="keywordflow">return</span> hand_types;</div>
-<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span>    }</div>
-<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span> </div>
-<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>    hand_types.HIGH_CARD = 1;</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        }</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>    }</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span> </div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>    <span class="comment">// --- Find best straight and backtrack ---</span></div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>    <span class="keywordtype">int</span> best_len = 0;</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>    <span class="keywordtype">int</span> end_rank = -1;</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_RANKS; i++)</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>    {</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>        <span class="keywordflow">if</span> (longest_straight_at[i] &gt;= best_len)</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>        {</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            best_len = longest_straight_at[i];</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>            end_rank = i;</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>        }</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>    }</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span> </div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>    <span class="keywordflow">if</span> (best_len &gt;= min_len)</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>    {</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>        u8 needed_ranks[NUM_RANKS] = {0};</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>        <span class="keywordtype">int</span> current_rank = end_rank;</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>        <span class="keywordflow">while</span> (current_rank != -1 &amp;&amp; best_len &gt; 0)</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>        {</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>            needed_ranks[current_rank]++;</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            current_rank = parent[current_rank];</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            best_len--;</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>        }</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span> </div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>        {</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>            <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card &amp;&amp; needed_ranks[played[i]-&gt;card-&gt;rank] &gt; 0)</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>            {</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>                out_selection[i] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>                needed_ranks[played[i]-&gt;card-&gt;rank]--;</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            }</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>        }</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span> </div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>        <span class="keywordtype">int</span> final_card_count = 0;</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= top; i++)</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>        {</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>            <span class="keywordflow">if</span> (out_selection[i])</div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                final_card_count++;</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>        }</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>        <span class="keywordflow">return</span> final_card_count;</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>    }</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>}</div>
+</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span> </div>
+<div class="foldopen" id="foldopen00731" data-start="{" data-end="}">
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno"><a class="line" href="hand_8h.html#ab31c9562aa23120fd2f2f5bf25a37823">  731</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="hand_8c.html#af947febbf35dba3823fee4f0e095111e">select_paired_cards_in_hand</a>(<a class="code hl_struct" href="structCardObject.html">CardObject</a>** played, <span class="keywordtype">int</span> played_top, <span class="keywordtype">bool</span>* selection)</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>{</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>    <span class="comment">// Build a set of ranks that are already selected</span></div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>    <span class="keywordtype">bool</span> rank_selected[NUM_RANKS] = {0};</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>    <span class="keywordtype">bool</span> any_selected_rank = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span> </div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= played_top; i++)</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>    {</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>        <span class="keywordflow">if</span> (selection[i] &amp;&amp; played[i] &amp;&amp; played[i]-&gt;card)</div>
+<div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>        {</div>
+<div class="line"><a id="l00741" name="l00741"></a><span class="lineno">  741</span>            rank_selected[played[i]-&gt;card-&gt;rank] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00742" name="l00742"></a><span class="lineno">  742</span>            any_selected_rank = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00743" name="l00743"></a><span class="lineno">  743</span>        }</div>
+<div class="line"><a id="l00744" name="l00744"></a><span class="lineno">  744</span>    }</div>
+<div class="line"><a id="l00745" name="l00745"></a><span class="lineno">  745</span> </div>
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno">  746</span>    <span class="comment">// If no ranks were selected initially, nothing to do</span></div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>    <span class="keywordflow">if</span> (!any_selected_rank)</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span> </div>
+<div class="line"><a id="l00750" name="l00750"></a><span class="lineno">  750</span>    <span class="comment">// Add any unselected card to the selection if if shares a rank with the selected ranks</span></div>
+<div class="line"><a id="l00751" name="l00751"></a><span class="lineno">  751</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= played_top; i++)</div>
+<div class="line"><a id="l00752" name="l00752"></a><span class="lineno">  752</span>    {</div>
+<div class="line"><a id="l00753" name="l00753"></a><span class="lineno">  753</span>        <span class="keywordflow">if</span> (played[i] &amp;&amp; played[i]-&gt;card &amp;&amp; !selection[i])</div>
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno">  754</span>        {</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>            <span class="keywordflow">if</span> (rank_selected[played[i]-&gt;card-&gt;rank])</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>            {</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span>                selection[i] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00758" name="l00758"></a><span class="lineno">  758</span>            }</div>
+<div class="line"><a id="l00759" name="l00759"></a><span class="lineno">  759</span>        }</div>
+<div class="line"><a id="l00760" name="l00760"></a><span class="lineno">  760</span>    }</div>
+<div class="line"><a id="l00761" name="l00761"></a><span class="lineno">  761</span>}</div>
+</div>
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno">  762</span> </div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span><span class="keyword">static</span> <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> compute_contained_hand_types(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>{</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span>    <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> hand_types = {0};</div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span> </div>
+<div class="line"><a id="l00767" name="l00767"></a><span class="lineno">  767</span>    <span class="comment">// Idk if this is how Balatro does it but this is how I&#39;m doing it</span></div>
+<div class="line"><a id="l00768" name="l00768"></a><span class="lineno">  768</span>    <span class="keywordflow">if</span> (hand.hand_selections == 0 || hand.state == HAND_DISCARD)</div>
+<div class="line"><a id="l00769" name="l00769"></a><span class="lineno">  769</span>    {</div>
+<div class="line"><a id="l00770" name="l00770"></a><span class="lineno">  770</span>        <span class="keywordflow">return</span> hand_types;</div>
+<div class="line"><a id="l00771" name="l00771"></a><span class="lineno">  771</span>    }</div>
+<div class="line"><a id="l00772" name="l00772"></a><span class="lineno">  772</span> </div>
+<div class="line"><a id="l00773" name="l00773"></a><span class="lineno">  773</span>    hand_types.HIGH_CARD = 1;</div>
+<div class="line"><a id="l00774" name="l00774"></a><span class="lineno">  774</span> </div>
+<div class="line"><a id="l00775" name="l00775"></a><span class="lineno">  775</span>    u8 suits[NUM_SUITS];</div>
+<div class="line"><a id="l00776" name="l00776"></a><span class="lineno">  776</span>    u8 ranks[NUM_RANKS];</div>
+<div class="line"><a id="l00777" name="l00777"></a><span class="lineno">  777</span>    <a class="code hl_function" href="hand_8c.html#a8c39bac46f180817e774ddb765326979">get_hand_distribution</a>(ranks, suits);</div>
+<div class="line"><a id="l00778" name="l00778"></a><span class="lineno">  778</span> </div>
+<div class="line"><a id="l00779" name="l00779"></a><span class="lineno">  779</span>    <span class="comment">// The following can be optimized better but not sure how much it matters</span></div>
+<div class="line"><a id="l00780" name="l00780"></a><span class="lineno">  780</span>    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);</div>
 <div class="line"><a id="l00781" name="l00781"></a><span class="lineno">  781</span> </div>
-<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>    u8 suits[NUM_SUITS];</div>
-<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>    u8 ranks[NUM_RANKS];</div>
-<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>    <a class="code hl_function" href="hand_8c.html#a8c39bac46f180817e774ddb765326979">get_hand_distribution</a>(ranks, suits);</div>
-<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span> </div>
-<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span>    <span class="comment">// The following can be optimized better but not sure how much it matters</span></div>
-<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>    u8 n_of_a_kind = hand_contains_n_of_a_kind(ranks);</div>
-<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span> </div>
-<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>    <span class="comment">// Pair and 2 Pair</span></div>
-<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 2)</div>
-<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>    {</div>
-<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span>        hand_types.PAIR = 1;</div>
-<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span> </div>
-<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>        <span class="keywordflow">if</span> (hand_contains_two_pair(ranks))</div>
-<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>        {</div>
-<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>            hand_types.TWO_PAIR = 1;</div>
-<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>        }</div>
-<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span>    }</div>
-<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span> </div>
-<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="comment">// 3 OAK</span></div>
-<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 3)</div>
-<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>    {</div>
-<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>        hand_types.THREE_OF_A_KIND = 1;</div>
-<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span>    }</div>
-<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span> </div>
-<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>    <span class="comment">// Straight</span></div>
-<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>    <span class="keywordflow">if</span> (hand_contains_straight(ranks))</div>
-<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>    {</div>
-<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>        hand_types.STRAIGHT = 1;</div>
-<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>    }</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span> </div>
-<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>    <span class="comment">// Flush</span></div>
-<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>    <span class="keywordflow">if</span> (hand_contains_flush(suits))</div>
-<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>    {</div>
-<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>        hand_types.FLUSH = 1;</div>
-<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span>    }</div>
-<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span> </div>
-<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>    <span class="comment">// Full House</span></div>
-<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 3 &amp;&amp; hand_contains_full_house(ranks))</div>
-<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>    {</div>
-<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>        hand_types.FULL_HOUSE = 1;</div>
-<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span>    }</div>
-<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span> </div>
-<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    <span class="comment">// 4 OAK</span></div>
-<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 4)</div>
-<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>    {</div>
-<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>        hand_types.FOUR_OF_A_KIND = 1;</div>
-<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span>    }</div>
-<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span> </div>
-<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>    <span class="comment">// Straight Flush</span></div>
-<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>    <span class="keywordflow">if</span> (hand_types.STRAIGHT &amp;&amp; hand_types.FLUSH)</div>
-<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>    {</div>
-<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>        hand_types.STRAIGHT_FLUSH = 1;</div>
-<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>    }</div>
-<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span> </div>
-<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>    <span class="comment">// Royal Flush</span></div>
-<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span>    <span class="keywordflow">if</span> (hand_types.STRAIGHT_FLUSH)</div>
-<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>    {</div>
-<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>        <span class="keywordflow">if</span> (ranks[TEN] &amp;&amp; ranks[JACK] &amp;&amp; ranks[QUEEN] &amp;&amp; ranks[KING] &amp;&amp; ranks[ACE])</div>
-<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>        {</div>
-<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>            hand_types.ROYAL_FLUSH = 1;</div>
-<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>        }</div>
-<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span>    }</div>
-<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span> </div>
-<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>    <span class="comment">// 5 OAK</span></div>
-<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 5)</div>
-<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>    {</div>
-<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>        hand_types.FIVE_OF_A_KIND = 1;</div>
-<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>    }</div>
-<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span> </div>
-<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span>    <span class="comment">// Flush House and Five</span></div>
-<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>    <span class="keywordflow">if</span> (hand_types.FLUSH)</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>    {</div>
-<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>        <span class="keywordflow">if</span> (hand_types.FULL_HOUSE)</div>
-<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>        {</div>
-<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>            hand_types.FLUSH_HOUSE = 1;</div>
-<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span>        }</div>
-<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span> </div>
-<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>        <span class="keywordflow">if</span> (hand_types.FIVE_OF_A_KIND)</div>
-<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span>        {</div>
-<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span>            hand_types.FLUSH_FIVE = 1;</div>
-<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>        }</div>
-<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>    }</div>
+<div class="line"><a id="l00782" name="l00782"></a><span class="lineno">  782</span>    <span class="comment">// Pair and 2 Pair</span></div>
+<div class="line"><a id="l00783" name="l00783"></a><span class="lineno">  783</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 2)</div>
+<div class="line"><a id="l00784" name="l00784"></a><span class="lineno">  784</span>    {</div>
+<div class="line"><a id="l00785" name="l00785"></a><span class="lineno">  785</span>        hand_types.PAIR = 1;</div>
+<div class="line"><a id="l00786" name="l00786"></a><span class="lineno">  786</span> </div>
+<div class="line"><a id="l00787" name="l00787"></a><span class="lineno">  787</span>        <span class="keywordflow">if</span> (hand_contains_two_pair(ranks))</div>
+<div class="line"><a id="l00788" name="l00788"></a><span class="lineno">  788</span>        {</div>
+<div class="line"><a id="l00789" name="l00789"></a><span class="lineno">  789</span>            hand_types.TWO_PAIR = 1;</div>
+<div class="line"><a id="l00790" name="l00790"></a><span class="lineno">  790</span>        }</div>
+<div class="line"><a id="l00791" name="l00791"></a><span class="lineno">  791</span>    }</div>
+<div class="line"><a id="l00792" name="l00792"></a><span class="lineno">  792</span> </div>
+<div class="line"><a id="l00793" name="l00793"></a><span class="lineno">  793</span>    <span class="comment">// 3 OAK</span></div>
+<div class="line"><a id="l00794" name="l00794"></a><span class="lineno">  794</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 3)</div>
+<div class="line"><a id="l00795" name="l00795"></a><span class="lineno">  795</span>    {</div>
+<div class="line"><a id="l00796" name="l00796"></a><span class="lineno">  796</span>        hand_types.THREE_OF_A_KIND = 1;</div>
+<div class="line"><a id="l00797" name="l00797"></a><span class="lineno">  797</span>    }</div>
+<div class="line"><a id="l00798" name="l00798"></a><span class="lineno">  798</span> </div>
+<div class="line"><a id="l00799" name="l00799"></a><span class="lineno">  799</span>    <span class="comment">// Straight</span></div>
+<div class="line"><a id="l00800" name="l00800"></a><span class="lineno">  800</span>    <span class="keywordflow">if</span> (hand_contains_straight(ranks))</div>
+<div class="line"><a id="l00801" name="l00801"></a><span class="lineno">  801</span>    {</div>
+<div class="line"><a id="l00802" name="l00802"></a><span class="lineno">  802</span>        hand_types.STRAIGHT = 1;</div>
+<div class="line"><a id="l00803" name="l00803"></a><span class="lineno">  803</span>    }</div>
+<div class="line"><a id="l00804" name="l00804"></a><span class="lineno">  804</span> </div>
+<div class="line"><a id="l00805" name="l00805"></a><span class="lineno">  805</span>    <span class="comment">// Flush</span></div>
+<div class="line"><a id="l00806" name="l00806"></a><span class="lineno">  806</span>    <span class="keywordflow">if</span> (hand_contains_flush(suits))</div>
+<div class="line"><a id="l00807" name="l00807"></a><span class="lineno">  807</span>    {</div>
+<div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>        hand_types.FLUSH = 1;</div>
+<div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>    }</div>
+<div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span> </div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>    <span class="comment">// Full House</span></div>
+<div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 3 &amp;&amp; hand_contains_full_house(ranks))</div>
+<div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>    {</div>
+<div class="line"><a id="l00814" name="l00814"></a><span class="lineno">  814</span>        hand_types.FULL_HOUSE = 1;</div>
+<div class="line"><a id="l00815" name="l00815"></a><span class="lineno">  815</span>    }</div>
+<div class="line"><a id="l00816" name="l00816"></a><span class="lineno">  816</span> </div>
+<div class="line"><a id="l00817" name="l00817"></a><span class="lineno">  817</span>    <span class="comment">// 4 OAK</span></div>
+<div class="line"><a id="l00818" name="l00818"></a><span class="lineno">  818</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 4)</div>
+<div class="line"><a id="l00819" name="l00819"></a><span class="lineno">  819</span>    {</div>
+<div class="line"><a id="l00820" name="l00820"></a><span class="lineno">  820</span>        hand_types.FOUR_OF_A_KIND = 1;</div>
+<div class="line"><a id="l00821" name="l00821"></a><span class="lineno">  821</span>    }</div>
+<div class="line"><a id="l00822" name="l00822"></a><span class="lineno">  822</span> </div>
+<div class="line"><a id="l00823" name="l00823"></a><span class="lineno">  823</span>    <span class="comment">// Straight Flush</span></div>
+<div class="line"><a id="l00824" name="l00824"></a><span class="lineno">  824</span>    <span class="keywordflow">if</span> (hand_types.STRAIGHT &amp;&amp; hand_types.FLUSH)</div>
+<div class="line"><a id="l00825" name="l00825"></a><span class="lineno">  825</span>    {</div>
+<div class="line"><a id="l00826" name="l00826"></a><span class="lineno">  826</span>        hand_types.STRAIGHT_FLUSH = 1;</div>
+<div class="line"><a id="l00827" name="l00827"></a><span class="lineno">  827</span>    }</div>
+<div class="line"><a id="l00828" name="l00828"></a><span class="lineno">  828</span> </div>
+<div class="line"><a id="l00829" name="l00829"></a><span class="lineno">  829</span>    <span class="comment">// Royal Flush</span></div>
+<div class="line"><a id="l00830" name="l00830"></a><span class="lineno">  830</span>    <span class="keywordflow">if</span> (hand_types.STRAIGHT_FLUSH)</div>
+<div class="line"><a id="l00831" name="l00831"></a><span class="lineno">  831</span>    {</div>
+<div class="line"><a id="l00832" name="l00832"></a><span class="lineno">  832</span>        <span class="keywordflow">if</span> (ranks[TEN] &amp;&amp; ranks[JACK] &amp;&amp; ranks[QUEEN] &amp;&amp; ranks[KING] &amp;&amp; ranks[ACE])</div>
+<div class="line"><a id="l00833" name="l00833"></a><span class="lineno">  833</span>        {</div>
+<div class="line"><a id="l00834" name="l00834"></a><span class="lineno">  834</span>            hand_types.ROYAL_FLUSH = 1;</div>
+<div class="line"><a id="l00835" name="l00835"></a><span class="lineno">  835</span>        }</div>
+<div class="line"><a id="l00836" name="l00836"></a><span class="lineno">  836</span>    }</div>
+<div class="line"><a id="l00837" name="l00837"></a><span class="lineno">  837</span> </div>
+<div class="line"><a id="l00838" name="l00838"></a><span class="lineno">  838</span>    <span class="comment">// 5 OAK</span></div>
+<div class="line"><a id="l00839" name="l00839"></a><span class="lineno">  839</span>    <span class="keywordflow">if</span> (n_of_a_kind &gt;= 5)</div>
+<div class="line"><a id="l00840" name="l00840"></a><span class="lineno">  840</span>    {</div>
+<div class="line"><a id="l00841" name="l00841"></a><span class="lineno">  841</span>        hand_types.FIVE_OF_A_KIND = 1;</div>
+<div class="line"><a id="l00842" name="l00842"></a><span class="lineno">  842</span>    }</div>
+<div class="line"><a id="l00843" name="l00843"></a><span class="lineno">  843</span> </div>
+<div class="line"><a id="l00844" name="l00844"></a><span class="lineno">  844</span>    <span class="comment">// Flush House and Five</span></div>
+<div class="line"><a id="l00845" name="l00845"></a><span class="lineno">  845</span>    <span class="keywordflow">if</span> (hand_types.FLUSH)</div>
+<div class="line"><a id="l00846" name="l00846"></a><span class="lineno">  846</span>    {</div>
+<div class="line"><a id="l00847" name="l00847"></a><span class="lineno">  847</span>        <span class="keywordflow">if</span> (hand_types.FULL_HOUSE)</div>
+<div class="line"><a id="l00848" name="l00848"></a><span class="lineno">  848</span>        {</div>
+<div class="line"><a id="l00849" name="l00849"></a><span class="lineno">  849</span>            hand_types.FLUSH_HOUSE = 1;</div>
+<div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>        }</div>
+<div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span> </div>
+<div class="line"><a id="l00852" name="l00852"></a><span class="lineno">  852</span>        <span class="keywordflow">if</span> (hand_types.FIVE_OF_A_KIND)</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>        {</div>
+<div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>            hand_types.FLUSH_FIVE = 1;</div>
+<div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>        }</div>
+<div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>    }</div>
+<div class="line"><a id="l00857" name="l00857"></a><span class="lineno">  857</span> </div>
+<div class="line"><a id="l00858" name="l00858"></a><span class="lineno">  858</span>    <span class="keywordflow">return</span> hand_types;</div>
+<div class="line"><a id="l00859" name="l00859"></a><span class="lineno">  859</span>}</div>
+<div class="line"><a id="l00860" name="l00860"></a><span class="lineno">  860</span> </div>
+<div class="line"><a id="l00861" name="l00861"></a><span class="lineno">  861</span><span class="keyword">static</span> <span class="keyword">enum</span> HandType compute_hand_type(<span class="keyword">struct</span> <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> contained_types)</div>
+<div class="line"><a id="l00862" name="l00862"></a><span class="lineno">  862</span>{</div>
+<div class="line"><a id="l00863" name="l00863"></a><span class="lineno">  863</span>    <span class="keyword">enum</span> HandType ret;</div>
 <div class="line"><a id="l00864" name="l00864"></a><span class="lineno">  864</span> </div>
-<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>    <span class="keywordflow">return</span> hand_types;</div>
-<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>}</div>
-<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span> </div>
-<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span><span class="keyword">static</span> <span class="keyword">enum</span> HandType compute_hand_type(<span class="keyword">struct</span> <a class="code hl_struct" href="structContainedHandTypes.html">ContainedHandTypes</a> contained_types)</div>
-<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>{</div>
-<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>    <span class="keyword">enum</span> HandType ret;</div>
-<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span> </div>
-<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>    <span class="comment">// test each pit see if it&#39;s set to 1, and return the first one</span></div>
-<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>    <span class="keywordflow">for</span> (ret = FLUSH_FIVE; ret &gt; NONE; ret--)</div>
-<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>    {</div>
-<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>        <span class="comment">// Shift the bit we want to check to the front and mask it with 1 to keep only that</span></div>
-<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span>        <span class="comment">// Since the ContainedHandTypes is ordered the same way as the HandType enum, we</span></div>
-<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>        <span class="comment">// can shift right by ret-1 to have the bit we want at the front</span></div>
-<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>        <span class="keywordflow">if</span> ((contained_types.value &gt;&gt; (ret - 1)) &amp; 0x1)</div>
-<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>        {</div>
-<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>            <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>        }</div>
-<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>    }</div>
-<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span> </div>
-<div class="line"><a id="l00884" name="l00884"></a><span class="lineno">  884</span>    <span class="comment">// If we broke early, ret contains the value of the HandType enum corresponding to</span></div>
-<div class="line"><a id="l00885" name="l00885"></a><span class="lineno">  885</span>    <span class="comment">// the position of the highest bit set to 1 in contained_types.value, which is the</span></div>
-<div class="line"><a id="l00886" name="l00886"></a><span class="lineno">  886</span>    <span class="comment">// most powerful poker hand contained in the current Hand</span></div>
-<div class="line"><a id="l00887" name="l00887"></a><span class="lineno">  887</span>    <span class="comment">// If not, then it contains NONE, which is what we&#39;re supposed to return when there</span></div>
-<div class="line"><a id="l00888" name="l00888"></a><span class="lineno">  888</span>    <span class="comment">// are no Hands contained in what we played</span></div>
-<div class="line"><a id="l00889" name="l00889"></a><span class="lineno">  889</span>    <span class="keywordflow">return</span> ret;</div>
-<div class="line"><a id="l00890" name="l00890"></a><span class="lineno">  890</span>}</div>
+<div class="line"><a id="l00865" name="l00865"></a><span class="lineno">  865</span>    <span class="comment">// test each pit see if it&#39;s set to 1, and return the first one</span></div>
+<div class="line"><a id="l00866" name="l00866"></a><span class="lineno">  866</span>    <span class="keywordflow">for</span> (ret = FLUSH_FIVE; ret &gt; NONE; ret--)</div>
+<div class="line"><a id="l00867" name="l00867"></a><span class="lineno">  867</span>    {</div>
+<div class="line"><a id="l00868" name="l00868"></a><span class="lineno">  868</span>        <span class="comment">// Shift the bit we want to check to the front and mask it with 1 to keep only that</span></div>
+<div class="line"><a id="l00869" name="l00869"></a><span class="lineno">  869</span>        <span class="comment">// Since the ContainedHandTypes is ordered the same way as the HandType enum, we</span></div>
+<div class="line"><a id="l00870" name="l00870"></a><span class="lineno">  870</span>        <span class="comment">// can shift right by ret-1 to have the bit we want at the front</span></div>
+<div class="line"><a id="l00871" name="l00871"></a><span class="lineno">  871</span>        <span class="keywordflow">if</span> ((contained_types.value &gt;&gt; (ret - 1)) &amp; 0x1)</div>
+<div class="line"><a id="l00872" name="l00872"></a><span class="lineno">  872</span>        {</div>
+<div class="line"><a id="l00873" name="l00873"></a><span class="lineno">  873</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00874" name="l00874"></a><span class="lineno">  874</span>        }</div>
+<div class="line"><a id="l00875" name="l00875"></a><span class="lineno">  875</span>    }</div>
+<div class="line"><a id="l00876" name="l00876"></a><span class="lineno">  876</span> </div>
+<div class="line"><a id="l00877" name="l00877"></a><span class="lineno">  877</span>    <span class="comment">// If we broke early, ret contains the value of the HandType enum corresponding to</span></div>
+<div class="line"><a id="l00878" name="l00878"></a><span class="lineno">  878</span>    <span class="comment">// the position of the highest bit set to 1 in contained_types.value, which is the</span></div>
+<div class="line"><a id="l00879" name="l00879"></a><span class="lineno">  879</span>    <span class="comment">// most powerful poker hand contained in the current Hand</span></div>
+<div class="line"><a id="l00880" name="l00880"></a><span class="lineno">  880</span>    <span class="comment">// If not, then it contains NONE, which is what we&#39;re supposed to return when there</span></div>
+<div class="line"><a id="l00881" name="l00881"></a><span class="lineno">  881</span>    <span class="comment">// are no Hands contained in what we played</span></div>
+<div class="line"><a id="l00882" name="l00882"></a><span class="lineno">  882</span>    <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a id="l00883" name="l00883"></a><span class="lineno">  883</span>}</div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
 <div class="ttc" id="aaudio__utils_8h_html_a44f88da4c9f39b9c23c11f565a4f5fc2"><div class="ttname"><a href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a></div><div class="ttdeci">#define MM_BASE_PITCH_RATE</div><div class="ttdoc">The default pitch rate for the sound effect played.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00037">audio_utils.h:37</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00103">audio_utils.c:103</a></div></div>
@@ -1068,11 +1065,12 @@ $(document).ready(function(){initNavTree('hand_8c_source.html',''); initResizabl
 <div class="ttc" id="agraphic__utils_8h_html_a86fe19f87df82284e96d7e8aacb001d7"><div class="ttname"><a href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a></div><div class="ttdeci">void tte_erase_rect_wrapper(Rect rect)</div><div class="ttdoc">A wrapper for tte_erase_rect that would use the rect struct.</div><div class="ttdef"><b>Definition</b> <a href="graphic__utils_8c_source.html#l00397">graphic_utils.c:397</a></div></div>
 <div class="ttc" id="ahand_8c_html_a0a039061bea3c82e0f1f86deb85fdc7d"><div class="ttname"><a href="hand_8c.html#a0a039061bea3c82e0f1f86deb85fdc7d">hand_set_nb_selected_cards</a></div><div class="ttdeci">void hand_set_nb_selected_cards(int new_selections)</div><div class="ttdoc">Set the current number of selected Cards.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00125">hand.c:125</a></div></div>
 <div class="ttc" id="ahand_8c_html_a1e3e4d83612aa7673b107dcc155ef944"><div class="ttname"><a href="hand_8c.html#a1e3e4d83612aa7673b107dcc155ef944">get_contained_hands</a></div><div class="ttdeci">ContainedHandTypes * get_contained_hands(void)</div><div class="ttdoc">Get the contained hands within the selected hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00135">hand.c:135</a></div></div>
-<div class="ttc" id="ahand_8c_html_a2e66e88d21fed9071b1c725d987e28ab"><div class="ttname"><a href="hand_8c.html#a2e66e88d21fed9071b1c725d987e28ab">find_flush_in_played_cards</a></div><div class="ttdeci">int find_flush_in_played_cards(CardObject **played, int top, int min_len, bool *out_selection)</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00544">hand.c:544</a></div></div>
+<div class="ttc" id="ahand_8c_html_a2e66e88d21fed9071b1c725d987e28ab"><div class="ttname"><a href="hand_8c.html#a2e66e88d21fed9071b1c725d987e28ab">find_flush_in_played_cards</a></div><div class="ttdeci">int find_flush_in_played_cards(CardObject **played, int top, int min_len, bool *out_selection)</div><div class="ttdoc">Finds the best flush (set of cards with the same suit) in the given array of played cards.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00544">hand.c:544</a></div></div>
 <div class="ttc" id="ahand_8c_html_a3b870a7b9c35fe38077088a0a4956ef4"><div class="ttname"><a href="hand_8c.html#a3b870a7b9c35fe38077088a0a4956ef4">get_hand_type</a></div><div class="ttdeci">enum HandType get_hand_type(void)</div><div class="ttdoc">Get the current hand type.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00130">hand.c:130</a></div></div>
 <div class="ttc" id="ahand_8c_html_a41c74b16743c1e9a1b7409629d2a5c8e"><div class="ttname"><a href="hand_8c.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a></div><div class="ttdeci">int get_hand_top(void)</div><div class="ttdoc">Get the position in hand array of the last card obtained.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00105">hand.c:105</a></div></div>
 <div class="ttc" id="ahand_8c_html_a4aaf779a75b1c61697315a7d0defdfe1"><div class="ttname"><a href="hand_8c.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a></div><div class="ttdeci">enum HandState get_hand_state(void)</div><div class="ttdoc">Get the hand state.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00090">hand.c:90</a></div></div>
 <div class="ttc" id="ahand_8c_html_a62aab8570b58813e94d12b33124ccf6c"><div class="ttname"><a href="hand_8c.html#a62aab8570b58813e94d12b33124ccf6c">swap_cards_in_hand</a></div><div class="ttdeci">void swap_cards_in_hand(int idx_a, int idx_b)</div><div class="ttdoc">Swaps the order of two cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00174">hand.c:174</a></div></div>
+<div class="ttc" id="ahand_8c_html_a63dc3aad83b0d5cdb342bb4db62f67f1"><div class="ttname"><a href="hand_8c.html#a63dc3aad83b0d5cdb342bb4db62f67f1">find_straight_in_played_cards</a></div><div class="ttdeci">int find_straight_in_played_cards(CardObject **played, int top, int min_len, bool *out_selection)</div><div class="ttdoc">Finds the best straight in the given array of played cards.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00587">hand.c:587</a></div></div>
 <div class="ttc" id="ahand_8c_html_a8c39bac46f180817e774ddb765326979"><div class="ttname"><a href="hand_8c.html#a8c39bac46f180817e774ddb765326979">get_hand_distribution</a></div><div class="ttdeci">static void get_hand_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])</div><div class="ttdoc">Outputs the distribution of ranks and suits in the hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00352">hand.c:352</a></div></div>
 <div class="ttc" id="ahand_8c_html_aa5beb0f8bda5c454fea80be021e51df1"><div class="ttname"><a href="hand_8c.html#aa5beb0f8bda5c454fea80be021e51df1">get_hand_array</a></div><div class="ttdeci">CardObject ** get_hand_array(void)</div><div class="ttdoc">Get the hand array of Cards currently held in hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00100">hand.c:100</a></div></div>
 <div class="ttc" id="ahand_8c_html_aac8c352a03a71c29be4634442721a502"><div class="ttname"><a href="hand_8c.html#aac8c352a03a71c29be4634442721a502">hand_get_nb_selected_cards</a></div><div class="ttdeci">int hand_get_nb_selected_cards(void)</div><div class="ttdoc">Get the current number of selected Cards.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00120">hand.c:120</a></div></div>
@@ -1085,6 +1083,7 @@ $(document).ready(function(){initNavTree('hand_8c_source.html',''); initResizabl
 <div class="ttc" id="ahand_8c_html_ae939d94185e29e1bbf44072c5d37c273"><div class="ttname"><a href="hand_8c.html#ae939d94185e29e1bbf44072c5d37c273">sort_cards</a></div><div class="ttdeci">void sort_cards(void)</div><div class="ttdoc">Sort the hand array according to the selected method to do that.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00280">hand.c:280</a></div></div>
 <div class="ttc" id="ahand_8c_html_ae964ed1f7566571c174a23be50819080"><div class="ttname"><a href="hand_8c.html#ae964ed1f7566571c174a23be50819080">hand_deselect_all_cards</a></div><div class="ttdeci">void hand_deselect_all_cards(void)</div><div class="ttdoc">Deselect all cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00324">hand.c:324</a></div></div>
 <div class="ttc" id="ahand_8c_html_aea7ba57e47116fba93956a21de49d7a7"><div class="ttname"><a href="hand_8c.html#aea7ba57e47116fba93956a21de49d7a7">hand_nb_held_cards</a></div><div class="ttdeci">int hand_nb_held_cards(void)</div><div class="ttdoc">Get the current number of Cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00115">hand.c:115</a></div></div>
+<div class="ttc" id="ahand_8c_html_af947febbf35dba3823fee4f0e095111e"><div class="ttname"><a href="hand_8c.html#af947febbf35dba3823fee4f0e095111e">select_paired_cards_in_hand</a></div><div class="ttdeci">void select_paired_cards_in_hand(CardObject **played, int played_top, bool *selection)</div><div class="ttdoc">This is used for the special case in &quot;Four Fingers&quot; where you can add a pair into a straight (e....</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00731">hand.c:731</a></div></div>
 <div class="ttc" id="ahand_8h_html"><div class="ttname"><a href="hand_8h.html">hand.h</a></div><div class="ttdoc">Functions relative to manipulating and analyzing the contents of the Hand, a.k.a. the Cards we hold a...</div></div>
 <div class="ttc" id="around_8h_html"><div class="ttname"><a href="round_8h.html">round.h</a></div><div class="ttdoc">API relative to the Rounds we play.</div></div>
 <div class="ttc" id="asprite_8h_html_a1ee0e1521651d9a8fd7773a6b4ba127e"><div class="ttname"><a href="sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e">sprite_position</a></div><div class="ttdeci">INLINE void sprite_position(Sprite *sprite, int x, int y)</div><div class="ttdoc">Set sprite position. Inlined for efficiency.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00368">sprite.h:368</a></div></div>
