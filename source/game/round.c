@@ -278,7 +278,7 @@ static inline void discard_push(Card* card)
 {
     if (s_discard_top >= MAX_DECK_SIZE - 1)
         return;
-    discard_pile[++s_discard_top] = card;
+    s_discard_pile[++s_discard_top] = card;
 }
 
 /**
