@@ -30,7 +30,7 @@ typedef struct
 void rng_init(void);
 
 /**
- * @brief Updates the RNG for seed generation, should be called each frame.
+ * @brief Accumulates CPU cycles for RNG seed generation, call exaclty once per frame.
  */
 void rng_update(void);
 
