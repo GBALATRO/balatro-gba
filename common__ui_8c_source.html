@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('common__ui_8c_source.html',''); initRe
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">typedef</span> void (*BackgroundRenderCallback)(void);</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> background = BG_NONE;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> s_background = BG_NONE;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// Map to fill in for refactor</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">static</span> <span class="keyword">const</span> BackgroundRenderCallback bgCallbacks[] = {</div>
@@ -169,7 +169,7 @@ $(document).ready(function(){initNavTree('common__ui_8c_source.html',''); initRe
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">enum</span> <a class="code hl_enumeration" href="common__ui_8h.html#aa1dc226c31d41c9cb14cdf9e2551c5cd">BackgroundId</a> get_current_background(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>{</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> background;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> s_background;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
@@ -177,13 +177,13 @@ $(document).ready(function(){initNavTree('common__ui_8c_source.html',''); initRe
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>{</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (force_redraw)</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    {</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        background = BG_NONE;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        s_background = BG_NONE;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != background &amp;&amp; bgCallbacks[<span class="keywordtype">id</span>] != NULL)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> != s_background &amp;&amp; bgCallbacks[<span class="keywordtype">id</span>] != NULL)</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    {</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        bgCallbacks[id]();</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    background = id;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    s_background = id;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
 </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>

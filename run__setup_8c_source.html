@@ -663,7 +663,7 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>    }</div>
 <div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>};</div>
 <div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span> </div>
-<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> keyboard_buttons_to_char[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> KEYBOARD_BUTTONS_TO_CHAR[KEYBOARD_HEIGHT * KEYBOARD_WIDTH] = {</div>
 <div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>    <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;3&#39;</span>, <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span>, <span class="charliteral">&#39;6&#39;</span>, <span class="charliteral">&#39;7&#39;</span>, <span class="charliteral">&#39;8&#39;</span>, <span class="charliteral">&#39;9&#39;</span>, <span class="charliteral">&#39;0&#39;</span>,</div>
 <div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>    <span class="charliteral">&#39;A&#39;</span>, <span class="charliteral">&#39;B&#39;</span>, <span class="charliteral">&#39;C&#39;</span>, <span class="charliteral">&#39;D&#39;</span>, <span class="charliteral">&#39;E&#39;</span>, <span class="charliteral">&#39;F&#39;</span>, <span class="charliteral">&#39;G&#39;</span>, <span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;I&#39;</span>, <span class="charliteral">&#39;J&#39;</span>,</div>
 <div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>    <span class="charliteral">&#39;K&#39;</span>, <span class="charliteral">&#39;L&#39;</span>, <span class="charliteral">&#39;M&#39;</span>, <span class="charliteral">&#39;N&#39;</span>, <span class="charliteral">&#39;O&#39;</span>, <span class="charliteral">&#39;P&#39;</span>, <span class="charliteral">&#39;Q&#39;</span>, <span class="charliteral">&#39;R&#39;</span>, <span class="charliteral">&#39;S&#39;</span>, <span class="charliteral">&#39;T&#39;</span>,</div>
@@ -672,8 +672,8 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span><span class="comment">// clang-format on</span></div>
 <div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span> </div>
 <div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span><span class="comment">// Size BASE36_MAX_DIGITS + 1 to always have &#39;\0&#39; at the end</span></div>
-<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span><span class="keyword">static</span> <span class="keywordtype">char</span> seed_str[BASE36_MAX_DIGITS + 1] = {<span class="charliteral">&#39;\0&#39;</span>};</div>
-<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span><span class="keyword">static</span> u8 seed_cursor_pos = 0;</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span><span class="keyword">static</span> <span class="keywordtype">char</span> s_seed_str[BASE36_MAX_DIGITS + 1] = {<span class="charliteral">&#39;\0&#39;</span>};</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span><span class="keyword">static</span> u8 s_seed_cursor_pos = 0;</div>
 <div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span> </div>
 <div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span><span class="preprocessor">#pragma endregion</span></div>
 <div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span> </div>
@@ -720,14 +720,14 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>    <span class="keywordflow">if</span> (g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a> == UNDEFINED)</div>
 <div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>    {</div>
 <div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>        <span class="comment">// Make the string empty instead of showing all zeroes</span></div>
-<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>        memset(seed_str, <span class="charliteral">&#39;\0&#39;</span>, BASE36_MAX_DIGITS + 1);</div>
-<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>        seed_cursor_pos = 0;</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>        memset(s_seed_str, <span class="charliteral">&#39;\0&#39;</span>, BASE36_MAX_DIGITS + 1);</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>        s_seed_cursor_pos = 0;</div>
 <div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>    }</div>
 <div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>    <span class="comment">// Or use previous Run&#39;s seed if it hasn&#39;t been reset</span></div>
 <div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>    {</div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>        <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>, seed_str);</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        seed_cursor_pos = BASE36_MAX_DIGITS;</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>        <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(g_game_vars.rng_info.<a class="code hl_variable" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a>, s_seed_str);</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>        s_seed_cursor_pos = BASE36_MAX_DIGITS;</div>
 <div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>        use_seed = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>    }</div>
 <div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    <a class="code hl_function" href="run__setup_8c.html#a5712e6adfa9e02ff989a8560414276fa">toggle_seed_enabled</a>(use_seed);</div>
@@ -925,7 +925,7 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00808" name="l00808"></a><span class="lineno">  808</span>        RUN_SETUP_SEED_FIELD_TEXT_POS.y,</div>
 <div class="line"><a id="l00809" name="l00809"></a><span class="lineno">  809</span>        TTE_BLACK_PB,</div>
 <div class="line"><a id="l00810" name="l00810"></a><span class="lineno">  810</span>        BASE36_MAX_DIGITS + 1,</div>
-<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>        seed_str</div>
+<div class="line"><a id="l00811" name="l00811"></a><span class="lineno">  811</span>        s_seed_str</div>
 <div class="line"><a id="l00812" name="l00812"></a><span class="lineno">  812</span>    );</div>
 <div class="line"><a id="l00813" name="l00813"></a><span class="lineno">  813</span>}</div>
 </div>
@@ -1024,19 +1024,19 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00920" name="l00920"></a><span class="lineno">  920</span>    <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
 <div class="line"><a id="l00921" name="l00921"></a><span class="lineno">  921</span>    u32 new_seed = <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>();</div>
 <div class="line"><a id="l00922" name="l00922"></a><span class="lineno">  922</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(new_seed);</div>
-<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>    <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(new_seed, seed_str);</div>
+<div class="line"><a id="l00923" name="l00923"></a><span class="lineno">  923</span>    <a class="code hl_function" href="util_8h.html#afebec7bef641870e5c6f83e0ccc21ed4">u32_to_base36</a>(new_seed, s_seed_str);</div>
 <div class="line"><a id="l00924" name="l00924"></a><span class="lineno">  924</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
-<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>    seed_cursor_pos = BASE36_MAX_DIGITS;</div>
+<div class="line"><a id="l00925" name="l00925"></a><span class="lineno">  925</span>    s_seed_cursor_pos = BASE36_MAX_DIGITS;</div>
 <div class="line"><a id="l00926" name="l00926"></a><span class="lineno">  926</span>}</div>
 </div>
 <div class="line"><a id="l00927" name="l00927"></a><span class="lineno">  927</span> </div>
 <div class="foldopen" id="foldopen00931" data-start="{" data-end="}">
 <div class="line"><a id="l00931" name="l00931"></a><span class="lineno"><a class="line" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">  931</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00932" name="l00932"></a><span class="lineno">  932</span>{</div>
-<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>    <span class="keywordflow">if</span> (seed_cursor_pos == 0)</div>
+<div class="line"><a id="l00933" name="l00933"></a><span class="lineno">  933</span>    <span class="keywordflow">if</span> (s_seed_cursor_pos == 0)</div>
 <div class="line"><a id="l00934" name="l00934"></a><span class="lineno">  934</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00935" name="l00935"></a><span class="lineno">  935</span> </div>
-<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>    seed_str[--seed_cursor_pos] = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><a id="l00936" name="l00936"></a><span class="lineno">  936</span>    s_seed_str[--s_seed_cursor_pos] = <span class="charliteral">&#39;\0&#39;</span>;</div>
 <div class="line"><a id="l00937" name="l00937"></a><span class="lineno">  937</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
 <div class="line"><a id="l00938" name="l00938"></a><span class="lineno">  938</span>}</div>
 </div>
@@ -1044,10 +1044,10 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="foldopen" id="foldopen00945" data-start="{" data-end="}">
 <div class="line"><a id="l00945" name="l00945"></a><span class="lineno"><a class="line" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">  945</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="run__setup_8c.html#aec2f6732aa17912485bc9df367203f67">type_seed_char</a>(<span class="keyword">enum</span> RunSetupKeyboardButtons key)</div>
 <div class="line"><a id="l00946" name="l00946"></a><span class="lineno">  946</span>{</div>
-<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt;= BASE36_MAX_DIGITS)</div>
+<div class="line"><a id="l00947" name="l00947"></a><span class="lineno">  947</span>    <span class="keywordflow">if</span> (s_seed_cursor_pos &gt;= BASE36_MAX_DIGITS)</div>
 <div class="line"><a id="l00948" name="l00948"></a><span class="lineno">  948</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00949" name="l00949"></a><span class="lineno">  949</span> </div>
-<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>    seed_str[seed_cursor_pos++] = keyboard_buttons_to_char[key];</div>
+<div class="line"><a id="l00950" name="l00950"></a><span class="lineno">  950</span>    s_seed_str[s_seed_cursor_pos++] = KEYBOARD_BUTTONS_TO_CHAR[key];</div>
 <div class="line"><a id="l00951" name="l00951"></a><span class="lineno">  951</span>    <a class="code hl_function" href="run__setup_8c.html#a492466e07233299a5f3e327b21ea8753">update_seed_text</a>();</div>
 <div class="line"><a id="l00952" name="l00952"></a><span class="lineno">  952</span>}</div>
 </div>
@@ -1070,8 +1070,8 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l00976" name="l00976"></a><span class="lineno">  976</span>    <span class="comment">// The cursor position is unsigned so always positive, but we still need to</span></div>
 <div class="line"><a id="l00977" name="l00977"></a><span class="lineno">  977</span>    <span class="comment">// ensure it doersn&#39;t go out of bounds by more than 1 so that we can always</span></div>
 <div class="line"><a id="l00978" name="l00978"></a><span class="lineno">  978</span>    <span class="comment">// substract 1 from it when erasing a character from the seed string.</span></div>
-<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>    <span class="keywordflow">if</span> (seed_cursor_pos &gt; BASE36_MAX_DIGITS)</div>
-<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>        seed_cursor_pos = BASE36_MAX_DIGITS;</div>
+<div class="line"><a id="l00979" name="l00979"></a><span class="lineno">  979</span>    <span class="keywordflow">if</span> (s_seed_cursor_pos &gt; BASE36_MAX_DIGITS)</div>
+<div class="line"><a id="l00980" name="l00980"></a><span class="lineno">  980</span>        s_seed_cursor_pos = BASE36_MAX_DIGITS;</div>
 <div class="line"><a id="l00981" name="l00981"></a><span class="lineno">  981</span> </div>
 <div class="line"><a id="l00982" name="l00982"></a><span class="lineno">  982</span>    <span class="keywordflow">if</span> (key_hit(DESELECT_CARDS))</div>
 <div class="line"><a id="l00983" name="l00983"></a><span class="lineno">  983</span>        <a class="code hl_function" href="run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42">delete_seed_char</a>();</div>
@@ -1260,7 +1260,7 @@ $(document).ready(function(){initNavTree('run__setup_8c_source.html',''); initRe
 <div class="line"><a id="l01193" name="l01193"></a><span class="lineno"> 1193</span>{</div>
 <div class="line"><a id="l01194" name="l01194"></a><span class="lineno"> 1194</span>    <span class="comment">// Apply provided Seed if enabled</span></div>
 <div class="line"><a id="l01195" name="l01195"></a><span class="lineno"> 1195</span>    <span class="keywordflow">if</span> (use_seed)</div>
-<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>        <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(<a class="code hl_function" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a>(seed_str));</div>
+<div class="line"><a id="l01196" name="l01196"></a><span class="lineno"> 1196</span>        <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(<a class="code hl_function" href="util_8h.html#a55717746a1b3f98855213356b0aabde8">base36_to_u32</a>(s_seed_str));</div>
 <div class="line"><a id="l01197" name="l01197"></a><span class="lineno"> 1197</span>    <span class="keywordflow">else</span></div>
 <div class="line"><a id="l01198" name="l01198"></a><span class="lineno"> 1198</span>        <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>();</div>
 <div class="line"><a id="l01199" name="l01199"></a><span class="lineno"> 1199</span> </div>

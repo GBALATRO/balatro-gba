@@ -9,5 +9,5 @@ var deck__types_8c =
     [ "print_desc_red_deck", "deck__types_8c.html#ae06a285687193be23c00a00b209eb521", null ],
     [ "print_desc_yellow_deck", "deck__types_8c.html#a0428dc33e219e8dd950bf541b57a4ef7", null ],
     [ "print_empty_desc_line", "deck__types_8c.html#a72695ce33b02b8163efcd58a1d3190c2", null ],
-    [ "deck_names", "deck__types_8c.html#aa69c0508a53c09b17c5283a1e5be751a", null ]
+    [ "DECK_NAMES", "deck__types_8c.html#aca3bc778faeef112f513ae0a84c5e378", null ]
 ];

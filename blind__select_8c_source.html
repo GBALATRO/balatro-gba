@@ -165,7 +165,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">static</span> <span class="keyword">const</span> u32 TM_DISP_BLIND_PANEL_FINISH = 7;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">static</span> <span class="keyword">const</span> u32 TM_DISP_BLIND_PANEL_START = 1;</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">static</span> <span class="keywordtype">int</span> timer;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">static</span> <span class="keywordtype">int</span> s_timer;</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_start_anim_seq(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_handle_input(<span class="keywordtype">void</span>);</div>
@@ -237,11 +237,11 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        );</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (timer == TM_END_ANIM_SEQ)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (s_timer == TM_END_ANIM_SEQ)</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    {</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        game_blind_select_print_blinds_reqs_and_rewards();</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;blind_select_sm, BLIND_SELECT);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        timer = TM_ZERO; <span class="comment">// Reset the timer</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        s_timer = TM_ZERO; <span class="comment">// Reset the timer</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
@@ -312,7 +312,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_handle_input()</div>
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>{</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (timer == TM_BLIND_SELECT_START &amp;&amp; g_game_vars.current_blind == BLIND_TYPE_BOSS)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (s_timer == TM_BLIND_SELECT_START &amp;&amp; g_game_vars.current_blind == BLIND_TYPE_BOSS)</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    {</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        selection_y = BLIND_ROW;</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    }</div>
@@ -337,7 +337,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="keywordflow">case</span> BLIND_ROW:</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(SFX_BUTTON, <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>, BUTTON_SFX_VOLUME);</div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;blind_select_sm, BLIND_SELECTED_ANIM_SEQ);</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                timer = TM_ZERO;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                s_timer = TM_ZERO;</div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                ++g_game_vars.round;</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                display_round();</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                <span class="keywordflow">break</span>;</div>
@@ -370,7 +370,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                    game_blind_select_print_blinds_reqs_and_rewards();</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                    highlight_select_button();</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                    timer = TM_ZERO;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                    s_timer = TM_ZERO;</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                }</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                <span class="keywordflow">break</span>;</div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            <span class="keywordflow">default</span>:</div>
@@ -381,7 +381,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_selected_anim_seq()</div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>{</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">if</span> (timer &lt; 15)</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">if</span> (s_timer &lt; 15)</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    {</div>
 <div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        Rect blinds_rect = POP_MENU_ANIM_RECT;</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        blinds_rect.top -= 1; <span class="comment">// Because of the raised blind</span></div>
@@ -396,28 +396,28 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            );</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        }</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    }</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (timer &gt;= MENU_POP_OUT_ANIM_FRAMES)</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (s_timer &gt;= MENU_POP_OUT_ANIM_FRAMES)</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    {</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; NUM_BLINDS_PER_ANTE; i++)</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        {</div>
 <div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            obj_hide(blind_select_tokens[i]-&gt;obj);</div>
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        }</div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        timer = TM_ZERO;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        s_timer = TM_ZERO;</div>
 <div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;blind_select_sm, DISPLAY_BLIND_PANEL);</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    }</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>}</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
 <div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_display_blind_panel()</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>{</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">if</span> (timer &gt;= TM_DISP_BLIND_PANEL_FINISH)</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">if</span> (s_timer &gt;= TM_DISP_BLIND_PANEL_FINISH)</div>
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    {</div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;blind_select_sm, BLIND_SELECT_EXIT);</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    }</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="comment">// Switches to the selecting background and clears the blind panel area</span></div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">if</span> (timer == TM_DISP_BLIND_PANEL_START)</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">if</span> (s_timer == TM_DISP_BLIND_PANEL_START)</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    {</div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_SELECTING, <span class="keyword">false</span>);</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
@@ -435,9 +435,9 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    }</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    <span class="comment">// Shift the blind panel down onto screen</span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> y = 0; y &lt; timer; y++)</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> y = 0; y &lt; s_timer; y++)</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    {</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordtype">int</span> y_from = 26 + y - timer;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordtype">int</span> y_from = 26 + y - s_timer;</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <span class="keywordtype">int</span> y_to = 0 + y;</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
 <div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        Rect from = {0, y_from, 8, y_from};</div>
@@ -592,7 +592,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="foldopen" id="foldopen00452" data-start="{" data-end="}">
 <div class="line"><a id="l00452" name="l00452"></a><span class="lineno"><a class="line" href="blind__select_8h.html#a658f9305013db2676130834eecc4791a">  452</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="blind__select_8h.html#a658f9305013db2676130834eecc4791a">game_blind_select_on_init</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>{</div>
-<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>    timer = TM_ZERO;</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>    s_timer = TM_ZERO;</div>
 <div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>    <a class="code hl_function" href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a>(&amp;blind_select_sm);</div>
 <div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>    <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;blind_select_sm, START_ANIM_SEQ);</div>
 <div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span> </div>
@@ -615,7 +615,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="foldopen" id="foldopen00473" data-start="{" data-end="}">
 <div class="line"><a id="l00473" name="l00473"></a><span class="lineno"><a class="line" href="blind__select_8h.html#a48e2a881f9f5b63ba66a2bc82055af1e">  473</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="blind__select_8h.html#a48e2a881f9f5b63ba66a2bc82055af1e">game_blind_select_on_update</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>{</div>
-<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    timer++;</div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    s_timer++;</div>
 <div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>}</div>
 </div>
 <div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span> </div>

@@ -575,12 +575,12 @@ Variables</h2></td></tr>
 <tr class="separator:ada57269f118f624149a39b5ad461fe00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10b56d02969d4105442248fbd8162038" id="r_a10b56d02969d4105442248fbd8162038"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structButton.html">Button</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#a10b56d02969d4105442248fbd8162038">choose_seed_bottom_buttons</a> [2]</td></tr>
 <tr class="separator:a10b56d02969d4105442248fbd8162038"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90ec6574f80e014dd3c1bb6c6a60ab59" id="r_a90ec6574f80e014dd3c1bb6c6a60ab59"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#a90ec6574f80e014dd3c1bb6c6a60ab59">keyboard_buttons_to_char</a> [KEYBOARD_HEIGHT *KEYBOARD_WIDTH]</td></tr>
-<tr class="separator:a90ec6574f80e014dd3c1bb6c6a60ab59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a770f0d9d3246767fd79f0c88d79792f5" id="r_a770f0d9d3246767fd79f0c88d79792f5"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#a770f0d9d3246767fd79f0c88d79792f5">seed_str</a> [BASE36_MAX_DIGITS+1] = {'\0'}</td></tr>
-<tr class="separator:a770f0d9d3246767fd79f0c88d79792f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04f40f7dd8c5f47c0b798882f5dfcd20" id="r_a04f40f7dd8c5f47c0b798882f5dfcd20"><td class="memItemLeft" align="right" valign="top">static u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#a04f40f7dd8c5f47c0b798882f5dfcd20">seed_cursor_pos</a> = 0</td></tr>
-<tr class="separator:a04f40f7dd8c5f47c0b798882f5dfcd20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeb733530519003e1baacc7f64cc263f" id="r_aaeb733530519003e1baacc7f64cc263f"><td class="memItemLeft" align="right" valign="top">static const char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#aaeb733530519003e1baacc7f64cc263f">KEYBOARD_BUTTONS_TO_CHAR</a> [KEYBOARD_HEIGHT *KEYBOARD_WIDTH]</td></tr>
+<tr class="separator:aaeb733530519003e1baacc7f64cc263f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb877bca288ed71fae863b3584d40a52" id="r_acb877bca288ed71fae863b3584d40a52"><td class="memItemLeft" align="right" valign="top">static char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#acb877bca288ed71fae863b3584d40a52">s_seed_str</a> [BASE36_MAX_DIGITS+1] = {'\0'}</td></tr>
+<tr class="separator:acb877bca288ed71fae863b3584d40a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27ef13e6fb06fb6a090f46d24c98a2a0" id="r_a27ef13e6fb06fb6a090f46d24c98a2a0"><td class="memItemLeft" align="right" valign="top">static u8&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="run__setup_8c.html#a27ef13e6fb06fb6a090f46d24c98a2a0">s_seed_cursor_pos</a> = 0</td></tr>
+<tr class="separator:a27ef13e6fb06fb6a090f46d24c98a2a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Setup Run menu state functions implementation. </p>
@@ -3166,8 +3166,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a90ec6574f80e014dd3c1bb6c6a60ab59" name="a90ec6574f80e014dd3c1bb6c6a60ab59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90ec6574f80e014dd3c1bb6c6a60ab59">&#9670;&#160;</a></span>keyboard_buttons_to_char</h2>
+<a id="aaeb733530519003e1baacc7f64cc263f" name="aaeb733530519003e1baacc7f64cc263f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeb733530519003e1baacc7f64cc263f">&#9670;&#160;</a></span>KEYBOARD_BUTTONS_TO_CHAR</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3176,7 +3176,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const char keyboard_buttons_to_char[KEYBOARD_HEIGHT *KEYBOARD_WIDTH]</td>
+          <td class="memname">const char KEYBOARD_BUTTONS_TO_CHAR[KEYBOARD_HEIGHT *KEYBOARD_WIDTH]</td>
         </tr>
       </table>
   </td>
@@ -3924,8 +3924,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a04f40f7dd8c5f47c0b798882f5dfcd20" name="a04f40f7dd8c5f47c0b798882f5dfcd20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04f40f7dd8c5f47c0b798882f5dfcd20">&#9670;&#160;</a></span>seed_cursor_pos</h2>
+<a id="a27ef13e6fb06fb6a090f46d24c98a2a0" name="a27ef13e6fb06fb6a090f46d24c98a2a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27ef13e6fb06fb6a090f46d24c98a2a0">&#9670;&#160;</a></span>s_seed_cursor_pos</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3934,7 +3934,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">u8 seed_cursor_pos = 0</td>
+          <td class="memname">u8 s_seed_cursor_pos = 0</td>
         </tr>
       </table>
   </td>
@@ -3948,8 +3948,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a770f0d9d3246767fd79f0c88d79792f5" name="a770f0d9d3246767fd79f0c88d79792f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a770f0d9d3246767fd79f0c88d79792f5">&#9670;&#160;</a></span>seed_str</h2>
+<a id="acb877bca288ed71fae863b3584d40a52" name="acb877bca288ed71fae863b3584d40a52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb877bca288ed71fae863b3584d40a52">&#9670;&#160;</a></span>s_seed_str</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3958,7 +3958,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char seed_str[BASE36_MAX_DIGITS+1] = {'\0'}</td>
+          <td class="memname">char s_seed_str[BASE36_MAX_DIGITS+1] = {'\0'}</td>
         </tr>
       </table>
   </td>

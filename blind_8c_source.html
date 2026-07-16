@@ -176,16 +176,16 @@ $(document).ready(function(){initNavTree('blind_8c_source.html',''); initResizab
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>};</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="comment">// Bitfields storing blinds we have yet to beat during the current run</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> unbeaten_boss_blinds;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> unbeaten_showdown_blinds;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> s_unbeaten_boss_blinds;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> s_unbeaten_showdown_blinds;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// Maps the ante number to the base blind requirement for that ante.</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">// The game starts at ante 1 which is at index 1 for base requirement 300.</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">// Ante 0 is also there in case it is ever reached.</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">static</span> <span class="keyword">const</span> u32 ante_lut[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">static</span> <span class="keyword">const</span> u32 ANTE_LUT[] = {100, 300, 800, 2000, 5000, 11000, 20000, 35000, 50000};</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// clang-format off</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">static</span> <a class="code hl_struct" href="structBlind.html">Blind</a> _blind_type_map[BLIND_TYPE_MAX] = {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">static</span> <a class="code hl_struct" href="structBlind.html">Blind</a> s_blind_type_map[BLIND_TYPE_MAX] = {</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    {BLIND_TYPE_SMALL,   FIX_ONE,          3},</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    {BLIND_TYPE_BIG,    (FIX_ONE * 3) / 2, 4},</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    {BLIND_TYPE_HOOK,    FIX_ONE * 2,      5},</div>
@@ -234,12 +234,12 @@ $(document).ready(function(){initNavTree('blind_8c_source.html',''); initResizab
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (ante &lt; 0 || ante &gt; MAX_ANTE)</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        ante = 0;</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> fx2int(_blind_type_map[type].score_req_multipler * ante_lut[ante]);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> fx2int(s_blind_type_map[type].score_req_multipler * ANTE_LUT[ante]);</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">int</span> blind_get_reward(<span class="keyword">enum</span> BlindType type)</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>{</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> _blind_type_map[type].reward;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">return</span> s_blind_type_map[type].reward;</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">// Fills the unbeaten boss blinds lists</span></div>
@@ -251,11 +251,11 @@ $(document).ready(function(){initNavTree('blind_8c_source.html',''); initResizab
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (!init)</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    {</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        init = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        unbeaten_showdown_blinds = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        unbeaten_boss_blinds = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        s_unbeaten_showdown_blinds = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        s_unbeaten_boss_blinds = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;unbeaten_showdown_blinds : &amp;unbeaten_boss_blinds;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;s_unbeaten_showdown_blinds : &amp;s_unbeaten_boss_blinds;</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="comment">// empty the list just to be sure</span></div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(p_unbeaten_blinds);</div>
@@ -265,13 +265,13 @@ $(document).ready(function(){initNavTree('blind_8c_source.html',''); initResizab
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = lower_blind; i &lt;= upper_blind; i++)</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    {</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(p_unbeaten_blinds, &amp;_blind_type_map[i]);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(p_unbeaten_blinds, &amp;s_blind_type_map[i]);</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keyword">enum</span> BlindType roll_blind_type(<span class="keywordtype">bool</span> showdown)</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>{</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;unbeaten_showdown_blinds : &amp;unbeaten_boss_blinds;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;s_unbeaten_showdown_blinds : &amp;s_unbeaten_boss_blinds;</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="comment">// Fill the list with all blinds if it is empty</span></div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="comment">// (happens on startup or if we have beaten all blinds)</span></div>
@@ -290,7 +290,7 @@ $(document).ready(function(){initNavTree('blind_8c_source.html',''); initResizab
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keywordtype">void</span> set_blind_beaten(<span class="keyword">enum</span> BlindType type)</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>{</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordtype">bool</span> showdown = (type &gt;= BLIND_TYPE_SHOWDOWN);</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;unbeaten_showdown_blinds : &amp;unbeaten_boss_blinds;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <a class="code hl_struct" href="structList.html">List</a>* p_unbeaten_blinds = showdown ? &amp;s_unbeaten_showdown_blinds : &amp;s_unbeaten_boss_blinds;</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="comment">// find the beaten blind idx in the list</span></div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordtype">int</span> beaten_idx = 0;</div>

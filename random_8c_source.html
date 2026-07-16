@@ -147,7 +147,7 @@ $(document).ready(function(){initNavTree('random_8c_source.html',''); initResiza
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">// Accumulate timer 1 into a bigger variable so we can generate more diverse seeds</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">static</span> u32 timer_acc = 0;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">static</span> u32 s_timer_acc = 0;</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// Timers usage docs: https://gbadev.net/tonc/timers.html</span></div>
 <div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
@@ -161,7 +161,7 @@ $(document).ready(function(){initNavTree('random_8c_source.html',''); initResiza
 <div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">   19</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>{</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    timer_acc += (u32)REG_TM1D;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    s_timer_acc += (u32)REG_TM1D;</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
 </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
@@ -177,7 +177,7 @@ $(document).ready(function(){initNavTree('random_8c_source.html',''); initResiza
 <div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">   31</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(timer_acc);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_function" href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a>(s_timer_acc);</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
 </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
@@ -203,7 +203,7 @@ $(document).ready(function(){initNavTree('random_8c_source.html',''); initResiza
 </div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
-<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Update the CPU cycles counter and accumulate it into a bigger u32 timer_acc variable.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00019">random.c:19</a></div></div>
+<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Accumulates CPU cycles for RNG seed generation, call exaclty once per frame.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00019">random.c:19</a></div></div>
 <div class="ttc" id="arandom_8h_html_a43bd63e66bebf4e4d463a7bee43dd737"><div class="ttname"><a href="random_8h.html#a43bd63e66bebf4e4d463a7bee43dd737">rng_shuffle_seed</a></div><div class="ttdeci">void rng_shuffle_seed(void)</div><div class="ttdoc">Uses the CPU cycles counter to randomize the RNG seed as much as possible. This will be called by the...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00031">random.c:31</a></div></div>
 <div class="ttc" id="arandom_8h_html_a53482f39207d0f9884dda144723fb518"><div class="ttname"><a href="random_8h.html#a53482f39207d0f9884dda144723fb518">rng_set_seed</a></div><div class="ttdeci">void rng_set_seed(u32 seed)</div><div class="ttdoc">Set the rng seed to the chosen value, and reset the step counter to 0. The seed will be capped at MAX...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00024">random.c:24</a></div></div>
 <div class="ttc" id="arandom_8h_html_a83ec4c5702aa84b05b24e8335ba7966e"><div class="ttname"><a href="random_8h.html#a83ec4c5702aa84b05b24e8335ba7966e">rng_restore</a></div><div class="ttdeci">void rng_restore(RngInfo info)</div><div class="ttdoc">Restore RNG info struct in the GameVariables. Sets the seed and seeks the position step in the rng se...</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00042">random.c:42</a></div></div>

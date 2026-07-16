@@ -1,7 +1,7 @@
 var searchData=
 [
   ['data_0',['data',['../structListNode.html#a735984d41155bc1032e09bece8f8d66d',1,'ListNode']]],
-  ['deck_5fnames_1',['deck_names',['../deck__types_8c.html#aa69c0508a53c09b17c5283a1e5be751a',1,'deck_types.c']]],
+  ['deck_5fnames_1',['DECK_NAMES',['../deck__types_8c.html#aca3bc778faeef112f513ae0a84c5e378',1,'deck_types.c']]],
   ['deck_5fon_5fpressed_2',['deck_on_pressed',['../run__setup_8c.html#adfb29cc263e0dfc5f4140631a2ba3dbc',1,'run_setup.c']]],
   ['deck_5ftypes_2ec_3',['deck_types.c',['../deck__types_8c.html',1,'']]],
   ['deck_5ftypes_2eh_4',['deck_types.h',['../deck__types_8h.html',1,'']]],

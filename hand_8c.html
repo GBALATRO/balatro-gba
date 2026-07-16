@@ -259,12 +259,12 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:afebe96954686698fe8024bea3717f631" id="r_afebe96954686698fe8024bea3717f631"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structHandValues.html">HandValues</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#afebe96954686698fe8024bea3717f631">hand_base_values</a> []</td></tr>
-<tr class="separator:afebe96954686698fe8024bea3717f631"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd945781ac5a48937107be130c24c07" id="r_a6dd945781ac5a48937107be130c24c07"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="structHandValues.html">HandValues</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a6dd945781ac5a48937107be130c24c07">HAND_BASE_VALUES</a> []</td></tr>
+<tr class="separator:a6dd945781ac5a48937107be130c24c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9842e12dd35a4ea7190667ef44a2196" id="r_ad9842e12dd35a4ea7190667ef44a2196"><td class="memItemLeft" align="right" valign="top">static const Rect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#ad9842e12dd35a4ea7190667ef44a2196">HAND_TYPE_RECT</a> = {8, 64, 64, 72}</td></tr>
 <tr class="separator:ad9842e12dd35a4ea7190667ef44a2196"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7196b4e497e393028f0b94daaa33dede" id="r_a7196b4e497e393028f0b94daaa33dede"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structHand.html">Hand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a7196b4e497e393028f0b94daaa33dede">hand</a></td></tr>
-<tr class="separator:a7196b4e497e393028f0b94daaa33dede"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a312c2b5cc35fdcc42b7bf21bc69c6cd1" id="r_a312c2b5cc35fdcc42b7bf21bc69c6cd1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structHand.html">Hand</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hand_8c.html#a312c2b5cc35fdcc42b7bf21bc69c6cd1">s_hand</a></td></tr>
+<tr class="separator:a312c2b5cc35fdcc42b7bf21bc69c6cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implementation of functions relative to manipulating and analyzing the contents of the <a class="el" href="structHand.html">Hand</a>. </p>
@@ -1237,8 +1237,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a7196b4e497e393028f0b94daaa33dede" name="a7196b4e497e393028f0b94daaa33dede"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7196b4e497e393028f0b94daaa33dede">&#9670;&#160;</a></span>hand</h2>
+<a id="a6dd945781ac5a48937107be130c24c07" name="a6dd945781ac5a48937107be130c24c07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd945781ac5a48937107be130c24c07">&#9670;&#160;</a></span>HAND_BASE_VALUES</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1247,40 +1247,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structHand.html">Hand</a> hand</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    .cards = {NULL},</div>
-<div class="line">    .hand_top = -1,</div>
-<div class="line">    .hand_selections = 0,</div>
-<div class="line">    .hand_type = NONE,</div>
-<div class="line">    .contained_hands = {{{0}}},</div>
-<div class="line">    .state = HAND_DRAW,</div>
-<div class="line">    .sort_by_suit = <span class="keyword">false</span></div>
-<div class="line">}</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00064">64</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
-
-</div>
-</div>
-<a id="afebe96954686698fe8024bea3717f631" name="afebe96954686698fe8024bea3717f631"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afebe96954686698fe8024bea3717f631">&#9670;&#160;</a></span>hand_base_values</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="structHandValues.html">HandValues</a> hand_base_values[]</td>
+          <td class="memname">const <a class="el" href="structHandValues.html">HandValues</a> HAND_BASE_VALUES[]</td>
         </tr>
       </table>
   </td>
@@ -1331,6 +1298,39 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00046">46</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+
+</div>
+</div>
+<a id="a312c2b5cc35fdcc42b7bf21bc69c6cd1" name="a312c2b5cc35fdcc42b7bf21bc69c6cd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a312c2b5cc35fdcc42b7bf21bc69c6cd1">&#9670;&#160;</a></span>s_hand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structHand.html">Hand</a> s_hand</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">    .cards = {NULL},</div>
+<div class="line">    .hand_top = -1,</div>
+<div class="line">    .hand_selections = 0,</div>
+<div class="line">    .hand_type = NONE,</div>
+<div class="line">    .contained_hands = {{{0}}},</div>
+<div class="line">    .state = HAND_DRAW,</div>
+<div class="line">    .sort_by_suit = <span class="keyword">false</span></div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00064">64</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>

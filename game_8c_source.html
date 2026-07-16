@@ -269,31 +269,31 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>};</div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="comment">// clang-format on</span></div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> _owned_jokers_list;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> _discarded_jokers_list;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> _expired_jokers_list;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> s_owned_jokers_list;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> s_discarded_jokers_list;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="keyword">static</span> <a class="code hl_struct" href="structList.html">List</a> s_expired_jokers_list;</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment">// Stacks</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keyword">static</span> <a class="code hl_struct" href="structCard.html">Card</a>* deck[MAX_DECK_SIZE] = {NULL};</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="keyword">static</span> <span class="keywordtype">int</span> deck_top = -1;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keyword">static</span> <a class="code hl_struct" href="structCard.html">Card</a>* s_deck[MAX_DECK_SIZE] = {NULL};</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="keyword">static</span> <span class="keywordtype">int</span> s_deck_top = -1;</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment">// Joker Special Variables</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="keyword">static</span> <span class="keywordtype">int</span> shortcut_joker_count = 0;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="keyword">static</span> <span class="keywordtype">int</span> s_shortcut_joker_count = 0;</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">static</span> <span class="keywordtype">int</span> four_fingers_joker_count = 0;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="keyword">static</span> <span class="keywordtype">int</span> s_four_fingers_joker_count = 0;</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keywordtype">void</span> deck_push(<a class="code hl_struct" href="structCard.html">Card</a>* card)</div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (deck_top &gt;= MAX_DECK_SIZE - 1)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (s_deck_top &gt;= MAX_DECK_SIZE - 1)</div>
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    deck[++deck_top] = card;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    s_deck[++s_deck_top] = card;</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>}</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><a class="code hl_struct" href="structCard.html">Card</a>* deck_pop(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>{</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">if</span> (deck_top &lt; 0)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">if</span> (s_deck_top &lt; 0)</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">return</span> deck[deck_top--];</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">return</span> s_deck[s_deck_top--];</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="keywordtype">void</span> display_ante(<span class="keywordtype">void</span>)</div>
@@ -314,9 +314,9 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <a class="code hl_function" href="state__machine_8h.html#aa9b1230f7acdd39a63af8065b6729b5a">state_machine_remove</a>(&amp;game_sm);</div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <a class="code hl_function" href="state__machine_8h.html#ac3b2a011559ddbcb1f949f0da73ac239">state_machine_register</a>(&amp;game_sm);</div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="comment">// Initialize all jokers list once</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    _owned_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    _discarded_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    _expired_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    s_owned_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    s_discarded_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    s_expired_jokers_list = <a class="code hl_function" href="list_8h.html#a3b1939ae3a4c074282ab9f6ebcccb5b3">list_init</a>();</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="comment">// TODO: Move this to an initialization of the play scoring states</span></div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <a class="code hl_function" href="shop_8h.html#a5fa7df04d461d36854de8de527fb3a5f">game_shop_reset</a>();</div>
@@ -347,9 +347,9 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="keywordtype">void</span> game_reset()</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>{</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="keywordflow">while</span> (<a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(&amp;_owned_jokers_list) &gt; 0)</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="keywordflow">while</span> (<a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(&amp;s_owned_jokers_list) &gt; 0)</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    {</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(&amp;_owned_jokers_list, 0);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(&amp;s_owned_jokers_list, 0);</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        remove_owned_joker(0);</div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        joker_object_destroy(&amp;joker_object);</div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    }</div>
@@ -362,9 +362,9 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.playing_blind_token);</div>
 <div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.round_end_blind_token);</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;_owned_jokers_list);</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;_discarded_jokers_list);</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;_expired_jokers_list);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;s_owned_jokers_list);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;s_discarded_jokers_list);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <a class="code hl_function" href="list_8h.html#aac53d4a634fec0aa2adad813d0497056">list_clear</a>(&amp;s_expired_jokers_list);</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    game_init();</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
@@ -383,12 +383,12 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
 <div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> discarded_jokers_update_loop(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>{</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="list_8h.html#a1269841dad103a70c861ef88e1bbf9e0">list_is_empty</a>(&amp;_discarded_jokers_list))</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="list_8h.html#a1269841dad103a70c861ef88e1bbf9e0">list_is_empty</a>(&amp;s_discarded_jokers_list))</div>
 <div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    {</div>
 <div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    }</div>
 <div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;_discarded_jokers_list);</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;s_discarded_jokers_list);</div>
 <div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object;</div>
 <div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
 <div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">while</span> ((joker_object = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
@@ -404,7 +404,7 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
 <div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> held_jokers_update_loop(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>{</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> spacing_lut[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> SPACING_LUT[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {</div>
 <div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        {0,  0,   0,   0,   0  },</div>
 <div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        {13, -13, 0,   0,   0  },</div>
 <div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        {26, 0,   -26, 0,   0  },</div>
@@ -414,15 +414,15 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    FIXED hand_x = int2fx(HELD_JOKERS_POS.x);</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;_owned_jokers_list);</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;s_owned_jokers_list);</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker;</div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="keywordtype">int</span> jokers_top = <a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(&amp;_owned_jokers_list) - 1;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="keywordtype">int</span> jokers_top = <a class="code hl_function" href="list_8h.html#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a>(&amp;s_owned_jokers_list) - 1;</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordtype">int</span> i = 0;</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordflow">while</span> ((joker = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
 <div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    {</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        <span class="comment">// Let the Shop handle the position of this Joker</span></div>
 <div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        <span class="keywordflow">if</span> (joker != <a class="code hl_function" href="shop_8h.html#a0f5e216526e8cf0cb46e46182b7a0cbc">game_shop_get_description_card</a>())</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            joker-&gt;tx = hand_x - int2fx(spacing_lut[jokers_top][i]);</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            joker-&gt;tx = hand_x - int2fx(SPACING_LUT[jokers_top][i]);</div>
 <div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        i++;</div>
 <div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    }</div>
 <div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>}</div>
@@ -435,12 +435,12 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span> </div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> expired_jokers_update_loop(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>{</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="list_8h.html#a1269841dad103a70c861ef88e1bbf9e0">list_is_empty</a>(&amp;_expired_jokers_list))</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="list_8h.html#a1269841dad103a70c861ef88e1bbf9e0">list_is_empty</a>(&amp;s_expired_jokers_list))</div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    {</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    }</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;_expired_jokers_list);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;s_expired_jokers_list);</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object;</div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <span class="keywordflow">while</span> ((joker_object = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
@@ -450,7 +450,7 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        {</div>
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            <span class="comment">// get joker idx</span></div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>            <span class="keywordtype">int</span> expired_joker_idx = 0;</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            <a class="code hl_struct" href="structListItr.html">ListItr</a> joker_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;_owned_jokers_list);</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            <a class="code hl_struct" href="structListItr.html">ListItr</a> joker_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;s_owned_jokers_list);</div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>            <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* expired_joker;</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>            <span class="keywordflow">while</span> ((expired_joker = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;joker_itr)) &amp;&amp; expired_joker != joker_object)</div>
 <div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>            {</div>
@@ -502,7 +502,7 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
 <div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span><span class="keywordtype">bool</span> is_joker_owned(<span class="keywordtype">int</span> joker_id)</div>
 <div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>{</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;_owned_jokers_list);</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;s_owned_jokers_list);</div>
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker;</div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <span class="keywordflow">while</span> ((joker = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
@@ -517,72 +517,72 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><a class="code hl_struct" href="structList.html">List</a>* get_jokers_list(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>{</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="keywordflow">return</span> &amp;_owned_jokers_list;</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="keywordflow">return</span> &amp;s_owned_jokers_list;</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>}</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
 <div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span><a class="code hl_struct" href="structList.html">List</a>* get_expired_jokers_list(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>{</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    <span class="keywordflow">return</span> &amp;_expired_jokers_list;</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    <span class="keywordflow">return</span> &amp;s_expired_jokers_list;</div>
 <div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>}</div>
 <div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span> </div>
 <div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span><a class="code hl_struct" href="structList.html">List</a>* get_discarded_jokers_list(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>{</div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    <span class="keywordflow">return</span> &amp;_discarded_jokers_list;</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>    <span class="keywordflow">return</span> &amp;s_discarded_jokers_list;</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>}</div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span><span class="keywordtype">bool</span> is_shortcut_joker_active(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>{</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    <span class="keywordflow">return</span> shortcut_joker_count &gt; 0;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    <span class="keywordflow">return</span> s_shortcut_joker_count &gt; 0;</div>
 <div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>}</div>
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span> </div>
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span><span class="keywordtype">int</span> get_straight_and_flush_size(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>{</div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <span class="keywordflow">return</span> four_fingers_joker_count &gt; 0 ? STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS</div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                                        : STRAIGHT_AND_FLUSH_SIZE_DEFAULT;</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <span class="keywordflow">return</span> s_four_fingers_joker_count &gt; 0 ? STRAIGHT_AND_FLUSH_SIZE_FOUR_FINGERS</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>                                          : STRAIGHT_AND_FLUSH_SIZE_DEFAULT;</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>}</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
 <div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span><span class="keywordtype">void</span> add_joker(<a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object)</div>
 <div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>{</div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(&amp;_owned_jokers_list, joker_object);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(&amp;s_owned_jokers_list, joker_object);</div>
 <div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span> </div>
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    <span class="comment">// TODO: Extract to on_joker_added() callback</span></div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    <span class="comment">// In case the player gets multiple Four Fingers Jokers,</span></div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    <span class="comment">// only change size when the first one is added</span></div>
 <div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>    <span class="keywordflow">if</span> (joker_object-&gt;joker-&gt;id == FOUR_FINGERS_JOKER_ID)</div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>    {</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        four_fingers_joker_count++;</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        s_four_fingers_joker_count++;</div>
 <div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>    }</div>
 <div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    <span class="keywordflow">if</span> (joker_object-&gt;joker-&gt;id == SHORTCUT_JOKER_ID)</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    {</div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>        shortcut_joker_count++;</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>        s_shortcut_joker_count++;</div>
 <div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    }</div>
 <div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>}</div>
 <div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
 <div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span><span class="keywordtype">void</span> remove_owned_joker(<span class="keywordtype">int</span> owned_joker_idx)</div>
 <div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>{</div>
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="comment">// TODO: Extract to on_joker_removed() callback</span></div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(&amp;_owned_jokers_list, owned_joker_idx);</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    <a class="code hl_struct" href="structJokerObject.html">JokerObject</a>* joker_object = <a class="code hl_function" href="list_8h.html#a3c604970a7f427ee628ab97749fde17c">list_get_at_idx</a>(&amp;s_owned_jokers_list, owned_joker_idx);</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    <span class="comment">// In case the player gets multiple Four Fingers Jokers,</span></div>
 <div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    <span class="comment">// and only reset the size when all of them have been removed</span></div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>    <span class="keywordflow">if</span> (joker_object-&gt;joker-&gt;id == FOUR_FINGERS_JOKER_ID)</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>    {</div>
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>        four_fingers_joker_count--;</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>        s_four_fingers_joker_count--;</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>    }</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span> </div>
 <div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>    <span class="keywordflow">if</span> (joker_object-&gt;joker-&gt;id == SHORTCUT_JOKER_ID)</div>
 <div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>    {</div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>        shortcut_joker_count--;</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>        s_shortcut_joker_count--;</div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>    }</div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span> </div>
 <div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <span class="comment">// TODO: Move to site of joker_destroy()?</span></div>
 <div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <a class="code hl_function" href="joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a">joker_set_rollable</a>(joker_object-&gt;joker-&gt;id, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <a class="code hl_function" href="list_8h.html#ae2816ca6db0a215748a62831dc64104f">list_remove_at_idx</a>(&amp;_owned_jokers_list, owned_joker_idx);</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <a class="code hl_function" href="list_8h.html#ae2816ca6db0a215748a62831dc64104f">list_remove_at_idx</a>(&amp;s_owned_jokers_list, owned_joker_idx);</div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>}</div>
 <div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span> </div>
 <div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span><span class="keywordtype">int</span> get_deck_top(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>{</div>
-<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    <span class="keywordflow">return</span> deck_top;</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>    <span class="keywordflow">return</span> s_deck_top;</div>
 <div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>}</div>
 <div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span> </div>
 <div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span><span class="keywordtype">int</span> get_num_discards_remaining(<span class="keywordtype">void</span>)</div>
@@ -775,23 +775,23 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
 <div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span><span class="keywordtype">int</span> deck_get_size(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>{</div>
-<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>    <span class="keywordflow">return</span> deck_top + 1;</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>    <span class="keywordflow">return</span> s_deck_top + 1;</div>
 <div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>}</div>
 <div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span> </div>
 <div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span><span class="keyword">static</span> <span class="keywordtype">int</span> deck_get_max_size(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>{</div>
 <div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>    <span class="comment">// This is the max amount of cards that the player currently has in their possession</span></div>
-<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a>() + <a class="code hl_function" href="round_8h.html#ac8cec2b58cfa75bf971c1013aa1e9a40">get_played_top</a>() + deck_top + <a class="code hl_function" href="round_8h.html#a361ace2f170aa9e9651e2b66f1a4d613">get_discard_top</a>() + 4;</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a>() + <a class="code hl_function" href="round_8h.html#ac8cec2b58cfa75bf971c1013aa1e9a40">get_played_top</a>() + s_deck_top + <a class="code hl_function" href="round_8h.html#a361ace2f170aa9e9651e2b66f1a4d613">get_discard_top</a>() + 4;</div>
 <div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>}</div>
 <div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span> </div>
 <div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span><span class="keywordtype">void</span> deck_shuffle(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>{</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = deck_top; i &gt; 0; i--)</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = s_deck_top; i &gt; 0; i--)</div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>    {</div>
 <div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        <span class="keywordtype">int</span> j = <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % (i + 1);</div>
-<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>        <a class="code hl_struct" href="structCard.html">Card</a>* temp = deck[i];</div>
-<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>        deck[i] = deck[j];</div>
-<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        deck[j] = temp;</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>        <a class="code hl_struct" href="structCard.html">Card</a>* temp = s_deck[i];</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>        s_deck[i] = s_deck[j];</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        s_deck[j] = temp;</div>
 <div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>    }</div>
 <div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>}</div>
 <div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span> </div>
@@ -861,7 +861,7 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="ttc" id="ahand_8h_html"><div class="ttname"><a href="hand_8h.html">hand.h</a></div><div class="ttdoc">Functions relative to manipulating and analyzing the contents of the Hand, a.k.a. the Cards we hold a...</div></div>
 <div class="ttc" id="ahand_8h_html_a41c74b16743c1e9a1b7409629d2a5c8e"><div class="ttname"><a href="hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e">get_hand_top</a></div><div class="ttdeci">int get_hand_top(void)</div><div class="ttdoc">Get the position in hand array of the last card obtained.</div><div class="ttdef"><b>Definition</b> <a href="hand_8c_source.html#l00105">hand.c:105</a></div></div>
 <div class="ttc" id="ajoker_8h_html"><div class="ttname"><a href="joker_8h.html">joker.h</a></div><div class="ttdoc">Functions relative to the handling of Jokers.</div></div>
-<div class="ttc" id="ajoker_8h_html_afeaee7bccd2b1da5a262b4c124a34f2a"><div class="ttname"><a href="joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a">joker_set_rollable</a></div><div class="ttdeci">void joker_set_rollable(int joker_id, bool rollable)</div><div class="ttdoc">Set whether a Joker is available to be rolled for the shop, packs, etc.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00308">joker.c:308</a></div></div>
+<div class="ttc" id="ajoker_8h_html_afeaee7bccd2b1da5a262b4c124a34f2a"><div class="ttname"><a href="joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a">joker_set_rollable</a></div><div class="ttdeci">void joker_set_rollable(int joker_id, bool rollable)</div><div class="ttdoc">Set whether a Joker is available to be rolled for the shop, packs, etc.</div><div class="ttdef"><b>Definition</b> <a href="joker_8c_source.html#l00309">joker.c:309</a></div></div>
 <div class="ttc" id="ajoker__row_8h_html"><div class="ttname"><a href="joker__row_8h.html">joker_row.h</a></div><div class="ttdoc">All the functions used specifically to interact with Jokers. This includes browsing,...</div></div>
 <div class="ttc" id="alayout_8h_html"><div class="ttname"><a href="layout_8h.html">layout.h</a></div><div class="ttdoc">Header of shared rects and points needed for ui.</div></div>
 <div class="ttc" id="alist_8h_html"><div class="ttname"><a href="list_8h.html">list.h</a></div><div class="ttdoc">A doubly-linked list.</div></div>
@@ -878,11 +878,11 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="ttc" id="amain__menu_8h_html"><div class="ttname"><a href="main__menu_8h.html">main_menu.h</a></div><div class="ttdoc">Main menu state functions.</div></div>
 <div class="ttc" id="aoptions__menu_8h_html"><div class="ttname"><a href="options__menu_8h.html">options_menu.h</a></div><div class="ttdoc">Options menu state functions.</div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
-<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Update the CPU cycles counter and accumulate it into a bigger u32 timer_acc variable.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00019">random.c:19</a></div></div>
+<div class="ttc" id="arandom_8h_html_a3364aa4a4ff4352d9df2222c4735151a"><div class="ttname"><a href="random_8h.html#a3364aa4a4ff4352d9df2222c4735151a">rng_update</a></div><div class="ttdeci">void rng_update(void)</div><div class="ttdoc">Accumulates CPU cycles for RNG seed generation, call exaclty once per frame.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00019">random.c:19</a></div></div>
 <div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00036">random.c:36</a></div></div>
 <div class="ttc" id="around_8h_html"><div class="ttname"><a href="round_8h.html">round.h</a></div><div class="ttdoc">API relative to the Rounds we play.</div></div>
 <div class="ttc" id="around_8h_html_a361ace2f170aa9e9651e2b66f1a4d613"><div class="ttname"><a href="round_8h.html#a361ace2f170aa9e9651e2b66f1a4d613">get_discard_top</a></div><div class="ttdeci">int get_discard_top(void)</div><div class="ttdoc">Get the index of the last discarded card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00265">round.c:265</a></div></div>
-<div class="ttc" id="around_8h_html_a8e3d34f37a1bbde2018adbe5e137022b"><div class="ttname"><a href="round_8h.html#a8e3d34f37a1bbde2018adbe5e137022b">toggle_flaming_score</a></div><div class="ttdeci">void toggle_flaming_score(void)</div><div class="ttdoc">Checks whether the score that would result from the current Chips and Mult exceeds the current Blind'...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01424">round.c:1424</a></div></div>
+<div class="ttc" id="around_8h_html_a8e3d34f37a1bbde2018adbe5e137022b"><div class="ttname"><a href="round_8h.html#a8e3d34f37a1bbde2018adbe5e137022b">toggle_flaming_score</a></div><div class="ttdeci">void toggle_flaming_score(void)</div><div class="ttdoc">Checks whether the score that would result from the current Chips and Mult exceeds the current Blind'...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01425">round.c:1425</a></div></div>
 <div class="ttc" id="around_8h_html_ac8cec2b58cfa75bf971c1013aa1e9a40"><div class="ttname"><a href="round_8h.html#ac8cec2b58cfa75bf971c1013aa1e9a40">get_played_top</a></div><div class="ttdeci">int get_played_top(void)</div><div class="ttdoc">Get the index of the last played card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00243">round.c:243</a></div></div>
 <div class="ttc" id="around__end_8h_html"><div class="ttname"><a href="round__end_8h.html">round_end.h</a></div><div class="ttdoc">Round end game state functions.</div></div>
 <div class="ttc" id="arun__setup_8h_html"><div class="ttname"><a href="run__setup_8h.html">run_setup.h</a></div><div class="ttdoc">Setup Run menu state functions.</div></div>

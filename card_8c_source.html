@@ -159,17 +159,17 @@ $(document).ready(function(){initNavTree('card_8c_source.html',''); initResizabl
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">// Card sprites lookup table. First index is the suit, second index is the rank. The value is the</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">// tile index.</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">const</span> <span class="keyword">static</span> u16 _card_sprite_lut[NUM_SUITS][NUM_RANKS] = {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">const</span> <span class="keyword">static</span> u16 CARD_SPRITE_LUT[NUM_SUITS][NUM_RANKS] = {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {0,   16,  32,  48,  64,  80,  96,  112, 128, 144, 160, 176, 192},</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {208, 224, 240, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400},</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {416, 432, 448, 464, 480, 496, 512, 528, 544, 560, 576, 592, 608},</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    {624, 640, 656, 672, 688, 704, 720, 736, 752, 768, 784, 800, 816}</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">// Deck sprites lookup table. Index is the deck Id. The value is the tile index.</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">const</span> <span class="keyword">static</span> u16 _deck_sprite_lut[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">const</span> <span class="keyword">static</span> u16 DECK_SPRITE_LUT[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keywordtype">bool</span> high_contrast = DEFAULT_HIGH_CONTRAST;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">bool</span> more_readable = DEFAULT_MORE_READABLE;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">static</span> <span class="keywordtype">bool</span> s_high_contrast = DEFAULT_HIGH_CONTRAST;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">static</span> <span class="keywordtype">bool</span> s_more_readable = DEFAULT_MORE_READABLE;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keywordtype">void</span> card_init()</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
@@ -178,8 +178,8 @@ $(document).ready(function(){initNavTree('card_8c_source.html',''); initResizabl
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> set_cards_high_contrast(<span class="keywordtype">bool</span> enable)</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>{</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    high_contrast = enable;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (high_contrast)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    s_high_contrast = enable;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (s_high_contrast)</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    {</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        GRIT_CPY(&amp;pal_obj_mem[CARD_PB * PAL_ROW_LEN], high_contrast_deck_pal_gfxPal);</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
@@ -191,17 +191,17 @@ $(document).ready(function(){initNavTree('card_8c_source.html',''); initResizabl
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">void</span> set_cards_more_readable(<span class="keywordtype">bool</span> enable)</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    more_readable = enable;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    s_more_readable = enable;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keywordtype">bool</span> get_cards_high_contrast(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>{</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">return</span> high_contrast;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">return</span> s_high_contrast;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">bool</span> get_cards_more_readable(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>{</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> more_readable;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> s_more_readable;</div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">// Card methods</span></div>
@@ -264,10 +264,10 @@ $(document).ready(function(){initNavTree('card_8c_source.html',''); initResizabl
 <div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keywordtype">void</span> card_object_set_sprite(<a class="code hl_struct" href="structCardObject.html">CardObject</a>* card_object, <span class="keywordtype">int</span> layer)</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>{</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">int</span> tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* card_tiles = more_readable ? deck_big_gfxTiles : deck_gfxTiles;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>* card_tiles = s_more_readable ? deck_big_gfxTiles : deck_gfxTiles;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    memcpy32(</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        &amp;tile_mem[<a class="code hl_define" href="graphic__utils_8h.html#a7e54edda39e2d955059c92e8c2ad1874">TILE_MEM_OBJ_CHARBLOCK0_IDX</a>][tile_index],</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        &amp;card_tiles[_card_sprite_lut[card_object-&gt;card-&gt;suit][card_object-&gt;card-&gt;rank] * <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>],</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        &amp;card_tiles[CARD_SPRITE_LUT[card_object-&gt;card-&gt;suit][card_object-&gt;card-&gt;rank] * <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>],</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a> * CARD_SPRITE_OFFSET</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    );</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite = <a class="code hl_function" href="sprite_8h.html#a5fbaf037f18d04536127b88417481eb8">sprite_new</a>(</div>
@@ -285,7 +285,7 @@ $(document).ready(function(){initNavTree('card_8c_source.html',''); initResizabl
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordtype">int</span> tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);</div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    memcpy32(</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        &amp;tile_mem[<a class="code hl_define" href="graphic__utils_8h.html#a7e54edda39e2d955059c92e8c2ad1874">TILE_MEM_OBJ_CHARBLOCK0_IDX</a>][tile_index],</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        &amp;decks_face_down_gfxTiles[_deck_sprite_lut[deck] * <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>],</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        &amp;decks_face_down_gfxTiles[DECK_SPRITE_LUT[deck] * <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>],</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a> * CARD_SPRITE_OFFSET</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    );</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite = <a class="code hl_function" href="sprite_8h.html#a5fbaf037f18d04536127b88417481eb8">sprite_new</a>(</div>
