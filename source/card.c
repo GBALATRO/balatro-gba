@@ -28,8 +28,8 @@ const static u16 CARD_SPRITE_LUT[NUM_SUITS][NUM_RANKS] = {
 // Deck sprites lookup table. Index is the deck Id. The value is the tile index.
 const static u16 DECK_SPRITE_LUT[DECK_TYPE_MAX] = {0, 16, 32, 48, 64, 80};
 
-bool s_high_contrast = DEFAULT_HIGH_CONTRAST;
-bool s_more_readable = DEFAULT_MORE_READABLE;
+static bool s_high_contrast = DEFAULT_HIGH_CONTRAST;
+static bool s_more_readable = DEFAULT_MORE_READABLE;
 
 void card_init()
 {

@@ -212,7 +212,7 @@ static const int HAND_SPACING_LUT[MAX_HAND_SIZE] =
 static CardObject* s_played_hand[MAX_SELECTION_SIZE] = {NULL};
 static int s_played_top = -1;
 
-static Card* discard_pile[MAX_DECK_SIZE] = {NULL};
+static Card* s_discard_pile[MAX_DECK_SIZE] = {NULL};
 static int s_discard_top = -1;
 
 // Keeping track of cards scored
@@ -290,7 +290,7 @@ static inline Card* discard_pop()
 {
     if (s_discard_top < 0)
         return NULL;
-    return discard_pile[s_discard_top--];
+    return s_discard_pile[s_discard_top--];
 }
 
 int get_scored_card_index(void)
@@ -1503,7 +1503,7 @@ static bool check_and_score_joker_for_event(
 
 static inline void play_starting_played_cards_update(int played_idx)
 {
-    // Protect against out of bounds read in `played` array
+    // Protect against out of bounds read in `s_played_hand` array
     bool card_selected =
         (s_played_top < s_scored_card_index)
             ? false
