@@ -692,8 +692,8 @@ static void game_shop_show_card_desc(void)
 
     // Actively wait for the B button to be released, but only if the described card has stopped
     // moving
-    else if (s_description_card->vx == 0 &&
-             s_description_card->vy == 0 && !key_held(DESELECT_CARDS))
+    else if (s_description_card->vx == 0 && s_description_card->vy == 0 &&
+             !key_held(DESELECT_CARDS))
     {
         s_timer = TM_ZERO;
         state_machine_change_state(&shop_sm, GAME_SHOP_HIDE_CARD_DESC);
@@ -787,8 +787,7 @@ static void game_shop_hide_card_desc(void)
     }
 
     // Cleanup and change state
-    else if (s_description_card->vx == 0 &&
-             s_description_card->vy == 0)
+    else if (s_description_card->vx == 0 && s_description_card->vy == 0)
     {
         owned_joker_price_printed = false;
         s_description_card = NULL;

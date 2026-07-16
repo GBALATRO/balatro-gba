@@ -30,7 +30,7 @@ typedef struct
 void rng_init(void);
 
 /**
- * @brief Update the CPU cycles counter and accumulate it into a bigger u32 `s_timer_acc` variable.
+ * @brief Updates the RNG for seed generation, should be called each frame.
  */
 void rng_update(void);
 
