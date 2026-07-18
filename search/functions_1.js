@@ -13,6 +13,10 @@ var searchData=
   ['bitset_5fnum_5fset_5fbits_10',['bitset_num_set_bits',['../bitset_8h.html#a414b573ef4e83f9eff939c2372e09d29',1,'bitset.c']]],
   ['bitset_5fset_5fidx_11',['bitset_set_idx',['../bitset_8h.html#adef0d8a817ab0e3677844bbe2a9f5d59',1,'bitset.c']]],
   ['bitset_5fset_5fnext_5ffree_5fidx_12',['bitset_set_next_free_idx',['../bitset_8h.html#abe34811eb4ac2ad6ccd77871fd049b89',1,'bitset.c']]],
-  ['button_5fpress_13',['button_press',['../button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db',1,'button.c']]],
-  ['button_5fset_5fhighlight_14',['button_set_highlight',['../button_8h.html#ab07bc69b92e6642e2b986debfb152e48',1,'button.c']]]
+  ['blind_5fget_5fcolor_13',['blind_get_color',['../blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473',1,'blind_get_color(enum BlindType type, enum BlindColorIndex index):&#160;blind.c'],['../blind_8c.html#a6d39b4ae4ca73f51bb2d3bc4b7687473',1,'blind_get_color(enum BlindType type, enum BlindColorIndex index):&#160;blind.c']]],
+  ['blind_5fget_5frequirement_14',['blind_get_requirement',['../blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4',1,'blind_get_requirement(enum BlindType type, int ante):&#160;blind.c'],['../blind_8c.html#a85fefafb15d88f710cbe1183ac34f3f4',1,'blind_get_requirement(enum BlindType type, int ante):&#160;blind.c']]],
+  ['blind_5fget_5freward_15',['blind_get_reward',['../blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6',1,'blind_get_reward(enum BlindType type):&#160;blind.c'],['../blind_8c.html#af2031f17bfb33cfe0a1815fa66b8bde6',1,'blind_get_reward(enum BlindType type):&#160;blind.c']]],
+  ['blind_5ftoken_5fnew_16',['blind_token_new',['../blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b',1,'blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers sprite_index):&#160;blind.c'],['../blind_8c.html#a5518e6cabc5bcfd4e0ac280abd9f199c',1,'blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers layer):&#160;blind.c']]],
+  ['button_5fpress_17',['button_press',['../button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db',1,'button.c']]],
+  ['button_5fset_5fhighlight_18',['button_set_highlight',['../button_8h.html#ab07bc69b92e6642e2b986debfb152e48',1,'button.c']]]
 ];

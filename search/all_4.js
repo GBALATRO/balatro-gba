@@ -17,10 +17,12 @@ var searchData=
   ['affine_5fbg_5fpb_14',['AFFINE_BG_PB',['../affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301',1,'affine_background.h']]],
   ['affinebackgroundid_15',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
   ['and_20won_20t_20compile_16',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
-  ['art_17',['Art',['../index.html#autotoc_md2',1,'']]],
-  ['audio_5fparam_5fupdate_18',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]],
-  ['audio_5futils_2ec_19',['audio_utils.c',['../audio__utils_8c.html',1,'']]],
-  ['audio_5futils_2eh_20',['audio_utils.h',['../audio__utils_8h.html',1,'']]],
-  ['audioparam_21',['AudioParam',['../structAudioParam.html',1,'']]],
-  ['audioparamreq_22',['AudioParamReq',['../structAudioParamReq.html',1,'']]]
+  ['apply_5fblind_5fcolors_17',['apply_blind_colors',['../blind_8h.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c'],['../blind_8c.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c']]],
+  ['apply_5fblind_5ftiles_18',['apply_blind_tiles',['../blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c'],['../blind_8c.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c']]],
+  ['art_19',['Art',['../index.html#autotoc_md2',1,'']]],
+  ['audio_5fparam_5fupdate_20',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]],
+  ['audio_5futils_2ec_21',['audio_utils.c',['../audio__utils_8c.html',1,'']]],
+  ['audio_5futils_2eh_22',['audio_utils.h',['../audio__utils_8h.html',1,'']]],
+  ['audioparam_23',['AudioParam',['../structAudioParam.html',1,'']]],
+  ['audioparamreq_24',['AudioParamReq',['../structAudioParamReq.html',1,'']]]
 ];

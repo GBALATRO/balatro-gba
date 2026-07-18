@@ -507,17 +507,17 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>        <span class="comment">// doesn&#39;t use the blind token&#39;s exact colors so a different approach is required</span></div>
 <div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        memset16(</div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            &amp;pal_bg_mem[BLIND_BG_PRIMARY_PAL_IDX],</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.current_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),</div>
 <div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>            1</div>
 <div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        );</div>
 <div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        memset16(</div>
 <div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            &amp;pal_bg_mem[BLIND_BG_SECONDARY_PAL_IDX],</div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SECONDARY_COLOR_INDEX),</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>            <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.current_blind, BLIND_BACKGROUND_SECONDARY_COLOR_INDEX),</div>
 <div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            1</div>
 <div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        );</div>
 <div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        memset16(</div>
 <div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            &amp;pal_bg_mem[BLIND_BG_SHADOW_PAL_IDX],</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            blind_get_color(g_game_vars.current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.current_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),</div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            1</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        );</div>
 <div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
@@ -839,7 +839,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>{</div>
 <div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    <span class="keyword">enum</span> GameState next_state = GAME_STATE_ROUND_END;</div>
 <div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span> </div>
-<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>    <span class="keywordflow">if</span> (g_game_vars.score &gt;= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>    <span class="keywordflow">if</span> (g_game_vars.score &gt;= <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, g_game_vars.ante))</div>
 <div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>    {</div>
 <div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>        <span class="keywordflow">if</span> (g_game_vars.current_blind &gt; BLIND_TYPE_BIG)</div>
 <div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>        {</div>
@@ -849,7 +849,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>                display_ante();</div>
 <div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span> </div>
 <div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>                <span class="comment">// mark current boss blind as beaten and allow for reroll</span></div>
-<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                set_blind_beaten(g_game_vars.next_boss_blind);</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>                <a class="code hl_function" href="blind_8h.html#ad5c80cb82487220cada4920ecf037f9e">set_blind_beaten</a>(g_game_vars.next_boss_blind);</div>
 <div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>            }</div>
 <div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span>            <span class="keywordflow">else</span></div>
 <div class="line"><a id="l00740" name="l00740"></a><span class="lineno">  740</span>            {</div>
@@ -1161,7 +1161,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01049" name="l01049"></a><span class="lineno"><a class="line" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b"> 1049</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>{</div>
 <div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>    <span class="keywordflow">return</span> g_game_vars.hands == 0 ||</div>
-<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>           g_game_vars.score &gt;= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);</div>
+<div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>           g_game_vars.score &gt;= <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, g_game_vars.ante);</div>
 <div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>}</div>
 </div>
 <div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span> </div>
@@ -1537,7 +1537,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01425" name="l01425"></a><span class="lineno"><a class="line" href="round_8h.html#a8e3d34f37a1bbde2018adbe5e137022b"> 1425</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a8e3d34f37a1bbde2018adbe5e137022b">toggle_flaming_score</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01426" name="l01426"></a><span class="lineno"> 1426</span>{</div>
 <div class="line"><a id="l01427" name="l01427"></a><span class="lineno"> 1427</span>    u32 curr_score = <a class="code hl_function" href="util_8h.html#af3c969df4739f51591b50af83c57bdf3">u32_protected_mult</a>(g_game_vars.chips, g_game_vars.mult);</div>
-<div class="line"><a id="l01428" name="l01428"></a><span class="lineno"> 1428</span>    u32 required_score = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);</div>
+<div class="line"><a id="l01428" name="l01428"></a><span class="lineno"> 1428</span>    u32 required_score = <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, g_game_vars.ante);</div>
 <div class="line"><a id="l01429" name="l01429"></a><span class="lineno"> 1429</span>    <span class="keywordflow">if</span> (curr_score &gt;= required_score &amp;&amp; !s_score_flames_active)</div>
 <div class="line"><a id="l01430" name="l01430"></a><span class="lineno"> 1430</span>    {</div>
 <div class="line"><a id="l01431" name="l01431"></a><span class="lineno"> 1431</span>        <span class="comment">// start flaming score</span></div>
@@ -2052,7 +2052,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01981" name="l01981"></a><span class="lineno"> 1981</span>    s_cards_drawn = 0;</div>
 <div class="line"><a id="l01982" name="l01982"></a><span class="lineno"> 1982</span> </div>
 <div class="line"><a id="l01983" name="l01983"></a><span class="lineno"> 1983</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.playing_blind_token);</div>
-<div class="line"><a id="l01984" name="l01984"></a><span class="lineno"> 1984</span>    g_game_vars.playing_blind_token = blind_token_new(</div>
+<div class="line"><a id="l01984" name="l01984"></a><span class="lineno"> 1984</span>    g_game_vars.playing_blind_token = <a class="code hl_function" href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a>(</div>
 <div class="line"><a id="l01985" name="l01985"></a><span class="lineno"> 1985</span>        g_game_vars.current_blind,</div>
 <div class="line"><a id="l01986" name="l01986"></a><span class="lineno"> 1986</span>        CUR_BLIND_TOKEN_POS.x,</div>
 <div class="line"><a id="l01987" name="l01987"></a><span class="lineno"> 1987</span>        CUR_BLIND_TOKEN_POS.y,</div>
@@ -2064,7 +2064,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01993" name="l01993"></a><span class="lineno"> 1993</span>    <span class="comment">//    obj_hide(g_game_vars.playing_blind_token-&gt;obj); // Hide the blind token sprite for now</span></div>
 <div class="line"><a id="l01994" name="l01994"></a><span class="lineno"> 1994</span>    <span class="comment">//}</span></div>
 <div class="line"><a id="l01995" name="l01995"></a><span class="lineno"> 1995</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;g_game_vars.round_end_blind_token);</div>
-<div class="line"><a id="l01996" name="l01996"></a><span class="lineno"> 1996</span>    g_game_vars.round_end_blind_token = blind_token_new(</div>
+<div class="line"><a id="l01996" name="l01996"></a><span class="lineno"> 1996</span>    g_game_vars.round_end_blind_token = <a class="code hl_function" href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a>(</div>
 <div class="line"><a id="l01997" name="l01997"></a><span class="lineno"> 1997</span>        g_game_vars.current_blind,</div>
 <div class="line"><a id="l01998" name="l01998"></a><span class="lineno"> 1998</span>        81,</div>
 <div class="line"><a id="l01999" name="l01999"></a><span class="lineno"> 1999</span>        86,</div>
@@ -2077,7 +2077,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l02006" name="l02006"></a><span class="lineno"> 2006</span>    }</div>
 <div class="line"><a id="l02007" name="l02007"></a><span class="lineno"> 2007</span> </div>
 <div class="line"><a id="l02008" name="l02008"></a><span class="lineno"> 2008</span>    Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;</div>
-<div class="line"><a id="l02009" name="l02009"></a><span class="lineno"> 2009</span>    u32 blind_requirement = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);</div>
+<div class="line"><a id="l02009" name="l02009"></a><span class="lineno"> 2009</span>    u32 blind_requirement = <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, g_game_vars.ante);</div>
 <div class="line"><a id="l02010" name="l02010"></a><span class="lineno"> 2010</span> </div>
 <div class="line"><a id="l02011" name="l02011"></a><span class="lineno"> 2011</span>    <span class="keywordtype">char</span> blind_req_str_buff[UINT_MAX_DIGITS + 1];</div>
 <div class="line"><a id="l02012" name="l02012"></a><span class="lineno"> 2012</span> </div>
@@ -2102,7 +2102,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l02031" name="l02031"></a><span class="lineno"> 2031</span>        BLIND_REWARD_RECT.left,</div>
 <div class="line"><a id="l02032" name="l02032"></a><span class="lineno"> 2032</span>        BLIND_REWARD_RECT.top,</div>
 <div class="line"><a id="l02033" name="l02033"></a><span class="lineno"> 2033</span>        TTE_YELLOW_PB,</div>
-<div class="line"><a id="l02034" name="l02034"></a><span class="lineno"> 2034</span>        blind_get_reward(g_game_vars.current_blind)</div>
+<div class="line"><a id="l02034" name="l02034"></a><span class="lineno"> 2034</span>        <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(g_game_vars.current_blind)</div>
 <div class="line"><a id="l02035" name="l02035"></a><span class="lineno"> 2035</span>    ); <span class="comment">// Blind reward</span></div>
 <div class="line"><a id="l02036" name="l02036"></a><span class="lineno"> 2036</span> </div>
 <div class="line"><a id="l02037" name="l02037"></a><span class="lineno"> 2037</span>    deck_shuffle(); <span class="comment">// Shuffle the deck at the start of the round</span></div>
@@ -2152,6 +2152,11 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="ttc" id="aaudio__utils_8h_html_a44f88da4c9f39b9c23c11f565a4f5fc2"><div class="ttname"><a href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a></div><div class="ttdeci">#define MM_BASE_PITCH_RATE</div><div class="ttdoc">The default pitch rate for the sound effect played.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00037">audio_utils.h:37</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00103">audio_utils.c:103</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_ada4aed6bf6aa0cfb9b37e393f4c9de86"><div class="ttname"><a href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div><div class="ttdeci">#define SFX_DEFAULT_VOLUME</div><div class="ttdoc">Default volume for sound effects.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00043">audio_utils.h:43</a></div></div>
+<div class="ttc" id="ablind_8h_html_a6d39b4ae4ca73f51bb2d3bc4b7687473"><div class="ttname"><a href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a></div><div class="ttdeci">u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)</div><div class="ttdoc">Get the color associated with a given Blind.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00218">blind.c:218</a></div></div>
+<div class="ttc" id="ablind_8h_html_a85fefafb15d88f710cbe1183ac34f3f4"><div class="ttname"><a href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a></div><div class="ttdeci">u32 blind_get_requirement(enum BlindType type, int ante)</div><div class="ttdoc">Get the score required to beat a certain blind (either the Small, Big, or any Boss/Showdown blind) at...</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00106">blind.c:106</a></div></div>
+<div class="ttc" id="ablind_8h_html_accef25c77a0711a7f6ab7f2a4774ae9b"><div class="ttname"><a href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a></div><div class="ttdeci">Sprite * blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers sprite_index)</div><div class="ttdoc">Create a new BlindToken sprite.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00281">blind.c:281</a></div></div>
+<div class="ttc" id="ablind_8h_html_ad5c80cb82487220cada4920ecf037f9e"><div class="ttname"><a href="blind_8h.html#ad5c80cb82487220cada4920ecf037f9e">set_blind_beaten</a></div><div class="ttdeci">void set_blind_beaten(enum BlindType type)</div><div class="ttdoc">Remove the given Blind from the corresponding List so that we don't roll it again in the future.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00180">blind.c:180</a></div></div>
+<div class="ttc" id="ablind_8h_html_af2031f17bfb33cfe0a1815fa66b8bde6"><div class="ttname"><a href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a></div><div class="ttdeci">int blind_get_reward(enum BlindType type)</div><div class="ttdoc">Get the amount of money gained from beating a certain Blind.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00115">blind.c:115</a></div></div>
 <div class="ttc" id="abutton_8h_html"><div class="ttname"><a href="button_8h.html">button.h</a></div><div class="ttdoc">A button structure containing the common button functionalities Including highlight and pressing func...</div></div>
 <div class="ttc" id="abutton_8h_html_a071a4d1bf72a16a7f4a4153722ce36db"><div class="ttname"><a href="button_8h.html#a071a4d1bf72a16a7f4a4153722ce36db">button_press</a></div><div class="ttdeci">void button_press(Button *button)</div><div class="ttdoc">Execute a button press, by calling the button's on_pressed function. This checks the button's can_be_...</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00018">button.c:18</a></div></div>
 <div class="ttc" id="abutton_8h_html_ab07bc69b92e6642e2b986debfb152e48"><div class="ttname"><a href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a></div><div class="ttdeci">void button_set_highlight(Button *button, bool highlight)</div><div class="ttdoc">Set the button highlight on or off.</div><div class="ttdef"><b>Definition</b> <a href="button_8c_source.html#l00008">button.c:8</a></div></div>

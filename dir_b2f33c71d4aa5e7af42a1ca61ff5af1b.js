@@ -4,7 +4,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "affine_background.c", "affine__background_8c_source.html", null ],
     [ "audio_utils.c", "audio__utils_8c.html", "audio__utils_8c" ],
     [ "bitset.c", "bitset_8c_source.html", null ],
-    [ "blind.c", "blind_8c_source.html", null ],
+    [ "blind.c", "blind_8c.html", "blind_8c" ],
     [ "button.c", "button_8c_source.html", null ],
     [ "card.c", "card_8c_source.html", null ],
     [ "deck_types.c", "deck__types_8c.html", "deck__types_8c" ],

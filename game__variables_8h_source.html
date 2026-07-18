@@ -142,7 +142,7 @@ $(document).ready(function(){initNavTree('game__variables_8h_source.html',''); i
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef GAME_VARIABLES_H</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define GAME_VARIABLES_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;blind.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="blind_8h.html">blind.h</a>&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="hand_8h.html">hand.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="random_8h.html">random.h</a>&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
@@ -186,9 +186,9 @@ $(document).ready(function(){initNavTree('game__variables_8h_source.html',''); i
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// Blind variables</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">enum</span> BlindType current_blind;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">enum</span> BlindType next_boss_blind;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">enum</span> BlindState blinds_states[NUM_BLINDS_PER_ANTE];</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> current_blind;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> next_boss_blind;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a59b2b8e485d0ea561120ae8c6010de1d">BlindState</a> blinds_states[NUM_BLINDS_PER_ANTE];</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    s32 hands;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    s32 discards;</div>
@@ -211,6 +211,9 @@ $(document).ready(function(){initNavTree('game__variables_8h_source.html',''); i
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">extern</span> <a class="code hl_struct" href="structGameVariables.html">GameVariables</a> g_game_vars;</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif </span><span class="comment">// GAME_VARIABLES_H</span></div>
+<div class="ttc" id="ablind_8h_html"><div class="ttname"><a href="blind_8h.html">blind.h</a></div><div class="ttdoc">Data structures and functions relative to the behaviour and graphics of Blinds.</div></div>
+<div class="ttc" id="ablind_8h_html_a360ce6465b5b6a404884c21d37759d4a"><div class="ttname"><a href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a></div><div class="ttdeci">BlindType</div><div class="ttdoc">All Blind types in the game are listed here.</div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00068">blind.h:69</a></div></div>
+<div class="ttc" id="ablind_8h_html_a59b2b8e485d0ea561120ae8c6010de1d"><div class="ttname"><a href="blind_8h.html#a59b2b8e485d0ea561120ae8c6010de1d">BlindState</a></div><div class="ttdeci">BlindState</div><div class="ttdoc">All the possible states an Ante's Blinds can be in when viewed in the &quot;Blind Select&quot; screen.</div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00120">blind.h:121</a></div></div>
 <div class="ttc" id="ahand_8h_html"><div class="ttname"><a href="hand_8h.html">hand.h</a></div><div class="ttdoc">Functions relative to manipulating and analyzing the contents of the Hand, a.k.a. the Cards we hold a...</div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
 <div class="ttc" id="astructGameVariables_html"><div class="ttname"><a href="structGameVariables.html">GameVariables</a></div><div class="ttdoc">A central location for all game variables.</div><div class="ttdef"><b>Definition</b> <a href="game__variables_8h_source.html#l00038">game_variables.h:39</a></div></div>

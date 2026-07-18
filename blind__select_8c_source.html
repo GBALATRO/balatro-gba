@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="affine__background_8h.html">affine_background.h</a>&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="audio__utils_8h.html">audio_utils.h</a>&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;background_blind_select_gfx.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;blind.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="blind_8h.html">blind.h</a>&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="button_8h.html">button.h</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
@@ -172,9 +172,9 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_selected_anim_seq(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_display_blind_panel(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_exit(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">static</span> Rect game_blind_select_get_req_score_rect(<span class="keyword">enum</span> BlindTokens blind);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">static</span> Rect game_blind_select_get_req_score_rect(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_print_blinds_reqs_and_rewards(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">static</span> <span class="keyword">enum</span> BlindType get_blind_type_from_token(<span class="keyword">enum</span> BlindTokens blind);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> get_blind_type_from_token(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">static</span> <span class="keywordtype">void</span> blind_tokens_init(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">enum</span> BlindSelectState</div>
@@ -247,7 +247,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_blind_select_erase_blind_reqs_and_rewards()</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>{</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> BlindTokens curr_blind = SMALL_BLIND; curr_blind &lt; NUM_BLINDS_PER_ANTE; curr_blind++)</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> curr_blind = SMALL_BLIND; curr_blind &lt; NUM_BLINDS_PER_ANTE; curr_blind++)</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    {</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        Rect blind_req_and_reward_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
@@ -267,7 +267,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="keywordtype">void</span> increment_blind(<span class="keyword">enum</span> BlindState increment_reason)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="keywordtype">void</span> increment_blind(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a59b2b8e485d0ea561120ae8c6010de1d">BlindState</a> increment_reason)</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>{</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">switch</span> (g_game_vars.current_blind)</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    {</div>
@@ -429,7 +429,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        <span class="keywordflow">if</span> (g_game_vars.current_blind &gt;= BLIND_TYPE_BOSS)</div>
 <div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        {</div>
 <div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            <a class="code hl_function" href="affine__background_8h.html#a18432fdcb05ae0677341522862f4b742">affine_background_set_color</a>(</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                blind_get_color(g_game_vars.current_blind, BLIND_SHADOW_COLOR_INDEX)</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.current_blind, BLIND_SHADOW_COLOR_INDEX)</div>
 <div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            );</div>
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        }</div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    }</div>
@@ -453,7 +453,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    game_change_state(GAME_STATE_ROUND);</div>
 <div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
 <div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">static</span> Rect game_blind_select_get_req_score_rect(<span class="keyword">enum</span> BlindTokens blind)</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">static</span> Rect game_blind_select_get_req_score_rect(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind)</div>
 <div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>{</div>
 <div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;</div>
 <div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
@@ -470,9 +470,9 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="keywordflow">return</span> blind_req_score_rect;</div>
 <div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>}</div>
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span> </div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span><span class="keyword">static</span> <span class="keyword">enum</span> BlindType get_blind_type_from_token(<span class="keyword">enum</span> BlindTokens blind)</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span><span class="keyword">static</span> <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> get_blind_type_from_token(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind)</div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>{</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keyword">enum</span> BlindType blind_type;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> blind_type;</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <span class="keywordflow">switch</span> (blind)</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    {</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>        <span class="keywordflow">case</span> SMALL_BLIND:</div>
@@ -488,11 +488,11 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    <span class="keywordflow">return</span> blind_type;</div>
 <div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>}</div>
 <div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_blind_select_print_blind_req(<span class="keyword">enum</span> BlindTokens blind)</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_blind_select_print_blind_req(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind)</div>
 <div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>{</div>
 <div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    Rect blind_req_score_rect = game_blind_select_get_req_score_rect(blind);</div>
 <div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    u32 blind_req = blind_get_requirement(get_blind_type_from_token(blind), g_game_vars.ante);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    u32 blind_req = <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(get_blind_type_from_token(blind), g_game_vars.ante);</div>
 <div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keywordtype">char</span> blind_req_str_buff[UINT_MAX_DIGITS + 1];</div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <a class="code hl_function" href="util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a">truncate_uint_to_suffixed_str</a>(</div>
@@ -512,9 +512,9 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    );</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_blind_select_print_blind_reward(<span class="keyword">enum</span> BlindTokens blind)</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_blind_select_print_blind_reward(<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> blind)</div>
 <div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>{</div>
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <span class="keywordtype">int</span> blind_reward = blind_get_reward(get_blind_type_from_token(blind));</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <span class="keywordtype">int</span> blind_reward = <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(get_blind_type_from_token(blind));</div>
 <div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>    Rect blind_reward_rect = game_blind_select_get_req_score_rect(blind);</div>
 <div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
 <div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="comment">// The reward is right below the score.</span></div>
@@ -537,7 +537,7 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span> </div>
 <div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_blind_select_print_blinds_reqs_and_rewards(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>{</div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> BlindTokens curr_blind = 0; curr_blind &lt; NUM_BLINDS_PER_ANTE; curr_blind++)</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    <span class="keywordflow">for</span> (<span class="keyword">enum</span> <a class="code hl_enumeration" href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a> curr_blind = 0; curr_blind &lt; NUM_BLINDS_PER_ANTE; curr_blind++)</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    {</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        game_blind_select_print_blind_req(curr_blind);</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        game_blind_select_print_blind_reward(curr_blind);</div>
@@ -548,10 +548,10 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>{</div>
 <div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    <span class="comment">// Showdown blinds only show up on ante 8, 16, etc...</span></div>
 <div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    g_game_vars.next_boss_blind =</div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        roll_blind_type((g_game_vars.ante % 8 == 0) &amp;&amp; (g_game_vars.ante &gt; 0));</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        <a class="code hl_function" href="blind_8h.html#a2826e7fd956be78ad09013ef623c91e3">roll_blind_type</a>((g_game_vars.ante % 8 == 0) &amp;&amp; (g_game_vars.ante &gt; 0));</div>
 <div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>    <span class="keywordflow">if</span> (!no_tiles)</div>
 <div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    {</div>
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        apply_blind_tiles(g_game_vars.next_boss_blind, BOSS_BLIND_TOKEN_LAYER);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        <a class="code hl_function" href="blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947">apply_blind_tiles</a>(g_game_vars.next_boss_blind, BOSS_BLIND_TOKEN_LAYER);</div>
 <div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    }</div>
 <div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>}</div>
 <div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span> </div>
@@ -564,19 +564,19 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;blind_select_tokens[BIG_BLIND]);</div>
 <div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;blind_select_tokens[BOSS_BLIND]);</div>
 <div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span> </div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    blind_select_tokens[SMALL_BLIND] = blind_token_new(</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    blind_select_tokens[SMALL_BLIND] = <a class="code hl_function" href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a>(</div>
 <div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        BLIND_TYPE_SMALL,</div>
 <div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>        CUR_BLIND_TOKEN_POS.x,</div>
 <div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>        CUR_BLIND_TOKEN_POS.y,</div>
 <div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        SMALL_BLIND_TOKEN_LAYER</div>
 <div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>    );</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>    blind_select_tokens[BIG_BLIND] = blind_token_new(</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>    blind_select_tokens[BIG_BLIND] = <a class="code hl_function" href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a>(</div>
 <div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>        BLIND_TYPE_BIG,</div>
 <div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>        CUR_BLIND_TOKEN_POS.x,</div>
 <div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>        CUR_BLIND_TOKEN_POS.y,</div>
 <div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>        BIG_BLIND_TOKEN_LAYER</div>
 <div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    );</div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    blind_select_tokens[BOSS_BLIND] = blind_token_new(</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    blind_select_tokens[BOSS_BLIND] = <a class="code hl_function" href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a>(</div>
 <div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        g_game_vars.next_boss_blind,</div>
 <div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>        CUR_BLIND_TOKEN_POS.x,</div>
 <div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>        CUR_BLIND_TOKEN_POS.y,</div>
@@ -661,12 +661,12 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>    <span class="comment">// Copy boss blind colors to blind select palette</span></div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    memset16(</div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>        &amp;pal_bg_mem[1],</div>
-<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>        blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),</div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>        <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX),</div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>        1</div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>    );</div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>    memset16(</div>
 <div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>        &amp;pal_bg_mem[7],</div>
-<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>        blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>        <a class="code hl_function" href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a>(g_game_vars.next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX),</div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>        1</div>
 <div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>    );</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span> </div>
@@ -802,6 +802,16 @@ $(document).ready(function(){initNavTree('blind__select_8c_source.html',''); ini
 <div class="ttc" id="aaudio__utils_8h_html_a44f88da4c9f39b9c23c11f565a4f5fc2"><div class="ttname"><a href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a></div><div class="ttdeci">#define MM_BASE_PITCH_RATE</div><div class="ttdoc">The default pitch rate for the sound effect played.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00037">audio_utils.h:37</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_aad23876e6c46c118561c5c6733c39d69"><div class="ttname"><a href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a></div><div class="ttdeci">void play_sfx(mm_word id, mm_word rate, mm_byte volume)</div><div class="ttdoc">Play a sound effect, wrapper for mmEffectEx() See https://maxmod.org/ref/functions/mm_sound_effect....</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8c_source.html#l00103">audio_utils.c:103</a></div></div>
 <div class="ttc" id="aaudio__utils_8h_html_ada4aed6bf6aa0cfb9b37e393f4c9de86"><div class="ttname"><a href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div><div class="ttdeci">#define SFX_DEFAULT_VOLUME</div><div class="ttdoc">Default volume for sound effects.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00043">audio_utils.h:43</a></div></div>
+<div class="ttc" id="ablind_8h_html"><div class="ttname"><a href="blind_8h.html">blind.h</a></div><div class="ttdoc">Data structures and functions relative to the behaviour and graphics of Blinds.</div></div>
+<div class="ttc" id="ablind_8h_html_a186aee3247d5b47aaa84b4f6ee3a5947"><div class="ttname"><a href="blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947">apply_blind_tiles</a></div><div class="ttdeci">void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer)</div><div class="ttdoc">Change the tiles of the BlindToken Sprite at a given layer to that of the given BlindType.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00268">blind.c:268</a></div></div>
+<div class="ttc" id="ablind_8h_html_a2826e7fd956be78ad09013ef623c91e3"><div class="ttname"><a href="blind_8h.html#a2826e7fd956be78ad09013ef623c91e3">roll_blind_type</a></div><div class="ttdeci">enum BlindType roll_blind_type(bool showdown)</div><div class="ttdoc">Choose a random Blind among the ones that haven't been beaten yet.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00162">blind.c:162</a></div></div>
+<div class="ttc" id="ablind_8h_html_a360ce6465b5b6a404884c21d37759d4a"><div class="ttname"><a href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a></div><div class="ttdeci">BlindType</div><div class="ttdoc">All Blind types in the game are listed here.</div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00068">blind.h:69</a></div></div>
+<div class="ttc" id="ablind_8h_html_a59b2b8e485d0ea561120ae8c6010de1d"><div class="ttname"><a href="blind_8h.html#a59b2b8e485d0ea561120ae8c6010de1d">BlindState</a></div><div class="ttdeci">BlindState</div><div class="ttdoc">All the possible states an Ante's Blinds can be in when viewed in the &quot;Blind Select&quot; screen.</div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00120">blind.h:121</a></div></div>
+<div class="ttc" id="ablind_8h_html_a6d39b4ae4ca73f51bb2d3bc4b7687473"><div class="ttname"><a href="blind_8h.html#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a></div><div class="ttdeci">u16 blind_get_color(enum BlindType type, enum BlindColorIndex index)</div><div class="ttdoc">Get the color associated with a given Blind.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00218">blind.c:218</a></div></div>
+<div class="ttc" id="ablind_8h_html_a85fefafb15d88f710cbe1183ac34f3f4"><div class="ttname"><a href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a></div><div class="ttdeci">u32 blind_get_requirement(enum BlindType type, int ante)</div><div class="ttdoc">Get the score required to beat a certain blind (either the Small, Big, or any Boss/Showdown blind) at...</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00106">blind.c:106</a></div></div>
+<div class="ttc" id="ablind_8h_html_ac213b67180e7b74f69beb56ddd17026e"><div class="ttname"><a href="blind_8h.html#ac213b67180e7b74f69beb56ddd17026e">BlindTokens</a></div><div class="ttdeci">BlindTokens</div><div class="ttdoc">The sprites that display the blinds when in &quot;GAME_BLIND_SELECT&quot; state. There are only 3 blinds per An...</div><div class="ttdef"><b>Definition</b> <a href="blind_8h_source.html#l00020">blind.h:21</a></div></div>
+<div class="ttc" id="ablind_8h_html_accef25c77a0711a7f6ab7f2a4774ae9b"><div class="ttname"><a href="blind_8h.html#accef25c77a0711a7f6ab7f2a4774ae9b">blind_token_new</a></div><div class="ttdeci">Sprite * blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers sprite_index)</div><div class="ttdoc">Create a new BlindToken sprite.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00281">blind.c:281</a></div></div>
+<div class="ttc" id="ablind_8h_html_af2031f17bfb33cfe0a1815fa66b8bde6"><div class="ttname"><a href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a></div><div class="ttdeci">int blind_get_reward(enum BlindType type)</div><div class="ttdoc">Get the amount of money gained from beating a certain Blind.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00115">blind.c:115</a></div></div>
 <div class="ttc" id="ablind__select_8h_html"><div class="ttname"><a href="blind__select_8h.html">blind_select.h</a></div><div class="ttdoc">Blind select state functions.</div></div>
 <div class="ttc" id="ablind__select_8h_html_a2f3378c3cbf3fe71244d2bd073c14391"><div class="ttname"><a href="blind__select_8h.html#a2f3378c3cbf3fe71244d2bd073c14391">game_blind_select_on_exit</a></div><div class="ttdeci">void game_blind_select_on_exit(void)</div><div class="ttdoc">Blind select cleanup.</div><div class="ttdef"><b>Definition</b> <a href="blind__select_8c_source.html#l00478">blind_select.c:478</a></div></div>
 <div class="ttc" id="ablind__select_8h_html_a48e2a881f9f5b63ba66a2bc82055af1e"><div class="ttname"><a href="blind__select_8h.html#a48e2a881f9f5b63ba66a2bc82055af1e">game_blind_select_on_update</a></div><div class="ttdeci">void game_blind_select_on_update(void)</div><div class="ttdoc">Blind select state update.</div><div class="ttdef"><b>Definition</b> <a href="blind__select_8c_source.html#l00473">blind_select.c:473</a></div></div>

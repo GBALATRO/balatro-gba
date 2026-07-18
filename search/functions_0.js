@@ -6,5 +6,7 @@ var searchData=
   ['affine_5fbackground_5fload_5fpalette_3',['affine_background_load_palette',['../affine__background_8h.html#ad1390b2f0cb79fba57be0eb5663b2d76',1,'affine_background.c']]],
   ['affine_5fbackground_5fset_5fcolor_4',['affine_background_set_color',['../affine__background_8h.html#a18432fdcb05ae0677341522862f4b742',1,'affine_background.c']]],
   ['affine_5fbackground_5fupdate_5',['affine_background_update',['../affine__background_8h.html#a55fdb6345d3e66a7c7af446e3dd5f070',1,'affine_background.c']]],
-  ['audio_5fparam_5fupdate_6',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]]
+  ['apply_5fblind_5fcolors_6',['apply_blind_colors',['../blind_8h.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c'],['../blind_8c.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c']]],
+  ['apply_5fblind_5ftiles_7',['apply_blind_tiles',['../blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c'],['../blind_8c.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c']]],
+  ['audio_5fparam_5fupdate_8',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]]
 ];

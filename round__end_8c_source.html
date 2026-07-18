@@ -237,7 +237,7 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_ROUND_END, <span class="keyword">false</span>); <span class="comment">// Change the background to the round end background</span></div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <a class="code hl_function" href="state__machine_8h.html#ac887ec8b325e136d801a6d1c30e55d15">state_machine_change_state</a>(&amp;round_end_sm, START_EXPAND_POPUP);</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        g_game_vars.timer = TM_ZERO; <span class="comment">// Reset the timer</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        blind_reward = blind_get_reward(g_game_vars.current_blind);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        blind_reward = <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(g_game_vars.current_blind);</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        hand_reward = g_game_vars.hands;</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        interest_reward = calculate_interest_reward();</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        interest_to_count = interest_reward;</div>
@@ -267,7 +267,7 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        current_ante--;</div>
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    Rect blind_req_rect = ROUND_END_BLIND_REQ_RECT;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    u32 blind_req = blind_get_requirement(g_game_vars.current_blind, current_ante);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    u32 blind_req = <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, current_ante);</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="comment">/* Not bothering to truncate here because there are 8 tiles</span></div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">     * and the blind requirement will not increase past ante 8</span></div>
@@ -341,7 +341,7 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            ROUND_END_BLIND_REWARD_RECT.left,</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            ROUND_END_BLIND_REWARD_RECT.top,</div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            TTE_YELLOW_PB,</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            blind_get_reward(g_game_vars.current_blind) - blind_reward</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(g_game_vars.current_blind) - blind_reward</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        );</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (g_game_vars.timer &gt; FRAMES(20))</div>
@@ -508,7 +508,7 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_end_cashout(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>{</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <span class="comment">// Reward the player</span></div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    g_game_vars.money += g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    g_game_vars.money += g_game_vars.hands + <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(g_game_vars.current_blind) +</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>                         calculate_interest_reward();</div>
 <div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    display_money();</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
@@ -529,7 +529,7 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 <div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        <span class="comment">// Put the &quot;cash out&quot; button onto the round end panel</span></div>
 <div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>        <a class="code hl_function" href="graphic__utils_8h.html#a71f811b27a9e3895ab0be4dc68f51405">main_bg_se_copy_expand_3x3_rect</a>(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);</div>
 <div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        <span class="keywordtype">int</span> cashout_amount = g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        <span class="keywordtype">int</span> cashout_amount = g_game_vars.hands + <a class="code hl_function" href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a>(g_game_vars.current_blind) +</div>
 <div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>                             calculate_interest_reward();</div>
 <div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span> </div>
 <div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        <span class="keywordtype">bool</span> omit_space = cashout_amount &gt;= 10;</div>
@@ -620,6 +620,8 @@ $(document).ready(function(){initNavTree('round__end_8c_source.html',''); initRe
 </div>
 <div class="ttc" id="aaffine__background_8h_html"><div class="ttname"><a href="affine__background_8h.html">affine_background.h</a></div><div class="ttdoc">Utilities for affine background on GBA.</div></div>
 <div class="ttc" id="aaffine__background_8h_html_ad1390b2f0cb79fba57be0eb5663b2d76"><div class="ttname"><a href="affine__background_8h.html#ad1390b2f0cb79fba57be0eb5663b2d76">affine_background_load_palette</a></div><div class="ttdeci">void affine_background_load_palette(const u16 *src)</div><div class="ttdoc">Set the background palette.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00076">affine_background.c:76</a></div></div>
+<div class="ttc" id="ablind_8h_html_a85fefafb15d88f710cbe1183ac34f3f4"><div class="ttname"><a href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a></div><div class="ttdeci">u32 blind_get_requirement(enum BlindType type, int ante)</div><div class="ttdoc">Get the score required to beat a certain blind (either the Small, Big, or any Boss/Showdown blind) at...</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00106">blind.c:106</a></div></div>
+<div class="ttc" id="ablind_8h_html_af2031f17bfb33cfe0a1815fa66b8bde6"><div class="ttname"><a href="blind_8h.html#af2031f17bfb33cfe0a1815fa66b8bde6">blind_get_reward</a></div><div class="ttdeci">int blind_get_reward(enum BlindType type)</div><div class="ttdoc">Get the amount of money gained from beating a certain Blind.</div><div class="ttdef"><b>Definition</b> <a href="blind_8c_source.html#l00115">blind.c:115</a></div></div>
 <div class="ttc" id="acommon__ui_8h_html_a7cc065b753e494969940447dfb3fb599"><div class="ttname"><a href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a></div><div class="ttdeci">void change_background(enum BackgroundId id, bool force_redraw)</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00035">common_ui.c:35</a></div></div>
 <div class="ttc" id="acommon__ui_8h_html_ad91f726cfa93c1262dc1c4108f7c83c9"><div class="ttname"><a href="common__ui_8h.html#ad91f726cfa93c1262dc1c4108f7c83c9">reset_top_left_panel_bottom_row</a></div><div class="ttdeci">void reset_top_left_panel_bottom_row(void)</div><div class="ttdoc">Restores the bottom row of the top-left panel from the background map.</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00048">common_ui.c:48</a></div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>

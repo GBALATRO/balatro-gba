@@ -4,7 +4,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "affine_background.h", "affine__background_8h.html", "affine__background_8h" ],
     [ "audio_utils.h", "audio__utils_8h.html", "audio__utils_8h" ],
     [ "bitset.h", "bitset_8h.html", "bitset_8h" ],
-    [ "blind.h", "blind_8h_source.html", null ],
+    [ "blind.h", "blind_8h.html", "blind_8h" ],
     [ "blind_gfx.h", "blind__gfx_8h_source.html", null ],
     [ "button.h", "button_8h.html", "button_8h" ],
     [ "card.h", "card_8h_source.html", null ],
