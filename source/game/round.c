@@ -1502,10 +1502,7 @@ static bool joker_object_score(
     enum JokerEvent joker_event
 )
 {
-    if (joker_object == NULL)
-    {
-        return false;
-    }
+    GBAL_RETURN_IF_NULL_RET(joker_object, false);
 
     JokerEffect* joker_effect = NULL;
     u32 effect_flags_ret =
