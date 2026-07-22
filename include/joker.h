@@ -245,7 +245,6 @@ void joker_reset_rollable_jokers(void);
  */
 Item* joker_object_roll_new(enum RngSequence key);
 
-
 Sprite* joker_object_get_sprite(JokerObject* joker_object);
 
 #endif // JOKER_H
