@@ -2,18 +2,14 @@
 #define CARD_H
 
 #include "deck_types.h"
+#include "game/common_ui.h"
 #include "item.h"
 
 #include <maxmod.h>
 #include <tonc.h>
 
-#define MAX_CARDS           128 // Arbitrary high value so we don't have issues
-#define MAX_CARDS_ON_SCREEN 16
-
-#define CARD_TID            0
-#define CARD_SPRITE_OFFSET  16
-#define CARD_PB             0
-#define CARD_STARTING_LAYER 0
+#define MAX_CARDS           128                 // Arbitrary high value so we don't have issues
+#define MAX_CARDS_ON_SCREEN (MAX_HAND_SIZE + 1) // Add room for the Deck sprite
 
 // Card suits
 #define DIAMONDS  0
@@ -75,8 +71,13 @@ u8 card_get_value(Card* card);
 // CardObject methods
 CardObject* card_object_new(Card* card);
 void card_object_destroy(CardObject** card_object);
-void card_object_set_sprite(CardObject* card_object, int layer);
-void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, int layer);
+void card_object_set_sprite(CardObject* card_object, enum SpriteType sprite_type, int layer);
+void card_object_set_sprite_face_down(
+    CardObject* card_object,
+    enum DeckType deck,
+    enum SpriteType sprite_type,
+    int layer
+);
 void card_object_shake(CardObject* card_object, mm_word sound_id);
 
 void card_object_set_selected(CardObject* card_object, bool selected);

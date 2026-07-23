@@ -9,6 +9,7 @@
 #include "audio_utils.h"
 #include "card.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
@@ -67,7 +68,7 @@ static Hand s_hand = {
     .hand_selections = 0,
     .hand_type = NONE,
     .contained_hands = {{{0}}},
-    .state = HAND_DRAW,
+    .state = HAND_TAGS,
     .sort_by_suit = false
 };
 
@@ -176,6 +177,8 @@ void swap_cards_in_hand(int idx_a, int idx_b)
     CardObject* temp = s_hand.cards[idx_a];
     s_hand.cards[idx_a] = s_hand.cards[idx_b];
     s_hand.cards[idx_b] = temp;
+    int starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
+    sprite_swap_layers(starting_layer + idx_a, starting_layer + idx_b);
 }
 
 static inline void sort_hand_by_suit(void)
@@ -212,7 +215,7 @@ static inline void sort_hand_by_rank(void)
     }
 }
 
-static inline bool shift_null_card_to_end(int null_card_idx)
+bool shift_null_card_to_end(int null_card_idx)
 {
     // Start by searching any non NULL cards after the NULL one
     // don't start at null_card_idx+1 to avoid potential illegal array access
@@ -235,7 +238,14 @@ static inline bool shift_null_card_to_end(int null_card_idx)
     // This way we close the gap and ensure the next card is not NULL
     for (int j = 0; j <= s_hand.hand_top - non_null_card_idx; j++)
     {
+        CardObject* tmp_object = s_hand.cards[null_card_idx + j];
         s_hand.cards[null_card_idx + j] = s_hand.cards[non_null_card_idx + j];
+        s_hand.cards[non_null_card_idx + j] = tmp_object;
+        int starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
+        sprite_swap_layers(
+            starting_layer + null_card_idx + j,
+            starting_layer + non_null_card_idx + j
+        );
     }
 
     return true;
@@ -256,9 +266,6 @@ void reorder_card_sprites_layers(void)
                 break;
             }
         }
-
-        // card_object_get_sprite() will not work here since we need the address
-        sprite_destroy(&(s_hand.cards[i]->sprite));
     }
 
     // Recreate the sprites for the remaining non NULL cards, in order
@@ -267,7 +274,6 @@ void reorder_card_sprites_layers(void)
         if (s_hand.cards[i] != NULL)
         {
             // Set the sprite for the card object
-            card_object_set_sprite(s_hand.cards[i], i);
             sprite_position(
                 card_object_get_sprite(s_hand.cards[i]),
                 fx2int(s_hand.cards[i]->x),

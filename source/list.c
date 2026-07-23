@@ -145,7 +145,19 @@ void list_insert(List* list, void* data, unsigned int idx)
     }
 }
 
-bool list_swap(List* list, unsigned int idx_a, unsigned int idx_b)
+bool list_swap(ListNode* node_a, ListNode* node_b)
+{
+    if (node_a == NULL || node_b == NULL)
+        return false;
+
+    void* tmp = node_a->data;
+    node_a->data = node_b->data;
+    node_b->data = tmp;
+
+    return true;
+}
+
+bool list_swap_at_idx(List* list, unsigned int idx_a, unsigned int idx_b)
 {
     if (idx_a >= list->len || idx_b >= list->len)
         return false;

@@ -44,14 +44,23 @@ typedef struct
 
     // Variables visible by the player
 
-    s32 round;
-    s32 ante;
+    u32 score;
+    u32 chips;
+    u32 mult;
+    s32 hands;
+    s32 discards;
     s32 money;
     s32 hand_size;
+    s32 ante;
+    s32 round;
     s32 deck;
+    u32 nb_played_hands[HAND_TYPE_MAX];
+
+    // Hidden run variables
 
     u32 best_hand_score;
-    u32 nb_played_hands[HAND_TYPE_MAX];
+    u32 nb_skipped_rounds;
+    u32 nb_unused_discards;
 
     // Blind variables
 
@@ -59,14 +68,9 @@ typedef struct
     enum BlindType next_boss_blind;
     enum BlindState blinds_states[NUM_BLINDS_PER_ANTE];
 
-    s32 hands;
-    s32 discards;
-    u32 score;
-    u32 chips;
-    u32 mult;
-
     Sprite* playing_blind_token;
     Sprite* round_end_blind_token;
+
     // Options variables
 
     // BY DEFAULT IS SET TO 1, but if changed to 2 or more, should speed up all (or most) of the

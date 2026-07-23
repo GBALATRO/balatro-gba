@@ -54,7 +54,7 @@ const static u8 EDITION_PRICE_LUT[MAX_EDITIONS] = {
    logic. But I'm going to use a simpler approach for the joker objects since I'm lazy and sorting
    them wouldn't look good enough to warrant the effort.
 */
-static bool s_used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for joker sprites
+static bool s_used_layers[MAX_ACTIVE_JOKERS] = {false}; // Track used layers for joker sprites
 // TODO: Refactor sorting into SpriteObject?
 
 // Maps the spritesheet index to the palette bank index allocated to it.
@@ -207,7 +207,7 @@ JokerObject* joker_object_new(Joker* joker)
     sprite_object_init((SpriteObject*)joker_object);
 
     int layer = 0;
-    for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
+    for (int i = MAX_ACTIVE_JOKERS - 1; i >= 0; i--)
     {
         if (!s_used_layers[i])
         {
@@ -221,8 +221,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     joker_object->type = ITEM_TYPE_JOKER;
 
-    int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
-
+    int tile_index = sprite_type_get_avail_tid(JOKER_SPRITE);
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
@@ -230,18 +229,19 @@ JokerObject* joker_object_new(Joker* joker)
 
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
-        TILE_SIZE * JOKER_SPRITE_OFFSET
+        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_SIZE],
+        TILE_SIZE * JOKER_SPRITE_SIZE
     );
 
     sprite_object_set_sprite(
         (SpriteObject*)joker_object,
         sprite_new(
+            JOKER_SPRITE,
             ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             ATTR1_SIZE_32,
             tile_index,
             joker_pb,
-            JOKER_STARTING_LAYER + layer
+            layer
         )
     );
 
@@ -253,7 +253,8 @@ void joker_object_destroy(JokerObject** joker_object)
     if (joker_object == NULL || *joker_object == NULL)
         return;
 
-    int layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) - JOKER_STARTING_LAYER;
+    int layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
+                sprite_type_get_starting_layer(JOKER_SPRITE);
     s_used_layers[layer] = false;
     s_joker_pb_remove_sprite_user(sprite_get_pb(joker_object_get_sprite(*joker_object)));
     if (s_joker_pb_get_num_sprite_users((sprite_get_pb(joker_object_get_sprite(*joker_object)))) ==
@@ -304,6 +305,7 @@ void joker_object_add_to_owned(Item* joker_object)
 
     joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
+    sprite_object_sort_list((void*)get_jokers_list(), true);
 }
 
 void joker_set_rollable(int joker_id, bool rollable)
@@ -350,14 +352,18 @@ void joker_reset_rollable_jokers(void)
  */
 static int joker_roll_id(void)
 {
+    // Roll for what rarity the joker will be
+    int joker_rarity = joker_get_random_rarity();
+    return joker_roll_id_with_rarity(joker_rarity);
+}
+
+int joker_roll_id_with_rarity(int joker_rarity)
+{
     // Now determine how many jokers are available based on the rarity
     int jokers_avail_size = get_num_rollable_jokers();
 
     if (jokers_avail_size == 0)
         return UNDEFINED;
-
-    // Roll for what rarity the joker will be
-    int joker_rarity = joker_get_random_rarity();
 
     int matching_joker_ids[jokers_avail_size];
     int fallback_random_idx = rng_get_u32() % jokers_avail_size;

@@ -10,6 +10,8 @@
 #include "game/shop.h"
 #include "layout.h"
 
+// Backgrounds
+
 typedef void (*BackgroundRenderCallback)(void);
 
 static enum BackgroundId s_background = BG_NONE;

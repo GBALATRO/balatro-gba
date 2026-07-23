@@ -19,4 +19,6 @@
 
 #define MENU_POP_OUT_ANIM_FRAMES 20
 
+#define TM_SKIP_TAG_ANIM_DURATION 30
+
 #endif // TIMER_H

@@ -154,7 +154,6 @@ REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 
-// clang-format off
 /* The index of a joker in the registry matches its ID.
  *
  * The joker sprites are matched by ID so the position in the registry

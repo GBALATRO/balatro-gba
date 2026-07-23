@@ -200,6 +200,18 @@ void list_push_back(List* list, void* data);
 void list_insert(List* list, void* data, unsigned int idx);
 
 /**
+ * @brief Swaps the data of two ListNodes.
+ *
+ * It is not imperative that the two nodes belong to the same List, but since this is mainly used
+ * when sorting a List they will most likely be anyway.
+ *
+ * @param node_a pointer to the first ListNode, cannot be **NULL*
+ * @param node_b pointer to the second ListNode, cannot be **NULL*
+ * @return true if the data could be swapped, false if either pointer was **NULL**
+ */
+bool list_swap(ListNode* node_a, ListNode* node_b);
+
+/**
  * Swap the data pointers at the specified indices of a @ref List
  *
  * If either indices are larger than the length of the list, return false.
@@ -210,7 +222,7 @@ void list_insert(List* list, void* data, unsigned int idx);
  *
  * @return true if successful, false otherwise
  */
-bool list_swap(List* list, unsigned int idx_a, unsigned int idx_b);
+bool list_swap_at_idx(List* list, unsigned int idx_a, unsigned int idx_b);
 
 /**
  * Get a List's node at the specified index

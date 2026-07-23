@@ -13,14 +13,45 @@
  * @name Sprite system constants
  * @{
  */
-#define CARD_SPRITE_SIZE                  32
+#define CARD_SPRITE_SIZE_PX               32
 #define MAX_AFFINES                       32
 #define MAX_SPRITES                       128
 #define MAX_SPRITE_OBJECTS                16
 #define SPRITE_FOCUS_RAISE_PX             10
 #define CARD_FOCUS_SFX_PITCH_OFFSET_RANGE 512
 
+// This won't be more than the number of jokers in your current deck
+// plus the amount that can fit in the shop, 8 should be fine. For now...
+#define MAX_SHOP_JOKERS    2
+#define MAX_OWNED_JOKERS   5
+#define MAX_ACTIVE_JOKERS  (MAX_SHOP_JOKERS + MAX_OWNED_JOKERS)
+#define MAX_HAND_SIZE      16
+#define MAX_SELECTION_SIZE 5
+#define MAX_BLIND_TOKEN    5
+#define MAX_SKIP_TAGS      16
+
+// Sprite sizes in number of tiles
+#define CARD_SPRITE_SIZE     16
+#define JOKER_SPRITE_SIZE    CARD_SPRITE_SIZE
+#define BLIND_SPRITE_SIZE    16
+#define SKIP_TAG_SPRITE_SIZE 4
 /** @} */
+
+/**
+ * @brief The different types of sprites in the game.
+ *
+ * Defining sprite types allows to easily rearrange, expand, and get the info about sprites
+ */
+enum SpriteType
+{
+    CARD_SPRITE,
+    CARD_PLAYED_SPRITE,
+    BLIND_TOKEN_SPRITE,
+    JOKER_SPRITE,
+    SKIP_TAG_SPRITE,
+    DECK_SPRITE,
+    MAX_SPRITE_TYPE
+};
 
 /**
  * @brief Sprite struct for GBA hardware specifics
@@ -31,6 +62,9 @@ typedef struct
      * @brief GBA sprite attribute registers info (A0-A2)
      */
     OBJ_ATTR* obj;
+
+    u16 a0;
+    u16 a1;
 
     /**
      * @brief GBA sprite affine matrices registers info
@@ -46,6 +80,16 @@ typedef struct
      * @brief Sprite index in memory managed by GBAlatro
      */
     int idx;
+
+    /**
+     * @brief Index of the Sprite's tile data in memory, relative to the Sprite type's starting tid
+     */
+    u32 tid_slot;
+
+    /**
+     * @brief type of the Sprite, used to free the tid when destroyed
+     */
+    enum SpriteType type;
 } Sprite;
 
 /**
@@ -112,16 +156,17 @@ typedef struct
 /**
  * @brief Allocate and retrieve a pointer to a valid Sprite
  *
+ * @param sprite_type type of the sprite
  * @param a0 attribute 0 of OBJ_ATTR
  * @param a1 attribute 1 of OBJ_ATTR
  * @param tid base tile index of sprite, part of attribute 2
  * @param pb Palette-bank
- * @param sprite_index index in memory
+ * @param layer index in memory, relative the Sprite type's starting layer
  *
  * @return Valid Sprite if allocations are successful.
  *         Otherwise, return **NULL**.
  */
-Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index);
+Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, u32 tid, u32 pb, int layer);
 
 /**
  * @brief Destroy Sprite
@@ -131,6 +176,25 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index);
 void sprite_destroy(Sprite** sprite);
 
 /**
+ * @brief Get an available tile index for a certain SpriteType and mark it as used
+ *
+ * This function completely decouples the tile index from the layer, so that sprites
+ * can be reordered independently of where they are placed in memory
+ *
+ * @param sprite_type
+ * @return index in tiles memory where to put the sprite
+ */
+u32 sprite_type_get_avail_tid(enum SpriteType sprite_type);
+
+/**
+ * @brief Get the starting layer of a certain type of sprite
+ *
+ * @param sprite_type
+ * @return int
+ */
+int sprite_type_get_starting_layer(enum SpriteType sprite_type);
+
+/**
  * @brief Get index of Sprite in the GBA object buffer
  *
  * @param sprite pointer to Sprite, cannot be **NULL**
@@ -138,6 +202,29 @@ void sprite_destroy(Sprite** sprite);
  * @return Index of sprite in object buffer if `sprite` is valid, otherwise **UNDEFINED**.
  */
 int sprite_get_layer(Sprite* sprite);
+
+/**
+ * @brief Swap the layers of the two Sprites located at the given indices
+ *
+ * Since this version is exposed mainly for the cards in Hand, it's made so that the Sprites
+ * themselves are not needed in any way, the only data that will be moved is the OBJ_ATTR
+ * structures in OAM memory.
+ *
+ * Thus, the Sprites at sprite_index1 and sprite_index2 can be non-existent, the underlying data
+ * will be moved all the same with no issue.
+ *
+ * @param sprite_index1 layer of the first Sprite, between 0 and 127
+ * @param sprite_index2 layer of the second Sprite, between 0 and 127
+ */
+void sprite_swap_layers(int sprite_index1, int sprite_index2);
+
+/**
+ * @brief Recover the tile index attributed to a Sprite located at layer `sprite_index`
+ *
+ * @param sprite_index layer the sprite we want is located at
+ * @return tile index of the requested sprite
+ */
+u32 sprite_get_tid_from_layer(int sprite_index);
 
 /**
  * @brief Get a Sprite's width and height
@@ -256,6 +343,32 @@ void sprite_object_update_all(void);
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
 
 /**
+ * @brief Make SpriteObject bounce by slightly growing on screen and play a sound
+ *
+ * @param SpriteObject pointer to SpriteObject to make bounce. Cannot be **NULL**.
+ * @param strength how much does the sprite bounce, higher values yield a bigger bounce.
+ *        Recommended values are [0.5;2.0], although 1.0 is ideal.
+ * @param sound_id ID of sound from maxmod to play on executing bounce. If **UNDEFINED**
+ *        no sound will play.
+ */
+void sprite_object_bounce_grow(SpriteObject* sprite_object, float strength, mm_word sound_id);
+
+/**
+ * @brief Make SpriteObject bounce by slightly rotating on screen
+ *
+ * @param SpriteObject pointer to SpriteObject to make bounce. Cannot be **NULL**.
+ */
+void sprite_object_bounce_sway(SpriteObject* sprite_object);
+
+/**
+ * @brief Slide SpriteObject across the screen between from the current position to another
+ *
+ * @param SpriteObject pointer to SpriteObject to move. Cannot be **NULL**.
+ * @param to target position. Cannot be **UNDEFINED**.
+ */
+void sprite_object_slide_to(SpriteObject* sprite_object, BG_POINT to);
+
+/**
  * @brief Get a SpriteObject's registered Sprite
  *
  * @param sprite_object pointer to SpriteObject's registered Sprite. Cannot be **NULL**.
@@ -265,6 +378,29 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
  *         Sprite registered to the SpriteObject.
  */
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object);
+
+/**
+ * @brief Swap the layers of two existing, non-NULL SpriteObjects.
+ *
+ * @param sprite_object1 pointer to the first SpriteObject, cannot be **NULL**
+ * @param sprite_object2 pointer to the second SpriteObject, cannot be **NULL**
+ *
+ * @sa sprite_swap_layers
+ */
+void sprite_object_swap_layers(SpriteObject* sprite_object1, SpriteObject* sprite_object2);
+
+/**
+ * @brief Sort the Sprite layers of a List of SpriteObjects.
+ *
+ * The order of the ListNodes themselves will not be changed, only the sprite indices.
+ *
+ * @param sprite_object_list pointer to a List, passed as a void* to avoid including list.h in
+ *                            sprite.h
+ * @param ascending sorting by ascending order if true, descending if false
+ *
+ * @sa sprite_object_swap_layers
+ */
+void sprite_object_sort_list(void* sprite_object_list, bool ascending);
 
 /**
  * @brief Set the focus for SpriteObject

@@ -9,6 +9,21 @@
 #include <stdbool.h>
 
 /**
+ * @brief Indices of the palettes for the different type of sprites
+ */
+enum SpritePaletteBanks
+{
+    CARD_PB,
+    DECK_PB,
+    SKIP_TAGS_PB,
+    NORMAL_BLIND_PB,
+    BOSS_BLIND_PB,
+    JOKER_BASE_PB,
+    JOKER_LAST_PB = 15,
+    NUM_PALETTES
+};
+
+/**
  * @brief Enum of possible backgrounds to render with @ref change_background
  */
 enum BackgroundId

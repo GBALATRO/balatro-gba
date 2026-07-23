@@ -13,21 +13,7 @@
 
 #include <maxmod.h>
 
-// This won't be more than the number of jokers in your current deck
-// plus the amount that can fit in the shop, 8 should be fine. For now...
-#define MAX_ACTIVE_JOKERS 8
-
 #define MAX_DEFINABLE_JOKERS 150
-
-#define JOKER_SPRITE_OFFSET  16 // Offset for the joker sprites
-#define JOKER_STARTING_LAYER 26
-// Tile ID for the starting index in the tile memory
-#define JOKER_TID     (JOKER_STARTING_LAYER * JOKER_SPRITE_OFFSET)
-#define JOKER_BASE_PB 4 // The starting palette index for the jokers, after the boss blind tokens
-#define JOKER_LAST_PB (NUM_PALETTES - 1)
-// Currently allocating the rest of the palettes for the jokers.
-// This number needs to be decreased once we need to allocated palettes for other sprites
-// such as planet cards etc.
 
 #define BASE_EDITION     0
 #define FOIL_EDITION     1
@@ -86,8 +72,6 @@ enum JokerEvent
 #define JOKER_EFFECT_FLAG_RETRIGGER (1 << 4)
 #define JOKER_EFFECT_FLAG_EXPIRE    (1 << 5)
 #define JOKER_EFFECT_FLAG_MESSAGE   (1 << 6)
-
-#define MAX_JOKER_OBJECTS 32 // The maximum number of joker objects that can be created at once
 
 // Jokers in the game
 #define STENCIL_JOKER_ID      15
@@ -221,6 +205,15 @@ void joker_object_add_to_owned(Item* joker_object);
  * @param joker_object Pointer to the JokerObject Item* to destroy; set to NULL.
  */
 void joker_object_dispose(Item** joker_object);
+
+/**
+ * @brief Rolls a random Joker among the available ones of a certain rarity
+ *
+ * @param joker_rarity the rarity of the joker we want to roll
+ *
+ * @return rolled joker ID
+ */
+int joker_roll_id_with_rarity(int joker_rarity);
 
 /**
  * @brief Set whether a Joker is available to be rolled for the shop, packs, etc.

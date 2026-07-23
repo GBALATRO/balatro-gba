@@ -11,10 +11,9 @@
 
 #include <tonc.h>
 
-#define MAX_HAND_SIZE 16
-
 enum HandState
 {
+    HAND_TAGS,
     HAND_DRAW,
     HAND_SELECT,
     // This is actually a misnomer because it's used for the deck
@@ -198,6 +197,8 @@ void hand_deselect_all_cards(void);
  * @param idx_b index of the second card
  */
 void swap_cards_in_hand(int idx_a, int idx_b);
+
+bool shift_null_card_to_end(int null_card_idx);
 
 /**
  * @brief Destroy the sprites of the Cards held in hand and recreate then in the same

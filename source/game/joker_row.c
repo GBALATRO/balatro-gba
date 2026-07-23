@@ -63,10 +63,14 @@ bool jokers_sel_row_on_selection_changed(
 
     if (swapping)
     {
-        list_swap(
+        list_swap_at_idx(
             owned_jokers_list,
             (unsigned int)prev_selection->x,
             (unsigned int)new_selection->x
+        );
+        sprite_object_swap_layers(
+            list_get_at_idx(owned_jokers_list, prev_selection->x),
+            list_get_at_idx(owned_jokers_list, new_selection->x)
         );
     }
 
@@ -91,6 +95,8 @@ static inline void game_sell_joker(int joker_idx)
     g_game_vars.money += joker_get_sell_value(joker_object->joker);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)joker_object);
+
+    sprite_object_sort_list((void*)owned_jokers_list, true);
 
     remove_owned_joker(joker_idx);
 

@@ -8,6 +8,8 @@
 
 #ifdef POOLS_TEST_ENV
 #define POOLS_DEF_FILE "def_test_mempool.h"
+#define IWRAM_DATA
+#define EWRAM_DATA
 #else
 #define POOLS_DEF_FILE "def_balatro_mempool.h"
 #endif
@@ -23,10 +25,10 @@
     int pool_idx_##type(type* obj);   \
     type* pool_at_##type(int idx);
 
-#define POOL_DEFINE_TYPE(type, capacity)                                \
+#define POOL_DEFINE_TYPE(type, capacity, ram)                           \
     BITSET_DEFINE(type##_bitset, capacity)                              \
-    static type type##_storage[capacity];                               \
-    static type##Pool type##_pool = {                                   \
+    ram##_DATA static type type##_storage[capacity];                    \
+    ram##_DATA static type##Pool type##_pool = {                        \
         .bitset = &type##_bitset,                                       \
         .objects = type##_storage,                                      \
     };                                                                  \
@@ -60,7 +62,7 @@
 #define POOL_IDX(type, obj)  pool_idx_##type(obj) // the index of the object
 #define POOL_AT(type, idx)   pool_at_##type(idx)  // the object at
 
-#define POOL_ENTRY(name, capacity) POOL_DECLARE_TYPE(name);
+#define POOL_ENTRY(name, capacity, ram) POOL_DECLARE_TYPE(name);
 #include POOLS_DEF_FILE
 #undef POOL_ENTRY
 

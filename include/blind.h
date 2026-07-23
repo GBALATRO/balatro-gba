@@ -28,9 +28,9 @@ enum BlindTokens
 /**
  * @enum BlindTokenLayers
  * @brief Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative
- *         to `BLIND_BASE_LAYER`
+ *         to `BLIND_STARTING_LAYER`
  *
- * @sa BLIND_BASE_LAYER
+ * @sa SpriteStartingLayers
  */
 enum BlindTokenLayers
 {
@@ -200,16 +200,6 @@ void set_blind_beaten(enum BlindType type);
  * @param type of the Blind whose palette we need
  */
 void apply_blind_colors(enum BlindType type);
-
-/**
- * @brief Change the tiles of the BlindToken Sprite at a given layer to that of the given BlindType.
- *
- * @param type of the Blind we want to apply the tiles of.
- * @param layer the Sprite will be located at.
- *
- * @sa BlindTokenLayers
- */
-void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer);
 
 /**
  * @brief Create a new BlindToken sprite.
