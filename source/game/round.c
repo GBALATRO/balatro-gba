@@ -1511,8 +1511,6 @@ static bool joker_object_score(
         set_retrigger(joker_effect->retrigger);
     }
 
-    // joker_effect.message will have been set if the Joker had anything custom to say
-
     int cursorPosX = TILE_SIZE; // Offset of one tile to better center the text on the card
     int cursorPosY = 0;
     if (joker_event == JOKER_EVENT_ON_CARD_HELD)
