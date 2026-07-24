@@ -312,320 +312,319 @@ $(document).ready(function(){initNavTree('sprite_8c_source.html',''); initResiza
 <div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">  158</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a>()</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>{</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    obj_aff_copy(obj_aff_mem, obj_aff_buffer, MAX_AFFINES);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    oam_copy(oam_mem, obj_buffer, MAX_SPRITES);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>}</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    oam_copy(oam_mem, obj_buffer, MAX_SPRITES);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
 </div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
-<div class="foldopen" id="foldopen00164" data-start="{" data-end="}">
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">  164</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">sprite_get_pb</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite)</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>{</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keywordflow">if</span> (sprite == NULL)</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    {</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    }</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">return</span> (sprite-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>-&gt;attr2 &amp; ATTR2_PALBANK_MASK) &gt;&gt; ATTR2_PALBANK_SHIFT;</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>}</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">  163</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">sprite_get_pb</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>{</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">if</span> (sprite == NULL)</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keywordflow">return</span> (sprite-&gt;<a class="code hl_variable" href="structSprite.html#abdcca0516e817f6f84009b3ace44c495">obj</a>-&gt;attr2 &amp; ATTR2_PALBANK_MASK) &gt;&gt; ATTR2_PALBANK_SHIFT;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>}</div>
 </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="comment">// SpriteObject methods</span></div>
-<div class="foldopen" id="foldopen00174" data-start="{" data-end="}">
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">  174</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">sprite_object_init</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>{</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(sprite_object);</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a> = NULL;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>(sprite_object);</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(&amp;sprite_objects_list, sprite_object);</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="comment">// SpriteObject methods</span></div>
+<div class="foldopen" id="foldopen00173" data-start="{" data-end="}">
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">  173</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">sprite_object_init</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>{</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(sprite_object);</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a> = NULL;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>(sprite_object);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <a class="code hl_function" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a>(&amp;sprite_objects_list, sprite_object);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>}</div>
 </div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
-<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">  185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">sprite_object_destroy</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>{</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <a class="code hl_function" href="list_8h.html#ae1d25f27308bb98d6ac23c11b4c81cde">list_remove_data</a>(&amp;sprite_objects_list, sprite_object);</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>);</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>}</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="foldopen" id="foldopen00184" data-start="{" data-end="}">
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">  184</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">sprite_object_destroy</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>{</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <a class="code hl_function" href="list_8h.html#ae1d25f27308bb98d6ac23c11b4c81cde">list_remove_data</a>(&amp;sprite_objects_list, sprite_object);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}</div>
 </div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
-<div class="foldopen" id="foldopen00195" data-start="{" data-end="}">
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">  195</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">sprite_object_set_sprite</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite)</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>{</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>); <span class="comment">// Destroy the old sprite if it exists</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a> = sprite;</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>}</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="foldopen" id="foldopen00194" data-start="{" data-end="}">
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">  194</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">sprite_object_set_sprite</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <a class="code hl_struct" href="structSprite.html">Sprite</a>* sprite)</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>{</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <a class="code hl_function" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a>(&amp;sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>); <span class="comment">// Destroy the old sprite if it exists</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a> = sprite;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>}</div>
 </div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
-<div class="foldopen" id="foldopen00203" data-start="{" data-end="}">
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">  203</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>{</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <a class="code hl_function" href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a>(sprite_object, 0, 0); <span class="comment">// Target position</span></div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = 0;</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    sprite_object-&gt;vy = 0;</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> = FIX_ONE; <span class="comment">// Target scale</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> = FIX_ONE;</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = 0;</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> = 0; <span class="comment">// Target rotation</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> = 0;</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = 0;</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="foldopen" id="foldopen00202" data-start="{" data-end="}">
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">  202</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>{</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <a class="code hl_function" href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a>(sprite_object, 0, 0); <span class="comment">// Target position</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = 0;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    sprite_object-&gt;vy = 0;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> = FIX_ONE; <span class="comment">// Target scale</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> = FIX_ONE;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = 0;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> = 0; <span class="comment">// Target rotation</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> = 0;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = 0;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>}</div>
 </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> sprite_object_has_velocity(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>{</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> != 0 || sprite_object-&gt;vy != 0 || sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> != 0 ||</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>           sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> != 0;</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>}</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> sprite_object_at_target(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* s)</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>{</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordflow">return</span> s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> &amp;&amp; s-&gt;y == s-&gt;ty &amp;&amp; s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> &amp;&amp; s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a>;</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>}</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> is_sprite_object_static(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>{</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keywordflow">return</span> !sprite_object_has_velocity(sprite_object) &amp;&amp; sprite_object_at_target(sprite_object);</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>}</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keyword">static</span> <span class="keyword">inline</span> IWRAM_CODE <span class="keywordtype">void</span> update_sprite_position(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>{</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> += ((sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>) * g_game_vars.game_speed) / 8;</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    sprite_object-&gt;vy += ((sprite_object-&gt;ty - sprite_object-&gt;y) * g_game_vars.game_speed) / 8;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="comment">// Scale up the card when it&#39;s played</span></div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> += (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a>) / 8;</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="comment">// Rotate the card when it&#39;s played</span></div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> += (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a>) / 8;</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <span class="keyword">const</span> FIXED epsilon = (FIX_ONE &gt;&gt; 6); <span class="comment">// = 1/2^6 = 0.015625</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="comment">// Snap to target position when velocity is negligible to avoid infinite approach</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a>) &lt; epsilon &amp;&amp; abs(sprite_object-&gt;vy) &lt; epsilon)</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    {</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = 0;</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        sprite_object-&gt;vy = 0;</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a>;</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        sprite_object-&gt;y = sprite_object-&gt;ty;</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    }</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    {</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                            SPRING_DAMP_DENOM_SHIFT;</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        sprite_object-&gt;vy = (sprite_object-&gt;vy * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>                            SPRING_DAMP_DENOM_SHIFT;</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a>;</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        sprite_object-&gt;y += sprite_object-&gt;vy;</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    }</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <span class="comment">// Set scale to 0 if it&#39;s close enough to the target</span></div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a>) &lt; epsilon)</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    {</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = 0;</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a>;</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    }</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    {</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> =</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>            SPRING_DAMP_DENOM_SHIFT;</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a>;</div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    }</div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="comment">// For rotation, prioritize snapping to target if close enough, then zero velocity.</span></div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a>) &lt; epsilon)</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    {</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = 0;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a>;</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    }</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="keywordflow">else</span> <span class="comment">// Apply damping and update rotation if not yet settled</span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    {</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> =</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>            (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            SPRING_DAMP_DENOM_SHIFT;</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a>;</div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    }</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span> </div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="comment">// Apply rotation and scale to the sprite</span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    obj_aff_rotscale(</div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#a2cb045818544027034fbf51906cbe47e">aff</a>,</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> sprite_object_has_velocity(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>{</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> != 0 || sprite_object-&gt;vy != 0 || sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> != 0 ||</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>           sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> != 0;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>}</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> sprite_object_at_target(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* s)</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>{</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordflow">return</span> s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> &amp;&amp; s-&gt;y == s-&gt;ty &amp;&amp; s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> &amp;&amp; s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> == s-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a>;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>}</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> is_sprite_object_static(<span class="keyword">const</span> <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>{</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordflow">return</span> !sprite_object_has_velocity(sprite_object) &amp;&amp; sprite_object_at_target(sprite_object);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>}</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="keyword">static</span> <span class="keyword">inline</span> IWRAM_CODE <span class="keywordtype">void</span> update_sprite_position(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>{</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> += ((sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>) * g_game_vars.game_speed) / 8;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    sprite_object-&gt;vy += ((sprite_object-&gt;ty - sprite_object-&gt;y) * g_game_vars.game_speed) / 8;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="comment">// Scale up the card when it&#39;s played</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> += (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a>) / 8;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="comment">// Rotate the card when it&#39;s played</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> += (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a> - sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a>) / 8;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="keyword">const</span> FIXED epsilon = (FIX_ONE &gt;&gt; 6); <span class="comment">// = 1/2^6 = 0.015625</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="comment">// Snap to target position when velocity is negligible to avoid infinite approach</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a>) &lt; epsilon &amp;&amp; abs(sprite_object-&gt;vy) &lt; epsilon)</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = 0;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        sprite_object-&gt;vy = 0;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a>;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        sprite_object-&gt;y = sprite_object-&gt;ty;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    {</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> = (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>                            SPRING_DAMP_DENOM_SHIFT;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        sprite_object-&gt;vy = (sprite_object-&gt;vy * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                            SPRING_DAMP_DENOM_SHIFT;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        sprite_object-&gt;y += sprite_object-&gt;vy;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    }</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="comment">// Set scale to 0 if it&#39;s close enough to the target</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a>) &lt; epsilon)</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    {</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = 0;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253">tscale</a>;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    }</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> =</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>            (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            SPRING_DAMP_DENOM_SHIFT;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a>;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    }</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="comment">// For rotation, prioritize snapping to target if close enough, then zero velocity.</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="keywordflow">if</span> (abs(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a>) &lt; epsilon)</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = 0;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> = sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039">trotation</a>;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    }</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <span class="keywordflow">else</span> <span class="comment">// Apply damping and update rotation if not yet settled</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    {</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> =</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>            (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> * SPRING_DAMP_NUMERATOR + SPRING_DAMP_ROUNDING) &gt;&gt;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>            SPRING_DAMP_DENOM_SHIFT;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a> += sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a>;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    }</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="comment">// Apply rotation and scale to the sprite</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    obj_aff_rotscale(</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>-&gt;<a class="code hl_variable" href="structSprite.html#a2cb045818544027034fbf51906cbe47e">aff</a>,</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a>,</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a>,</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6fd1da2014d2160d199c728234245594">scale</a>,</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>        -sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> + sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    );</div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>}</div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
-<div class="foldopen" id="foldopen00302" data-start="{" data-end="}">
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno"><a class="line" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">  302</a></span>IWRAM_CODE <span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>{</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="keywordflow">if</span> (!is_sprite_object_static(sprite_object))</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        update_sprite_position(sprite_object);</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>    <a class="code hl_function" href="sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e">sprite_position</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, fx2int(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>), fx2int(sprite_object-&gt;y));</div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>}</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        -sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344">vx</a> + sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae">rotation</a></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    );</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>}</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
+<div class="foldopen" id="foldopen00301" data-start="{" data-end="}">
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno"><a class="line" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">  301</a></span>IWRAM_CODE <span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>{</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordflow">if</span> (!is_sprite_object_static(sprite_object))</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        update_sprite_position(sprite_object);</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <a class="code hl_function" href="sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e">sprite_position</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, fx2int(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8">x</a>), fx2int(sprite_object-&gt;y));</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>}</div>
 </div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
-<div class="foldopen" id="foldopen00310" data-start="{" data-end="}">
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno"><a class="line" href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">  310</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">sprite_object_update_all</a>(<span class="keywordtype">void</span>)</div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>{</div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object = NULL;</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;sprite_objects_list);</div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    <span class="keywordflow">while</span> ((sprite_object = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    {</div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        <a class="code hl_function" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a>(sprite_object);</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    }</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>}</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span> </div>
+<div class="foldopen" id="foldopen00309" data-start="{" data-end="}">
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno"><a class="line" href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">  309</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">sprite_object_update_all</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>{</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object = NULL;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <a class="code hl_struct" href="structListItr.html">ListItr</a> itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(&amp;sprite_objects_list);</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>    <span class="keywordflow">while</span> ((sprite_object = <a class="code hl_function" href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a>(&amp;itr)))</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    {</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        <a class="code hl_function" href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a>(sprite_object);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    }</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>}</div>
 </div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="foldopen" id="foldopen00320" data-start="{" data-end="}">
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">  320</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">sprite_object_shake</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, mm_word sound_id)</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>{</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span> </div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = float2fx(0.3f);</div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = float2fx(8.0f); <span class="comment">// Rotate the card when it&#39;s scored</span></div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keywordflow">if</span> (sound_id == UNDEFINED)</div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="keywordflow">return</span>; <span class="comment">// If no sound ID is provided, do nothing</span></div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(sound_id, <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>, <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a>);</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>}</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
+<div class="foldopen" id="foldopen00319" data-start="{" data-end="}">
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno"><a class="line" href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">  319</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">sprite_object_shake</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, mm_word sound_id)</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>{</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e">vscale</a> = float2fx(0.3f);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7">vrotation</a> = float2fx(8.0f); <span class="comment">// Rotate the card when it&#39;s scored</span></div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span> </div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="keywordflow">if</span> (sound_id == UNDEFINED)</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        <span class="keywordflow">return</span>; <span class="comment">// If no sound ID is provided, do nothing</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(sound_id, <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a>, <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a>);</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>}</div>
 </div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
-<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="sprite_8h.html#abe95d2088cb9739deb50864189556121">  334</a></span><a class="code hl_struct" href="structSprite.html">Sprite</a>* <a class="code hl_function" href="sprite_8h.html#abe95d2088cb9739deb50864189556121">sprite_object_get_sprite</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>{</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>;</div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>}</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span> </div>
+<div class="foldopen" id="foldopen00333" data-start="{" data-end="}">
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="sprite_8h.html#abe95d2088cb9739deb50864189556121">  333</a></span><a class="code hl_struct" href="structSprite.html">Sprite</a>* <a class="code hl_function" href="sprite_8h.html#abe95d2088cb9739deb50864189556121">sprite_object_get_sprite</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>{</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>;</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>}</div>
 </div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
-<div class="foldopen" id="foldopen00341" data-start="{" data-end="}">
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">  341</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">sprite_object_set_focus</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">bool</span> focus)</div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>{</div>
-<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="keywordflow">if</span> (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> == focus)</div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    {</div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    }</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> = focus;</div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        SFX_CARD_FOCUS,</div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>        <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a> + <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>        <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    );</div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    sprite_object-&gt;ty = sprite_object-&gt;ty + int2fx((focus ? -1 : 1) * SPRITE_FOCUS_RAISE_PX);</div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>}</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="foldopen" id="foldopen00340" data-start="{" data-end="}">
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno"><a class="line" href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">  340</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">sprite_object_set_focus</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">bool</span> focus)</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>{</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordflow">if</span> (sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> == focus)</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    {</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    }</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a> = focus;</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    <a class="code hl_function" href="audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69">play_sfx</a>(</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>        SFX_CARD_FOCUS,</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        <a class="code hl_define" href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a> + <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % CARD_FOCUS_SFX_PITCH_OFFSET_RANGE,</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>        <a class="code hl_define" href="audio__utils_8h.html#ada4aed6bf6aa0cfb9b37e393f4c9de86">SFX_DEFAULT_VOLUME</a></div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    );</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    sprite_object-&gt;ty = sprite_object-&gt;ty + int2fx((focus ? -1 : 1) * SPRITE_FOCUS_RAISE_PX);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>}</div>
 </div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
-<div class="foldopen" id="foldopen00357" data-start="{" data-end="}">
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno"><a class="line" href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">  357</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">sprite_object_get_width</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* width)</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>{</div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    {</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    }</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span> </div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d">sprite_get_width</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, width);</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>}</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span> </div>
+<div class="foldopen" id="foldopen00356" data-start="{" data-end="}">
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">  356</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">sprite_object_get_width</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* width)</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>{</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    {</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    }</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d">sprite_get_width</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, width);</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>}</div>
 </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
-<div class="foldopen" id="foldopen00367" data-start="{" data-end="}">
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno"><a class="line" href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">  367</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">sprite_object_get_height</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* height)</div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>{</div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    {</div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    }</div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
-<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#aa9d27d44b0c3310d61bebbc88b443b4c">sprite_get_height</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, height);</div>
-<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>}</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
+<div class="foldopen" id="foldopen00366" data-start="{" data-end="}">
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno"><a class="line" href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">  366</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">sprite_object_get_height</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* height)</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>{</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    {</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    }</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#aa9d27d44b0c3310d61bebbc88b443b4c">sprite_get_height</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, height);</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>}</div>
 </div>
-<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
-<div class="foldopen" id="foldopen00377" data-start="{" data-end="}">
-<div class="line"><a id="l00377" name="l00377"></a><span class="lineno"><a class="line" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">  377</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* width, <span class="keywordtype">int</span>* height)</div>
-<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>{</div>
-<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
-<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    {</div>
-<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    }</div>
-<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span> </div>
-<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#a892674d2db5b33bb55aacffa2686632a">sprite_get_dimensions</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, width, height);</div>
-<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>}</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span> </div>
+<div class="foldopen" id="foldopen00376" data-start="{" data-end="}">
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno"><a class="line" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">  376</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span>* width, <span class="keywordtype">int</span>* height)</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>{</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>    <span class="keywordflow">if</span> (sprite_object == NULL)</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    {</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    }</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="sprite_8h.html#a892674d2db5b33bb55aacffa2686632a">sprite_get_dimensions</a>(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a7c54302f990f134ca6e37a2e9ef9999d">sprite</a>, width, height);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>}</div>
 </div>
-<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span> </div>
-<div class="foldopen" id="foldopen00387" data-start="{" data-end="}">
-<div class="line"><a id="l00387" name="l00387"></a><span class="lineno"><a class="line" href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">  387</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">sprite_object_is_focused</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>{</div>
-<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a>;</div>
-<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>}</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span> </div>
+<div class="foldopen" id="foldopen00386" data-start="{" data-end="}">
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno"><a class="line" href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">  386</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">sprite_object_is_focused</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>{</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <span class="keywordflow">return</span> sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a">focused</a>;</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>}</div>
 </div>
-<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
-<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span><span class="keyword">static</span> Rect sprite_object_get_text_rect_under(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>{</div>
-<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordtype">int</span> height = 0;</div>
-<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    <span class="keywordtype">int</span> width = 0;</div>
-<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
-<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a>(sprite_object, &amp;width, &amp;height) == <span class="keyword">false</span>)</div>
-<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    {</div>
-<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <span class="comment">// fallback</span></div>
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>        height = CARD_SPRITE_SIZE;</div>
-<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        width = CARD_SPRITE_SIZE;</div>
-<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    }</div>
-<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
-<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    Rect ret_rect = {0};</div>
-<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span> </div>
-<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    ret_rect.left = fx2int(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a>);</div>
-<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    ret_rect.top = fx2int(sprite_object-&gt;ty) + height + <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>;</div>
-<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    ret_rect.right = ret_rect.left + width;</div>
-<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    ret_rect.bottom = ret_rect.top + <a class="code hl_define" href="graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6">TTE_CHAR_SIZE</a>;</div>
-<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span> </div>
-<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>    <span class="keywordflow">return</span> ret_rect;</div>
-<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>}</div>
-<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
-<div class="foldopen" id="foldopen00414" data-start="{" data-end="}">
-<div class="line"><a id="l00414" name="l00414"></a><span class="lineno"><a class="line" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">  414</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keyword">const</span> <span class="keywordtype">char</span> text[])</div>
-<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>{</div>
-<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);</div>
-<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span> </div>
-<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>    <a class="code hl_function" href="graphic__utils_8h.html#a4772becb6d0b30e799686efbe0076bcf">update_text_rect_to_center_str</a>(&amp;text_rect, text, SCREEN_LEFT);</div>
-<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span> </div>
-<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>    tte_printf(<span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>, text_rect.left, text_rect.top, TTE_YELLOW_PB, text);</div>
-<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>}</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span> </div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span><span class="keyword">static</span> Rect sprite_object_get_text_rect_under(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>{</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>    <span class="keywordtype">int</span> height = 0;</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordtype">int</span> width = 0;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span> </div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a>(sprite_object, &amp;width, &amp;height) == <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    {</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        <span class="comment">// fallback</span></div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        height = CARD_SPRITE_SIZE;</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>        width = CARD_SPRITE_SIZE;</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    }</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span> </div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>    Rect ret_rect = {0};</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span> </div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>    ret_rect.left = fx2int(sprite_object-&gt;<a class="code hl_variable" href="structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab">tx</a>);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    ret_rect.top = fx2int(sprite_object-&gt;ty) + height + <a class="code hl_define" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>;</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    ret_rect.right = ret_rect.left + width;</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>    ret_rect.bottom = ret_rect.top + <a class="code hl_define" href="graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6">TTE_CHAR_SIZE</a>;</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span> </div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    <span class="keywordflow">return</span> ret_rect;</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>}</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span> </div>
+<div class="foldopen" id="foldopen00413" data-start="{" data-end="}">
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno"><a class="line" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">  413</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keyword">const</span> <span class="keywordtype">char</span> text[])</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>{</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span> </div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    <a class="code hl_function" href="graphic__utils_8h.html#a4772becb6d0b30e799686efbe0076bcf">update_text_rect_to_center_str</a>(&amp;text_rect, text, SCREEN_LEFT);</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span> </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    tte_printf(<span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%s&quot;</span>, text_rect.left, text_rect.top, TTE_YELLOW_PB, text);</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>}</div>
 </div>
-<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span> </div>
-<div class="foldopen" id="foldopen00423" data-start="{" data-end="}">
-<div class="line"><a id="l00423" name="l00423"></a><span class="lineno"><a class="line" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">  423</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span> price)</div>
-<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>{</div>
-<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    <span class="comment">// + 2 for null-terminator and &quot;$&quot;</span></div>
-<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    <span class="keywordtype">char</span> price_str_buff[INT_MAX_DIGITS + 2];</div>
-<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    snprintf(price_str_buff, <span class="keyword">sizeof</span>(price_str_buff), <span class="stringliteral">&quot;$%d&quot;</span>, price);</div>
-<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>    <a class="code hl_function" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a>(sprite_object, price_str_buff);</div>
-<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>}</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span> </div>
+<div class="foldopen" id="foldopen00422" data-start="{" data-end="}">
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno"><a class="line" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">  422</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object, <span class="keywordtype">int</span> price)</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>{</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="comment">// + 2 for null-terminator and &quot;$&quot;</span></div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>    <span class="keywordtype">char</span> price_str_buff[INT_MAX_DIGITS + 2];</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    snprintf(price_str_buff, <span class="keyword">sizeof</span>(price_str_buff), <span class="stringliteral">&quot;$%d&quot;</span>, price);</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>    <a class="code hl_function" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a>(sprite_object, price_str_buff);</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>}</div>
 </div>
-<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span> </div>
-<div class="foldopen" id="foldopen00431" data-start="{" data-end="}">
-<div class="line"><a id="l00431" name="l00431"></a><span class="lineno"><a class="line" href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">  431</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
-<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>{</div>
-<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);</div>
-<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span> </div>
-<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    <span class="comment">// Add SPRITE_FOCUS_RAISE_PX to cover the focused case</span></div>
-<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>    text_rect.bottom = text_rect.bottom + SPRITE_FOCUS_RAISE_PX;</div>
-<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span> </div>
-<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(text_rect);</div>
-<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>}</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span> </div>
+<div class="foldopen" id="foldopen00430" data-start="{" data-end="}">
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno"><a class="line" href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">  430</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a>(<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>* sprite_object)</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>{</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>    Rect text_rect = sprite_object_get_text_rect_under(sprite_object);</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>    <span class="comment">// Add SPRITE_FOCUS_RAISE_PX to cover the focused case</span></div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    text_rect.bottom = text_rect.bottom + SPRITE_FOCUS_RAISE_PX;</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span> </div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(text_rect);</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
 <div class="ttc" id="aaudio__utils_8h_html_a44f88da4c9f39b9c23c11f565a4f5fc2"><div class="ttname"><a href="audio__utils_8h.html#a44f88da4c9f39b9c23c11f565a4f5fc2">MM_BASE_PITCH_RATE</a></div><div class="ttdeci">#define MM_BASE_PITCH_RATE</div><div class="ttdoc">The default pitch rate for the sound effect played.</div><div class="ttdef"><b>Definition</b> <a href="audio__utils_8h_source.html#l00037">audio_utils.h:37</a></div></div>
@@ -647,33 +646,33 @@ $(document).ready(function(){initNavTree('sprite_8c_source.html',''); initResiza
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
 <div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00036">random.c:36</a></div></div>
 <div class="ttc" id="asprite_8h_html"><div class="ttname"><a href="sprite_8h.html">sprite.h</a></div><div class="ttdoc">Sprite system for Gbalatro.</div></div>
-<div class="ttc" id="asprite_8h_html_a0e8244424d95f4d81a96756e2cf4e17a"><div class="ttname"><a href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a></div><div class="ttdeci">bool sprite_object_get_dimensions(SpriteObject *sprite_object, int *width, int *height)</div><div class="ttdoc">Get the width and height of SpriteObject's registered Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00377">sprite.c:377</a></div></div>
-<div class="ttc" id="asprite_8h_html_a16ee5e7acf8ecd2bd4a3c928ce270b3b"><div class="ttname"><a href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">sprite_object_is_focused</a></div><div class="ttdeci">bool sprite_object_is_focused(SpriteObject *sprite_object)</div><div class="ttdoc">Get the focused variable from a SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00387">sprite.c:387</a></div></div>
+<div class="ttc" id="asprite_8h_html_a0e8244424d95f4d81a96756e2cf4e17a"><div class="ttname"><a href="sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a">sprite_object_get_dimensions</a></div><div class="ttdeci">bool sprite_object_get_dimensions(SpriteObject *sprite_object, int *width, int *height)</div><div class="ttdoc">Get the width and height of SpriteObject's registered Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00376">sprite.c:376</a></div></div>
+<div class="ttc" id="asprite_8h_html_a16ee5e7acf8ecd2bd4a3c928ce270b3b"><div class="ttname"><a href="sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b">sprite_object_is_focused</a></div><div class="ttdeci">bool sprite_object_is_focused(SpriteObject *sprite_object)</div><div class="ttdoc">Get the focused variable from a SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00386">sprite.c:386</a></div></div>
 <div class="ttc" id="asprite_8h_html_a1da4094cf80f8db62d6cf4a0380acc9d"><div class="ttname"><a href="sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d">sprite_get_width</a></div><div class="ttdeci">bool sprite_get_width(Sprite *sprite, int *width)</div><div class="ttdoc">Get a Sprite's width.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00117">sprite.c:117</a></div></div>
 <div class="ttc" id="asprite_8h_html_a1ee0e1521651d9a8fd7773a6b4ba127e"><div class="ttname"><a href="sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e">sprite_position</a></div><div class="ttdeci">INLINE void sprite_position(Sprite *sprite, int x, int y)</div><div class="ttdoc">Set sprite position. Inlined for efficiency.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00368">sprite.h:368</a></div></div>
-<div class="ttc" id="asprite_8h_html_a2b9d31fbf635a9bad37324b4f2ec13bb"><div class="ttname"><a href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">sprite_object_set_focus</a></div><div class="ttdeci">void sprite_object_set_focus(SpriteObject *sprite_object, bool focus)</div><div class="ttdoc">Set the focus for SpriteObject Raises the object by SPRITE_FOCUS_RAISE_PX.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00341">sprite.c:341</a></div></div>
-<div class="ttc" id="asprite_8h_html_a30997cd0fdc5182591687e67f8bc5d1d"><div class="ttname"><a href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">sprite_object_init</a></div><div class="ttdeci">void sprite_object_init(SpriteObject *sprite_object)</div><div class="ttdoc">Initialize a SpriteObject to a default state. Must be called only once per SpriteObject when it is cr...</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00174">sprite.c:174</a></div></div>
-<div class="ttc" id="asprite_8h_html_a34b18a8546f66dee7a80f6192c9b0e92"><div class="ttname"><a href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">sprite_object_destroy</a></div><div class="ttdeci">void sprite_object_destroy(SpriteObject *sprite_object)</div><div class="ttdoc">Destroy SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00185">sprite.c:185</a></div></div>
-<div class="ttc" id="asprite_8h_html_a3d9b736910a0c0671e495dda62be7f91"><div class="ttname"><a href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a></div><div class="ttdeci">void sprite_object_print_price_under(SpriteObject *sprite_object, int price)</div><div class="ttdoc">Print the price string directly beneath a SpriteObject. More specialized version of sprite_object_pri...</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00423">sprite.c:423</a></div></div>
-<div class="ttc" id="asprite_8h_html_a45d7d6b792b629e6082ae850dcfdf573"><div class="ttname"><a href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a></div><div class="ttdeci">void sprite_object_print_text_under(SpriteObject *sprite_object, const char text[])</div><div class="ttdoc">Print the given string directly beneath a SpriteObject. This is used only for Cards for now.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00414">sprite.c:414</a></div></div>
+<div class="ttc" id="asprite_8h_html_a2b9d31fbf635a9bad37324b4f2ec13bb"><div class="ttname"><a href="sprite_8h.html#a2b9d31fbf635a9bad37324b4f2ec13bb">sprite_object_set_focus</a></div><div class="ttdeci">void sprite_object_set_focus(SpriteObject *sprite_object, bool focus)</div><div class="ttdoc">Set the focus for SpriteObject Raises the object by SPRITE_FOCUS_RAISE_PX.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00340">sprite.c:340</a></div></div>
+<div class="ttc" id="asprite_8h_html_a30997cd0fdc5182591687e67f8bc5d1d"><div class="ttname"><a href="sprite_8h.html#a30997cd0fdc5182591687e67f8bc5d1d">sprite_object_init</a></div><div class="ttdeci">void sprite_object_init(SpriteObject *sprite_object)</div><div class="ttdoc">Initialize a SpriteObject to a default state. Must be called only once per SpriteObject when it is cr...</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00173">sprite.c:173</a></div></div>
+<div class="ttc" id="asprite_8h_html_a34b18a8546f66dee7a80f6192c9b0e92"><div class="ttname"><a href="sprite_8h.html#a34b18a8546f66dee7a80f6192c9b0e92">sprite_object_destroy</a></div><div class="ttdeci">void sprite_object_destroy(SpriteObject *sprite_object)</div><div class="ttdoc">Destroy SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00184">sprite.c:184</a></div></div>
+<div class="ttc" id="asprite_8h_html_a3d9b736910a0c0671e495dda62be7f91"><div class="ttname"><a href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a></div><div class="ttdeci">void sprite_object_print_price_under(SpriteObject *sprite_object, int price)</div><div class="ttdoc">Print the price string directly beneath a SpriteObject. More specialized version of sprite_object_pri...</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00422">sprite.c:422</a></div></div>
+<div class="ttc" id="asprite_8h_html_a45d7d6b792b629e6082ae850dcfdf573"><div class="ttname"><a href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573">sprite_object_print_text_under</a></div><div class="ttdeci">void sprite_object_print_text_under(SpriteObject *sprite_object, const char text[])</div><div class="ttdoc">Print the given string directly beneath a SpriteObject. This is used only for Cards for now.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00413">sprite.c:413</a></div></div>
 <div class="ttc" id="asprite_8h_html_a564c9484883d28c4904b382c2eec5db9"><div class="ttname"><a href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a></div><div class="ttdeci">void sprite_init(void)</div><div class="ttdoc">Initialize GBAlatro sprite system.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00153">sprite.c:153</a></div></div>
 <div class="ttc" id="asprite_8h_html_a5fbaf037f18d04536127b88417481eb8"><div class="ttname"><a href="sprite_8h.html#a5fbaf037f18d04536127b88417481eb8">sprite_new</a></div><div class="ttdeci">Sprite * sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)</div><div class="ttdoc">Allocate and retrieve a pointer to a valid Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00036">sprite.c:36</a></div></div>
-<div class="ttc" id="asprite_8h_html_a673f791a81943a40619c246e8eed8f0f"><div class="ttname"><a href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a></div><div class="ttdeci">void sprite_object_reset_transform(SpriteObject *sprite_object)</div><div class="ttdoc">Reset SpriteObject's transform back to default values.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00203">sprite.c:203</a></div></div>
-<div class="ttc" id="asprite_8h_html_a6938f30020cc51d7baa6cf552fdb884d"><div class="ttname"><a href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">sprite_get_pb</a></div><div class="ttdeci">int sprite_get_pb(const Sprite *sprite)</div><div class="ttdoc">Get the palette bank of a Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00164">sprite.c:164</a></div></div>
-<div class="ttc" id="asprite_8h_html_a7119e6d7e7c898abb9670952ed45b999"><div class="ttname"><a href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">sprite_object_get_width</a></div><div class="ttdeci">bool sprite_object_get_width(SpriteObject *sprite_object, int *width)</div><div class="ttdoc">Get a SpriteObject's width.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00357">sprite.c:357</a></div></div>
-<div class="ttc" id="asprite_8h_html_a73a20232ad5676c64b3dc1e548f2bdcf"><div class="ttname"><a href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">sprite_object_set_sprite</a></div><div class="ttdeci">void sprite_object_set_sprite(SpriteObject *sprite_object, Sprite *sprite)</div><div class="ttdoc">Register a Sprite to an associated SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00195">sprite.c:195</a></div></div>
-<div class="ttc" id="asprite_8h_html_a7b5d01a3c39b22115156c4fa9dd0833a"><div class="ttname"><a href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">sprite_object_update_all</a></div><div class="ttdeci">void sprite_object_update_all(void)</div><div class="ttdoc">Update all SpriteObjects, to be called once per frame in the main update loop.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00310">sprite.c:310</a></div></div>
+<div class="ttc" id="asprite_8h_html_a673f791a81943a40619c246e8eed8f0f"><div class="ttname"><a href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a></div><div class="ttdeci">void sprite_object_reset_transform(SpriteObject *sprite_object)</div><div class="ttdoc">Reset SpriteObject's transform back to default values.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00202">sprite.c:202</a></div></div>
+<div class="ttc" id="asprite_8h_html_a6938f30020cc51d7baa6cf552fdb884d"><div class="ttname"><a href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">sprite_get_pb</a></div><div class="ttdeci">int sprite_get_pb(const Sprite *sprite)</div><div class="ttdoc">Get the palette bank of a Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00163">sprite.c:163</a></div></div>
+<div class="ttc" id="asprite_8h_html_a7119e6d7e7c898abb9670952ed45b999"><div class="ttname"><a href="sprite_8h.html#a7119e6d7e7c898abb9670952ed45b999">sprite_object_get_width</a></div><div class="ttdeci">bool sprite_object_get_width(SpriteObject *sprite_object, int *width)</div><div class="ttdoc">Get a SpriteObject's width.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00356">sprite.c:356</a></div></div>
+<div class="ttc" id="asprite_8h_html_a73a20232ad5676c64b3dc1e548f2bdcf"><div class="ttname"><a href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">sprite_object_set_sprite</a></div><div class="ttdeci">void sprite_object_set_sprite(SpriteObject *sprite_object, Sprite *sprite)</div><div class="ttdoc">Register a Sprite to an associated SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00194">sprite.c:194</a></div></div>
+<div class="ttc" id="asprite_8h_html_a7b5d01a3c39b22115156c4fa9dd0833a"><div class="ttname"><a href="sprite_8h.html#a7b5d01a3c39b22115156c4fa9dd0833a">sprite_object_update_all</a></div><div class="ttdeci">void sprite_object_update_all(void)</div><div class="ttdoc">Update all SpriteObjects, to be called once per frame in the main update loop.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00309">sprite.c:309</a></div></div>
 <div class="ttc" id="asprite_8h_html_a892674d2db5b33bb55aacffa2686632a"><div class="ttname"><a href="sprite_8h.html#a892674d2db5b33bb55aacffa2686632a">sprite_get_dimensions</a></div><div class="ttdeci">bool sprite_get_dimensions(Sprite *sprite, int *width, int *height)</div><div class="ttdoc">Get a Sprite's width and height.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00139">sprite.c:139</a></div></div>
-<div class="ttc" id="asprite_8h_html_a8e569f7a24f5cde918e8f44d6d91e0f7"><div class="ttname"><a href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">sprite_object_get_height</a></div><div class="ttdeci">bool sprite_object_get_height(SpriteObject *sprite_object, int *height)</div><div class="ttdoc">Get a SpriteObject's height.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00367">sprite.c:367</a></div></div>
+<div class="ttc" id="asprite_8h_html_a8e569f7a24f5cde918e8f44d6d91e0f7"><div class="ttname"><a href="sprite_8h.html#a8e569f7a24f5cde918e8f44d6d91e0f7">sprite_object_get_height</a></div><div class="ttdeci">bool sprite_object_get_height(SpriteObject *sprite_object, int *height)</div><div class="ttdoc">Get a SpriteObject's height.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00366">sprite.c:366</a></div></div>
 <div class="ttc" id="asprite_8h_html_a90329a888f65192cc5170085b65ebfde"><div class="ttname"><a href="sprite_8h.html#a90329a888f65192cc5170085b65ebfde">sprite_object_position</a></div><div class="ttdeci">INLINE void sprite_object_position(SpriteObject *sprite_object, int x, int y)</div><div class="ttdoc">Set sprite_object position. Inlined for efficiency.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00385">sprite.h:385</a></div></div>
-<div class="ttc" id="asprite_8h_html_a929ee43cec0d826ecaef2feedf80d1f6"><div class="ttname"><a href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">sprite_object_shake</a></div><div class="ttdeci">void sprite_object_shake(SpriteObject *sprite_object, mm_word sound_id)</div><div class="ttdoc">Shake SpriteObject on screen and play a sound.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00320">sprite.c:320</a></div></div>
+<div class="ttc" id="asprite_8h_html_a929ee43cec0d826ecaef2feedf80d1f6"><div class="ttname"><a href="sprite_8h.html#a929ee43cec0d826ecaef2feedf80d1f6">sprite_object_shake</a></div><div class="ttdeci">void sprite_object_shake(SpriteObject *sprite_object, mm_word sound_id)</div><div class="ttdoc">Shake SpriteObject on screen and play a sound.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00319">sprite.c:319</a></div></div>
 <div class="ttc" id="asprite_8h_html_aa017c4226720c0aa8f4ab530a6e2f715"><div class="ttname"><a href="sprite_8h.html#aa017c4226720c0aa8f4ab530a6e2f715">sprite_get_layer</a></div><div class="ttdeci">int sprite_get_layer(Sprite *sprite)</div><div class="ttdoc">Get index of Sprite in the GBA object buffer.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00110">sprite.c:110</a></div></div>
-<div class="ttc" id="asprite_8h_html_aa1adb2bd898e4c580e1c522b6a158eba"><div class="ttname"><a href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a></div><div class="ttdeci">void sprite_object_erase_text_under(SpriteObject *sprite_object)</div><div class="ttdoc">Erase the text within the Rect directly beneath a SpriteObject. This is used only for Cards for now.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00431">sprite.c:431</a></div></div>
+<div class="ttc" id="asprite_8h_html_aa1adb2bd898e4c580e1c522b6a158eba"><div class="ttname"><a href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a></div><div class="ttdeci">void sprite_object_erase_text_under(SpriteObject *sprite_object)</div><div class="ttdoc">Erase the text within the Rect directly beneath a SpriteObject. This is used only for Cards for now.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00430">sprite.c:430</a></div></div>
 <div class="ttc" id="asprite_8h_html_aa9d27d44b0c3310d61bebbc88b443b4c"><div class="ttname"><a href="sprite_8h.html#aa9d27d44b0c3310d61bebbc88b443b4c">sprite_get_height</a></div><div class="ttdeci">bool sprite_get_height(Sprite *sprite, int *height)</div><div class="ttdoc">Get a Sprites's height.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00128">sprite.c:128</a></div></div>
 <div class="ttc" id="asprite_8h_html_abbbc989fe5cd8e1e93f9784e1048be47"><div class="ttname"><a href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a></div><div class="ttdeci">void sprite_destroy(Sprite **sprite)</div><div class="ttdoc">Destroy Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00091">sprite.c:91</a></div></div>
-<div class="ttc" id="asprite_8h_html_abe95d2088cb9739deb50864189556121"><div class="ttname"><a href="sprite_8h.html#abe95d2088cb9739deb50864189556121">sprite_object_get_sprite</a></div><div class="ttdeci">Sprite * sprite_object_get_sprite(SpriteObject *sprite_object)</div><div class="ttdoc">Get a SpriteObject's registered Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00334">sprite.c:334</a></div></div>
+<div class="ttc" id="asprite_8h_html_abe95d2088cb9739deb50864189556121"><div class="ttname"><a href="sprite_8h.html#abe95d2088cb9739deb50864189556121">sprite_object_get_sprite</a></div><div class="ttdeci">Sprite * sprite_object_get_sprite(SpriteObject *sprite_object)</div><div class="ttdoc">Get a SpriteObject's registered Sprite.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00333">sprite.c:333</a></div></div>
 <div class="ttc" id="asprite_8h_html_aeae667aa51109000495c9a7f19fa08e8"><div class="ttname"><a href="sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8">sprite_draw</a></div><div class="ttdeci">void sprite_draw(void)</div><div class="ttdoc">Draw Sprites to screen, to be called once per frame.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00158">sprite.c:158</a></div></div>
-<div class="ttc" id="asprite_8h_html_aec29df852662063447ff72082fb3ad30"><div class="ttname"><a href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a></div><div class="ttdeci">IWRAM_CODE void sprite_object_update(SpriteObject *sprite_object)</div><div class="ttdoc">Update a SpriteObject, to be called once per frame per active SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00302">sprite.c:302</a></div></div>
+<div class="ttc" id="asprite_8h_html_aec29df852662063447ff72082fb3ad30"><div class="ttname"><a href="sprite_8h.html#aec29df852662063447ff72082fb3ad30">sprite_object_update</a></div><div class="ttdeci">IWRAM_CODE void sprite_object_update(SpriteObject *sprite_object)</div><div class="ttdoc">Update a SpriteObject, to be called once per frame per active SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00301">sprite.c:301</a></div></div>
 <div class="ttc" id="astructListItr_html"><div class="ttname"><a href="structListItr.html">ListItr</a></div><div class="ttdoc">An iterator into a list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00090">list.h:91</a></div></div>
 <div class="ttc" id="astructList_html"><div class="ttname"><a href="structList.html">List</a></div><div class="ttdoc">A doubly-linked list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00060">list.h:61</a></div></div>
 <div class="ttc" id="astructSpriteObject_html"><div class="ttname"><a href="structSpriteObject.html">SpriteObject</a></div><div class="ttdoc">A sprite object is a sprite that is focusable and movable in animation.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8h_source.html#l00054">sprite.h:55</a></div></div>
