@@ -14,39 +14,7 @@
 #include "mgba_logger.h"
 #include "random.h"
 #include "sprite.h"
-
-// TODO: Merge these with GBAL_RETURN_IF_NULL macros?
-/**
- * @brief Checks if @p item is of type @p expected_type - logs error message and returns otherwise
- *
- *  This version is for a function that returns a value, while
- *  @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID is for a void function.
- */
-#define ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(item, expected_type, ret_val)         \
-    do                                                                           \
-    {                                                                            \
-        if ((item)->type != expected_type)                                       \
-        {                                                                        \
-            MGBA_FUNC_ERROR("Unexpected %s->type != %s", #item, #expected_type); \
-            return (ret_val);                                                    \
-        }                                                                        \
-    } while (0)
-
-/**
- * @brief Checks if @p item is of type @p expected_type - logs error message and returns otherwise
- *
- * This version is for a void function, while @ref ITEM_RETURN_IF_UNEXPECTED_TYPE_RET is for one
- * with a return value.
- */
-#define ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(item, expected_type)                 \
-    do                                                                           \
-    {                                                                            \
-        if ((item)->type != expected_type)                                       \
-        {                                                                        \
-            MGBA_FUNC_ERROR("Unexpected %s->type != %s", #item, #expected_type); \
-            return;                                                              \
-        }                                                                        \
-    } while (0)
+#include "util.h"
 
 enum ItemType
 {
