@@ -210,14 +210,14 @@ ItemDescSubtypeInfo joker_object_get_rarity_info(Item* joker_object)
 
 int joker_get_buy_price(const Joker* joker)
 {
-    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value;
 }
 
 int joker_get_sell_value(const Joker* joker)
 {
-    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value / 2;
 }
@@ -294,12 +294,12 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_dispose(Item** joker_object_item)
 {
-    GBAL_RETURN_IF_NULL_VOID(joker_object_item);
-    GBAL_RETURN_IF_NULL_VOID(*joker_object_item);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object_item);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(*joker_object_item);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
 
     JokerObject* joker_object = (JokerObject*)(*joker_object_item);
-    GBAL_RETURN_IF_NULL_VOID(joker_object->joker);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object->joker);
 
     joker_set_rollable(joker_object->joker->id, true);
 
@@ -329,7 +329,7 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 
 int joker_object_get_buy_price(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object, UNDEFINED);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
     return joker_get_buy_price(((JokerObject*)joker_object)->joker);
@@ -345,7 +345,7 @@ int joker_object_get_sell_price(Item* joker_object)
 
 void joker_object_add_to_owned(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(joker_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
 
     add_joker((JokerObject*)joker_object);
