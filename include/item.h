@@ -14,7 +14,6 @@
 #include "mgba_logger.h"
 #include "random.h"
 #include "sprite.h"
-#include "util.h"
 
 enum ItemType
 {
