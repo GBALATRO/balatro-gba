@@ -15,6 +15,7 @@
 #include "card_rarity_pal_gfx.h"
 #include "item.h"
 #include "joker_gfx.h"
+#include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
@@ -347,7 +348,7 @@ int joker_object_get_sell_price(Item* joker_object)
 void joker_object_add_to_owned(Item* joker_object)
 {
     GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object);
-    ITEM_VOID_FUNC_RETURN_IF_UNEXPECTED_TYPE(joker_object, ITEM_TYPE_JOKER);
+    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER);
 
     add_joker((JokerObject*)joker_object);
 }
