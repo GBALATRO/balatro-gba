@@ -66,22 +66,92 @@
 #define LOG_ERROR(...) ((void)(0))
 #endif
 
-/**
- * @brief Checks if @p param is NULL and prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
- *
- * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
- * a return value.
- */
-#define GBAL_RETURN_IF_NULL_VOID(param)                        \
-    do                                                         \
+#define GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(expression, message, ...) \
+   do                                                         \
     {                                                          \
-        if ((param) == NULL)                                   \
+        if ((expression))                                   \
         {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
+            LOG_ERROR(message, __VA_ARGS__); \
             return;                                            \
         }                                                      \
     } while (0)
+
+#define GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
+   do                                                         \
+    {                                                          \
+        if ((expression))                                   \
+        {                                                      \
+            LOG_ERROR(message, __VA_ARGS__); \
+            return (ret_val);                                            \
+        }                                                      \
+    } while (0)
+
+#define GBAL_VOID_FUNC_RETURN_IF_EQUALS_CUST_MSG(param, value, message, ...) \
+    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) == (value), message, __VA_ARGS__)
+
+#define GBAL_RET_FUNC_RETURN_IF_EQUALS_CUST_MSG(param, value, ret_val, message, ...) \
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) == (value), ret_val, message, __VA_ARGS__)
+
+#define GBAL_VOID_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(param, value, message, ...) \
+    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) != (value), message, __VA_ARGS__)
+
+#define GBAL_RET_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(param, value, ret_val, message, ...) \
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) != (value), ret_val, message, __VA_ARGS__)
+
+
+/**
+ * @brief Checks if @p param is equal to @p value, prints error message and returns in case it is.
+ * Useful for checking arguments to a function or errors during control flow.
+ *
+ * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_ON_ERROR_VAL is for one with
+ * a return value.
+ */
+#define GBAL_VOID_FUNC_RETURN_IF_EQUALS(param, value)         \
+    GBAL_VOID_FUNC_RETURN_IF_EQUALS_CUST_MSG(                  \
+        param,  \
+        value, \
+        "Unexpected value: %s == %s", \
+        #param, \
+        #value \
+    )\
+
+#define GBAL_RET_FUNC_RETURN_IF_EQUALS(param, value, ret_val) \
+    GBAL_RET_FUNC_RETURN_IF_EQUALS_CUST_MSG(                  \
+        param,  \
+        value, \
+        ret_val, \
+        "Unexpected value: %s == %s", \
+        #param, \
+        #value \
+    )\
+
+#define GBAL_VOID_FUNC_RETURN_IF_UNEQUALS(param, value)         \
+    GBAL_VOID_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(                  \
+        param,  \
+        value, \
+        "Unexpected value: %s != %s", \
+        #param, \
+        #value \
+    )\
+
+#define GBAL_RET_FUNC_RETURN_IF_UNEQUALS(param, value, ret_val) \
+    GBAL_RET_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(                  \
+        param,  \
+        value, \
+        ret_val, \
+        "Unexpected value: %s != %s", \
+        #param, \
+        #value \
+    )\
+
+/**
+ * @brief Checks if @p param is NULL, prints error message and returns in case it is.
+ * Useful for checking arguments to a function or errors during control flow.
+ *
+ * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_NULL is for one with
+ * a return value.
+ */
+#define GBAL_VOID_FUNC_RETURN_IF_NULL(param) GBAL_VOID_FUNC_RETURN_IF_EQUALS(param, NULL)
 
 /**
  * @brief Checks if @p param is equal to NULL
@@ -92,7 +162,7 @@
  * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
  * is for a void function.
  */
-#define GBAL_RETURN_IF_NULL_RET(param, ret_val)                \
+#define GBAL_RET_FUNC_RETURN_IF_NULL(param, ret_val)           \
     do                                                         \
     {                                                          \
         if ((param) == NULL)                                   \
