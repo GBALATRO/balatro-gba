@@ -200,6 +200,7 @@ int joker_get_sell_value(const Joker* joker)
 // JokerObject methods
 JokerObject* joker_object_new(Joker* joker)
 {
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker, NULL);
     JokerObject* joker_object = POOL_GET(JokerObject);
 
     sprite_object_init((SpriteObject*)joker_object);

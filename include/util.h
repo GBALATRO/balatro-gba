@@ -66,38 +66,42 @@
 #define LOG_ERROR(...) ((void)(0))
 #endif
 
-#define GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(expression, message, ...) \
+// TODO: Document and clean documentation
+
+#define GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, message, ...) \
    do                                                         \
     {                                                          \
-        if ((expression))                                   \
+        if (!(expression))                                   \
         {                                                      \
             LOG_ERROR(message, __VA_ARGS__); \
             return;                                            \
         }                                                      \
     } while (0)
 
-#define GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
+#define GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
    do                                                         \
     {                                                          \
-        if ((expression))                                   \
+        if (!(expression))                                   \
         {                                                      \
             LOG_ERROR(message, __VA_ARGS__); \
             return (ret_val);                                            \
         }                                                      \
     } while (0)
 
-#define GBAL_VOID_FUNC_RETURN_IF_EQUALS_CUST_MSG(param, value, message, ...) \
-    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) == (value), message, __VA_ARGS__)
+#define GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(expression) \
+    GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS( \
+        expression, \
+        "Assert failed: %s", \
+        #expression \
+    )
 
-#define GBAL_RET_FUNC_RETURN_IF_EQUALS_CUST_MSG(param, value, ret_val, message, ...) \
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) == (value), ret_val, message, __VA_ARGS__)
-
-#define GBAL_VOID_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(param, value, message, ...) \
-    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) != (value), message, __VA_ARGS__)
-
-#define GBAL_RET_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(param, value, ret_val, message, ...) \
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) != (value), ret_val, message, __VA_ARGS__)
-
+#define GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(expression, ret_val) \
+    GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(                \
+        expression, \
+        ret_val, \
+        "Assert failed: %s", \
+        #expression \
+    ) \
 
 /**
  * @brief Checks if @p param is equal to @p value, prints error message and returns in case it is.
@@ -106,43 +110,7 @@
  * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_ON_ERROR_VAL is for one with
  * a return value.
  */
-#define GBAL_VOID_FUNC_RETURN_IF_EQUALS(param, value)         \
-    GBAL_VOID_FUNC_RETURN_IF_EQUALS_CUST_MSG(                  \
-        param,  \
-        value, \
-        "Unexpected value: %s == %s", \
-        #param, \
-        #value \
-    )\
 
-#define GBAL_RET_FUNC_RETURN_IF_EQUALS(param, value, ret_val) \
-    GBAL_RET_FUNC_RETURN_IF_EQUALS_CUST_MSG(                  \
-        param,  \
-        value, \
-        ret_val, \
-        "Unexpected value: %s == %s", \
-        #param, \
-        #value \
-    )\
-
-#define GBAL_VOID_FUNC_RETURN_IF_UNEQUALS(param, value)         \
-    GBAL_VOID_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(                  \
-        param,  \
-        value, \
-        "Unexpected value: %s != %s", \
-        #param, \
-        #value \
-    )\
-
-#define GBAL_RET_FUNC_RETURN_IF_UNEQUALS(param, value, ret_val) \
-    GBAL_RET_FUNC_RETURN_IF_UNEQUALS_CUST_MSG(                  \
-        param,  \
-        value, \
-        ret_val, \
-        "Unexpected value: %s != %s", \
-        #param, \
-        #value \
-    )\
 
 /**
  * @brief Checks if @p param is NULL, prints error message and returns in case it is.
@@ -151,7 +119,8 @@
  * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_NULL is for one with
  * a return value.
  */
-#define GBAL_VOID_FUNC_RETURN_IF_NULL(param) GBAL_VOID_FUNC_RETURN_IF_EQUALS(param, NULL)
+#define GBAL_VOID_FUNC_RETURN_IF_NULL(param) \
+    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) != NULL)
 
 /**
  * @brief Checks if @p param is equal to NULL
@@ -162,15 +131,8 @@
  * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
  * is for a void function.
  */
-#define GBAL_RET_FUNC_RETURN_IF_NULL(param, ret_val)           \
-    do                                                         \
-    {                                                          \
-        if ((param) == NULL)                                   \
-        {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return (ret_val);                                  \
-        }                                                      \
-    } while (0)
+#define GBAL_RET_FUNC_RETURN_IF_NULL(param, ret_val) \
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) != NULL, ret_val)
 
 /**
  * @brief Avoid overflow when adding two u32 integers
