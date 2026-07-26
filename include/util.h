@@ -81,7 +81,7 @@
 // TODO: Document and clean documentation
 
 /**
- * @brief Returns and logs error @p message if @p expression is true.
+ * @brief Returns and logs error @p message if @p expression is false.
  *
  * This version is for a void function, while @ref GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS is
  * for one with a return value.
@@ -99,7 +99,7 @@
     } while (0)
 
 /**
- * @brief Returns @p ret_val and logs error @p message if @p expression is true.
+ * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
  * This version is for a function that returns a value,
  * while @ref GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS is for a void function.
@@ -116,8 +116,17 @@
         }                                                                                \
     } while (0)
 
+
+if (!(expression))                                
+{                                                 
+    MGBA_FUNC_ERROR("Unexpected value %d", value);
+    return (ret_val);                             
+}
+
+GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, "Unexpected value %d", value);
+
 /**
- * @brief Returns and logs an error message if @p expression is true.
+ * @brief Returns and logs an error message if @p expression is false.
  *
  * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS is
  * for one with a return value.
@@ -129,7 +138,7 @@
     GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, "Assert failed: %s", #expression)
 
 /**
- * @brief Returns @p ret_val and logs an error message if @p expression is true.
+ * @brief Returns @p ret_val and logs an error message if @p expression is false.
  *
  * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS is
  * for one with a return value.
