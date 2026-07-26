@@ -104,15 +104,6 @@
         }                                                                                \
     } while (0)
 
-
-if (!(expression))                                
-{                                                 
-    MGBA_FUNC_ERROR("Unexpected value %d", value);
-    return (ret_val);                             
-}
-
-GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, "Unexpected value %d", value);
-
 /**
  * @brief Returns and logs an error message if @p expression is false.
  *
