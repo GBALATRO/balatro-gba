@@ -4,6 +4,7 @@
 #include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "item.h"
 #include "layout.h"
 #include "mgba_logger.h"
 #include "pool.h"
@@ -13,9 +14,7 @@
 
 // Tiles and palettes
 #include "card_rarity_pal_gfx.h"
-#include "item.h"
 #include "joker_gfx.h"
-#include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
