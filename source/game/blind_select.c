@@ -27,13 +27,13 @@ static const u32 TM_DISP_BLIND_PANEL_START = 1;
 
 static int s_timer;
 
-static void game_blind_select_start_anim_seq(void);
-static void game_blind_select_handle_input(void);
-static void game_blind_select_selected_anim_seq(void);
-static void game_blind_select_display_blind_panel(void);
-static void game_blind_select_exit(void);
-static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind);
-static void game_blind_select_print_blinds_reqs_and_rewards(void);
+static void blind_select_start_anim_seq(void);
+static void blind_select_handle_input(void);
+static void blind_select_selected_anim_seq(void);
+static void blind_select_display_blind_panel(void);
+static void blind_select_exit(void);
+static Rect blind_select_get_req_score_rect(enum BlindTokens blind);
+static void blind_select_print_blinds_reqs_and_rewards(void);
 static enum BlindType get_blind_type_from_token(enum BlindTokens blind);
 static void blind_tokens_init(void);
 
@@ -49,11 +49,11 @@ enum BlindSelectState
 
 // TODO: this will be refactored into common state machine
 static StateInfo state_info[] = {
-    STATE_INFO_UPDATE_FN_ONLY(game_blind_select_start_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(game_blind_select_handle_input),
-    STATE_INFO_UPDATE_FN_ONLY(game_blind_select_selected_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(game_blind_select_display_blind_panel),
-    STATE_INFO_UPDATE_FN_ONLY(game_blind_select_exit),
+    STATE_INFO_UPDATE_FN_ONLY(blind_select_start_anim_seq),
+    STATE_INFO_UPDATE_FN_ONLY(blind_select_handle_input),
+    STATE_INFO_UPDATE_FN_ONLY(blind_select_selected_anim_seq),
+    STATE_INFO_UPDATE_FN_ONLY(blind_select_display_blind_panel),
+    STATE_INFO_UPDATE_FN_ONLY(blind_select_exit),
 };
 
 static StateMachine blind_select_sm = STATE_MACHINE_DEFINE(state_info, BLIND_SELECT_MAX);
@@ -83,7 +83,7 @@ static int selection_y = 0;
 
 static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
-static void game_blind_select_start_anim_seq()
+static void blind_select_start_anim_seq()
 {
     // main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
@@ -99,13 +99,13 @@ static void game_blind_select_start_anim_seq()
 
     if (s_timer == TM_END_ANIM_SEQ)
     {
-        game_blind_select_print_blinds_reqs_and_rewards();
+        blind_select_print_blinds_reqs_and_rewards();
         state_machine_change_state(&blind_select_sm, BLIND_SELECT);
         s_timer = TM_ZERO; // Reset the timer
     }
 }
 
-static inline void game_blind_select_erase_blind_reqs_and_rewards()
+static inline void blind_select_erase_blind_reqs_and_rewards()
 {
     for (enum BlindTokens curr_blind = SMALL_BLIND; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
@@ -170,7 +170,7 @@ static inline void highlight_skip_button(void)
     memset16(&pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID], 0xFFFF, 1);
 }
 
-static void game_blind_select_handle_input()
+static void blind_select_handle_input()
 {
     if (s_timer == TM_BLIND_SELECT_START && g_game_vars.current_blind == BLIND_TYPE_BOSS)
     {
@@ -190,7 +190,7 @@ static void game_blind_select_handle_input()
     }
     else if (key_hit(SELECT_CARD))
     {
-        game_blind_select_erase_blind_reqs_and_rewards();
+        blind_select_erase_blind_reqs_and_rewards();
 
         switch (selection_y)
         {
@@ -227,7 +227,7 @@ static void game_blind_select_handle_input()
                         );
                     }
 
-                    game_blind_select_print_blinds_reqs_and_rewards();
+                    blind_select_print_blinds_reqs_and_rewards();
                     highlight_select_button();
 
                     s_timer = TM_ZERO;
@@ -239,7 +239,7 @@ static void game_blind_select_handle_input()
     }
 }
 
-static void game_blind_select_selected_anim_seq()
+static void blind_select_selected_anim_seq()
 {
     if (s_timer < 15)
     {
@@ -268,7 +268,7 @@ static void game_blind_select_selected_anim_seq()
     }
 }
 
-static void game_blind_select_display_blind_panel()
+static void blind_select_display_blind_panel()
 {
     if (s_timer >= TM_DISP_BLIND_PANEL_FINISH)
     {
@@ -307,13 +307,13 @@ static void game_blind_select_display_blind_panel()
     }
 }
 
-static void game_blind_select_exit(void)
+static void blind_select_exit(void)
 {
     change_background(BG_NONE, false);
     game_change_state(GAME_STATE_ROUND);
 }
 
-static Rect game_blind_select_get_req_score_rect(enum BlindTokens blind)
+static Rect blind_select_get_req_score_rect(enum BlindTokens blind)
 {
     Rect blind_req_score_rect = SINGLE_BLIND_SEL_REQ_SCORE_RECT;
 
@@ -348,9 +348,9 @@ static enum BlindType get_blind_type_from_token(enum BlindTokens blind)
     return blind_type;
 }
 
-static inline void game_blind_select_print_blind_req(enum BlindTokens blind)
+static inline void blind_select_print_blind_req(enum BlindTokens blind)
 {
-    Rect blind_req_score_rect = game_blind_select_get_req_score_rect(blind);
+    Rect blind_req_score_rect = blind_select_get_req_score_rect(blind);
 
     u32 blind_req = blind_get_requirement(get_blind_type_from_token(blind), g_game_vars.ante);
 
@@ -372,10 +372,10 @@ static inline void game_blind_select_print_blind_req(enum BlindTokens blind)
     );
 }
 
-static inline void game_blind_select_print_blind_reward(enum BlindTokens blind)
+static inline void blind_select_print_blind_reward(enum BlindTokens blind)
 {
     int blind_reward = blind_get_reward(get_blind_type_from_token(blind));
-    Rect blind_reward_rect = game_blind_select_get_req_score_rect(blind);
+    Rect blind_reward_rect = blind_select_get_req_score_rect(blind);
 
     // The reward is right below the score.
     blind_reward_rect.top += TILE_SIZE;
@@ -395,12 +395,12 @@ static inline void game_blind_select_print_blind_reward(enum BlindTokens blind)
     );
 }
 
-static void game_blind_select_print_blinds_reqs_and_rewards(void)
+static void blind_select_print_blinds_reqs_and_rewards(void)
 {
     for (enum BlindTokens curr_blind = 0; curr_blind < NUM_BLINDS_PER_ANTE; curr_blind++)
     {
-        game_blind_select_print_blind_req(curr_blind);
-        game_blind_select_print_blind_reward(curr_blind);
+        blind_select_print_blind_req(curr_blind);
+        blind_select_print_blind_reward(curr_blind);
     }
 }
 
