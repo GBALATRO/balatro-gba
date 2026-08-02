@@ -1,5 +1,10 @@
 var NAVTREEINDEX3 =
 {
+"structSprite.html#a321db6c1f5b889c202df5a3e312022f0":[2,0,31,1],
+"structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13":[2,0,31,2],
+"structSprite.html#abdcca0516e817f6f84009b3ace44c495":[2,0,31,3],
+"structSpriteObject.html":[2,0,32],
+"structSpriteObject.html#a2017b28962f789e15c45963f8f25b5d8":[2,0,32,10],
 "structSpriteObject.html#a2a19dbfcd2235def5967609ab0c7901a":[2,0,32,0],
 "structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e":[2,0,32,8],
 "structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae":[2,0,32,1],

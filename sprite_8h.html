@@ -171,15 +171,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5fbaf037f18d04536127b88417481eb8" id="r_a5fbaf037f18d04536127b88417481eb8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a5fbaf037f18d04536127b88417481eb8">sprite_new</a> (u16 a0, u16 a1, u32 tid, u32 pb, int sprite_index)</td></tr>
-<tr class="memdesc:a5fbaf037f18d04536127b88417481eb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate and retrieve a pointer to a valid <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>.  <br /></td></tr>
-<tr class="separator:a5fbaf037f18d04536127b88417481eb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a72c0eb3ceb85ffb7ceb452f9602d42" id="r_a9a72c0eb3ceb85ffb7ceb452f9602d42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a9a72c0eb3ceb85ffb7ceb452f9602d42">sprite_new</a> (u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)</td></tr>
+<tr class="memdesc:a9a72c0eb3ceb85ffb7ceb452f9602d42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate and retrieve a pointer to a valid <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>.  <br /></td></tr>
+<tr class="separator:a9a72c0eb3ceb85ffb7ceb452f9602d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbbc989fe5cd8e1e93f9784e1048be47" id="r_abbbc989fe5cd8e1e93f9784e1048be47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47">sprite_destroy</a> (<a class="el" href="structSprite.html">Sprite</a> **sprite)</td></tr>
 <tr class="memdesc:abbbc989fe5cd8e1e93f9784e1048be47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>.  <br /></td></tr>
 <tr class="separator:abbbc989fe5cd8e1e93f9784e1048be47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa017c4226720c0aa8f4ab530a6e2f715" id="r_aa017c4226720c0aa8f4ab530a6e2f715"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aa017c4226720c0aa8f4ab530a6e2f715">sprite_get_layer</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
-<tr class="memdesc:aa017c4226720c0aa8f4ab530a6e2f715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get index of <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> in the GBA object buffer.  <br /></td></tr>
-<tr class="separator:aa017c4226720c0aa8f4ab530a6e2f715"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3edbd74ad587968318be34d9b844b77f" id="r_a3edbd74ad587968318be34d9b844b77f"><td class="memItemLeft" align="right" valign="top">s16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a3edbd74ad587968318be34d9b844b77f">sprite_get_layer</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
+<tr class="memdesc:a3edbd74ad587968318be34d9b844b77f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get index of <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> in the GBA object buffer.  <br /></td></tr>
+<tr class="separator:a3edbd74ad587968318be34d9b844b77f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a892674d2db5b33bb55aacffa2686632a" id="r_a892674d2db5b33bb55aacffa2686632a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a892674d2db5b33bb55aacffa2686632a">sprite_get_dimensions</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite, int *width, int *height)</td></tr>
 <tr class="memdesc:a892674d2db5b33bb55aacffa2686632a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>'s width and height.  <br /></td></tr>
 <tr class="separator:a892674d2db5b33bb55aacffa2686632a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,6 +192,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a6938f30020cc51d7baa6cf552fdb884d" id="r_a6938f30020cc51d7baa6cf552fdb884d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a6938f30020cc51d7baa6cf552fdb884d">sprite_get_pb</a> (const <a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
 <tr class="memdesc:a6938f30020cc51d7baa6cf552fdb884d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the palette bank of a <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>.  <br /></td></tr>
 <tr class="separator:a6938f30020cc51d7baa6cf552fdb884d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb3a96bb99ff09035c9225c525aefc37" id="r_acb3a96bb99ff09035c9225c525aefc37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#acb3a96bb99ff09035c9225c525aefc37">sprite_hide</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
+<tr class="memdesc:acb3a96bb99ff09035c9225c525aefc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hides the sprite by manipulating ATTR0_HIDE in OAM.  <br /></td></tr>
+<tr class="separator:acb3a96bb99ff09035c9225c525aefc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3c9e98e114be7ad77b926de9a6558e5" id="r_ad3c9e98e114be7ad77b926de9a6558e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#ad3c9e98e114be7ad77b926de9a6558e5">sprite_unhide</a> (<a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
+<tr class="memdesc:ad3c9e98e114be7ad77b926de9a6558e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unhides the sprite by manipulating ATTR0_HIDE in OAM. The sprite's ATTR0_MODE is maintained from the sprite's creation with <a class="el" href="sprite_8h.html#a9a72c0eb3ceb85ffb7ceb452f9602d42">sprite_new()</a>  <br /></td></tr>
+<tr class="separator:ad3c9e98e114be7ad77b926de9a6558e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a564c9484883d28c4904b382c2eec5db9" id="r_a564c9484883d28c4904b382c2eec5db9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a564c9484883d28c4904b382c2eec5db9">sprite_init</a> (void)</td></tr>
 <tr class="memdesc:a564c9484883d28c4904b382c2eec5db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize GBAlatro sprite system.  <br /></td></tr>
 <tr class="separator:a564c9484883d28c4904b382c2eec5db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -207,6 +213,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a73a20232ad5676c64b3dc1e548f2bdcf" id="r_a73a20232ad5676c64b3dc1e548f2bdcf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a73a20232ad5676c64b3dc1e548f2bdcf">sprite_object_set_sprite</a> (<a class="el" href="structSpriteObject.html">SpriteObject</a> *sprite_object, <a class="el" href="structSprite.html">Sprite</a> *sprite)</td></tr>
 <tr class="memdesc:a73a20232ad5676c64b3dc1e548f2bdcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> to an associated <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>.  <br /></td></tr>
 <tr class="separator:a73a20232ad5676c64b3dc1e548f2bdcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aede51ebfb3fd32f8475d808af22670bb" id="r_aede51ebfb3fd32f8475d808af22670bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#aede51ebfb3fd32f8475d808af22670bb">sprite_object_hide</a> (<a class="el" href="structSpriteObject.html">SpriteObject</a> *sprite_object)</td></tr>
+<tr class="memdesc:aede51ebfb3fd32f8475d808af22670bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hides the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> by manipulating ATTR0_HIDE in OAM.  <br /></td></tr>
+<tr class="separator:aede51ebfb3fd32f8475d808af22670bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23284db53af3e51e49a7b8983cc0a5e8" id="r_a23284db53af3e51e49a7b8983cc0a5e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a23284db53af3e51e49a7b8983cc0a5e8">sprite_object_unhide</a> (<a class="el" href="structSpriteObject.html">SpriteObject</a> *sprite_object)</td></tr>
+<tr class="memdesc:a23284db53af3e51e49a7b8983cc0a5e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unhides the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> by manipulating ATTR0_HIDE in OAM. The sprite's ATTR0_MODE is maintained from the sprite's creation with <a class="el" href="sprite_8h.html#a9a72c0eb3ceb85ffb7ceb452f9602d42">sprite_new()</a>  <br /></td></tr>
+<tr class="separator:a23284db53af3e51e49a7b8983cc0a5e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a673f791a81943a40619c246e8eed8f0f" id="r_a673f791a81943a40619c246e8eed8f0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sprite_8h.html#a673f791a81943a40619c246e8eed8f0f">sprite_object_reset_transform</a> (<a class="el" href="structSpriteObject.html">SpriteObject</a> *sprite_object)</td></tr>
 <tr class="memdesc:a673f791a81943a40619c246e8eed8f0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>'s transform back to default values.  <br /></td></tr>
 <tr class="separator:a673f791a81943a40619c246e8eed8f0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -379,7 +391,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00091">91</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00093">93</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -401,7 +413,7 @@ Functions</h2></td></tr>
 
 <p>Draw Sprites to screen, to be called once per frame. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00158">158</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00159">159</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -448,7 +460,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> if successful, <b>false</b> if otherwise. Upon success, <code>width</code> and <code>height</code> contain valid data, otherwise, the variables are unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00139">139</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00141">141</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -488,18 +500,18 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>height</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00128">128</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00132">132</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
-<a id="aa017c4226720c0aa8f4ab530a6e2f715" name="aa017c4226720c0aa8f4ab530a6e2f715"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa017c4226720c0aa8f4ab530a6e2f715">&#9670;&#160;</a></span>sprite_get_layer()</h2>
+<a id="a3edbd74ad587968318be34d9b844b77f" name="a3edbd74ad587968318be34d9b844b77f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3edbd74ad587968318be34d9b844b77f">&#9670;&#160;</a></span>sprite_get_layer()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int sprite_get_layer </td>
+          <td class="memname">s16 sprite_get_layer </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td>
           <td class="paramname"><em>sprite</em></td><td>)</td>
@@ -517,7 +529,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Index of sprite in object buffer if <code>sprite</code> is valid, otherwise <b>UNDEFINED</b>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00110">110</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00116">116</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -546,7 +558,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The palette bank of the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> if successful, otherwise return <b>UNDEFINED</b>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00163">163</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00164">164</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -586,7 +598,35 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>width</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00117">117</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00123">123</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+
+</div>
+</div>
+<a id="acb3a96bb99ff09035c9225c525aefc37" name="acb3a96bb99ff09035c9225c525aefc37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb3a96bb99ff09035c9225c525aefc37">&#9670;&#160;</a></span>sprite_hide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprite_hide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hides the sprite by manipulating ATTR0_HIDE in OAM. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to hide </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00171">171</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -608,12 +648,12 @@ Functions</h2></td></tr>
 
 <p>Initialize GBAlatro sprite system. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00153">153</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00154">154</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
-<a id="a5fbaf037f18d04536127b88417481eb8" name="a5fbaf037f18d04536127b88417481eb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fbaf037f18d04536127b88417481eb8">&#9670;&#160;</a></span>sprite_new()</h2>
+<a id="a9a72c0eb3ceb85ffb7ceb452f9602d42" name="a9a72c0eb3ceb85ffb7ceb452f9602d42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a72c0eb3ceb85ffb7ceb452f9602d42">&#9670;&#160;</a></span>sprite_new()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -645,7 +685,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">s16&#160;</td>
           <td class="paramname"><em>sprite_index</em>&#160;</td>
         </tr>
         <tr>
@@ -698,7 +738,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00184">184</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00197">197</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -727,7 +767,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573" title="Print the given string directly beneath a SpriteObject. This is used only for Cards for now.">sprite_object_print_text_under</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00430">430</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00457">457</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -774,7 +814,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>width</code> and <code>height</code> contain valid data, otherwise, the variables are unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00376">376</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00402">402</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -814,7 +854,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>height</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00366">366</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00395">395</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -843,7 +883,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> pointer registered to <code>sprite_object</code> if successful, otherwise return <b>NULL</b>. May be successful and <b>NULL</b> if there is no <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> registered to the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00333">333</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00363">363</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -883,7 +923,35 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>true</b> is successful, <b>false</b> if otherwise. Upon success, <code>width</code> contains valid data, otherwise, the variable is unchanged. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00356">356</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00388">388</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+
+</div>
+</div>
+<a id="aede51ebfb3fd32f8475d808af22670bb" name="aede51ebfb3fd32f8475d808af22670bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aede51ebfb3fd32f8475d808af22670bb">&#9670;&#160;</a></span>sprite_object_hide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprite_object_hide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSpriteObject.html">SpriteObject</a> *&#160;</td>
+          <td class="paramname"><em>sprite_object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hides the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> by manipulating ATTR0_HIDE in OAM. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite_object</td><td>The <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> to hide </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00213">213</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -911,7 +979,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00173">173</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00186">186</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -940,7 +1008,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> is focused, <code>false</code> otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00386">386</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00409">409</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -986,7 +1054,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00385">385</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00417">417</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -1026,7 +1094,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="sprite_8h.html#a45d7d6b792b629e6082ae850dcfdf573" title="Print the given string directly beneath a SpriteObject. This is used only for Cards for now.">sprite_object_print_text_under</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00422">422</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00447">447</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +1133,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00413">413</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00438">438</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1093,7 +1161,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00202">202</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00227">227</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1133,7 +1201,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00340">340</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00370">370</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1172,7 +1240,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00194">194</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00205">205</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1211,7 +1279,35 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00319">319</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00350">350</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+
+</div>
+</div>
+<a id="a23284db53af3e51e49a7b8983cc0a5e8" name="a23284db53af3e51e49a7b8983cc0a5e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23284db53af3e51e49a7b8983cc0a5e8">&#9670;&#160;</a></span>sprite_object_unhide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprite_object_unhide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSpriteObject.html">SpriteObject</a> *&#160;</td>
+          <td class="paramname"><em>sprite_object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unhides the <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> by manipulating ATTR0_HIDE in OAM. The sprite's ATTR0_MODE is maintained from the sprite's creation with <a class="el" href="sprite_8h.html#a9a72c0eb3ceb85ffb7ceb452f9602d42">sprite_new()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite_object</td><td>The <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a> to unhide </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00220">220</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1239,7 +1335,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00301">301</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00332">332</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1262,7 +1358,7 @@ Functions</h2></td></tr>
 <p>Update all SpriteObjects, to be called once per frame in the main update loop. </p>
 <p>TODO: try and put this function in IWRAM for performance purposes. Crashed the last time I tried. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00309">309</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00340">340</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>
@@ -1308,7 +1404,35 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00368">368</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00400">400</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+
+</div>
+</div>
+<a id="ad3c9e98e114be7ad77b926de9a6558e5" name="ad3c9e98e114be7ad77b926de9a6558e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3c9e98e114be7ad77b926de9a6558e5">&#9670;&#160;</a></span>sprite_unhide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sprite_unhide </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td>
+          <td class="paramname"><em>sprite</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Unhides the sprite by manipulating ATTR0_HIDE in OAM. The sprite's ATTR0_MODE is maintained from the sprite's creation with <a class="el" href="sprite_8h.html#a9a72c0eb3ceb85ffb7ceb452f9602d42">sprite_new()</a> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sprite</td><td>The sprite to unhide </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8c_source.html#l00178">178</a> of file <a class="el" href="sprite_8c_source.html">sprite.c</a>.</p>
 
 </div>
 </div>

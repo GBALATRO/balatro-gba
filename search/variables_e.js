@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['vrotation_0',['vrotation',['../structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7',1,'SpriteObject']]],
-  ['vscale_1',['vscale',['../structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e',1,'SpriteObject']]],
-  ['vx_2',['vx',['../structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344',1,'SpriteObject']]]
+  ['tail_0',['tail',['../structList.html#abceaaefbca0a54331abe45fd7df77263',1,'List']]],
+  ['trotation_1',['trotation',['../structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039',1,'SpriteObject']]],
+  ['tscale_2',['tscale',['../structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253',1,'SpriteObject']]],
+  ['tx_3',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
+  ['type_4',['type',['../structItem.html#abcafd47dddaa3d0d1398448b8a61c48d',1,'Item']]]
 ];

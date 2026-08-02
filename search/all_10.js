@@ -26,6 +26,7 @@ var searchData=
   ['mm_5fmodule_5ffull_5fvolume_23',['MM_MODULE_FULL_VOLUME',['../audio__utils_8h.html#a6d01a856f8b7240cbc462a5ffee7d8a9',1,'audio_utils.h']]],
   ['mm_5fpan_5fcenter_24',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
   ['mm_5fsfx_5ffull_5fvolume_25',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
-  ['music_20strong_26',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md33',1,'']]],
-  ['musicplayerstate_27',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
+  ['mode_26',['mode',['../structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13',1,'Sprite']]],
+  ['music_20strong_27',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md33',1,'']]],
+  ['musicplayerstate_28',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
 ];
