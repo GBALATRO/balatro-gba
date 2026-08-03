@@ -344,7 +344,7 @@ static inline void game_shop_buy_item(int shop_item_idx)
     Item* item = (Item*)list_get_at_idx(shop_items_list, shop_item_idx);
 
     g_game_vars.money -= item_get_buy_price(item);
-    play_sfx(SFX_COIN1_BALANCE_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     sprite_object_set_focus((SpriteObject*)item, false);
@@ -474,7 +474,7 @@ static bool shop_reroll_row_on_selection_changed(
 static inline void game_shop_reroll(void)
 {
     g_game_vars.money -= s_reroll_cost;
-    play_sfx(SFX_COIN1_BALANCE_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money(); // Update the money display
 
     List* shop_items_list = &s_shop_items_list;

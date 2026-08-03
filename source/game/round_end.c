@@ -392,7 +392,7 @@ static inline void game_round_end_cashout(void)
     // Reward the player
     g_game_vars.money += g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
                          calculate_interest_reward();
-    play_sfx(SFX_COIN1_BALANCE_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
 
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
