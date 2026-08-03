@@ -210,7 +210,7 @@ static void game_round_end_update_blind_reward(void)
             blind_get_reward(g_game_vars.current_blind) - blind_reward
         );
         play_sfx(
-            SFX_COIN3_MONEY_ACCUM,
+            SFX_COIN3_ACCUM,
             MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
             SFX_DEFAULT_VOLUME
         );
@@ -294,7 +294,7 @@ static inline void game_round_end_print_hand_reward(int hand_y_offset)
             g_game_vars.hands - hand_reward
         );
         play_sfx(
-            SFX_COIN3_MONEY_ACCUM,
+            SFX_COIN3_ACCUM,
             MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
             SFX_DEFAULT_VOLUME
         );
@@ -336,7 +336,7 @@ static inline void game_round_end_print_interest_reward(int interest_y_offset)
             interest_reward - interest_to_count
         );
         play_sfx(
-            SFX_COIN3_MONEY_ACCUM,
+            SFX_COIN3_ACCUM,
             MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
             SFX_DEFAULT_VOLUME
         );
