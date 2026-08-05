@@ -143,6 +143,7 @@ $(document).ready(function(){initNavTree('item_8h.html',''); initResizable(); })
 <p>The core structure for items in the shop and inventory. Provides a common API for the shop and inventory to handle all types of items. Uses struct inheritance so all inherited items can implement an is-a relationship with <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. This means that pointers to structs that inherit <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> using first member struct inheritance can and should be cast to Item* so code that expects an Item* can use them.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="random_8h_source.html">random.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sprite_8h_source.html">sprite.h</a>&quot;</code><br />
 </div>
 <p><a href="item_8h_source.html">Go to the source code of this file.</a></p>
@@ -186,9 +187,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1ae511d2e85bbe177e8b303726a73b3f" id="r_a1ae511d2e85bbe177e8b303726a73b3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structItem.html">Item</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a1ae511d2e85bbe177e8b303726a73b3f">item_roll_new</a> (enum ItemType item_type)</td></tr>
-<tr class="memdesc:a1ae511d2e85bbe177e8b303726a73b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rolls a random item of type <code>item_type</code> and returns a newly created one. Manages rollable items set if necessary (i.e. not rolling items already in inventory) To be used when rolling new items for the shop or packs.  <br /></td></tr>
-<tr class="separator:a1ae511d2e85bbe177e8b303726a73b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8977ed404b2afb0bd9c48edf79820db6" id="r_a8977ed404b2afb0bd9c48edf79820db6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structItem.html">Item</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">item_roll_new</a> (enum ItemType item_type, enum <a class="el" href="random_8h.html#a73381af6639eb302e772129df6f83d47">RngSequence</a> key)</td></tr>
+<tr class="memdesc:a8977ed404b2afb0bd9c48edf79820db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rolls a random item of type <code>item_type</code> and returns a newly created one. Manages rollable items set if necessary (i.e. not rolling items already in inventory) To be used when rolling new items for the shop or packs.  <br /></td></tr>
+<tr class="separator:a8977ed404b2afb0bd9c48edf79820db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff0f2379be85d7b6a27a5761be9e7715" id="r_aff0f2379be85d7b6a27a5761be9e7715"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:aff0f2379be85d7b6a27a5761be9e7715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the buy price of the item.  <br /></td></tr>
 <tr class="separator:aff0f2379be85d7b6a27a5761be9e7715"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -253,7 +254,7 @@ Functions</h2></td></tr>
 <p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
 <p>This version is for a function that returns a value, while <a class="el" href="item_8h.html#a32f7cd2b81875b4ccedd715e1146e613">ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</a> is for a void function. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00024">24</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00025">25</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -294,7 +295,7 @@ Functions</h2></td></tr>
 <p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
 <p>This version is for a void function, while <a class="el" href="item_8h.html#a03689dd6ee6d519243cdc0ac44768a04">ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</a> is for one with a return value. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00040">40</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00041">41</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -311,7 +312,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00050">50</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00051">51</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -460,8 +461,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1ae511d2e85bbe177e8b303726a73b3f" name="a1ae511d2e85bbe177e8b303726a73b3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ae511d2e85bbe177e8b303726a73b3f">&#9670;&#160;</a></span>item_roll_new()</h2>
+<a id="a8977ed404b2afb0bd9c48edf79820db6" name="a8977ed404b2afb0bd9c48edf79820db6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8977ed404b2afb0bd9c48edf79820db6">&#9670;&#160;</a></span>item_roll_new()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -470,17 +471,28 @@ Functions</h2></td></tr>
           <td class="memname"><a class="el" href="structItem.html">Item</a> * item_roll_new </td>
           <td>(</td>
           <td class="paramtype">enum ItemType&#160;</td>
-          <td class="paramname"><em>item_type</em></td><td>)</td>
+          <td class="paramname"><em>item_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">enum <a class="el" href="random_8h.html#a73381af6639eb302e772129df6f83d47">RngSequence</a>&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Rolls a random item of type <code>item_type</code> and returns a newly created one. Manages rollable items set if necessary (i.e. not rolling items already in inventory) To be used when rolling new items for the shop or packs. </p>
-<p>Matches <a class="el" href="structItemFuncs.html#a0f081ea2f439824dffe6b7cd9461ad7d">ItemFuncs::roll_new()</a></p>
+<p>Matches <a class="el" href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">ItemFuncs::roll_new()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">item_type</td><td>The type of the item to roll</td></tr>
+    <tr><td class="paramname">item_type</td><td>The type of the item to roll </td></tr>
+    <tr><td class="paramname">key</td><td>to the RNG sequence used to roll the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a></td></tr>
   </table>
   </dd>
 </dl>

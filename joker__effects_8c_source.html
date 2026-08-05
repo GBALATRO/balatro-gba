@@ -1230,7 +1230,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l01090" name="l01090"></a><span class="lineno"> 1090</span> </div>
 <div class="line"><a id="l01091" name="l01091"></a><span class="lineno"> 1091</span>    *joker_effect = &amp;s_shared_joker_effect;</div>
 <div class="line"><a id="l01092" name="l01092"></a><span class="lineno"> 1092</span> </div>
-<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>    (*joker_effect)-&gt;mult = <a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % (MISPRINT_MAX_MULT + 1);</div>
+<div class="line"><a id="l01093" name="l01093"></a><span class="lineno"> 1093</span>    (*joker_effect)-&gt;mult = <a class="code hl_function" href="random_8h.html#a4d26ae8ae4bb822e9da37320cf773e9a">rng_get_u32</a>(RNG_SEQ_JOKER_MISPRINT) % (MISPRINT_MAX_MULT + 1);</div>
 <div class="line"><a id="l01094" name="l01094"></a><span class="lineno"> 1094</span> </div>
 <div class="line"><a id="l01095" name="l01095"></a><span class="lineno"> 1095</span>    <span class="keywordflow">return</span> JOKER_EFFECT_FLAG_MULT;</div>
 <div class="line"><a id="l01096" name="l01096"></a><span class="lineno"> 1096</span>}</div>
@@ -1441,7 +1441,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l01301" name="l01301"></a><span class="lineno"> 1301</span> </div>
 <div class="line"><a id="l01302" name="l01302"></a><span class="lineno"> 1302</span>    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;</div>
 <div class="line"><a id="l01303" name="l01303"></a><span class="lineno"> 1303</span> </div>
-<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>    <span class="keywordflow">if</span> ((<a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
+<div class="line"><a id="l01304" name="l01304"></a><span class="lineno"> 1304</span>    <span class="keywordflow">if</span> (card_is_face(scored_card) &amp;&amp; (<a class="code hl_function" href="random_8h.html#a4d26ae8ae4bb822e9da37320cf773e9a">rng_get_u32</a>(RNG_SEQ_JOKER_RESERVED_PARKING) % 2 == 0))</div>
 <div class="line"><a id="l01305" name="l01305"></a><span class="lineno"> 1305</span>    {</div>
 <div class="line"><a id="l01306" name="l01306"></a><span class="lineno"> 1306</span>        *joker_effect = &amp;s_shared_joker_effect;</div>
 <div class="line"><a id="l01307" name="l01307"></a><span class="lineno"> 1307</span> </div>
@@ -1463,7 +1463,7 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="line"><a id="l01323" name="l01323"></a><span class="lineno"> 1323</span> </div>
 <div class="line"><a id="l01324" name="l01324"></a><span class="lineno"> 1324</span>    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;</div>
 <div class="line"><a id="l01325" name="l01325"></a><span class="lineno"> 1325</span> </div>
-<div class="line"><a id="l01326" name="l01326"></a><span class="lineno"> 1326</span>    <span class="keywordflow">if</span> ((<a class="code hl_function" href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a>() % 2 == 0) &amp;&amp; card_is_face(scored_card))</div>
+<div class="line"><a id="l01326" name="l01326"></a><span class="lineno"> 1326</span>    <span class="keywordflow">if</span> (card_is_face(scored_card) &amp;&amp; (<a class="code hl_function" href="random_8h.html#a4d26ae8ae4bb822e9da37320cf773e9a">rng_get_u32</a>(RNG_SEQ_JOKER_BUSINESS_CARD) % 2 == 0))</div>
 <div class="line"><a id="l01327" name="l01327"></a><span class="lineno"> 1327</span>    {</div>
 <div class="line"><a id="l01328" name="l01328"></a><span class="lineno"> 1328</span>        *joker_effect = &amp;s_shared_joker_effect;</div>
 <div class="line"><a id="l01329" name="l01329"></a><span class="lineno"> 1329</span> </div>
@@ -2184,16 +2184,16 @@ $(document).ready(function(){initNavTree('joker__effects_8c_source.html',''); in
 <div class="ttc" id="alist_8h_html_adaa09cca2b970d67f0cd14076e1db988"><div class="ttname"><a href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a></div><div class="ttdeci">void * list_itr_next(ListItr *itr)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00281">list.c:281</a></div></div>
 <div class="ttc" id="alist_8h_html_af580fe52b40b3ee763b5fc145b7890b0"><div class="ttname"><a href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a></div><div class="ttdeci">ListItr list_itr_create(List *list)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00257">list.c:257</a></div></div>
 <div class="ttc" id="arandom_8h_html"><div class="ttname"><a href="random_8h.html">random.h</a></div><div class="ttdoc">Common functions to handle RNG manipulation. Using this interface has three goals:</div></div>
-<div class="ttc" id="arandom_8h_html_aa9ae84d9bf14a3987243f76cdf78c67b"><div class="ttname"><a href="random_8h.html#aa9ae84d9bf14a3987243f76cdf78c67b">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(void)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence from the current seed.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00036">random.c:36</a></div></div>
+<div class="ttc" id="arandom_8h_html_a4d26ae8ae4bb822e9da37320cf773e9a"><div class="ttname"><a href="random_8h.html#a4d26ae8ae4bb822e9da37320cf773e9a">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(enum RngSequence key)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence corresponding to the given type.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00056">random.c:56</a></div></div>
 <div class="ttc" id="around_8h_html"><div class="ttname"><a href="round_8h.html">round.h</a></div><div class="ttdoc">API relative to the Rounds we play.</div></div>
 <div class="ttc" id="around_8h_html_a2a4916e063f7e60e36f4f4f95d5a0050"><div class="ttname"><a href="round_8h.html#a2a4916e063f7e60e36f4f4f95d5a0050">get_scored_card_index</a></div><div class="ttdeci">int get_scored_card_index(void)</div><div class="ttdoc">Get the index of the card that is currently being scored.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00296">round.c:296</a></div></div>
 <div class="ttc" id="around_8h_html_a39727c2ef1584b79537ff9bee3e6a5a5"><div class="ttname"><a href="round_8h.html#a39727c2ef1584b79537ff9bee3e6a5a5">get_played_size</a></div><div class="ttdeci">int get_played_size(void)</div><div class="ttdoc">Get the number of cards played.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00248">round.c:248</a></div></div>
 <div class="ttc" id="astructCardObject_html"><div class="ttname"><a href="structCardObject.html">CardObject</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00055">card.h:56</a></div></div>
 <div class="ttc" id="astructCard_html"><div class="ttname"><a href="structCard.html">Card</a></div><div class="ttdef"><b>Definition</b> <a href="card_8h_source.html#l00049">card.h:50</a></div></div>
-<div class="ttc" id="astructJokerEffect_html"><div class="ttname"><a href="structJokerEffect.html">JokerEffect</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00119">joker.h:120</a></div></div>
-<div class="ttc" id="astructJokerInfo_html"><div class="ttname"><a href="structJokerInfo.html">JokerInfo</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00144">joker.h:145</a></div></div>
-<div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00113">joker.h:114</a></div></div>
-<div class="ttc" id="astructJoker_html"><div class="ttname"><a href="structJoker.html">Joker</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00100">joker.h:101</a></div></div>
+<div class="ttc" id="astructJokerEffect_html"><div class="ttname"><a href="structJokerEffect.html">JokerEffect</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00120">joker.h:121</a></div></div>
+<div class="ttc" id="astructJokerInfo_html"><div class="ttname"><a href="structJokerInfo.html">JokerInfo</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00145">joker.h:146</a></div></div>
+<div class="ttc" id="astructJokerObject_html"><div class="ttname"><a href="structJokerObject.html">JokerObject</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00114">joker.h:115</a></div></div>
+<div class="ttc" id="astructJoker_html"><div class="ttname"><a href="structJoker.html">Joker</a></div><div class="ttdef"><b>Definition</b> <a href="joker_8h_source.html#l00101">joker.h:102</a></div></div>
 <div class="ttc" id="astructListItr_html"><div class="ttname"><a href="structListItr.html">ListItr</a></div><div class="ttdoc">An iterator into a list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00090">list.h:91</a></div></div>
 <div class="ttc" id="astructList_html"><div class="ttname"><a href="structList.html">List</a></div><div class="ttdoc">A doubly-linked list.</div><div class="ttdef"><b>Definition</b> <a href="list_8h_source.html#l00060">list.h:61</a></div></div>
 <div class="ttc" id="autil_8h_html"><div class="ttname"><a href="util_8h.html">util.h</a></div><div class="ttdoc">Utilities relating around number string representation and protected arithmatic helper functions.</div></div>

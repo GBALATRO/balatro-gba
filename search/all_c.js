@@ -25,7 +25,7 @@ var searchData=
   ['item_5fprint_5fbuy_5fprice_5funder_22',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
   ['item_5freturn_5fif_5funexpected_5ftype_5fret_23',['ITEM_RETURN_IF_UNEXPECTED_TYPE_RET',['../item_8h.html#a03689dd6ee6d519243cdc0ac44768a04',1,'item.h']]],
   ['item_5freturn_5fif_5funexpected_5ftype_5fvoid_24',['ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID',['../item_8h.html#a32f7cd2b81875b4ccedd715e1146e613',1,'item.h']]],
-  ['item_5froll_5fnew_25',['item_roll_new',['../item_8h.html#a1ae511d2e85bbe177e8b303726a73b3f',1,'item.c']]],
+  ['item_5froll_5fnew_25',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]],
   ['itemfuncs_26',['itemfuncs',['../item_8h.html#a96577ad5559bbb52afe7d2a8b1488824',1,'ItemFuncs:&#160;item.h'],['../structItemFuncs.html',1,'ItemFuncs']]],
   ['itr_27',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
 ];

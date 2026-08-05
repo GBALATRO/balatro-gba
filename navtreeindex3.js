@@ -1,5 +1,15 @@
 var NAVTREEINDEX3 =
 {
+"structSaveOptions.html":[2,0,27],
+"structSelGridRowAttributes.html":[2,0,30],
+"structSelGridRowAttributes.html#a6599c8f0c5bae86b6e3b2d13fbf2768c":[2,0,30,1],
+"structSelGridRowAttributes.html#aae4302fd3b786eaab0c51e87ecc84633":[2,0,30,0],
+"structSelGridRowAttributes.html#ad694781c319f7ac04c4b381152b4abaf":[2,0,30,2],
+"structSelectionGrid.html":[2,0,28],
+"structSelectionGridRow.html":[2,0,29],
+"structSprite.html":[2,0,31],
+"structSprite.html#a27f946a5cef34e7b3e5517100838671f":[2,0,31,4],
+"structSprite.html#a2cb045818544027034fbf51906cbe47e":[2,0,31,0],
 "structSprite.html#a321db6c1f5b889c202df5a3e312022f0":[2,0,31,1],
 "structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13":[2,0,31,2],
 "structSprite.html#abdcca0516e817f6f84009b3ace44c495":[2,0,31,3],

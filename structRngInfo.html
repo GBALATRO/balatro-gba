@@ -145,13 +145,13 @@ $(document).ready(function(){initNavTree('structRngInfo.html',''); initResizable
 Data Fields</h2></td></tr>
 <tr class="memitem:a7cbcfdb2051ed9fffc1cc294a820b7f5" id="r_a7cbcfdb2051ed9fffc1cc294a820b7f5"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5">seed</a></td></tr>
 <tr class="separator:a7cbcfdb2051ed9fffc1cc294a820b7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add7060bb1806fc83671041faf7c1643a" id="r_add7060bb1806fc83671041faf7c1643a"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRngInfo.html#add7060bb1806fc83671041faf7c1643a">step</a></td></tr>
-<tr class="separator:add7060bb1806fc83671041faf7c1643a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af135331576cded0d032c29210acee475" id="r_af135331576cded0d032c29210acee475"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structRngInfo.html#af135331576cded0d032c29210acee475">states</a> [RNG_SEQ_MAX]</td></tr>
+<tr class="separator:af135331576cded0d032c29210acee475"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Information to track and restore RNG state. </p>
 
-<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00018">18</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00040">40</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a7cbcfdb2051ed9fffc1cc294a820b7f5" name="a7cbcfdb2051ed9fffc1cc294a820b7f5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7cbcfdb2051ed9fffc1cc294a820b7f5">&#9670;&#160;</a></span>seed</h2>
@@ -166,24 +166,24 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Initial seed </p>
 
-<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00021">21</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00043">43</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
 
 </div>
 </div>
-<a id="add7060bb1806fc83671041faf7c1643a" name="add7060bb1806fc83671041faf7c1643a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add7060bb1806fc83671041faf7c1643a">&#9670;&#160;</a></span>step</h2>
+<a id="af135331576cded0d032c29210acee475" name="af135331576cded0d032c29210acee475"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af135331576cded0d032c29210acee475">&#9670;&#160;</a></span>states</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">u32 step</td>
+          <td class="memname">u32 states[RNG_SEQ_MAX]</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Position in the rng sequence. </p>
+<p>Individual states for independent rng sequences </p>
 
-<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00023">23</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="random_8h_source.html#l00045">45</a> of file <a class="el" href="random_8h_source.html">random.h</a>.</p>
 
 </div>
 </div>

@@ -9,5 +9,5 @@ var searchData=
   ['item_5fdispose_6',['item_dispose',['../item_8h.html#a178cee27ce8381444e135b45c9174359',1,'item.c']]],
   ['item_5fget_5fbuy_5fprice_7',['item_get_buy_price',['../item_8h.html#aff0f2379be85d7b6a27a5761be9e7715',1,'item.c']]],
   ['item_5fprint_5fbuy_5fprice_5funder_8',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
-  ['item_5froll_5fnew_9',['item_roll_new',['../item_8h.html#a1ae511d2e85bbe177e8b303726a73b3f',1,'item.c']]]
+  ['item_5froll_5fnew_9',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]]
 ];

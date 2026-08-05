@@ -6,7 +6,7 @@ var searchData=
   ['joker_5fobject_5fadd_5fto_5fowned_3',['joker_object_add_to_owned',['../joker_8h.html#a828618bf59de4d767c02ca5ab7183940',1,'joker.c']]],
   ['joker_5fobject_5fdispose_4',['joker_object_dispose',['../joker_8h.html#a03dbc1f69bd0f3a66f0e7e4538e871ea',1,'joker.c']]],
   ['joker_5fobject_5fget_5fbuy_5fprice_5',['joker_object_get_buy_price',['../joker_8h.html#a5ea56aa0d61cad6cfe77603861633666',1,'joker.c']]],
-  ['joker_5fobject_5froll_5fnew_6',['joker_object_roll_new',['../joker_8h.html#a4ea706caaf6dec06ac926b67d4465af5',1,'joker.c']]],
+  ['joker_5fobject_5froll_5fnew_6',['joker_object_roll_new',['../joker_8h.html#a4439898bd765192c92b3d9f61a7a4934',1,'joker.c']]],
   ['joker_5freset_5frollable_5fjokers_7',['joker_reset_rollable_jokers',['../joker_8h.html#a918b93ef719d3c3bbd8cd08d5793467b',1,'joker.c']]],
   ['joker_5frow_2eh_8',['joker_row.h',['../joker__row_8h.html',1,'']]],
   ['joker_5fset_5frollable_9',['joker_set_rollable',['../joker_8h.html#afeaee7bccd2b1da5a262b4c124a34f2a',1,'joker.c']]],

@@ -11,5 +11,5 @@ var item_8h =
     [ "item_dispose", "item_8h.html#a178cee27ce8381444e135b45c9174359", null ],
     [ "item_get_buy_price", "item_8h.html#aff0f2379be85d7b6a27a5761be9e7715", null ],
     [ "item_print_buy_price_under", "item_8h.html#a3a4d47e5504f52b26a4e8d560a697433", null ],
-    [ "item_roll_new", "item_8h.html#a1ae511d2e85bbe177e8b303726a73b3f", null ]
+    [ "item_roll_new", "item_8h.html#a8977ed404b2afb0bd9c48edf79820db6", null ]
 ];

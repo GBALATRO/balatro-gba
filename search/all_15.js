@@ -99,7 +99,7 @@ var searchData=
   ['statecallback_96',['StateCallback',['../state__machine_8h.html#a9510cf55336642bad5ad888b7b6c7a21',1,'state_machine.h']]],
   ['stateinfo_97',['StateInfo',['../structStateInfo.html',1,'']]],
   ['statemachine_98',['StateMachine',['../structStateMachine.html',1,'']]],
-  ['step_99',['step',['../structRngInfo.html#add7060bb1806fc83671041faf7c1643a',1,'RngInfo']]],
+  ['states_99',['states',['../structRngInfo.html#af135331576cded0d032c29210acee475',1,'RngInfo']]],
   ['strong_20credits_3a_20strong_100',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md31',1,'']]],
   ['strong_20game_20strong_101',['&lt;strong&gt;Game&lt;/strong&gt;',['../md_README.html#autotoc_md32',1,'']]],
   ['strong_20imagery_20strong_102',['&lt;strong&gt;Imagery&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],

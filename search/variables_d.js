@@ -10,5 +10,5 @@ var searchData=
   ['spriteobject_7',['SpriteObject',['../structItem.html#a89144277bc691613127f9fc4f8030b08',1,'Item']]],
   ['state_8',['state',['../structStateMachine.html#a89f234133d3efe315836311cbf21c64b',1,'StateMachine']]],
   ['state_5finfos_9',['state_infos',['../structStateMachine.html#a007fb62416ee346877fa244b16fc8947',1,'StateMachine']]],
-  ['step_10',['step',['../structRngInfo.html#add7060bb1806fc83671041faf7c1643a',1,'RngInfo']]]
+  ['states_10',['states',['../structRngInfo.html#af135331576cded0d032c29210acee475',1,'RngInfo']]]
 ];
