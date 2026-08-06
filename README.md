@@ -49,7 +49,7 @@ https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 (Hold A + D-Pad: Move Cards and Jokers in Hand)
 
-(Hold B: Display Joker Description **_Shop Only_**)
+(Hold B: Display Joker Description on focused Joker)
 
 # Contributing
 

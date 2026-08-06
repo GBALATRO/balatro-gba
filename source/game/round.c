@@ -9,6 +9,7 @@
 #include "background_gfx.h"
 #include "button.h"
 #include "game.h"
+#include "game/joker_desc.h"
 #include "game/joker_row.h"
 #include "graphic_utils.h"
 #include "hand.h"
@@ -50,13 +51,18 @@
 #define NUM_SCORE_LERP_STEPS   16
 #define TM_SCORE_LERP_INTERVAL 2
 
-#define GAME_PLAYING_HAND_SEL_Y 1
+#define GAME_PLAYING_HAND_SEL_Y   1
+#define GAME_PLAYING_JOKERS_SEL_Y 0
 
+// Palette indices reserved for the description rarity stripe (offscreen-only in background_gfx)
 // Pixel sizes
 #define CARD_FOCUSED_UNSEL_Y 10
 #define CARD_UNFOCUSED_SEL_Y 15
 #define CARD_FOCUSED_SEL_Y   20
 #define SCORED_CARD_TEXT_Y   48
+// Peek at the bottom while the joker desc is open (not fully off-screen like 200).
+// Screen is 160px; leave ~half a card visible below the desc panel.
+#define HAND_CARDS_HIDE_Y    (160 - CARD_SPRITE_SIZE / 2)
 
 // clang-format off
 
@@ -97,6 +103,7 @@ static const BG_POINT CARD_DRAW_POS              = {208,     110};
 static const BG_POINT CARD_DISCARD_PNT           = {240,     70};
 static const BG_POINT HAND_START_POS             = {120,     90};
 static const BG_POINT HAND_PLAY_POS              = {120,     70};
+
 // clang-format on
 
 /*******************************************************************************
@@ -236,6 +243,174 @@ static bool s_discarded_card = false;
 static int s_cards_drawn = 0;
 static int s_cards_discarded = 0;
 
+// Joker description overlay (Hold B on the jokers row)
+enum RoundDescState
+{
+    ROUND_DESC_IDLE,
+    ROUND_DESC_SHOWING,
+    ROUND_DESC_HIDING
+};
+
+static enum RoundDescState s_round_desc_state = ROUND_DESC_IDLE;
+static int s_desc_timer = TM_ZERO;
+static int s_show_description_anim_progress = 0;
+static FIXED s_description_card_original_x_pos = UNDEFINED;
+static FIXED s_description_card_original_y_pos = UNDEFINED;
+
+// Joker tray + hand/buttons band scrolled or painted over while the desc is open
+static const Rect ROUND_DESC_UNDERLAY_RECT = {9, 0, 28, 31};
+static const Rect ROUND_DESC_JOKER_TRAY_RECT = {9, 1, 28, 5};
+// Same width as shop POP_MENU_ANIM_RECT — leave the deck (cols 25-28) alone so
+// DECK_ANIM_RECT can tuck it only partially (TM_HIDE_DECK_WAIT frames), like the shop.
+static const Rect ROUND_DESC_BOTTOM_UI_RECT = {9, 7, 24, 31};
+
+static void game_round_desc_restore_hand_select_windows(void)
+{
+    // Match selecting: blend tray only; keep Play/Discard (y>=128) outside WIN0.
+    REG_WIN0H = (72 << 8) | 200;
+    REG_WIN0V = (44 << 8) | 128;
+    REG_WIN0CNT = WIN_ALL | WIN_BLD;
+    toggle_windows(true, true);
+}
+
+static void game_round_show_joker_desc(void)
+{
+    JokerObject* description_card = joker_desc_get_active();
+    if (description_card == NULL || description_card->joker == NULL)
+    {
+        joker_desc_discard_underlay();
+        s_round_desc_state = ROUND_DESC_IDLE;
+        s_desc_timer = TM_ZERO;
+        return;
+    }
+
+    s_desc_timer++;
+
+    if (s_desc_timer == 1)
+    {
+        s_show_description_anim_progress = 0;
+
+        tte_erase_rect_wrapper(PLAYING_SCREEN_RECT);
+
+        // Snapshot SE before we scroll trays/buttons away or paint the panel
+        joker_desc_save_underlay(ROUND_DESC_UNDERLAY_RECT);
+
+        // Keep play blend while the tray slides away so it never flashes solid black.
+        // WIN0 is killed only when the opaque desc panel is drawn (below).
+        game_round_desc_restore_hand_select_windows();
+
+        // Hide the near-black hand-tray fill immediately (scroll alone takes several frames).
+        // Stop at col 24 so the deck (25-28) is only partially tucked via DECK_ANIM_RECT.
+        joker_desc_clear_se_rect((Rect){9, 11, 24, 20});
+
+        sprite_object_erase_text_under((SpriteObject*)description_card);
+
+        JokerObject* joker_object = NULL;
+        ListItr itr = list_itr_create(get_jokers_list());
+        while ((joker_object = list_itr_next(&itr)))
+        {
+            if (joker_object != description_card)
+                joker_object->ty -= int2fx(JOKER_DESC_OWNED_HIDE_Y_OFFSET);
+        }
+
+        description_card->tx = int2fx(JOKER_DESC_SPRITE_POS.x);
+        description_card->ty = int2fx(JOKER_DESC_SPRITE_POS.y);
+    }
+
+    if (s_desc_timer <= TM_SHOW_CARD_DESC_WAIT)
+    {
+        s_show_description_anim_progress++;
+
+        // Slide remaining bottom UI / joker tray chrome off-screen (shop-style)
+        main_bg_se_move_rect_1_tile_vert(ROUND_DESC_BOTTOM_UI_RECT, SCREEN_DOWN);
+        main_bg_se_move_rect_1_tile_vert(ROUND_DESC_JOKER_TRAY_RECT, SCREEN_UP);
+        if (TM_SHOW_CARD_DESC_WAIT - s_desc_timer < TM_HIDE_DECK_WAIT)
+            main_bg_se_move_rect_1_tile_vert(DECK_ANIM_RECT, SCREEN_DOWN);
+    }
+    else if (s_desc_timer == TM_SHOW_CARD_DESC_WAIT + 1)
+    {
+        // Opaque panel: same as shop. Tray is already gone, so no black flash.
+        toggle_windows(false, true);
+        joker_desc_draw_round_panel(
+            description_card->joker,
+            JOKER_DESC_RARITY_MAIN_COLOR_PAL_IDX,
+            JOKER_DESC_RARITY_SHADOW_COLOR_PAL_IDX
+        );
+    }
+
+    if (!key_held(DESELECT_CARDS))
+    {
+        s_desc_timer = TM_ZERO;
+        s_round_desc_state = ROUND_DESC_HIDING;
+    }
+}
+
+static void game_round_hide_joker_desc(void)
+{
+    static bool owned_joker_price_printed = false;
+    JokerObject* description_card = joker_desc_get_active();
+    if (description_card == NULL)
+    {
+        joker_desc_restore_underlay();
+        game_round_desc_restore_hand_select_windows();
+        s_round_desc_state = ROUND_DESC_IDLE;
+        s_desc_timer = TM_ZERO;
+        return;
+    }
+
+    s_desc_timer++;
+
+    if (s_desc_timer == 1)
+    {
+        owned_joker_price_printed = false;
+
+        tte_erase_rect_wrapper(PLAYING_SCREEN_RECT);
+        game_round_desc_restore_hand_select_windows();
+
+        // Full SE restore (tray, buttons, deck). Do not re-tuck/scroll the deck:
+        // scrolling DECK_ANIM after restore discards tiles past the rect bottom
+        // and left the deck permanently clipped.
+        joker_desc_restore_underlay();
+        joker_desc_restore_flame_palette();
+
+        display_deck_size_max();
+        tte_printf(
+            "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
+            HAND_SIZE_RECT_SELECT.left,
+            HAND_SIZE_RECT_SELECT.top,
+            TTE_WHITE_PB,
+            hand_nb_held_cards(),
+            g_game_vars.hand_size
+        );
+
+        JokerObject* joker_object = NULL;
+        ListItr itr = list_itr_create(get_jokers_list());
+        while ((joker_object = list_itr_next(&itr)))
+        {
+            if (joker_object != description_card)
+                joker_object->ty = int2fx(HELD_JOKERS_POS.y);
+        }
+
+        description_card->tx = s_description_card_original_x_pos;
+        description_card->ty = s_description_card_original_y_pos;
+    }
+    else if (description_card->vx == 0 && description_card->vy == 0)
+    {
+        owned_joker_price_printed = false;
+        joker_desc_set_active(NULL);
+        s_desc_timer = TM_ZERO;
+        s_round_desc_state = ROUND_DESC_IDLE;
+    }
+    else if (!owned_joker_price_printed && !key_held(SELECT_CARD))
+    {
+        owned_joker_price_printed = true;
+        sprite_object_print_price_under(
+            (SpriteObject*)description_card,
+            joker_get_sell_value(description_card->joker)
+        );
+    }
+}
+
 /*******************************************************************************
  * UTILS FUNCTIONS
  ******************************************************************************/
@@ -338,7 +513,13 @@ static void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SU
 void game_round_change_background_selecting(void)
 {
     tte_erase_rect_wrapper(HAND_SIZE_RECT_PLAYING);
-    REG_WIN0V = (REG_WIN0V << 8) | 0x80; // Set window 0 top to 128
+
+    // Blend only the hand-tray fill (y 44-128). Buttons sit at y>=128 and must
+    // stay outside WIN0 — inside it BLDA makes BG1 weight 0 so they vanish into
+    // the affine BG (looks like empty transparent tray).
+    REG_WIN0H = (72 << 8) | 200;
+    REG_WIN0V = (44 << 8) | 128;
+    REG_WIN0CNT = WIN_ALL | WIN_BLD;
 
     if (get_current_background() == BG_CARD_PLAYING)
     {
@@ -348,6 +529,7 @@ void game_round_change_background_selecting(void)
             &background_gfxMap[SE_ROW_LEN * offset],
             SE_ROW_LEN * 8
         );
+        toggle_windows(true, true);
     }
     else
     {
@@ -404,7 +586,10 @@ void game_round_change_background_playing(void)
         change_background(BG_CARD_SELECTING, false);
     }
 
-    REG_WIN0V = (REG_WIN0V << 8) | 0xA0; // Set window 0 bottom to 160
+    // Hand tray moves down 3 tiles (y 112-160). Top must be <=112 or the upper
+    // half renders as solid near-black without blend (seen on the first played hand).
+    REG_WIN0H = (72 << 8) | 200;
+    REG_WIN0V = (112 << 8) | 160;
     toggle_windows(true, true);
 
     for (int i = 0; i <= 2; i++)
@@ -714,6 +899,23 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
 static inline void game_round_process_hand_select_input(void)
 {
     selection_grid_process_input(&game_round_selection_grid);
+
+    // Hold B on the jokers row to view a description (same binding as the shop)
+    if (game_round_selection_grid.selection.y != GAME_PLAYING_JOKERS_SEL_Y)
+        return;
+
+    JokerObject* focused = list_get_at_idx(
+        get_jokers_list(),
+        game_round_selection_grid.selection.x
+    );
+    if (focused == NULL || focused->vx != 0 || focused->vy != 0 || !key_held(DESELECT_CARDS))
+        return;
+
+    joker_desc_set_active(focused);
+    s_description_card_original_x_pos = focused->x;
+    s_description_card_original_y_pos = focused->y;
+    s_desc_timer = TM_ZERO;
+    s_round_desc_state = ROUND_DESC_SHOWING;
 }
 
 /**
@@ -1054,7 +1256,15 @@ static inline bool game_round_is_over(void)
 
 static inline void game_round_process_input_and_state(void)
 {
-    if (get_hand_state() == HAND_SELECT)
+    if (s_round_desc_state == ROUND_DESC_SHOWING)
+    {
+        game_round_show_joker_desc();
+    }
+    else if (s_round_desc_state == ROUND_DESC_HIDING)
+    {
+        game_round_hide_joker_desc();
+    }
+    else if (get_hand_state() == HAND_SELECT)
     {
         game_round_process_hand_select_input();
     }
@@ -1270,6 +1480,14 @@ static inline void cards_in_hand_update_loop(void)
     {
         if (hand[i] != NULL)
         {
+            // Tuck hand cards toward the bottom only while the desc is opening/open —
+            // leave them partially visible (like the deck). During HIDING they lerp back.
+            if (s_round_desc_state == ROUND_DESC_SHOWING)
+            {
+                hand[i]->ty = int2fx(HAND_CARDS_HIDE_Y);
+                continue;
+            }
+
             FIXED hand_x = int2fx(HAND_START_POS.x);
             FIXED hand_y = int2fx(HAND_START_POS.y);
 
@@ -1296,7 +1514,11 @@ static inline void cards_in_hand_update_loop(void)
                     {
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
-                    if (i != selected_card_idx && hand[i]->y > hand_y)
+                    // Unfocused cards that sit slightly below their rest y (after losing focus
+                    // raise) snap down. Do NOT snap large gaps — e.g. returning from the
+                    // description hide position — or they teleport instead of animating.
+                    if (i != selected_card_idx && hand[i]->y > hand_y &&
+                        hand[i]->y - hand_y <= int2fx(CARD_FOCUSED_SEL_Y))
                     {
                         hand[i]->y = hand_y;
                         // Set target y to match y. Ensures target is updated even when vy becomes
@@ -1429,6 +1651,7 @@ void toggle_flaming_score(void)
     if (curr_score >= required_score && !s_score_flames_active)
     {
         // start flaming score
+        joker_desc_restore_flame_palette();
         s_score_flames_active = true;
         return;
     }
