@@ -254,6 +254,8 @@ enum RoundDescState
 static enum RoundDescState s_round_desc_state = ROUND_DESC_IDLE;
 static int s_desc_timer = TM_ZERO;
 static int s_show_description_anim_progress = 0;
+static int s_deck_tuck_frames = 0;
+static int s_deck_untuck_remaining = 0;
 static FIXED s_description_card_original_x_pos = UNDEFINED;
 static FIXED s_description_card_original_y_pos = UNDEFINED;
 
@@ -261,7 +263,7 @@ static FIXED s_description_card_original_y_pos = UNDEFINED;
 static const Rect ROUND_DESC_UNDERLAY_RECT = {9, 0, 28, 31};
 static const Rect ROUND_DESC_JOKER_TRAY_RECT = {9, 1, 28, 5};
 // Same width as shop POP_MENU_ANIM_RECT — leave the deck (cols 25-28) alone so
-// DECK_ANIM_RECT can tuck it only partially (TM_HIDE_DECK_WAIT frames), like the shop.
+// PLAY_DECK_ANIM_RECT can tuck it only partially (TM_HIDE_DECK_WAIT frames), like the shop.
 static const Rect ROUND_DESC_BOTTOM_UI_RECT = {9, 7, 24, 31};
 
 static void game_round_desc_restore_hand_select_windows(void)
@@ -289,6 +291,8 @@ static void game_round_show_joker_desc(void)
     if (s_desc_timer == 1)
     {
         s_show_description_anim_progress = 0;
+        s_deck_tuck_frames = 0;
+        s_deck_untuck_remaining = 0;
 
         tte_erase_rect_wrapper(PLAYING_SCREEN_RECT);
 
@@ -300,7 +304,7 @@ static void game_round_show_joker_desc(void)
         game_round_desc_restore_hand_select_windows();
 
         // Hide the near-black hand-tray fill immediately (scroll alone takes several frames).
-        // Stop at col 24 so the deck (25-28) is only partially tucked via DECK_ANIM_RECT.
+        // Stop at col 24 so the deck (25-28) is only partially tucked via PLAY_DECK_ANIM_RECT.
         joker_desc_clear_se_rect((Rect){9, 11, 24, 20});
 
         sprite_object_erase_text_under((SpriteObject*)description_card);
@@ -325,7 +329,10 @@ static void game_round_show_joker_desc(void)
         main_bg_se_move_rect_1_tile_vert(ROUND_DESC_BOTTOM_UI_RECT, SCREEN_DOWN);
         main_bg_se_move_rect_1_tile_vert(ROUND_DESC_JOKER_TRAY_RECT, SCREEN_UP);
         if (TM_SHOW_CARD_DESC_WAIT - s_desc_timer < TM_HIDE_DECK_WAIT)
-            main_bg_se_move_rect_1_tile_vert(DECK_ANIM_RECT, SCREEN_DOWN);
+        {
+            main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_DOWN);
+            s_deck_tuck_frames++;
+        }
     }
     else if (s_desc_timer == TM_SHOW_CARD_DESC_WAIT + 1)
     {
@@ -353,6 +360,8 @@ static void game_round_hide_joker_desc(void)
     {
         joker_desc_restore_underlay();
         game_round_desc_restore_hand_select_windows();
+        s_deck_tuck_frames = 0;
+        s_deck_untuck_remaining = 0;
         s_round_desc_state = ROUND_DESC_IDLE;
         s_desc_timer = TM_ZERO;
         return;
@@ -367,11 +376,13 @@ static void game_round_hide_joker_desc(void)
         tte_erase_rect_wrapper(PLAYING_SCREEN_RECT);
         game_round_desc_restore_hand_select_windows();
 
-        // Full SE restore (tray, buttons, deck). Do not re-tuck/scroll the deck:
-        // scrolling DECK_ANIM after restore discards tiles past the rect bottom
-        // and left the deck permanently clipped.
+        // Restore trays/buttons/deck SE, then re-tuck the deck in the same frame so the
+        // next frames can scroll it back up like the shop (no visible snap, no clip).
         joker_desc_restore_underlay();
         joker_desc_restore_flame_palette();
+        for (int i = 0; i < s_deck_tuck_frames; i++)
+            main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_DOWN);
+        s_deck_untuck_remaining = s_deck_tuck_frames;
 
         display_deck_size_max();
         tte_printf(
@@ -394,20 +405,30 @@ static void game_round_hide_joker_desc(void)
         description_card->tx = s_description_card_original_x_pos;
         description_card->ty = s_description_card_original_y_pos;
     }
-    else if (description_card->vx == 0 && description_card->vy == 0)
+    else
     {
-        owned_joker_price_printed = false;
-        joker_desc_set_active(NULL);
-        s_desc_timer = TM_ZERO;
-        s_round_desc_state = ROUND_DESC_IDLE;
-    }
-    else if (!owned_joker_price_printed && !key_held(SELECT_CARD))
-    {
-        owned_joker_price_printed = true;
-        sprite_object_print_price_under(
-            (SpriteObject*)description_card,
-            joker_get_sell_value(description_card->joker)
-        );
+        if (s_deck_untuck_remaining > 0)
+        {
+            main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_UP);
+            s_deck_untuck_remaining--;
+        }
+
+        if (description_card->vx == 0 && description_card->vy == 0 && s_deck_untuck_remaining == 0)
+        {
+            owned_joker_price_printed = false;
+            joker_desc_set_active(NULL);
+            s_deck_tuck_frames = 0;
+            s_desc_timer = TM_ZERO;
+            s_round_desc_state = ROUND_DESC_IDLE;
+        }
+        else if (!owned_joker_price_printed && !key_held(SELECT_CARD))
+        {
+            owned_joker_price_printed = true;
+            sprite_object_print_price_under(
+                (SpriteObject*)description_card,
+                joker_get_sell_value(description_card->joker)
+            );
+        }
     }
 }
 
@@ -915,6 +936,8 @@ static inline void game_round_process_hand_select_input(void)
     s_description_card_original_x_pos = focused->x;
     s_description_card_original_y_pos = focused->y;
     s_desc_timer = TM_ZERO;
+    s_deck_tuck_frames = 0;
+    s_deck_untuck_remaining = 0;
     s_round_desc_state = ROUND_DESC_SHOWING;
 }
 
@@ -1515,10 +1538,10 @@ static inline void cards_in_hand_update_loop(void)
                         hand_y -= int2fx(CARD_FOCUSED_SEL_Y);
                     }
                     // Unfocused cards that sit slightly below their rest y (after losing focus
-                    // raise) snap down. Do NOT snap large gaps — e.g. returning from the
-                    // description hide position — or they teleport instead of animating.
-                    if (i != selected_card_idx && hand[i]->y > hand_y &&
-                        hand[i]->y - hand_y <= int2fx(CARD_FOCUSED_SEL_Y))
+                    // raise) snap down. Skip while returning from the joker description so every
+                    // card spring-lerps back instead of a mixed snap/bounce.
+                    if (s_round_desc_state != ROUND_DESC_HIDING && i != selected_card_idx &&
+                        hand[i]->y > hand_y && hand[i]->y - hand_y <= int2fx(CARD_FOCUSED_SEL_Y))
                     {
                         hand[i]->y = hand_y;
                         // Set target y to match y. Ensures target is updated even when vy becomes

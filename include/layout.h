@@ -18,7 +18,10 @@ static const BG_POINT HELD_JOKERS_POS                  = {108,     10};
 // Rects                                                  left     top     right   bottom
 static const Rect TOP_LEFT_PANEL_ANIM_RECT             = {0,       0,      8,      4};
 static const Rect POP_MENU_ANIM_RECT                   = {9,       7,      24,     31};
-static const Rect DECK_ANIM_RECT                       = {25,      14,     28,     19}; // Deck is rows 14-18; +1 empty row so TM_HIDE_DECK_WAIT (5) leaves a peek. Row 20+ = play flame atlas — do not include.
+// Shop / blind-select: full deck strip (no flame atlas on those backgrounds).
+static const Rect DECK_ANIM_RECT                       = {25,      14,     28,     23};
+// Play round: shorter so TM_HIDE_DECK_WAIT peeks and we never scroll into flame tiles (row 20+).
+static const Rect PLAY_DECK_ANIM_RECT                  = {25,      14,     28,     19};
 static const Rect TOP_LEFT_ITEM_SRC_RECT               = {0,       20,     8,      25};
 static const Rect TOP_LEFT_PANEL_BOTTOM_ROW_RESET_RECT = {0,       28,     8,      28};
 static const Rect BLIND_REWARD_RECT                    = {40,      32,     64,     40};
