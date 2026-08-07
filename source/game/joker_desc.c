@@ -194,6 +194,49 @@ void joker_desc_restore_underlay(void)
     s_underlay_saved = false;
 }
 
+static inline bool rect_contains_xy(Rect r, int x, int y)
+{
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+}
+
+void joker_desc_restore_underlay_except(Rect exclude)
+{
+    if (!s_underlay_saved)
+        return;
+
+    int i = 0;
+    for (int y = s_panel_underlay_rect.top; y <= s_panel_underlay_rect.bottom; y++)
+    {
+        for (int x = s_panel_underlay_rect.left; x <= s_panel_underlay_rect.right; x++)
+        {
+            if (i >= PANEL_UNDERLAY_MAX_SE)
+                return;
+            u16 se = s_panel_underlay_se[i++];
+            if (!rect_contains_xy(exclude, x, y))
+                se_mat[MAIN_BG_SBB][y][x] = se;
+        }
+    }
+}
+
+void joker_desc_restore_underlay_rect(Rect only)
+{
+    if (!s_underlay_saved)
+        return;
+
+    int i = 0;
+    for (int y = s_panel_underlay_rect.top; y <= s_panel_underlay_rect.bottom; y++)
+    {
+        for (int x = s_panel_underlay_rect.left; x <= s_panel_underlay_rect.right; x++)
+        {
+            if (i >= PANEL_UNDERLAY_MAX_SE)
+                return;
+            u16 se = s_panel_underlay_se[i++];
+            if (rect_contains_xy(only, x, y))
+                se_mat[MAIN_BG_SBB][y][x] = se;
+        }
+    }
+}
+
 void joker_desc_discard_underlay(void)
 {
     s_underlay_saved = false;

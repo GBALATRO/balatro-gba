@@ -376,12 +376,11 @@ static void game_round_hide_joker_desc(void)
         tte_erase_rect_wrapper(PLAYING_SCREEN_RECT);
         game_round_desc_restore_hand_select_windows();
 
-        // Restore trays/buttons/deck SE, then re-tuck the deck in the same frame so the
-        // next frames can scroll it back up like the shop (no visible snap, no clip).
-        joker_desc_restore_underlay();
+        // Restore trays/buttons from underlay, but leave the deck SE as currently tucked so
+        // we can scroll it back UP (reversible with the taller PLAY_DECK_ANIM_RECT). Re-tucking
+        // after a full restore discards tiles and clips the deck permanently.
+        joker_desc_restore_underlay_except(PLAY_DECK_ANIM_RECT);
         joker_desc_restore_flame_palette();
-        for (int i = 0; i < s_deck_tuck_frames; i++)
-            main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_DOWN);
         s_deck_untuck_remaining = s_deck_tuck_frames;
 
         display_deck_size_max();
@@ -411,12 +410,19 @@ static void game_round_hide_joker_desc(void)
         {
             main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_UP);
             s_deck_untuck_remaining--;
+            if (s_deck_untuck_remaining == 0)
+            {
+                // Heal flame-atlas SE that the deck tuck temporarily overwrote.
+                joker_desc_restore_underlay_rect(PLAY_DECK_FLAME_SE_RECT);
+                joker_desc_discard_underlay();
+            }
         }
 
         if (description_card->vx == 0 && description_card->vy == 0 && s_deck_untuck_remaining == 0)
         {
             owned_joker_price_printed = false;
             joker_desc_set_active(NULL);
+            joker_desc_discard_underlay();
             s_deck_tuck_frames = 0;
             s_desc_timer = TM_ZERO;
             s_round_desc_state = ROUND_DESC_IDLE;

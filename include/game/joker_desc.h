@@ -82,6 +82,19 @@ void joker_desc_save_underlay(Rect se_rect);
 void joker_desc_restore_underlay(void);
 
 /**
+ * @brief Restore saved underlay SE except cells inside @p exclude.
+ *
+ * Keeps the underlay buffer so later @ref joker_desc_restore_underlay_rect calls can
+ * heal regions (e.g. flame atlas under the deck) after a reversible scroll.
+ */
+void joker_desc_restore_underlay_except(Rect exclude);
+
+/**
+ * @brief Restore only the cells of @p only that fall inside the saved underlay rect.
+ */
+void joker_desc_restore_underlay_rect(Rect only);
+
+/**
  * @brief Discard any saved underlay without writing it back.
  */
 void joker_desc_discard_underlay(void);
