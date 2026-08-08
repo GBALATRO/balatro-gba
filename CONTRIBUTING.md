@@ -2,6 +2,15 @@
 
 Thank you for reading this. Below is a quick summary of expectations and tips to contribute.
 
+## Making Contributions
+First check the repo's [open issues](https://github.com/GBALATRO/balatro-gba/issues) to see if there is anything you want to take, the ["good first issue" label](https://github.com/GBALATRO/balatro-gba/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) can be a good place to start but feel free to check others too.
+
+If an issue is assigned to someone it usually means it's already being worked on and it's probably best to avoid working on it but feel free to join the discussion in the issue if there's anything you have to add.
+
+If you see an unassigned issue you want to work on, comment there that you want to work on it and we will assign it to you. It is recommended to discuss the planned implementation before opening a PR so it is approved before you fully commit to working on it.
+
+If there's something you want to add or fix and there's no open issue for it, open a new one, and as before, convey your intention to work on it and discuss the planned implementation.
+
 ## Scope
 We are limiting the scope of the project in order to not compete with the original Balatro and avoid a takedown by Playstack.
 We limited the scope to 52 jokers and reached that limit so currently there is no plan to add more jokers.
