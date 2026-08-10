@@ -356,7 +356,7 @@ static void update_volume_slider_graphics(enum OptionButtonRows sel_row)
     );
 }
 
-void game_options_menu_change_background(void)
+void options_menu_change_background(void)
 {
     tte_erase_screen();
 
@@ -396,7 +396,7 @@ void game_options_menu_change_background(void)
     );
 }
 
-void game_options_menu_on_init(void)
+void options_menu_on_init(void)
 {
     change_background(BG_OPTIONS_MENU, false);
 
@@ -412,7 +412,7 @@ void game_options_menu_on_init(void)
     update_volume_slider_graphics(SOUND_VOLUME_ROW_IDX);
 }
 
-void game_options_menu_on_update(void)
+void options_menu_on_update(void)
 {
     selection_grid_process_input(&options_menu_selection_grid);
 
@@ -426,7 +426,7 @@ void game_options_menu_on_update(void)
     }
 }
 
-void game_options_menu_on_exit(void)
+void options_menu_on_exit(void)
 {
     tte_erase_screen();
 }
