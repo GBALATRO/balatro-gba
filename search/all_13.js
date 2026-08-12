@@ -13,7 +13,7 @@ var searchData=
   ['play_5fscoring_5findependent_5fjokers_5fupdate_10',['play_scoring_independent_jokers_update',['../round_8c.html#a0d78a889edeedc032d9bba02f925da95',1,'round.c']]],
   ['play_5fsfx_11',['play_sfx',['../audio__utils_8c.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c'],['../audio__utils_8h.html#aad23876e6c46c118561c5c6733c39d69',1,'play_sfx(mm_word id, mm_word rate, mm_byte volume):&#160;audio_utils.c']]],
   ['played_5fpush_12',['played_push',['../round_8c.html#a2d3ef1230d3b5dad1661ef539c7c1a52',1,'round.c']]],
-  ['please_20buy_20the_20official_20full_20version_20from_20these_20sources_20below_3a_13',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md26',1,'']]],
+  ['please_20buy_20the_20official_20full_20version_20from_20these_20sources_20below_3a_13',['Please buy the official full version from these sources below:',['../md_README.html#autotoc_md27',1,'']]],
   ['pos_14',['pos',['../structSprite.html#a27f946a5cef34e7b3e5517100838671f',1,'Sprite']]],
   ['prev_15',['prev',['../structListNode.html#abca3b173fd255fcdd8b00254551c10cd',1,'ListNode']]],
   ['print_5fdeck_5fdescription_16',['print_deck_description',['../deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542',1,'print_deck_description(enum DeckType deck, BG_POINT pos):&#160;deck_types.c'],['../deck__types_8c.html#aeb6c51fe050fea32811f33e01f5c8542',1,'print_deck_description(enum DeckType deck, BG_POINT pos):&#160;deck_types.c']]],

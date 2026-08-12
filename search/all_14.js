@@ -20,7 +20,7 @@ var searchData=
   ['rngsequence_17',['RngSequence',['../random_8h.html#a73381af6639eb302e772129df6f83d47',1,'random.h']]],
   ['roll_5fblind_5ftype_18',['roll_blind_type',['../blind_8h.html#a2826e7fd956be78ad09013ef623c91e3',1,'roll_blind_type(bool showdown):&#160;blind.c'],['../blind_8c.html#a2826e7fd956be78ad09013ef623c91e3',1,'roll_blind_type(bool showdown):&#160;blind.c']]],
   ['roll_5fnew_19',['roll_new',['../structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f',1,'ItemFuncs']]],
-  ['rom_20',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md20',1,'']]],
+  ['rom_20',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md21',1,'']]],
   ['rotation_21',['rotation',['../structSpriteObject.html#a512a0f0a39ad91987d003f5f8e7f86ae',1,'SpriteObject']]],
   ['round_2ec_22',['round.c',['../round_8c.html',1,'']]],
   ['round_2eh_23',['round.h',['../round_8h.html',1,'']]],
@@ -28,7 +28,7 @@ var searchData=
   ['rowgetsizefunc_25',['RowGetSizeFunc',['../selection__grid_8h.html#a938a3d885aa43eb87fd72ec99e426b7e',1,'selection_grid.h']]],
   ['rowonkeytransitfunc_26',['RowOnKeyTransitFunc',['../selection__grid_8h.html#ac8a820ea55e1e9bcf88a497834130080',1,'selection_grid.h']]],
   ['rowonselectionchangedfunc_27',['RowOnSelectionChangedFunc',['../selection__grid_8h.html#a30261f1ca72f0d97ad46d54e59c30884',1,'selection_grid.h']]],
-  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_28',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md19',1,'']]],
+  ['run_20tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_28',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md20',1,'']]],
   ['run_5fsetup_2ec_29',['run_setup.c',['../run__setup_8c.html',1,'']]],
   ['run_5fsetup_2eh_30',['run_setup.h',['../run__setup_8h.html',1,'']]],
   ['run_5fsetup_5ftabs_5fupdate_31',['run_setup_tabs_update',['../run__setup_8c.html#ad8f373b6c06e1a2b727bdc2a39dd2cd2',1,'run_setup.c']]]

@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434":[3,0,1,0,6,10],
 "round_8c.html#a767cef821019cc29984d70192460b977":[3,0,1,0,6,14],
 "round_8c.html#a81b9604048e903b67beb87bf60db1f8e":[3,0,1,0,6,4],
 "round_8c.html#a8e3d34f37a1bbde2018adbe5e137022b":[3,0,1,0,6,34],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "structRngInfo.html":[2,0,24],
 "structRngInfo.html#a7cbcfdb2051ed9fffc1cc294a820b7f5":[2,0,24,0],
 "structRngInfo.html#af135331576cded0d032c29210acee475":[2,0,24,1],
-"structSaveGame.html":[2,0,25],
-"structSaveHeader.html":[2,0,26]
+"structSaveGame.html":[2,0,25]
 };

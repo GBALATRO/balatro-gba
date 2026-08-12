@@ -13,6 +13,6 @@ var searchData=
   ['hand_5fset_5fnb_5fselected_5fcards_10',['hand_set_nb_selected_cards',['../hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c'],['../hand_8c.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c']]],
   ['handvalues_11',['HandValues',['../structHandValues.html',1,'']]],
   ['has_5fh_5fexit_5fidx_12',['has_h_exit_idx',['../structSelGridRowAttributes.html#a6599c8f0c5bae86b6e3b2d13fbf2768c',1,'SelGridRowAttributes']]],
-  ['have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_13',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md22',1,'']]],
+  ['have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_13',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md23',1,'']]],
   ['head_14',['head',['../structList.html#a699a4c101c9310aad7e399005dc12545',1,'List']]]
 ];

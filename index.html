@@ -135,42 +135,48 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CONTRIBUTING"></a> Thank you for reading this. Below is a quick summary of expectations and tips to contribute.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Making Contributions</h1>
+<p>First check the repo's <a href="https://github.com/GBALATRO/balatro-gba/issues">open issues</a> to see if there is anything you want to take, the <a href="https://github.com/GBALATRO/balatro-gba/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22">"good first issue" label</a> can be a good place to start but feel free to check others too.</p>
+<p>If an issue is assigned to someone it usually means it's already being worked on and it's probably best to avoid working on it but feel free to join the issue discussion if there's anything you have to add.</p>
+<p>If you see an unassigned issue you want to work on, add a comment there saying you want to work on it and we will assign it to you. It is recommended to discuss the planned implementation before opening a PR so it is approved before you fully commit to working on it.</p>
+<p>If there's something you want to add or fix and there's no open issue for it, open a new one, and as before, convey your intention to work on it and discuss the planned implementation.</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Scope</h1>
 <p>We are limiting the scope of the project in order to not compete with the original Balatro and avoid a takedown by Playstack. We limited the scope to 52 jokers and reached that limit so currently there is no plan to add more jokers. See <a href="https://github.com/GBALATRO/balatro-gba/discussions/355">the scope discussion</a>.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Art</h1>
 <p>Before contributing art or if you need art for a code contribution check the <a href="https://github.com/GBALATRO/balatro-gba/discussions/131">existing additional art thread</a> and the <a href="https://github.com/GBALATRO/balatro-gba/discussions/69">joker art discussion</a> (though as said no more jokers are currently planned).</p>
 <p>Note that there are color limitations for sprites and backgrounds resulting due to the GBA hardware. Sprites may not use more than 16 colors per sprite including transparency. Backgrounds may use more colors but notice that their palette is encoded in their PNGs and new colors need to be added manually to the palette. <a href="https://github.com/GBALATRO/balatro-gba/pull/350">See relevant PR</a>.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 CI Checks</h1>
 <p>On pull-requests, various checks will be performed:</p><ol type="1">
 <li><b>Formatting</b>: <code>clang-format</code> will be ran on every <code>.c/.h</code> file with <a href="https://github.com/GBALATRO/balatro-gba/blob/main/.clang-format">this configuration</a>. Failures will cause the CI to fail.</li>
 <li><b>Unit Tests</b>: Unit tests are required to pass and are located in the repo <a href="https://github.com/GBALATRO/balatro-gba/tree/main/tests">here</a>.</li>
 <li><b>Rom Build</b>: The ROM must successfully build with the <code>make -j$(nproc)</code> command.</li>
 </ol>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Code Style</h1>
 <p>Besides the automatic formatting checks from <code>clang-format</code>, there is a looser set of code style rules. These are not strictly required, but is encouraged to be followed. <br  />
  The following details the code style rules including the enforced clang-format style. <a href="https://github.com/GBALATRO/balatro-gba/wiki/Code-Style-Guide">Link in wiki</a></p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Documentation</h1>
 <p>Doxygen is used to build docs that can be opened in browser.</p>
 <p>We host the docs for the main branch on github <a href="https://gbalatro.github.io/balatro-gba">here</a></p>
 <p>You can also choose to build the docs yourself <a href="https://github.com/GBALATRO/balatro-gba/wiki/Documentation-for-Developers">Link in wiki</a></p>
-<h1><a class="anchor" id="autotoc_md6"></a>
+<h1><a class="anchor" id="autotoc_md7"></a>
 Tools</h1>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md8"></a>
 clang-format</h2>
 <p>Running <code>clang-format</code> locally is recommended before submitting a PR as it will fail the <b>CI Checks</b> if not properly formatted. It is recommended either:</p><ol type="1">
 <li>Run <code>clang-format</code> periodically and only commit formatted code.</li>
 <li>Run <code>clang-format</code> as a separate commit on larger changes, and review each modified hunk.</li>
 </ol>
 <p>Either way, just ensure you manually review automatic changes.</p>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Version</h2>
 <p>This project currently uses <b>clang-format version 18</b>.</p>
 <p>Please ensure you are using this version to avoid CI formatting failures.</p>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Installation</h2>
 <details >
 <summary >
@@ -189,16 +195,16 @@ Install on Arch Linux</summary>
 <div class="line">echo &#39;export PATH=&quot;/usr/lib/llvm18/bin:${PATH}&quot;&#39; | sudo tee /etc/profile.d/clang-format-18.sh</div>
 </div><!-- fragment --><p></p>
 </details>
-<h2><a class="anchor" id="autotoc_md10"></a>
+<h2><a class="anchor" id="autotoc_md11"></a>
 Verify Installation</h2>
 <p>You can check your installed version using:</p>
 <div class="fragment"><div class="line">clang-format --version</div>
 </div><!-- fragment --><p>Ensure the output shows version 18.</p>
-<h3><a class="anchor" id="autotoc_md11"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
 VSCode</h3>
 <p>The recommended setup for VSCode is to install the <a href="https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd"><b>clangd</b></a> extension. It will provide helpful information in VSCode and can be used to format the code automatically according to the <code>.clang-format</code> file with **<code>Ctrl+Shift+I</code>**</p>
 <p>There is an option to enable <code>"editor.formatOnSave"</code> in the VSCode <code>settings.json</code> file. You can also do this by opening the settings menu (<code>File-&gt;Preferences-&gt;Settings</code>) and searching <code>format on save</code>.</p>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md13"></a>
 Manually</h3>
 <p>If installed locally and you'd prefer to use it in your shell. You can do the following</p>
 <div class="fragment"><div class="line"># List warnings</div>
@@ -209,7 +215,7 @@ Manually</h3>
 <div class="line"> </div>
 <div class="line"># Or just one</div>
 <div class="line">clang-format -i include/blind.h</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md14"></a>
 Disabling Formatting</h3>
 <p>Sometimes <code>clang-format</code> rules need to be broken, like in the case of the <a href="https://github.com/GBALATRO/balatro-gba/blob/8fb0813cf5f7235b6450dc9a76252dda4d9b4a27/source/joker_effects.c#L333">joker registry</a> and other tables or maps. If it makes sense, you can wrap code in <code>// clang-format off</code> and <code>// clang-format on</code>:</p>
 <ul>
@@ -234,7 +240,7 @@ Disabling Formatting</h3>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Custom Scripts</h2>
 <p>In the repo we use custom scripts located in the <a href="https://github.com/GBALATRO/balatro-gba/tree/main/scripts"><code>scripts</code></a> directory.</p>
 <p>🟡 <b>Note</b>: <code>python3</code> and <code>bash</code> are required for these scripts.</p>
@@ -244,10 +250,10 @@ Custom Scripts</h2>
 <li><b>get_memory_map.sh</b>: Print the memory map of the pre-allocated pools.</li>
 <li><b>save_build.sh</b>: Save a timestamped copy of build outputs (<code>.elf</code>, <code>.gba</code>, <code>.map</code>). </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 Minimal usage</h1>
 <p>./scripts/save_build.sh build/balatro-gba.gba</p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 With optional build label</h1>
 <p>./scripts/save_build.sh build/balatro-gba.gba my-feature </p><div class="fragment"><div class="line">## Debugging</div>
 <div class="line">It&#39;s recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).</div>
@@ -363,7 +369,7 @@ With optional build label</h1>
 <p></p>
 <p></p>
 </details>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 MacOS</h3>
 <p>🔴 <b>Requires python-pillow to be installed. Currently, no maintainer has a macOS machine to test on. If you have python and python-pillow tested installation instructions for MacOS, please let us know and we will add it here.</b> 🔴</p>
 <p>1.) Install devkitPro installer using: <a href="https://github.com/devkitPro/installer">https://github.com/devkitPro/installer</a> and following <a href="https://devkitpro.org/wiki/devkitPro_pacman#macOS">https://devkitpro.org/wiki/devkitPro_pacman#macOS</a>. </p><blockquote class="doxtable">
@@ -383,24 +389,24 @@ MacOS</h3>
 <li>export PATH=$PATH:$DEVKITPRO/tools/bin:$DEVKITPRO/pacman/bin</li>
 </ul>
 <p>5.) Follow instructions from Windows tutorial step 5</p>
-<h3><a class="anchor" id="autotoc_md18"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Common Issues:</h3>
-<h4><a class="anchor" id="autotoc_md19"></a>
+<h4><a class="anchor" id="autotoc_md20"></a>
 1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won't compile!</h4>
 <ul>
 <li>Move the project folder to your desktop and then <code>cd</code> to it by dragging the folder into the terminal window. This error could be caused by a bad file path, placing the folder on the desktop is a failsafe.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md20"></a>
+<h4><a class="anchor" id="autotoc_md21"></a>
 2. I can't find the compiled rom!</h4>
 <ul>
 <li>Look for a folder called <code>build</code> inside the project folder and then find <code>balatro-gba.gba</code>.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md21"></a>
+<h4><a class="anchor" id="autotoc_md22"></a>
 3. The Game won't start!</h4>
 <ul>
 <li>Try a different emulator or if you are using original hardware, make sure the rom is not corrupted and try a different flashcart or SD <a class="el" href="structCard.html">Card</a>. If this does not work, open an issue on the Github page because a recent commit may have broke the game.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md22"></a>
+<h4><a class="anchor" id="autotoc_md23"></a>
 4. It says I don't have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!</h4>
 <ul>
 <li>Please verify you ran all the instructions required for your operating system. They will have the commands to install all required commands. </li>

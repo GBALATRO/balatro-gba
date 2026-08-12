@@ -27,15 +27,15 @@ var NAVTREE =
   [ "GBAlatro", "index.html", [
     [ "Developer Guide", "index.html", "index" ],
     [ "Balatro-GBA", "md_README.html", [
-      [ "Contributing", "md_README.html#autotoc_md30", null ],
-      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md31", [
-        [ "Disclaimer", "md_README.html#autotoc_md25", null ],
-        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md26", null ],
-        [ "Controls:", "md_README.html#autotoc_md29", null ],
-        [ "<strong>Game</strong>", "md_README.html#autotoc_md32", null ],
-        [ "<strong>Music</strong>", "md_README.html#autotoc_md33", null ],
-        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md34", null ],
-        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md35", null ]
+      [ "Contributing", "md_README.html#autotoc_md31", null ],
+      [ "<strong>Credits:</strong>", "md_README.html#autotoc_md32", [
+        [ "Disclaimer", "md_README.html#autotoc_md26", null ],
+        [ "Please buy the official full version from these sources below:", "md_README.html#autotoc_md27", null ],
+        [ "Controls:", "md_README.html#autotoc_md30", null ],
+        [ "<strong>Game</strong>", "md_README.html#autotoc_md33", null ],
+        [ "<strong>Music</strong>", "md_README.html#autotoc_md34", null ],
+        [ "<strong>Imagery</strong>", "md_README.html#autotoc_md35", null ],
+        [ "<strong>Sounds</strong>", "md_README.html#autotoc_md36", null ]
       ] ]
     ] ],
     [ "Data Structures", "annotated.html", [
@@ -65,8 +65,8 @@ var NAVTREEINDEX =
 [
 "affine__background_8c_source.html",
 "globals_m.html",
-"round_8c.html#a767cef821019cc29984d70192460b977",
-"structSaveOptions.html"
+"round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434",
+"structSaveHeader.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
