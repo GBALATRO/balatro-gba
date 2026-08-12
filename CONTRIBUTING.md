@@ -7,7 +7,7 @@ First check the repo's [open issues](https://github.com/GBALATRO/balatro-gba/iss
 
 If an issue is assigned to someone it usually means it's already being worked on and it's probably best to avoid working on it but feel free to join the issue discussion if there's anything you have to add.
 
-If you see an unassigned issue you want to work on, add a comment there that you want to work on it and we will assign it to you. It is recommended to discuss the planned implementation before opening a PR so it is approved before you fully commit to working on it.
+If you see an unassigned issue you want to work on, add a comment there saying you want to work on it and we will assign it to you. It is recommended to discuss the planned implementation before opening a PR so it is approved before you fully commit to working on it.
 
 If there's something you want to add or fix and there's no open issue for it, open a new one, and as before, convey your intention to work on it and discuss the planned implementation.
 
