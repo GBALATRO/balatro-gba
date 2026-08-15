@@ -1,10 +1,12 @@
 #include "game/joker_row.h"
 
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "joker.h"
 #include "layout.h"
 #include "list.h"
+#include "soundbank.h"
 #include "sprite.h"
 #include "util.h"
 
@@ -89,6 +91,7 @@ static inline void game_sell_joker(int joker_idx)
 
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
     g_game_vars.money += joker_get_sell_value(joker_object->joker);
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)joker_object);
 
