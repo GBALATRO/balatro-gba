@@ -9,6 +9,7 @@
 #include "game/blind_select.h"
 #include "game/common_ui.h"
 #include "game/game_over.h"
+#include "game/joker_desc.h"
 #include "game/joker_row.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
@@ -277,8 +278,8 @@ static inline void held_jokers_update_loop(void)
     int i = 0;
     while ((joker = list_itr_next(&itr)))
     {
-        // Let the Shop handle the position of this Joker
-        if (joker != game_shop_get_description_card())
+        // Let description overlay handle this Joker's position
+        if (joker != joker_desc_get_active())
             joker->tx = hand_x - int2fx(SPACING_LUT[jokers_top][i]);
         i++;
     }
