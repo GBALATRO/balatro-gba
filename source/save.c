@@ -352,7 +352,7 @@ void save_game(void)
 
     // Lists
 
-    List* jokers_list = get_jokers_list();
+    List* jokers_list = get_jokers_container()->contents;
     int nb_jokers = list_get_len(jokers_list);
 
     int i = 0;

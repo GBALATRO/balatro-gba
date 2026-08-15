@@ -1516,7 +1516,7 @@ static inline void play_starting_played_cards_update(int played_idx)
 
         if (s_scored_card_index == 0)
         {
-            s_joker_scored_itr = list_itr_create(get_jokers_list());
+            s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
             g_game_vars.timer = TM_ZERO;
             play_state = PLAY_BEFORE_SCORING;
         }
@@ -1575,7 +1575,7 @@ static inline bool play_scoring_cards_update(void)
         if (s_scored_card_index > s_played_top)
         {
             // reuse these variables for held cards
-            s_joker_scored_itr = list_itr_create(get_jokers_list());
+            s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
             s_scored_card_index = get_hand_top();
 
             play_state = PLAY_SCORING_HELD_CARDS;
@@ -1609,8 +1609,8 @@ static inline bool play_scoring_cards_update(void)
             display_chips();
 
             // Allow Joker scoring
-            s_joker_scored_itr = list_itr_create(get_jokers_list());
-            s_joker_card_scored_end_itr = list_itr_create(get_jokers_list());
+            s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
+            s_joker_card_scored_end_itr = list_itr_create(get_jokers_container()->contents);
         }
 
         play_state = PLAY_SCORING_CARD_JOKERS;
@@ -1697,11 +1697,11 @@ static inline bool play_scoring_held_cards_update(int played_idx)
                 card_object_shake(hand[s_scored_card_index], SFX_CARD_SELECT);
                 return true;
             }
-            s_joker_scored_itr = list_itr_create(get_jokers_list());
+            s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
         }
 
         s_scored_card_index = 0;
-        s_joker_round_end_itr = list_itr_create(get_jokers_list());
+        s_joker_round_end_itr = list_itr_create(get_jokers_container()->contents);
         play_state = PLAY_SCORING_INDEPENDENT_JOKERS;
     }
 
@@ -1858,7 +1858,7 @@ static bool play_ended_played_cards_update(int played_idx)
                 hand_set_nb_selected_cards(0);
                 s_played_top = -1; // Reset the played stack
                 s_scored_card_index = 0;
-                s_joker_scored_itr = list_itr_create(get_jokers_list());
+                s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
                 g_game_vars.timer = TM_ZERO;
             }
 
@@ -1974,7 +1974,7 @@ static inline void played_cards_update_loop(void)
 
 void game_round_on_init(void)
 {
-    s_joker_scored_itr = list_itr_create(get_jokers_list());
+    s_joker_scored_itr = list_itr_create(get_jokers_container()->contents);
 
     set_hand_state(HAND_DRAW);
     hand_set_nb_selected_cards(0);

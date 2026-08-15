@@ -10,7 +10,7 @@
 
 int jokers_sel_row_get_size(void)
 {
-    return list_get_len(get_jokers_list());
+    return list_get_len(get_jokers_container()->contents);
 }
 
 bool jokers_sel_row_on_selection_changed(
@@ -20,7 +20,7 @@ bool jokers_sel_row_on_selection_changed(
     const Selection* new_selection
 )
 {
-    List* owned_jokers_list = get_jokers_list();
+    SpriteContainer* owned_jokers_container = get_jokers_container();
 
     // swap Jokers if the A button is held down and all Jokers are on the same row
     bool swapping =
@@ -29,7 +29,7 @@ bool jokers_sel_row_on_selection_changed(
     if (prev_selection->y == row_idx)
     {
         JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(owned_jokers_list, prev_selection->x);
+            (JokerObject*)list_get_at_idx(owned_jokers_container->contents, prev_selection->x);
         // Don't change focus from current Joker if swapping
         if (joker_object != NULL && !swapping)
         {
@@ -41,7 +41,7 @@ bool jokers_sel_row_on_selection_changed(
     if (new_selection->y == row_idx)
     {
         JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(owned_jokers_list, new_selection->x);
+            (JokerObject*)list_get_at_idx(owned_jokers_container->contents, new_selection->x);
         if (joker_object != NULL)
         {
             if (!swapping)
@@ -63,8 +63,8 @@ bool jokers_sel_row_on_selection_changed(
 
     if (swapping)
     {
-        list_swap(
-            owned_jokers_list,
+        container_swap(
+            owned_jokers_container,
             (unsigned int)prev_selection->x,
             (unsigned int)new_selection->x
         );
@@ -82,7 +82,7 @@ static inline void joker_start_discard_animation(JokerObject* joker_object)
 
 static inline void game_sell_joker(int joker_idx)
 {
-    List* owned_jokers_list = get_jokers_list();
+    List* owned_jokers_list = get_jokers_container()->contents;
 
     if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
         return;
@@ -99,7 +99,8 @@ static inline void game_sell_joker(int joker_idx)
 
 void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    JokerObject* joker_object = (JokerObject*)list_get_at_idx(get_jokers_list(), selection->x);
+    JokerObject* joker_object =
+        (JokerObject*)list_get_at_idx(get_jokers_container()->contents, selection->x);
     if (joker_object != NULL)
     {
         if (key_hit(SELECT_CARD))

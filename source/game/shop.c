@@ -90,6 +90,14 @@ static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFI
 // clang-format on
 
 static List s_shop_items_list = LIST_DEFAULT;
+static SpriteContainer s_shop_items_container = {
+    .contents = &s_shop_items_list,
+    .pos = SHOP_ITEMS_CONTAINER_RECT,
+    .direction = LAYOUT_DIR_HORIZONTAL,
+    .justification = LAYOUT_JUST_CENTER,
+    .sprite_local_aabb = CARD_SPRITE_LOCAL_AABB,
+    .minimum_spacing = 8
+};
 
 enum GameShopStates
 {
@@ -186,8 +194,8 @@ JokerObject* game_shop_get_description_card(void)
 
 void game_shop_reset(void)
 {
-    list_clear(&s_shop_items_list);
-    s_shop_items_list = list_init();
+    list_clear(s_shop_items_container.contents);
+    *(s_shop_items_container.contents) = list_init();
     joker_reset_rollable_jokers();
 }
 
@@ -248,10 +256,8 @@ static void game_shop_create_top_row_items(void)
 {
     tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
 
-    List* shop_items_list = &s_shop_items_list;
-
-    list_clear(shop_items_list);
-    *shop_items_list = list_init();
+    list_clear(s_shop_items_container.contents);
+    *(s_shop_items_container.contents) = list_init();
 
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
@@ -275,8 +281,19 @@ static void game_shop_create_top_row_items(void)
 
         item_print_buy_price_under(item);
 
-        list_push_back(shop_items_list, item);
+        container_push_back(&s_shop_items_container, (SpriteObject*)item);
     }
+}
+
+static void game_shop_display_reroll_cost(void)
+{
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}$%d",
+        SHOP_REROLL_RECT.left,
+        SHOP_REROLL_RECT.top,
+        TTE_WHITE_PB,
+        s_reroll_cost
+    );
 }
 
 /**
@@ -315,13 +332,7 @@ static void game_shop_intro()
         s_timer = TM_ZERO; // Reset the timer
 
         // print initial reroll cost only when the panel is in place
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}$%d",
-            SHOP_REROLL_RECT.left,
-            SHOP_REROLL_RECT.top,
-            TTE_WHITE_PB,
-            s_reroll_cost
-        );
+        game_shop_display_reroll_cost();
     }
 }
 
@@ -332,7 +343,7 @@ static void game_shop_intro()
 static int shop_top_row_get_size(void)
 {
     // + 1 to account for next round button
-    return list_get_len(&s_shop_items_list) + 1;
+    return list_get_len(s_shop_items_container.contents) + 1;
 }
 
 /**
@@ -340,15 +351,26 @@ static int shop_top_row_get_size(void)
  */
 static inline void game_shop_buy_item(int shop_item_idx)
 {
-    List* shop_items_list = &s_shop_items_list;
-    Item* item = (Item*)list_get_at_idx(shop_items_list, shop_item_idx);
+    Item* item = (Item*)list_get_at_idx(s_shop_items_container.contents, shop_item_idx);
 
     g_game_vars.money -= item_get_buy_price(item);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     sprite_object_set_focus((SpriteObject*)item, false);
     item_acquire(item);
-    list_remove_at_idx(shop_items_list, shop_item_idx); // Remove the joker from the shop
+
+    // Remove the joker from the shop
+    container_remove_at_idx(&s_shop_items_container, shop_item_idx);
+
+    // Update prices position under remaining Items
+    tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
+    game_shop_display_reroll_cost();
+    item = NULL;
+    ListItr itr = list_itr_create(s_shop_items_container.contents);
+    while ((item = list_itr_next(&itr)))
+    {
+        item_print_buy_price_under(item);
+    }
 }
 
 /**
@@ -366,7 +388,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
     else
     {
         int shop_item_idx = selection->x - 1; // - 1 to account for next round button
-        Item* item = (Item*)list_get_at_idx(&s_shop_items_list, shop_item_idx);
+        Item* item = (Item*)list_get_at_idx(s_shop_items_container.contents, shop_item_idx);
         if (!item_can_acquire(item) || g_game_vars.money < item_get_buy_price(item))
         {
             return;
@@ -387,7 +409,7 @@ static bool shop_top_row_on_selection_changed(
     const Selection* new_selection
 )
 {
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     // Guard if we move down while on jokers
     if (new_selection->y > row_idx && prev_selection->x > 0)
         return false;
@@ -454,7 +476,8 @@ static bool shop_reroll_row_on_selection_changed(
         if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             int idx = new_selection->x - 1;
-            SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(&s_shop_items_list, idx);
+            SpriteObject* sprite_object =
+                (SpriteObject*)list_get_at_idx(s_shop_items_container.contents, idx);
             sprite_object_set_focus(sprite_object, true);
         }
     }
@@ -475,7 +498,7 @@ static inline void game_shop_reroll(void)
     g_game_vars.money -= s_reroll_cost;
     display_money(); // Update the money display
 
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     ListItr itr = list_itr_create(shop_items_list);
     Item* item;
 
@@ -506,13 +529,7 @@ static inline void game_shop_reroll(void)
     }
 
     s_reroll_cost++;
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}$%d",
-        SHOP_REROLL_RECT.left,
-        SHOP_REROLL_RECT.top,
-        TTE_WHITE_PB,
-        s_reroll_cost
-    );
+    game_shop_display_reroll_cost();
 }
 
 /**
@@ -564,17 +581,21 @@ static void game_shop_process_user_input(void)
         // Owned Joker
         case 0:
         {
-            s_description_card_original_list = get_jokers_list();
-            tmp_card = list_get_at_idx(get_jokers_list(), shop_selection_grid.selection.x);
+            s_description_card_original_list = get_jokers_container()->contents;
+            tmp_card =
+                list_get_at_idx(get_jokers_container()->contents, shop_selection_grid.selection.x);
             break;
         }
 
         // Jokers for sale
         case 1:
         {
-            s_description_card_original_list = &s_shop_items_list;
+            s_description_card_original_list = s_shop_items_container.contents;
             tmp_card = (shop_selection_grid.selection.x > 0)
-                         ? list_get_at_idx(&s_shop_items_list, shop_selection_grid.selection.x - 1)
+                         ? list_get_at_idx(
+                               s_shop_items_container.contents,
+                               shop_selection_grid.selection.x - 1
+                           )
                          : NULL;
             break;
         }
@@ -622,7 +643,7 @@ static void game_shop_show_card_desc(void)
         JokerObject* joker_object = NULL;
 
         // Owned Jokers
-        ListItr itr = list_itr_create(get_jokers_list());
+        ListItr itr = list_itr_create(get_jokers_container()->contents);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != s_description_card)
@@ -630,7 +651,7 @@ static void game_shop_show_card_desc(void)
         }
 
         // Shop Jokers
-        itr = list_itr_create(&s_shop_items_list);
+        itr = list_itr_create(s_shop_items_container.contents);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != s_description_card)
@@ -740,7 +761,7 @@ static void game_shop_hide_card_desc(void)
         JokerObject* joker_object = NULL;
 
         // Owned Jokers
-        ListItr itr = list_itr_create(get_jokers_list());
+        ListItr itr = list_itr_create(get_jokers_container()->contents);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != s_description_card)
@@ -748,7 +769,7 @@ static void game_shop_hide_card_desc(void)
         }
 
         // Shop Jokers
-        itr = list_itr_create(&s_shop_items_list);
+        itr = list_itr_create(s_shop_items_container.contents);
         while ((joker_object = list_itr_next(&itr)))
         {
             if (joker_object != s_description_card)
@@ -775,28 +796,21 @@ static void game_shop_hide_card_desc(void)
     else if (s_timer == s_show_description_anim_progress + 1)
     {
         // Need to account for the description_card being selected if it came from the shop.
-        if (s_description_card_original_list == &s_shop_items_list)
+        if (s_description_card_original_list == s_shop_items_container.contents)
             s_description_card->ty += int2fx(TILE_SIZE);
 
         // Print price under shop Jokers
         Item* item = NULL;
-        ListItr itr = list_itr_create(&s_shop_items_list);
+        ListItr itr = list_itr_create(s_shop_items_container.contents);
         while ((item = list_itr_next(&itr)))
         {
             item_print_buy_price_under(item);
         }
 
-        if (s_description_card_original_list == &s_shop_items_list)
+        if (s_description_card_original_list == s_shop_items_container.contents)
             s_description_card->ty -= int2fx(TILE_SIZE);
 
-        // Print Reroll prince
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}$%d",
-            SHOP_REROLL_RECT.left,
-            SHOP_REROLL_RECT.top,
-            TTE_WHITE_PB,
-            s_reroll_cost
-        );
+        game_shop_display_reroll_cost();
 
         // Print Deck size that was erased
         display_deck_size_max();
@@ -814,7 +828,7 @@ static void game_shop_hide_card_desc(void)
     // At any point after the other prices have been printed, and while the card is still moving,
     // if we are NOT pressing A, print the price under it.
     else if (!owned_joker_price_printed && !key_held(SELECT_CARD) &&
-             s_description_card_original_list == get_jokers_list())
+             s_description_card_original_list == get_jokers_container()->contents)
     {
         owned_joker_price_printed = true;
         sprite_object_print_price_under(
@@ -839,7 +853,7 @@ static void game_shop_outro(void)
     {
         tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT); // Erase the shop prices text
 
-        ListItr itr = list_itr_create(&s_shop_items_list);
+        ListItr itr = list_itr_create(s_shop_items_container.contents);
         SpriteObject* shop_item;
         while ((shop_item = list_itr_next(&itr)))
         {
@@ -908,7 +922,7 @@ void game_shop_on_update(void)
 
 void game_shop_on_exit(void)
 {
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     ListItr itr = list_itr_create(shop_items_list);
     Item* item;
 

@@ -140,7 +140,7 @@ static void game_over_common_init(enum EndCondition init_condition)
 
     // Hide all Joker sprites
     JokerObject* joker_object = NULL;
-    ListItr itr = list_itr_create(get_jokers_list());
+    ListItr itr = list_itr_create(get_jokers_container()->contents);
     while ((joker_object = list_itr_next(&itr)))
     {
         sprite_object_hide((SpriteObject*)(joker_object));

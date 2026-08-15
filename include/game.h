@@ -5,6 +5,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "item.h"
+#include "sprite_container.h"
 
 #include <tonc.h>
 
@@ -74,7 +75,7 @@ bool joker_object_can_acquire(Item* item);
 bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);
-List* get_jokers_list(void);
+SpriteContainer* get_jokers_container(void);
 List* get_expired_jokers_list(void);
 List* get_discarded_jokers_list(void);
 

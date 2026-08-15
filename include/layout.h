@@ -25,6 +25,8 @@ static const Rect BLIND_REWARD_RECT                    = {40,      32,     64,  
 static const Rect BLIND_REQ_TEXT_RECT                  = {32,      24,     64,     32};
 static const Rect PLAYING_SCREEN_RECT                  = {72,      0,      240,    160};
 static const Rect HAND_SIZE_RECT                       = {128,     128,    152,    160}; // Seems to include both SELECT and PLAYING
+const static Rect OWNED_JOKERS_CONTAINER_RECT          = {72,      12,     176,    44};
+const static Rect SHOP_ITEMS_CONTAINER_RECT            = {114,     165,    190,    201};
 // clang-format on
 
 #endif // LAYOUT_H
