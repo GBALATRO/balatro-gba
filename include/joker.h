@@ -171,7 +171,9 @@ u32 joker_get_score_effect(
     JokerEffect** joker_effect
 );
 
-const char* joker_get_rarity_string(u8 rarity);
+const char* joker_object_get_name(Item* joker_object);
+
+const char* joker_object_get_rarity_string(Item* joker_object);
 
 /**
  * @brief Get Joker rarity panel color.
@@ -186,13 +188,10 @@ const char* joker_get_rarity_string(u8 rarity);
  *  - 11,12 -> Spectral Card
  *  - 13,14 -> Voucher
  *
- * @param rarity Value of the rarity (Common, Rare...)
- * @param main_color Whether we want the main or shadow color
- * @return u16 value of the color, not a pointer
+ * @param joker_object pointer to a JokerObject we need the rarity's color of
+ * @return value of both main and shadow colors, encoded into a single u32 (main first)
  */
-u16 joker_get_rarity_color(u8 rarity, bool main_color);
-
-int joker_get_sell_value(const Joker* joker);
+u32 joker_object_get_rarity_colors(Item* joker_object);
 
 JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);
@@ -208,6 +207,15 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
  */
 int joker_object_get_buy_price(Item* joker_object);
 
+/**
+ * @brief Returns the sell price of the joker object.
+ *
+ * @param joker_object the joker object whose price to return.
+ *
+ * @return UNDEFINED in case of error, the sell price of the joker otherwise.
+ */
+int joker_object_get_sell_price(Item* joker_object);
+
 // TODO: Move to an owned_jokers.c/.h file?
 /**
  * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
@@ -222,6 +230,17 @@ void joker_object_add_to_owned(Item* joker_object);
  * @param joker_object Pointer to the JokerObject Item* to destroy; set to NULL.
  */
 void joker_object_dispose(Item** joker_object);
+
+int joker_object_print_description(Item* joker_object, Rect dest_rect);
+
+/**
+ * @brief Rolls a random Joker among the available ones of a certain rarity
+ *
+ * @param joker_rarity the rarity of the joker we want to roll
+ *
+ * @return rolled joker ID
+ */
+int joker_roll_id_with_rarity(int joker_rarity);
 
 /**
  * @brief Set whether a Joker is available to be rolled for the shop, packs, etc.

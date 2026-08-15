@@ -168,22 +168,42 @@ u32 joker_get_score_effect(
     return jinfo->joker_effect_func(joker, scored_card, joker_event, joker_effect);
 }
 
-const char* joker_get_rarity_string(u8 rarity)
+const char* joker_object_get_name(Item* joker_object)
 {
+    GBAL_RETURN_IF_NULL_RET(joker_object, NULL);
+    Joker* joker = ((JokerObject*)joker_object)->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL_RET(info, NULL);
+
+    return info->name;
+}
+
+const char* joker_object_get_rarity_string(Item* joker_object)
+{
+    GBAL_RETURN_IF_NULL_RET(joker_object, NULL);
+    Joker* joker = ((JokerObject*)joker_object)->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL_RET(info, NULL);
+    u8 rarity = joker->rarity;
+
     if (rarity >= MAX_RARITIES)
         return NULL;
-
     return JOKER_RARITY_STRINGS_LUT[rarity];
 }
 
-u16 joker_get_rarity_color(u8 rarity, bool main_color)
+u32 joker_object_get_rarity_colors(Item* joker_object)
 {
-    if (rarity >= MAX_RARITIES)
-        return 0x0;
+    GBAL_RETURN_IF_NULL_RET(joker_object, 0);
+    Joker* joker = ((JokerObject*)joker_object)->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL_RET(info, 0);
+    u8 rarity = joker->rarity;
 
     // +1 to account for the transparency
     // odd indices are the main colors, even ones are the shadows
-    return card_rarity_pal_gfxPal[1 + 2 * rarity + (main_color ? 0 : 1)];
+    u32 colors =
+        card_rarity_pal_gfxPal[1 + 2 * rarity] | (card_rarity_pal_gfxPal[1 + 2 * rarity + 1] << 16);
+    return colors;
 }
 
 int joker_get_buy_price(const Joker* joker)
@@ -191,13 +211,6 @@ int joker_get_buy_price(const Joker* joker)
     GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
 
     return joker->value;
-}
-
-int joker_get_sell_value(const Joker* joker)
-{
-    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
-
-    return joker->value / 2;
 }
 
 // JokerObject methods
@@ -285,6 +298,16 @@ void joker_object_dispose(Item** joker_object_item)
     *joker_object_item = NULL;
 }
 
+int joker_object_print_description(Item* joker_object_item, Rect dest_rect)
+{
+    GBAL_RETURN_IF_NULL_RET(joker_object_item, 0);
+    Joker* joker = ((JokerObject*)joker_object_item)->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL_RET(info, 0);
+
+    return info->joker_print_desc(joker, dest_rect);
+}
+
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 {
     sprite_object_shake((SpriteObject*)joker_object, sound_id);
@@ -296,6 +319,14 @@ int joker_object_get_buy_price(Item* joker_object)
     ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
     return ((JokerObject*)joker_object)->joker->value;
+}
+
+int joker_object_get_sell_price(Item* joker_object)
+{
+    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
+
+    return ((JokerObject*)joker_object)->joker->value / 2;
 }
 
 void joker_object_add_to_owned(Item* joker_object)

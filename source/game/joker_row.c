@@ -55,7 +55,7 @@ bool jokers_sel_row_on_selection_changed(
             {
                 sprite_object_print_price_under(
                     (SpriteObject*)joker_object,
-                    joker_get_sell_value(joker_object->joker)
+                    joker_object_get_sell_price((Item*)joker_object)
                 );
             }
         }
@@ -88,7 +88,7 @@ static inline void game_sell_joker(int joker_idx)
         return;
 
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
-    g_game_vars.money += joker_get_sell_value(joker_object->joker);
+    g_game_vars.money += joker_object_get_sell_price((Item*)joker_object);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)joker_object);
 
@@ -110,7 +110,7 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         {
             sprite_object_print_price_under(
                 (SpriteObject*)joker_object,
-                joker_get_sell_value(joker_object->joker)
+                joker_object_get_sell_price((Item*)joker_object)
             );
         }
     }

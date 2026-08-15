@@ -11,9 +11,12 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include "graphic_utils.h"
 #include "mgba_logger.h"
 #include "random.h"
 #include "sprite.h"
+
+#include <stdint.h>
 
 // TODO: Merge these with GBAL_RETURN_IF_NULL macros?
 /**
@@ -98,9 +101,14 @@ typedef struct ItemFuncs
      */
     Item* (*roll_new)(enum RngSequence key);
     int (*get_buy_price)(Item* item);
+    int (*get_sell_price)(Item* item);
+    const char* (*get_name)(Item* item);
+    const char* (*get_subtype_str)(Item* item);
+    uint32_t (*get_subtype_colors)(Item* item);
     bool (*can_acquire)(Item* item);
     void (*acquire)(Item* item);
     void (*dispose)(Item** item);
+    int (*print_desc)(Item* item, Rect dest_rect);
     // TODO: void (*print_description)(Item* item); // or something of the form
 
     // Optional implementation functions will be added here
@@ -130,6 +138,50 @@ Item* item_roll_new(enum ItemType item_type, enum RngSequence key);
  * @return UNDEFINED in case of error, the item's buy price otherwise.
  */
 int item_get_buy_price(Item* item);
+
+/**
+ * @brief Returns the sell price of the item.
+ *
+ * Matches @ref ItemFuncs.get_sell_price()
+ *
+ * @param item The item whose price to return.
+ *
+ * @return UNDEFINED in case of error, the item's sell price otherwise.
+ */
+int item_get_sell_price(Item* item);
+
+/**
+ * @brief Returns the name of the Item
+ *
+ * Matches @ref ItemFuncs.get_name()
+ *
+ * @param item The item whose name to return.
+ *
+ * @return const char*
+ */
+const char* item_get_name(Item* item);
+
+/**
+ * @brief Returns the name of the Item's subtype (rarity for Jokers, just the type otherwise)
+ *
+ * Matches @ref ItemFuncs.get_subtype_str()
+ *
+ * @param item The item whose subtype's name to return.
+ *
+ * @return const char*
+ */
+const char* item_get_subtype_string(Item* item);
+
+/**
+ * @brief Returns the colors of the Item's subtype
+ *
+ * Matches @ref ItemFuncs.get_subtype_colors()
+ *
+ * @param item The item whose subtype's color to return.
+ *
+ * @return values of both main and shadow colors encoded into a single u32 (main first)
+ */
+uint32_t item_get_subtype_colors(Item* item);
 
 /**
  * @brief Acquires the item, adding to inventory if applicable.
@@ -171,5 +223,15 @@ void item_dispose(Item** item);
  * @param item The item to print under
  */
 void item_print_buy_price_under(Item* item);
+
+/**
+ * @brief Prints the item's description inside the given rectangle
+ *
+ * @param item The item to print the description of
+ * @param dest_rect the target rectangle the description needs to fit in
+ *
+ * @return the number of lines used by the description
+ */
+int item_print_description(Item* item, Rect dest_rect);
 
 #endif // ITEM_H
