@@ -107,13 +107,16 @@ static void shop_show_card_desc(void);
 static void shop_hide_card_desc(void);
 static void shop_outro(void);
 
-static StateInfo shop_state_actions[GAME_SHOP_MAX] = {
-    STATE_INFO_UPDATE_FN_ONLY(shop_intro),
-    STATE_INFO_UPDATE_FN_ONLY(shop_process_user_input),
-    STATE_INFO_UPDATE_FN_ONLY(shop_show_card_desc),
-    STATE_INFO_UPDATE_FN_ONLY(shop_hide_card_desc),
-    STATE_INFO_UPDATE_FN_ONLY(shop_outro),
+// clang-format off
+static StateInfo shop_state_actions[GAME_SHOP_MAX] =
+{
+    [GAME_SHOP_INTRO]           = STATE_INFO_UPDATE_FN_ONLY(shop_intro),
+    [GAME_SHOP_ACTIVE]          = STATE_INFO_UPDATE_FN_ONLY(shop_process_user_input),
+    [GAME_SHOP_SHOW_CARD_DESC]  = STATE_INFO_UPDATE_FN_ONLY(shop_show_card_desc),
+    [GAME_SHOP_HIDE_CARD_DESC]  = STATE_INFO_UPDATE_FN_ONLY(shop_hide_card_desc),
+    [GAME_SHOP_EXIT]            = STATE_INFO_UPDATE_FN_ONLY(shop_outro),
 };
+// clang-format on
 
 static StateMachine shop_sm = STATE_MACHINE_DEFINE(shop_state_actions, GAME_SHOP_MAX);
 

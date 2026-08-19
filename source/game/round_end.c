@@ -67,17 +67,20 @@ static void round_end_dismiss_round_end_panel(void);
 
 static void round_end_extend_black_panel_down(int black_panel_bottom);
 
-static StateInfo state_info[] = {
-    STATE_INFO_UPDATE_FN_ONLY(round_end_start),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_start_expand_popup),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_display_finished_blind),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_display_score_min),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_update_blind_reward),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_panel_exit),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_display_rewards),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_display_cashout),
-    STATE_INFO_UPDATE_FN_ONLY(round_end_dismiss_round_end_panel),
+// clang-format off
+static StateInfo state_info[] =
+{
+    [ROUND_END_START]           = STATE_INFO_UPDATE_FN_ONLY(round_end_start),
+    [START_EXPAND_POPUP]        = STATE_INFO_UPDATE_FN_ONLY(round_end_start_expand_popup),
+    [DISPLAY_FINISHED_BLIND]    = STATE_INFO_UPDATE_FN_ONLY(round_end_display_finished_blind),
+    [DISPLAY_SCORE_MIN]         = STATE_INFO_UPDATE_FN_ONLY(round_end_display_score_min),
+    [UPDATE_BLIND_REWARD]       = STATE_INFO_UPDATE_FN_ONLY(round_end_update_blind_reward),
+    [BLIND_PANEL_EXIT]          = STATE_INFO_UPDATE_FN_ONLY(round_end_panel_exit),
+    [DISPLAY_REWARDS]           = STATE_INFO_UPDATE_FN_ONLY(round_end_display_rewards),
+    [DISPLAY_CASHOUT]           = STATE_INFO_UPDATE_FN_ONLY(round_end_display_cashout),
+    [DISMISS_ROUND_END_PANEL]   = STATE_INFO_UPDATE_FN_ONLY(round_end_dismiss_round_end_panel),
 };
+// clang-format on
 
 static StateMachine round_end_sm = STATE_MACHINE_DEFINE(state_info, ROUND_END_STATES_MAX);
 

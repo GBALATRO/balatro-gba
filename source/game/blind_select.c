@@ -47,14 +47,16 @@ enum BlindSelectState
     BLIND_SELECT_MAX,
 };
 
-// TODO: this will be refactored into common state machine
-static StateInfo state_info[] = {
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_start_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_handle_input),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_selected_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_display_blind_panel),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_exit),
+// clang-format off
+static StateInfo state_info[] =
+{
+    [START_ANIM_SEQ]            = STATE_INFO_UPDATE_FN_ONLY(blind_select_start_anim_seq),
+    [BLIND_SELECT]              = STATE_INFO_UPDATE_FN_ONLY(blind_select_handle_input),
+    [BLIND_SELECTED_ANIM_SEQ]   = STATE_INFO_UPDATE_FN_ONLY(blind_select_selected_anim_seq),
+    [DISPLAY_BLIND_PANEL]       = STATE_INFO_UPDATE_FN_ONLY(blind_select_display_blind_panel),
+    [BLIND_SELECT_EXIT]         = STATE_INFO_UPDATE_FN_ONLY(blind_select_exit),
 };
+// clang-format on
 
 static StateMachine blind_select_sm = STATE_MACHINE_DEFINE(state_info, BLIND_SELECT_MAX);
 
@@ -78,10 +80,10 @@ static const u32 BLIND_RIGHT_X = 160;
 static const u32 BLIND_ROW = 0;
 static const u32 SKIP_ROW = 1;
 
-static int selection_x = 0;
-static int selection_y = 0;
+static int s_selection_x = 0;
+static int s_selection_y = 0;
 
-static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
+static Sprite* s_blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 
 static void blind_select_start_anim_seq()
 {
@@ -91,9 +93,9 @@ static void blind_select_start_anim_seq()
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
         sprite_position(
-            blind_select_tokens[i],
-            blind_select_tokens[i]->pos.x,
-            blind_select_tokens[i]->pos.y - TILE_SIZE
+            s_blind_select_tokens[i],
+            s_blind_select_tokens[i]->pos.x,
+            s_blind_select_tokens[i]->pos.y - TILE_SIZE
         );
     }
 
@@ -174,25 +176,25 @@ static void blind_select_handle_input()
 {
     if (s_timer == TM_BLIND_SELECT_START && g_game_vars.current_blind == BLIND_TYPE_BOSS)
     {
-        selection_y = BLIND_ROW;
+        s_selection_y = BLIND_ROW;
     }
 
     // Blind select input logic
     if (key_hit(KEY_UP))
     {
-        selection_y = BLIND_ROW;
+        s_selection_y = BLIND_ROW;
         highlight_select_button();
     }
     else if (key_hit(KEY_DOWN) && g_game_vars.current_blind <= BLIND_TYPE_BIG)
     {
-        selection_y = SKIP_ROW;
+        s_selection_y = SKIP_ROW;
         highlight_skip_button();
     }
     else if (key_hit(SELECT_CARD))
     {
         blind_select_erase_blind_reqs_and_rewards();
 
-        switch (selection_y)
+        switch (s_selection_y)
         {
             case BLIND_ROW:
                 play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
@@ -207,7 +209,7 @@ static void blind_select_handle_input()
                     play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
                     increment_blind(BLIND_STATE_SKIPPED);
 
-                    selection_y = BLIND_ROW; // Reset selection to first option
+                    s_selection_y = BLIND_ROW; // Reset selection to first option
 
                     change_background(BG_BLIND_SELECT, true);
 
@@ -221,9 +223,9 @@ static void blind_select_handle_input()
                     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
                     {
                         sprite_position(
-                            blind_select_tokens[i],
-                            blind_select_tokens[i]->pos.x,
-                            blind_select_tokens[i]->pos.y - (TILE_SIZE * 12)
+                            s_blind_select_tokens[i],
+                            s_blind_select_tokens[i]->pos.x,
+                            s_blind_select_tokens[i]->pos.y - (TILE_SIZE * 12)
                         );
                     }
 
@@ -250,9 +252,9 @@ static void blind_select_selected_anim_seq()
         for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
             sprite_position(
-                blind_select_tokens[i],
-                blind_select_tokens[i]->pos.x,
-                blind_select_tokens[i]->pos.y + TILE_SIZE
+                s_blind_select_tokens[i],
+                s_blind_select_tokens[i]->pos.x,
+                s_blind_select_tokens[i]->pos.y + TILE_SIZE
             );
         }
     }
@@ -260,7 +262,7 @@ static void blind_select_selected_anim_seq()
     {
         for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
         {
-            sprite_hide(blind_select_tokens[i]);
+            sprite_hide(s_blind_select_tokens[i]);
         }
 
         s_timer = TM_ZERO;
@@ -420,23 +422,23 @@ static void blind_tokens_init()
     if (g_game_vars.current_blind == BLIND_TYPE_SMALL)
         reroll_boss_blind(true);
 
-    sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
-    sprite_destroy(&blind_select_tokens[BIG_BLIND]);
-    sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[SMALL_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[BIG_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[BOSS_BLIND]);
 
-    blind_select_tokens[SMALL_BLIND] = blind_token_new(
+    s_blind_select_tokens[SMALL_BLIND] = blind_token_new(
         BLIND_TYPE_SMALL,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         SMALL_BLIND_TOKEN_LAYER
     );
-    blind_select_tokens[BIG_BLIND] = blind_token_new(
+    s_blind_select_tokens[BIG_BLIND] = blind_token_new(
         BLIND_TYPE_BIG,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         BIG_BLIND_TOKEN_LAYER
     );
-    blind_select_tokens[BOSS_BLIND] = blind_token_new(
+    s_blind_select_tokens[BOSS_BLIND] = blind_token_new(
         g_game_vars.next_boss_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
@@ -445,7 +447,7 @@ static void blind_tokens_init()
 
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
-        sprite_hide(blind_select_tokens[i]);
+        sprite_hide(s_blind_select_tokens[i]);
     }
 }
 
@@ -455,8 +457,8 @@ void blind_select_on_init(void)
     state_machine_register(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, START_ANIM_SEQ);
 
-    selection_x = 0;
-    selection_y = 0;
+    s_selection_x = 0;
+    s_selection_y = 0;
 
     blind_tokens_init();
 
@@ -480,12 +482,12 @@ void blind_select_on_exit(void)
     // For some reason that I haven't figured out yet,
     // if I don't destroy the blind tokens they won't
     // show up on the next run.
-    sprite_destroy(&blind_select_tokens[SMALL_BLIND]);
-    sprite_destroy(&blind_select_tokens[BIG_BLIND]);
-    sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[SMALL_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[BIG_BLIND]);
+    sprite_destroy(&s_blind_select_tokens[BOSS_BLIND]);
 
     change_background(BG_NONE, false);
-    selection_y = 0;
+    s_selection_y = 0;
 
     state_machine_remove(&blind_select_sm);
 }
@@ -494,16 +496,16 @@ void blind_select_change_background(void)
 {
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
-        sprite_unhide(blind_select_tokens[i]);
+        sprite_unhide(s_blind_select_tokens[i]);
     }
 
     // Default y position for the blind select tokens. 12 is the amount of tiles the background
     // is shifted down by
     const int default_y = 89 + (TILE_SIZE * 12);
     // TODO refactor magic numbers '80/120/160' into a map to loop with
-    sprite_position(blind_select_tokens[SMALL_BLIND], BLIND_LEFT_X, default_y);
-    sprite_position(blind_select_tokens[BIG_BLIND], BLIND_CENTER_X, default_y);
-    sprite_position(blind_select_tokens[BOSS_BLIND], BLIND_RIGHT_X, default_y);
+    sprite_position(s_blind_select_tokens[SMALL_BLIND], BLIND_LEFT_X, default_y);
+    sprite_position(s_blind_select_tokens[BIG_BLIND], BLIND_CENTER_X, default_y);
+    sprite_position(s_blind_select_tokens[BOSS_BLIND], BLIND_RIGHT_X, default_y);
 
     toggle_windows(false, true);
 
@@ -592,9 +594,9 @@ void blind_select_change_background(void)
 
                 // Move token up by a tile
                 sprite_position(
-                    blind_select_tokens[i],
-                    blind_select_tokens[i]->pos.x,
-                    blind_select_tokens[i]->pos.y - TILE_SIZE
+                    s_blind_select_tokens[i],
+                    s_blind_select_tokens[i]->pos.x,
+                    s_blind_select_tokens[i]->pos.y - TILE_SIZE
                 );
                 break;
             }
