@@ -13,10 +13,22 @@
 #endif
 
 /**
- * @def GBAL_UNUSED
- * @brief A friendly wrapper around the not so friendly looking __attribute__ syntax for ((unused))
+ * @def GBAL_ATTRIBUTE
+ * @brief A friendly wrapper around the not so friendly looking __attribute__ syntax
  */
-#define GBAL_UNUSED __attribute__((unused))
+#define GBAL_ATTRIBUTE(attr) __attribute__((attr))
+
+/**
+ * @def GBAL_UNUSED
+ * @brief Wrapper around the "unused" attribute
+ */
+#define GBAL_UNUSED GBAL_ATTRIBUTE(unused)
+
+/**
+ * @def GBAL_FALLTHROUGH
+ * @brief Wrapper around for the "fallthrough" attribute
+ */
+#define GBAL_FALLTHROUGH GBAL_ATTRIBUTE(fallthrough)
 
 #define UNDEFINED -1
 

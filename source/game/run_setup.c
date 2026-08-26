@@ -599,7 +599,7 @@ void game_run_setup_on_init(void)
 
     // We put it at the same layer as the main menu Ace card, but it's okay because
     // both cards do not exist at the same time, one is destroyed before the other is created.
-    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
+    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, DECK_SPRITE, 0);
 
     sprite_object_position(
         (SpriteObject*)run_setup_deck,

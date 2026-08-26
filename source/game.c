@@ -25,6 +25,7 @@
 #include "random.h"
 #include "save.h"
 #include "selection_grid.h"
+#include "skip_tag.h"
 #include "soundbank.h"
 #include "splash_screen.h"
 #include "sprite.h"
@@ -100,10 +101,16 @@ GameVariables g_game_vars = {
     // Setting the seed to an invalid value so that the Run Setup screen knows we're not reusing a previous Run's seed
     .rng_info = {UNDEFINED, {0}},
 
-    .round = 0, .ante = 0, .money = 0, .hand_size = DEFAULT_HAND_SIZE,
+    .score = 0, .chips = 0, .mult = 0,
+    .hands = 0, .discards = 0,
+    .money = 0, .hand_size = DEFAULT_HAND_SIZE,
+    .ante = 0, .round = 0,
     .deck = DECK_TYPE_RED,
+    .nb_played_hands = {0},
 
-    .best_hand_score = 0, .nb_played_hands = {0},
+    .best_hand_score = 0,
+    .nb_skipped_rounds = 0,
+    .nb_unused_discards = 0,
 
     .current_blind = BLIND_TYPE_SMALL,
     .next_boss_blind = BLIND_TYPE_BIG,
@@ -113,12 +120,6 @@ GameVariables g_game_vars = {
         BLIND_STATE_UPCOMING,
         BLIND_STATE_UPCOMING
     },
-
-    .hands = 0,
-    .discards = 0,
-    .score = 0,
-    .chips = 0,
-    .mult = 0,
 
     .playing_blind_token = NULL,
     .round_end_blind_token = NULL,
@@ -181,24 +182,26 @@ void game_init()
 
     game_shop_reset();
 
+    g_game_vars.timer = TM_ZERO;
+    g_game_vars.score = STARTING_SCORE;
+    g_game_vars.chips = 0;
+    g_game_vars.mult = 0;
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
-    g_game_vars.timer = TM_ZERO;
+    g_game_vars.money = STARTING_MONEY;
+    g_game_vars.hand_size = DEFAULT_HAND_SIZE;
+    g_game_vars.ante = STARTING_ANTE;
+    g_game_vars.round = STARTING_ROUND;
+    g_game_vars.deck = DECK_TYPE_RED;
+    for (int i = 0; i < HAND_TYPE_MAX; i++)
+        g_game_vars.nb_played_hands[i] = 0;
+    g_game_vars.best_hand_score = 0;
+    g_game_vars.nb_skipped_rounds = 0;
+    g_game_vars.nb_unused_discards = 0;
     g_game_vars.current_blind = BLIND_TYPE_SMALL;
     g_game_vars.blinds_states[0] = BLIND_STATE_CURRENT;
     g_game_vars.blinds_states[1] = BLIND_STATE_UPCOMING;
     g_game_vars.blinds_states[2] = BLIND_STATE_UPCOMING;
-    g_game_vars.ante = STARTING_ANTE;
-    g_game_vars.money = STARTING_MONEY;
-    g_game_vars.score = STARTING_SCORE;
-    g_game_vars.round = 0;
-    g_game_vars.chips = 0;
-    g_game_vars.mult = 0;
-    g_game_vars.round = STARTING_ROUND;
-
-    g_game_vars.best_hand_score = 0;
-    for (int i = 0; i < HAND_TYPE_MAX; i++)
-        g_game_vars.nb_played_hands[i] = 0;
 }
 
 void game_reset()
@@ -401,6 +404,7 @@ int get_straight_and_flush_size(void)
 void add_joker(JokerObject* joker_object)
 {
     list_push_back(&s_owned_jokers_list, joker_object);
+    joker_object->ty = int2fx(HELD_JOKERS_POS.y);
 
     // TODO: Extract to on_joker_added() callback
     // In case the player gets multiple Four Fingers Jokers,

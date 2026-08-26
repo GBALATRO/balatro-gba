@@ -9,6 +9,7 @@
 #include "audio_utils.h"
 #include "card.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
@@ -67,7 +68,7 @@ static Hand s_hand = {
     .hand_selections = 0,
     .hand_type = NONE,
     .contained_hands = {{{0}}},
-    .state = HAND_DRAW,
+    .state = HAND_TAGS,
     .sort_by_suit = false
 };
 
@@ -267,7 +268,7 @@ void reorder_card_sprites_layers(void)
         if (s_hand.cards[i] != NULL)
         {
             // Set the sprite for the card object
-            card_object_set_sprite(s_hand.cards[i], i);
+            card_object_set_sprite(s_hand.cards[i], CARD_SPRITE, i);
             sprite_position(
                 card_object_get_sprite(s_hand.cards[i]),
                 fx2int(s_hand.cards[i]->x),

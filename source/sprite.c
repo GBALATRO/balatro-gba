@@ -32,6 +32,47 @@ static bool free_affines[MAX_AFFINES] = {false};
 
 static List sprite_objects_list = LIST_DEFAULT;
 
+/**
+ * @brief Tile index LUT for all sprite types. Filled at init by calling `sprite_init`
+ *
+ * @sa sprite_init
+ */
+static int s_sprite_tids[MAX_SPRITE_TYPE] = {0};
+
+/**
+ * @brief Starting layer LUT for all sprite types. Filled at init by calling `sprite_init`
+ *
+ * @sa sprite_init
+ */
+static int s_sprite_starting_layers[MAX_SPRITE_TYPE] = {0};
+
+// clang-format off
+static const int s_sprite_counts[MAX_SPRITE_TYPE] = {
+    [CARD_SPRITE]        = MAX_HAND_SIZE + MAX_SELECTION_SIZE,
+    [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
+    [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
+    [JOKER_SPRITE]       = MAX_ACTIVE_JOKERS,
+    [DECK_SPRITE]        = 1
+};
+static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
+    [CARD_SPRITE]        = CARD_SPRITE_TILES,
+    [BLIND_TOKEN_SPRITE] = BLIND_SPRITE_TILES,
+    [SKIP_TAG_SPRITE]    = SKIP_TAG_SPRITE_TILES,
+    [JOKER_SPRITE]       = JOKER_SPRITE_TILES,
+    [DECK_SPRITE]        = CARD_SPRITE_TILES
+};
+// clang-format on
+
+int sprite_get_tid(enum SpriteType sprite_type, s16 layer)
+{
+    return s_sprite_tids[sprite_type] + layer * s_sprite_sizes[sprite_type];
+}
+
+int sprite_get_starting_layer(enum SpriteType sprite_type)
+{
+    return s_sprite_starting_layers[sprite_type];
+}
+
 // Sprite methods
 Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 {
@@ -154,6 +195,17 @@ bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 void sprite_init()
 {
     oam_init(obj_buffer, MAX_SPRITES);
+
+    // Start at 1, since CARD_SPRITE being first means and both the TID
+    // and starting layer stay at 0
+    for (enum SpriteType sprite_type = 1; sprite_type < MAX_SPRITE_TYPE; sprite_type++)
+    {
+        s_sprite_tids[sprite_type] =
+            s_sprite_tids[sprite_type - 1] +
+            s_sprite_counts[sprite_type - 1] * s_sprite_sizes[sprite_type - 1];
+        s_sprite_starting_layers[sprite_type] =
+            s_sprite_starting_layers[sprite_type - 1] + s_sprite_counts[sprite_type - 1];
+    }
 }
 
 void sprite_draw()
@@ -360,6 +412,28 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
     play_sfx(sound_id, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
 
+void sprite_object_bounce(SpriteObject* sprite_object, FIXED strength)
+{
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    sprite_object->vscale = strength;
+}
+
+void sprite_object_sway(SpriteObject* sprite_object)
+{
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    sprite_object->vrotation = float2fx(-10.f);
+}
+
+void sprite_object_set_target(SpriteObject* sprite_object, BG_POINT to)
+{
+    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    if (to.x == UNDEFINED || to.y == UNDEFINED)
+        return;
+
+    sprite_object->tx = int2fx(to.x);
+    sprite_object->ty = int2fx(to.y);
+}
+
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 {
     GBAL_RETURN_IF_NULL_RET(sprite_object, NULL);
@@ -423,8 +497,8 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
     if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
     {
         // fallback
-        height = CARD_SPRITE_SIZE;
-        width = CARD_SPRITE_SIZE;
+        height = CARD_SPRITE_SIZE_PX;
+        width = CARD_SPRITE_SIZE_PX;
     }
 
     ret_rect.left = fx2int(sprite_object->tx);

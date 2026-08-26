@@ -22,10 +22,11 @@ enum RngSequence
     RNG_SEQ_SHOP_ITEMS,
     RNG_SEQ_SKIP_TAGS,
 
-    // Each Joker with a random effect has its own independent RNG sequence
+    // Each Joker/Tag with a random effect has its own independent RNG sequence
     RNG_SEQ_JOKER_MISPRINT,
     RNG_SEQ_JOKER_RESERVED_PARKING,
     RNG_SEQ_JOKER_BUSINESS_CARD,
+    RNG_SEQ_TAG_TOP_UP,
 
     // For non-gameplay related things such as sound effects or visual effects, so as to not
     // interfere with important stuff like Shop rolls or Joker effects.

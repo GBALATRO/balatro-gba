@@ -104,7 +104,7 @@ void game_main_menu_on_init(void)
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU, true);
     s_main_menu_ace = card_object_new(card_new(SPADES, ACE));
-    card_object_set_sprite(s_main_menu_ace, 0);
+    card_object_set_sprite(s_main_menu_ace, DECK_SPRITE, 0);
     // TODO: NULL-check sprite
     s_main_menu_ace->sprite->obj->attr0 |= ATTR0_AFF_DBL;
     s_main_menu_ace->tscale = float2fx(0.8f);

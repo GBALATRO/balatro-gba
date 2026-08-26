@@ -13,6 +13,7 @@
 #include "list.h"
 #include "random.h"
 #include "selection_grid.h"
+#include "skip_tag.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
@@ -153,6 +154,8 @@ static void game_over_common_init(enum EndCondition init_condition)
         card = deck_pop();
         card_destroy(&card);
     }
+
+    remove_all_skip_tags();
 
     // Clears the round end menu
     toggle_windows(false, false);
