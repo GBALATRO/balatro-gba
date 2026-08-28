@@ -115,15 +115,15 @@ void sprite_destroy(Sprite** sprite)
 
 s16 sprite_get_layer(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, UNDEFINED);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, UNDEFINED);
 
     return (s16)(sprite->obj - obj_buffer);
 }
 
 bool sprite_get_width(Sprite* sprite, int* width)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(width, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(width, false);
 
     *width = obj_get_width(sprite->obj);
     return true;
@@ -131,8 +131,8 @@ bool sprite_get_width(Sprite* sprite, int* width)
 
 bool sprite_get_height(Sprite* sprite, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(height, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(height, false);
 
     *height = obj_get_height(sprite->obj);
     return true;
@@ -140,9 +140,9 @@ bool sprite_get_height(Sprite* sprite, int* height)
 
 bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(width, false);
-    GBAL_RETURN_IF_NULL_RET(height, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(width, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(height, false);
 
     const u8* size = obj_get_size(sprite->obj);
     *width = size[0];
@@ -163,21 +163,21 @@ void sprite_draw()
 
 int sprite_get_pb(const Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, UNDEFINED);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, UNDEFINED);
 
     return (sprite->obj->attr2 & ATTR2_PALBANK_MASK) >> ATTR2_PALBANK_SHIFT;
 }
 
 void sprite_hide(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite);
 
     obj_hide(sprite->obj);
 }
 
 void sprite_unhide(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite);
 
     obj_unhide(sprite->obj, sprite->mode);
 }
@@ -196,7 +196,7 @@ void sprite_object_init(SpriteObject* sprite_object)
 
 void sprite_object_destroy(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     list_remove_data(&sprite_objects_list, sprite_object);
     sprite_destroy(&sprite_object->sprite);
@@ -204,7 +204,7 @@ void sprite_object_destroy(SpriteObject* sprite_object)
 
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     sprite_destroy(&sprite_object->sprite); // Destroy the old sprite if it exists
     sprite_object->sprite = sprite;
@@ -212,21 +212,21 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 
 void sprite_object_hide(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     sprite_hide(sprite_object->sprite);
 }
 
 void sprite_object_unhide(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     sprite_unhide(sprite_object->sprite);
 }
 
 void sprite_object_reset_transform(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     sprite_object_position(sprite_object, 0, 0); // Target position
     sprite_object->vx = 0;
@@ -349,7 +349,7 @@ void sprite_object_update_all(void)
 
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     sprite_object->vscale = float2fx(0.3f);
     sprite_object->vrotation = float2fx(8.0f); // Rotate the card when it's scored
@@ -362,14 +362,14 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, NULL);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, NULL);
 
     return sprite_object->sprite;
 }
 
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     if (sprite_object->focused == focus)
     {
@@ -387,28 +387,28 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 
 bool sprite_object_get_width(SpriteObject* sprite_object, int* width)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_width(sprite_object->sprite, width);
 }
 
 bool sprite_object_get_height(SpriteObject* sprite_object, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_height(sprite_object->sprite, height);
 }
 
 bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_dimensions(sprite_object->sprite, width, height);
 }
 
 bool sprite_object_is_focused(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, false);
     return sprite_object->focused;
 }
 
@@ -418,7 +418,7 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
     int width = 0;
     Rect ret_rect = {0};
 
-    GBAL_RETURN_IF_NULL_RET(sprite_object, ret_rect);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, ret_rect);
 
     if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
     {
@@ -437,7 +437,7 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
 
 void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[])
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
     update_text_rect_to_center_str(&text_rect, text, SCREEN_LEFT);
@@ -446,7 +446,7 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
 
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     // + 2 for null-terminator and "$"
     char price_str_buff[INT_MAX_DIGITS + 2];
@@ -456,7 +456,7 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
 
