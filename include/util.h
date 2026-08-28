@@ -77,14 +77,7 @@
  * See @ref GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
 #define GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, message, ...) \
-    do                                                                           \
-    {                                                                            \
-        if (!(expression))                                                       \
-        {                                                                        \
-            LOG_ERROR(message, __VA_ARGS__);                                     \
-            return;                                                              \
-        }                                                                        \
-    } while (0)
+    GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, , message, __VA_ARGS__)
 
 /**
  * @brief Returns @p ret_val and logs error @p message if @p expression is false.
@@ -94,13 +87,14 @@
  *
  * See @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
+// TODO: Handle trailing comma
 #define GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
     do                                                                                   \
     {                                                                                    \
         if (!(expression))                                                               \
         {                                                                                \
             LOG_ERROR(message, __VA_ARGS__);                                             \
-            return (ret_val);                                                            \
+            return ret_val;                                                            \
         }                                                                                \
     } while (0)
 
