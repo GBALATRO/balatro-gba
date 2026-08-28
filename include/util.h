@@ -93,7 +93,7 @@
     {                                                                                    \
         if (!(expression))                                                               \
         {                                                                                \
-            LOG_ERROR(message, __VA_ARGS__);                                             \
+            LOG_ERROR(message __VA_OPT__(,) __VA_ARGS__);                                             \
             return ret_val;                                                            \
         }                                                                                \
     } while (0)
