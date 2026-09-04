@@ -1478,7 +1478,7 @@ static inline void round_process_flaming_score(void)
 
 static void joker_scoring_increment_text_cursor(int* cursor_pos_x)
 {
-    GBAL_RETURN_IF_NULL_VOID(cursor_pos_x);
+    GBAL_RETURN_IF_NULL(cursor_pos_x, RET_NONE);
 
     // + 1 For space
     const int joker_score_display_offset_px = (MAX_CARD_SCORE_STR_LEN + 1) * TTE_CHAR_SIZE;
@@ -1495,7 +1495,7 @@ static bool joker_object_score(
     enum JokerEvent joker_event
 )
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, false);
+    GBAL_RETURN_IF_NULL(joker_object, false);
 
     JokerEffect* joker_effect = NULL;
     u32 effect_flags_ret =

@@ -72,36 +72,31 @@
  * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
  * This version is for a function that returns a value,
- * while @ref GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS is for a void function.
+ * while @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS is for a void function.
  *
- * See @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS for a version with a default message
+ * See @ref GBAL_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
-#define GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
-    do                                                                                   \
-    {                                                                                    \
-        if (!(expression))                                                               \
-        {                                                                                \
-            LOG_ERROR(message __VA_OPT__(,) __VA_ARGS__);                                             \
-            return ret_val;                                                            \
-        }                                                                                \
+#define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
+    do                                                                          \
+    {                                                                           \
+        if (!(expression))                                                      \
+        {                                                                       \
+            LOG_ERROR(message __VA_OPT__(,) __VA_ARGS__);                       \
+            return ret_val;                                                     \
+        }                                                                       \
     } while (0)
 
 /**
  * @brief Returns @p ret_val and logs an error message if @p expression is false.
  *
- * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS is
+ * This version is for a void function, while @ref GBAL_RETURN_IF_ASSERT_FAILS is
  * for one with a return value.
  *
- * See @ref GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
+ * See @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
  * any custom error message.
  */
-#define GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(expression, ret_val) \
-    GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(                \
-        expression,                                               \
-        ret_val,                                                  \
-        "Assert failed: %s",                                      \
-        #expression                                               \
-    )
+#define GBAL_RETURN_IF_ASSERT_FAILS(expression, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, "Assert failed: %s", #expression)
 
 /**
  * @brief Returns @p ret_val and prints error message if @p param is equal to NULL.
@@ -111,8 +106,8 @@
  * This version is for a function that returns a value while @ref GBAL_VOID_FUNC_RETURN_IF_NULL
  * is for a void function.
  */
-#define GBAL_RET_FUNC_RETURN_IF_NULL(param, ret_val) \
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) != NULL, ret_val)
+#define GBAL_RETURN_IF_NULL(param, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS((param) != NULL, ret_val, "Unexpected %s == NULL", #param)
 
 /**
  * @brief An empty return value for RETURN_IF macros when used in void functions
