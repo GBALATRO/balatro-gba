@@ -55,7 +55,7 @@ static Item* item_roll_new_unimplemented(enum RngSequence key)
 
 static void item_acquire_unimplemented(Item* item)
 {
-    GBAL_RETURN_IF_NULL_VOID(item);
+    GBAL_RETURN_IF_NULL(item, RET_NONE);
     MGBA_FUNC_ERROR("Unimplemented acquire function called for item type type %d", (item)->type);
 }
 

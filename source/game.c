@@ -286,7 +286,7 @@ static inline void held_jokers_update_loop(void)
 
 bool joker_object_can_acquire(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, false);
+    GBAL_RETURN_IF_NULL(joker_object, false);
     return (list_get_len(get_jokers_list()) < MAX_JOKERS_HELD_SIZE);
 }
 

@@ -186,17 +186,17 @@ Sprite* card_object_get_sprite(CardObject* card_object)
 
 int card_object_get_buy_price(Item* card_object)
 {
-    GBAL_RETURN_IF_NULL_RET(card_object, UNDEFINED);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(card_object, ITEM_TYPE_PLAYING_CARD, UNDEFINED);
+    GBAL_RETURN_IF_NULL(card_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(card_object->type == ITEM_TYPE_PLAYING_CARD, UNDEFINED);
 
     return 1;
 }
 
 void card_object_dispose(Item** card_object_item)
 {
-    GBAL_RETURN_IF_NULL_VOID(card_object_item);
-    GBAL_RETURN_IF_NULL_VOID(*card_object_item);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*card_object_item, ITEM_TYPE_PLAYING_CARD);
+    GBAL_RETURN_IF_NULL(card_object_item, RET_NONE);
+    GBAL_RETURN_IF_NULL(*card_object_item, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS((*card_object_item)->type == ITEM_TYPE_PLAYING_CARD, RET_NONE);
 
     CardObject* card_object = (CardObject*)(*card_object_item);
     card_object_destroy(&card_object);

@@ -66,41 +66,58 @@
 #define LOG_ERROR(...) ((void)(0))
 #endif
 
+// TODO: Document and clean documentation
+
 /**
- * @brief Checks if @p param is NULL and prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
+ * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
- * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
- * a return value.
+ * @param ret_val The value to return in case @p expression is false. 
+ * Pass @ref RET_NONE in a void function
+ *
+ * @param message The message to log in @p expression is false.
+ * See @ref GBAL_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
-#define GBAL_RETURN_IF_NULL_VOID(param)                        \
-    do                                                         \
-    {                                                          \
-        if ((param) == NULL)                                   \
-        {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return;                                            \
-        }                                                      \
+#define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
+    do                                                                          \
+    {                                                                           \
+        if (!(expression))                                                      \
+        {                                                                       \
+            LOG_ERROR(message __VA_OPT__(,) __VA_ARGS__);                       \
+            return ret_val;                                                     \
+        }                                                                       \
     } while (0)
 
 /**
- * @brief Checks if @p param is equal to NULL
- * and prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
- * @param ret_val The value to return in case @p param is equal to NULL.
+ * @brief Returns @p ret_val and logs an error message if @p expression is false.
  *
- * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
+ * @param ret_val The value to return in case @p expression is false. 
+ * Pass @ref RET_NONE in a void function
+ *
+ * See @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
+ * any custom error message.
+ */
+#define GBAL_RETURN_IF_ASSERT_FAILS(expression, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, "Assert failed: %s", #expression)
+
+/**
+ * @brief Returns @p ret_val and prints error message if @p param is equal to NULL.
+ * Useful for checking arguments or function return values during control flow.
+ * 
+ * @param ret_val The value to return in case @p param is equal to NULL. 
+ * Pass @ref RET_NONE in a void function
+ *
+ * This version is for a function that returns a value while @ref GBAL_VOID_FUNC_RETURN_IF_NULL
  * is for a void function.
  */
-#define GBAL_RETURN_IF_NULL_RET(param, ret_val)                \
-    do                                                         \
-    {                                                          \
-        if ((param) == NULL)                                   \
-        {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return (ret_val);                                  \
-        }                                                      \
-    } while (0)
+#define GBAL_RETURN_IF_NULL(param, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS((param) != NULL, ret_val, "Unexpected %s == NULL", #param)
+
+/**
+ * @brief An empty return value for RETURN_IF macros when used in void functions
+ * Expands to nothing because macros expand normally with blank arguments so it's more
+ * to show that the empty value is intended.
+ */
+#define RET_NONE
 
 /**
  * @brief Avoid overflow when adding two u32 integers
