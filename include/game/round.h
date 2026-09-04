@@ -52,21 +52,21 @@ void set_retrigger(bool new_retrigger);
 /**
  * @brief Change to the round card selection background
  */
-void game_round_change_background_selecting(void);
+void round_change_background_selecting(void);
 
 /**
  * @brief Change to the round card playing background
  */
-void game_round_change_background_playing(void);
+void round_change_background_playing(void);
 
 /**
  * @brief Round state initialization
  */
-void game_round_on_init(void);
+void round_on_init(void);
 
 /**
  * @brief Round state update
  */
-void game_round_on_update(void);
+void round_on_update(void);
 
 #endif // GAME_ROUND_H

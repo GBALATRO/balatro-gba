@@ -565,7 +565,7 @@ enum RunSetupResumeRows
  * STATE FUNCTIONS
  ******************************************************************************/
 
-void game_run_setup_change_background(void)
+void run_setup_change_background(void)
 {
     tte_erase_screen();
     GRIT_CPY(pal_bg_mem, background_run_setup_gfxPal);
@@ -573,10 +573,10 @@ void game_run_setup_change_background(void)
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_run_setup_gfxMap);
 }
 
-void game_run_setup_on_init(void)
+void run_setup_on_init(void)
 {
     state_machine_register(&run_setup_sm);
-    game_run_setup_change_background();
+    run_setup_change_background();
 
     // Apply the current use_seed value if seed is UNDEFINED
     if (g_game_vars.rng_info.seed == UNDEFINED)
@@ -620,12 +620,12 @@ void game_run_setup_on_init(void)
     state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
 }
 
-void game_run_setup_on_update(void)
+void run_setup_on_update(void)
 {
     run_setup_tabs_update();
 }
 
-void game_run_setup_on_exit(void)
+void run_setup_on_exit(void)
 {
     state_machine_remove(&run_setup_sm);
 

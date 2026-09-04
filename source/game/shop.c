@@ -101,18 +101,18 @@ enum GameShopStates
     GAME_SHOP_MAX
 };
 
-static void game_shop_intro(void);
-static void game_shop_process_user_input(void);
-static void game_shop_show_card_desc(void);
-static void game_shop_hide_card_desc(void);
-static void game_shop_outro(void);
+static void shop_intro(void);
+static void shop_process_user_input(void);
+static void shop_show_card_desc(void);
+static void shop_hide_card_desc(void);
+static void shop_outro(void);
 
 static StateInfo shop_state_actions[GAME_SHOP_MAX] = {
-    STATE_INFO_UPDATE_FN_ONLY(game_shop_intro),
-    STATE_INFO_UPDATE_FN_ONLY(game_shop_process_user_input),
-    STATE_INFO_UPDATE_FN_ONLY(game_shop_show_card_desc),
-    STATE_INFO_UPDATE_FN_ONLY(game_shop_hide_card_desc),
-    STATE_INFO_UPDATE_FN_ONLY(game_shop_outro),
+    STATE_INFO_UPDATE_FN_ONLY(shop_intro),
+    STATE_INFO_UPDATE_FN_ONLY(shop_process_user_input),
+    STATE_INFO_UPDATE_FN_ONLY(shop_show_card_desc),
+    STATE_INFO_UPDATE_FN_ONLY(shop_hide_card_desc),
+    STATE_INFO_UPDATE_FN_ONLY(shop_outro),
 };
 
 static StateMachine shop_sm = STATE_MACHINE_DEFINE(shop_state_actions, GAME_SHOP_MAX);
@@ -179,19 +179,19 @@ static FIXED s_description_card_original_y_pos = UNDEFINED;
 static List* s_description_card_original_list = NULL;
 static int s_show_description_anim_progress = 0;
 
-JokerObject* game_shop_get_description_card(void)
+JokerObject* shop_get_description_card(void)
 {
     return s_description_card;
 }
 
-void game_shop_reset(void)
+void shop_reset(void)
 {
     list_clear(&s_shop_items_list);
     s_shop_items_list = list_init();
     joker_reset_rollable_jokers();
 }
 
-void game_shop_change_background(void)
+void shop_change_background(void)
 {
     toggle_windows(false, true);
 
@@ -215,9 +215,9 @@ void game_shop_change_background(void)
     pal_bg_mem[NEXT_ROUND_BTN_SELECTED_BORDER_PAL_IDX] = pal_bg_mem[NEXT_ROUND_BTN_PAL_IDX];
 }
 
-void game_shop_on_init(void)
+void shop_on_init(void)
 {
-    game_shop_change_background();
+    shop_change_background();
 
     s_timer = TM_ZERO;
 
@@ -234,7 +234,7 @@ void game_shop_on_init(void)
  * @brief Create a shop top row item - jokers, consumables, and possibly playing cards
  * Currently only jokers are implemented.
  */
-static Item* game_shop_create_top_row_item(void)
+static Item* shop_create_top_row_item(void)
 {
     // TODO: Randomize item type when consumables are implemented
     return item_roll_new(ITEM_TYPE_JOKER, RNG_SEQ_SHOP_ITEMS);
@@ -244,7 +244,7 @@ static Item* game_shop_create_top_row_item(void)
  * @brief Setup for the lists of items we can purchase in the top row of the Shop.
  *        i.e. Jokers and consumables and possibly playing cards.
  */
-static void game_shop_create_top_row_items(void)
+static void shop_create_top_row_items(void)
 {
     tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
 
@@ -255,7 +255,7 @@ static void game_shop_create_top_row_items(void)
 
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
-        Item* item = game_shop_create_top_row_item();
+        Item* item = shop_create_top_row_item();
 
         if (item == NULL)
         {
@@ -282,13 +282,13 @@ static void game_shop_create_top_row_items(void)
 /**
  * @brief Intro sequence (menu and shop icon coming into frame)
  */
-static void game_shop_intro()
+static void shop_intro()
 {
     main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
 
     if (s_timer == TM_CREATE_SHOP_ITEMS_WAIT)
     {
-        game_shop_create_top_row_items();
+        shop_create_top_row_items();
     }
 
     if (s_timer >= TM_SHIFT_SHOP_ICON_WAIT) // Shift the shop icon
@@ -338,7 +338,7 @@ static int shop_top_row_get_size(void)
 /**
  * @brief Called when pressing A on a Shop Joker to buy it.
  */
-static inline void game_shop_buy_item(int shop_item_idx)
+static inline void shop_buy_item(int shop_item_idx)
 {
     List* shop_items_list = &s_shop_items_list;
     Item* item = (Item*)list_get_at_idx(shop_items_list, shop_item_idx);
@@ -372,7 +372,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
             return;
         }
 
-        game_shop_buy_item(shop_item_idx);
+        shop_buy_item(shop_item_idx);
         selection_grid_move_selection_horz(selection_grid, -1);
     }
 }
@@ -470,7 +470,7 @@ static bool shop_reroll_row_on_selection_changed(
  * @brief Reroll items up for sale in the Shop.
  *         Reroll cost will go up by a rate that increases by 1 each reroll.
  */
-static inline void game_shop_reroll(void)
+static inline void shop_reroll(void)
 {
     g_game_vars.money -= s_reroll_cost;
     display_money(); // Update the money display
@@ -490,7 +490,7 @@ static inline void game_shop_reroll(void)
     list_clear(shop_items_list);
     *shop_items_list = list_init();
 
-    game_shop_create_top_row_items();
+    shop_create_top_row_items();
 
     itr = list_itr_create(shop_items_list);
 
@@ -541,7 +541,7 @@ static void next_round_on_pressed(void)
 static void reroll_on_pressed(void)
 {
     // TODO: Add money sound effect
-    game_shop_reroll();
+    shop_reroll();
 }
 
 static bool reroll_can_be_pressed(void)
@@ -552,7 +552,7 @@ static bool reroll_can_be_pressed(void)
 /**
  * @brief Handle user inputs logic in the Shop though a SelectionGrid.
  */
-static void game_shop_process_user_input(void)
+static void shop_process_user_input(void)
 {
     selection_grid_process_input(&shop_selection_grid);
 
@@ -603,7 +603,7 @@ static void game_shop_process_user_input(void)
     }
 }
 
-static void game_shop_show_card_desc(void)
+static void shop_show_card_desc(void)
 {
     // Anim start
     if (s_timer == 1)
@@ -705,7 +705,7 @@ static void game_shop_show_card_desc(void)
     }
 }
 
-static void game_shop_hide_card_desc(void)
+static void shop_hide_card_desc(void)
 {
     // just so we don't print the price of an owned Joker too many times
     static bool owned_joker_price_printed = false;
@@ -828,7 +828,7 @@ static void game_shop_hide_card_desc(void)
  * @brief Outro sequence substate update.
  *         This makes the menu and shop icon go out of frame.
  */
-static void game_shop_outro(void)
+static void shop_outro(void)
 {
     // Shift the shop panel
     main_bg_se_move_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_DOWN);
@@ -870,7 +870,7 @@ static void game_shop_outro(void)
 /**
  * @brief Cycling shop lights animation substate update.
  */
-static inline void game_shop_lights_anim_frame(void)
+static inline void shop_lights_anim_frame(void)
 {
     // Shift palette around the border of the shop icon
     COLOR shifted_palette[4];
@@ -896,17 +896,17 @@ static inline void game_shop_lights_anim_frame(void)
     pal_bg_mem[SHOP_LIGHTS_1_PAL_IDX] = shifted_palette[3];
 }
 
-void game_shop_on_update(void)
+void shop_on_update(void)
 {
     s_timer++;
 
     if (s_timer % 20 == 0)
     {
-        game_shop_lights_anim_frame();
+        shop_lights_anim_frame();
     }
 }
 
-void game_shop_on_exit(void)
+void shop_on_exit(void)
 {
     List* shop_items_list = &s_shop_items_list;
     ListItr itr = list_itr_create(shop_items_list);

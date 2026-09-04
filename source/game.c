@@ -179,7 +179,7 @@ void game_init()
     s_expired_jokers_list = list_init();
     // TODO: Move this to an initialization of the play scoring states
 
-    game_shop_reset();
+    shop_reset();
 
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
@@ -278,7 +278,7 @@ static inline void held_jokers_update_loop(void)
     while ((joker = list_itr_next(&itr)))
     {
         // Let the Shop handle the position of this Joker
-        if (joker != game_shop_get_description_card())
+        if (joker != shop_get_description_card())
             joker->tx = hand_x - int2fx(SPACING_LUT[jokers_top][i]);
         i++;
     }
