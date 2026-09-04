@@ -1,7 +1,7 @@
 var run__setup_8h =
 [
-    [ "game_run_setup_change_background", "run__setup_8h.html#a07eef7cea0b26def35da2b86655297d2", null ],
-    [ "game_run_setup_on_exit", "run__setup_8h.html#a8a38b7caf89af4c2de2bbfb3bfa87e69", null ],
-    [ "game_run_setup_on_init", "run__setup_8h.html#acfad8d64b18066b45f53097cc7a4c09f", null ],
-    [ "game_run_setup_on_update", "run__setup_8h.html#aca2f4d081e3b46eadc1517c073342e2b", null ]
+    [ "run_setup_change_background", "run__setup_8h.html#a4b0248702f8ab98d1040286b8acda219", null ],
+    [ "run_setup_on_exit", "run__setup_8h.html#a1965e457198b2b2f241700c9b76dbe62", null ],
+    [ "run_setup_on_init", "run__setup_8h.html#a962bd65f3b58f31f043f8fa0214ed948", null ],
+    [ "run_setup_on_update", "run__setup_8h.html#a76f3418a83b468dae7f4d778c4c8f0e1", null ]
 ];

@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"structRngInfo.html#af135331576cded0d032c29210acee475":[2,0,24,1],
+"structSaveGame.html":[2,0,25],
 "structSaveHeader.html":[2,0,26],
 "structSaveOptions.html":[2,0,27],
 "structSelGridRowAttributes.html":[2,0,30],

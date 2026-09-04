@@ -239,25 +239,25 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment"> * ROUND SELECTIONGRID</span></div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">static</span> <span class="keywordtype">int</span> game_round_button_row_get_size(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">static</span> <span class="keywordtype">bool</span> game_round_button_row_on_selection_changed(</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">static</span> <span class="keywordtype">int</span> round_button_row_get_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">static</span> <span class="keywordtype">bool</span> round_button_row_on_selection_changed(</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordtype">int</span> row_idx,</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keyword">const</span> Selection* new_selection</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_round_button_row_on_key_hit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">static</span> <span class="keywordtype">void</span> round_button_row_on_key_hit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection);</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_round_hand_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="keyword">static</span> <span class="keywordtype">void</span> round_hand_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection);</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keyword">static</span> <span class="keywordtype">bool</span> game_round_hand_row_on_selection_changed(</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keyword">static</span> <span class="keywordtype">bool</span> round_hand_row_on_selection_changed(</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">int</span> row_idx,</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keyword">const</span> Selection* new_selection</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>);</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">static</span> <span class="keywordtype">int</span> game_round_hand_row_get_size(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="keyword">static</span> <span class="keywordtype">int</span> round_hand_row_get_size(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="round_8c.html#ac922f137d1d3ab206c5583954ba346fd">hand_sel_idx_to_card_idx</a>(<span class="keywordtype">int</span> selection_index);</div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
@@ -272,16 +272,16 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    },</div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    {</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        1,</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        game_round_hand_row_get_size,</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        game_round_hand_row_on_selection_changed,</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        game_round_hand_row_on_key_transit,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        round_hand_row_get_size,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        round_hand_row_on_selection_changed,</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        round_hand_row_on_key_transit,</div>
 <div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        {.wrap = <span class="keyword">true</span>}</div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    },</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    {</div>
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        2,</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        game_round_button_row_get_size,</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        game_round_button_row_on_selection_changed,</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        game_round_button_row_on_key_hit,</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        round_button_row_get_size,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        round_button_row_on_selection_changed,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        round_button_row_on_key_hit,</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        {.wrap = <span class="keyword">false</span>}</div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>};</div>
@@ -299,10 +299,10 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment"> * ROUND BUTTONS</span></div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">game_round_discard_on_pressed</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a248029dfeadf34f23699a003cc151c99">game_round_play_hand_on_pressed</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">game_round_sort_by_rank_on_pressed</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">game_round_sort_by_suit_on_pressed</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69">round_discard_on_pressed</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a76e39297cc4cf2df4a70c98e0eb2419a">round_play_hand_on_pressed</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#ad090acba1576d760547ce689f2d543e5">round_sort_by_rank_on_pressed</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a73803514e67988c3a977aed2bc55e218">round_sort_by_suit_on_pressed</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a>(<span class="keywordtype">void</span>);</div>
@@ -310,10 +310,10 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">// clang-format off</span></div>
 <div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="comment">// Array of buttons by horizontal selection index (x)</span></div>
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="keyword">static</span> <a class="code hl_struct" href="structButton.html">Button</a> game_round_buttons[] = {</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    {PLAY_HAND_BTN_BORDER_PAL_IDX,    PLAY_HAND_BTN_PAL_IDX, <a class="code hl_function" href="round_8c.html#a248029dfeadf34f23699a003cc151c99">game_round_play_hand_on_pressed</a>,    <a class="code hl_function" href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a>   },</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    {SORT_BY_RANK_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     <a class="code hl_function" href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">game_round_sort_by_rank_on_pressed</a>, NULL            },</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    {SORT_BY_SUIT_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     <a class="code hl_function" href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">game_round_sort_by_suit_on_pressed</a>, NULL            },</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    {DISCARD_BTN_BORDER_PAL_IDX,      DISCARD_BTN_PAL_IDX,   <a class="code hl_function" href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">game_round_discard_on_pressed</a>,      <a class="code hl_function" href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a>},</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    {PLAY_HAND_BTN_BORDER_PAL_IDX,    PLAY_HAND_BTN_PAL_IDX, <a class="code hl_function" href="round_8c.html#a76e39297cc4cf2df4a70c98e0eb2419a">round_play_hand_on_pressed</a>,    <a class="code hl_function" href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a>   },</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    {SORT_BY_RANK_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     <a class="code hl_function" href="round_8c.html#ad090acba1576d760547ce689f2d543e5">round_sort_by_rank_on_pressed</a>, NULL            },</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    {SORT_BY_SUIT_BTN_BORDER_PAL_IDX, SORT_BTNS_PAL_IDX,     <a class="code hl_function" href="round_8c.html#a73803514e67988c3a977aed2bc55e218">round_sort_by_suit_on_pressed</a>, NULL            },</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    {DISCARD_BTN_BORDER_PAL_IDX,      DISCARD_BTN_PAL_IDX,   <a class="code hl_function" href="round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69">round_discard_on_pressed</a>,      <a class="code hl_function" href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a>},</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>};</div>
 <div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="comment">// clang-format on</span></div>
 <div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
@@ -466,7 +466,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span><span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
 <div class="foldopen" id="foldopen00338" data-start="{" data-end="}">
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="round_8h.html#af2a0cfd17eb4dd80b1a41b19fd2c4c2e">  338</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#af2a0cfd17eb4dd80b1a41b19fd2c4c2e">game_round_change_background_selecting</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="round_8h.html#a49e4e8dd5033ac1371197507e2732a1a">  338</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a49e4e8dd5033ac1371197507e2732a1a">round_change_background_selecting</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>{</div>
 <div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(HAND_SIZE_RECT_PLAYING);</div>
 <div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    REG_WIN0V = (REG_WIN0V &lt;&lt; 8) | 0x80; <span class="comment">// Set window 0 top to 128</span></div>
@@ -530,7 +530,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span> </div>
 <div class="foldopen" id="foldopen00400" data-start="{" data-end="}">
-<div class="line"><a id="l00400" name="l00400"></a><span class="lineno"><a class="line" href="round_8h.html#aa834c019b23c941ee96b8e51554398f7">  400</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#aa834c019b23c941ee96b8e51554398f7">game_round_change_background_playing</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno"><a class="line" href="round_8h.html#a2289621dd8403e902d98d2b6cada376d">  400</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a2289621dd8403e902d98d2b6cada376d">round_change_background_playing</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>{</div>
 <div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    <span class="keywordflow">if</span> (get_current_background() != BG_CARD_SELECTING)</div>
 <div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>    {</div>
@@ -573,7 +573,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span> </div>
 <div class="foldopen" id="foldopen00450" data-start="{" data-end="}">
-<div class="line"><a id="l00450" name="l00450"></a><span class="lineno"><a class="line" href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">  450</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">game_round_execute_discard</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno"><a class="line" href="round_8c.html#a7c24c955f5803f64fe5436b375087055">  450</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a7c24c955f5803f64fe5436b375087055">round_execute_discard</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>{</div>
 <div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a>())</div>
 <div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>        <span class="keywordflow">return</span>;</div>
@@ -586,12 +586,12 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span> </div>
 <div class="foldopen" id="foldopen00464" data-start="{" data-end="}">
-<div class="line"><a id="l00464" name="l00464"></a><span class="lineno"><a class="line" href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">  464</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">game_round_discard_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno"><a class="line" href="round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69">  464</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69">round_discard_on_pressed</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>{</div>
 <div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a>())</div>
 <div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span> </div>
-<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <a class="code hl_function" href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">game_round_execute_discard</a>();</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <a class="code hl_function" href="round_8c.html#a7c24c955f5803f64fe5436b375087055">round_execute_discard</a>();</div>
 <div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
 <div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    <span class="comment">// Move back to hand selection</span></div>
 <div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <a class="code hl_function" href="selection__grid_8h.html#a0ce39e190a85488f03024736064a9115">selection_grid_move_selection_vert</a>(&amp;game_round_selection_grid, -1);</div>
@@ -599,21 +599,21 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span> </div>
 <div class="foldopen" id="foldopen00478" data-start="{" data-end="}">
-<div class="line"><a id="l00478" name="l00478"></a><span class="lineno"><a class="line" href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">  478</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">game_round_sort_by_rank_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno"><a class="line" href="round_8c.html#ad090acba1576d760547ce689f2d543e5">  478</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#ad090acba1576d760547ce689f2d543e5">round_sort_by_rank_on_pressed</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>{</div>
 <div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>    <a class="code hl_function" href="hand_8h.html#ae31189b3cd0a76afd9fea79b94ea017f">hand_change_sort</a>(<span class="keyword">false</span>);</div>
 <div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span>}</div>
 </div>
 <div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span> </div>
 <div class="foldopen" id="foldopen00486" data-start="{" data-end="}">
-<div class="line"><a id="l00486" name="l00486"></a><span class="lineno"><a class="line" href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">  486</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">game_round_sort_by_suit_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno"><a class="line" href="round_8c.html#a73803514e67988c3a977aed2bc55e218">  486</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a73803514e67988c3a977aed2bc55e218">round_sort_by_suit_on_pressed</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>{</div>
 <div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>    <a class="code hl_function" href="hand_8h.html#ae31189b3cd0a76afd9fea79b94ea017f">hand_change_sort</a>(<span class="keyword">true</span>);</div>
 <div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>}</div>
 </div>
 <div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span> </div>
 <div class="foldopen" id="foldopen00494" data-start="{" data-end="}">
-<div class="line"><a id="l00494" name="l00494"></a><span class="lineno"><a class="line" href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">  494</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">game_round_execute_play_hand</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno"><a class="line" href="round_8c.html#a90fc589c9cebd37220a1b9d948c027a8">  494</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a90fc589c9cebd37220a1b9d948c027a8">round_execute_play_hand</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>{</div>
 <div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a>())</div>
 <div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>        <span class="keywordflow">return</span>;</div>
@@ -628,19 +628,19 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span> </div>
 <div class="foldopen" id="foldopen00510" data-start="{" data-end="}">
-<div class="line"><a id="l00510" name="l00510"></a><span class="lineno"><a class="line" href="round_8c.html#a248029dfeadf34f23699a003cc151c99">  510</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a248029dfeadf34f23699a003cc151c99">game_round_play_hand_on_pressed</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno"><a class="line" href="round_8c.html#a76e39297cc4cf2df4a70c98e0eb2419a">  510</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a76e39297cc4cf2df4a70c98e0eb2419a">round_play_hand_on_pressed</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>{</div>
 <div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a>())</div>
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span> </div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <a class="code hl_function" href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">game_round_execute_play_hand</a>();</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <a class="code hl_function" href="round_8c.html#a90fc589c9cebd37220a1b9d948c027a8">round_execute_play_hand</a>();</div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span> </div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="comment">// Move back to hand selection</span></div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>    <a class="code hl_function" href="selection__grid_8h.html#a0ce39e190a85488f03024736064a9115">selection_grid_move_selection_vert</a>(&amp;game_round_selection_grid, -1);</div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>}</div>
 </div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span><span class="keyword">static</span> <span class="keywordtype">int</span> game_round_hand_row_get_size(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span><span class="keyword">static</span> <span class="keywordtype">int</span> round_hand_row_get_size(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>{</div>
 <div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="hand_8h.html#aea7ba57e47116fba93956a21de49d7a7">hand_nb_held_cards</a>();</div>
 <div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>}</div>
@@ -663,7 +663,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> CARD_SWAP_TIME_THRESHOLD = 6;</div>
 <div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span><span class="keyword">static</span> <span class="keywordtype">int</span> s_selection_hit_timer = UNDEFINED;</div>
 <div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span> </div>
-<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span><span class="keyword">static</span> <span class="keywordtype">bool</span> game_round_hand_row_on_selection_changed(</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span><span class="keyword">static</span> <span class="keywordtype">bool</span> round_hand_row_on_selection_changed(</div>
 <div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
 <div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>    <span class="keywordtype">int</span> row_idx,</div>
 <div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
@@ -740,7 +740,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>}</div>
 <div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span> </div>
-<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_round_hand_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span><span class="keyword">static</span> <span class="keywordtype">void</span> round_hand_row_on_key_transit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
 <div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>{</div>
 <div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
 <div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>    {</div>
@@ -764,11 +764,11 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>    }</div>
 <div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(PLAY_HAND_KEY))</div>
 <div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>    {</div>
-<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>        <a class="code hl_function" href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">game_round_execute_play_hand</a>();</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>        <a class="code hl_function" href="round_8c.html#a90fc589c9cebd37220a1b9d948c027a8">round_execute_play_hand</a>();</div>
 <div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>    }</div>
 <div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (key_hit(DISCARD_HAND_KEY))</div>
 <div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>    {</div>
-<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        <a class="code hl_function" href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">game_round_execute_discard</a>();</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        <a class="code hl_function" href="round_8c.html#a7c24c955f5803f64fe5436b375087055">round_execute_discard</a>();</div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>    }</div>
 <div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>}</div>
 <div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span> </div>
@@ -776,17 +776,17 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span><span class="comment"> * OTHER SELECTIONGRID IMPLEMENTATION</span></div>
 <div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span><span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span> </div>
-<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span><span class="keyword">static</span> <span class="keywordtype">int</span> game_round_button_row_get_size(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span><span class="keyword">static</span> <span class="keywordtype">int</span> round_button_row_get_size(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>{</div>
 <div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>    <span class="keywordflow">return</span> <a class="code hl_define" href="util_8h.html#a3494fcb52c3d0ca1bf610facc8c81514">NUM_ELEM_IN_ARR</a>(game_round_buttons);</div>
 <div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>}</div>
 <div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span> </div>
-<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_button_set_highlight(<span class="keywordtype">int</span> btn_idx, <span class="keywordtype">bool</span> highlight)</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_button_set_highlight(<span class="keywordtype">int</span> btn_idx, <span class="keywordtype">bool</span> highlight)</div>
 <div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>{</div>
 <div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>    <a class="code hl_function" href="button_8h.html#ab07bc69b92e6642e2b986debfb152e48">button_set_highlight</a>(&amp;game_round_buttons[btn_idx], highlight);</div>
 <div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>}</div>
 <div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span> </div>
-<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span><span class="keyword">static</span> <span class="keywordtype">bool</span> game_round_button_row_on_selection_changed(</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span><span class="keyword">static</span> <span class="keywordtype">bool</span> round_button_row_on_selection_changed(</div>
 <div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>    <a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid,</div>
 <div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>    <span class="keywordtype">int</span> row_idx,</div>
 <div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>    <span class="keyword">const</span> Selection* prev_selection,</div>
@@ -798,20 +798,20 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>    <span class="comment">// As of writing (PR #348), this check is not strictly needed for this row but it is</span></div>
 <div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>    <span class="comment">// left in, in case that ever changes. It can be reconsidered and removed.</span></div>
 <div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>    <span class="keywordflow">if</span> (prev_selection-&gt;y == row_idx &amp;&amp; prev_selection-&gt;x &gt;= 0 &amp;&amp;</div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        prev_selection-&gt;x &lt; game_round_button_row_get_size())</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        prev_selection-&gt;x &lt; round_button_row_get_size())</div>
 <div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>    {</div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>        game_round_button_set_highlight(prev_selection-&gt;x, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>        round_button_set_highlight(prev_selection-&gt;x, <span class="keyword">false</span>);</div>
 <div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    }</div>
 <div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span> </div>
 <div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>    <span class="keywordflow">if</span> (new_selection-&gt;y == row_idx)</div>
 <div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>    {</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        game_round_button_set_highlight(new_selection-&gt;x, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        round_button_set_highlight(new_selection-&gt;x, <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>    }</div>
 <div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span> </div>
 <div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>}</div>
 <div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span><span class="keyword">static</span> <span class="keywordtype">void</span> game_round_button_row_on_key_hit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span><span class="keyword">static</span> <span class="keywordtype">void</span> round_button_row_on_key_hit(<a class="code hl_struct" href="structSelectionGrid.html">SelectionGrid</a>* selection_grid, Selection* selection)</div>
 <div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>{</div>
 <div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>    <span class="keywordflow">if</span> (key_hit(SELECT_CARD))</div>
 <div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>    {</div>
@@ -829,13 +829,13 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>}</div>
 </div>
 <div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span> </div>
-<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_process_hand_select_input(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_process_hand_select_input(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>{</div>
 <div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>    <a class="code hl_function" href="selection__grid_8h.html#aab5b9794029546e2418e24bd899a3032">selection_grid_process_input</a>(&amp;game_round_selection_grid);</div>
 <div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>}</div>
 <div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span> </div>
 <div class="foldopen" id="foldopen00723" data-start="{" data-end="}">
-<div class="line"><a id="l00723" name="l00723"></a><span class="lineno"><a class="line" href="round_8c.html#a0d69abfe02eda74f4107b7d4e31211dd">  723</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a0d69abfe02eda74f4107b7d4e31211dd">game_round_handle_round_over</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno"><a class="line" href="round_8c.html#ae6bd984ae4e2b54b94d53a1be6f9eb4f">  723</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#ae6bd984ae4e2b54b94d53a1be6f9eb4f">round_handle_round_over</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>{</div>
 <div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>    <span class="keyword">enum</span> GameState next_state = GAME_STATE_ROUND_END;</div>
 <div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span> </div>
@@ -1158,18 +1158,18 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01042" name="l01042"></a><span class="lineno"> 1042</span>}</div>
 <div class="line"><a id="l01043" name="l01043"></a><span class="lineno"> 1043</span> </div>
 <div class="foldopen" id="foldopen01049" data-start="{" data-end="}">
-<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"><a class="line" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b"> 1049</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01049" name="l01049"></a><span class="lineno"><a class="line" href="round_8c.html#a4c264e352e6e269e804edca284f81317"> 1049</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="round_8c.html#a4c264e352e6e269e804edca284f81317">round_is_over</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01050" name="l01050"></a><span class="lineno"> 1050</span>{</div>
 <div class="line"><a id="l01051" name="l01051"></a><span class="lineno"> 1051</span>    <span class="keywordflow">return</span> g_game_vars.hands == 0 ||</div>
 <div class="line"><a id="l01052" name="l01052"></a><span class="lineno"> 1052</span>           g_game_vars.score &gt;= <a class="code hl_function" href="blind_8h.html#a85fefafb15d88f710cbe1183ac34f3f4">blind_get_requirement</a>(g_game_vars.current_blind, g_game_vars.ante);</div>
 <div class="line"><a id="l01053" name="l01053"></a><span class="lineno"> 1053</span>}</div>
 </div>
 <div class="line"><a id="l01054" name="l01054"></a><span class="lineno"> 1054</span> </div>
-<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_process_input_and_state(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01055" name="l01055"></a><span class="lineno"> 1055</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_process_input_and_state(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01056" name="l01056"></a><span class="lineno"> 1056</span>{</div>
 <div class="line"><a id="l01057" name="l01057"></a><span class="lineno"> 1057</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_SELECT)</div>
 <div class="line"><a id="l01058" name="l01058"></a><span class="lineno"> 1058</span>    {</div>
-<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>        game_round_process_hand_select_input();</div>
+<div class="line"><a id="l01059" name="l01059"></a><span class="lineno"> 1059</span>        round_process_hand_select_input();</div>
 <div class="line"><a id="l01060" name="l01060"></a><span class="lineno"> 1060</span>    }</div>
 <div class="line"><a id="l01061" name="l01061"></a><span class="lineno"> 1061</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (play_state == PLAY_ENDING)</div>
 <div class="line"><a id="l01062" name="l01062"></a><span class="lineno"> 1062</span>    {</div>
@@ -1260,7 +1260,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01150" name="l01150"></a><span class="lineno"> 1150</span>}</div>
 </div>
 <div class="line"><a id="l01151" name="l01151"></a><span class="lineno"> 1151</span> </div>
-<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_process_card_draw(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01152" name="l01152"></a><span class="lineno"> 1152</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_process_card_draw(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01153" name="l01153"></a><span class="lineno"> 1153</span>{</div>
 <div class="line"><a id="l01154" name="l01154"></a><span class="lineno"> 1154</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DRAW &amp;&amp; s_cards_drawn &lt; g_game_vars.hand_size)</div>
 <div class="line"><a id="l01155" name="l01155"></a><span class="lineno"> 1155</span>    {</div>
@@ -1278,7 +1278,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01167" name="l01167"></a><span class="lineno"> 1167</span>    }</div>
 <div class="line"><a id="l01168" name="l01168"></a><span class="lineno"> 1168</span>}</div>
 <div class="line"><a id="l01169" name="l01169"></a><span class="lineno"> 1169</span> </div>
-<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_discarded_cards_loop(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01170" name="l01170"></a><span class="lineno"> 1170</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_discarded_cards_loop(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01171" name="l01171"></a><span class="lineno"> 1171</span>{</div>
 <div class="line"><a id="l01172" name="l01172"></a><span class="lineno"> 1172</span>    <span class="comment">// Discarded cards loop (mainly for shuffling)</span></div>
 <div class="line"><a id="l01173" name="l01173"></a><span class="lineno"> 1173</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#aea7ba57e47116fba93956a21de49d7a7">hand_nb_held_cards</a>() == 0 &amp;&amp; <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_SHUFFLING &amp;&amp; s_discard_top &gt;= -1 &amp;&amp;</div>
@@ -1322,7 +1322,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01211" name="l01211"></a><span class="lineno"> 1211</span>        <span class="keywordflow">if</span> (s_discard_top == -1 &amp;&amp; discarded_card_object == NULL)</div>
 <div class="line"><a id="l01212" name="l01212"></a><span class="lineno"> 1212</span>        {</div>
 <div class="line"><a id="l01213" name="l01213"></a><span class="lineno"> 1213</span>            <span class="comment">// After HAND_SHUFFLING the round is over</span></div>
-<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>            <a class="code hl_function" href="round_8c.html#a0d69abfe02eda74f4107b7d4e31211dd">game_round_handle_round_over</a>();</div>
+<div class="line"><a id="l01214" name="l01214"></a><span class="lineno"> 1214</span>            <a class="code hl_function" href="round_8c.html#ae6bd984ae4e2b54b94d53a1be6f9eb4f">round_handle_round_over</a>();</div>
 <div class="line"><a id="l01215" name="l01215"></a><span class="lineno"> 1215</span>        }</div>
 <div class="line"><a id="l01216" name="l01216"></a><span class="lineno"> 1216</span>    }</div>
 <div class="line"><a id="l01217" name="l01217"></a><span class="lineno"> 1217</span>}</div>
@@ -1488,7 +1488,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01377" name="l01377"></a><span class="lineno"> 1377</span>    }</div>
 <div class="line"><a id="l01378" name="l01378"></a><span class="lineno"> 1378</span>}</div>
 <div class="line"><a id="l01379" name="l01379"></a><span class="lineno"> 1379</span> </div>
-<div class="line"><a id="l01380" name="l01380"></a><span class="lineno"> 1380</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_ui_text_update(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01380" name="l01380"></a><span class="lineno"> 1380</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_ui_text_update(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01381" name="l01381"></a><span class="lineno"> 1381</span>{</div>
 <div class="line"><a id="l01382" name="l01382"></a><span class="lineno"> 1382</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> s_last_hand_size = 0;</div>
 <div class="line"><a id="l01383" name="l01383"></a><span class="lineno"> 1383</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> s_last_deck_size = 0;</div>
@@ -1558,7 +1558,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01446" name="l01446"></a><span class="lineno"> 1446</span>}</div>
 </div>
 <div class="line"><a id="l01447" name="l01447"></a><span class="lineno"> 1447</span> </div>
-<div class="line"><a id="l01448" name="l01448"></a><span class="lineno"> 1448</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> game_round_process_flaming_score(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01448" name="l01448"></a><span class="lineno"> 1448</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> round_process_flaming_score(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01449" name="l01449"></a><span class="lineno"> 1449</span>{</div>
 <div class="line"><a id="l01450" name="l01450"></a><span class="lineno"> 1450</span>    <span class="keyword">static</span> u8 flame_score_frame = 0;</div>
 <div class="line"><a id="l01451" name="l01451"></a><span class="lineno"> 1451</span> </div>
@@ -1913,7 +1913,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01844" name="l01844"></a><span class="lineno"> 1844</span>            <span class="comment">// we reached hand_top, all cards have been discarded</span></div>
 <div class="line"><a id="l01845" name="l01845"></a><span class="lineno"> 1845</span>            <span class="keywordflow">if</span> (played_idx == s_played_top)</div>
 <div class="line"><a id="l01846" name="l01846"></a><span class="lineno"> 1846</span>            {</div>
-<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a>())</div>
+<div class="line"><a id="l01847" name="l01847"></a><span class="lineno"> 1847</span>                <span class="keywordflow">if</span> (<a class="code hl_function" href="round_8c.html#a4c264e352e6e269e804edca284f81317">round_is_over</a>())</div>
 <div class="line"><a id="l01848" name="l01848"></a><span class="lineno"> 1848</span>                {</div>
 <div class="line"><a id="l01849" name="l01849"></a><span class="lineno"> 1849</span>                    <a class="code hl_function" href="hand_8h.html#a02fbe6fa56d5eecb06498a94aa3f654f">set_hand_state</a>(HAND_SHUFFLING);</div>
 <div class="line"><a id="l01850" name="l01850"></a><span class="lineno"> 1850</span>                }</div>
@@ -2043,7 +2043,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l01973" name="l01973"></a><span class="lineno"> 1973</span><span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a id="l01974" name="l01974"></a><span class="lineno"> 1974</span> </div>
 <div class="foldopen" id="foldopen01975" data-start="{" data-end="}">
-<div class="line"><a id="l01975" name="l01975"></a><span class="lineno"><a class="line" href="round_8h.html#a621c10d9a92f0cd0ab7a0d5a94e10410"> 1975</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l01975" name="l01975"></a><span class="lineno"><a class="line" href="round_8h.html#a2463539de4933ae2d3831685271ae6dd"> 1975</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a2463539de4933ae2d3831685271ae6dd">round_on_init</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l01976" name="l01976"></a><span class="lineno"> 1976</span>{</div>
 <div class="line"><a id="l01977" name="l01977"></a><span class="lineno"> 1977</span>    s_joker_scored_itr = <a class="code hl_function" href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a>(get_jokers_list());</div>
 <div class="line"><a id="l01978" name="l01978"></a><span class="lineno"> 1978</span> </div>
@@ -2116,7 +2116,7 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 </div>
 <div class="line"><a id="l02045" name="l02045"></a><span class="lineno"> 2045</span> </div>
 <div class="foldopen" id="foldopen02046" data-start="{" data-end="}">
-<div class="line"><a id="l02046" name="l02046"></a><span class="lineno"><a class="line" href="round_8h.html#a767cef821019cc29984d70192460b977"> 2046</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a>(<span class="keywordtype">void</span>)</div>
+<div class="line"><a id="l02046" name="l02046"></a><span class="lineno"><a class="line" href="round_8h.html#a2e859599b0a4bff14b21f30f537c7ad0"> 2046</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="round_8c.html#a2e859599b0a4bff14b21f30f537c7ad0">round_on_update</a>(<span class="keywordtype">void</span>)</div>
 <div class="line"><a id="l02047" name="l02047"></a><span class="lineno"> 2047</span>{</div>
 <div class="line"><a id="l02048" name="l02048"></a><span class="lineno"> 2048</span>    <span class="comment">// Background logic (thissss might be moved to the card&#39;ssss logic later. I&#39;m a sssssnake)</span></div>
 <div class="line"><a id="l02049" name="l02049"></a><span class="lineno"> 2049</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DRAW || <a class="code hl_function" href="hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1">get_hand_state</a>() == HAND_DISCARD ||</div>
@@ -2129,23 +2129,23 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="line"><a id="l02056" name="l02056"></a><span class="lineno"> 2056</span>        <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_CARD_PLAYING, <span class="keyword">false</span>);</div>
 <div class="line"><a id="l02057" name="l02057"></a><span class="lineno"> 2057</span>    }</div>
 <div class="line"><a id="l02058" name="l02058"></a><span class="lineno"> 2058</span> </div>
-<div class="line"><a id="l02059" name="l02059"></a><span class="lineno"> 2059</span>    game_round_process_input_and_state();</div>
+<div class="line"><a id="l02059" name="l02059"></a><span class="lineno"> 2059</span>    round_process_input_and_state();</div>
 <div class="line"><a id="l02060" name="l02060"></a><span class="lineno"> 2060</span> </div>
 <div class="line"><a id="l02061" name="l02061"></a><span class="lineno"> 2061</span>    <span class="comment">// Card logic</span></div>
 <div class="line"><a id="l02062" name="l02062"></a><span class="lineno"> 2062</span> </div>
-<div class="line"><a id="l02063" name="l02063"></a><span class="lineno"> 2063</span>    game_round_process_card_draw();</div>
+<div class="line"><a id="l02063" name="l02063"></a><span class="lineno"> 2063</span>    round_process_card_draw();</div>
 <div class="line"><a id="l02064" name="l02064"></a><span class="lineno"> 2064</span> </div>
-<div class="line"><a id="l02065" name="l02065"></a><span class="lineno"> 2065</span>    game_round_discarded_cards_loop();</div>
+<div class="line"><a id="l02065" name="l02065"></a><span class="lineno"> 2065</span>    round_discarded_cards_loop();</div>
 <div class="line"><a id="l02066" name="l02066"></a><span class="lineno"> 2066</span> </div>
 <div class="line"><a id="l02067" name="l02067"></a><span class="lineno"> 2067</span>    s_discarded_card = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l02068" name="l02068"></a><span class="lineno"> 2068</span> </div>
 <div class="line"><a id="l02069" name="l02069"></a><span class="lineno"> 2069</span>    cards_in_hand_update_loop();</div>
 <div class="line"><a id="l02070" name="l02070"></a><span class="lineno"> 2070</span>    played_cards_update_loop();</div>
 <div class="line"><a id="l02071" name="l02071"></a><span class="lineno"> 2071</span> </div>
-<div class="line"><a id="l02072" name="l02072"></a><span class="lineno"> 2072</span>    game_round_ui_text_update();</div>
+<div class="line"><a id="l02072" name="l02072"></a><span class="lineno"> 2072</span>    round_ui_text_update();</div>
 <div class="line"><a id="l02073" name="l02073"></a><span class="lineno"> 2073</span> </div>
 <div class="line"><a id="l02074" name="l02074"></a><span class="lineno"> 2074</span>    <span class="comment">// animate score flames if we exceed the score requirement</span></div>
-<div class="line"><a id="l02075" name="l02075"></a><span class="lineno"> 2075</span>    game_round_process_flaming_score();</div>
+<div class="line"><a id="l02075" name="l02075"></a><span class="lineno"> 2075</span>    round_process_flaming_score();</div>
 <div class="line"><a id="l02076" name="l02076"></a><span class="lineno"> 2076</span>}</div>
 </div>
 <div class="ttc" id="aaudio__utils_8h_html"><div class="ttname"><a href="audio__utils_8h.html">audio_utils.h</a></div><div class="ttdoc">Utilities for using maxmod to play sound effects.</div></div>
@@ -2200,39 +2200,39 @@ $(document).ready(function(){initNavTree('round_8c_source.html',''); initResizab
 <div class="ttc" id="alist_8h_html_adaa09cca2b970d67f0cd14076e1db988"><div class="ttname"><a href="list_8h.html#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a></div><div class="ttdeci">void * list_itr_next(ListItr *itr)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00281">list.c:281</a></div></div>
 <div class="ttc" id="alist_8h_html_af580fe52b40b3ee763b5fc145b7890b0"><div class="ttname"><a href="list_8h.html#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a></div><div class="ttdeci">ListItr list_itr_create(List *list)</div><div class="ttdef"><b>Definition</b> <a href="list_8c_source.html#l00257">list.c:257</a></div></div>
 <div class="ttc" id="arandom_8h_html_a4d26ae8ae4bb822e9da37320cf773e9a"><div class="ttname"><a href="random_8h.html#a4d26ae8ae4bb822e9da37320cf773e9a">rng_get_u32</a></div><div class="ttdeci">u32 rng_get_u32(enum RngSequence key)</div><div class="ttdoc">Get the next &quot;randomly&quot; generated number in the sequence corresponding to the given type.</div><div class="ttdef"><b>Definition</b> <a href="random_8c_source.html#l00056">random.c:56</a></div></div>
-<div class="ttc" id="around_8c_html_a032572052cdd083dd00a3a515c53b34b"><div class="ttname"><a href="round_8c.html#a032572052cdd083dd00a3a515c53b34b">game_round_is_over</a></div><div class="ttdeci">static bool game_round_is_over(void)</div><div class="ttdoc">Determines if the round is over, be it because we lost or won the round.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01049">round.c:1049</a></div></div>
 <div class="ttc" id="around_8c_html_a0629b6ce6e9dfa19f2887d9eaed5bdf2"><div class="ttname"><a href="round_8c.html#a0629b6ce6e9dfa19f2887d9eaed5bdf2">card_draw</a></div><div class="ttdeci">static void card_draw(void)</div><div class="ttdoc">Draw the next card at the top of the Deck and play a little Sprite animation to position it in our ha...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01125">round.c:1125</a></div></div>
 <div class="ttc" id="around_8c_html_a0b3070c9da10e0dace0a7547748307d7"><div class="ttname"><a href="round_8c.html#a0b3070c9da10e0dace0a7547748307d7">discard_push</a></div><div class="ttdeci">static void discard_push(Card *card)</div><div class="ttdoc">Push a new card to discard at the end of the associated array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00277">round.c:277</a></div></div>
-<div class="ttc" id="around_8c_html_a0d69abfe02eda74f4107b7d4e31211dd"><div class="ttname"><a href="round_8c.html#a0d69abfe02eda74f4107b7d4e31211dd">game_round_handle_round_over</a></div><div class="ttdeci">static void game_round_handle_round_over(void)</div><div class="ttdoc">Evaluates if we have won or lost when we can no longer play so that we land on the correct Game Over ...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00723">round.c:723</a></div></div>
 <div class="ttc" id="around_8c_html_a0d78a889edeedc032d9bba02f925da95"><div class="ttname"><a href="round_8c.html#a0d78a889edeedc032d9bba02f925da95">play_scoring_independent_jokers_update</a></div><div class="ttdeci">static bool play_scoring_independent_jokers_update(int played_idx)</div><div class="ttdoc">Score Jokers normally for event JOKER_EVENT_INDEPENDENT.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01717">round.c:1717</a></div></div>
-<div class="ttc" id="around_8c_html_a248029dfeadf34f23699a003cc151c99"><div class="ttname"><a href="round_8c.html#a248029dfeadf34f23699a003cc151c99">game_round_play_hand_on_pressed</a></div><div class="ttdeci">static void game_round_play_hand_on_pressed(void)</div><div class="ttdoc">&quot;Play&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00510">round.c:510</a></div></div>
+<div class="ttc" id="around_8c_html_a2289621dd8403e902d98d2b6cada376d"><div class="ttname"><a href="round_8c.html#a2289621dd8403e902d98d2b6cada376d">round_change_background_playing</a></div><div class="ttdeci">void round_change_background_playing(void)</div><div class="ttdoc">Change to the round card playing background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00400">round.c:400</a></div></div>
+<div class="ttc" id="around_8c_html_a2463539de4933ae2d3831685271ae6dd"><div class="ttname"><a href="round_8c.html#a2463539de4933ae2d3831685271ae6dd">round_on_init</a></div><div class="ttdeci">void round_on_init(void)</div><div class="ttdoc">Round state initialization.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01975">round.c:1975</a></div></div>
 <div class="ttc" id="around_8c_html_a2a4916e063f7e60e36f4f4f95d5a0050"><div class="ttname"><a href="round_8c.html#a2a4916e063f7e60e36f4f4f95d5a0050">get_scored_card_index</a></div><div class="ttdeci">int get_scored_card_index(void)</div><div class="ttdoc">Get the index of the card that is currently being scored.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00296">round.c:296</a></div></div>
 <div class="ttc" id="around_8c_html_a2d3ef1230d3b5dad1661ef539c7c1a52"><div class="ttname"><a href="round_8c.html#a2d3ef1230d3b5dad1661ef539c7c1a52">played_push</a></div><div class="ttdeci">static void played_push(CardObject *card_object)</div><div class="ttdoc">Push a new card to play at the end of the associated array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00258">round.c:258</a></div></div>
+<div class="ttc" id="around_8c_html_a2e859599b0a4bff14b21f30f537c7ad0"><div class="ttname"><a href="round_8c.html#a2e859599b0a4bff14b21f30f537c7ad0">round_on_update</a></div><div class="ttdeci">void round_on_update(void)</div><div class="ttdoc">Round state update.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l02046">round.c:2046</a></div></div>
 <div class="ttc" id="around_8c_html_a361ace2f170aa9e9651e2b66f1a4d613"><div class="ttname"><a href="round_8c.html#a361ace2f170aa9e9651e2b66f1a4d613">get_discard_top</a></div><div class="ttdeci">int get_discard_top(void)</div><div class="ttdoc">Get the index of the last discarded card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00265">round.c:265</a></div></div>
 <div class="ttc" id="around_8c_html_a386cd56fa1809a00adb3d90ddffa17d5"><div class="ttname"><a href="round_8c.html#a386cd56fa1809a00adb3d90ddffa17d5">play_before_scoring_cards_update</a></div><div class="ttdeci">static bool play_before_scoring_cards_update(void)</div><div class="ttdoc">Returns true if the Jokers scoring loop has returned early for event JOKER_EVENT_ON_HAND_PLAYED.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01544">round.c:1544</a></div></div>
 <div class="ttc" id="around_8c_html_a39727c2ef1584b79537ff9bee3e6a5a5"><div class="ttname"><a href="round_8c.html#a39727c2ef1584b79537ff9bee3e6a5a5">get_played_size</a></div><div class="ttdeci">int get_played_size(void)</div><div class="ttdoc">Get the number of cards played.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00248">round.c:248</a></div></div>
+<div class="ttc" id="around_8c_html_a49e4e8dd5033ac1371197507e2732a1a"><div class="ttname"><a href="round_8c.html#a49e4e8dd5033ac1371197507e2732a1a">round_change_background_selecting</a></div><div class="ttdeci">void round_change_background_selecting(void)</div><div class="ttdoc">Change to the round card selection background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00338">round.c:338</a></div></div>
+<div class="ttc" id="around_8c_html_a4c264e352e6e269e804edca284f81317"><div class="ttname"><a href="round_8c.html#a4c264e352e6e269e804edca284f81317">round_is_over</a></div><div class="ttdeci">static bool round_is_over(void)</div><div class="ttdoc">Determines if the round is over, be it because we lost or won the round.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01049">round.c:1049</a></div></div>
 <div class="ttc" id="around_8c_html_a502b904f74141ec81e736c49137622ef"><div class="ttname"><a href="round_8c.html#a502b904f74141ec81e736c49137622ef">set_retrigger</a></div><div class="ttdeci">void set_retrigger(bool new_retrigger)</div><div class="ttdoc">Set whether the current card should get triggered again.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00301">round.c:301</a></div></div>
-<div class="ttc" id="around_8c_html_a5e0d3235bf09ba829d1c806567a0e0a2"><div class="ttname"><a href="round_8c.html#a5e0d3235bf09ba829d1c806567a0e0a2">game_round_sort_by_suit_on_pressed</a></div><div class="ttdeci">static void game_round_sort_by_suit_on_pressed(void)</div><div class="ttdoc">&quot;Suit&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00486">round.c:486</a></div></div>
 <div class="ttc" id="around_8c_html_a6110e31a259ba9c8d30f5bb493ba8a0e"><div class="ttname"><a href="round_8c.html#a6110e31a259ba9c8d30f5bb493ba8a0e">check_and_score_joker_for_event</a></div><div class="ttdeci">static bool check_and_score_joker_for_event(ListItr *starting_joker_itr, CardObject *card_object, enum JokerEvent joker_event)</div><div class="ttdoc">Iterate over the Jokers List until we encounter one that scores for the specified event.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01486">round.c:1486</a></div></div>
-<div class="ttc" id="around_8c_html_a621c10d9a92f0cd0ab7a0d5a94e10410"><div class="ttname"><a href="round_8c.html#a621c10d9a92f0cd0ab7a0d5a94e10410">game_round_on_init</a></div><div class="ttdeci">void game_round_on_init(void)</div><div class="ttdoc">Round state initialization.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01975">round.c:1975</a></div></div>
 <div class="ttc" id="around_8c_html_a640ee0da1357a826105485ffc34e3c7e"><div class="ttname"><a href="round_8c.html#a640ee0da1357a826105485ffc34e3c7e">play_ending_played_cards_update</a></div><div class="ttdeci">static void play_ending_played_cards_update(int played_idx)</div><div class="ttdoc">This is the reverse of PLAY_STARTING. The cards get reset back to their neutral position sequentially...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01775">round.c:1775</a></div></div>
-<div class="ttc" id="around_8c_html_a6f05f3f97f4719b80f8bc8c1386c2487"><div class="ttname"><a href="round_8c.html#a6f05f3f97f4719b80f8bc8c1386c2487">game_round_execute_discard</a></div><div class="ttdeci">static void game_round_execute_discard(void)</div><div class="ttdoc">Triggers the discard of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00450">round.c:450</a></div></div>
-<div class="ttc" id="around_8c_html_a726b484f4969a82cb7ef09b3e3c8e434"><div class="ttname"><a href="round_8c.html#a726b484f4969a82cb7ef09b3e3c8e434">game_round_execute_play_hand</a></div><div class="ttdeci">static void game_round_execute_play_hand(void)</div><div class="ttdoc">Triggers the playing of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00494">round.c:494</a></div></div>
-<div class="ttc" id="around_8c_html_a767cef821019cc29984d70192460b977"><div class="ttname"><a href="round_8c.html#a767cef821019cc29984d70192460b977">game_round_on_update</a></div><div class="ttdeci">void game_round_on_update(void)</div><div class="ttdoc">Round state update.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l02046">round.c:2046</a></div></div>
+<div class="ttc" id="around_8c_html_a73803514e67988c3a977aed2bc55e218"><div class="ttname"><a href="round_8c.html#a73803514e67988c3a977aed2bc55e218">round_sort_by_suit_on_pressed</a></div><div class="ttdeci">static void round_sort_by_suit_on_pressed(void)</div><div class="ttdoc">&quot;Suit&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00486">round.c:486</a></div></div>
+<div class="ttc" id="around_8c_html_a76e39297cc4cf2df4a70c98e0eb2419a"><div class="ttname"><a href="round_8c.html#a76e39297cc4cf2df4a70c98e0eb2419a">round_play_hand_on_pressed</a></div><div class="ttdeci">static void round_play_hand_on_pressed(void)</div><div class="ttdoc">&quot;Play&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00510">round.c:510</a></div></div>
+<div class="ttc" id="around_8c_html_a7c24c955f5803f64fe5436b375087055"><div class="ttname"><a href="round_8c.html#a7c24c955f5803f64fe5436b375087055">round_execute_discard</a></div><div class="ttdeci">static void round_execute_discard(void)</div><div class="ttdoc">Triggers the discard of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00450">round.c:450</a></div></div>
 <div class="ttc" id="around_8c_html_a81b9604048e903b67beb87bf60db1f8e"><div class="ttname"><a href="round_8c.html#a81b9604048e903b67beb87bf60db1f8e">discard_pop</a></div><div class="ttdeci">static Card * discard_pop()</div><div class="ttdoc">Remove and recover the last discarded card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00289">round.c:289</a></div></div>
 <div class="ttc" id="around_8c_html_a8e3d34f37a1bbde2018adbe5e137022b"><div class="ttname"><a href="round_8c.html#a8e3d34f37a1bbde2018adbe5e137022b">toggle_flaming_score</a></div><div class="ttdeci">void toggle_flaming_score(void)</div><div class="ttdoc">Checks whether the score that would result from the current Chips and Mult exceeds the current Blind'...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01425">round.c:1425</a></div></div>
+<div class="ttc" id="around_8c_html_a90fc589c9cebd37220a1b9d948c027a8"><div class="ttname"><a href="round_8c.html#a90fc589c9cebd37220a1b9d948c027a8">round_execute_play_hand</a></div><div class="ttdeci">static void round_execute_play_hand(void)</div><div class="ttdoc">Triggers the playing of the currently selected cards in hand.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00494">round.c:494</a></div></div>
 <div class="ttc" id="around_8c_html_a96da9e5f8367ece054bc074316493ecf"><div class="ttname"><a href="round_8c.html#a96da9e5f8367ece054bc074316493ecf">can_play_hand</a></div><div class="ttdeci">static bool can_play_hand(void)</div><div class="ttdoc">Determines whether the &quot;Play&quot; button can be pressed or not.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00440">round.c:440</a></div></div>
 <div class="ttc" id="around_8c_html_aa49518129a32df4d331f2a828d29a933"><div class="ttname"><a href="round_8c.html#aa49518129a32df4d331f2a828d29a933">play_scoring_card_jokers_update</a></div><div class="ttdeci">static bool play_scoring_card_jokers_update(void)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_SCORED_END for the previous scored card,...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01630">round.c:1630</a></div></div>
-<div class="ttc" id="around_8c_html_aa834c019b23c941ee96b8e51554398f7"><div class="ttname"><a href="round_8c.html#aa834c019b23c941ee96b8e51554398f7">game_round_change_background_playing</a></div><div class="ttdeci">void game_round_change_background_playing(void)</div><div class="ttdoc">Change to the round card playing background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00400">round.c:400</a></div></div>
 <div class="ttc" id="around_8c_html_ab8ce5e3b4efa05d10da22bf8e9e81599"><div class="ttname"><a href="round_8c.html#ab8ce5e3b4efa05d10da22bf8e9e81599">can_discard_hand</a></div><div class="ttdeci">static bool can_discard_hand(void)</div><div class="ttdoc">Determines whether the &quot;Discard&quot; button can be pressed or not.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00427">round.c:427</a></div></div>
-<div class="ttc" id="around_8c_html_abddd5bcbcc20eb4ce460d53d448acdb4"><div class="ttname"><a href="round_8c.html#abddd5bcbcc20eb4ce460d53d448acdb4">game_round_discard_on_pressed</a></div><div class="ttdeci">static void game_round_discard_on_pressed(void)</div><div class="ttdoc">&quot;Discard&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00464">round.c:464</a></div></div>
 <div class="ttc" id="around_8c_html_ac1a5bcbce9deda8ea2c07a8630a357d1"><div class="ttname"><a href="round_8c.html#ac1a5bcbce9deda8ea2c07a8630a357d1">play_scoring_held_cards_update</a></div><div class="ttdeci">static bool play_scoring_held_cards_update(int played_idx)</div><div class="ttdoc">Activate Jokers for event JOKER_EVENT_ON_CARD_HELD for the previous scored card, if any.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01680">round.c:1680</a></div></div>
 <div class="ttc" id="around_8c_html_ac8cec2b58cfa75bf971c1013aa1e9a40"><div class="ttname"><a href="round_8c.html#ac8cec2b58cfa75bf971c1013aa1e9a40">get_played_top</a></div><div class="ttdeci">int get_played_top(void)</div><div class="ttdoc">Get the index of the last played card.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00243">round.c:243</a></div></div>
 <div class="ttc" id="around_8c_html_ac922f137d1d3ab206c5583954ba346fd"><div class="ttname"><a href="round_8c.html#ac922f137d1d3ab206c5583954ba346fd">hand_sel_idx_to_card_idx</a></div><div class="ttdeci">static int hand_sel_idx_to_card_idx(int selection_index)</div><div class="ttdoc">Converts a selection index from the selection grid into a card index within the hand array.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00706">round.c:706</a></div></div>
 <div class="ttc" id="around_8c_html_ac93bf760224522bf82c09b5933b3619d"><div class="ttname"><a href="round_8c.html#ac93bf760224522bf82c09b5933b3619d">play_scoring_hand_scored_end_update</a></div><div class="ttdeci">static bool play_scoring_hand_scored_end_update(int played_idx)</div><div class="ttdoc">Trigger all Jokers for event JOKER_EVENT_ON_HAND_SCORED_END once they are done scoring.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01744">round.c:1744</a></div></div>
 <div class="ttc" id="around_8c_html_ace375f4cc13086b5d150e53892d471f8"><div class="ttname"><a href="round_8c.html#ace375f4cc13086b5d150e53892d471f8">get_played_distribution</a></div><div class="ttdeci">static GBAL_UNUSED void get_played_distribution(u8 ranks_out[NUM_RANKS], u8 suits_out[NUM_SUITS])</div><div class="ttdoc">Outputs the distribution of ranks and suits in the played stack.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00314">round.c:314</a></div></div>
-<div class="ttc" id="around_8c_html_aeb9efbd6a525a3567a44fb94838ff8b4"><div class="ttname"><a href="round_8c.html#aeb9efbd6a525a3567a44fb94838ff8b4">game_round_sort_by_rank_on_pressed</a></div><div class="ttdeci">static void game_round_sort_by_rank_on_pressed(void)</div><div class="ttdoc">&quot;Rank&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00478">round.c:478</a></div></div>
-<div class="ttc" id="around_8c_html_af2a0cfd17eb4dd80b1a41b19fd2c4c2e"><div class="ttname"><a href="round_8c.html#af2a0cfd17eb4dd80b1a41b19fd2c4c2e">game_round_change_background_selecting</a></div><div class="ttdeci">void game_round_change_background_selecting(void)</div><div class="ttdoc">Change to the round card selection background.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00338">round.c:338</a></div></div>
+<div class="ttc" id="around_8c_html_ad090acba1576d760547ce689f2d543e5"><div class="ttname"><a href="round_8c.html#ad090acba1576d760547ce689f2d543e5">round_sort_by_rank_on_pressed</a></div><div class="ttdeci">static void round_sort_by_rank_on_pressed(void)</div><div class="ttdoc">&quot;Rank&quot; sorting button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00478">round.c:478</a></div></div>
+<div class="ttc" id="around_8c_html_ad479b5e67a193e5f1e4ca863f574ca69"><div class="ttname"><a href="round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69">round_discard_on_pressed</a></div><div class="ttdeci">static void round_discard_on_pressed(void)</div><div class="ttdoc">&quot;Discard&quot; button implementation.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00464">round.c:464</a></div></div>
+<div class="ttc" id="around_8c_html_ae6bd984ae4e2b54b94d53a1be6f9eb4f"><div class="ttname"><a href="round_8c.html#ae6bd984ae4e2b54b94d53a1be6f9eb4f">round_handle_round_over</a></div><div class="ttdeci">static void round_handle_round_over(void)</div><div class="ttdoc">Evaluates if we have won or lost when we can no longer play so that we land on the correct Game Over ...</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l00723">round.c:723</a></div></div>
 <div class="ttc" id="around_8c_html_af765693e228f67ffcbdd74e9b2c83542"><div class="ttname"><a href="round_8c.html#af765693e228f67ffcbdd74e9b2c83542">play_scoring_cards_update</a></div><div class="ttdeci">static bool play_scoring_cards_update(void)</div><div class="ttdoc">Score all played cards in order, then Jokers after each one.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01561">round.c:1561</a></div></div>
 <div class="ttc" id="around_8c_html_afe9276c4999f9a36a6a11cab49ce33d5"><div class="ttname"><a href="round_8c.html#afe9276c4999f9a36a6a11cab49ce33d5">play_ended_played_cards_update</a></div><div class="ttdeci">static bool play_ended_played_cards_update(int played_idx)</div><div class="ttdoc">Returns true if the card at index played_idx has been discarded. Basically a copy of HAND_DISCARD.</div><div class="ttdef"><b>Definition</b> <a href="round_8c_source.html#l01820">round.c:1820</a></div></div>
 <div class="ttc" id="around_8h_html"><div class="ttname"><a href="round_8h.html">round.h</a></div><div class="ttdoc">API relative to the Rounds we play.</div></div>
