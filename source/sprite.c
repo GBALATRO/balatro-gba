@@ -170,14 +170,14 @@ int sprite_get_pb(const Sprite* sprite)
 
 void sprite_hide(Sprite* sprite)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, RET_NONE);
 
     obj_hide(sprite->obj);
 }
 
 void sprite_unhide(Sprite* sprite)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite, RET_NONE);
 
     obj_unhide(sprite->obj, sprite->mode);
 }
@@ -185,7 +185,7 @@ void sprite_unhide(Sprite* sprite)
 // SpriteObject methods
 void sprite_object_init(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_object->sprite = NULL;
     sprite_object_reset_transform(sprite_object);
@@ -196,7 +196,7 @@ void sprite_object_init(SpriteObject* sprite_object)
 
 void sprite_object_destroy(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     list_remove_data(&sprite_objects_list, sprite_object);
     sprite_destroy(&sprite_object->sprite);
@@ -204,7 +204,7 @@ void sprite_object_destroy(SpriteObject* sprite_object)
 
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_destroy(&sprite_object->sprite); // Destroy the old sprite if it exists
     sprite_object->sprite = sprite;
@@ -212,21 +212,21 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 
 void sprite_object_hide(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_hide(sprite_object->sprite);
 }
 
 void sprite_object_unhide(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_unhide(sprite_object->sprite);
 }
 
 void sprite_object_reset_transform(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_object_position(sprite_object, 0, 0); // Target position
     sprite_object->vx = 0;
@@ -349,7 +349,7 @@ void sprite_object_update_all(void)
 
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_object->vscale = float2fx(0.3f);
     sprite_object->vrotation = float2fx(8.0f); // Rotate the card when it's scored
@@ -369,7 +369,7 @@ Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     if (sprite_object->focused == focus)
     {
@@ -437,7 +437,7 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
 
 void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[])
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
     update_text_rect_to_center_str(&text_rect, text, SCREEN_LEFT);
@@ -446,7 +446,7 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
 
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     // + 2 for null-terminator and "$"
     char price_str_buff[INT_MAX_DIGITS + 2];
@@ -456,7 +456,7 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(sprite_object);
+    GBAL_RET_FUNC_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
 

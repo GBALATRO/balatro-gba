@@ -194,9 +194,12 @@ int card_object_get_buy_price(Item* card_object)
 
 void card_object_dispose(Item** card_object_item)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(card_object_item);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(*card_object_item);
-    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((*card_object_item)->type == ITEM_TYPE_PLAYING_CARD);
+    GBAL_RET_FUNC_RETURN_IF_NULL(card_object_item, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_NULL(*card_object_item, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(
+        (*card_object_item)->type == ITEM_TYPE_PLAYING_CARD,
+        RET_NONE
+    );
 
     CardObject* card_object = (CardObject*)(*card_object_item);
     card_object_destroy(&card_object);

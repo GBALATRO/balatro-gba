@@ -34,11 +34,11 @@ int item_get_buy_price(Item* item)
 
 void item_acquire(Item* item)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item_funcs);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item_funcs->acquire);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item_funcs, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item_funcs->acquire, RET_NONE);
 
     item_funcs->acquire(item);
 }
@@ -55,17 +55,17 @@ bool item_can_acquire(Item* item)
 
 void item_dispose(Item** item)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(*item);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_NULL(*item, RET_NONE);
     ItemFuncs* item_funcs = get_item_type_funcs((*item)->type);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item_funcs);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item_funcs->dispose);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item_funcs, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item_funcs->dispose, RET_NONE);
 
     item_funcs->dispose(item);
 }
 
 void item_print_buy_price_under(Item* item)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(item);
+    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
     sprite_object_print_price_under((SpriteObject*)item, item_get_buy_price(item));
 }

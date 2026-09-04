@@ -69,17 +69,6 @@
 // TODO: Document and clean documentation
 
 /**
- * @brief Returns and logs error @p message if @p expression is false.
- *
- * This version is for a void function, while @ref GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS is
- * for one with a return value.
- *
- * See @ref GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS for a version with a default message
- */
-#define GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, message, ...) \
-    GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, , message, __VA_ARGS__)
-
-/**
  * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
  * This version is for a function that returns a value,
@@ -87,7 +76,6 @@
  *
  * See @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
-// TODO: Handle trailing comma
 #define GBAL_RET_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
     do                                                                                   \
     {                                                                                    \
@@ -97,18 +85,6 @@
             return ret_val;                                                            \
         }                                                                                \
     } while (0)
-
-/**
- * @brief Returns and logs an error message if @p expression is false.
- *
- * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS is
- * for one with a return value.
- *
- * See @ref GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
- * any custom error message.
- */
-#define GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(expression) \
-    GBAL_VOID_FUNC_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, "Assert failed: %s", #expression)
 
 /**
  * @brief Returns @p ret_val and logs an error message if @p expression is false.
@@ -128,15 +104,6 @@
     )
 
 /**
- * @brief Checks if @p param is NULL, prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
- *
- * This version is for a void function, while @ref GBAL_RET_FUNC_RETURN_IF_NULL is for one with
- * a return value.
- */
-#define GBAL_VOID_FUNC_RETURN_IF_NULL(param) GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((param) != NULL)
-
-/**
  * @brief Returns @p ret_val and prints error message if @p param is equal to NULL.
  * Useful for checking arguments to a function or errors during control flow.
  * @param ret_val The value to return in case @p param is equal to NULL.
@@ -146,6 +113,13 @@
  */
 #define GBAL_RET_FUNC_RETURN_IF_NULL(param, ret_val) \
     GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((param) != NULL, ret_val)
+
+/**
+ * @brief An empty return value for RETURN_IF macros when used in void functions
+ * Expands to nothing because macros expand normally with blank arguments so it's more
+ * to show that the empty value is intended.
+ */
+#define RET_NONE
 
 /**
  * @brief Avoid overflow when adding two u32 integers

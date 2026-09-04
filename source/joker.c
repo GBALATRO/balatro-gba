@@ -270,12 +270,12 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_dispose(Item** joker_object_item)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object_item);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(*joker_object_item);
-    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS((*joker_object_item)->type == ITEM_TYPE_JOKER);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object_item, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_NULL(*joker_object_item, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((*joker_object_item)->type == ITEM_TYPE_JOKER, RET_NONE);
 
     JokerObject* joker_object = (JokerObject*)(*joker_object_item);
-    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object->joker);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object->joker, RET_NONE);
 
     joker_set_rollable(joker_object->joker->id, true);
 
@@ -298,8 +298,8 @@ int joker_object_get_buy_price(Item* joker_object)
 
 void joker_object_add_to_owned(Item* joker_object)
 {
-    GBAL_VOID_FUNC_RETURN_IF_NULL(joker_object);
-    GBAL_VOID_FUNC_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER);
+    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object, RET_NONE);
+    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
 
     joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
