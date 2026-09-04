@@ -24,6 +24,7 @@
 #include "mgba_logger.h"
 #include "soundbank.h"
 #include "soundbank_bin.h"
+#include "tonc_core.h"
 
 void init()
 {
@@ -113,6 +114,38 @@ void draw()
     sprite_draw();
 }
 
+#define GBLATRO_PROFILE
+#ifdef GBLATRO_PROFILE
+
+// Add a breakpoint here in gdb, then `next` into the caller
+// function `profile_timer_stop` and `print` its variables
+static void profile_timer_breakpoint(void)
+{
+    static volatile u32 a;
+    (void)a;
+}
+
+static void profile_timer_stop(void)
+{
+    static volatile s32 prev_frame_time = 0;
+    static volatile s32 frame_time = 0;
+
+    frame_time = profile_stop();
+
+    volatile s32 frame_diff = frame_time - prev_frame_time;
+    (void)frame_diff;
+
+    // feel free to turn on, turns the game very slow
+    // tte_printf("#{P:0,0 ;x:0x2000} FRAME_TIME:       %ld", frame_time);
+    // tte_printf("#{P:0,8 ;x:0x2000} FRAME_TIME_PREV:  %ld", prev_frame_time);
+    // tte_printf("#{P:0,16;x:0x2000} FRAME_DIFF:      %ld", frame_diff);
+
+    profile_timer_breakpoint();
+
+    prev_frame_time = frame_time;
+}
+#endif
+
 int main()
 {
     init();
@@ -120,10 +153,16 @@ int main()
     while (true)
     {
         VBlankIntrWait();
+#ifdef GBLATRO_PROFILE
+    profile_start();
+#endif
         mmFrame();
         key_poll();
         update();
         draw();
+#ifdef GBLATRO_PROFILE
+        profile_timer_stop();
+#endif
     }
 
     return 0;
