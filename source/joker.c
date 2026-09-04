@@ -210,14 +210,14 @@ ItemDescSubtypeInfo joker_object_get_rarity_info(Item* joker_object)
 
 int joker_get_buy_price(const Joker* joker)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value;
 }
 
 int joker_get_sell_value(const Joker* joker)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value / 2;
 }
@@ -225,7 +225,7 @@ int joker_get_sell_value(const Joker* joker)
 // JokerObject methods
 JokerObject* joker_object_new(Joker* joker)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker, NULL);
+    GBAL_RETURN_IF_NULL(joker, NULL);
     JokerObject* joker_object = POOL_GET(JokerObject);
 
     sprite_object_init((SpriteObject*)joker_object);
@@ -295,12 +295,12 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_dispose(Item** joker_object_item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object_item, RET_NONE);
-    GBAL_RET_FUNC_RETURN_IF_NULL(*joker_object_item, RET_NONE);
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS((*joker_object_item)->type == ITEM_TYPE_JOKER, RET_NONE);
+    GBAL_RETURN_IF_NULL(joker_object_item, RET_NONE);
+    GBAL_RETURN_IF_NULL(*joker_object_item, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS((*joker_object_item)->type == ITEM_TYPE_JOKER, RET_NONE);
 
     JokerObject* joker_object = (JokerObject*)(*joker_object_item);
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object->joker, RET_NONE);
+    GBAL_RETURN_IF_NULL(joker_object->joker, RET_NONE);
 
     joker_set_rollable(joker_object->joker->id, true);
 
@@ -330,8 +330,8 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 
 int joker_object_get_buy_price(Item* joker_object)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object, UNDEFINED);
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, UNDEFINED);
 
     return joker_get_buy_price(((JokerObject*)joker_object)->joker);
 }
@@ -346,8 +346,8 @@ int joker_object_get_sell_price(Item* joker_object)
 
 void joker_object_add_to_owned(Item* joker_object)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(joker_object, RET_NONE);
-    GBAL_RET_FUNC_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
+    GBAL_RETURN_IF_NULL(joker_object, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
 
     add_joker((JokerObject*)joker_object);
 }

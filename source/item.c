@@ -33,7 +33,7 @@ Item* item_roll_new(enum ItemType item_type, enum RngSequence key)
 
 int item_get_buy_price(Item* item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(item, UNDEFINED);
+    GBAL_RETURN_IF_NULL(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     GBAL_RETURN_IF_NULL_RET(item_funcs, UNDEFINED);
@@ -115,7 +115,7 @@ ItemDescSubtypeInfo item_get_subtype_info(Item* item)
 
 void item_acquire(Item* item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
+    GBAL_RETURN_IF_NULL(item, RET_NONE);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     GBAL_RETURN_IF_NULL_VOID(item_funcs);
@@ -132,7 +132,7 @@ void item_acquire(Item* item)
 
 bool item_can_acquire(Item* item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(item, false);
+    GBAL_RETURN_IF_NULL(item, false);
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
     GBAL_RETURN_IF_NULL_RET(item_funcs, false);
     if (item_funcs->can_acquire == NULL)
@@ -146,8 +146,8 @@ bool item_can_acquire(Item* item)
 
 void item_dispose(Item** item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
-    GBAL_RET_FUNC_RETURN_IF_NULL(*item, RET_NONE);
+    GBAL_RETURN_IF_NULL(item, RET_NONE);
+    GBAL_RETURN_IF_NULL(*item, RET_NONE);
     ItemFuncs* item_funcs = get_item_type_funcs((*item)->type);
     GBAL_RETURN_IF_NULL_VOID(item_funcs);
     if (item_funcs->dispose == NULL)
@@ -202,6 +202,6 @@ void item_sell(Item* item)
 
 void item_print_buy_price_under(Item* item)
 {
-    GBAL_RET_FUNC_RETURN_IF_NULL(item, RET_NONE);
+    GBAL_RETURN_IF_NULL(item, RET_NONE);
     sprite_object_print_price_under((SpriteObject*)item, item_get_buy_price(item));
 }
