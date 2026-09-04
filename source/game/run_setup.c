@@ -96,11 +96,23 @@ static void seed_keyboard_substate_update(void);
 
 static void resume_substate_init(void);
 
-static StateInfo state_info[] = {
-    STATE_INFO_INIT_UPDATE_FN(choose_deck_substate_init, choose_deck_substate_update),
-    STATE_INFO_INIT_UPDATE_FN(seed_keyboard_substate_init, seed_keyboard_substate_update),
-    STATE_INFO_INIT_UPDATE_FN(resume_substate_init, noop)
+// clang-format off
+static StateInfo state_info[] =
+{
+    [RUN_SETUP_SUBSTATE_CHOOSE_DECK] = STATE_INFO_INIT_UPDATE_FN(
+        choose_deck_substate_init, 
+        choose_deck_substate_update
+    ),
+    [RUN_SETUP_SUBSTATE_CHOOSE_SEED] = STATE_INFO_INIT_UPDATE_FN(
+        seed_keyboard_substate_init,
+        seed_keyboard_substate_update
+    ),
+    [RUN_SETUP_SUBSTATE_RESUME] = STATE_INFO_INIT_UPDATE_FN(
+        resume_substate_init, 
+        noop
+    )
 };
+// clang-format on
 
 static StateMachine run_setup_sm = {
     .state_infos = &state_info[0],

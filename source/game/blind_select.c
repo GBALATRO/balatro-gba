@@ -47,14 +47,16 @@ enum BlindSelectState
     BLIND_SELECT_MAX,
 };
 
-// TODO: this will be refactored into common state machine
-static StateInfo state_info[] = {
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_start_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_handle_input),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_selected_anim_seq),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_display_blind_panel),
-    STATE_INFO_UPDATE_FN_ONLY(blind_select_exit),
+// clang-format off
+static StateInfo state_info[] =
+{
+    [START_ANIM_SEQ]            = STATE_INFO_UPDATE_FN_ONLY(blind_select_start_anim_seq),
+    [BLIND_SELECT]              = STATE_INFO_UPDATE_FN_ONLY(blind_select_handle_input),
+    [BLIND_SELECTED_ANIM_SEQ]   = STATE_INFO_UPDATE_FN_ONLY(blind_select_selected_anim_seq),
+    [DISPLAY_BLIND_PANEL]       = STATE_INFO_UPDATE_FN_ONLY(blind_select_display_blind_panel),
+    [BLIND_SELECT_EXIT]         = STATE_INFO_UPDATE_FN_ONLY(blind_select_exit),
 };
+// clang-format on
 
 static StateMachine blind_select_sm = STATE_MACHINE_DEFINE(state_info, BLIND_SELECT_MAX);
 
