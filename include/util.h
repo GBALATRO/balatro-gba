@@ -71,9 +71,10 @@
 /**
  * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
- * This version is for a function that returns a value,
- * while @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS is for a void function.
+ * @param ret_val The value to return in case @p expression is false. 
+ * Pass @ref RET_NONE in a void function
  *
+ * @param message The message to log in @p expression is false.
  * See @ref GBAL_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
 #define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
@@ -89,8 +90,8 @@
 /**
  * @brief Returns @p ret_val and logs an error message if @p expression is false.
  *
- * This version is for a void function, while @ref GBAL_RETURN_IF_ASSERT_FAILS is
- * for one with a return value.
+ * @param ret_val The value to return in case @p expression is false. 
+ * Pass @ref RET_NONE in a void function
  *
  * See @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
  * any custom error message.
@@ -100,8 +101,10 @@
 
 /**
  * @brief Returns @p ret_val and prints error message if @p param is equal to NULL.
- * Useful for checking arguments to a function or errors during control flow.
- * @param ret_val The value to return in case @p param is equal to NULL.
+ * Useful for checking arguments or function return values during control flow.
+ * 
+ * @param ret_val The value to return in case @p param is equal to NULL. 
+ * Pass @ref RET_NONE in a void function
  *
  * This version is for a function that returns a value while @ref GBAL_VOID_FUNC_RETURN_IF_NULL
  * is for a void function.
