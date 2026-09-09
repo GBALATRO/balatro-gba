@@ -84,7 +84,7 @@
  * @param ret_val The value to return in case @p expression is false.
  * Pass @ref RET_NONE in a void function
  *
- * @param message The message to log in @p expression is false.
+ * @param message The message to log if @p expression is false.
  * See @ref GBAL_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
 #define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
