@@ -1,5 +1,7 @@
 #include "mgba_logger.h"
 
+#include "util.h"
+
 #ifdef MGBA_LOGGING
 
 #include <stdarg.h>
@@ -29,8 +31,16 @@ bool mgba_logger_init(void)
 
 static void mgba_vprintf(MgbaLogLevel level, const char* fmt, va_list args)
 {
-    if (!s_mgba_logger_available || fmt == NULL)
+    if (!s_mgba_logger_available)
+    {
+        // If the logger is not available, we can't log any error at all
         return;
+    }
+
+    /* This ends up being sort of a recursive call, but it has to stop after one level
+     * because the macro is certain to not pass a NULL message.
+     */
+    GBAL_RETURN_IF_NULL(fmt, RET_NONE);
 
     vsnprintf(MGBA_REG_DEBUG_STRING, MGBA_LOG_BUFFER_SIZE, fmt, args);
 
@@ -47,11 +57,24 @@ void mgba_printf(MgbaLogLevel level, const char* fmt, ...)
 
 void mgba_func_printf(MgbaLogLevel level, const char* func_name, const char* fmt, ...)
 {
-    if (!s_mgba_logger_available || func_name == NULL || fmt == NULL)
+    if (!s_mgba_logger_available)
     {
-        // The one place where we can't log the error.
+        // If the logger is not available, we can't log any error at all
         return;
     }
+
+    /* This ends up being a recursive call, but it has to stop after one level
+     * because this does not pass a NULL message.
+     * Not checking func_name, relying both on the macro to pass __func__ and
+     * on the printf function to handle it gracefully even in the off case.
+     */
+    GBAL_CUST_MSG_RETURN_IF_NULL(
+        fmt,
+        RET_NONE,
+        "%s() passed NULL message at log level %d",
+        func_name,
+        level
+    );
 
     char printed_str_buff[MGBA_LOG_BUFFER_SIZE];
 
