@@ -325,7 +325,15 @@ int joker_object_get_buy_price(Item* joker_object)
     GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
     ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
-    return ((JokerObject*)joker_object)->joker->value;
+    return joker_get_buy_price(((JokerObject*)joker_object)->joker);
+}
+
+int joker_object_get_sell_price(Item* joker_object)
+{
+    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
+    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
+
+    return joker_get_sell_value(((JokerObject*)joker_object)->joker);
 }
 
 int joker_object_get_sell_price(Item* joker_object)
