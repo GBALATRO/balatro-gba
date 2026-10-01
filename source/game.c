@@ -131,7 +131,7 @@ GameVariables g_game_vars = {
 // clang-format on
 
 static List s_owned_jokers_list;
-static List s_discarded_jokers_list;
+static List s_discarded_items_list;
 static List s_expired_jokers_list;
 
 // Stacks
@@ -176,7 +176,7 @@ void game_init()
     state_machine_register(&game_sm);
     // Initialize all jokers list once
     s_owned_jokers_list = list_init();
-    s_discarded_jokers_list = list_init();
+    s_discarded_items_list = list_init();
     s_expired_jokers_list = list_init();
     // TODO: Move this to an initialization of the play scoring states
 
@@ -222,7 +222,7 @@ void game_reset()
     sprite_destroy(&g_game_vars.round_end_blind_token);
 
     list_clear(&s_owned_jokers_list);
-    list_clear(&s_discarded_jokers_list);
+    list_clear(&s_discarded_items_list);
     list_clear(&s_expired_jokers_list);
 
     game_init();
@@ -241,23 +241,29 @@ void game_reset()
     affine_background_load_palette(affine_background_gfxPal);
 }
 
-static inline void discarded_jokers_update_loop(void)
+void item_start_discard_animation(Item* item)
 {
-    if (list_is_empty(&s_discarded_jokers_list))
+    item->tx = int2fx(ITEM_DISCARD_TARGET.x);
+    item->ty = int2fx(ITEM_DISCARD_TARGET.y);
+    list_push_back(&s_discarded_items_list, item);
+}
+
+static inline void discarded_items_update_loop(void)
+{
+    if (list_is_empty(&s_discarded_items_list))
     {
         return;
     }
 
-    ListItr itr = list_itr_create(&s_discarded_jokers_list);
-    JokerObject* joker_object;
+    ListItr itr = list_itr_create(&s_discarded_items_list);
+    Item* item;
 
-    while ((joker_object = list_itr_next(&itr)))
+    while ((item = list_itr_next(&itr)))
     {
-        if (joker_object->x == joker_object->tx && joker_object->y == joker_object->ty)
+        if (item->x == item->tx && item->y == item->ty)
         {
             list_itr_remove_current_node(&itr);
-            // TODO: joker_object_dispose() instead?
-            joker_object_destroy(&joker_object);
+            item_dispose(&item);
         }
     }
 }
@@ -331,7 +337,6 @@ static inline void expired_jokers_update_loop(void)
 static inline void jokers_update_loop(void)
 {
     held_jokers_update_loop();
-    discarded_jokers_update_loop();
     expired_jokers_update_loop();
 }
 
@@ -342,6 +347,7 @@ void game_update()
     g_game_vars.timer++;
 
     jokers_update_loop();
+    discarded_items_update_loop();
 
     state_machine_update();
 
@@ -383,11 +389,6 @@ List* get_jokers_list(void)
 List* get_expired_jokers_list(void)
 {
     return &s_expired_jokers_list;
-}
-
-List* get_discarded_jokers_list(void)
-{
-    return &s_discarded_jokers_list;
 }
 
 bool is_shortcut_joker_active(void)

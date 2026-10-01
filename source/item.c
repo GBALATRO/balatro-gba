@@ -1,5 +1,7 @@
 #include "item.h"
 
+#include "game.h"
+#include "game_variables.h"
 #include "item_funcs.h"
 #include "mgba_logger.h"
 #include "util.h"
@@ -178,6 +180,16 @@ bool item_is_owned(Item* item)
 {
     GBAL_RETURN_IF_NULL_RET(item, false);
     return item->is_owned;
+}
+
+void item_sell(Item* item)
+{
+    GBAL_RETURN_IF_NULL_VOID(item);
+
+    g_game_vars.money += item_get_sell_price(item);
+    display_money();
+    sprite_object_erase_text_under((SpriteObject*)item);
+    item_start_discard_animation(item);
 }
 
 void item_print_buy_price_under(Item* item)

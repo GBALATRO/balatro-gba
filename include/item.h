@@ -272,6 +272,12 @@ int item_print_description(Item* item, Rect dest_rect);
 bool item_is_owned(Item* item);
 
 /**
+ * @brief Performs the item sell transaction, gaining its sell value and discarding it
+ * @param item The sold item
+ */
+void item_sell(Item* item);
+
+/**
  * @brief Prints the buy price under the item
  * Relies on the fact item is a SpriteObject
  *

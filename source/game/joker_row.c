@@ -73,28 +73,20 @@ bool jokers_sel_row_on_selection_changed(
     return true;
 }
 
-static inline void joker_start_discard_animation(JokerObject* joker_object)
-{
-    joker_object->tx = int2fx(JOKER_DISCARD_TARGET.x);
-    joker_object->ty = int2fx(JOKER_DISCARD_TARGET.y);
-    list_push_back(get_discarded_jokers_list(), joker_object);
-}
-
-static inline void game_sell_joker(int joker_idx)
+static inline void sell_joker(int joker_idx)
 {
     List* owned_jokers_list = get_jokers_list();
 
     if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
+    {
+        MGBA_ERROR("Invalid joker_idx == %d", joker_idx);
         return;
+    }
 
-    JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
-    g_game_vars.money += joker_object_get_sell_price((Item*)joker_object);
-    display_money();
-    sprite_object_erase_text_under((SpriteObject*)joker_object);
+    Item* joker_object = (Item*)list_get_at_idx(owned_jokers_list, joker_idx);
+    item_sell(joker_object);
 
     remove_owned_joker(joker_idx);
-
-    joker_start_discard_animation(joker_object);
 }
 
 void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
@@ -123,6 +115,6 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         // Do this before selling the joker so valid row sizes are used
         selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN);
 
-        game_sell_joker(sold_joker_idx);
+        sell_joker(sold_joker_idx);
     }
 }

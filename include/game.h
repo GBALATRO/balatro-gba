@@ -75,7 +75,12 @@ void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
-List* get_discarded_jokers_list(void);
+
+/**
+ * @brief Starts the discard animation for the item, destroying it when it ends
+ * @param item The discarded item
+ */
+void item_start_discard_animation(Item* item);
 
 int deck_get_size(void);
 int get_deck_top(void);
