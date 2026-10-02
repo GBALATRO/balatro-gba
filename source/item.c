@@ -186,7 +186,15 @@ void item_sell(Item* item)
 {
     GBAL_RETURN_IF_NULL_VOID(item);
 
-    g_game_vars.money += item_get_sell_price(item);
+    int sell_price = item_get_sell_price(item);
+
+    if (sell_price == UNDEFINED)
+    {
+        MGBA_ERROR("Undefined sell price for item of type %d", item->type);
+        return;
+    }
+
+    g_game_vars.money += sell_price;
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     item_start_discard_animation(item);
