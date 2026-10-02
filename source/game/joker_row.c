@@ -79,7 +79,7 @@ static inline void sell_joker(int joker_idx)
 
     if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
     {
-        MGBA_ERROR("Invalid joker_idx == %d", joker_idx);
+        MGBA_FUNC_ERROR("Invalid joker_idx == %d", joker_idx);
         return;
     }
 

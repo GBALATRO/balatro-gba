@@ -190,7 +190,7 @@ void item_sell(Item* item)
 
     if (sell_price == UNDEFINED)
     {
-        MGBA_ERROR("Undefined sell price for item of type %d", item->type);
+        MGBA_FUNC_ERROR("Undefined sell price for item of type %d", item->type);
         return;
     }
 
