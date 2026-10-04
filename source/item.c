@@ -18,7 +18,7 @@ Item* item_roll_new(enum ItemType item_type, enum RngSequence key)
 
     ItemFuncs* item_funcs = get_item_type_funcs(item_type);
 
-    GBAL_RETURN_IF_NULL_RET(item_funcs, NULL);
+    GBAL_RETURN_IF_NULL(item_funcs, NULL);
     if (item_funcs->roll_new == NULL)
     {
         MGBA_FUNC_ERROR("Unimplemented 'roll_new' function called for item type %d", item_type);
@@ -36,7 +36,7 @@ int item_get_buy_price(Item* item)
     GBAL_RETURN_IF_NULL(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, UNDEFINED);
+    GBAL_RETURN_IF_NULL(item_funcs, UNDEFINED);
     if (item_funcs->get_buy_price == NULL)
     {
         MGBA_FUNC_ERROR(
@@ -51,10 +51,10 @@ int item_get_buy_price(Item* item)
 
 int item_get_sell_price(Item* item)
 {
-    GBAL_RETURN_IF_NULL_RET(item, UNDEFINED);
+    GBAL_RETURN_IF_NULL(item, UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, UNDEFINED);
+    GBAL_RETURN_IF_NULL(item_funcs, UNDEFINED);
     if (item_funcs->get_sell_price == NULL)
     {
         MGBA_FUNC_ERROR(
@@ -69,10 +69,10 @@ int item_get_sell_price(Item* item)
 
 const char* item_get_name(Item* item)
 {
-    GBAL_RETURN_IF_NULL_RET(item, ITEM_NAME_UNDEFINED);
+    GBAL_RETURN_IF_NULL(item, ITEM_NAME_UNDEFINED);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, ITEM_NAME_UNDEFINED);
+    GBAL_RETURN_IF_NULL(item_funcs, ITEM_NAME_UNDEFINED);
     if (item_funcs->get_name == NULL)
     {
         MGBA_FUNC_ERROR("Unimplemented 'get_name' function called for item type %d", item->type);
@@ -81,7 +81,7 @@ const char* item_get_name(Item* item)
 
     // Guarantees no implementation ever returns NULL
     const char* item_name = item_funcs->get_name(item);
-    GBAL_RETURN_IF_NULL_RET(item_name, ITEM_NAME_UNDEFINED);
+    GBAL_RETURN_IF_NULL(item_name, ITEM_NAME_UNDEFINED);
 
     return item_name;
 }
@@ -90,10 +90,10 @@ ItemDescSubtypeInfo item_get_subtype_info(Item* item)
 {
     ItemDescSubtypeInfo error_info = ITEM_SUBTYPE_INFO_DEFAULT;
 
-    GBAL_RETURN_IF_NULL_RET(item, error_info);
+    GBAL_RETURN_IF_NULL(item, error_info);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, error_info);
+    GBAL_RETURN_IF_NULL(item_funcs, error_info);
     if (item_funcs->get_subtype_info == NULL)
     {
         MGBA_FUNC_ERROR(
@@ -118,8 +118,8 @@ void item_acquire(Item* item)
     GBAL_RETURN_IF_NULL(item, RET_NONE);
 
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs->acquire);
+    GBAL_RETURN_IF_NULL(item_funcs, RET_NONE);
+    GBAL_RETURN_IF_NULL(item_funcs->acquire, RET_NONE);
     if (item_funcs->acquire == NULL)
     {
         MGBA_FUNC_ERROR("Unimplemented 'acquire' function called for item type %d", item->type);
@@ -134,7 +134,7 @@ bool item_can_acquire(Item* item)
 {
     GBAL_RETURN_IF_NULL(item, false);
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, false);
+    GBAL_RETURN_IF_NULL(item_funcs, false);
     if (item_funcs->can_acquire == NULL)
     {
         MGBA_FUNC_ERROR("Unimplemented 'can_acquire' function called for item type %d", item->type);
@@ -149,7 +149,7 @@ void item_dispose(Item** item)
     GBAL_RETURN_IF_NULL(item, RET_NONE);
     GBAL_RETURN_IF_NULL(*item, RET_NONE);
     ItemFuncs* item_funcs = get_item_type_funcs((*item)->type);
-    GBAL_RETURN_IF_NULL_VOID(item_funcs);
+    GBAL_RETURN_IF_NULL(item_funcs, RET_NONE);
     if (item_funcs->dispose == NULL)
     {
         MGBA_FUNC_ERROR("Unimplemented 'dispose' function called for item type %d", (*item)->type);
@@ -161,9 +161,9 @@ void item_dispose(Item** item)
 
 int item_print_description(Item* item, Rect dest_rect)
 {
-    GBAL_RETURN_IF_NULL_RET(item, 0);
+    GBAL_RETURN_IF_NULL(item, 0);
     ItemFuncs* item_funcs = get_item_type_funcs(item->type);
-    GBAL_RETURN_IF_NULL_RET(item_funcs, 0);
+    GBAL_RETURN_IF_NULL(item_funcs, 0);
     if (item_funcs->print_description == NULL)
     {
         MGBA_FUNC_ERROR(
@@ -178,13 +178,13 @@ int item_print_description(Item* item, Rect dest_rect)
 
 bool item_is_owned(Item* item)
 {
-    GBAL_RETURN_IF_NULL_RET(item, false);
+    GBAL_RETURN_IF_NULL(item, false);
     return item->is_owned;
 }
 
 void item_sell(Item* item)
 {
-    GBAL_RETURN_IF_NULL_VOID(item);
+    GBAL_RETURN_IF_NULL(item, RET_NONE);
 
     int sell_price = item_get_sell_price(item);
 

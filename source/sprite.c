@@ -415,20 +415,20 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 
 void sprite_object_bounce(SpriteObject* sprite_object, FIXED strength)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
     sprite_object->vscale = strength;
 }
 
 #define SPRITE_SWAY_VROTATION -10.0f
 void sprite_object_sway(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
     sprite_object->vrotation = float2fx(SPRITE_SWAY_VROTATION);
 }
 
 void sprite_object_set_target(SpriteObject* sprite_object, BG_POINT to)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
     if (to.x == UNDEFINED || to.y == UNDEFINED)
         return;
 

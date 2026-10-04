@@ -150,7 +150,7 @@ static void skip_tag_effect_top_up(void)
             break;
 
         Joker* joker = joker_new(joker_id);
-        GBAL_RETURN_IF_NULL_VOID(joker);
+        GBAL_RETURN_IF_NULL(joker, RET_NONE);
 
         joker_set_rollable(joker_id, false);
         add_joker(joker_object_new(joker));

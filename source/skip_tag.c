@@ -83,7 +83,7 @@ List* get_owned_skip_tags(void)
 SkipTag* skip_tag_new(enum SkipTagTypes tag_type)
 {
     SkipTag* tag = POOL_GET(SkipTag);
-    GBAL_RETURN_IF_NULL_RET(tag, NULL);
+    GBAL_RETURN_IF_NULL(tag, NULL);
 
     tag->type = tag_type;
     sprite_object_init((SpriteObject*)tag);
@@ -93,7 +93,7 @@ SkipTag* skip_tag_new(enum SkipTagTypes tag_type)
 
 void skip_tag_set_sprite(SkipTag* tag, s16 layer)
 {
-    GBAL_RETURN_IF_NULL_VOID(tag);
+    GBAL_RETURN_IF_NULL(tag, RET_NONE);
 
     // Set tags palette the first time we ask for a sprite
     static bool pb_init = false;
@@ -229,8 +229,8 @@ int skip_tag_count(enum SkipTagTypes tag_type)
 
 void add_skip_tag(SkipTag** blind_tag)
 {
-    GBAL_RETURN_IF_NULL_VOID(blind_tag);
-    GBAL_RETURN_IF_NULL_VOID(*blind_tag);
+    GBAL_RETURN_IF_NULL(blind_tag, RET_NONE);
+    GBAL_RETURN_IF_NULL(*blind_tag, RET_NONE);
 
     // Add to the back, so that the oldest (at the bottom) has the lowest sprite
     // index and is thus shown on top of the others.

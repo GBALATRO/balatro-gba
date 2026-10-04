@@ -167,10 +167,10 @@ u32 joker_get_score_effect(
 
 const char* joker_object_get_name(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, NULL);
+    GBAL_RETURN_IF_NULL(joker_object, NULL);
     Joker* joker = ((JokerObject*)joker_object)->joker;
     const JokerInfo* info = get_joker_registry_entry(joker->id);
-    GBAL_RETURN_IF_NULL_RET(info, NULL);
+    GBAL_RETURN_IF_NULL(info, NULL);
 
     return info->name;
 }
@@ -179,14 +179,14 @@ ItemDescSubtypeInfo joker_object_get_rarity_info(Item* joker_object)
 {
     ItemDescSubtypeInfo subtype_info = ITEM_SUBTYPE_INFO_DEFAULT;
 
-    GBAL_RETURN_IF_NULL_RET(joker_object, subtype_info);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, subtype_info);
+    GBAL_RETURN_IF_NULL(joker_object, subtype_info);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, subtype_info);
 
     Joker* joker = ((JokerObject*)joker_object)->joker;
-    GBAL_RETURN_IF_NULL_RET(joker, subtype_info);
+    GBAL_RETURN_IF_NULL(joker, subtype_info);
 
     const JokerInfo* info = get_joker_registry_entry(joker->id);
-    GBAL_RETURN_IF_NULL_RET(info, subtype_info);
+    GBAL_RETURN_IF_NULL(info, subtype_info);
 
     u8 rarity = joker->rarity;
     if (rarity >= MAX_RARITIES)
@@ -310,15 +310,15 @@ void joker_object_dispose(Item** joker_object_item)
 
 int joker_object_print_description(Item* joker_object_item, Rect dest_rect)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object_item, 0);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object_item, ITEM_TYPE_JOKER, 0);
+    GBAL_RETURN_IF_NULL(joker_object_item, 0);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object_item->type == ITEM_TYPE_JOKER, 0);
 
     JokerObject* joker_object = (JokerObject*)(joker_object_item);
-    GBAL_RETURN_IF_NULL_RET(joker_object->joker, 0);
+    GBAL_RETURN_IF_NULL(joker_object->joker, 0);
 
     Joker* joker = joker_object->joker;
     const JokerInfo* info = get_joker_registry_entry(joker->id);
-    GBAL_RETURN_IF_NULL_RET(info, 0);
+    GBAL_RETURN_IF_NULL(info, 0);
 
     return info->joker_print_desc(joker, dest_rect);
 }
@@ -338,8 +338,8 @@ int joker_object_get_buy_price(Item* joker_object)
 
 int joker_object_get_sell_price(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, UNDEFINED);
 
     return joker_get_sell_value(((JokerObject*)joker_object)->joker);
 }
