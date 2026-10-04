@@ -17,12 +17,12 @@
 #define DECLARE_JOKER_DESC_FUNC(joker_desc_name) \
     static int joker_desc_name(Joker* joker, Rect dest_rect);
 
-#define REGISTER_JOKER_EFFECT_FUNC(joker_effect_name) \
-    static u32 joker_effect_name(                     \
-        Joker* joker,                                 \
-        Card* scored_card,                            \
-        enum JokerEvent joker_event,                  \
-        JokerEffect** joker_effect                    \
+#define DECLARE_JOKER_EFFECT_FUNC(joker_effect_name) \
+    static u32 joker_effect_name(                    \
+        Joker* joker,                                \
+        Card* scored_card,                           \
+        enum JokerEvent joker_event,                 \
+        JokerEffect** joker_effect                   \
     );
 
 #define SCORE_ON_EVENT_ONLY_WITH_CARD(scored_card, restricted_event, checked_event) \
@@ -103,56 +103,56 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
-REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
-REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(lusty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wrathful_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(jolly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(zany_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crazy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(droll_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wily_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(clever_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(devious_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crafty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(half_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(stencil_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(misprint_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(banner_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blackboard_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blue_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(business_card_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scholar_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scary_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(abstract_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bull_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(even_steven_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(acrobat_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_duo_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_trio_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_family_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_order_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(photograph_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(dusk_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(joker_effect_noop)
+DECLARE_JOKER_EFFECT_FUNC(default_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(greedy_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(lusty_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(wrathful_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(jolly_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(zany_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(mad_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(crazy_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(droll_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(sly_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(wily_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(clever_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(devious_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(crafty_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(half_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(stencil_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(misprint_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(banner_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blackboard_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blue_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(business_card_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(scholar_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(scary_face_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(abstract_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(bull_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(even_steven_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(acrobat_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_duo_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_trio_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_family_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_order_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(photograph_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(dusk_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(hack_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(seltzer_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 
 /* The index of a joker in the registry matches its ID.
  *
