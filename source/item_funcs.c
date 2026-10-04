@@ -4,6 +4,8 @@
 #include "game.h"
 #include "game/shop.h"
 #include "joker.h"
+#include "pack.h"
+#include "planet.h"
 #include "util.h"
 
 static Item* item_roll_new_unimplemented(enum RngSequence key);
@@ -32,6 +34,30 @@ ItemFuncs item_func_table[] = {
         .acquire = item_acquire_unimplemented,
         .can_acquire = item_always_can_acquire,
         .dispose = card_object_dispose
+    },
+
+    [ITEM_TYPE_PLANET] = {
+        .roll_new = planet_object_roll_new,
+        .get_buy_price = planet_object_get_buy_price,
+        .acquire = planet_object_acquire,
+        .can_acquire = planet_object_can_acquire,
+        .dispose = planet_object_dispose
+    },
+
+    [ITEM_TYPE_PACK] = {
+        .roll_new = pack_object_roll_new,
+        .get_buy_price = pack_object_get_buy_price,
+        .acquire = pack_object_acquire,
+        .can_acquire = pack_object_can_acquire,
+        .dispose = pack_object_dispose
+    },
+
+    [ITEM_TYPE_PLANET_PACK] = {
+        .roll_new = planet_pack_object_roll_new,
+        .get_buy_price = pack_object_get_buy_price,
+        .acquire = pack_object_acquire,
+        .can_acquire = pack_object_can_acquire,
+        .dispose = pack_object_dispose
     }
 };
 // clang-format on

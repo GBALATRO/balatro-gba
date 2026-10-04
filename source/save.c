@@ -10,6 +10,7 @@
 #include "game_variables.h"
 #include "joker.h"
 #include "list.h"
+#include "planet.h"
 #include "util.h"
 #include "version.h"
 
@@ -165,6 +166,7 @@ typedef struct SaveGame
     int ante;
     int money;
     s32 padding[2];
+    u8 hand_levels[16];
 
     char tag_jokers[SAVE_LABEL_SIZE];
     JokerObjectSaveData jokers_data[MAX_JOKERS_HELD_SIZE];
@@ -349,6 +351,8 @@ void save_game(void)
     game.round = g_game_vars.round;
     game.ante = g_game_vars.ante;
     game.money = g_game_vars.money;
+    for (int lvl_idx = 0; lvl_idx <= HAND_TYPE_MAX; lvl_idx++)
+        game.hand_levels[lvl_idx] = g_game_vars.hand_levels[lvl_idx];
 
     // Lists
 
@@ -390,6 +394,8 @@ void load_game(void)
     g_game_vars.round = game.round;
     g_game_vars.ante = game.ante;
     g_game_vars.money = game.money;
+    for (int lvl_idx = 0; lvl_idx <= HAND_TYPE_MAX; lvl_idx++)
+        g_game_vars.hand_levels[lvl_idx] = (game.hand_levels[lvl_idx] < 1) ? 1 : game.hand_levels[lvl_idx];
 
     // TODO: load Jokers from stored minimal data
 }

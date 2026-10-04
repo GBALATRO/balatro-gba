@@ -25,7 +25,7 @@
 // Tile ID for the starting index in the tile memory
 #define JOKER_TID     (JOKER_STARTING_LAYER * JOKER_SPRITE_OFFSET)
 #define JOKER_BASE_PB 4 // The starting palette index for the jokers, after the boss blind tokens
-#define JOKER_LAST_PB (NUM_PALETTES - 1)
+#define JOKER_LAST_PB (NUM_PALETTES - 2) // The last palette bank is reserved for Planets
 // Currently allocating the rest of the palettes for the jokers.
 // This number needs to be decreased once we need to allocated palettes for other sprites
 // such as planet cards etc.
@@ -193,6 +193,14 @@ const char* joker_get_rarity_string(u8 rarity);
 u16 joker_get_rarity_color(u8 rarity, bool main_color);
 
 int joker_get_sell_value(const Joker* joker);
+
+/**
+ * @brief Reserve / release one of the Joker sprite slots (OAM entry + 16 tiles) so other
+ *        card-sized shop items (e.g. Planets) can share them.
+ * @return the slot index, or UNDEFINED if none is free
+ */
+int joker_sprite_layer_alloc(void);
+void joker_sprite_layer_free(int layer);
 
 JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);

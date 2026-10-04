@@ -15,6 +15,8 @@
 #include "game/joker_row.h"
 #include "game_variables.h"
 #include "joker.h"
+#include "pack.h"
+#include "planet.h"
 #include "layout.h"
 #include "list.h"
 #include "mgba_logger.h"
@@ -33,6 +35,10 @@
 #define TM_SHIFT_SHOP_ICON_WAIT   7
 #define TM_SHOW_CARD_DESC_WAIT    12
 #define TM_HIDE_DECK_WAIT         5
+#define TM_PACK_FIRST_SHAKE       24
+#define TM_PACK_SHAKE_INTERVAL    10
+#define TM_PACK_NUM_SHAKES        3
+#define TM_PACK_POP               56
 
 // Pixel sized
 #define ITEM_SHOP_Y               71
@@ -89,7 +95,34 @@ static const Rect     SHOP_PRICES_TEXT_RECT       = { 72,  56, 192, 160 };
 static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFINED };
 // clang-format on
 
+// Bottom row slots: Planet in the left panel, Joker Pack in the right one
+#define BOTTOM_ROW_SEL_Y        3
+#define BOTTOM_ITEM_Y           113
+#define BOTTOM_PLANET_SPRITE_X  83
+#define BOTTOM_PACK_SPRITE_X    137
+#define BOTTOM_PRICE_TEXT_Y     128
+#define BOTTOM_PLANET_PRICE_X   112
+#define BOTTOM_PACK_PRICE_X     168
+#define BOTTOM_PRICE_TEXT_WIDTH 16
+#define PACK_HINT_TEXT_X        136
+#define PACK_HINT_TEXT_Y        120
+// Where a pack moves to while it is being opened, between the two top row slots
+#define PACK_OPEN_X             (SHOP_JOKER_SPRITES_INIT_POS.x + CARD_SPRITE_SIZE / 2)
+#define PACK_SFX_VOLUME         255
+
+// Colors of the shop panel border, changed while a pack is open
+#define SHOP_PANEL_BORDER_CLR             0x213D
+#define SHOP_PANEL_BORDER_JOKER_PACK_CLR  0x029F
+#define SHOP_PANEL_BORDER_PLANET_PACK_CLR 0x7E88
+
 static List s_shop_items_list = LIST_DEFAULT;
+static List s_shop_bottom_items_list = LIST_DEFAULT;
+// Regular top row items put aside while a Joker Pack is open
+static List s_stashed_items_list = LIST_DEFAULT;
+static bool s_pack_open = false;
+// The pack currently playing its opening animation, NULL otherwise
+static Item* s_opening_pack = NULL;
+static int s_opening_pack_price = 0;
 
 enum GameShopStates
 {
@@ -98,6 +131,7 @@ enum GameShopStates
     GAME_SHOP_SHOW_CARD_DESC,
     GAME_SHOP_HIDE_CARD_DESC,
     GAME_SHOP_EXIT,
+    GAME_SHOP_OPEN_PACK,
     GAME_SHOP_MAX
 };
 
@@ -106,6 +140,7 @@ static void game_shop_process_user_input(void);
 static void game_shop_show_card_desc(void);
 static void game_shop_hide_card_desc(void);
 static void game_shop_outro(void);
+static void game_shop_open_pack_anim(void);
 
 static StateInfo shop_state_actions[GAME_SHOP_MAX] = {
     STATE_INFO_UPDATE_FN_ONLY(game_shop_intro),
@@ -113,6 +148,7 @@ static StateInfo shop_state_actions[GAME_SHOP_MAX] = {
     STATE_INFO_UPDATE_FN_ONLY(game_shop_show_card_desc),
     STATE_INFO_UPDATE_FN_ONLY(game_shop_hide_card_desc),
     STATE_INFO_UPDATE_FN_ONLY(game_shop_outro),
+    STATE_INFO_UPDATE_FN_ONLY(game_shop_open_pack_anim),
 };
 
 static StateMachine shop_sm = STATE_MACHINE_DEFINE(shop_state_actions, GAME_SHOP_MAX);
@@ -135,11 +171,20 @@ static bool shop_reroll_row_on_selection_changed(
     const Selection* new_selection
 );
 static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+static int shop_bottom_row_get_size(void);
+static bool shop_bottom_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+static void shop_bottom_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 
 static SelectionGridRow shop_selection_rows[] = {
     {0, jokers_sel_row_get_size,  jokers_sel_row_on_selection_changed,  jokers_sel_row_on_key_transit,  {.wrap = false, .has_h_exit_idx = false, .h_exit_idx = 0}},
     {1, shop_top_row_get_size,    shop_top_row_on_selection_changed,    shop_top_row_on_key_transit,    {.wrap = false, .has_h_exit_idx = false, .h_exit_idx = 0}},
     {2, shop_reroll_row_get_size, shop_reroll_row_on_selection_changed, shop_reroll_row_on_key_transit, {.wrap = false, .has_h_exit_idx = true, .h_exit_idx = 1} },
+    {BOTTOM_ROW_SEL_Y, shop_bottom_row_get_size, shop_bottom_row_on_selection_changed, shop_bottom_row_on_key_transit, {.wrap = false, .has_h_exit_idx = false, .h_exit_idx = 0}},
 };
 
 static const Selection SHOP_INIT_SEL = {-1, 1};
@@ -188,6 +233,12 @@ void game_shop_reset(void)
 {
     list_clear(&s_shop_items_list);
     s_shop_items_list = list_init();
+    list_clear(&s_shop_bottom_items_list);
+    s_shop_bottom_items_list = list_init();
+    list_clear(&s_stashed_items_list);
+    s_stashed_items_list = list_init();
+    s_pack_open = false;
+    s_opening_pack = NULL;
     joker_reset_rollable_jokers();
 }
 
@@ -201,7 +252,7 @@ void game_shop_change_background(void)
 
     // Set the outline colors for the shop background. This is used for the alternate shop
     // palettes when opening packs
-    pal_bg_mem[SHOP_BOTTOM_PANEL_BORDER_PAL_IDX] = 0x213D;
+    pal_bg_mem[SHOP_BOTTOM_PANEL_BORDER_PAL_IDX] = SHOP_PANEL_BORDER_CLR;
     pal_bg_mem[SHOP_PANEL_SHADOW_PAL_IDX] = 0x10B4;
 
     // Reset the shop lights to correct colors
@@ -236,8 +287,247 @@ void game_shop_on_init(void)
  */
 static Item* game_shop_create_top_row_item(void)
 {
-    // TODO: Randomize item type when consumables are implemented
     return item_roll_new(ITEM_TYPE_JOKER, RNG_SEQ_SHOP_ITEMS);
+}
+
+/**
+ * @brief Print the price under a top row item, Jokers offered by an open pack are free.
+ */
+static void shop_print_top_item_price(Item* item)
+{
+    if (s_pack_open)
+    {
+        sprite_object_print_price_under((SpriteObject*)item, 0);
+    }
+    else
+    {
+        item_print_buy_price_under(item);
+    }
+}
+
+static inline int shop_bottom_item_price_x(const Item* item)
+{
+    return (item->type == ITEM_TYPE_PACK) ? BOTTOM_PACK_PRICE_X : BOTTOM_PLANET_PRICE_X;
+}
+
+static void shop_erase_bottom_item_price(const Item* item)
+{
+    int price_x = shop_bottom_item_price_x(item);
+    Rect price_rect = {
+        price_x,
+        BOTTOM_PRICE_TEXT_Y,
+        price_x + BOTTOM_PRICE_TEXT_WIDTH,
+        BOTTOM_PRICE_TEXT_Y + TILE_SIZE
+    };
+    tte_erase_rect_wrapper(price_rect);
+}
+
+static void shop_erase_pack_hint(void)
+{
+    Rect hint_rect = {PACK_HINT_TEXT_X, PACK_HINT_TEXT_Y, 192, PACK_HINT_TEXT_Y + 2 * TILE_SIZE};
+    tte_erase_rect_wrapper(hint_rect);
+}
+
+/**
+ * @brief Print the prices next to the bottom row items, and the pack hint if a pack is open.
+ */
+static void shop_print_bottom_row_text(void)
+{
+    ListItr itr = list_itr_create(&s_shop_bottom_items_list);
+    Item* item;
+    while (!s_pack_open && (item = list_itr_next(&itr)))
+    {
+        tte_printf(
+            "#{P:%d,%d; cx:0x%X000}$%d",
+            shop_bottom_item_price_x(item),
+            BOTTOM_PRICE_TEXT_Y,
+            TTE_WHITE_PB,
+            item_get_buy_price(item)
+        );
+    }
+
+    if (s_pack_open)
+    {
+        tte_printf(
+            "#{P:%d,%d; cx:0x%X000}Pick 1#{P:%d,%d}or Next",
+            PACK_HINT_TEXT_X,
+            PACK_HINT_TEXT_Y,
+            TTE_WHITE_PB,
+            PACK_HINT_TEXT_X,
+            PACK_HINT_TEXT_Y + TILE_SIZE
+        );
+    }
+}
+
+/**
+ * @brief Create the bottom row items: one Planet Pack and one Joker Pack per shop visit.
+ *        They are not affected by rerolls.
+ */
+static void game_shop_create_bottom_row_items(void)
+{
+    List* bottom_list = &s_shop_bottom_items_list;
+    list_clear(bottom_list);
+    *bottom_list = list_init();
+
+    Item* planet = item_roll_new(ITEM_TYPE_PLANET_PACK, RNG_SEQ_SHOP_ITEMS);
+    if (planet != NULL)
+    {
+        planet->x = int2fx(BOTTOM_PLANET_SPRITE_X);
+        planet->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
+        planet->tx = planet->x;
+        planet->ty = int2fx(BOTTOM_ITEM_Y);
+        list_push_back(bottom_list, planet);
+    }
+
+    Item* pack = item_roll_new(ITEM_TYPE_PACK, RNG_SEQ_SHOP_ITEMS);
+    if (pack != NULL)
+    {
+        pack->x = int2fx(BOTTOM_PACK_SPRITE_X);
+        pack->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
+        pack->tx = pack->x;
+        pack->ty = int2fx(BOTTOM_ITEM_Y);
+        list_push_back(bottom_list, pack);
+    }
+
+    shop_print_bottom_row_text();
+}
+
+/**
+ * @brief Start opening a bought pack: put the regular top row items aside, move the other
+ *        bottom row item away and send the pack to the middle of the shop for its animation.
+ */
+static void game_shop_begin_open_pack(Item* pack, int price)
+{
+    List* shop_items_list = &s_shop_items_list;
+    ListItr itr = list_itr_create(shop_items_list);
+    Item* item;
+
+    while ((item = list_itr_next(&itr)))
+    {
+        sprite_object_erase_text_under((SpriteObject*)item);
+        sprite_object_set_focus((SpriteObject*)item, false);
+        item->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
+        list_push_back(&s_stashed_items_list, item);
+    }
+
+    list_clear(shop_items_list);
+    *shop_items_list = list_init();
+
+    // The remaining bottom row items step aside while the pack is open
+    itr = list_itr_create(&s_shop_bottom_items_list);
+    while ((item = list_itr_next(&itr)))
+    {
+        shop_erase_bottom_item_price(item);
+        item->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
+    }
+
+    s_pack_open = true;
+    s_opening_pack = pack;
+    s_opening_pack_price = price;
+
+    pack->tx = int2fx(PACK_OPEN_X);
+    pack->ty = int2fx(ITEM_SHOP_Y);
+
+    pal_bg_mem[SHOP_BOTTOM_PANEL_BORDER_PAL_IDX] = (pack->type == ITEM_TYPE_PLANET_PACK)
+                                                     ? SHOP_PANEL_BORDER_PLANET_PACK_CLR
+                                                     : SHOP_PANEL_BORDER_JOKER_PACK_CLR;
+
+    state_machine_change_state(&shop_sm, GAME_SHOP_OPEN_PACK);
+    s_timer = TM_ZERO;
+}
+
+/**
+ * @brief Offer the content of the pack that just opened, the items come out of the pack's
+ *        position and move to the top row slots.
+ * @param content_type the type of items offered, Jokers or Planets
+ * @return false if nothing could be offered
+ */
+static bool game_shop_spawn_pack_content(enum ItemType content_type)
+{
+    List* shop_items_list = &s_shop_items_list;
+
+    for (int i = 0; i < PACK_NUM_CHOICES; i++)
+    {
+        Item* joker = item_roll_new(content_type, RNG_SEQ_SHOP_ITEMS);
+
+        // Don't offer the same Planet twice in one pack
+        if (content_type == ITEM_TYPE_PLANET && i > 0)
+        {
+            PlanetObject* first = (PlanetObject*)list_get_at_idx(shop_items_list, 0);
+            for (int tries = 0; tries < 8 && joker != NULL && first != NULL &&
+                                ((PlanetObject*)joker)->hand_type == first->hand_type;
+                 tries++)
+            {
+                item_dispose(&joker);
+                joker = item_roll_new(content_type, RNG_SEQ_SHOP_ITEMS);
+            }
+        }
+
+        if (joker == NULL)
+            break;
+
+        joker->x = int2fx(PACK_OPEN_X);
+        joker->y = int2fx(ITEM_SHOP_Y);
+        joker->tx = int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE);
+        joker->ty = int2fx(ITEM_SHOP_Y);
+        shop_print_top_item_price(joker);
+        list_push_back(shop_items_list, joker);
+    }
+
+    shop_print_bottom_row_text();
+
+    return !list_is_empty(shop_items_list);
+}
+
+/**
+ * @brief Close the open Joker Pack: discard what was not picked and bring the regular
+ *        top row items back.
+ */
+static void game_shop_close_pack(void)
+{
+    List* shop_items_list = &s_shop_items_list;
+    ListItr itr = list_itr_create(shop_items_list);
+    Item* item;
+
+    while ((item = list_itr_next(&itr)))
+    {
+        sprite_object_erase_text_under((SpriteObject*)item);
+        item_dispose(&item);
+    }
+
+    list_clear(shop_items_list);
+    *shop_items_list = list_init();
+
+    s_pack_open = false;
+    shop_erase_pack_hint();
+    pal_bg_mem[SHOP_BOTTOM_PANEL_BORDER_PAL_IDX] = SHOP_PANEL_BORDER_CLR;
+
+    if (s_opening_pack != NULL)
+    {
+        item_dispose(&s_opening_pack);
+    }
+
+    itr = list_itr_create(&s_stashed_items_list);
+    while ((item = list_itr_next(&itr)))
+    {
+        item->ty = int2fx(ITEM_SHOP_Y);
+        list_push_back(shop_items_list, item);
+        shop_print_top_item_price(item);
+    }
+
+    list_clear(&s_stashed_items_list);
+    s_stashed_items_list = list_init();
+
+    itr = list_itr_create(&s_shop_bottom_items_list);
+    while ((item = list_itr_next(&itr)))
+    {
+        item->ty = int2fx(BOTTOM_ITEM_Y);
+    }
+    shop_print_bottom_row_text();
+
+    // Put the cursor back on the "Next Round" button
+    shop_selection_grid.selection = (Selection){NEXT_ROUND_BTN_SEL_X, 1};
+    button_set_highlight(&next_round_button, true);
 }
 
 /**
@@ -273,7 +563,7 @@ static void game_shop_create_top_row_items(void)
         item->tx = item->x;
         item->ty = int2fx(ITEM_SHOP_Y);
 
-        item_print_buy_price_under(item);
+        shop_print_top_item_price(item);
 
         list_push_back(shop_items_list, item);
     }
@@ -289,6 +579,7 @@ static void game_shop_intro()
     if (s_timer == TM_CREATE_SHOP_ITEMS_WAIT)
     {
         game_shop_create_top_row_items();
+        game_shop_create_bottom_row_items();
     }
 
     if (s_timer >= TM_SHIFT_SHOP_ICON_WAIT) // Shift the shop icon
@@ -361,12 +652,36 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
 
     if (selection->x == NEXT_ROUND_BTN_SEL_X)
     {
+        if (s_pack_open)
+        {
+            // "Next Round" skips the pack instead of leaving the shop
+            game_shop_close_pack();
+            return;
+        }
+
         button_press(&next_round_button);
     }
     else
     {
         int shop_item_idx = selection->x - 1; // - 1 to account for next round button
         Item* item = (Item*)list_get_at_idx(&s_shop_items_list, shop_item_idx);
+
+        if (s_pack_open)
+        {
+            // Jokers from a pack are free, picking one closes the pack
+            if (item == NULL || !item_can_acquire(item))
+            {
+                return;
+            }
+
+            sprite_object_erase_text_under((SpriteObject*)item);
+            sprite_object_set_focus((SpriteObject*)item, false);
+            item_acquire(item);
+            list_remove_at_idx(&s_shop_items_list, shop_item_idx);
+            game_shop_close_pack();
+            return;
+        }
+
         if (!item_can_acquire(item) || g_game_vars.money < item_get_buy_price(item))
         {
             return;
@@ -451,7 +766,7 @@ static bool shop_reroll_row_on_selection_changed(
     {
         button_set_highlight(&reroll_button, false);
 
-        if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
+        if (new_selection->y == 1 && new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             int idx = new_selection->x - 1;
             SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(&s_shop_items_list, idx);
@@ -481,7 +796,7 @@ static inline void game_shop_reroll(void)
 
     while ((item = list_itr_next(&itr)))
     {
-        if (item != NULL && item->type == ITEM_TYPE_JOKER)
+        if (item != NULL)
         {
             item_dispose(&item);
         }
@@ -491,6 +806,7 @@ static inline void game_shop_reroll(void)
     *shop_items_list = list_init();
 
     game_shop_create_top_row_items();
+    shop_print_bottom_row_text();
 
     itr = list_itr_create(shop_items_list);
 
@@ -528,6 +844,131 @@ static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Select
     button_press(&reroll_button);
 }
 
+static int shop_bottom_row_get_size(void)
+{
+    // The bottom row can't be reached while a pack is open
+    return s_pack_open ? 0 : list_get_len(&s_shop_bottom_items_list);
+}
+
+/**
+ * @brief Handle d-pad inputs for the bottom row (Planet and Joker Pack).
+ */
+static bool shop_bottom_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
+{
+    List* bottom_list = &s_shop_bottom_items_list;
+    int row_size = list_get_len(bottom_list);
+
+    if (prev_selection->y == row_idx && prev_selection->x >= 0 && prev_selection->x < row_size)
+    {
+        sprite_object_set_focus(
+            (SpriteObject*)list_get_at_idx(bottom_list, prev_selection->x),
+            false
+        );
+    }
+
+    if (new_selection->y == row_idx && new_selection->x >= 0 && new_selection->x < row_size)
+    {
+        sprite_object_set_focus((SpriteObject*)list_get_at_idx(bottom_list, new_selection->x), true);
+    }
+
+    return true;
+}
+
+/**
+ * @brief Handle button inputs for the bottom row: buy the selected Planet or Joker Pack.
+ */
+static void shop_bottom_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+{
+    if (!key_hit(SELECT_CARD) || s_pack_open)
+        return;
+
+    List* bottom_list = &s_shop_bottom_items_list;
+    Item* item = (Item*)list_get_at_idx(bottom_list, selection->x);
+    if (item == NULL)
+        return;
+
+    int price = item_get_buy_price(item);
+    if (!item_can_acquire(item) || g_game_vars.money < price)
+        return;
+
+    g_game_vars.money -= price;
+    display_money();
+    shop_erase_bottom_item_price(item);
+    sprite_object_set_focus((SpriteObject*)item, false);
+    list_remove_at_idx(bottom_list, selection->x);
+
+    if (item_is_pack(item))
+    {
+        // The pack is consumed at the end of its opening animation
+        game_shop_begin_open_pack(item, price);
+        return;
+    }
+
+    item_acquire(item); // Planets are consumed on purchase
+
+    if (!list_is_empty(bottom_list))
+    {
+        selection_grid->selection = (Selection){0, BOTTOM_ROW_SEL_Y};
+        sprite_object_set_focus((SpriteObject*)list_get_at_idx(bottom_list, 0), true);
+    }
+    else
+    {
+        selection_grid->selection = (Selection){0, 2};
+        button_set_highlight(&reroll_button, true);
+    }
+}
+
+/**
+ * @brief Pack opening substate: the pack shakes in the middle of the shop, then pops and
+ *        its content comes out.
+ */
+static void game_shop_open_pack_anim(void)
+{
+    if (s_opening_pack == NULL)
+    {
+        state_machine_change_state(&shop_sm, GAME_SHOP_ACTIVE);
+        s_timer = TM_ZERO;
+        return;
+    }
+
+    int shake_timer = s_timer - TM_PACK_FIRST_SHAKE;
+    if (shake_timer >= 0 && shake_timer % TM_PACK_SHAKE_INTERVAL == 0 &&
+        shake_timer / TM_PACK_SHAKE_INTERVAL < TM_PACK_NUM_SHAKES)
+    {
+        sprite_object_shake((SpriteObject*)s_opening_pack, SFX_CARD_FOCUS);
+    }
+
+    if (s_timer < TM_PACK_POP)
+        return;
+
+    enum ItemType content_type = pack_get_content_type(s_opening_pack->type);
+    item_acquire(s_opening_pack); // Consumes the pack
+    s_opening_pack = NULL;
+    play_sfx(SFX_POP, MM_BASE_PITCH_RATE, PACK_SFX_VOLUME);
+
+    if (game_shop_spawn_pack_content(content_type))
+    {
+        // Move the cursor on the first item offered by the pack
+        shop_selection_grid.selection = (Selection){1, 1};
+        sprite_object_set_focus((SpriteObject*)list_get_at_idx(&s_shop_items_list, 0), true);
+    }
+    else
+    {
+        // Nothing to offer, refund and restore the shop
+        g_game_vars.money += s_opening_pack_price;
+        display_money();
+        game_shop_close_pack();
+    }
+
+    state_machine_change_state(&shop_sm, GAME_SHOP_ACTIVE);
+    s_timer = TM_ZERO;
+}
+
 static void next_round_on_pressed(void)
 {
     // Go to next blind selection game state
@@ -546,7 +987,7 @@ static void reroll_on_pressed(void)
 
 static bool reroll_can_be_pressed(void)
 {
-    return g_game_vars.money >= s_reroll_cost;
+    return !s_pack_open && g_game_vars.money >= s_reroll_cost;
 }
 
 /**
@@ -579,7 +1020,14 @@ static void game_shop_process_user_input(void)
             break;
         }
 
-            // TODO: handle Consumables and Vouchers when implemented
+        // Planet and Joker Pack
+        case BOTTOM_ROW_SEL_Y:
+        {
+            s_description_card_original_list = &s_shop_bottom_items_list;
+            tmp_card =
+                list_get_at_idx(&s_shop_bottom_items_list, shop_selection_grid.selection.x);
+            break;
+        }
 
         default:
         {
@@ -637,6 +1085,14 @@ static void game_shop_show_card_desc(void)
                 joker_object->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
         }
 
+        // Bottom row items
+        itr = list_itr_create(&s_shop_bottom_items_list);
+        while ((joker_object = list_itr_next(&itr)))
+        {
+            if (joker_object != s_description_card)
+                joker_object->ty = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE);
+        }
+
         // Set description_card new target position
 
         s_description_card->tx = int2fx(CARD_DESCRIPTION_SPRITE_POS.x);
@@ -660,14 +1116,39 @@ static void game_shop_show_card_desc(void)
     else if (s_timer == TM_SHOW_CARD_DESC_WAIT + 1)
     {
         // Compute needed space for the description
-        const JokerInfo* info = get_joker_registry_entry(s_description_card->joker->id);
-        int desc_bottom_offset =
-            CARD_DESC_MAX_TEXT_HEIGHT -
-            info->joker_print_desc(s_description_card->joker, CARD_DESC_TEXT_RECT);
+        const char* desc_name = NULL;
+        const char* rarity_str = NULL;
+        u8 desc_rarity = COMMON_JOKER;
+        int desc_num_lines = 0;
+
+        if (((Item*)s_description_card)->type == ITEM_TYPE_PLANET)
+        {
+            PlanetObject* planet = (PlanetObject*)s_description_card;
+            desc_name = planet_get_name(planet->hand_type);
+            rarity_str = "Planet";
+            desc_num_lines = planet_object_print_desc(planet, CARD_DESC_TEXT_RECT);
+        }
+        else if (item_is_pack((Item*)s_description_card))
+        {
+            enum ItemType pack_type = ((Item*)s_description_card)->type;
+            desc_name = pack_get_name(pack_type);
+            rarity_str = "Pack";
+            desc_num_lines = pack_object_print_desc(pack_type, CARD_DESC_TEXT_RECT);
+        }
+        else
+        {
+            const JokerInfo* info = get_joker_registry_entry(s_description_card->joker->id);
+            desc_name = info->name;
+            desc_rarity = info->rarity;
+            rarity_str = joker_get_rarity_string(info->rarity);
+            desc_num_lines =
+                info->joker_print_desc(s_description_card->joker, CARD_DESC_TEXT_RECT);
+        }
+
+        int desc_bottom_offset = CARD_DESC_MAX_TEXT_HEIGHT - desc_num_lines;
 
         // Print Rarity and change color or the panel
         // Do it before drawing the panel so the color is already set
-        const char* rarity_str = joker_get_rarity_string(info->rarity);
         tte_printf(
             TTE_WHITE_TAG "#{P:%d,%d}%*s%s",
             CARD_DESC_TEXT_RECT.left * TILE_SIZE,
@@ -677,9 +1158,9 @@ static void game_shop_show_card_desc(void)
             rarity_str
         );
         pal_bg_mem[SHOP_DESC_RARITY_MAIN_COLOR_PAL_IDX] =
-            joker_get_rarity_color(info->rarity, true);
+            joker_get_rarity_color(desc_rarity, true);
         pal_bg_mem[SHOP_DESC_RARITY_SHADOW_COLOR_PAL_IDX] =
-            joker_get_rarity_color(info->rarity, false);
+            joker_get_rarity_color(desc_rarity, false);
 
         // Draw description panel
         Rect actual_dest_rect = CARD_DESC_9_PTCH_TO_RECT;
@@ -691,9 +1172,9 @@ static void game_shop_show_card_desc(void)
             TTE_WHITE_TAG "#{P:%d,%d}%*s%s",
             CARD_NAME_TEXT_RECT.left * TILE_SIZE,
             CARD_NAME_TEXT_RECT.top * TILE_SIZE,
-            (rect_width(&CARD_NAME_TEXT_RECT) - strlen(info->name)) / 2,
+            (rect_width(&CARD_NAME_TEXT_RECT) - strlen(desc_name)) / 2,
             "",
-            info->name
+            desc_name
         );
     }
 
@@ -755,6 +1236,18 @@ static void game_shop_hide_card_desc(void)
                 joker_object->ty = int2fx(ITEM_SHOP_Y);
         }
 
+        // Bottom row items
+        itr = list_itr_create(&s_shop_bottom_items_list);
+        while ((joker_object = list_itr_next(&itr)))
+        {
+            if (joker_object != s_description_card)
+            {
+                joker_object->ty = s_pack_open
+                                     ? int2fx(SHOP_JOKER_SPRITES_INIT_POS.y + TILE_SIZE)
+                                     : int2fx(BOTTOM_ITEM_Y);
+            }
+        }
+
         s_description_card->tx = s_description_card_original_x_pos;
         s_description_card->ty = s_description_card_original_y_pos;
     }
@@ -783,8 +1276,9 @@ static void game_shop_hide_card_desc(void)
         ListItr itr = list_itr_create(&s_shop_items_list);
         while ((item = list_itr_next(&itr)))
         {
-            item_print_buy_price_under(item);
+            shop_print_top_item_price(item);
         }
+        shop_print_bottom_row_text();
 
         if (s_description_card_original_list == &s_shop_items_list)
             s_description_card->ty -= int2fx(TILE_SIZE);
@@ -847,6 +1341,12 @@ static void game_shop_outro(void)
             {
                 shop_item->ty = int2fx(160);
             }
+        }
+
+        itr = list_itr_create(&s_shop_bottom_items_list);
+        while ((shop_item = list_itr_next(&itr)))
+        {
+            shop_item->ty = int2fx(160);
         }
 
         reset_top_left_panel_bottom_row();
@@ -918,6 +1418,25 @@ void game_shop_on_exit(void)
     }
 
     list_clear(shop_items_list);
+
+    itr = list_itr_create(&s_shop_bottom_items_list);
+    while ((item = list_itr_next(&itr)))
+    {
+        item_dispose(&item);
+    }
+    list_clear(&s_shop_bottom_items_list);
+
+    itr = list_itr_create(&s_stashed_items_list);
+    while ((item = list_itr_next(&itr)))
+    {
+        item_dispose(&item);
+    }
+    list_clear(&s_stashed_items_list);
+    s_pack_open = false;
+    if (s_opening_pack != NULL)
+    {
+        item_dispose(&s_opening_pack);
+    }
 
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 

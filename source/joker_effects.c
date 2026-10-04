@@ -3,6 +3,7 @@
 #include "game_variables.h"
 #include "hand.h"
 #include "joker.h"
+#include "planet.h"
 #include "list.h"
 #include "pool.h"
 #include "random.h"
@@ -96,6 +97,124 @@ REGISTER_JOKER_DESC_FUNC(sock_and_buskin_joker_desc)
 
 // Joker Effect functions
 
+
+// Jokers of spritesheet 18
+
+static int supernova_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_RED_TAG "+Mult " TTE_BLACK_TAG
+                                           "equal to the times this hand was played this run";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int space_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_GREEN_TAG "1 in 4 " TTE_BLACK_TAG
+                                             "chance to level up the played hand";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int arrowhead_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_BLACK_TAG "Played Spades give " TTE_BLUE_TAG "+50 "
+                                             TTE_BLACK_TAG "Chips when scored";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int onyx_agate_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_BLACK_TAG "Played Clubs give " TTE_RED_TAG "+7 " TTE_BLACK_TAG
+                                             "Mult when scored";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int rough_gem_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_BLACK_TAG "Played Diamonds earn " TTE_YELLOW_TAG "$1 "
+                                             TTE_BLACK_TAG "when scored";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int swashbuckler_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_BLACK_TAG "Adds the sell value of your other Jokers to "
+                                             TTE_RED_TAG "Mult";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int ice_cream_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static char desc[96];
+    int chips_left = (joker != NULL && joker->persistent_state > 0) ? joker->persistent_state : 100;
+    snprintf(
+        desc,
+        sizeof(desc),
+        TTE_BLUE_TAG "+%d " TTE_BLACK_TAG "Chips " TTE_BLUE_TAG "-5 " TTE_BLACK_TAG
+                     "for each hand played",
+        chips_left
+    );
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int square_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static char desc[112];
+    snprintf(
+        desc,
+        sizeof(desc),
+        TTE_BLACK_TAG "Gains " TTE_BLUE_TAG "+4 " TTE_BLACK_TAG "Chips if hand has 4 cards (now "
+                      TTE_BLUE_TAG "+%d" TTE_BLACK_TAG ")",
+        (joker != NULL) ? (int)joker->persistent_state : 0
+    );
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int runner_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static char desc[112];
+    snprintf(
+        desc,
+        sizeof(desc),
+        TTE_BLACK_TAG "Gains " TTE_BLUE_TAG "+15 " TTE_BLACK_TAG "Chips if hand has a Strt (now "
+                      TTE_BLUE_TAG "+%d" TTE_BLACK_TAG ")",
+        (joker != NULL) ? (int)joker->persistent_state : 0
+    );
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int wee_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static char desc[112];
+    snprintf(
+        desc,
+        sizeof(desc),
+        TTE_BLACK_TAG "Gains " TTE_BLUE_TAG "+8 " TTE_BLACK_TAG "Chips per scored 2 (now "
+                      TTE_BLUE_TAG "+%d" TTE_BLACK_TAG ")",
+        (joker != NULL) ? (int)joker->persistent_state : 0
+    );
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int spare_trousers_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static char desc[112];
+    snprintf(
+        desc,
+        sizeof(desc),
+        TTE_BLACK_TAG "Gains " TTE_RED_TAG "+2 " TTE_BLACK_TAG "Mult if hand has a 2 Pair (now "
+                      TTE_RED_TAG "+%d" TTE_BLACK_TAG ")",
+        (joker != NULL) ? (int)joker->persistent_state : 0
+    );
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
+static int flower_pot_joker_desc(Joker* joker, Rect dest_rect)
+{
+    static const char desc[] = TTE_RED_TAG "X3 " TTE_BLACK_TAG
+                                           "Mult if the scored cards include all four suits";
+    return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
+}
+
 static u32 sinful_joker_effect(
     Card* scored_card,
     u8 sinful_suit,
@@ -153,6 +272,18 @@ REGISTER_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
 REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(supernova_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(space_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(arrowhead_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(onyx_agate_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(rough_gem_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(swashbuckler_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(ice_cream_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(square_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(runner_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(wee_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(spare_trousers_joker_effect)
+REGISTER_JOKER_EFFECT_FUNC(flower_pot_joker_effect)
 
 // clang-format off
 /* The index of a joker in the registry matches its ID.
@@ -235,6 +366,20 @@ const JokerInfo joker_registry[] =
     { "Four Fingers",     UNCOMMON_JOKER,  7, false, four_fingers_joker_desc,     joker_effect_noop,                }, // 50 Four Fingers
     { "Seltzer",          UNCOMMON_JOKER,  6, false, seltzer_joker_desc,          seltzer_joker_effect,             }, // 51
     { "Blueprint",        RARE_JOKER,     10, false, blueprint_joker_desc,        blueprint_brainstorm_joker_effect }, // 52 Blueprint
+
+    // Spritesheet 18
+    { "Supernova",        COMMON_JOKER,    5, false, supernova_joker_desc,        supernova_joker_effect            }, // 53
+    { "Space Joker",      UNCOMMON_JOKER,  5, false, space_joker_desc,            space_joker_effect                }, // 54
+    { "Arrowhead",        UNCOMMON_JOKER,  7, false, arrowhead_joker_desc,        arrowhead_joker_effect            }, // 55
+    { "Onyx Agate",       UNCOMMON_JOKER,  7, false, onyx_agate_joker_desc,       onyx_agate_joker_effect           }, // 56
+    { "Rough Gem",        UNCOMMON_JOKER,  7, false, rough_gem_joker_desc,        rough_gem_joker_effect            }, // 57
+    { "Swashbuckler",     COMMON_JOKER,    4, false, swashbuckler_joker_desc,     swashbuckler_joker_effect         }, // 58
+    { "Ice Cream",        COMMON_JOKER,    5, false, ice_cream_joker_desc,        ice_cream_joker_effect            }, // 59
+    { "Square Joker",     COMMON_JOKER,    4, false, square_joker_desc,           square_joker_effect               }, // 60
+    { "Runner",           COMMON_JOKER,    5, false, runner_joker_desc,           runner_joker_effect               }, // 61
+    { "Wee Joker",        RARE_JOKER,      8, false, wee_joker_desc,              wee_joker_effect                  }, // 62
+    { "Spare Trousers",   UNCOMMON_JOKER,  6, false, spare_trousers_joker_desc,   spare_trousers_joker_effect       }, // 63
+    { "Flower Pot",       UNCOMMON_JOKER,  6, false, flower_pot_joker_desc,       flower_pot_joker_effect           }, // 64
 
     // The following jokers don't have sprites yet,
     // uncomment them when their sprites are added.
@@ -2032,4 +2177,308 @@ static u32 sock_and_buskin_joker_effect(
     return effect_flags_ret;
 }
 
+#define JOKER_EFFECT_ARGS \
+    Joker* joker, Card* scored_card, enum JokerEvent joker_event, JokerEffect** joker_effect
+
+static u32 supernova_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
+
+    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
+    enum HandType hand_type = get_hand_type();
+
+    if (hand_type > NONE && hand_type <= HAND_TYPE_MAX)
+    {
+        u32 times_played = g_game_vars.nb_played_hands[hand_type - 1];
+        if (times_played > 0)
+        {
+            *joker_effect = &s_shared_joker_effect;
+            (*joker_effect)->mult = times_played;
+            effect_flags_ret = JOKER_EFFECT_FLAG_MULT;
+        }
+    }
+
+    return effect_flags_ret;
+}
+
+static u32 space_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY(JOKER_EVENT_ON_HAND_PLAYED, joker_event)
+
+    enum HandType hand_type = get_hand_type();
+
+    if (hand_type > NONE && hand_type <= HAND_TYPE_MAX &&
+        (rng_get_u32(RNG_SEQ_JOKER_SPACE) % 4 == 0))
+    {
+        // The hand being played benefits from its new level right away
+        u32 chips_before = hand_get_level_bonus_chips(hand_type);
+        u32 mult_before = hand_get_level_bonus_mult(hand_type);
+        hand_level_up(hand_type);
+        g_game_vars.chips += hand_get_level_bonus_chips(hand_type) - chips_before;
+        g_game_vars.mult += hand_get_level_bonus_mult(hand_type) - mult_before;
+
+        *joker_effect = &s_shared_joker_effect;
+        (*joker_effect)->message = "Lvl up!";
+        return JOKER_EFFECT_FLAG_MESSAGE;
+    }
+
+    return JOKER_EFFECT_FLAG_NONE;
+}
+
+static u32 arrowhead_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY_WITH_CARD(scored_card, JOKER_EVENT_ON_CARD_SCORED, joker_event)
+
+    if (scored_card->suit != SPADES)
+        return JOKER_EFFECT_FLAG_NONE;
+
+    *joker_effect = &s_shared_joker_effect;
+    (*joker_effect)->chips = 50;
+    return JOKER_EFFECT_FLAG_CHIPS;
+}
+
+static u32 onyx_agate_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY_WITH_CARD(scored_card, JOKER_EVENT_ON_CARD_SCORED, joker_event)
+
+    if (scored_card->suit != CLUBS)
+        return JOKER_EFFECT_FLAG_NONE;
+
+    *joker_effect = &s_shared_joker_effect;
+    (*joker_effect)->mult = 7;
+    return JOKER_EFFECT_FLAG_MULT;
+}
+
+static u32 rough_gem_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY_WITH_CARD(scored_card, JOKER_EVENT_ON_CARD_SCORED, joker_event)
+
+    if (scored_card->suit != DIAMONDS)
+        return JOKER_EFFECT_FLAG_NONE;
+
+    *joker_effect = &s_shared_joker_effect;
+    (*joker_effect)->money = 1;
+    return JOKER_EFFECT_FLAG_MONEY;
+}
+
+static u32 swashbuckler_joker_effect(JOKER_EFFECT_ARGS)
+{
+    SCORE_ON_EVENT_ONLY(JOKER_EVENT_INDEPENDENT, joker_event)
+
+    int total_sell_value = 0;
+    ListItr itr = list_itr_create(get_jokers_list());
+    JokerObject* joker_object;
+
+    while ((joker_object = list_itr_next(&itr)))
+    {
+        if (joker_object->joker != NULL && joker_object->joker != joker)
+            total_sell_value += joker_get_sell_value(joker_object->joker);
+    }
+
+    if (total_sell_value <= 0)
+        return JOKER_EFFECT_FLAG_NONE;
+
+    *joker_effect = &s_shared_joker_effect;
+    (*joker_effect)->mult = total_sell_value;
+    return JOKER_EFFECT_FLAG_MULT;
+}
+
+static u32 ice_cream_joker_effect(JOKER_EFFECT_ARGS)
+{
+    u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
+    s32* p_chips_left = &(joker->persistent_state);
+
+    switch (joker_event)
+    {
+        case JOKER_EVENT_ON_JOKER_CREATED:
+            *p_chips_left = 100;
+            break;
+
+        case JOKER_EVENT_INDEPENDENT:
+            if (*p_chips_left > 0)
+            {
+                *joker_effect = &s_shared_joker_effect;
+                (*joker_effect)->chips = *p_chips_left;
+                effect_flags_ret = JOKER_EFFECT_FLAG_CHIPS;
+            }
+            break;
+
+        case JOKER_EVENT_ON_HAND_SCORED_END:
+            *joker_effect = &s_shared_joker_effect;
+            effect_flags_ret = JOKER_EFFECT_FLAG_MESSAGE;
+
+            *p_chips_left -= 5;
+            if (*p_chips_left > 0)
+            {
+                (*joker_effect)->message = "-5";
+            }
+            else
+            {
+                (*joker_effect)->message = "Melted!";
+                (*joker_effect)->expire = true;
+                effect_flags_ret |= JOKER_EFFECT_FLAG_EXPIRE;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return effect_flags_ret;
+}
+
+/**
+ * @brief Shared logic of the Jokers that permanently gain Chips or Mult when the played hand
+ *        meets a condition, checked once when the hand is played.
+ */
+static u32 s_scaling_joker_effect(
+    Joker* joker,
+    enum JokerEvent joker_event,
+    JokerEffect** joker_effect,
+    bool condition_met,
+    int gain,
+    u32 scored_flag
+)
+{
+    s32* p_bonus = &(joker->persistent_state);
+
+    switch (joker_event)
+    {
+        case JOKER_EVENT_ON_JOKER_CREATED:
+            *p_bonus = 0;
+            break;
+
+        case JOKER_EVENT_ON_HAND_PLAYED:
+            if (condition_met)
+                *p_bonus += gain;
+            break;
+
+        case JOKER_EVENT_INDEPENDENT:
+            if (*p_bonus > 0)
+            {
+                *joker_effect = &s_shared_joker_effect;
+                if (scored_flag == JOKER_EFFECT_FLAG_MULT)
+                    (*joker_effect)->mult = *p_bonus;
+                else
+                    (*joker_effect)->chips = *p_bonus;
+                return scored_flag;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return JOKER_EFFECT_FLAG_NONE;
+}
+
+static u32 square_joker_effect(JOKER_EFFECT_ARGS)
+{
+    // get_played_top() is the index of the last played card
+    bool has_four_cards = (get_played_top() + 1 == 4);
+    return s_scaling_joker_effect(
+        joker,
+        joker_event,
+        joker_effect,
+        has_four_cards,
+        4,
+        JOKER_EFFECT_FLAG_CHIPS
+    );
+}
+
+static u32 runner_joker_effect(JOKER_EFFECT_ARGS)
+{
+    return s_scaling_joker_effect(
+        joker,
+        joker_event,
+        joker_effect,
+        get_contained_hands()->STRAIGHT,
+        15,
+        JOKER_EFFECT_FLAG_CHIPS
+    );
+}
+
+static u32 spare_trousers_joker_effect(JOKER_EFFECT_ARGS)
+{
+    return s_scaling_joker_effect(
+        joker,
+        joker_event,
+        joker_effect,
+        get_contained_hands()->TWO_PAIR,
+        2,
+        JOKER_EFFECT_FLAG_MULT
+    );
+}
+
+static u32 wee_joker_effect(JOKER_EFFECT_ARGS)
+{
+    s32* p_bonus = &(joker->persistent_state);
+
+    switch (joker_event)
+    {
+        case JOKER_EVENT_ON_JOKER_CREATED:
+            *p_bonus = 0;
+            break;
+
+        case JOKER_EVENT_ON_CARD_SCORED:
+            if (scored_card != NULL && scored_card->rank == TWO)
+            {
+                *p_bonus += 8;
+                *joker_effect = &s_shared_joker_effect;
+                (*joker_effect)->message = "+8";
+                return JOKER_EFFECT_FLAG_MESSAGE;
+            }
+            break;
+
+        case JOKER_EVENT_INDEPENDENT:
+            if (*p_bonus > 0)
+            {
+                *joker_effect = &s_shared_joker_effect;
+                (*joker_effect)->chips = *p_bonus;
+                return JOKER_EFFECT_FLAG_CHIPS;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return JOKER_EFFECT_FLAG_NONE;
+}
+
+static u32 flower_pot_joker_effect(JOKER_EFFECT_ARGS)
+{
+    // Bitmask of the suits scored in the current hand
+    s32* p_scored_suits = &(joker->scoring_state);
+    const s32 all_suits_mask = (1 << NUM_SUITS) - 1;
+
+    switch (joker_event)
+    {
+        case JOKER_EVENT_ON_JOKER_CREATED:
+        case JOKER_EVENT_ON_HAND_PLAYED:
+            *p_scored_suits = 0;
+            break;
+
+        case JOKER_EVENT_ON_CARD_SCORED:
+            if (scored_card != NULL && scored_card->suit < NUM_SUITS)
+                *p_scored_suits |= (1 << scored_card->suit);
+            break;
+
+        case JOKER_EVENT_INDEPENDENT:
+            if ((*p_scored_suits & all_suits_mask) == all_suits_mask)
+            {
+                *joker_effect = &s_shared_joker_effect;
+                (*joker_effect)->xmult = 3;
+                return JOKER_EFFECT_FLAG_XMULT;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return JOKER_EFFECT_FLAG_NONE;
+}
+
 #pragma endregion
+

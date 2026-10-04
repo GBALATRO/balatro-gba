@@ -52,6 +52,7 @@ typedef struct
 
     u32 best_hand_score;
     u32 nb_played_hands[HAND_TYPE_MAX];
+    u8 hand_levels[HAND_TYPE_MAX + 1]; // Indexed by enum HandType, raised by Planet cards
 
     // Blind variables
 

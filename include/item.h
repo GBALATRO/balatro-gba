@@ -52,6 +52,9 @@ enum ItemType
 {
     ITEM_TYPE_JOKER,
     ITEM_TYPE_PLAYING_CARD,
+    ITEM_TYPE_PLANET,
+    ITEM_TYPE_PACK,
+    ITEM_TYPE_PLANET_PACK,
 
     // Future planned item types
     // ITEM_TYPE_CONSUMABLE, // Expand to PLANET, TAROT, and SPECTRAL?

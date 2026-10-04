@@ -64,6 +64,10 @@ static int s_joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
 BITSET_DEFINE(s_rollable_jokers_bitset, MAX_DEFINABLE_JOKERS)
 
+// Jokers already offered since the last time their rarity ran out of new ones.
+// Jokers are dealt like a shuffled deck: none comes back before the others had their turn.
+static bool s_joker_offered[MAX_DEFINABLE_JOKERS] = {false};
+
 // See linked issue for context of maps
 // https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
 
@@ -88,6 +92,7 @@ static const int JOKER_ID_TO_SPRITE_MAP[] = {
     15,
     16,
     17,
+    18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,
 };
 
 // Map of Spritesheet idx -> first Joker ID in sheet
@@ -96,7 +101,8 @@ static const int JOKER_ID_TO_SPRITE_MAP[] = {
 // Notice how spritesheets with only one Joker have sequential starting IDs.
 static const int SPRITESHEET_IDX_TO_STARTING_JOKER_ID[] = {
      0, 18, 20, 22, 27, 32, 36, 40, 42, 44,
-    45, 46, 47, 48, 49, 50, 51, 52
+    45, 46, 47, 48, 49, 50, 51, 52,
+    53
 };
 
 // Lookup table of Joker Rarity strings. Used to display at the bottom of the description screen.
@@ -249,6 +255,25 @@ JokerObject* joker_object_new(Joker* joker)
     return joker_object;
 }
 
+int joker_sprite_layer_alloc(void)
+{
+    for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
+    {
+        if (!s_used_layers[i])
+        {
+            s_used_layers[i] = true;
+            return i;
+        }
+    }
+    return UNDEFINED;
+}
+
+void joker_sprite_layer_free(int layer)
+{
+    if (layer >= 0 && layer < MAX_JOKER_OBJECTS)
+        s_used_layers[layer] = false;
+}
+
 void joker_object_destroy(JokerObject** joker_object)
 {
     if (joker_object == NULL || *joker_object == NULL)
@@ -340,6 +365,8 @@ void joker_reset_rollable_jokers(void)
     int num_jokers = get_joker_registry_size();
 
     bitset_clear(&s_rollable_jokers_bitset);
+    for (int offered_idx = 0; offered_idx < MAX_DEFINABLE_JOKERS; offered_idx++)
+        s_joker_offered[offered_idx] = false;
     for (int i = 0; i < num_jokers; i++)
     {
         bitset_set_idx(&s_rollable_jokers_bitset, i, true);
@@ -349,39 +376,77 @@ void joker_reset_rollable_jokers(void)
 /**
  * @brief Rolls a random Joker among the available ones
  */
+/**
+ * @brief Pick a random rollable Joker.
+ *
+ * @param key to the RNG sequence used
+ * @param rarity the rarity to pick from, or UNDEFINED for any rarity
+ * @param not_offered_only only pick among Jokers that were not offered yet
+ * @return a Joker ID, or UNDEFINED if no Joker matches
+ */
+static int s_joker_pick_rollable(enum RngSequence key, int rarity, bool not_offered_only)
+{
+    int matching_joker_ids[MAX_DEFINABLE_JOKERS];
+    int match_count = 0;
+
+    BitsetItr itr = bitset_itr_create(&s_rollable_jokers_bitset);
+    int joker_id = UNDEFINED;
+    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
+    {
+        const JokerInfo* info = get_joker_registry_entry(joker_id);
+        if (info == NULL)
+            continue;
+        if (rarity != UNDEFINED && info->rarity != rarity)
+            continue;
+        if (not_offered_only && s_joker_offered[joker_id])
+            continue;
+
+        matching_joker_ids[match_count++] = joker_id;
+    }
+
+    return (match_count > 0) ? matching_joker_ids[rng_get_u32(key) % match_count] : UNDEFINED;
+}
+
+static void s_joker_clear_offered(int rarity)
+{
+    for (int i = 0; i < (int)get_joker_registry_size(); i++)
+    {
+        if (rarity == UNDEFINED || get_joker_registry_entry(i)->rarity == rarity)
+            s_joker_offered[i] = false;
+    }
+}
+
 static int joker_roll_id(enum RngSequence key)
 {
-    // Now determine how many jokers are available based on the rarity
-    int jokers_avail_size = get_num_rollable_jokers();
-
-    if (jokers_avail_size == 0)
+    if (get_num_rollable_jokers() == 0)
         return UNDEFINED;
 
     // Roll for what rarity the joker will be
     int joker_rarity = joker_get_random_rarity(key);
 
-    int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = rng_get_u32(key) % jokers_avail_size;
-    int fallback_random_joker_id = UNDEFINED;
-    int match_count = 0;
+    // First try a Joker of that rarity that was not offered yet
+    int selected_joker_id = s_joker_pick_rollable(key, joker_rarity, true);
 
-    BitsetItr itr = bitset_itr_create(&s_rollable_jokers_bitset);
-
-    int i = 0;
-    int joker_id = UNDEFINED;
-    while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
+    if (selected_joker_id == UNDEFINED)
     {
-        if (i++ == fallback_random_idx)
-            fallback_random_joker_id = joker_id;
-        const JokerInfo* info = get_joker_registry_entry(joker_id);
-        if (info->rarity == joker_rarity)
+        // Every available Joker of that rarity was offered, start a new cycle for it
+        s_joker_clear_offered(joker_rarity);
+        selected_joker_id = s_joker_pick_rollable(key, joker_rarity, true);
+    }
+
+    if (selected_joker_id == UNDEFINED)
+    {
+        // No Joker of that rarity is available at all, fall back on any rarity
+        selected_joker_id = s_joker_pick_rollable(key, UNDEFINED, true);
+        if (selected_joker_id == UNDEFINED)
         {
-            matching_joker_ids[match_count++] = joker_id;
+            s_joker_clear_offered(UNDEFINED);
+            selected_joker_id = s_joker_pick_rollable(key, UNDEFINED, false);
         }
     }
 
-    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32(key) % match_count]
-                                              : fallback_random_joker_id;
+    if (selected_joker_id != UNDEFINED)
+        s_joker_offered[selected_joker_id] = true;
 
     return selected_joker_id;
 }

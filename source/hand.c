@@ -12,6 +12,7 @@
 #include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "planet.h"
 #include "soundbank.h"
 #include "util.h"
 
@@ -161,8 +162,8 @@ void compute_hand_value_info(void)
 
     HandValues hand_values = HAND_BASE_VALUES[s_hand.hand_type];
 
-    g_game_vars.chips = hand_values.chips;
-    g_game_vars.mult = hand_values.mult;
+    g_game_vars.chips = hand_values.chips + hand_get_level_bonus_chips(s_hand.hand_type);
+    g_game_vars.mult = hand_values.mult + hand_get_level_bonus_mult(s_hand.hand_type);
 
     print_hand_type(hand_values.display_name);
     display_chips();
