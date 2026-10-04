@@ -30,7 +30,7 @@ enum BlindTokens
  * @brief Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative
  *         to the starting layer for the BLIND_TOKEN_SPRITE SpriteType
  *
- * @sa BLIND_TOKEN_SPRITE, sprite_get_starting_layer
+ * @sa BLIND_TOKEN_SPRITE, sprite_type_get_starting_layer
  */
 enum BlindTokenLayers
 {
@@ -186,12 +186,13 @@ enum BlindType roll_blind_type(bool showdown);
 void init_unbeaten_blinds_lists(void);
 
 /**
- * @brief Remove the given Blind from the corresponding List so that we don't roll it again in the
- *         future.
+ * @brief Remove or add the given Blind from the corresponding List so that we can or cannot it
+ *         again in the future.
  *
  * @param type the BlindType of the Boss/Showdown Blind we've just beaten.
+ * @param is_beaten whether the Blind has to be set to beaten or not
  */
-void set_blind_beaten(enum BlindType type);
+void set_blind_beaten(enum BlindType type, bool is_beaten);
 
 /**
  * @brief Copy the palette associated with the given Blind and copy it in the right spot in the
@@ -202,14 +203,12 @@ void set_blind_beaten(enum BlindType type);
 void apply_blind_colors(enum BlindType type);
 
 /**
- * @brief Change the tiles of the BlindToken Sprite at a given layer to that of the given BlindType.
+ * @brief Change the tiles of the BlindToken Sprite to that of the given BlindType.
  *
  * @param type of the Blind we want to apply the tiles of.
- * @param layer the Sprite will be located at.
- *
- * @sa BlindTokenLayers
+ * @param tile_index the index in memory the Toekn's tiles are stored at
  */
-void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer);
+void apply_blind_tiles(enum BlindType type, int tile_index);
 
 /**
  * @brief Create a new BlindToken sprite.

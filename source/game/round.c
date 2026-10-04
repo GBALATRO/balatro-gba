@@ -587,7 +587,6 @@ static bool round_hand_row_on_selection_changed(
         {
             swap_cards_in_hand(prev_card_idx, next_card_idx);
             s_moving_card = true;
-            reorder_card_sprites_layers();
 
             /* Not calling sprite_object_set_focus() because focus is handled by
              * cards_in_hand_update_loop() based on the selection grid value...
@@ -760,7 +759,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
                 // Remove discarded card from hand and shift the ones after it
                 card_object_destroy(&hand[card_idx]);
-                reorder_card_sprites_layers();
+                shift_null_card_to_end(card_idx);
                 set_hand_top(get_hand_top() - 1);
 
                 s_cards_discarded++;
@@ -1119,6 +1118,8 @@ static inline void card_draw(void)
 
     set_hand_top(get_hand_top() + 1);
     get_hand_array()[get_hand_top()] = card_object;
+
+    card_object_set_sprite(card_object, get_hand_top());
 
     // Sort the hand after drawing a card
     sort_cards();
