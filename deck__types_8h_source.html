@@ -144,28 +144,26 @@ $(document).ready(function(){initNavTree('deck__types_8h_source.html',''); initR
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="graphic__utils_8h.html">graphic_utils.h</a>&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define DECK_SPRITES_PB 1</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define DECK_NAME_LENGTH 14 </span><span class="comment">// 13 chars + &#39;\0&#39;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define DECK_DESC_WIDTH  DECK_NAME_LENGTH</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define DECK_DESC_HEIGHT 5</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">enum</span> DeckType</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    DECK_TYPE_RED,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    DECK_TYPE_BLUE,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    DECK_TYPE_YELLOW,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    DECK_TYPE_GREEN,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    DECK_TYPE_BLACK,</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    DECK_TYPE_PAINTED,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    DECK_TYPE_MAX</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>};</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keywordtype">void</span> <a class="code hl_function" href="deck__types_8h.html#a339c1fe49beee05dda44a8b2ae414d15">print_deck_name</a>(<span class="keyword">enum</span> DeckType deck, BG_POINT pos);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">void</span> <a class="code hl_function" href="deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542">print_deck_description</a>(<span class="keyword">enum</span> DeckType deck, BG_POINT pos);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif </span><span class="comment">// DECK_TYPES_H</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define DECK_NAME_LENGTH 14 </span><span class="comment">// 13 chars + &#39;\0&#39;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define DECK_DESC_WIDTH  DECK_NAME_LENGTH</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define DECK_DESC_HEIGHT 5</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">enum</span> DeckType</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    DECK_TYPE_RED,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    DECK_TYPE_BLUE,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    DECK_TYPE_YELLOW,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    DECK_TYPE_GREEN,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    DECK_TYPE_BLACK,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    DECK_TYPE_PAINTED,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    DECK_TYPE_MAX</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">void</span> <a class="code hl_function" href="deck__types_8h.html#a339c1fe49beee05dda44a8b2ae414d15">print_deck_name</a>(<span class="keyword">enum</span> DeckType deck, BG_POINT pos);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> <a class="code hl_function" href="deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542">print_deck_description</a>(<span class="keyword">enum</span> DeckType deck, BG_POINT pos);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif </span><span class="comment">// DECK_TYPES_H</span></div>
 <div class="ttc" id="adeck__types_8h_html_a339c1fe49beee05dda44a8b2ae414d15"><div class="ttname"><a href="deck__types_8h.html#a339c1fe49beee05dda44a8b2ae414d15">print_deck_name</a></div><div class="ttdeci">void print_deck_name(enum DeckType deck, BG_POINT pos)</div><div class="ttdoc">Prints the Deck name string to the screen at the given position.</div><div class="ttdef"><b>Definition</b> <a href="deck__types_8c_source.html#l00043">deck_types.c:43</a></div></div>
 <div class="ttc" id="adeck__types_8h_html_aeb6c51fe050fea32811f33e01f5c8542"><div class="ttname"><a href="deck__types_8h.html#aeb6c51fe050fea32811f33e01f5c8542">print_deck_description</a></div><div class="ttdeci">void print_deck_description(enum DeckType deck, BG_POINT pos)</div><div class="ttdoc">Prints the Deck description string to the screen at the given position.</div><div class="ttdef"><b>Definition</b> <a href="deck__types_8c_source.html#l00048">deck_types.c:48</a></div></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>

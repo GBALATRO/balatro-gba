@@ -32,6 +32,7 @@ var searchData=
   ['mm_5fpan_5fcenter_29',['MM_PAN_CENTER',['../audio__utils_8h.html#a3b7a9973bb1c715264d24b6b619ccfcc',1,'audio_utils.h']]],
   ['mm_5fsfx_5ffull_5fvolume_30',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
   ['mode_31',['mode',['../structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13',1,'Sprite']]],
-  ['music_20strong_32',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
-  ['musicplayerstate_33',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
+  ['multiplier_32',['multiplier',['../structRewardTypeData.html#a2fd86b96d6a4d93cea05afc384e9b734',1,'RewardTypeData']]],
+  ['music_20strong_33',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md34',1,'']]],
+  ['musicplayerstate_34',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
 ];

@@ -1,5 +1,7 @@
 var util_8h =
 [
+    [ "GBAL_ATTRIBUTE", "util_8h.html#ab84a327f48039cfb096bb074b8574ed7", null ],
+    [ "GBAL_FALLTHROUGH", "util_8h.html#ad2446f1c40adf5a66cbbddf1167686e5", null ],
     [ "GBAL_RETURN_IF_NULL_RET", "util_8h.html#a481a57617133b2772dd268c341ec98cf", null ],
     [ "GBAL_RETURN_IF_NULL_VOID", "util_8h.html#a532ad828cb5176e78825f0a9230312d2", null ],
     [ "GBAL_UNUSED", "util_8h.html#aabfb019556c44576446cc201a0ac5459", null ],

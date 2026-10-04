@@ -174,7 +174,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>BOSS_BLIND_TOKEN_LAYER</b>
 <br />
  }</td></tr>
-<tr class="memdesc:a72f525224754ea5b65ce95410fa44408"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> IDs of the various <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> Tokens used in the game, expressed as an offset relative to <code>BLIND_BASE_LAYER</code>  <a href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">More...</a><br /></td></tr>
+<tr class="memdesc:a72f525224754ea5b65ce95410fa44408"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> IDs of the various <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> Tokens used in the game, expressed as an offset relative to the starting layer for the BLIND_TOKEN_SPRITE SpriteType.  <a href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">More...</a><br /></td></tr>
 <tr class="separator:a72f525224754ea5b65ce95410fa44408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab459b45520cab1b163439acc78635be8" id="r_ab459b45520cab1b163439acc78635be8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8h.html#ab459b45520cab1b163439acc78635be8">BlindColorIndex</a> { <br />
 &#160;&#160;<b>BLIND_TEXT_COLOR_INDEX</b> = 1
@@ -349,8 +349,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> IDs of the various <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> Tokens used in the game, expressed as an offset relative to <code>BLIND_BASE_LAYER</code> </p>
-<dl class="section see"><dt>See also</dt><dd>BLIND_BASE_LAYER </dd></dl>
+<p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> IDs of the various <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> Tokens used in the game, expressed as an offset relative to the starting layer for the BLIND_TOKEN_SPRITE SpriteType. </p>
+<dl class="section see"><dt>See also</dt><dd>BLIND_TOKEN_SPRITE, <a class="el" href="sprite_8h.html#ad5a2f4dd5cdda19ec3c7d00c7062d152" title="Get the starting layer of a certain type of sprite.">sprite_get_starting_layer</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="blind_8h_source.html#l00035">35</a> of file <a class="el" href="blind_8h_source.html">blind.h</a>.</p>
 
@@ -419,7 +419,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00232">232</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00227">227</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -457,9 +457,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to BLIND_BAS...">BlindTokenLayers</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00268">268</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00249">249</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -499,7 +499,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the BGR555 value of the requested color </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00218">218</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00213">213</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -539,7 +539,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the required score to beat the requested blind </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00106">106</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00101">101</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -568,7 +568,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>3 for the Small <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a>, 4 for the Big one, 5 for Bosses and 8 for Showdowns </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00115">115</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00110">110</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -587,7 +587,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00097">97</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00092">92</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -639,9 +639,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to BLIND_BAS...">BlindTokenLayers</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00281">281</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00263">263</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -663,7 +663,7 @@ Functions</h2></td></tr>
 
 <p>Initialize Boss and Showdown Blinds lists to roll from. </p>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00156">156</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00151">151</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -692,7 +692,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a BlindType value chosen at random </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00162">162</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00157">157</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -720,7 +720,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00180">180</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00175">175</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>

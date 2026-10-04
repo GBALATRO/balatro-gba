@@ -5,6 +5,7 @@ var shop_8c =
     [ "shop_create_top_row_item", "shop_8c.html#abdefa3fb44722fa3b5440b13bce0d528", null ],
     [ "shop_create_top_row_items", "shop_8c.html#aea7667f114fcae779f7b3f044d8fab8f", null ],
     [ "shop_get_description_card", "shop_8c.html#ac8f87c9045c1a4f9cd49b4d42f026259", null ],
+    [ "shop_get_reroll_cost", "shop_8c.html#a6faed74fd78ac6ad74e80f462f8fca04", null ],
     [ "shop_intro", "shop_8c.html#a903be3c2cc0cb4ce429657201964387b", null ],
     [ "shop_lights_anim_frame", "shop_8c.html#ac80b3f7ab6d8e7fab6ebf6faab25521f", null ],
     [ "shop_on_exit", "shop_8c.html#a30f1cda3fb26554618b0bf360d2a6a4d", null ],
@@ -17,6 +18,7 @@ var shop_8c =
     [ "shop_reroll_row_on_key_transit", "shop_8c.html#a853d7d426bf12e36958bd2b12d87236b", null ],
     [ "shop_reroll_row_on_selection_changed", "shop_8c.html#a077e8c72bb06675c7307dec45fd895cb", null ],
     [ "shop_reset", "shop_8c.html#aa448f20846278dd462de056ed33df0da", null ],
+    [ "shop_set_reroll_cost", "shop_8c.html#a9d75857a6cb6d7df24b4847d25191755", null ],
     [ "shop_top_row_get_size", "shop_8c.html#a75ea42eafb427a9ca2daa6d2f6d70ec9", null ],
     [ "shop_top_row_on_key_transit", "shop_8c.html#a0dd08021dc2405d8c68d03060ad6b027", null ],
     [ "shop_top_row_on_selection_changed", "shop_8c.html#a1c93ade895a41aa97a9a38bdf425c5e4", null ]

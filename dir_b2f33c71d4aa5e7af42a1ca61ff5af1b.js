@@ -23,6 +23,8 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "random.c", "random_8c_source.html", null ],
     [ "save.c", "save_8c.html", "save_8c" ],
     [ "selection_grid.c", "selection__grid_8c_source.html", null ],
+    [ "skip_tag.c", "skip__tag_8c.html", "skip__tag_8c" ],
+    [ "skip_tag_effects.c", "skip__tag__effects_8c_source.html", null ],
     [ "splash_screen.c", "splash__screen_8c_source.html", null ],
     [ "sprite.c", "sprite_8c_source.html", null ],
     [ "state_machine.c", "state__machine_8c_source.html", null ],

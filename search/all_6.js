@@ -31,12 +31,13 @@ var searchData=
   ['common_5fui_2eh_28',['common_ui.h',['../common__ui_8h.html',1,'']]],
   ['compile_29',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md20',1,'']]],
   ['compiled_20rom_30',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md21',1,'']]],
-  ['compute_5fhand_5fvalue_5finfo_31',['compute_hand_value_info',['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]],
+  ['compute_5fhand_5fvalue_5finfo_31',['compute_hand_value_info',['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]],
   ['containedhandtypes_32',['ContainedHandTypes',['../structContainedHandTypes.html',1,'']]],
   ['contributing_33',['Contributing',['../md_README.html#autotoc_md31',1,'']]],
   ['contributions_34',['Making Contributions',['../index.html#autotoc_md1',1,'']]],
   ['controls_3a_35',['Controls:',['../md_README.html#autotoc_md30',1,'']]],
-  ['credits_3a_20strong_36',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md32',1,'']]],
-  ['current_5fnode_37',['current_node',['../structListItr.html#a2c3441f4a1cd1468d52c327737bda6f6',1,'ListItr']]],
-  ['custom_20scripts_38',['Custom Scripts',['../index.html#autotoc_md15',1,'']]]
+  ['count_36',['count',['../structRewardTypeData.html#ad43c3812e6d13e0518d9f8b8f463ffcf',1,'RewardTypeData']]],
+  ['credits_3a_20strong_37',['&lt;strong&gt;Credits:&lt;/strong&gt;',['../md_README.html#autotoc_md32',1,'']]],
+  ['current_5fnode_38',['current_node',['../structListItr.html#a2c3441f4a1cd1468d52c327737bda6f6',1,'ListItr']]],
+  ['custom_20scripts_39',['Custom Scripts',['../index.html#autotoc_md15',1,'']]]
 ];

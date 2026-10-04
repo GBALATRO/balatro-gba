@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('pool_8c_source.html',''); initResizabl
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;pool.h&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define POOL_ENTRY(name, capacity) POOL_DEFINE_TYPE(name, capacity);</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define POOL_ENTRY(name, capacity, mem_section) POOL_DEFINE_TYPE(name, capacity, mem_section);</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include POOLS_DEF_FILE</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#undef POOL_ENTRY</span></div>
 </div><!-- fragment --></div><!-- contents -->

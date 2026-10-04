@@ -159,6 +159,8 @@ Macros</h2></td></tr>
 <tr class="separator:a72b20b2bd131c0171a30eb7c7e27ee36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5419804bec5f317f5f93c338f77ead02" id="r_a5419804bec5f317f5f93c338f77ead02"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a5419804bec5f317f5f93c338f77ead02">STATE_INFO_INIT_UPDATE_FN</a>(init_fn,  update_fn)&#160;&#160;&#160;{.on_init = init_fn, .on_update = update_fn, .on_exit = <a class="el" href="state__machine_8h.html#ac6aafaca6eb2c1716beb84f6d9f1f5ac">noop</a>}</td></tr>
 <tr class="separator:a5419804bec5f317f5f93c338f77ead02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d1fe9fda3a7e657ca46827644ad52dc" id="r_a0d1fe9fda3a7e657ca46827644ad52dc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a0d1fe9fda3a7e657ca46827644ad52dc">STATE_INFO_ALL_FN</a>(init_fn,  update_fn,  exit_fn)&#160;&#160;&#160;{.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn}</td></tr>
+<tr class="separator:a0d1fe9fda3a7e657ca46827644ad52dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49e14e61c0de648503323a3881c61212" id="r_a49e14e61c0de648503323a3881c61212"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="state__machine_8h.html#a49e14e61c0de648503323a3881c61212">STATE_MACHINE_DEFINE</a>(infos,  num)</td></tr>
 <tr class="separator:a49e14e61c0de648503323a3881c61212"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -196,6 +198,42 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a0d1fe9fda3a7e657ca46827644ad52dc" name="a0d1fe9fda3a7e657ca46827644ad52dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1fe9fda3a7e657ca46827644ad52dc">&#9670;&#160;</a></span>STATE_INFO_ALL_FN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STATE_INFO_ALL_FN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">init_fn, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">update_fn, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">exit_fn&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;{.on_init = init_fn, .on_update = update_fn, .on_exit = exit_fn}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="state__machine_8h_source.html#l00111">111</a> of file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
+
+</div>
+</div>
 <a id="a5419804bec5f317f5f93c338f77ead02" name="a5419804bec5f317f5f93c338f77ead02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5419804bec5f317f5f93c338f77ead02">&#9670;&#160;</a></span>STATE_INFO_INIT_UPDATE_FN</h2>
 
@@ -277,7 +315,7 @@ Functions</h2></td></tr>
 <div class="line">    .registered = <span class="keyword">false</span>,                 \</div>
 <div class="line">};</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="state__machine_8h_source.html#l00111">111</a> of file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="state__machine_8h_source.html#l00112">112</a> of file <a class="el" href="state__machine_8h_source.html">state_machine.h</a>.</p>
 
 </div>
 </div>

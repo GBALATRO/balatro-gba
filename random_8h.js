@@ -9,6 +9,7 @@ var random_8h =
       [ "RNG_SEQ_JOKER_MISPRINT", "random_8h.html#a73381af6639eb302e772129df6f83d47af414d86a4d1970953371a783d778e552", null ],
       [ "RNG_SEQ_JOKER_RESERVED_PARKING", "random_8h.html#a73381af6639eb302e772129df6f83d47a20afc35c22f82e740c25fed003efc95f", null ],
       [ "RNG_SEQ_JOKER_BUSINESS_CARD", "random_8h.html#a73381af6639eb302e772129df6f83d47a1be78191119327abf693e2c1067d08c6", null ],
+      [ "RNG_SEQ_TAG_TOP_UP", "random_8h.html#a73381af6639eb302e772129df6f83d47ac7621feaa8defd408b045e338e6cc13c", null ],
       [ "RNG_SEQ_MISC", "random_8h.html#a73381af6639eb302e772129df6f83d47acd266ba51db5fd19cfe6e11f680b6ed2", null ],
       [ "RNG_SEQ_MAX", "random_8h.html#a73381af6639eb302e772129df6f83d47af6d10ff55ca221de38d0a7c19f3902b2", null ]
     ] ],

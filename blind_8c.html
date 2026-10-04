@@ -143,6 +143,7 @@ $(document).ready(function(){initNavTree('blind_8c.html',''); initResizable(); }
 <div class="textblock"><code>#include &quot;<a class="el" href="blind_8h_source.html">blind.h</a>&quot;</code><br />
 <code>#include &quot;blind_gfx.h&quot;</code><br />
 <code>#include &quot;game.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="common__ui_8h_source.html">game/common_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="graphic__utils_8h_source.html">graphic_utils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="hand_8h_source.html">hand.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="list_8h_source.html">list.h</a>&quot;</code><br />
@@ -157,15 +158,7 @@ $(document).ready(function(){initNavTree('blind_8c.html',''); initResizable(); }
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a78342ff798b5b6b31a97259c57096d0d" id="r_a78342ff798b5b6b31a97259c57096d0d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a78342ff798b5b6b31a97259c57096d0d">NORMAL_BLIND_PB</a>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:a78342ff798b5b6b31a97259c57096d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a168e9be7e2271252f8376f6e1afaf6a4" id="r_a168e9be7e2271252f8376f6e1afaf6a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a168e9be7e2271252f8376f6e1afaf6a4">BOSS_BLIND_PB</a>&#160;&#160;&#160;3</td></tr>
-<tr class="separator:a168e9be7e2271252f8376f6e1afaf6a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b35409211a6b6168c80dd8a61f69021" id="r_a5b35409211a6b6168c80dd8a61f69021"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a5b35409211a6b6168c80dd8a61f69021">BLIND_BASE_LAYER</a>&#160;&#160;&#160;(MAX_HAND_SIZE + MAX_SELECTION_SIZE)</td></tr>
-<tr class="separator:a5b35409211a6b6168c80dd8a61f69021"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7652549dbae839022bef0569bbb2bbd" id="r_ad7652549dbae839022bef0569bbb2bbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#ad7652549dbae839022bef0569bbb2bbd">BLIND_SPRITE_OFFSET</a>&#160;&#160;&#160;16</td></tr>
-<tr class="separator:ad7652549dbae839022bef0569bbb2bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ae65bd3b114361319d536ca4f6a43e7" id="r_a5ae65bd3b114361319d536ca4f6a43e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a5ae65bd3b114361319d536ca4f6a43e7">BLIND_SPRITE_COPY_SIZE</a>&#160;&#160;&#160;(BLIND_SPRITE_OFFSET * <a class="el" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>)</td></tr>
+<tr class="memitem:a5ae65bd3b114361319d536ca4f6a43e7" id="r_a5ae65bd3b114361319d536ca4f6a43e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a5ae65bd3b114361319d536ca4f6a43e7">BLIND_SPRITE_COPY_SIZE</a>&#160;&#160;&#160;(BLIND_SPRITE_TILES * <a class="el" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>)</td></tr>
 <tr class="separator:a5ae65bd3b114361319d536ca4f6a43e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef7a6aca505d35b2981c7b23d9fdfdd4" id="r_aef7a6aca505d35b2981c7b23d9fdfdd4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#aef7a6aca505d35b2981c7b23d9fdfdd4">BLIND_TOKENS_PER_SPRITESHEET</a>&#160;&#160;&#160;2</td></tr>
 <tr class="separator:aef7a6aca505d35b2981c7b23d9fdfdd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -218,9 +211,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a33aca14af98233e87839aec461812517" id="r_a33aca14af98233e87839aec461812517"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a33aca14af98233e87839aec461812517">apply_blind_colors</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type)</td></tr>
 <tr class="memdesc:a33aca14af98233e87839aec461812517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the palette associated with the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> and copy it in the right spot in the palette memory.  <br /></td></tr>
 <tr class="separator:a33aca14af98233e87839aec461812517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fe16753cff7230a53901295f6cb7a77" id="r_a1fe16753cff7230a53901295f6cb7a77"><td class="memItemLeft" align="right" valign="top">static u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a1fe16753cff7230a53901295f6cb7a77">get_layer_tile_index</a> (enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a> layer)</td></tr>
-<tr class="memdesc:a1fe16753cff7230a53901295f6cb7a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the starting tile index in tiles memory for the given BlindToken sprite layer.  <br /></td></tr>
-<tr class="separator:a1fe16753cff7230a53901295f6cb7a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a186aee3247d5b47aaa84b4f6ee3a5947" id="r_a186aee3247d5b47aaa84b4f6ee3a5947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="blind_8c.html#a186aee3247d5b47aaa84b4f6ee3a5947">apply_blind_tiles</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a> layer)</td></tr>
 <tr class="memdesc:a186aee3247d5b47aaa84b4f6ee3a5947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the tiles of the BlindToken <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> at a given layer to that of the given BlindType.  <br /></td></tr>
 <tr class="separator:a186aee3247d5b47aaa84b4f6ee3a5947"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,23 +251,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00032">32</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
-
-</div>
-</div>
-<a id="a5b35409211a6b6168c80dd8a61f69021" name="a5b35409211a6b6168c80dd8a61f69021"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b35409211a6b6168c80dd8a61f69021">&#9670;&#160;</a></span>BLIND_BASE_LAYER</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BLIND_BASE_LAYER&#160;&#160;&#160;(MAX_HAND_SIZE + MAX_SELECTION_SIZE)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00023">23</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00027">27</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -288,28 +262,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BLIND_SPRITE_COPY_SIZE&#160;&#160;&#160;(BLIND_SPRITE_OFFSET * <a class="el" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>)</td>
+          <td class="memname">#define BLIND_SPRITE_COPY_SIZE&#160;&#160;&#160;(BLIND_SPRITE_TILES * <a class="el" href="graphic__utils_8h.html#a62ecd70800687eb2d625af180c4210d7">TILE_SIZE</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00026">26</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
-
-</div>
-</div>
-<a id="ad7652549dbae839022bef0569bbb2bbd" name="ad7652549dbae839022bef0569bbb2bbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7652549dbae839022bef0569bbb2bbd">&#9670;&#160;</a></span>BLIND_SPRITE_OFFSET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BLIND_SPRITE_OFFSET&#160;&#160;&#160;16</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00025">25</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00021">21</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -325,7 +283,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00029">29</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00024">24</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -341,23 +299,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00028">28</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
-
-</div>
-</div>
-<a id="a168e9be7e2271252f8376f6e1afaf6a4" name="a168e9be7e2271252f8376f6e1afaf6a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a168e9be7e2271252f8376f6e1afaf6a4">&#9670;&#160;</a></span>BOSS_BLIND_PB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOSS_BLIND_PB&#160;&#160;&#160;3</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00021">21</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00023">23</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -373,23 +315,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00033">33</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
-
-</div>
-</div>
-<a id="a78342ff798b5b6b31a97259c57096d0d" name="a78342ff798b5b6b31a97259c57096d0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78342ff798b5b6b31a97259c57096d0d">&#9670;&#160;</a></span>NORMAL_BLIND_PB</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define NORMAL_BLIND_PB&#160;&#160;&#160;2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00020">20</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00028">28</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -405,7 +331,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00034">34</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00029">29</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -421,7 +347,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00031">31</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00026">26</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -450,7 +376,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00232">232</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00227">227</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -488,9 +414,9 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to BLIND_BAS...">BlindTokenLayers</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00268">268</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00249">249</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -530,7 +456,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the BGR555 value of the requested color </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00218">218</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00213">213</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -570,7 +496,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the required score to beat the requested blind </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00106">106</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00101">101</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -599,7 +525,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>3 for the Small <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a>, 4 for the Big one, 5 for Bosses and 8 for Showdowns </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00115">115</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00110">110</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -618,7 +544,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00097">97</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00092">92</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -670,9 +596,9 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to BLIND_BAS...">BlindTokenLayers</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00281">281</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00263">263</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -700,7 +626,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00205">205</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00200">200</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -728,45 +654,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00210">210</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
-
-</div>
-</div>
-<a id="a1fe16753cff7230a53901295f6cb7a77" name="a1fe16753cff7230a53901295f6cb7a77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fe16753cff7230a53901295f6cb7a77">&#9670;&#160;</a></span>get_layer_tile_index()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static u32 get_layer_tile_index </td>
-          <td>(</td>
-          <td class="paramtype">enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a>&#160;</td>
-          <td class="paramname"><em>layer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the starting tile index in tiles memory for the given BlindToken sprite layer. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">layer</td><td>of the BlindToken, as an offset relative to <code>BLIND_BASE_LAYER</code></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the starting tile index of the BlindToken sprite at requested layer </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>BLIND_BASE_LAYER </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00262">262</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00205">205</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -805,7 +693,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00140">140</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00135">135</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -827,7 +715,7 @@ Variables</h2></td></tr>
 
 <p>Initialize Boss and Showdown Blinds lists to roll from. </p>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00156">156</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00151">151</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -856,7 +744,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a BlindType value chosen at random </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00162">162</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00157">157</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -884,7 +772,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00180">180</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00175">175</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -909,7 +797,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00055">55</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00050">50</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -937,7 +825,7 @@ Variables</h2></td></tr>
 <div class="line"> </div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00042">42</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00037">37</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -965,7 +853,7 @@ Variables</h2></td></tr>
 <div class="line"> </div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00036">36</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00031">31</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -991,7 +879,7 @@ Variables</h2></td></tr>
 
 <p>Stores an instance of the <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> struct for each BlindType value, ordered in the same way. Acts the same way the <a class="el" href="structJoker.html">Joker</a> registry does, and may need to go in its own file depending on how <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> effects are implemented. </p>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00063">63</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00058">58</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -1015,7 +903,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00049">49</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00044">44</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -1039,7 +927,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00050">50</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00045">45</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>

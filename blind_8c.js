@@ -6,7 +6,6 @@ var blind_8c =
     [ "blind_get_requirement", "blind_8c.html#a85fefafb15d88f710cbe1183ac34f3f4", null ],
     [ "blind_get_reward", "blind_8c.html#af2031f17bfb33cfe0a1815fa66b8bde6", null ],
     [ "blind_token_new", "blind_8c.html#a5518e6cabc5bcfd4e0ac280abd9f199c", null ],
-    [ "get_layer_tile_index", "blind_8c.html#a1fe16753cff7230a53901295f6cb7a77", null ],
     [ "init_unbeaten_blinds_list", "blind_8c.html#a40c15210bb6306ece0a7240106e42543", null ],
     [ "init_unbeaten_blinds_lists", "blind_8c.html#aedfd9b6abb09b4255160fe02ae1d018b", null ],
     [ "roll_blind_type", "blind_8c.html#a2826e7fd956be78ad09013ef623c91e3", null ],
