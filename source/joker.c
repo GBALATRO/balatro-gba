@@ -215,6 +215,13 @@ int joker_get_buy_price(const Joker* joker)
     return joker->value;
 }
 
+int joker_get_sell_value(const Joker* joker)
+{
+    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
+
+    return joker->value / 2;
+}
+
 // JokerObject methods
 JokerObject* joker_object_new(Joker* joker)
 {
@@ -334,14 +341,6 @@ int joker_object_get_sell_price(Item* joker_object)
     ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
 
     return joker_get_sell_value(((JokerObject*)joker_object)->joker);
-}
-
-int joker_object_get_sell_price(Item* joker_object)
-{
-    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
-
-    return ((JokerObject*)joker_object)->joker->value / 2;
 }
 
 void joker_object_add_to_owned(Item* joker_object)

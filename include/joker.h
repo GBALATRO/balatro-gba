@@ -163,6 +163,20 @@ u32 joker_get_score_effect(
 );
 
 /**
+ * @brief Returns the sell value of the joker
+ * @param joker Pointer to the joker - if NULL returns UNDEFINED
+ * @return UNDEFINED if error occurred, the joker's sell value otherwise
+ */
+int joker_get_sell_value(const Joker* joker);
+
+/**
+ * @brief Returns the buy price of the joker
+ * @param joker Pointer to the joker - if NULL returns UNDEFINED
+ * @return UNDEFINED if error occurred, the joker's sell value otherwise
+ */
+int joker_get_buy_price(const Joker* joker);
+
+/**
  * @brief Get Joker name
  *
  * @param joker_object the Joker we want to get the name of
