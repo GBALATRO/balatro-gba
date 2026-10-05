@@ -1,5 +1,8 @@
 var NAVTREEINDEX3 =
 {
+"sprite_8c_source.html":[3,0,1,26],
+"sprite_8h.html":[3,0,0,32],
+"sprite_8h.html#a0e8244424d95f4d81a96756e2cf4e17a":[3,0,0,32,18],
 "sprite_8h.html#a16ee5e7acf8ecd2bd4a3c928ce270b3b":[3,0,0,32,24],
 "sprite_8h.html#a1da4094cf80f8db62d6cf4a0380acc9d":[3,0,0,32,11],
 "sprite_8h.html#a1ee0e1521651d9a8fd7773a6b4ba127e":[3,0,0,32,37],

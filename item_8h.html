@@ -231,6 +231,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a09d58ea15ce410f12aacea23fb16e844" id="r_a09d58ea15ce410f12aacea23fb16e844"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:a09d58ea15ce410f12aacea23fb16e844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether or not the given <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> is in the player's possession.  <br /></td></tr>
 <tr class="separator:a09d58ea15ce410f12aacea23fb16e844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c51c7ff017bce3f706d3a778991cc0" id="r_ae4c51c7ff017bce3f706d3a778991cc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0">item_sell</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="memdesc:ae4c51c7ff017bce3f706d3a778991cc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the item sell transaction, gaining its sell value and discarding it.  <br /></td></tr>
+<tr class="separator:ae4c51c7ff017bce3f706d3a778991cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a4d47e5504f52b26a4e8d560a697433" id="r_a3a4d47e5504f52b26a4e8d560a697433"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:a3a4d47e5504f52b26a4e8d560a697433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the buy price under the item Relies on the fact item is a <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>.  <br /></td></tr>
 <tr class="separator:a3a4d47e5504f52b26a4e8d560a697433"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -435,7 +438,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00114">114</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00116">116</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -464,7 +467,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00131">131</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00133">133</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -493,7 +496,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00145">145</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00147">147</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -523,7 +526,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the item's buy price otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00032">32</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00034">34</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -553,7 +556,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The item name. In case of error ITEM_NAME_UNDEFINED, will not be NULL </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00068">68</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00070">70</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -583,7 +586,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the item's sell price otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00050">50</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00052">52</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -614,7 +617,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Struct containing values of main and shadow colors, as well as the name of the subtype. In case of an error, all colors will be 0 and the name "UNDEFINED"</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structItemDescSubtypeInfo.html" title="Structure containing the main and shadow colors, and the name string associated with an Item&#39;s subtyp...">ItemDescSubtypeInfo</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00087">87</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00089">89</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -643,7 +646,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the item is owned, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00177">177</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00179">179</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -671,7 +674,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00183">183</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00203">203</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -712,7 +715,7 @@ Functions</h2></td></tr>
 <p>Matches ItemFuncs.print_description()</p>
 <dl class="section return"><dt>Returns</dt><dd>the number of lines used by the description </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00160">160</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00162">162</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -753,7 +756,35 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The newly created randomly rolled item </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00009">9</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00011">11</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="ae4c51c7ff017bce3f706d3a778991cc0" name="ae4c51c7ff017bce3f706d3a778991cc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4c51c7ff017bce3f706d3a778991cc0">&#9670;&#160;</a></span>item_sell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void item_sell </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs the item sell transaction, gaining its sell value and discarding it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The sold item </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00185">185</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>

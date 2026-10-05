@@ -4,6 +4,8 @@ var joker_8h =
     [ "JokerObject", "structJokerObject.html", null ],
     [ "JokerEffect", "structJokerEffect.html", null ],
     [ "JokerInfo", "structJokerInfo.html", null ],
+    [ "joker_get_buy_price", "joker_8h.html#a0b7508e4e9058542c110bee6f794257c", null ],
+    [ "joker_get_sell_value", "joker_8h.html#a9ff60f2d0edba2f59d48aa435f7696f1", null ],
     [ "joker_object_add_to_owned", "joker_8h.html#a828618bf59de4d767c02ca5ab7183940", null ],
     [ "joker_object_dispose", "joker_8h.html#a03dbc1f69bd0f3a66f0e7e4538e871ea", null ],
     [ "joker_object_get_buy_price", "joker_8h.html#a5ea56aa0d61cad6cfe77603861633666", null ],

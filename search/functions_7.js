@@ -14,5 +14,6 @@ var searchData=
   ['item_5fis_5fowned_11',['item_is_owned',['../item_8h.html#a09d58ea15ce410f12aacea23fb16e844',1,'item.c']]],
   ['item_5fprint_5fbuy_5fprice_5funder_12',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
   ['item_5fprint_5fdescription_13',['item_print_description',['../item_8h.html#af661f5968155da9bfa78f37b8d486580',1,'item.c']]],
-  ['item_5froll_5fnew_14',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]]
+  ['item_5froll_5fnew_14',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]],
+  ['item_5fsell_15',['item_sell',['../item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0',1,'item.c']]]
 ];

@@ -16,7 +16,7 @@ var searchData=
   ['issues_3a_13',['Common Issues:',['../index.html#autotoc_md19',1,'']]],
   ['it_20errors_20out_20and_20won_20t_20compile_14',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md20',1,'']]],
   ['it_20says_20i_20don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_15',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md23',1,'']]],
-  ['item_16',['item',['../item_8h.html#a749adef16b111dddf0ab08f96707a3a0',1,'Item:&#160;item.h'],['../structItem.html',1,'Item']]],
+  ['item_16',['item',['../structItem.html',1,'Item'],['../item_8h.html#a749adef16b111dddf0ab08f96707a3a0',1,'Item:&#160;item.h']]],
   ['item_2eh_17',['item.h',['../item_8h.html',1,'']]],
   ['item_5facquire_18',['item_acquire',['../item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db',1,'item.c']]],
   ['item_5fcan_5facquire_19',['item_can_acquire',['../item_8h.html#aaf240301d7232be1f643177e4d5755fa',1,'item.c']]],
@@ -33,8 +33,9 @@ var searchData=
   ['item_5freturn_5fif_5funexpected_5ftype_5fret_30',['ITEM_RETURN_IF_UNEXPECTED_TYPE_RET',['../item_8h.html#a03689dd6ee6d519243cdc0ac44768a04',1,'item.h']]],
   ['item_5freturn_5fif_5funexpected_5ftype_5fvoid_31',['ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID',['../item_8h.html#a32f7cd2b81875b4ccedd715e1146e613',1,'item.h']]],
   ['item_5froll_5fnew_32',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]],
-  ['item_5fsubtype_5finfo_5fdefault_33',['ITEM_SUBTYPE_INFO_DEFAULT',['../item_8h.html#a4cf541d422df57537ca8e28a560326ef',1,'item.h']]],
-  ['itemdescsubtypeinfo_34',['itemdescsubtypeinfo',['../item_8h.html#ab94cbb9bfd6265b067b596beb2f1e826',1,'ItemDescSubtypeInfo:&#160;item.h'],['../structItemDescSubtypeInfo.html',1,'ItemDescSubtypeInfo']]],
-  ['itemfuncs_35',['itemfuncs',['../item_8h.html#a96577ad5559bbb52afe7d2a8b1488824',1,'ItemFuncs:&#160;item.h'],['../structItemFuncs.html',1,'ItemFuncs']]],
-  ['itr_36',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
+  ['item_5fsell_33',['item_sell',['../item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0',1,'item.c']]],
+  ['item_5fsubtype_5finfo_5fdefault_34',['ITEM_SUBTYPE_INFO_DEFAULT',['../item_8h.html#a4cf541d422df57537ca8e28a560326ef',1,'item.h']]],
+  ['itemdescsubtypeinfo_35',['itemdescsubtypeinfo',['../item_8h.html#ab94cbb9bfd6265b067b596beb2f1e826',1,'ItemDescSubtypeInfo:&#160;item.h'],['../structItemDescSubtypeInfo.html',1,'ItemDescSubtypeInfo']]],
+  ['itemfuncs_36',['itemfuncs',['../item_8h.html#a96577ad5559bbb52afe7d2a8b1488824',1,'ItemFuncs:&#160;item.h'],['../structItemFuncs.html',1,'ItemFuncs']]],
+  ['itr_37',['itr',['../structBitsetItr.html#a73e1c99538dd376c95bd309154f72116',1,'BitsetItr']]]
 ];

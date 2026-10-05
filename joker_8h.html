@@ -269,6 +269,12 @@ Functions</h2></td></tr>
 <tr class="separator:a70a0a45dd28b7224afaf00f6a83a3ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accde1ca007bd3b33bb9e1249fc7989ea" id="r_accde1ca007bd3b33bb9e1249fc7989ea"><td class="memItemLeft" align="right" valign="top">u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joker_8h.html#accde1ca007bd3b33bb9e1249fc7989ea">joker_get_score_effect</a> (<a class="el" href="structJoker.html">Joker</a> *joker, <a class="el" href="structCard.html">Card</a> *scored_card, enum JokerEvent joker_event, <a class="el" href="structJokerEffect.html">JokerEffect</a> **joker_effect)</td></tr>
 <tr class="separator:accde1ca007bd3b33bb9e1249fc7989ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ff60f2d0edba2f59d48aa435f7696f1" id="r_a9ff60f2d0edba2f59d48aa435f7696f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joker_8h.html#a9ff60f2d0edba2f59d48aa435f7696f1">joker_get_sell_value</a> (const <a class="el" href="structJoker.html">Joker</a> *joker)</td></tr>
+<tr class="memdesc:a9ff60f2d0edba2f59d48aa435f7696f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sell value of the joker.  <br /></td></tr>
+<tr class="separator:a9ff60f2d0edba2f59d48aa435f7696f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b7508e4e9058542c110bee6f794257c" id="r_a0b7508e4e9058542c110bee6f794257c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joker_8h.html#a0b7508e4e9058542c110bee6f794257c">joker_get_buy_price</a> (const <a class="el" href="structJoker.html">Joker</a> *joker)</td></tr>
+<tr class="memdesc:a0b7508e4e9058542c110bee6f794257c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the buy price of the joker.  <br /></td></tr>
+<tr class="separator:a0b7508e4e9058542c110bee6f794257c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62ded333c8052f302f9b3594675945e9" id="r_a62ded333c8052f302f9b3594675945e9"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="joker_8h.html#a62ded333c8052f302f9b3594675945e9">joker_object_get_name</a> (<a class="el" href="structItem.html">Item</a> *joker_object)</td></tr>
 <tr class="memdesc:a62ded333c8052f302f9b3594675945e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get <a class="el" href="structJoker.html">Joker</a> name.  <br /></td></tr>
 <tr class="separator:a62ded333c8052f302f9b3594675945e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -782,6 +788,35 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0b7508e4e9058542c110bee6f794257c" name="a0b7508e4e9058542c110bee6f794257c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b7508e4e9058542c110bee6f794257c">&#9670;&#160;</a></span>joker_get_buy_price()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int joker_get_buy_price </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structJoker.html">Joker</a> *&#160;</td>
+          <td class="paramname"><em>joker</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the buy price of the joker. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joker</td><td>Pointer to the joker - if NULL returns UNDEFINED </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UNDEFINED if error occurred, the joker's sell value otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00211">211</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+
+</div>
+</div>
 <a id="accde1ca007bd3b33bb9e1249fc7989ea" name="accde1ca007bd3b33bb9e1249fc7989ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#accde1ca007bd3b33bb9e1249fc7989ea">&#9670;&#160;</a></span>joker_get_score_effect()</h2>
 
@@ -821,6 +856,35 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00154">154</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+
+</div>
+</div>
+<a id="a9ff60f2d0edba2f59d48aa435f7696f1" name="a9ff60f2d0edba2f59d48aa435f7696f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ff60f2d0edba2f59d48aa435f7696f1">&#9670;&#160;</a></span>joker_get_sell_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int joker_get_sell_value </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structJoker.html">Joker</a> *&#160;</td>
+          <td class="paramname"><em>joker</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the sell value of the joker. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joker</td><td>Pointer to the joker - if NULL returns UNDEFINED </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UNDEFINED if error occurred, the joker's sell value otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00218">218</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -887,7 +951,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00339">339</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00346">346</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -907,7 +971,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00266">266</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00273">273</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -935,7 +999,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00288">288</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00295">295</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -964,7 +1028,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the buy price of the joker otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00323">323</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00330">330</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1052,7 +1116,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the sell price of the joker otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00331">331</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00338">338</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1072,7 +1136,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00484">484</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00491">491</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1092,7 +1156,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00219">219</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00226">226</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1132,7 +1196,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of lines the description was actually printed on </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00303">303</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00310">310</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1161,7 +1225,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Newly created <code>Item*</code> (<a class="el" href="structJokerObject.html">JokerObject</a>) or NULL if none available. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00420">420</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00427">427</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1191,7 +1255,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00318">318</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00325">325</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1213,7 +1277,7 @@ Functions</h2></td></tr>
 
 <p>Reset rollable jokers to include all jokers in the registry. </p>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00375">375</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00382">382</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1253,7 +1317,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>rolled <a class="el" href="structJoker.html">Joker</a> ID </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00386">386</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00393">393</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>
@@ -1319,7 +1383,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00347">347</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="joker_8c_source.html#l00354">354</a> of file <a class="el" href="joker_8c_source.html">joker.c</a>.</p>
 
 </div>
 </div>

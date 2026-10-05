@@ -20,5 +20,6 @@ var item_8h =
     [ "item_is_owned", "item_8h.html#a09d58ea15ce410f12aacea23fb16e844", null ],
     [ "item_print_buy_price_under", "item_8h.html#a3a4d47e5504f52b26a4e8d560a697433", null ],
     [ "item_print_description", "item_8h.html#af661f5968155da9bfa78f37b8d486580", null ],
-    [ "item_roll_new", "item_8h.html#a8977ed404b2afb0bd9c48edf79820db6", null ]
+    [ "item_roll_new", "item_8h.html#a8977ed404b2afb0bd9c48edf79820db6", null ],
+    [ "item_sell", "item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0", null ]
 ];

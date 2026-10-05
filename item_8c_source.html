@@ -140,232 +140,257 @@ $(document).ready(function(){initNavTree('item_8c_source.html',''); initResizabl
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="item_8h.html">item.h</a>&quot;</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="item__funcs_8h.html">item_funcs.h</a>&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="mgba__logger_8h.html">mgba_logger.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;game.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="game__variables_8h.html">game_variables.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="item__funcs_8h.html">item_funcs.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="mgba__logger_8h.html">mgba_logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="util_8h.html">util.h</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="foldopen" id="foldopen00009" data-start="{" data-end="}">
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">    9</a></span><a class="code hl_struct" href="structItem.html">Item</a>* <a class="code hl_function" href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">item_roll_new</a>(<span class="keyword">enum</span> ItemType item_type, <span class="keyword">enum</span> <a class="code hl_enumeration" href="random_8h.html#a73381af6639eb302e772129df6f83d47">RngSequence</a> key)</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>)item_type &lt; 0 || item_type &gt;= ITEM_NUM_TYPES)</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Invalid type %d&quot;</span>, item_type);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    }</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item_type);</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;tonc.h&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="}">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">   11</a></span><a class="code hl_struct" href="structItem.html">Item</a>* <a class="code hl_function" href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">item_roll_new</a>(<span class="keyword">enum</span> ItemType item_type, <span class="keyword">enum</span> <a class="code hl_enumeration" href="random_8h.html#a73381af6639eb302e772129df6f83d47">RngSequence</a> key)</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>)item_type &lt; 0 || item_type &gt;= ITEM_NUM_TYPES)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Invalid type %d&quot;</span>, item_type);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    }</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, NULL);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">if</span> (item_funcs-&gt;<a class="code hl_variable" href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">roll_new</a> == NULL)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;roll_new&#39; function called for item type %d&quot;</span>, item_type);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    }</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_struct" href="structItem.html">Item</a>* ret_item = item_funcs-&gt;<a class="code hl_variable" href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">roll_new</a>(key);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    ret_item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">return</span> ret_item;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item_type);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, NULL);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">if</span> (item_funcs-&gt;<a class="code hl_variable" href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">roll_new</a> == NULL)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;roll_new&#39; function called for item type %d&quot;</span>, item_type);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_struct" href="structItem.html">Item</a>* ret_item = item_funcs-&gt;<a class="code hl_variable" href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">roll_new</a>(key);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    ret_item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> ret_item;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
 </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">   32</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>{</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, UNDEFINED);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, UNDEFINED);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_buy_price == NULL)</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        MGBA_FUNC_ERROR(</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_buy_price&#39; function called for item type %d&quot;</span>,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        );</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">return</span> item_funcs-&gt;get_buy_price(item);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">   34</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, UNDEFINED);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, UNDEFINED);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_buy_price == NULL)</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        MGBA_FUNC_ERROR(</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_buy_price&#39; function called for item type %d&quot;</span>,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        );</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">return</span> item_funcs-&gt;get_buy_price(item);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
 </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="foldopen" id="foldopen00050" data-start="{" data-end="}">
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="item_8h.html#a0f62337454930793478f7eaff47d3600">   50</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>{</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, UNDEFINED);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, UNDEFINED);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_sell_price == NULL)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        MGBA_FUNC_ERROR(</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_sell_price&#39; function called for item type %d&quot;</span>,</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        );</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">return</span> item_funcs-&gt;get_sell_price(item);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="item_8h.html#a0f62337454930793478f7eaff47d3600">   52</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>{</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, UNDEFINED);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, UNDEFINED);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_sell_price == NULL)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        MGBA_FUNC_ERROR(</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_sell_price&#39; function called for item type %d&quot;</span>,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        );</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">return</span> UNDEFINED;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">return</span> item_funcs-&gt;get_sell_price(item);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
 </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="foldopen" id="foldopen00068" data-start="{" data-end="}">
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">   68</a></span><span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">item_get_name</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>{</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_name == NULL)</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    {</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;get_name&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// Guarantees no implementation ever returns NULL</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* item_name = item_funcs-&gt;get_name(item);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_name, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordflow">return</span> item_name;</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">   70</a></span><span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">item_get_name</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_name == NULL)</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;get_name&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">return</span> <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="comment">// Guarantees no implementation ever returns NULL</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">const</span> <span class="keywordtype">char</span>* item_name = item_funcs-&gt;get_name(item);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_name, <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">return</span> item_name;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
 </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">   87</a></span><a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> <a class="code hl_function" href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">item_get_subtype_info</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>{</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> error_info = <a class="code hl_define" href="item_8h.html#a4cf541d422df57537ca8e28a560326ef">ITEM_SUBTYPE_INFO_DEFAULT</a>;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, error_info);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">   89</a></span><a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> <a class="code hl_function" href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">item_get_subtype_info</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>{</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> error_info = <a class="code hl_define" href="item_8h.html#a4cf541d422df57537ca8e28a560326ef">ITEM_SUBTYPE_INFO_DEFAULT</a>;</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, error_info);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_subtype_info == NULL)</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        MGBA_FUNC_ERROR(</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_subtype_info&#39; function called for item type %d&quot;</span>,</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        );</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">return</span> error_info;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> ret_info = item_funcs-&gt;get_subtype_info(item);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">if</span> (ret_info.name_str == NULL)</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    {</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Item of type %d returned NULL as description subtype name&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        ret_info.name_str = <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> ret_info;</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, error_info);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, error_info);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (item_funcs-&gt;get_subtype_info == NULL)</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        MGBA_FUNC_ERROR(</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="stringliteral">&quot;Unimplemented &#39;get_subtype_info&#39; function called for item type %d&quot;</span>,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        );</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">return</span> error_info;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <a class="code hl_struct" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> ret_info = item_funcs-&gt;get_subtype_info(item);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">if</span> (ret_info.name_str == NULL)</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Item of type %d returned NULL as description subtype name&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        ret_info.name_str = <a class="code hl_define" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordflow">return</span> ret_info;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
 </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="foldopen" id="foldopen00114" data-start="{" data-end="}">
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">  114</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">item_acquire</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>{</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs-&gt;acquire);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">if</span> (item_funcs-&gt;acquire == NULL)</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    {</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;acquire&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    item_funcs-&gt;acquire(item);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>}</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">  116</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">item_acquire</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs-&gt;acquire);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">if</span> (item_funcs-&gt;acquire == NULL)</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;acquire&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    item_funcs-&gt;acquire(item);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
 </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
-<div class="foldopen" id="foldopen00131" data-start="{" data-end="}">
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">  131</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">item_can_acquire</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>{</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">if</span> (item_funcs-&gt;can_acquire == NULL)</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    {</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;can_acquire&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">return</span> item_funcs-&gt;can_acquire(item);</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">  133</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">item_can_acquire</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>{</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">if</span> (item_funcs-&gt;can_acquire == NULL)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;can_acquire&#39; function called for item type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    }</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordflow">return</span> item_funcs-&gt;can_acquire(item);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>}</div>
 </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="foldopen" id="foldopen00145" data-start="{" data-end="}">
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="item_8h.html#a178cee27ce8381444e135b45c9174359">  145</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#a178cee27ce8381444e135b45c9174359">item_dispose</a>(<a class="code hl_struct" href="structItem.html">Item</a>** item)</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(*item);</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>((*item)-&gt;type);</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (item_funcs-&gt;dispose == NULL)</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    {</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;dispose&#39; function called for item type %d&quot;</span>, (*item)-&gt;type);</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    }</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    item_funcs-&gt;dispose(item);</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>}</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="foldopen" id="foldopen00147" data-start="{" data-end="}">
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="item_8h.html#a178cee27ce8381444e135b45c9174359">  147</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#a178cee27ce8381444e135b45c9174359">item_dispose</a>(<a class="code hl_struct" href="structItem.html">Item</a>** item)</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>{</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(*item);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>((*item)-&gt;type);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item_funcs);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (item_funcs-&gt;dispose == NULL)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unimplemented &#39;dispose&#39; function called for item type %d&quot;</span>, (*item)-&gt;type);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    }</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    item_funcs-&gt;dispose(item);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>}</div>
 </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="foldopen" id="foldopen00160" data-start="{" data-end="}">
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno"><a class="line" href="item_8h.html#af661f5968155da9bfa78f37b8d486580">  160</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#af661f5968155da9bfa78f37b8d486580">item_print_description</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item, Rect dest_rect)</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>{</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, 0);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, 0);</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">if</span> (item_funcs-&gt;print_description == NULL)</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    {</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        MGBA_FUNC_ERROR(</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="stringliteral">&quot;Unimplemented &#39;print_description&#39; function called for item type %d&quot;</span>,</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        );</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    }</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">return</span> item_funcs-&gt;print_description(item, dest_rect);</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="item_8h.html#af661f5968155da9bfa78f37b8d486580">  162</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="item_8h.html#af661f5968155da9bfa78f37b8d486580">item_print_description</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item, Rect dest_rect)</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>{</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, 0);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <a class="code hl_struct" href="structItemFuncs.html">ItemFuncs</a>* item_funcs = <a class="code hl_function" href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a>(item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item_funcs, 0);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="keywordflow">if</span> (item_funcs-&gt;print_description == NULL)</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        MGBA_FUNC_ERROR(</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <span class="stringliteral">&quot;Unimplemented &#39;print_description&#39; function called for item type %d&quot;</span>,</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        );</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    }</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keywordflow">return</span> item_funcs-&gt;print_description(item, dest_rect);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
 </div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">  177</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>{</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keywordflow">return</span> item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a>;</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>}</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="foldopen" id="foldopen00179" data-start="{" data-end="}">
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">  179</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>{</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <a class="code hl_define" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(item, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">return</span> item-&gt;<a class="code hl_variable" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
 </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="foldopen" id="foldopen00183" data-start="{" data-end="}">
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">  183</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>{</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <a class="code hl_function" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a>((<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>*)item, <a class="code hl_function" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a>(item));</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0">  185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0">item_sell</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>{</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <span class="keywordtype">int</span> sell_price = <a class="code hl_function" href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a>(item);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordflow">if</span> (sell_price == UNDEFINED)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Undefined sell price for item of type %d&quot;</span>, item-&gt;<a class="code hl_variable" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a>);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    g_game_vars.money += sell_price;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    display_money();</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <a class="code hl_function" href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a>((<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>*)item);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    item_start_discard_animation(item);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>}</div>
 </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="foldopen" id="foldopen00203" data-start="{" data-end="}">
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">  203</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a>(<a class="code hl_struct" href="structItem.html">Item</a>* item)</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>{</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <a class="code hl_define" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(item);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    <a class="code hl_function" href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a>((<a class="code hl_struct" href="structSpriteObject.html">SpriteObject</a>*)item, <a class="code hl_function" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a>(item));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
+</div>
+<div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="aitem_8h_html"><div class="ttname"><a href="item_8h.html">item.h</a></div><div class="ttdoc">The core structure for items in the shop and inventory. Provides a common API for the shop and invent...</div></div>
-<div class="ttc" id="aitem_8h_html_a09d58ea15ce410f12aacea23fb16e844"><div class="ttname"><a href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a></div><div class="ttdeci">bool item_is_owned(Item *item)</div><div class="ttdoc">Returns whether or not the given Item is in the player's possession.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00177">item.c:177</a></div></div>
-<div class="ttc" id="aitem_8h_html_a0f62337454930793478f7eaff47d3600"><div class="ttname"><a href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a></div><div class="ttdeci">int item_get_sell_price(Item *item)</div><div class="ttdoc">Returns the sell price of the item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00050">item.c:50</a></div></div>
-<div class="ttc" id="aitem_8h_html_a178cee27ce8381444e135b45c9174359"><div class="ttname"><a href="item_8h.html#a178cee27ce8381444e135b45c9174359">item_dispose</a></div><div class="ttdeci">void item_dispose(Item **item)</div><div class="ttdoc">Destroys an item, freeing underlying resources, and manages rollable items sets if needed....</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00145">item.c:145</a></div></div>
+<div class="ttc" id="aitem_8h_html_a09d58ea15ce410f12aacea23fb16e844"><div class="ttname"><a href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a></div><div class="ttdeci">bool item_is_owned(Item *item)</div><div class="ttdoc">Returns whether or not the given Item is in the player's possession.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00179">item.c:179</a></div></div>
+<div class="ttc" id="aitem_8h_html_a0f62337454930793478f7eaff47d3600"><div class="ttname"><a href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a></div><div class="ttdeci">int item_get_sell_price(Item *item)</div><div class="ttdoc">Returns the sell price of the item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00052">item.c:52</a></div></div>
+<div class="ttc" id="aitem_8h_html_a178cee27ce8381444e135b45c9174359"><div class="ttname"><a href="item_8h.html#a178cee27ce8381444e135b45c9174359">item_dispose</a></div><div class="ttdeci">void item_dispose(Item **item)</div><div class="ttdoc">Destroys an item, freeing underlying resources, and manages rollable items sets if needed....</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00147">item.c:147</a></div></div>
 <div class="ttc" id="aitem_8h_html_a241e68e5c7d0c840ca90216f9ed3c8fb"><div class="ttname"><a href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a></div><div class="ttdeci">#define ITEM_NAME_UNDEFINED</div><div class="ttdoc">Default Item name, for the sake of consistency.</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00070">item.h:70</a></div></div>
-<div class="ttc" id="aitem_8h_html_a345fbf0dde102f3b5a7e7fabbdd11159"><div class="ttname"><a href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">item_get_name</a></div><div class="ttdeci">const char * item_get_name(Item *item)</div><div class="ttdoc">Returns the name of the Item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00068">item.c:68</a></div></div>
-<div class="ttc" id="aitem_8h_html_a3a4d47e5504f52b26a4e8d560a697433"><div class="ttname"><a href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a></div><div class="ttdeci">void item_print_buy_price_under(Item *item)</div><div class="ttdoc">Prints the buy price under the item Relies on the fact item is a SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00183">item.c:183</a></div></div>
+<div class="ttc" id="aitem_8h_html_a345fbf0dde102f3b5a7e7fabbdd11159"><div class="ttname"><a href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">item_get_name</a></div><div class="ttdeci">const char * item_get_name(Item *item)</div><div class="ttdoc">Returns the name of the Item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00070">item.c:70</a></div></div>
+<div class="ttc" id="aitem_8h_html_a3a4d47e5504f52b26a4e8d560a697433"><div class="ttname"><a href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a></div><div class="ttdeci">void item_print_buy_price_under(Item *item)</div><div class="ttdoc">Prints the buy price under the item Relies on the fact item is a SpriteObject.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00203">item.c:203</a></div></div>
 <div class="ttc" id="aitem_8h_html_a4cf541d422df57537ca8e28a560326ef"><div class="ttname"><a href="item_8h.html#a4cf541d422df57537ca8e28a560326ef">ITEM_SUBTYPE_INFO_DEFAULT</a></div><div class="ttdeci">#define ITEM_SUBTYPE_INFO_DEFAULT</div><div class="ttdoc">Default subtype info struct declaration.</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00076">item.h:76</a></div></div>
-<div class="ttc" id="aitem_8h_html_a8977ed404b2afb0bd9c48edf79820db6"><div class="ttname"><a href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">item_roll_new</a></div><div class="ttdeci">Item * item_roll_new(enum ItemType item_type, enum RngSequence key)</div><div class="ttdoc">Rolls a random item of type item_type and returns a newly created one. Manages rollable items set if ...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00009">item.c:9</a></div></div>
-<div class="ttc" id="aitem_8h_html_aaf240301d7232be1f643177e4d5755fa"><div class="ttname"><a href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">item_can_acquire</a></div><div class="ttdeci">bool item_can_acquire(Item *item)</div><div class="ttdoc">Returns true if the item can be acquired, i.e. added to inventory. Does not check if the player has e...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00131">item.c:131</a></div></div>
-<div class="ttc" id="aitem_8h_html_ac87fd14bcb534194daf3c501450e714e"><div class="ttname"><a href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">item_get_subtype_info</a></div><div class="ttdeci">ItemDescSubtypeInfo item_get_subtype_info(Item *item)</div><div class="ttdoc">Returns the colors and name of the Item's subtype.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00087">item.c:87</a></div></div>
-<div class="ttc" id="aitem_8h_html_acd9b4c99ac6fe9f9b6eb4543d16fb7db"><div class="ttname"><a href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">item_acquire</a></div><div class="ttdeci">void item_acquire(Item *item)</div><div class="ttdoc">Acquires the item, adding to inventory if applicable. Called when it is purchased from the shop,...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00114">item.c:114</a></div></div>
-<div class="ttc" id="aitem_8h_html_af661f5968155da9bfa78f37b8d486580"><div class="ttname"><a href="item_8h.html#af661f5968155da9bfa78f37b8d486580">item_print_description</a></div><div class="ttdeci">int item_print_description(Item *item, Rect dest_rect)</div><div class="ttdoc">Prints the item's description inside the given rectangle.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00160">item.c:160</a></div></div>
-<div class="ttc" id="aitem_8h_html_aff0f2379be85d7b6a27a5761be9e7715"><div class="ttname"><a href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a></div><div class="ttdeci">int item_get_buy_price(Item *item)</div><div class="ttdoc">Returns the buy price of the item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00032">item.c:32</a></div></div>
+<div class="ttc" id="aitem_8h_html_a8977ed404b2afb0bd9c48edf79820db6"><div class="ttname"><a href="item_8h.html#a8977ed404b2afb0bd9c48edf79820db6">item_roll_new</a></div><div class="ttdeci">Item * item_roll_new(enum ItemType item_type, enum RngSequence key)</div><div class="ttdoc">Rolls a random item of type item_type and returns a newly created one. Manages rollable items set if ...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00011">item.c:11</a></div></div>
+<div class="ttc" id="aitem_8h_html_aaf240301d7232be1f643177e4d5755fa"><div class="ttname"><a href="item_8h.html#aaf240301d7232be1f643177e4d5755fa">item_can_acquire</a></div><div class="ttdeci">bool item_can_acquire(Item *item)</div><div class="ttdoc">Returns true if the item can be acquired, i.e. added to inventory. Does not check if the player has e...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00133">item.c:133</a></div></div>
+<div class="ttc" id="aitem_8h_html_ac87fd14bcb534194daf3c501450e714e"><div class="ttname"><a href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">item_get_subtype_info</a></div><div class="ttdeci">ItemDescSubtypeInfo item_get_subtype_info(Item *item)</div><div class="ttdoc">Returns the colors and name of the Item's subtype.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00089">item.c:89</a></div></div>
+<div class="ttc" id="aitem_8h_html_acd9b4c99ac6fe9f9b6eb4543d16fb7db"><div class="ttname"><a href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">item_acquire</a></div><div class="ttdeci">void item_acquire(Item *item)</div><div class="ttdoc">Acquires the item, adding to inventory if applicable. Called when it is purchased from the shop,...</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00116">item.c:116</a></div></div>
+<div class="ttc" id="aitem_8h_html_ae4c51c7ff017bce3f706d3a778991cc0"><div class="ttname"><a href="item_8h.html#ae4c51c7ff017bce3f706d3a778991cc0">item_sell</a></div><div class="ttdeci">void item_sell(Item *item)</div><div class="ttdoc">Performs the item sell transaction, gaining its sell value and discarding it.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00185">item.c:185</a></div></div>
+<div class="ttc" id="aitem_8h_html_af661f5968155da9bfa78f37b8d486580"><div class="ttname"><a href="item_8h.html#af661f5968155da9bfa78f37b8d486580">item_print_description</a></div><div class="ttdeci">int item_print_description(Item *item, Rect dest_rect)</div><div class="ttdoc">Prints the item's description inside the given rectangle.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00162">item.c:162</a></div></div>
+<div class="ttc" id="aitem_8h_html_aff0f2379be85d7b6a27a5761be9e7715"><div class="ttname"><a href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a></div><div class="ttdeci">int item_get_buy_price(Item *item)</div><div class="ttdoc">Returns the buy price of the item.</div><div class="ttdef"><b>Definition</b> <a href="item_8c_source.html#l00034">item.c:34</a></div></div>
 <div class="ttc" id="aitem__funcs_8h_html"><div class="ttname"><a href="item__funcs_8h.html">item_funcs.h</a></div><div class="ttdoc">An API for the item functions defined in item.h Separated module from item.c/.h so item_funcs....</div></div>
 <div class="ttc" id="aitem__funcs_8h_html_aa487c0d2967bf235725dfe6383fba4a6"><div class="ttname"><a href="item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6">get_item_type_funcs</a></div><div class="ttdeci">ItemFuncs * get_item_type_funcs(enum ItemType type)</div><div class="ttdoc">Returns the function table for a given item type.</div><div class="ttdef"><b>Definition</b> <a href="item__funcs_8c_source.html#l00045">item_funcs.c:45</a></div></div>
 <div class="ttc" id="amgba__logger_8h_html"><div class="ttname"><a href="mgba__logger_8h.html">mgba_logger.h</a></div><div class="ttdoc">Interface to interact with the mgba logger.</div></div>
 <div class="ttc" id="arandom_8h_html_a73381af6639eb302e772129df6f83d47"><div class="ttname"><a href="random_8h.html#a73381af6639eb302e772129df6f83d47">RngSequence</a></div><div class="ttdeci">RngSequence</div><div class="ttdoc">Keys to different independent RNG sequences.</div><div class="ttdef"><b>Definition</b> <a href="random_8h_source.html#l00018">random.h:19</a></div></div>
 <div class="ttc" id="asprite_8h_html_a3d9b736910a0c0671e495dda62be7f91"><div class="ttname"><a href="sprite_8h.html#a3d9b736910a0c0671e495dda62be7f91">sprite_object_print_price_under</a></div><div class="ttdeci">void sprite_object_print_price_under(SpriteObject *sprite_object, int price)</div><div class="ttdoc">Print the price string directly beneath a SpriteObject. More specialized version of sprite_object_pri...</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00523">sprite.c:523</a></div></div>
+<div class="ttc" id="asprite_8h_html_aa1adb2bd898e4c580e1c522b6a158eba"><div class="ttname"><a href="sprite_8h.html#aa1adb2bd898e4c580e1c522b6a158eba">sprite_object_erase_text_under</a></div><div class="ttdeci">void sprite_object_erase_text_under(SpriteObject *sprite_object)</div><div class="ttdoc">Erase the text within the Rect directly beneath a SpriteObject. This is used only for Cards for now.</div><div class="ttdef"><b>Definition</b> <a href="sprite_8c_source.html#l00533">sprite.c:533</a></div></div>
 <div class="ttc" id="astructItemDescSubtypeInfo_html"><div class="ttname"><a href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a></div><div class="ttdoc">Structure containing the main and shadow colors, and the name string associated with an Item's subtyp...</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00096">item.h:97</a></div></div>
 <div class="ttc" id="astructItemFuncs_html"><div class="ttname"><a href="structItemFuncs.html">ItemFuncs</a></div><div class="ttdoc">The set of functions that each item type implements.</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00138">item.h:139</a></div></div>
 <div class="ttc" id="astructItemFuncs_html_aff016d1f06bb606764548ecc34275c9f"><div class="ttname"><a href="structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f">ItemFuncs::roll_new</a></div><div class="ttdeci">Item *(* roll_new)(enum RngSequence key)</div><div class="ttdef"><b>Definition</b> <a href="item_8h_source.html#l00144">item.h:144</a></div></div>
