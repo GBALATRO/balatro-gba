@@ -189,12 +189,21 @@ Macros</h2></td></tr>
 <tr class="separator:a7ed997124b776561c92e79eec109dc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4a9117ce894e3319e903142347a0f63" id="r_ad4a9117ce894e3319e903142347a0f63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ad4a9117ce894e3319e903142347a0f63">LOG_ERROR</a>(...)&#160;&#160;&#160;((void)(0))</td></tr>
 <tr class="separator:ad4a9117ce894e3319e903142347a0f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a532ad828cb5176e78825f0a9230312d2" id="r_a532ad828cb5176e78825f0a9230312d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a532ad828cb5176e78825f0a9230312d2">GBAL_RETURN_IF_NULL_VOID</a>(param)</td></tr>
-<tr class="memdesc:a532ad828cb5176e78825f0a9230312d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if <code>param</code> is NULL and prints error message and returns in case it is. Useful for checking arguments to a function or errors during control flow.  <br /></td></tr>
-<tr class="separator:a532ad828cb5176e78825f0a9230312d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a481a57617133b2772dd268c341ec98cf" id="r_a481a57617133b2772dd268c341ec98cf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a481a57617133b2772dd268c341ec98cf">GBAL_RETURN_IF_NULL_RET</a>(param,  ret_val)</td></tr>
-<tr class="memdesc:a481a57617133b2772dd268c341ec98cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if <code>param</code> is equal to NULL and prints error message and returns in case it is. Useful for checking arguments to a function or errors during control flow.  <br /></td></tr>
-<tr class="separator:a481a57617133b2772dd268c341ec98cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c55c88025a67b73e769e4feac43d1c4" id="r_a4c55c88025a67b73e769e4feac43d1c4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a>(expression,  ret_val,  message, ...)</td></tr>
+<tr class="memdesc:a4c55c88025a67b73e769e4feac43d1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>ret_val</code> and logs error <code>message</code> if <code>expression</code> is false.  <br /></td></tr>
+<tr class="separator:a4c55c88025a67b73e769e4feac43d1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a765da3a44291cc45570ce01ab1d2eaec" id="r_a765da3a44291cc45570ce01ab1d2eaec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a765da3a44291cc45570ce01ab1d2eaec">GBAL_RETURN_IF_ASSERT_FAILS</a>(expression,  ret_val)&#160;&#160;&#160;    <a class="el" href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a>(expression, ret_val, &quot;Assert failed: %s&quot;, #expression)</td></tr>
+<tr class="memdesc:a765da3a44291cc45570ce01ab1d2eaec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>ret_val</code> and logs a default error message if <code>expression</code> is false.  <br /></td></tr>
+<tr class="separator:a765da3a44291cc45570ce01ab1d2eaec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a216f3d308173e744db3ddec20305d0e6" id="r_a216f3d308173e744db3ddec20305d0e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a216f3d308173e744db3ddec20305d0e6">GBAL_CUST_MSG_RETURN_IF_NULL</a>(param,  ret_val,  message, ...)</td></tr>
+<tr class="memdesc:a216f3d308173e744db3ddec20305d0e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>ret_val</code> and prints error message if <code>param</code> is equal to NULL. Useful for checking arguments or function return values during control flow.  <br /></td></tr>
+<tr class="separator:a216f3d308173e744db3ddec20305d0e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5733bfaa15f5b268e82e59b2ec00b439" id="r_a5733bfaa15f5b268e82e59b2ec00b439"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#a5733bfaa15f5b268e82e59b2ec00b439">GBAL_RETURN_IF_NULL</a>(param,  ret_val)&#160;&#160;&#160;    <a class="el" href="util_8h.html#a216f3d308173e744db3ddec20305d0e6">GBAL_CUST_MSG_RETURN_IF_NULL</a>(param, ret_val, &quot;Unexpected %s == NULL&quot;, #param)</td></tr>
+<tr class="memdesc:a5733bfaa15f5b268e82e59b2ec00b439"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <code>ret_val</code> and prints a default error message if <code>param</code> is equal to NULL. Useful for checking arguments or function return values during control flow.  <br /></td></tr>
+<tr class="separator:a5733bfaa15f5b268e82e59b2ec00b439"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad7a4b94e93bf8c855feb3fb81ba1044" id="r_aad7a4b94e93bf8c855feb3fb81ba1044"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#aad7a4b94e93bf8c855feb3fb81ba1044">RET_NONE</a></td></tr>
+<tr class="memdesc:aad7a4b94e93bf8c855feb3fb81ba1044"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty return value for RETURN_IF macros when used in void functions Expands to nothing because macros expand normally with blank arguments so it's more to explicitly convey that the empty value is intended.  <br /></td></tr>
+<tr class="separator:aad7a4b94e93bf8c855feb3fb81ba1044"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -266,6 +275,122 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a4c55c88025a67b73e769e4feac43d1c4" name="a4c55c88025a67b73e769e4feac43d1c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c55c88025a67b73e769e4feac43d1c4">&#9670;&#160;</a></span>GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expression, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ret_val, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span>                                                                          \</div>
+<div class="line">    {                                                                           \</div>
+<div class="line">        if (!(expression))                                                      \</div>
+<div class="line">        {                                                                       \</div>
+<div class="line">            LOG_ERROR(message __VA_OPT__(, ) __VA_ARGS__);                      \</div>
+<div class="line">            <span class="keywordflow">return</span> ret_val;                                                     \</div>
+<div class="line">        }                                                                       \</div>
+<div class="line">    } <span class="keywordflow">while</span> (0)</div>
+</div><!-- fragment -->
+<p>Returns <code>ret_val</code> and logs error <code>message</code> if <code>expression</code> is false. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ret_val</td><td>The value to return in case <code>expression</code> is false. Pass <a class="el" href="util_8h.html#aad7a4b94e93bf8c855feb3fb81ba1044">RET_NONE</a> in a void function</td></tr>
+    <tr><td class="paramname">message</td><td>The message to log if <code>expression</code> is false. See <a class="el" href="util_8h.html#a765da3a44291cc45570ce01ab1d2eaec">GBAL_RETURN_IF_ASSERT_FAILS</a> for a version with a default message </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00090">90</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+
+</div>
+</div>
+<a id="a216f3d308173e744db3ddec20305d0e6" name="a216f3d308173e744db3ddec20305d0e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a216f3d308173e744db3ddec20305d0e6">&#9670;&#160;</a></span>GBAL_CUST_MSG_RETURN_IF_NULL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GBAL_CUST_MSG_RETURN_IF_NULL</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">param, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ret_val, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code hl_define" href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a>(                          \</div>
+<div class="line">        (param) != NULL,                                           \</div>
+<div class="line">        ret_val,                                                   \</div>
+<div class="line">        message __VA_OPT__(, ) __VA_ARGS__                         \</div>
+<div class="line">    )</div>
+<div class="ttc" id="autil_8h_html_a4c55c88025a67b73e769e4feac43d1c4"><div class="ttname"><a href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a></div><div class="ttdeci">#define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message,...)</div><div class="ttdoc">Returns ret_val and logs error message if expression is false.</div><div class="ttdef"><b>Definition</b> <a href="util_8h_source.html#l00090">util.h:90</a></div></div>
+</div><!-- fragment -->
+<p>Returns <code>ret_val</code> and prints error message if <code>param</code> is equal to NULL. Useful for checking arguments or function return values during control flow. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ret_val</td><td>The value to return in case <code>param</code> is equal to NULL. Pass <a class="el" href="util_8h.html#aad7a4b94e93bf8c855feb3fb81ba1044">RET_NONE</a> in a void function</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>See <a class="el" href="util_8h.html#a5733bfaa15f5b268e82e59b2ec00b439">GBAL_RETURN_IF_NULL</a> for a version that logs a default error message. </p>
+
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00121">121</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+
+</div>
+</div>
 <a id="ad2446f1c40adf5a66cbbddf1167686e5" name="ad2446f1c40adf5a66cbbddf1167686e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2446f1c40adf5a66cbbddf1167686e5">&#9670;&#160;</a></span>GBAL_FALLTHROUGH</h2>
 
@@ -284,14 +409,53 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a481a57617133b2772dd268c341ec98cf" name="a481a57617133b2772dd268c341ec98cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a481a57617133b2772dd268c341ec98cf">&#9670;&#160;</a></span>GBAL_RETURN_IF_NULL_RET</h2>
+<a id="a765da3a44291cc45570ce01ab1d2eaec" name="a765da3a44291cc45570ce01ab1d2eaec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a765da3a44291cc45570ce01ab1d2eaec">&#9670;&#160;</a></span>GBAL_RETURN_IF_ASSERT_FAILS</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define GBAL_RETURN_IF_NULL_RET</td>
+          <td class="memname">#define GBAL_RETURN_IF_ASSERT_FAILS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">expression, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ret_val&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;    <a class="el" href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a>(expression, ret_val, &quot;Assert failed: %s&quot;, #expression)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <code>ret_val</code> and logs a default error message if <code>expression</code> is false. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ret_val</td><td>The value to return in case <code>expression</code> is false. Pass <a class="el" href="util_8h.html#aad7a4b94e93bf8c855feb3fb81ba1044">RET_NONE</a> in a void function</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>See <a class="el" href="util_8h.html#a4c55c88025a67b73e769e4feac43d1c4">GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS</a> for a version that allows passing any custom error message. </p>
+
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00109">109</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+
+</div>
+</div>
+<a id="a5733bfaa15f5b268e82e59b2ec00b439" name="a5733bfaa15f5b268e82e59b2ec00b439"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5733bfaa15f5b268e82e59b2ec00b439">&#9670;&#160;</a></span>GBAL_RETURN_IF_NULL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GBAL_RETURN_IF_NULL</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">param, </td>
@@ -305,60 +469,21 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td>&#160;&#160;&#160;    <a class="el" href="util_8h.html#a216f3d308173e744db3ddec20305d0e6">GBAL_CUST_MSG_RETURN_IF_NULL</a>(param, ret_val, &quot;Unexpected %s == NULL&quot;, #param)</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span>                                                         \</div>
-<div class="line">    {                                                          \</div>
-<div class="line">        if ((param) == NULL)                                   \</div>
-<div class="line">        {                                                      \</div>
-<div class="line">            LOG_ERROR(<span class="stringliteral">&quot;Unexpected value: %s == NULL&quot;</span>, #param); \</div>
-<div class="line">            return (ret_val);                                  \</div>
-<div class="line">        }                                                      \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
-<p>Checks if <code>param</code> is equal to NULL and prints error message and returns in case it is. Useful for checking arguments to a function or errors during control flow. </p>
+
+<p>Returns <code>ret_val</code> and prints a default error message if <code>param</code> is equal to NULL. Useful for checking arguments or function return values during control flow. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ret_val</td><td>The value to return in case <code>param</code> is equal to NULL.</td></tr>
+    <tr><td class="paramname">ret_val</td><td>The value to return in case <code>param</code> is equal to NULL. Pass <a class="el" href="util_8h.html#aad7a4b94e93bf8c855feb3fb81ba1044">RET_NONE</a> in a void function</td></tr>
   </table>
   </dd>
 </dl>
-<p>This version is for a function that returns a value while GBAL_RETURN_ON_ERROR_VAL_VOID is for a void function. </p>
+<p>See <a class="el" href="util_8h.html#a216f3d308173e744db3ddec20305d0e6">GBAL_CUST_MSG_RETURN_IF_NULL</a> for a version that allows passing any custom error message. </p>
 
-<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00107">107</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
-
-</div>
-</div>
-<a id="a532ad828cb5176e78825f0a9230312d2" name="a532ad828cb5176e78825f0a9230312d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a532ad828cb5176e78825f0a9230312d2">&#9670;&#160;</a></span>GBAL_RETURN_IF_NULL_VOID</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define GBAL_RETURN_IF_NULL_VOID</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">param</td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span>                                                         \</div>
-<div class="line">    {                                                          \</div>
-<div class="line">        if ((param) == NULL)                                   \</div>
-<div class="line">        {                                                      \</div>
-<div class="line">            LOG_ERROR(<span class="stringliteral">&quot;Unexpected value: %s == NULL&quot;</span>, #param); \</div>
-<div class="line">            <span class="keywordflow">return</span>;                                            \</div>
-<div class="line">        }                                                      \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
-<p>Checks if <code>param</code> is NULL and prints error message and returns in case it is. Useful for checking arguments to a function or errors during control flow. </p>
-<p>This version is for a void function, while GBAL_RETURN_ON_ERROR_VAL_RET is for one with a return value. </p>
-
-<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00088">88</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00138">138</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
 
 </div>
 </div>
@@ -555,6 +680,24 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00067">67</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+
+</div>
+</div>
+<a id="aad7a4b94e93bf8c855feb3fb81ba1044" name="aad7a4b94e93bf8c855feb3fb81ba1044"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad7a4b94e93bf8c855feb3fb81ba1044">&#9670;&#160;</a></span>RET_NONE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RET_NONE</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>An empty return value for RETURN_IF macros when used in void functions Expands to nothing because macros expand normally with blank arguments so it's more to explicitly convey that the empty value is intended. </p>
+
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00146">146</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
 
 </div>
 </div>
@@ -835,7 +978,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of digits in a number </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00195">195</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="util_8h_source.html#l00226">226</a> of file <a class="el" href="util_8h_source.html">util.h</a>.</p>
 
 </div>
 </div>

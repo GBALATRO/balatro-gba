@@ -146,6 +146,7 @@ $(document).ready(function(){initNavTree('item_8h.html',''); initResizable(); })
 <code>#include &quot;<a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="random_8h_source.html">random.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sprite_8h_source.html">sprite.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="util_8h_source.html">util.h</a>&quot;</code><br />
 <code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="item_8h_source.html">Go to the source code of this file.</a></p>
@@ -164,12 +165,6 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a03689dd6ee6d519243cdc0ac44768a04" id="r_a03689dd6ee6d519243cdc0ac44768a04"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a03689dd6ee6d519243cdc0ac44768a04">ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</a>(item,  expected_type,  ret_val)</td></tr>
-<tr class="memdesc:a03689dd6ee6d519243cdc0ac44768a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise.  <br /></td></tr>
-<tr class="separator:a03689dd6ee6d519243cdc0ac44768a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32f7cd2b81875b4ccedd715e1146e613" id="r_a32f7cd2b81875b4ccedd715e1146e613"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a32f7cd2b81875b4ccedd715e1146e613">ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</a>(item,  expected_type)</td></tr>
-<tr class="memdesc:a32f7cd2b81875b4ccedd715e1146e613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise.  <br /></td></tr>
-<tr class="separator:a32f7cd2b81875b4ccedd715e1146e613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a241e68e5c7d0c840ca90216f9ed3c8fb" id="r_a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>&#160;&#160;&#160;&quot;UNDEFINED&quot;</td></tr>
 <tr class="memdesc:a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> name, for the sake of consistency.  <br /></td></tr>
 <tr class="separator:a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -257,95 +252,7 @@ Functions</h2></td></tr>
 
 <p>Default <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> name, for the sake of consistency. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00070">70</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
-
-</div>
-</div>
-<a id="a03689dd6ee6d519243cdc0ac44768a04" name="a03689dd6ee6d519243cdc0ac44768a04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03689dd6ee6d519243cdc0ac44768a04">&#9670;&#160;</a></span>ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">item, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">expected_type, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">ret_val&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span>                                                                           \</div>
-<div class="line">    {                                                                            \</div>
-<div class="line">        if ((item)-&gt;type != expected_type)                                       \</div>
-<div class="line">        {                                                                        \</div>
-<div class="line">            MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unexpected %s-&gt;type != %s&quot;</span>, #item, #expected_type); \</div>
-<div class="line">            return (ret_val);                                                    \</div>
-<div class="line">        }                                                                        \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
-<p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
-<p>This version is for a function that returns a value, while <a class="el" href="item_8h.html#a32f7cd2b81875b4ccedd715e1146e613">ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</a> is for a void function. </p>
-
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00028">28</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
-
-</div>
-</div>
-<a id="a32f7cd2b81875b4ccedd715e1146e613" name="a32f7cd2b81875b4ccedd715e1146e613"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32f7cd2b81875b4ccedd715e1146e613">&#9670;&#160;</a></span>ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">item, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">expected_type&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keywordflow">do</span>                                                                           \</div>
-<div class="line">    {                                                                            \</div>
-<div class="line">        if ((item)-&gt;type != expected_type)                                       \</div>
-<div class="line">        {                                                                        \</div>
-<div class="line">            MGBA_FUNC_ERROR(<span class="stringliteral">&quot;Unexpected %s-&gt;type != %s&quot;</span>, #item, #expected_type); \</div>
-<div class="line">            <span class="keywordflow">return</span>;                                                              \</div>
-<div class="line">        }                                                                        \</div>
-<div class="line">    } <span class="keywordflow">while</span> (0)</div>
-</div><!-- fragment -->
-<p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
-<p>This version is for a void function, while <a class="el" href="item_8h.html#a03689dd6ee6d519243cdc0ac44768a04">ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</a> is for one with a return value. </p>
-
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00044">44</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00038">38</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -363,7 +270,7 @@ Functions</h2></td></tr>
 
 <p>Default subtype info struct declaration. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00076">76</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00044">44</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -408,7 +315,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00054">54</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00022">22</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>

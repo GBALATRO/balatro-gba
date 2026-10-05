@@ -4,8 +4,6 @@ var item_8h =
     [ "Item", "structItem.html", "structItem" ],
     [ "ItemFuncs", "structItemFuncs.html", "structItemFuncs" ],
     [ "ITEM_NAME_UNDEFINED", "item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb", null ],
-    [ "ITEM_RETURN_IF_UNEXPECTED_TYPE_RET", "item_8h.html#a03689dd6ee6d519243cdc0ac44768a04", null ],
-    [ "ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID", "item_8h.html#a32f7cd2b81875b4ccedd715e1146e613", null ],
     [ "ITEM_SUBTYPE_INFO_DEFAULT", "item_8h.html#a4cf541d422df57537ca8e28a560326ef", null ],
     [ "Item", "item_8h.html#a749adef16b111dddf0ab08f96707a3a0", null ],
     [ "ItemDescSubtypeInfo", "item_8h.html#ab94cbb9bfd6265b067b596beb2f1e826", null ],
