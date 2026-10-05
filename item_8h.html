@@ -142,14 +142,19 @@ $(document).ready(function(){initNavTree('item_8h.html',''); initResizable(); })
 
 <p>The core structure for items in the shop and inventory. Provides a common API for the shop and inventory to handle all types of items. Uses struct inheritance so all inherited items can implement an is-a relationship with <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. This means that pointers to structs that inherit <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> using first member struct inheritance can and should be cast to Item* so code that expects an Item* can use them.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="graphic__utils_8h_source.html">graphic_utils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="random_8h_source.html">random.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="sprite_8h_source.html">sprite.h</a>&quot;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div>
 <p><a href="item_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing the main and shadow colors, and the name string associated with an <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>'s subtype.  <a href="structItemDescSubtypeInfo.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItem.html">Item</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic interface for all items that can appear in the shop or be in the inventory. This uses first member struct inheritance - other structs are meant to inherit it by making their first member field <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. Then casts from inheriting structs to Item* are allowed and intentional and this allows for generic code that uses polymorphism. The -fms-extensions compile flag allows for anonymous members making it behave fully as inheritance. It makes all member fields be fully inherited so any struct that inherits <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> for example will have all its fields accessible directly, e.g. <code><a class="el" href="structJokerObject.html">JokerObject</a> joker_object; joker_object.type = ITEM_TYPE_JOKER</code>  <a href="structItem.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,9 +170,18 @@ Macros</h2></td></tr>
 <tr class="memitem:a32f7cd2b81875b4ccedd715e1146e613" id="r_a32f7cd2b81875b4ccedd715e1146e613"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a32f7cd2b81875b4ccedd715e1146e613">ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</a>(item,  expected_type)</td></tr>
 <tr class="memdesc:a32f7cd2b81875b4ccedd715e1146e613"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise.  <br /></td></tr>
 <tr class="separator:a32f7cd2b81875b4ccedd715e1146e613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a241e68e5c7d0c840ca90216f9ed3c8fb" id="r_a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>&#160;&#160;&#160;&quot;UNDEFINED&quot;</td></tr>
+<tr class="memdesc:a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> name, for the sake of consistency.  <br /></td></tr>
+<tr class="separator:a241e68e5c7d0c840ca90216f9ed3c8fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cf541d422df57537ca8e28a560326ef" id="r_a4cf541d422df57537ca8e28a560326ef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a4cf541d422df57537ca8e28a560326ef">ITEM_SUBTYPE_INFO_DEFAULT</a>&#160;&#160;&#160;{.main_color = 0, .shadow_color = 0, .name_str = <a class="el" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>}</td></tr>
+<tr class="memdesc:a4cf541d422df57537ca8e28a560326ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default subtype info struct declaration.  <br /></td></tr>
+<tr class="separator:a4cf541d422df57537ca8e28a560326ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ab94cbb9bfd6265b067b596beb2f1e826" id="r_ab94cbb9bfd6265b067b596beb2f1e826"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#ab94cbb9bfd6265b067b596beb2f1e826">ItemDescSubtypeInfo</a></td></tr>
+<tr class="memdesc:ab94cbb9bfd6265b067b596beb2f1e826"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing the main and shadow colors, and the name string associated with an <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>'s subtype.  <br /></td></tr>
+<tr class="separator:ab94cbb9bfd6265b067b596beb2f1e826"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a749adef16b111dddf0ab08f96707a3a0" id="r_a749adef16b111dddf0ab08f96707a3a0"><td class="memItemLeft" align="right" valign="top"><a id="a749adef16b111dddf0ab08f96707a3a0" name="a749adef16b111dddf0ab08f96707a3a0"></a>
 typedef struct <a class="el" href="structItem.html">Item</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Item</b></td></tr>
 <tr class="memdesc:a749adef16b111dddf0ab08f96707a3a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic interface for all items that can appear in the shop or be in the inventory. This uses first member struct inheritance - other structs are meant to inherit it by making their first member field <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. Then casts from inheriting structs to Item* are allowed and intentional and this allows for generic code that uses polymorphism. The -fms-extensions compile flag allows for anonymous members making it behave fully as inheritance. It makes all member fields be fully inherited so any struct that inherits <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> for example will have all its fields accessible directly, e.g. <code><a class="el" href="structJokerObject.html">JokerObject</a> joker_object; joker_object.type = ITEM_TYPE_JOKER</code> <br /></td></tr>
@@ -193,6 +207,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aff0f2379be85d7b6a27a5761be9e7715" id="r_aff0f2379be85d7b6a27a5761be9e7715"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#aff0f2379be85d7b6a27a5761be9e7715">item_get_buy_price</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:aff0f2379be85d7b6a27a5761be9e7715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the buy price of the item.  <br /></td></tr>
 <tr class="separator:aff0f2379be85d7b6a27a5761be9e7715"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f62337454930793478f7eaff47d3600" id="r_a0f62337454930793478f7eaff47d3600"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a0f62337454930793478f7eaff47d3600">item_get_sell_price</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="memdesc:a0f62337454930793478f7eaff47d3600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sell price of the item.  <br /></td></tr>
+<tr class="separator:a0f62337454930793478f7eaff47d3600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a345fbf0dde102f3b5a7e7fabbdd11159" id="r_a345fbf0dde102f3b5a7e7fabbdd11159"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159">item_get_name</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="memdesc:a345fbf0dde102f3b5a7e7fabbdd11159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>.  <br /></td></tr>
+<tr class="separator:a345fbf0dde102f3b5a7e7fabbdd11159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac87fd14bcb534194daf3c501450e714e" id="r_ac87fd14bcb534194daf3c501450e714e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#ac87fd14bcb534194daf3c501450e714e">item_get_subtype_info</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="memdesc:ac87fd14bcb534194daf3c501450e714e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the colors and name of the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>'s subtype.  <br /></td></tr>
+<tr class="separator:ac87fd14bcb534194daf3c501450e714e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9b4c99ac6fe9f9b6eb4543d16fb7db" id="r_acd9b4c99ac6fe9f9b6eb4543d16fb7db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#acd9b4c99ac6fe9f9b6eb4543d16fb7db">item_acquire</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:acd9b4c99ac6fe9f9b6eb4543d16fb7db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquires the item, adding to inventory if applicable. Called when it is purchased from the shop, note that it does not perform the purchase operation of decrementing the player's money, that should be handled by the shop code. For packs this can be to just open the pack, for vouchers, this will apply their effect.  <br /></td></tr>
 <tr class="separator:acd9b4c99ac6fe9f9b6eb4543d16fb7db"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,6 +225,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a178cee27ce8381444e135b45c9174359" id="r_a178cee27ce8381444e135b45c9174359"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a178cee27ce8381444e135b45c9174359">item_dispose</a> (<a class="el" href="structItem.html">Item</a> **item)</td></tr>
 <tr class="memdesc:a178cee27ce8381444e135b45c9174359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys an item, freeing underlying resources, and manages rollable items sets if needed. To be used when destroying items from the inventory, shop, or packs.  <br /></td></tr>
 <tr class="separator:a178cee27ce8381444e135b45c9174359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af661f5968155da9bfa78f37b8d486580" id="r_af661f5968155da9bfa78f37b8d486580"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#af661f5968155da9bfa78f37b8d486580">item_print_description</a> (<a class="el" href="structItem.html">Item</a> *item, Rect dest_rect)</td></tr>
+<tr class="memdesc:af661f5968155da9bfa78f37b8d486580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the item's description inside the given rectangle.  <br /></td></tr>
+<tr class="separator:af661f5968155da9bfa78f37b8d486580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09d58ea15ce410f12aacea23fb16e844" id="r_a09d58ea15ce410f12aacea23fb16e844"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a09d58ea15ce410f12aacea23fb16e844">item_is_owned</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="memdesc:a09d58ea15ce410f12aacea23fb16e844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether or not the given <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> is in the player's possession.  <br /></td></tr>
+<tr class="separator:a09d58ea15ce410f12aacea23fb16e844"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a4d47e5504f52b26a4e8d560a697433" id="r_a3a4d47e5504f52b26a4e8d560a697433"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="item_8h.html#a3a4d47e5504f52b26a4e8d560a697433">item_print_buy_price_under</a> (<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="memdesc:a3a4d47e5504f52b26a4e8d560a697433"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints the buy price under the item Relies on the fact item is a <a class="el" href="structSpriteObject.html" title="A sprite object is a sprite that is focusable and movable in animation.">SpriteObject</a>.  <br /></td></tr>
 <tr class="separator:a3a4d47e5504f52b26a4e8d560a697433"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -211,6 +240,24 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a241e68e5c7d0c840ca90216f9ed3c8fb" name="a241e68e5c7d0c840ca90216f9ed3c8fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a241e68e5c7d0c840ca90216f9ed3c8fb">&#9670;&#160;</a></span>ITEM_NAME_UNDEFINED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ITEM_NAME_UNDEFINED&#160;&#160;&#160;&quot;UNDEFINED&quot;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> name, for the sake of consistency. </p>
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00070">70</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
 <a id="a03689dd6ee6d519243cdc0ac44768a04" name="a03689dd6ee6d519243cdc0ac44768a04"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a03689dd6ee6d519243cdc0ac44768a04">&#9670;&#160;</a></span>ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</h2>
 
@@ -254,7 +301,7 @@ Functions</h2></td></tr>
 <p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
 <p>This version is for a function that returns a value, while <a class="el" href="item_8h.html#a32f7cd2b81875b4ccedd715e1146e613">ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID</a> is for a void function. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00025">25</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00028">28</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -295,7 +342,53 @@ Functions</h2></td></tr>
 <p>Checks if <code>item</code> is of type <code>expected_type</code> - logs error message and returns otherwise. </p>
 <p>This version is for a void function, while <a class="el" href="item_8h.html#a03689dd6ee6d519243cdc0ac44768a04">ITEM_RETURN_IF_UNEXPECTED_TYPE_RET</a> is for one with a return value. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00041">41</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00044">44</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<a id="a4cf541d422df57537ca8e28a560326ef" name="a4cf541d422df57537ca8e28a560326ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cf541d422df57537ca8e28a560326ef">&#9670;&#160;</a></span>ITEM_SUBTYPE_INFO_DEFAULT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ITEM_SUBTYPE_INFO_DEFAULT&#160;&#160;&#160;{.main_color = 0, .shadow_color = 0, .name_str = <a class="el" href="item_8h.html#a241e68e5c7d0c840ca90216f9ed3c8fb">ITEM_NAME_UNDEFINED</a>}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default subtype info struct declaration. </p>
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00076">76</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ab94cbb9bfd6265b067b596beb2f1e826" name="ab94cbb9bfd6265b067b596beb2f1e826"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab94cbb9bfd6265b067b596beb2f1e826">&#9670;&#160;</a></span>ItemDescSubtypeInfo</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> <a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Structure containing the main and shadow colors, and the name string associated with an <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>'s subtype. </p>
+<p>Shadow colors are always a darker tone of the main color. The colors are organized in the <code>card_rarity_pal_gfx.png</code> file which is organized like this:</p><ul>
+<li>0 -&gt; transparency</li>
+<li>1,2 -&gt; Common <a class="el" href="structJoker.html">Joker</a> (blue)</li>
+<li>3,4 -&gt; Uncommon <a class="el" href="structJoker.html">Joker</a> (green)</li>
+<li>5,6 -&gt; Rare <a class="el" href="structJoker.html">Joker</a> (red)</li>
+<li>7,8 -&gt; Legendary <a class="el" href="structJoker.html">Joker</a> / Tarot <a class="el" href="structCard.html">Card</a> (purple)</li>
+<li>9,10 -&gt; Planet <a class="el" href="structCard.html">Card</a> (blue with a tint of green)</li>
+<li>11,12 -&gt; Spectral <a class="el" href="structCard.html">Card</a> (deep blue)</li>
+<li>13,14 -&gt; Voucher (red with a tint of orange)</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd>get_subtype_info </dd></dl>
 
 </div>
 </div>
@@ -312,7 +405,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00051">51</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00054">54</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -342,7 +435,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00035">35</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00114">114</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -371,7 +464,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00046">46</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00131">131</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -392,6 +485,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Destroys an item, freeing underlying resources, and manages rollable items sets if needed. To be used when destroying items from the inventory, shop, or packs. </p>
+<p>Matches ItemFuncs.dispose()</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">item</td><td>A pointer to an item for destruction. </td></tr>
@@ -399,7 +493,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00056">56</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00145">145</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -429,7 +523,127 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the item's buy price otherwise. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00024">24</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00032">32</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="a345fbf0dde102f3b5a7e7fabbdd11159" name="a345fbf0dde102f3b5a7e7fabbdd11159"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a345fbf0dde102f3b5a7e7fabbdd11159">&#9670;&#160;</a></span>item_get_name()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * item_get_name </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the name of the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. </p>
+<p>Matches ItemFuncs.get_name()</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The item whose name to return.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The item name. In case of error ITEM_NAME_UNDEFINED, will not be NULL </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00068">68</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="a0f62337454930793478f7eaff47d3600" name="a0f62337454930793478f7eaff47d3600"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f62337454930793478f7eaff47d3600">&#9670;&#160;</a></span>item_get_sell_price()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int item_get_sell_price </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the sell price of the item. </p>
+<p>Matches ItemFuncs.get_sell_price()</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The item whose price to return.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>UNDEFINED in case of error, the item's sell price otherwise. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00050">50</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="ac87fd14bcb534194daf3c501450e714e" name="ac87fd14bcb534194daf3c501450e714e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac87fd14bcb534194daf3c501450e714e">&#9670;&#160;</a></span>item_get_subtype_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a> item_get_subtype_info </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the colors and name of the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>'s subtype. </p>
+<p>Matches ItemFuncs.get_subtype_info()</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The item whose subtype's color and name to return.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Struct containing values of main and shadow colors, as well as the name of the subtype. In case of an error, all colors will be 0 and the name "UNDEFINED"</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structItemDescSubtypeInfo.html" title="Structure containing the main and shadow colors, and the name string associated with an Item&#39;s subtyp...">ItemDescSubtypeInfo</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00087">87</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="a09d58ea15ce410f12aacea23fb16e844" name="a09d58ea15ce410f12aacea23fb16e844"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09d58ea15ce410f12aacea23fb16e844">&#9670;&#160;</a></span>item_is_owned()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool item_is_owned </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns whether or not the given <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> is in the player's possession. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>the <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> to test</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the item is owned, false otherwise </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00177">177</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>
@@ -457,7 +671,48 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00067">67</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00183">183</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
+
+</div>
+</div>
+<a id="af661f5968155da9bfa78f37b8d486580" name="af661f5968155da9bfa78f37b8d486580"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af661f5968155da9bfa78f37b8d486580">&#9670;&#160;</a></span>item_print_description()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int item_print_description </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structItem.html">Item</a> *&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Rect&#160;</td>
+          <td class="paramname"><em>dest_rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prints the item's description inside the given rectangle. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>The item to print the description of </td></tr>
+    <tr><td class="paramname">dest_rect</td><td>the target rectangle the description needs to fit in</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Matches ItemFuncs.print_description()</p>
+<dl class="section return"><dt>Returns</dt><dd>the number of lines used by the description </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="item_8c_source.html#l00160">160</a> of file <a class="el" href="item_8c_source.html">item.c</a>.</p>
 
 </div>
 </div>

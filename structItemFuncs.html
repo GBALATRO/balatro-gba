@@ -147,17 +147,25 @@ Data Fields</h2></td></tr>
 <tr class="separator:aff016d1f06bb606764548ecc34275c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c023ace5ddc04a04b05832fafe42ab2" id="r_a1c023ace5ddc04a04b05832fafe42ab2"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a1c023ace5ddc04a04b05832fafe42ab2">get_buy_price</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="separator:a1c023ace5ddc04a04b05832fafe42ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d377913199eaa80ab660d9c028f1a4e" id="r_a5d377913199eaa80ab660d9c028f1a4e"><td class="memItemLeft" align="right" valign="top">const char *(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a5d377913199eaa80ab660d9c028f1a4e">get_name</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="separator:a5d377913199eaa80ab660d9c028f1a4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89c097e14d746c686be3f112efde1ce4" id="r_a89c097e14d746c686be3f112efde1ce4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a>(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a89c097e14d746c686be3f112efde1ce4">get_subtype_info</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="separator:a89c097e14d746c686be3f112efde1ce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16032e3ec28f1499cfe18a130ed63adc" id="r_a16032e3ec28f1499cfe18a130ed63adc"><td class="memItemLeft" align="right" valign="top">bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a16032e3ec28f1499cfe18a130ed63adc">can_acquire</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="separator:a16032e3ec28f1499cfe18a130ed63adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a1e6103ad6c9da409311d73aea8b245" id="r_a5a1e6103ad6c9da409311d73aea8b245"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a5a1e6103ad6c9da409311d73aea8b245">acquire</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
 <tr class="separator:a5a1e6103ad6c9da409311d73aea8b245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a550fa4f9a01ab421ca0654fe3d4da992" id="r_a550fa4f9a01ab421ca0654fe3d4da992"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a550fa4f9a01ab421ca0654fe3d4da992">dispose</a> )(<a class="el" href="structItem.html">Item</a> **item)</td></tr>
 <tr class="separator:a550fa4f9a01ab421ca0654fe3d4da992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a572f969ebc6d8da94f1a0cecc9c8d" id="r_ae2a572f969ebc6d8da94f1a0cecc9c8d"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#ae2a572f969ebc6d8da94f1a0cecc9c8d">print_description</a> )(<a class="el" href="structItem.html">Item</a> *item, Rect dest_rect)</td></tr>
+<tr class="separator:ae2a572f969ebc6d8da94f1a0cecc9c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e8a04ffdbbf01bee0af406afc147b2" id="r_a98e8a04ffdbbf01bee0af406afc147b2"><td class="memItemLeft" align="right" valign="top">int(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItemFuncs.html#a98e8a04ffdbbf01bee0af406afc147b2">get_sell_price</a> )(<a class="el" href="structItem.html">Item</a> *item)</td></tr>
+<tr class="separator:a98e8a04ffdbbf01bee0af406afc147b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The set of functions that each item type implements. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00093">93</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00138">138</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a5a1e6103ad6c9da409311d73aea8b245" name="a5a1e6103ad6c9da409311d73aea8b245"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a1e6103ad6c9da409311d73aea8b245">&#9670;&#160;</a></span>acquire</h2>
@@ -171,7 +179,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00102">102</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00149">149</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -187,7 +195,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00101">101</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00148">148</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -203,7 +211,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00103">103</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00150">150</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -219,7 +227,71 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00100">100</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00145">145</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<a id="a5d377913199eaa80ab660d9c028f1a4e" name="a5d377913199eaa80ab660d9c028f1a4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d377913199eaa80ab660d9c028f1a4e">&#9670;&#160;</a></span>get_name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char *(* get_name) (<a class="el" href="structItem.html">Item</a> *item)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00146">146</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<a id="a98e8a04ffdbbf01bee0af406afc147b2" name="a98e8a04ffdbbf01bee0af406afc147b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e8a04ffdbbf01bee0af406afc147b2">&#9670;&#160;</a></span>get_sell_price</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* get_sell_price) (<a class="el" href="structItem.html">Item</a> *item)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00154">154</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<a id="a89c097e14d746c686be3f112efde1ce4" name="a89c097e14d746c686be3f112efde1ce4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89c097e14d746c686be3f112efde1ce4">&#9670;&#160;</a></span>get_subtype_info</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structItemDescSubtypeInfo.html">ItemDescSubtypeInfo</a>(* get_subtype_info) (<a class="el" href="structItem.html">Item</a> *item)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00147">147</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
+<a id="ae2a572f969ebc6d8da94f1a0cecc9c8d" name="ae2a572f969ebc6d8da94f1a0cecc9c8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2a572f969ebc6d8da94f1a0cecc9c8d">&#9670;&#160;</a></span>print_description</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int(* print_description) (<a class="el" href="structItem.html">Item</a> *item, Rect dest_rect)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00151">151</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -236,7 +308,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>All items must implement the following since they are called by the shop and all items must be capable of appearing in the shop. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00099">99</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00144">144</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>

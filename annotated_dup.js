@@ -13,6 +13,7 @@ var annotated_dup =
     [ "Hand", "structHand.html", null ],
     [ "HandValues", "structHandValues.html", null ],
     [ "Item", "structItem.html", "structItem" ],
+    [ "ItemDescSubtypeInfo", "structItemDescSubtypeInfo.html", null ],
     [ "ItemFuncs", "structItemFuncs.html", "structItemFuncs" ],
     [ "Joker", "structJoker.html", null ],
     [ "JokerEffect", "structJokerEffect.html", null ],

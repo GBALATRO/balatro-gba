@@ -154,9 +154,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a9d75857a6cb6d7df24b4847d25191755" id="r_a9d75857a6cb6d7df24b4847d25191755"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#a9d75857a6cb6d7df24b4847d25191755">shop_set_reroll_cost</a> (int cost)</td></tr>
 <tr class="memdesc:a9d75857a6cb6d7df24b4847d25191755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current cost to reroll the items sold in the shop to the given value.  <br /></td></tr>
 <tr class="separator:a9d75857a6cb6d7df24b4847d25191755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8f87c9045c1a4f9cd49b4d42f026259" id="r_ac8f87c9045c1a4f9cd49b4d42f026259"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJokerObject.html">JokerObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#ac8f87c9045c1a4f9cd49b4d42f026259">shop_get_description_card</a> (void)</td></tr>
-<tr class="memdesc:ac8f87c9045c1a4f9cd49b4d42f026259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="structCard.html">Card</a> we are currently showing the description of.  <br /></td></tr>
-<tr class="separator:ac8f87c9045c1a4f9cd49b4d42f026259"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b12a1782186047dc063a0ddec3f95f7" id="r_a9b12a1782186047dc063a0ddec3f95f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structItem.html">Item</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#a9b12a1782186047dc063a0ddec3f95f7">shop_get_description_item</a> (void)</td></tr>
+<tr class="memdesc:a9b12a1782186047dc063a0ddec3f95f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="structCard.html">Card</a> we are currently showing the description of.  <br /></td></tr>
+<tr class="separator:a9b12a1782186047dc063a0ddec3f95f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91d6f184cfa6cdf19f87ff68eaaad1f4" id="r_a91d6f184cfa6cdf19f87ff68eaaad1f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shop_8h.html#a91d6f184cfa6cdf19f87ff68eaaad1f4">shop_change_background</a> (void)</td></tr>
 <tr class="memdesc:a91d6f184cfa6cdf19f87ff68eaaad1f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change to the shop background.  <br /></td></tr>
 <tr class="separator:a91d6f184cfa6cdf19f87ff68eaaad1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,18 +193,18 @@ Functions</h2></td></tr>
 
 <p>Change to the shop background. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00213">213</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00218">218</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
-<a id="ac8f87c9045c1a4f9cd49b4d42f026259" name="ac8f87c9045c1a4f9cd49b4d42f026259"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8f87c9045c1a4f9cd49b4d42f026259">&#9670;&#160;</a></span>shop_get_description_card()</h2>
+<a id="a9b12a1782186047dc063a0ddec3f95f7" name="a9b12a1782186047dc063a0ddec3f95f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b12a1782186047dc063a0ddec3f95f7">&#9670;&#160;</a></span>shop_get_description_item()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structJokerObject.html">JokerObject</a> * shop_get_description_card </td>
+          <td class="memname"><a class="el" href="structItem.html">Item</a> * shop_get_description_item </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -214,9 +214,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get a pointer to the <a class="el" href="structCard.html">Card</a> we are currently showing the description of. </p>
-<dl class="section return"><dt>Returns</dt><dd>JokerObject* </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> pointer, NULL if no description is currently being shown </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00191">191</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00196">196</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -239,7 +239,7 @@ Functions</h2></td></tr>
 <p>Get the current cost to reroll the items sold in the shop. </p>
 <dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00196">196</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00201">201</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -261,7 +261,7 @@ Functions</h2></td></tr>
 
 <p>Shop cleanup. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00932">932</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00933">933</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ Functions</h2></td></tr>
 
 <p>Shop state initialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00237">237</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00242">242</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -305,7 +305,7 @@ Functions</h2></td></tr>
 
 <p>Shop state update. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00922">922</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00923">923</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -327,7 +327,7 @@ Functions</h2></td></tr>
 
 <p>Initialize the shop for a run. Resets all the shop data for the run, needs to be called once per run. </p>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00206">206</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00211">211</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>
@@ -355,7 +355,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00201">201</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="shop_8c_source.html#l00206">206</a> of file <a class="el" href="shop_8c_source.html">shop.c</a>.</p>
 
 </div>
 </div>

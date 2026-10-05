@@ -8,6 +8,11 @@ var searchData=
   ['item_5fcan_5facquire_5',['item_can_acquire',['../item_8h.html#aaf240301d7232be1f643177e4d5755fa',1,'item.c']]],
   ['item_5fdispose_6',['item_dispose',['../item_8h.html#a178cee27ce8381444e135b45c9174359',1,'item.c']]],
   ['item_5fget_5fbuy_5fprice_7',['item_get_buy_price',['../item_8h.html#aff0f2379be85d7b6a27a5761be9e7715',1,'item.c']]],
-  ['item_5fprint_5fbuy_5fprice_5funder_8',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
-  ['item_5froll_5fnew_9',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]]
+  ['item_5fget_5fname_8',['item_get_name',['../item_8h.html#a345fbf0dde102f3b5a7e7fabbdd11159',1,'item.c']]],
+  ['item_5fget_5fsell_5fprice_9',['item_get_sell_price',['../item_8h.html#a0f62337454930793478f7eaff47d3600',1,'item.c']]],
+  ['item_5fget_5fsubtype_5finfo_10',['item_get_subtype_info',['../item_8h.html#ac87fd14bcb534194daf3c501450e714e',1,'item.c']]],
+  ['item_5fis_5fowned_11',['item_is_owned',['../item_8h.html#a09d58ea15ce410f12aacea23fb16e844',1,'item.c']]],
+  ['item_5fprint_5fbuy_5fprice_5funder_12',['item_print_buy_price_under',['../item_8h.html#a3a4d47e5504f52b26a4e8d560a697433',1,'item.c']]],
+  ['item_5fprint_5fdescription_13',['item_print_description',['../item_8h.html#af661f5968155da9bfa78f37b8d486580',1,'item.c']]],
+  ['item_5froll_5fnew_14',['item_roll_new',['../item_8h.html#a8977ed404b2afb0bd9c48edf79820db6',1,'item.c']]]
 ];

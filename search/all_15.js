@@ -45,7 +45,7 @@ var searchData=
   ['shop_5fchange_5fbackground_42',['shop_change_background',['../shop_8h.html#a91d6f184cfa6cdf19f87ff68eaaad1f4',1,'shop_change_background(void):&#160;shop.c'],['../shop_8c.html#a91d6f184cfa6cdf19f87ff68eaaad1f4',1,'shop_change_background(void):&#160;shop.c']]],
   ['shop_5fcreate_5ftop_5frow_5fitem_43',['shop_create_top_row_item',['../shop_8c.html#abdefa3fb44722fa3b5440b13bce0d528',1,'shop.c']]],
   ['shop_5fcreate_5ftop_5frow_5fitems_44',['shop_create_top_row_items',['../shop_8c.html#aea7667f114fcae779f7b3f044d8fab8f',1,'shop.c']]],
-  ['shop_5fget_5fdescription_5fcard_45',['shop_get_description_card',['../shop_8c.html#ac8f87c9045c1a4f9cd49b4d42f026259',1,'shop_get_description_card(void):&#160;shop.c'],['../shop_8h.html#ac8f87c9045c1a4f9cd49b4d42f026259',1,'shop_get_description_card(void):&#160;shop.c']]],
+  ['shop_5fget_5fdescription_5fitem_45',['shop_get_description_item',['../shop_8c.html#a9b12a1782186047dc063a0ddec3f95f7',1,'shop_get_description_item(void):&#160;shop.c'],['../shop_8h.html#a9b12a1782186047dc063a0ddec3f95f7',1,'shop_get_description_item(void):&#160;shop.c']]],
   ['shop_5fget_5freroll_5fcost_46',['shop_get_reroll_cost',['../shop_8c.html#a6faed74fd78ac6ad74e80f462f8fca04',1,'shop_get_reroll_cost(void):&#160;shop.c'],['../shop_8h.html#a6faed74fd78ac6ad74e80f462f8fca04',1,'shop_get_reroll_cost(void):&#160;shop.c']]],
   ['shop_5fintro_47',['shop_intro',['../shop_8c.html#a903be3c2cc0cb4ce429657201964387b',1,'shop.c']]],
   ['shop_5flights_5fanim_5fframe_48',['shop_lights_anim_frame',['../shop_8c.html#ac80b3f7ab6d8e7fab6ebf6faab25521f',1,'shop.c']]],

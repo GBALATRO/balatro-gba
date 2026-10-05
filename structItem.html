@@ -149,12 +149,33 @@ Data Fields</h2></td></tr>
 <tr class="memitem:abcafd47dddaa3d0d1398448b8a61c48d" id="r_abcafd47dddaa3d0d1398448b8a61c48d"><td class="memItemLeft" align="right" valign="top">enum ItemType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItem.html#abcafd47dddaa3d0d1398448b8a61c48d">type</a></td></tr>
 <tr class="memdesc:abcafd47dddaa3d0d1398448b8a61c48d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The item type - used to dispatch the function implementations for inheriting types.  <br /></td></tr>
 <tr class="separator:abcafd47dddaa3d0d1398448b8a61c48d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb3cf4226358a25c020f6c92e8c879a7" id="r_afb3cf4226358a25c020f6c92e8c879a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structItem.html#afb3cf4226358a25c020f6c92e8c879a7">is_owned</a></td></tr>
+<tr class="memdesc:afb3cf4226358a25c020f6c92e8c879a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the item is currently held - used in cases where a behaviour needs to be different for Items still in the Shop and the ones we have bought.  <br /></td></tr>
+<tr class="separator:afb3cf4226358a25c020f6c92e8c879a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A generic interface for all items that can appear in the shop or be in the inventory. This uses first member struct inheritance - other structs are meant to inherit it by making their first member field <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a>. Then casts from inheriting structs to Item* are allowed and intentional and this allows for generic code that uses polymorphism. The -fms-extensions compile flag allows for anonymous members making it behave fully as inheritance. It makes all member fields be fully inherited so any struct that inherits <a class="el" href="structItem.html" title="A generic interface for all items that can appear in the shop or be in the inventory....">Item</a> for example will have all its fields accessible directly, e.g. <code><a class="el" href="structJokerObject.html">JokerObject</a> joker_object; joker_object.type = ITEM_TYPE_JOKER</code> </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00075">75</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00114">114</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
+<a id="afb3cf4226358a25c020f6c92e8c879a7" name="afb3cf4226358a25c020f6c92e8c879a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb3cf4226358a25c020f6c92e8c879a7">&#9670;&#160;</a></span>is_owned</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool is_owned</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Whether the item is currently held - used in cases where a behaviour needs to be different for Items still in the Shop and the ones we have bought. </p>
+
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00132">132</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+
+</div>
+</div>
 <a id="a89144277bc691613127f9fc4f8030b08" name="a89144277bc691613127f9fc4f8030b08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a89144277bc691613127f9fc4f8030b08">&#9670;&#160;</a></span>SpriteObject</h2>
 
@@ -169,7 +190,7 @@ Data Fields</h2></td></tr>
 
 <p>First member struct inheritance all items that can appear in the shop are SpriteObjects. Note that this is an anonymous member. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00082">82</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00121">121</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
@@ -187,7 +208,7 @@ Data Fields</h2></td></tr>
 
 <p>The item type - used to dispatch the function implementations for inheriting types. </p>
 
-<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00087">87</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="item_8h_source.html#l00126">126</a> of file <a class="el" href="item_8h_source.html">item.h</a>.</p>
 
 </div>
 </div>
