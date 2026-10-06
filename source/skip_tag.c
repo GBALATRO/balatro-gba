@@ -156,11 +156,11 @@ SkipTag* roll_skip_tag(void)
     enum SkipTagTypes tag_type = 0;
     if (g_game_vars.ante == 1)
     {
-        tag_type = ante1_skip_tags_roll_table[rand() % NB_ANTE1_SKIP_TAGS];
+        tag_type = ante1_skip_tags_roll_table[rng_get_u32(RNG_SEQ_SKIP_TAGS) % NB_ANTE1_SKIP_TAGS];
     }
     else
     {
-        tag_type = all_skip_tags_roll_table[rand() % NB_SKIP_TAG_TYPES];
+        tag_type = all_skip_tags_roll_table[rng_get_u32(RNG_SEQ_SKIP_TAGS) % NB_SKIP_TAG_TYPES];
     }
 
     return skip_tag_new(tag_type);
