@@ -804,17 +804,15 @@ static inline void round_process_hand_select_input(void)
 
     if (round_paused)
     {
-        if (key_hit(KEY_PAUSE_GAME))
+        if (key_hit(KEY_PAUSE_GAME) || key_hit(KEY_CANCEL))
         {
             round_paused = false;
             pause_menu_hide();
             round_show_screen();
         }
-        else
-        {
-            // Do not process anything else for the Round screen until the game is unpaused
-            return;
-        }
+
+        // Do not process anything else for the Round screen until the game is unpaused
+        return;
     }
 
     selection_grid_process_input(&game_round_selection_grid);
