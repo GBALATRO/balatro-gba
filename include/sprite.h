@@ -11,8 +11,6 @@
 #include <maxmod.h>
 #include <tonc.h>
 
-#include "list.h"
-
 /**
  * @name Sprite system constants
  * @{

@@ -42,13 +42,6 @@ static const HandValues HAND_BASE_VALUES[] = {
 };
 // clang-format on
 
-/*
-typedef struct
-{
-    u32 chips;
-    u32 mult;
-} HandBonus;
-
 // clang-format off
 static const HandBonus HAND_LEVEL_BONUS[] = {
     [NONE]            = {.chips = 0,  .mult = 0},
@@ -66,7 +59,6 @@ static const HandBonus HAND_LEVEL_BONUS[] = {
     [FLUSH_HOUSE]     = {.chips = 40, .mult = 4},
     [FLUSH_FIVE]      = {.chips = 50, .mult = 3} 
 };
-*/
 
 // Rects for TTE (in pixels)        left   top    right  bottom
 static const Rect HAND_TYPE_RECT = {8,     64,    64,    72};
@@ -163,9 +155,47 @@ enum HandType get_hand_type(void)
     return s_hand.hand_type;
 }
 
+bool is_hand_type_secret(enum HandType hand_type)
+{
+    switch (hand_type)
+    {
+        case ROYAL_FLUSH:
+        case FIVE_OF_A_KIND:
+        case FLUSH_HOUSE:
+        case FLUSH_FIVE:
+            return true;
+        default:
+            return false;
+    }
+}
+
 ContainedHandTypes* get_contained_hands(void)
 {
     return &s_hand.contained_hands;
+}
+
+HandBonus get_hand_total_bonus(enum HandType hand_type)
+{
+    HandBonus hand_bonus = {UNDEFINED, UNDEFINED};
+
+    if (hand_type < HAND_TYPE_MIN || hand_type > HAND_TYPE_MAX)
+    {
+        MGBA_FUNC_ERROR(
+            "Invalid HandType value %d (should be between %d and %d)",
+            hand_type,
+            HAND_TYPE_MIN,
+            HAND_TYPE_MAX
+        );
+        return hand_bonus;
+    }
+
+    HandValues hand_base = HAND_BASE_VALUES[hand_type];
+    HandBonus level_bonus = HAND_LEVEL_BONUS[hand_type];
+    u32 hand_level = g_game_vars.hand_levels[hand_type];
+    hand_bonus.chips = hand_base.chips + level_bonus.chips * hand_level;
+    hand_bonus.mult = hand_base.mult + level_bonus.mult * hand_level;
+
+    return hand_bonus;
 }
 
 static void print_hand_type(const char* hand_type_str)
