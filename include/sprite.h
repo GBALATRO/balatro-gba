@@ -6,10 +6,10 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+#include "list.h"
+
 #include <maxmod.h>
 #include <tonc.h>
-
-#include "list.h"
 
 /**
  * @name Sprite system constants
