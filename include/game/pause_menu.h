@@ -12,4 +12,9 @@
  */
 void pause_menu_show(void);
 
+/**
+ * @brief Hide the Pause Menu.
+ */
+void pause_menu_hide(void);
+
 #endif // PAUSE_MENU_H

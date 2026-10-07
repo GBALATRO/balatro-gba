@@ -757,7 +757,7 @@ static inline void round_hide_screen(void)
     sprite_object_hide_all_in_list(get_jokers_list());
     sprite_object_hide_all_in_list(get_owned_skip_tags());
     CardObject** hand = get_hand_array();
-    for (int i = 0; i <= g_game_vars.hand_size; i++)
+    for (int i = 0; i <= get_hand_top(); i++)
     {
         sprite_object_hide((SpriteObject*)hand[i]);
     }
@@ -774,7 +774,7 @@ static inline void round_show_screen(void)
     sprite_object_unhide_all_in_list(get_jokers_list());
     sprite_object_unhide_all_in_list(get_owned_skip_tags());
     CardObject** hand = get_hand_array();
-    for (int i = 0; i <= g_game_vars.hand_size; i++)
+    for (int i = 0; i <= get_hand_top(); i++)
     {
         sprite_object_unhide((SpriteObject*)hand[i]);
     }
@@ -807,6 +807,7 @@ static inline void round_process_hand_select_input(void)
         if (key_hit(KEY_PAUSE_GAME))
         {
             round_paused = false;
+            pause_menu_hide();
             round_show_screen();
         }
         else
