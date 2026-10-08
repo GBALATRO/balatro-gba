@@ -391,7 +391,7 @@ static inline void shop_buy_item(int shop_item_idx)
  */
 static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (!key_hit(SELECT_CARD))
+    if (!key_hit(KEY_CONFIRM))
         return;
 
     if (selection->x == NEXT_ROUND_BTN_SEL_X)
@@ -555,7 +555,7 @@ static inline void shop_reroll(void)
  */
 static void shop_reroll_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (!key_hit(SELECT_CARD))
+    if (!key_hit(KEY_CONFIRM))
     {
         return;
     }
@@ -624,7 +624,7 @@ static void shop_process_user_input(void)
     }
 
     // Show description of selected card when pressing B
-    if (new_description_item != NULL && key_held(DESELECT_CARDS))
+    if (new_description_item != NULL && key_held(KEY_SHOW_DESCRIPTION))
     {
         s_description_item = new_description_item;
         s_description_item_original_x_pos = s_description_item->tx;
@@ -728,7 +728,7 @@ static void shop_show_item_desc_on_update(void)
     }
 
     // Actively wait for the B button to be released
-    if (!key_held(DESELECT_CARDS))
+    if (!key_held(KEY_SHOW_DESCRIPTION))
     {
         s_timer = TM_ZERO;
         state_machine_change_state(&shop_sm, GAME_SHOP_HIDE_ITEM_DESC);
@@ -837,7 +837,7 @@ static void shop_hide_item_desc_on_exit(void)
     display_deck_size_max();
 
     // if we are NOT pressing A, print the price under the description card if it's a card we own.
-    if (!key_held(SELECT_CARD) && item_is_owned(s_description_item))
+    if (!key_held(KEY_CONFIRM) && item_is_owned(s_description_item))
     {
         sprite_object_print_price_under(
             (SpriteObject*)s_description_item,

@@ -477,7 +477,7 @@ static void round_end_display_cashout()
     }
 
     // Wait until the player presses A to cash out
-    else if (g_game_vars.timer > FRAMES(40) && key_hit(SELECT_CARD))
+    else if (g_game_vars.timer > FRAMES(40) && key_hit(KEY_CONFIRM))
     {
         round_end_cashout();
 

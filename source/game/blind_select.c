@@ -281,7 +281,7 @@ static int blind_select_get_selection_row_size(void)
 
 static void blind_select_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&blind_select_buttons[selection->y]);
     }

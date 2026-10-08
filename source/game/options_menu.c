@@ -572,7 +572,7 @@ static bool game_speed_row_on_selection_changed(
  */
 static void options_menu_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&options_menu_buttons[selection->y][selection->x]);
     }
