@@ -9,6 +9,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "layout.h"
+#include "selection_grid.h"
 #include "skip_tag.h"
 #include "soundbank.h"
 #include "sprite.h"
@@ -18,12 +19,17 @@
 
 #include <maxmod.h>
 
-static const u32 BLIND_SKIP_BTN_PID = 5;
-static const u32 BLIND_SKIP_BTN_SELECTED_BORDER_PID = 10;
-static const u32 BLIND_SELECT_BTN_PID = 15;
-static const u32 BLIND_SELECT_BTN_SELECTED_BORDER_PID = 18;
-static const u32 BLIND_SELECT_BOSS_BLIND_PANEL_OUTLINE_PID = 1;
-static const u32 BLIND_SELECT_BOSS_BLIND_PANEL_SHADOW_PID = 7;
+// Palette indices for colors that change at runtime start at 32
+// while indices 0 to 31 are for static colors.
+// The indexing is determined by background_blind_select_gfx.png
+static const u8 BLIND_SELECT_BTN_MAIN_COLOR_PAL_IDX = 22;
+static const u8 BLIND_SELECT_BTN_OUTLINE_COLOR_PAL_IDX = 34;
+
+static const u8 BLIND_SKIP_BTN_MAIN_COLOR_PAL_IDX = 19;
+static const u8 BLIND_SKIP_BTN_OUTLINE_COLOR_PAL_IDX = 35;
+
+static const u8 BOSS_BLIND_PANEL_OUTLINE_PAL_IDX = 32;
+static const u8 BOSS_BLIND_PANEL_SHADOW_PAL_IDX = 33;
 
 static const u32 TM_DISP_BLIND_PANEL_FINISH = 7;
 static const u32 TM_DISP_BLIND_PANEL_START = 1;
@@ -105,17 +111,60 @@ static const Rect BOSS_BLIND_REROLL_DUP_LINE_RECT     = {19,      30,     24,   
 
 static const u32 TM_END_ANIM_SEQ = 12;
 static const u32 TM_SKIP_TAGS_ANIM_SEQ = 6;
-static const u32 TM_BLIND_SELECT_START = 1;
 
 static const u32 BLIND_LEFT_X = 80;
 static const u32 BLIND_CENTER_X = 120;
 static const u32 BLIND_RIGHT_X = 160;
 
-static const u32 BLIND_ROW = 0;
-static const u32 SKIP_ROW = 1;
+enum BlindSelectRow
+{
+    BLIND_ROW = 0,
+    SKIP_ROW,
+    MAX_ROW
+};
 
-static int selection_x = 0;
-static int selection_y = 0;
+static int blind_select_get_selection_row_size(void);
+static void blind_select_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+static bool blind_select_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+
+// clang-format off
+static SelectionGridRow blind_select_selection_rows[] = {
+    {
+        BLIND_ROW,
+        blind_select_get_selection_row_size,
+        blind_select_row_on_selection_changed,
+        blind_select_row_on_key_transit,
+        {.wrap = false}
+    },
+    {
+        SKIP_ROW,
+        blind_select_get_selection_row_size,
+        blind_select_row_on_selection_changed,
+        blind_select_row_on_key_transit,
+        {.wrap = false}
+    }
+};
+// clang-format on
+
+static const Selection BLIND_SELECT_INIT_SEL = {0, BLIND_ROW};
+static SelectionGrid blind_select_selection_grid = {
+    blind_select_selection_rows,
+    MAX_ROW,
+    BLIND_SELECT_INIT_SEL
+};
+
+static void select_on_pressed(void);
+static void skip_on_pressed(void);
+
+static Button blind_select_buttons[] = {
+    {BLIND_SELECT_BTN_OUTLINE_COLOR_PAL_IDX, BLIND_SELECT_BTN_MAIN_COLOR_PAL_IDX, select_on_pressed, NULL},
+    {BLIND_SKIP_BTN_OUTLINE_COLOR_PAL_IDX,   BLIND_SKIP_BTN_MAIN_COLOR_PAL_IDX,   skip_on_pressed,   NULL}
+};
 
 static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 static SkipTag* blind_skip_tags[NB_SKIPPABLE_BLINDS] = {NULL};
@@ -220,96 +269,89 @@ void increment_blind(enum BlindState increment_reason)
     }
 }
 
-// TODO: convert these to proper buttons.
-static inline void highlight_select_button(void)
+static void blind_select_handle_input(void)
 {
-    memset16(&pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID], 0xFFFF, 1);
-    memcpy16(&pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID], &pal_bg_mem[BLIND_SKIP_BTN_PID], 1);
+    selection_grid_process_input(&blind_select_selection_grid);
 }
 
-static inline void highlight_skip_button(void)
+static int blind_select_get_selection_row_size(void)
 {
-    memcpy16(
-        &pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID],
-        &pal_bg_mem[BLIND_SELECT_BTN_PID],
-        1
-    );
-    memset16(&pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID], 0xFFFF, 1);
+    return 1;
 }
 
-static void blind_select_handle_input()
+static void blind_select_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (s_timer == TM_BLIND_SELECT_START && g_game_vars.current_blind == BLIND_TYPE_BOSS)
+    if (key_hit(SELECT_CARD))
     {
-        selection_y = BLIND_ROW;
+        button_press(&blind_select_buttons[selection->y]);
+    }
+}
+
+static bool blind_select_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
+{
+    if (g_game_vars.current_blind >= BLIND_TYPE_BOSS && new_selection->y == SKIP_ROW)
+        return false;
+
+    if (prev_selection->y == row_idx)
+        button_set_highlight(&blind_select_buttons[row_idx], false);
+
+    if (new_selection->y == row_idx)
+        button_set_highlight(&blind_select_buttons[row_idx], true);
+
+    return true;
+}
+
+static void select_on_pressed(void)
+{
+    blind_select_erase_all_blind_reqs_and_rewards();
+
+    s_timer = TM_ZERO;
+    ++g_game_vars.round;
+    display_round();
+
+    state_machine_change_state(&blind_select_sm, BLIND_SELECTED_ANIM_SEQ);
+}
+
+static void skip_on_pressed(void)
+{
+    blind_select_erase_all_blind_reqs_and_rewards();
+
+    g_game_vars.nb_skipped_rounds++;
+    add_skip_tag(&blind_skip_tags[g_game_vars.current_blind]);
+    if (blind_skip_tags[BLIND_TYPE_BIG])
+        blind_skip_tags[BLIND_TYPE_BIG]->ty -= int2fx(TILE_SIZE);
+
+    increment_blind(BLIND_STATE_SKIPPED);
+
+    change_background(BG_BLIND_SELECT, true);
+
+    // TODO: Create a generic vertical move by any number of tiles to avoid for
+    // loops?
+    for (int i = 0; i < 12; i++)
+    {
+        main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
     }
 
-    // Blind select input logic
-    if (key_hit(KEY_UP))
+    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
-        selection_y = BLIND_ROW;
-        highlight_select_button();
+        sprite_position(
+            blind_select_tokens[i],
+            blind_select_tokens[i]->pos.x,
+            blind_select_tokens[i]->pos.y - (TILE_SIZE * 12)
+        );
     }
-    else if (key_hit(KEY_DOWN) && g_game_vars.current_blind <= BLIND_TYPE_BIG)
-    {
-        selection_y = SKIP_ROW;
-        highlight_skip_button();
-    }
-    else if (key_hit(SELECT_CARD))
-    {
-        blind_select_erase_all_blind_reqs_and_rewards();
 
-        switch (selection_y)
-        {
-            case BLIND_ROW:
-                play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-                state_machine_change_state(&blind_select_sm, BLIND_SELECTED_ANIM_SEQ);
-                s_timer = TM_ZERO;
-                ++g_game_vars.round;
-                display_round();
-                break;
-            case SKIP_ROW:
-                if (g_game_vars.current_blind <= BLIND_TYPE_BIG)
-                {
-                    g_game_vars.nb_skipped_rounds++;
-                    add_skip_tag(&blind_skip_tags[g_game_vars.current_blind]);
-                    if (blind_skip_tags[BLIND_TYPE_BIG])
-                        blind_skip_tags[BLIND_TYPE_BIG]->ty -= int2fx(TILE_SIZE);
+    blind_select_print_blinds_reqs_and_rewards();
 
-                    play_sfx(SFX_BUTTON, MM_BASE_PITCH_RATE, BUTTON_SFX_VOLUME);
-                    increment_blind(BLIND_STATE_SKIPPED);
+    selection_grid_move_selection_vert(&blind_select_selection_grid, SCREEN_UP);
 
-                    selection_y = BLIND_ROW; // Reset selection to first option
-
-                    change_background(BG_BLIND_SELECT, true);
-
-                    // TODO: Create a generic vertical move by any number of tiles to avoid for
-                    // loops?
-                    for (int i = 0; i < 12; i++)
-                    {
-                        main_bg_se_copy_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);
-                    }
-
-                    for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
-                    {
-                        sprite_position(
-                            blind_select_tokens[i],
-                            blind_select_tokens[i]->pos.x,
-                            blind_select_tokens[i]->pos.y - (TILE_SIZE * 12)
-                        );
-                    }
-
-                    blind_select_print_blinds_reqs_and_rewards();
-                    highlight_select_button();
-
-                    s_timer = TM_ZERO;
-                    state_machine_change_state(&blind_select_sm, APPLY_BLIND_TAGS);
-                }
-                break;
-            default:
-                break;
-        }
-    }
+    s_timer = TM_ZERO;
+    state_machine_change_state(&blind_select_sm, APPLY_BLIND_TAGS);
 }
 
 static void blind_select_handle_immediate_tags_on_init(void)
@@ -374,9 +416,9 @@ static inline void blind_select_reroll_boss_anim_do_reroll(void)
 {
     reroll_boss_blind();
     apply_blind_tiles(g_game_vars.next_boss_blind, BOSS_BLIND_TOKEN_LAYER);
-    pal_bg_mem[BLIND_SELECT_BOSS_BLIND_PANEL_OUTLINE_PID] =
+    pal_bg_mem[BOSS_BLIND_PANEL_OUTLINE_PAL_IDX] =
         blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX);
-    pal_bg_mem[BLIND_SELECT_BOSS_BLIND_PANEL_SHADOW_PID] =
+    pal_bg_mem[BOSS_BLIND_PANEL_SHADOW_PAL_IDX] =
         blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX);
 }
 
@@ -681,8 +723,7 @@ void blind_select_on_init(void)
     state_machine_register(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, START_ANIM_SEQ);
 
-    selection_x = 0;
-    selection_y = 0;
+    blind_select_selection_grid.selection = BLIND_SELECT_INIT_SEL;
 
     blind_tokens_init();
 
@@ -694,7 +735,9 @@ void blind_select_on_init(void)
     // doesn't run that moves the tokens. that should probably happen here.
     change_background(BG_BLIND_SELECT, true);
 
-    highlight_select_button();
+    // "SELECT" button will always be selected by default
+    button_set_highlight(&blind_select_buttons[BLIND_ROW], true);
+    button_set_highlight(&blind_select_buttons[SKIP_ROW], false);
 
     play_sfx(SFX_POP, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
@@ -714,7 +757,6 @@ void blind_select_on_exit(void)
     sprite_destroy(&blind_select_tokens[BOSS_BLIND]);
 
     change_background(BG_NONE, false);
-    selection_y = 0;
 
     state_machine_remove(&blind_select_sm);
 }
@@ -741,23 +783,10 @@ void blind_select_change_background(void)
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_blind_select_gfxMap);
 
     // Copy boss blind colors to blind select palette
-    pal_bg_mem[BLIND_SELECT_BOSS_BLIND_PANEL_OUTLINE_PID] =
+    pal_bg_mem[BOSS_BLIND_PANEL_OUTLINE_PAL_IDX] =
         blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_MAIN_COLOR_INDEX);
-    pal_bg_mem[BLIND_SELECT_BOSS_BLIND_PANEL_SHADOW_PID] =
+    pal_bg_mem[BOSS_BLIND_PANEL_SHADOW_PAL_IDX] =
         blind_get_color(g_game_vars.next_boss_blind, BLIND_BACKGROUND_SHADOW_COLOR_INDEX);
-
-    // Disable the button highlight colors
-    // Select button PID is 15 and the outline is 18
-    memcpy16(
-        &pal_bg_mem[BLIND_SELECT_BTN_SELECTED_BORDER_PID],
-        &pal_bg_mem[BLIND_SELECT_BTN_PID],
-        1
-    );
-    // It seems the skip button (and score multiplier and deck) PB idx is
-    // actually 5, not 10. 10 is the selected border color
-    // Setting this palette value though doesn't seem to have an
-    // effect.
-    memcpy16(&pal_bg_mem[BLIND_SKIP_BTN_SELECTED_BORDER_PID], &pal_bg_mem[BLIND_SKIP_BTN_PID], 1);
 
     for (int i = 0; i < NUM_BLINDS_PER_ANTE; i++)
     {
