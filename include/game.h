@@ -22,7 +22,7 @@
 #define DESELECT_CARDS KEY_B
 #define PEEK_DECK      KEY_L // Not implemented
 #define SORT_HAND      KEY_R
-#define PAUSE_GAME     KEY_START // Not implemented
+#define PAUSE_GAME     KEY_START
 #define SELL_KEY       KEY_L
 #define TAB_LEFT       KEY_L
 #define TAB_RIGHT      KEY_R

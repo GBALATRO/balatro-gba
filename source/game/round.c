@@ -11,6 +11,7 @@
 #include "game.h"
 #include "game/common_ui.h"
 #include "game/joker_row.h"
+#include "game/pause_menu.h"
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
@@ -52,7 +53,8 @@
 #define NUM_SCORE_LERP_STEPS   16
 #define TM_SCORE_LERP_INTERVAL 2
 
-#define GAME_PLAYING_HAND_SEL_Y 1
+#define GAME_PLAYING_HAND_SEL_Y    1
+#define GAME_PLAYING_BUTTONS_SEL_Y 2
 
 // Pixel sizes
 #define CARD_FOCUSED_UNSEL_Y   10
@@ -306,6 +308,38 @@ int get_scored_card_index(void)
 void set_retrigger(bool new_retrigger)
 {
     s_retrigger = new_retrigger;
+}
+
+static inline void print_blind_score_requirement(void)
+{
+    Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
+    u32 blind_requirement = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
+
+    char blind_req_str_buff[UINT_MAX_DIGITS + 1];
+
+    truncate_uint_to_suffixed_str(
+        blind_requirement,
+        rect_width(&BLIND_REQ_TEXT_RECT) / TTE_CHAR_SIZE,
+        blind_req_str_buff
+    );
+
+    // Update text rect for right alignment AFTER shortening the number
+    update_text_rect_to_right_align_str(&blind_req_text_rect, blind_req_str_buff, OVERFLOW_RIGHT);
+
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        blind_req_text_rect.left,
+        blind_req_text_rect.top,
+        TTE_RED_PB,
+        blind_req_str_buff
+    );
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}$%d",
+        BLIND_REWARD_RECT.left,
+        BLIND_REWARD_RECT.top,
+        TTE_YELLOW_PB,
+        blind_get_reward(g_game_vars.current_blind)
+    ); // Blind reward
 }
 
 /**
@@ -716,8 +750,71 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
     return hand_nb_held_cards() - selection_index - 1;
 }
 
+static inline void round_hide_screen(void)
+{
+    toggle_windows(false, false);
+    sprite_hide(g_game_vars.playing_blind_token);
+    sprite_object_hide_all_in_list(get_jokers_list());
+    sprite_object_hide_all_in_list(get_owned_skip_tags());
+    CardObject** hand = get_hand_array();
+    for (int i = 0; i <= get_hand_top(); i++)
+    {
+        sprite_object_hide((SpriteObject*)hand[i]);
+    }
+}
+
+static inline void round_show_screen(void)
+{
+    toggle_windows(true, true);
+    round_change_background_selecting();
+    if (game_round_selection_grid.selection.y == GAME_PLAYING_BUTTONS_SEL_Y)
+        round_button_set_highlight(game_round_selection_grid.selection.x, true);
+
+    sprite_unhide(g_game_vars.playing_blind_token);
+    sprite_object_unhide_all_in_list(get_jokers_list());
+    sprite_object_unhide_all_in_list(get_owned_skip_tags());
+    CardObject** hand = get_hand_array();
+    for (int i = 0; i <= get_hand_top(); i++)
+    {
+        sprite_object_unhide((SpriteObject*)hand[i]);
+    }
+
+    print_blind_score_requirement();
+    display_score(g_game_vars.score);
+    compute_hand_value_info();
+    display_hands();
+    display_discards();
+    display_money();
+    display_ante();
+    display_round();
+    display_deck_size_max();
+}
+
 static inline void round_process_hand_select_input(void)
 {
+    static bool round_paused = false;
+
+    if (!round_paused && key_hit(PAUSE_GAME))
+    {
+        round_paused = true;
+        round_hide_screen();
+        pause_menu_show();
+        return;
+    }
+
+    if (round_paused)
+    {
+        if (key_hit(PAUSE_GAME) || key_hit(DESELECT_CARDS))
+        {
+            round_paused = false;
+            pause_menu_hide();
+            round_show_screen();
+        }
+
+        // Do not process anything else for the Round screen until the game is unpaused
+        return;
+    }
+
     selection_grid_process_input(&game_round_selection_grid);
 }
 
@@ -2161,34 +2258,7 @@ void round_on_init(void)
         sprite_hide(g_game_vars.round_end_blind_token); // Hide the blind token sprite for now
     }
 
-    Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
-    u32 blind_requirement = blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante);
-
-    char blind_req_str_buff[UINT_MAX_DIGITS + 1];
-
-    truncate_uint_to_suffixed_str(
-        blind_requirement,
-        rect_width(&BLIND_REQ_TEXT_RECT) / TTE_CHAR_SIZE,
-        blind_req_str_buff
-    );
-
-    // Update text rect for right alignment AFTER shortening the number
-    update_text_rect_to_right_align_str(&blind_req_text_rect, blind_req_str_buff, OVERFLOW_RIGHT);
-
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        blind_req_text_rect.left,
-        blind_req_text_rect.top,
-        TTE_RED_PB,
-        blind_req_str_buff
-    );
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}$%d",
-        BLIND_REWARD_RECT.left,
-        BLIND_REWARD_RECT.top,
-        TTE_YELLOW_PB,
-        blind_get_reward(g_game_vars.current_blind)
-    ); // Blind reward
+    print_blind_score_requirement();
 
     deck_shuffle(); // Shuffle the deck at the start of the round
 

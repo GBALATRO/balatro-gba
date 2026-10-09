@@ -405,6 +405,21 @@ void main_bg_se_copy_expand_3x3_rect(Rect se_rect_dest, BG_POINT se_rect_src_3x3
 void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt);
 
 /**
+ * @brief Copies a column of tiles horizontally, stretching it to draw a line textured with the
+ *         source column.
+ *
+ * @param se_dest_top_left points to the top left corner of the line drawn.
+ * @param dest_row_length length of the line drawn, in number of tiles; **MUST be greater than or
+ *                         equal to 1**.
+ * @param src_col_rect source of the column to strech horizontally; **dest width MUST be 1**.
+ */
+void main_bg_se_copy_expand_column_hor(
+    BG_POINT se_dest_top_left,
+    u16 dest_row_length,
+    Rect src_col_rect
+);
+
+/**
  * @brief Moves a rect in the main background vertically in direction by a single tile.
  *
  * Note that tiles in the previous location will be transparent (0x000)

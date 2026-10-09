@@ -25,24 +25,43 @@ typedef struct
     char* display_name;
 } HandValues;
 
+// clang-format off
 static const HandValues HAND_BASE_VALUES[] = {
-    {.chips = 0,   .mult = 0,  .display_name = NULL     }, // NONE
-    {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"}, // HIGH_CARD
-    {.chips = 10,  .mult = 2,  .display_name = "Pair"   }, // PAIR
-    {.chips = 20,  .mult = 2,  .display_name = "2 Pair" }, // TWO_PAIR
-    {.chips = 30,  .mult = 3,  .display_name = "3 OAK"  }, // THREE_OF_A_KIND
-    {.chips = 30,  .mult = 4,  .display_name = "Strt"   }, // STRAIGHT
-    {.chips = 35,  .mult = 4,  .display_name = "Flush"  }, // FLUSH
-    {.chips = 40,  .mult = 4,  .display_name = "Full H" }, // FULL_HOUSE
-    {.chips = 60,  .mult = 7,  .display_name = "4 OAK"  }, // FOUR_OF_A_KIND
-    {.chips = 100, .mult = 8,  .display_name = "Strt F" }, // STRAIGHT_FLUSH
-    {.chips = 100, .mult = 8,  .display_name = "Royal F"}, // ROYAL_FLUSH
-    {.chips = 120, .mult = 12, .display_name = "5 OAK"  }, // FIVE_OF_A_KIND
-    {.chips = 140, .mult = 14, .display_name = "Flush H"}, // FLUSH_HOUSE
-    {.chips = 160, .mult = 16, .display_name = "Flush 5"}  // FLUSH_FIVE
+    [NONE]            = {.chips = 0,   .mult = 0,  .display_name = NULL     },
+    [HIGH_CARD]       = {.chips = 5,   .mult = 1,  .display_name = "Hi-Card"},
+    [PAIR]            = {.chips = 10,  .mult = 2,  .display_name = "Pair"   },
+    [TWO_PAIR]        = {.chips = 20,  .mult = 2,  .display_name = "2 Pair" },
+    [THREE_OF_A_KIND] = {.chips = 30,  .mult = 3,  .display_name = "3 OAK"  },
+    [STRAIGHT]        = {.chips = 30,  .mult = 4,  .display_name = "Strt"   },
+    [FLUSH]           = {.chips = 35,  .mult = 4,  .display_name = "Flush"  },
+    [FULL_HOUSE]      = {.chips = 40,  .mult = 4,  .display_name = "Full H" },
+    [FOUR_OF_A_KIND]  = {.chips = 60,  .mult = 7,  .display_name = "4 OAK"  },
+    [STRAIGHT_FLUSH]  = {.chips = 100, .mult = 8,  .display_name = "Strt F" },
+    [ROYAL_FLUSH]     = {.chips = 100, .mult = 8,  .display_name = "Royal F"},
+    [FIVE_OF_A_KIND]  = {.chips = 120, .mult = 12, .display_name = "5 OAK"  },
+    [FLUSH_HOUSE]     = {.chips = 140, .mult = 14, .display_name = "Flush H"},
+    [FLUSH_FIVE]      = {.chips = 160, .mult = 16, .display_name = "Flush 5"} 
 };
+// clang-format on
 
 // clang-format off
+static const HandBonus HAND_LEVEL_BONUS[] = {
+    [NONE]            = {.chips = 0,  .mult = 0},
+    [HIGH_CARD]       = {.chips = 10, .mult = 1},
+    [PAIR]            = {.chips = 15, .mult = 1},
+    [TWO_PAIR]        = {.chips = 20, .mult = 1},
+    [THREE_OF_A_KIND] = {.chips = 20, .mult = 2},
+    [STRAIGHT]        = {.chips = 30, .mult = 3},
+    [FLUSH]           = {.chips = 15, .mult = 2},
+    [FULL_HOUSE]      = {.chips = 25, .mult = 2},
+    [FOUR_OF_A_KIND]  = {.chips = 30, .mult = 3},
+    [STRAIGHT_FLUSH]  = {.chips = 40, .mult = 4},
+    [ROYAL_FLUSH]     = {.chips = 40, .mult = 4},
+    [FIVE_OF_A_KIND]  = {.chips = 35, .mult = 3},
+    [FLUSH_HOUSE]     = {.chips = 40, .mult = 4},
+    [FLUSH_FIVE]      = {.chips = 50, .mult = 3} 
+};
+
 // Rects for TTE (in pixels)        left   top    right  bottom
 static const Rect HAND_TYPE_RECT = {8,     64,    64,    72};
 // clang-format on
@@ -133,9 +152,47 @@ enum HandType get_hand_type(void)
     return s_hand.hand_type;
 }
 
+bool is_hand_type_secret(enum HandType hand_type)
+{
+    switch (hand_type)
+    {
+        case ROYAL_FLUSH:
+        case FIVE_OF_A_KIND:
+        case FLUSH_HOUSE:
+        case FLUSH_FIVE:
+            return true;
+        default:
+            return false;
+    }
+}
+
 ContainedHandTypes* get_contained_hands(void)
 {
     return &s_hand.contained_hands;
+}
+
+HandBonus get_hand_total_bonus(enum HandType hand_type)
+{
+    HandBonus hand_bonus = {UNDEFINED, UNDEFINED};
+
+    if (hand_type < HAND_TYPE_MIN || hand_type > HAND_TYPE_MAX)
+    {
+        MGBA_FUNC_ERROR(
+            "Invalid HandType value %d (should be between %d and %d)",
+            hand_type,
+            HAND_TYPE_MIN,
+            HAND_TYPE_MAX
+        );
+        return hand_bonus;
+    }
+
+    HandValues hand_base = HAND_BASE_VALUES[hand_type];
+    HandBonus level_bonus = HAND_LEVEL_BONUS[hand_type];
+    u32 hand_level = g_game_vars.hand_levels[hand_type];
+    hand_bonus.chips = hand_base.chips + level_bonus.chips * hand_level;
+    hand_bonus.mult = hand_base.mult + level_bonus.mult * hand_level;
+
+    return hand_bonus;
 }
 
 static void print_hand_type(const char* hand_type_str)
