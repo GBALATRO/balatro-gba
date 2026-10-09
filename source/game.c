@@ -676,8 +676,6 @@ void game_start(void)
         }
     }
 
-    change_background(BG_BLIND_SELECT, false);
-
     // Deck size/max size
     tte_erase_rect_wrapper(DECK_SIZE_RECT);
     tte_printf(
