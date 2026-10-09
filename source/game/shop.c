@@ -36,6 +36,7 @@
 #define TM_HIDE_DECK_WAIT         5
 
 // Pixel sized
+#define ITEM_SHOP_SPACING         8
 #define ITEM_SHOP_Y               71
 #define OWNED_ITEMS_HIDE_Y_OFFSET 50
 
@@ -86,11 +87,21 @@ static const Rect     ITEM_NAME_TEXT_RECT           = { 10,  7, 27,  7};
 // Positions in pixels
 static const BG_POINT SHOP_JOKER_SPRITES_INIT_POS = {120, 160};
 static const BG_POINT ITEM_DESCRIPTION_SPRITE_POS = {135,   9};
+static const Rect     SHOP_ITEMS_CONTAINER_RECT   = {114,  71, 190, 103 };
 static const Rect     SHOP_PRICES_TEXT_RECT       = { 72,  56, 192, 160 };
 static const Rect     SHOP_REROLL_RECT            = { 88,  96, UNDEFINED, UNDEFINED };
 // clang-format on
 
 static List s_shop_items_list = LIST_DEFAULT;
+static SpriteContainer s_shop_items_container = {
+    .contents = &s_shop_items_list,
+    .pos = SHOP_ITEMS_CONTAINER_RECT,
+    .direction = LAYOUT_DIR_HORIZONTAL,
+    .justification = LAYOUT_JUST_CENTER,
+    .justification_ortho = LAYOUT_JUST_BEGIN,
+    .sprite_local_aabb = CARD_SPRITE_LOCAL_AABB,
+    .maximum_spacing = ITEM_SHOP_SPACING
+};
 
 enum GameShopStates
 {
@@ -210,8 +221,8 @@ void shop_set_reroll_cost(int cost)
 
 void shop_reset(void)
 {
-    list_clear(&s_shop_items_list);
-    s_shop_items_list = list_init();
+    list_clear(s_shop_items_container.contents);
+    *(s_shop_items_container.contents) = list_init();
     joker_reset_rollable_jokers();
 }
 
@@ -283,10 +294,8 @@ static void shop_create_top_row_items(void)
 {
     tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
 
-    List* shop_items_list = &s_shop_items_list;
-
-    list_clear(shop_items_list);
-    *shop_items_list = list_init();
+    list_clear(s_shop_items_container.contents);
+    *(s_shop_items_container.contents) = list_init();
 
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
@@ -305,13 +314,30 @@ static void shop_create_top_row_items(void)
 
         item->x = int2fx(SHOP_JOKER_SPRITES_INIT_POS.x + i * CARD_SPRITE_SIZE_PX);
         item->y = int2fx(SHOP_JOKER_SPRITES_INIT_POS.y);
-        item->tx = item->x;
-        item->ty = int2fx(ITEM_SHOP_Y);
 
-        item_print_buy_price_under(item);
-
-        list_push_back(shop_items_list, item);
+        container_push_back(&s_shop_items_container, (SpriteObject*)item, false);
     }
+
+    container_update(&s_shop_items_container);
+
+    // The following function uses the Sprite's target position which has just been updated
+    ListItr itr = list_itr_create(s_shop_items_container.contents);
+    Item* item;
+    while ((item = list_itr_next(&itr)))
+    {
+        item_print_buy_price_under(item);
+    }
+}
+
+static void game_shop_display_reroll_cost(void)
+{
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}$%d",
+        SHOP_REROLL_RECT.left,
+        SHOP_REROLL_RECT.top,
+        TTE_WHITE_PB,
+        s_reroll_cost
+    );
 }
 
 /**
@@ -350,13 +376,7 @@ static void shop_intro()
         s_timer = TM_ZERO; // Reset the timer
 
         // print initial reroll cost only when the panel is in place
-        tte_printf(
-            "#{P:%d,%d; cx:0x%X000}$%d",
-            SHOP_REROLL_RECT.left,
-            SHOP_REROLL_RECT.top,
-            TTE_WHITE_PB,
-            s_reroll_cost
-        );
+        game_shop_display_reroll_cost();
     }
 }
 
@@ -367,7 +387,7 @@ static void shop_intro()
 static int shop_top_row_get_size(void)
 {
     // + 1 to account for next round button
-    return list_get_len(&s_shop_items_list) + 1;
+    return list_get_len(s_shop_items_container.contents) + 1;
 }
 
 /**
@@ -375,15 +395,26 @@ static int shop_top_row_get_size(void)
  */
 static inline void shop_buy_item(int shop_item_idx)
 {
-    List* shop_items_list = &s_shop_items_list;
-    Item* item = (Item*)list_get_at_idx(shop_items_list, shop_item_idx);
+    Item* item = (Item*)list_get_at_idx(s_shop_items_container.contents, shop_item_idx);
 
     g_game_vars.money -= item_get_buy_price(item);
     display_money();
     sprite_object_erase_text_under((SpriteObject*)item);
     sprite_object_set_focus((SpriteObject*)item, false);
+
+    // Remove the joker from the shop and add it to our hand
+    container_remove_at_idx(&s_shop_items_container, shop_item_idx, true);
     item_acquire(item);
-    list_remove_at_idx(shop_items_list, shop_item_idx); // Remove the joker from the shop
+
+    // Update prices position under remaining Items
+    tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT);
+    game_shop_display_reroll_cost();
+    item = NULL;
+    ListItr itr = list_itr_create(s_shop_items_container.contents);
+    while ((item = list_itr_next(&itr)))
+    {
+        item_print_buy_price_under(item);
+    }
 }
 
 /**
@@ -401,7 +432,7 @@ static void shop_top_row_on_key_transit(SelectionGrid* selection_grid, Selection
     else
     {
         int shop_item_idx = selection->x - 1; // - 1 to account for next round button
-        Item* item = (Item*)list_get_at_idx(&s_shop_items_list, shop_item_idx);
+        Item* item = (Item*)list_get_at_idx(s_shop_items_container.contents, shop_item_idx);
         if (!item_can_acquire(item) || g_game_vars.money < item_get_buy_price(item))
         {
             return;
@@ -422,7 +453,7 @@ static bool shop_top_row_on_selection_changed(
     const Selection* new_selection
 )
 {
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     // Guard if we move down while on jokers
     if (new_selection->y > row_idx && prev_selection->x > 0)
         return false;
@@ -489,7 +520,8 @@ static bool shop_reroll_row_on_selection_changed(
         if (new_selection->x != NEXT_ROUND_BTN_SEL_X)
         {
             int idx = new_selection->x - 1;
-            SpriteObject* sprite_object = (SpriteObject*)list_get_at_idx(&s_shop_items_list, idx);
+            SpriteObject* sprite_object =
+                (SpriteObject*)list_get_at_idx(s_shop_items_container.contents, idx);
             sprite_object_set_focus(sprite_object, true);
         }
     }
@@ -510,7 +542,7 @@ static inline void shop_reroll(void)
     g_game_vars.money -= s_reroll_cost;
     display_money(); // Update the money display
 
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     ListItr itr = list_itr_create(shop_items_list);
     Item* item;
 
@@ -541,13 +573,7 @@ static inline void shop_reroll(void)
     }
 
     s_reroll_cost++;
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}$%d",
-        SHOP_REROLL_RECT.left,
-        SHOP_REROLL_RECT.top,
-        TTE_WHITE_PB,
-        s_reroll_cost
-    );
+    game_shop_display_reroll_cost();
 }
 
 /**
@@ -599,18 +625,18 @@ static void shop_process_user_input(void)
         case SHOP_GRID_OWNED_ROW:
         {
             new_description_item =
-                list_get_at_idx(get_jokers_list(), shop_selection_grid.selection.x);
+                list_get_at_idx(get_jokers_container()->contents, shop_selection_grid.selection.x);
             break;
         }
 
         case SHOP_GRID_FOR_SALE_ROW:
         {
-            // Ignore the "Next Round" button when selecting descripted Item: get it at
-            // selection.x - 1 in the list to account for this next round button being ignored.
-            new_description_item =
-                (shop_selection_grid.selection.x != NEXT_ROUND_BTN_SEL_X)
-                    ? list_get_at_idx(&s_shop_items_list, shop_selection_grid.selection.x - 1)
-                    : NULL;
+            new_description_item = (shop_selection_grid.selection.x > 0)
+                                     ? list_get_at_idx(
+                                           s_shop_items_container.contents,
+                                           shop_selection_grid.selection.x - 1
+                                       )
+                                     : NULL;
             break;
         }
 
@@ -649,7 +675,7 @@ static void shop_show_item_desc_on_init(void)
     Item* tmp_item = NULL;
 
     // Owned Jokers
-    ListItr itr = list_itr_create(get_jokers_list());
+    ListItr itr = list_itr_create(get_jokers_container()->contents);
     while ((tmp_item = (Item*)list_itr_next(&itr)))
     {
         if (tmp_item != s_description_item)
@@ -759,7 +785,7 @@ static void shop_hide_item_desc_on_init(void)
     Item* tmp_item = NULL;
 
     // Owned Items
-    ListItr itr = list_itr_create(get_jokers_list());
+    ListItr itr = list_itr_create(get_jokers_container()->contents);
     while ((tmp_item = (Item*)list_itr_next(&itr)))
     {
         if (tmp_item != s_description_item)
@@ -863,7 +889,7 @@ static void shop_outro(void)
     {
         tte_erase_rect_wrapper(SHOP_PRICES_TEXT_RECT); // Erase the shop prices text
 
-        ListItr itr = list_itr_create(&s_shop_items_list);
+        ListItr itr = list_itr_create(s_shop_items_container.contents);
         SpriteObject* shop_item;
         while ((shop_item = list_itr_next(&itr)))
         {
@@ -932,7 +958,7 @@ void shop_on_update(void)
 
 void shop_on_exit(void)
 {
-    List* shop_items_list = &s_shop_items_list;
+    List* shop_items_list = s_shop_items_container.contents;
     ListItr itr = list_itr_create(shop_items_list);
     Item* item;
 

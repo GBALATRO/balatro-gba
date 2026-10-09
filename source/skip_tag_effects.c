@@ -137,7 +137,8 @@ static void skip_tag_effect_d6(void)
 #define TOP_UP_TAG_JOKER_BONUS 2
 static void skip_tag_effect_top_up(void)
 {
-    int available_joker_slots = MAX_JOKERS_HELD_SIZE - list_get_len(get_jokers_list());
+    int available_joker_slots =
+        MAX_JOKERS_HELD_SIZE - list_get_len(get_jokers_container()->contents);
     if (available_joker_slots > TOP_UP_TAG_JOKER_BONUS)
         available_joker_slots = TOP_UP_TAG_JOKER_BONUS;
 

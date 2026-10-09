@@ -384,7 +384,7 @@ static int stencil_joker_desc(Joker* joker, Rect dest_rect)
                     "X%ld " TTE_BLACK_TAG "Mult)";
     const u32 desc_max_size = 130;
 
-    List* jokers = get_jokers_list();
+    List* jokers = get_jokers_container()->contents;
     u32 stencil_bonus = MAX_JOKERS_HELD_SIZE - list_get_len(jokers);
 
     ListItr itr = list_itr_create(jokers);
@@ -513,7 +513,7 @@ static int abstract_joker_desc(Joker* joker, Rect dest_rect)
                     " card\n\n(Now " TTE_RED_TAG "+%ld" TTE_BLACK_TAG " Mult)";
     const u32 desc_max_size = 125;
 
-    u32 abstract_bonus = list_get_len(get_jokers_list()) * 3;
+    u32 abstract_bonus = list_get_len(get_jokers_container()->contents) * 3;
 
     char desc[desc_max_size];
     snprintf(desc, desc_max_size, desc_format, abstract_bonus);
@@ -1057,7 +1057,7 @@ static u32 stencil_joker_effect(
 
     *joker_effect = &s_shared_joker_effect;
 
-    List* jokers = get_jokers_list();
+    List* jokers = get_jokers_container()->contents;
 
     // +1 xmult per empty joker slot...
     int num_jokers = list_get_len(jokers);
@@ -1390,7 +1390,7 @@ static u32 abstract_joker_effect(
     *joker_effect = &s_shared_joker_effect;
 
     // +1 xmult per occupied joker slot
-    int num_jokers = list_get_len(get_jokers_list());
+    int num_jokers = list_get_len(get_jokers_container()->contents);
 
     (*joker_effect)->mult = num_jokers * 3;
 
@@ -1814,7 +1814,7 @@ static u32 blueprint_brainstorm_joker_effect(
     }
 
     // find ourselves in the Jokers list
-    List* jokers = get_jokers_list();
+    List* jokers = get_jokers_container()->contents;
     ListItr itr = list_itr_create(jokers);
     JokerObject* copied_joker_object;
     while ((copied_joker_object = list_itr_next(&itr)))
