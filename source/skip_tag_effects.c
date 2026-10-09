@@ -153,7 +153,7 @@ static void skip_tag_effect_top_up(void)
         GBAL_RETURN_IF_NULL(joker, RET_NONE);
 
         joker_set_rollable(joker_id, false);
-        add_joker(joker_object_new(joker));
+        item_acquire((Item*)joker_object_new(joker));
     }
 }
 
