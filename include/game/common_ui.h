@@ -26,7 +26,7 @@ enum SpritePaletteBanks
 
 // This won't be more than the number of jokers in your current deck
 // plus the amount that can fit in the shop, 8 should be fine. For now...
-#define MAX_ACTIVE_JOKERS  8
+#define MAX_ACTIVE_JOKERS  (MAX_SHOP_JOKERS + MAX_OWNED_JOKERS)
 #define MAX_HAND_SIZE      16
 #define MAX_SELECTION_SIZE 5
 #define MAX_BLIND_TOKEN    5

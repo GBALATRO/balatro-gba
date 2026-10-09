@@ -42,7 +42,7 @@ static const unsigned short* joker_gfxPal[] = {
    logic. But I'm going to use a simpler approach for the joker objects since I'm lazy and sorting
    them wouldn't look good enough to warrant the effort.
 */
-static bool s_used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for joker sprites
+static bool s_used_layers[MAX_ACTIVE_JOKERS] = {false}; // Track used layers for joker sprites
 // TODO: Refactor sorting into SpriteObject?
 
 // Maps the spritesheet index to the palette bank index allocated to it.
@@ -220,8 +220,8 @@ JokerObject* joker_object_new(Joker* joker)
 
     sprite_object_init((SpriteObject*)joker_object);
 
-    s16 layer = 0;
-    for (s16 i = 0; i < MAX_JOKER_OBJECTS; i++)
+    int layer = 0;
+    for (int i = MAX_ACTIVE_JOKERS - 1; i >= 0; i--)
     {
         if (!s_used_layers[i])
         {
@@ -235,7 +235,7 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->type = ITEM_TYPE_JOKER;
     joker_object->is_owned = false;
 
-    int tile_index = sprite_get_tid(JOKER_SPRITE, layer);
+    int tile_index = sprite_type_get_avail_tid(JOKER_SPRITE);
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
@@ -250,11 +250,12 @@ JokerObject* joker_object_new(Joker* joker)
     sprite_object_set_sprite(
         (SpriteObject*)joker_object,
         sprite_new(
+            JOKER_SPRITE,
             ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             ATTR1_SIZE_32,
             tile_index,
             joker_pb,
-            sprite_get_starting_layer(JOKER_SPRITE) + layer
+            layer
         )
     );
 
@@ -266,8 +267,8 @@ void joker_object_destroy(JokerObject** joker_object)
     if (joker_object == NULL || *joker_object == NULL)
         return;
 
-    s16 layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
-                sprite_get_starting_layer(JOKER_SPRITE);
+    int layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
+                sprite_type_get_starting_layer(JOKER_SPRITE);
     s_used_layers[layer] = false;
     s_joker_pb_remove_sprite_user(sprite_get_pb(joker_object_get_sprite(*joker_object)));
     if (s_joker_pb_get_num_sprite_users((sprite_get_pb(joker_object_get_sprite(*joker_object)))) ==
@@ -340,6 +341,7 @@ void joker_object_add_to_owned(Item* joker_object)
     GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
 
     add_joker((JokerObject*)joker_object);
+    sprite_object_sort_list((void*)get_jokers_list(), true);
 }
 
 void joker_set_rollable(int joker_id, bool rollable)

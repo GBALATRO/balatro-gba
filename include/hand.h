@@ -198,6 +198,8 @@ void hand_deselect_all_cards(void);
  */
 void swap_cards_in_hand(int idx_a, int idx_b);
 
+bool shift_null_card_to_end(int null_card_idx);
+
 /**
  * @brief Destroy the sprites of the Cards held in hand and recreate then in the same
  *         order as the Cards in the hand array. This allows Cards to render properly

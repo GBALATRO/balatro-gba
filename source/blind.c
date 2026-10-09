@@ -12,9 +12,10 @@
 #include "hand.h"
 #include "list.h"
 #include "random.h"
-#include "stdbool.h"
+#include "sprite.h"
 #include "util.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <tonc.h>
 
@@ -172,7 +173,7 @@ enum BlindType roll_blind_type(bool showdown)
     return random_blind->type;
 }
 
-void set_blind_beaten(enum BlindType type)
+void set_blind_beaten(enum BlindType type, bool is_beaten)
 {
     bool showdown = (type >= BLIND_TYPE_SHOWDOWN);
     List* p_unbeaten_blinds = showdown ? &s_unbeaten_showdown_blinds : &s_unbeaten_boss_blinds;
@@ -191,9 +192,21 @@ void set_blind_beaten(enum BlindType type)
         beaten_idx++;
     }
 
-    if (beaten_idx < list_get_len(p_unbeaten_blinds))
+    // If Blind needs to be maked as beaten, we have to find it in the list first to remove it
+    if (is_beaten)
     {
-        list_remove_at_idx(p_unbeaten_blinds, beaten_idx);
+        if (beaten_idx < list_get_len(p_unbeaten_blinds))
+        {
+            list_remove_at_idx(p_unbeaten_blinds, beaten_idx);
+        }
+    }
+    // Else, Blind needs to not be present in the list so we can add it
+    else
+    {
+        if (beaten_idx >= list_get_len(p_unbeaten_blinds))
+        {
+            list_push_back(p_unbeaten_blinds, &s_blind_type_map[type]);
+        }
     }
 }
 
@@ -246,9 +259,8 @@ void apply_blind_colors(enum BlindType type)
     );
 }
 
-void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer)
+void apply_blind_tiles(enum BlindType type, int tile_index)
 {
-    int tile_index = sprite_get_tid(BLIND_TOKEN_SPRITE, layer);
     u32 spritesheet_idx = get_blind_spritesheet_idx(type);
     u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % BLIND_TOKENS_PER_SPRITESHEET : 0;
     memcpy32(
@@ -262,14 +274,16 @@ void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer)
 
 Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers layer)
 {
-    apply_blind_tiles(type, layer);
+    u32 tile_index = sprite_type_get_avail_tid(BLIND_TOKEN_SPRITE);
+    apply_blind_tiles(type, tile_index);
 
     Sprite* sprite = sprite_new(
+        BLIND_TOKEN_SPRITE,
         ATTR0_SQUARE | ATTR0_4BPP,
         ATTR1_SIZE_32x32,
-        sprite_get_tid(BLIND_TOKEN_SPRITE, layer),
+        tile_index,
         get_blind_pb(type),
-        sprite_get_starting_layer(BLIND_TOKEN_SPRITE) + layer
+        layer
     );
     sprite_position(sprite, x, y);
 
