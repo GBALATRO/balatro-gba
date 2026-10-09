@@ -41,7 +41,7 @@ enum SkipTagLayers
  *
  * @sa NB_SKIP_TAG_TYPES, ante1_skip_tags_roll_table, all_skip_tags_roll_table
  */
-enum SkipTagTypes
+enum SkipTagType : u8
 {
     SKIP_TAG_TYPE_UNCOMMON,    // TODO
     SKIP_TAG_TYPE_RARE,        // TODO
@@ -70,7 +70,7 @@ enum SkipTagTypes
 typedef struct SkipTag
 {
     SpriteObject;
-    enum SkipTagTypes type;
+    enum SkipTagType type;
 
 } SkipTag;
 
@@ -119,7 +119,7 @@ typedef struct
  * @return a pointer to the info structure for the given Skip Tag
  * @sa SkipTagInfo
  */
-const SkipTagInfo* get_skip_tag_registry_entry(enum SkipTagTypes tag_type);
+const SkipTagInfo* get_skip_tag_registry_entry(enum SkipTagType tag_type);
 
 /**
  * @brief Get the owned skip tags list
@@ -135,9 +135,9 @@ List* get_owned_skip_tags(void);
  * @param tag_type the ID of the Tag we want
  *
  * @return a pointer to a new SkipTag object
- * @sa SkipTagTypes, SkipTag
+ * @sa SkipTagType, SkipTag
  */
-SkipTag* skip_tag_new(enum SkipTagTypes tag_type);
+SkipTag* skip_tag_new(enum SkipTagType tag_type);
 
 /**
  * @brief Set the sprite for the given SkipTag, according to its internal ID.
@@ -178,7 +178,7 @@ SkipTag* roll_skip_tag(void);
  * @param tag_type SkipTagType to check
  * @return true if tag type is present, false otherwise
  */
-bool skip_tag_is_owned(enum SkipTagTypes tag_type);
+bool skip_tag_is_owned(enum SkipTagType tag_type);
 
 /**
  * @brief Counts how many tags of a certain type we own.
@@ -186,7 +186,7 @@ bool skip_tag_is_owned(enum SkipTagTypes tag_type);
  * @param tag_type SkipTagType to count
  * @return int
  */
-int skip_tag_count(enum SkipTagTypes tag_type);
+int skip_tag_count(enum SkipTagType tag_type);
 
 /**
  * @brief Adds the SkipTag to the owned list, snaps it into position and sets the original pointer

@@ -6,6 +6,7 @@
 
 #include "game/run_setup.h"
 
+#include "affine_background.h"
 #include "background_run_setup_gfx.h"
 #include "button.h"
 #include "card.h"
@@ -95,6 +96,7 @@ static void seed_keyboard_substate_init(void);
 static void seed_keyboard_substate_update(void);
 
 static void resume_substate_init(void);
+static void resume_substate_update(void);
 
 // clang-format off
 static StateInfo state_info[] =
@@ -109,7 +111,7 @@ static StateInfo state_info[] =
     ),
     [RUN_SETUP_SUBSTATE_RESUME] = STATE_INFO_INIT_UPDATE_FN(
         resume_substate_init, 
-        noop
+        resume_substate_update
     )
 };
 // clang-format on
@@ -157,6 +159,12 @@ static const BG_POINT RUN_SETUP_CHOOSE_SEED_FIELD_DEST_POS                = {11,
 static const BG_POINT RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS = RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS;
 static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {17, 14, 24, 16};
 
+static const Rect     RUN_SETUP_RESUME_TAB_DISABLED_SRC                   = {11, 22, 15, 23};
+static const BG_POINT RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS              = {15,  1};
+
+static const BG_POINT RUN_SETUP_RESUME_SEED_3X3_SRC_POS                   = {8 , 21};
+static const Rect     RUN_SETUP_RESUME_SEED_DEST                          = RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST;
+
 // Pixel sizes
 #define RUN_SETUP_DECK_SPRITE_T_X 48
 #define RUN_SETUP_DECK_SPRITE_T_Y 54
@@ -164,8 +172,8 @@ static const BG_POINT RUN_SETUP_DECK_NAME_TEXT_POS  = {80 , 40 };
 static const BG_POINT RUN_SETUP_DECK_DESC_TEXT_POS  = {80 , 56 };
 static const Rect     RUN_SETUP_DECK_NAME_DESC_RECT = {80 , 40 ,176, 96 };
 static const BG_POINT RUN_SETUP_SEED_FIELD_TEXT_POS = {96 , 40 };
-static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS  = {152, 120};
-static const BG_POINT RUN_SETUP_PLAY_TEXT_POS       = {76 , 120};
+static const BG_POINT RUN_SETUP_SEED_DECK_TEXT_POS  = {144, 120};
+static const BG_POINT RUN_SETUP_PLAY_TEXT_POS       = {64 , 120};
 static const BG_POINT RUN_SETUP_BACK_TEXT_POS       = {104, 136};
 // clang-format on
 
@@ -186,7 +194,7 @@ enum RunSetupTab
     RUN_SETUP_TAB_MAX
 };
 
-static bool is_saved_game_valid = false;
+static bool s_is_saved_game_valid = false;
 
 static void tab_set_highlight(enum RunSetupTab tab_sel);
 static void run_setup_tabs_update(void);
@@ -223,6 +231,7 @@ static void use_seed_on_pressed(void);
 static void seed_on_pressed(void);
 static void deck_on_pressed(void);
 static void play_on_pressed(void);
+static void resume_on_pressed(void);
 static void back_on_pressed(void);
 
 // clang-format off
@@ -291,7 +300,7 @@ static SelectionGridRow choose_deck_rows[RUN_SETUP_DECK_ROW_MAX] = {
 };
 // clang-format on
 
-static const Selection RUN_SETUP_CHOOSE_DECK_INIT_SEL = {0, 0};
+static const Selection RUN_SETUP_CHOOSE_DECK_INIT_SEL = {0, 1};
 static const Selection RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED = {2, 1};
 
 static SelectionGrid choose_deck_selection_grid = {
@@ -327,7 +336,8 @@ static Button choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_MAX] = {
 };
 // clang-format on
 
-static bool use_seed = false;
+static bool s_use_seed = false;
+static bool s_coming_from_seed_menu = false;
 static CardObject* run_setup_deck = NULL;
 
 #pragma endregion
@@ -568,7 +578,47 @@ enum RunSetupResumeRows
 
 // RESUME SELECTION GRID
 
+static int resume_get_row_size(void);
+static void resume_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
+static bool resume_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+);
+
+// clang-format off
+static SelectionGridRow resume_selection_rows[] = {
+    {
+        RUN_SETUP_RESUME_ROW_PLAY,
+        resume_get_row_size,
+        resume_row_on_selection_changed,
+        resume_row_on_key_transit,
+        {.wrap = false}
+    }, {
+        RUN_SETUP_RESUME_ROW_BACK,
+        back_row_get_size,
+        resume_row_on_selection_changed,
+        back_row_on_key_transit,
+        {.wrap = false}
+    }
+};
+// clang-format on
+
+static const Selection RUN_SETUP_RESUME_INIT_SEL = {0, 0};
+
+static SelectionGrid resume_selection_grid = {
+    resume_selection_rows,
+    RUN_SETUP_RESUME_ROW_MAX,
+    RUN_SETUP_RESUME_INIT_SEL
+};
+
 // RESUME BUTTONS
+
+static Button resume_button =
+    {PLAY_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX, resume_on_pressed, NULL};
+
+SaveGame s_save_game = {};
 
 #pragma endregion
 
@@ -583,6 +633,15 @@ void run_setup_change_background(void)
     GRIT_CPY(pal_bg_mem, background_run_setup_gfxPal);
     GRIT_CPY(&tile_mem[MAIN_BG_CBB], background_run_setup_gfxTiles);
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_run_setup_gfxMap);
+
+    // Use grayed-out Resume Tab button if there is no save file
+    if (!is_game_data_valid())
+    {
+        main_bg_se_copy_rect(
+            RUN_SETUP_RESUME_TAB_DISABLED_SRC,
+            RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS
+        );
+    }
 }
 
 void run_setup_on_init(void)
@@ -590,7 +649,10 @@ void run_setup_on_init(void)
     state_machine_register(&run_setup_sm);
     run_setup_change_background();
 
-    // Apply the current use_seed value if seed is UNDEFINED
+    s_is_saved_game_valid = is_game_data_valid();
+    s_coming_from_seed_menu = false;
+
+    // Apply the current s_use_seed value if seed is UNDEFINED
     if (g_game_vars.rng_info.seed == UNDEFINED)
     {
         // Make the string empty instead of showing all zeroes
@@ -602,9 +664,9 @@ void run_setup_on_init(void)
     {
         u32_to_base36(g_game_vars.rng_info.seed, s_seed_str);
         s_seed_cursor_pos = BASE36_MAX_DIGITS;
-        use_seed = true;
+        s_use_seed = true;
     }
-    toggle_seed_enabled(use_seed);
+    toggle_seed_enabled(s_use_seed);
 
     // Rank doesn't matter, won't see it
     run_setup_deck = card_object_new(card_new(SPADES, ACE));
@@ -619,17 +681,20 @@ void run_setup_on_init(void)
         RUN_SETUP_DECK_SPRITE_T_Y
     );
 
-    /* Uncomment these lines when we figure out how to properly restore a game save
-    is_saved_game_valid = is_game_data_valid();
-    if (is_saved_game_valid)
-    {
-        state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_RESUME);
-    }
-    */
+    // If not using the previous run's seed, land on the Resume screen if a save file is present
+    enum RunSetupSubstate init_substate = (!s_use_seed && s_is_saved_game_valid)
+                                            ? RUN_SETUP_SUBSTATE_RESUME
+                                            : RUN_SETUP_SUBSTATE_CHOOSE_DECK;
 
-    // Land on the deck swapping button when landing on this state from the Main Menu
-    choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_INIT_SEL;
-    state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        RUN_SETUP_BACK_TEXT_POS.x,
+        RUN_SETUP_BACK_TEXT_POS.y,
+        TTE_WHITE_PB,
+        "Back"
+    );
+
+    state_machine_change_state(&run_setup_sm, init_substate);
 }
 
 void run_setup_on_update(void)
@@ -661,6 +726,8 @@ void run_setup_on_exit(void)
  */
 static void choose_deck_substate_init(void)
 {
+    tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
+
     // Show Deck sprite, name and TODO: description
     sprite_object_unhide((SpriteObject*)run_setup_deck);
     print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
@@ -682,17 +749,24 @@ static void choose_deck_substate_init(void)
 
     // TODO: add left/right navigation arrows once more decks have been implemented
 
-    // Set Tab to "New Run"
-    // Uncomment when tab row is re-added (clang-format made it ugly, sorry)
-    // main_bg_se_copy_rect(RUN_SETUP_RESUME_TAB_DISABLED_SRC,
-    // RUN_SETUP_RESUME_TAB_DISABLED_DEST_POS); tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
-
-    // Set button highlights
-    button_set_highlight(&change_deck_button, true);
+    // Set button highlights and selection, depending on whether we're coming from the Choose Seed
+    // keyboard screen
+    choose_deck_selection_grid.selection = s_coming_from_seed_menu
+                                             ? RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED
+                                             : RUN_SETUP_CHOOSE_DECK_INIT_SEL;
+    toggle_seed_enabled(s_use_seed);
+    button_set_highlight(&change_deck_button, false);
+    button_set_highlight(
+        &choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_PLAY],
+        !s_coming_from_seed_menu
+    );
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_USE_SEED], false);
-    button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_PLAY], false);
+    button_set_highlight(
+        &choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED],
+        s_coming_from_seed_menu
+    );
     button_set_highlight(&back_button, false);
-    toggle_seed_enabled(use_seed);
+    s_coming_from_seed_menu = false;
 
     // Print button text
     tte_printf(
@@ -700,14 +774,7 @@ static void choose_deck_substate_init(void)
         RUN_SETUP_PLAY_TEXT_POS.x,
         RUN_SETUP_PLAY_TEXT_POS.y,
         TTE_WHITE_PB,
-        "PLAY"
-    );
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%s",
-        RUN_SETUP_BACK_TEXT_POS.x,
-        RUN_SETUP_BACK_TEXT_POS.y,
-        TTE_WHITE_PB,
-        "Back"
+        " PLAY "
     );
 }
 
@@ -823,7 +890,8 @@ static inline void update_seed_text(void)
  */
 static void seed_keyboard_substate_init(void)
 {
-    choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;
+    tab_set_highlight(RUN_SETUP_TAB_NEW_RUN);
+
     tte_erase_rect_wrapper(RUN_SETUP_DECK_NAME_DESC_RECT);
 
     // Hide Deck card sprite
@@ -852,10 +920,11 @@ static void seed_keyboard_substate_init(void)
         RUN_SETUP_SEED_DECK_TEXT_POS.x,
         RUN_SETUP_SEED_DECK_TEXT_POS.y,
         TTE_WHITE_PB,
-        "Deck " // extra space after to clean potential "Seed" text
+        " Deck " // extra space after to clean potential "Seed" text
     );
 
     // Set buttons highlight
+    choose_seed_selection_grid.selection = RUN_SETUP_CHOOSE_SEED_INIT_SEL;
     for (enum RunSetupKeyboardButtons key = RUN_SETUP_KEYBOARD_BEGIN; key < RUN_SETUP_KEYBOARD_MAX;
          key++)
     {
@@ -1103,10 +1172,8 @@ static bool choose_seed_row_on_selection_changed(
  */
 static void deck_on_pressed(void)
 {
+    s_coming_from_seed_menu = true;
     state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
-    choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_SEL_FROM_SEED;
-    button_set_highlight(&change_deck_button, false);
-    button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], true);
 }
 
 // RESUME GAME
@@ -1117,9 +1184,102 @@ static void deck_on_pressed(void)
 static void resume_substate_init(void)
 {
     tab_set_highlight(RUN_SETUP_TAB_RESUME);
+    resume_selection_grid.selection = RUN_SETUP_RESUME_INIT_SEL;
 
-    // Show Deck card sprite
+    get_game_saved_data(&s_save_game);
+
+    // Show Deck sprite, name and description
     sprite_object_unhide((SpriteObject*)run_setup_deck);
+    print_deck_name(s_save_game.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
+    print_deck_description(s_save_game.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
+
+    // Clean frame and expand 9-patch for the Deck choice background
+    main_bg_se_copy_expand_tile(
+        RUN_SETUP_CHOOSE_DECK_CLEAN_LEFT_DEST,
+        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS
+    );
+    main_bg_se_copy_expand_tile(
+        RUN_SETUP_CHOOSE_DECK_CLEAN_RIGHT_DEST,
+        RUN_SETUP_FRAME_BG_SE_FILL_SRC_POS
+    );
+    main_bg_se_copy_expand_9_patch(
+        RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_DEST,
+        &RUN_SETUP_CHOOSE_DECK_CHOICE_BG_9_PTCH_SRC
+    );
+
+    // Seed display background
+    main_bg_se_copy_expand_3x3_rect(RUN_SETUP_RESUME_SEED_DEST, RUN_SETUP_RESUME_SEED_3X3_SRC_POS);
+
+    // Set button highlights
+    button_set_highlight(&change_deck_button, false);
+    button_set_highlight(&resume_button, true);
+    button_set_highlight(&back_button, false);
+
+    // Print button text
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        RUN_SETUP_PLAY_TEXT_POS.x,
+        RUN_SETUP_PLAY_TEXT_POS.y,
+        TTE_WHITE_PB,
+        "RESUME"
+    );
+
+    char save_seed[BASE36_MAX_DIGITS + 1];
+    u32_to_base36(s_save_game.rng_info.seed, save_seed);
+    tte_printf(
+        "#{P:%d,%d; cx:0x%X000}%s",
+        RUN_SETUP_SEED_DECK_TEXT_POS.x,
+        RUN_SETUP_SEED_DECK_TEXT_POS.y,
+        TTE_WHITE_PB,
+        save_seed
+    );
+}
+
+static void resume_substate_update(void)
+{
+    selection_grid_process_input(&resume_selection_grid);
+}
+
+static int resume_get_row_size(void)
+{
+    return 1;
+}
+
+static void resume_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+{
+    if (key_hit(KEY_CONFIRM))
+        button_press(&resume_button);
+}
+
+static bool resume_row_on_selection_changed(
+    SelectionGrid* selection_grid,
+    int row_idx,
+    const Selection* prev_selection,
+    const Selection* new_selection
+)
+{
+    Button* button = NULL;
+    if (row_idx == RUN_SETUP_RESUME_ROW_PLAY)
+        button = &resume_button;
+    else if (row_idx == RUN_SETUP_RESUME_ROW_BACK)
+        button = &back_button;
+
+    if (row_idx == prev_selection->y)
+        button_set_highlight(button, false);
+
+    if (row_idx == new_selection->y)
+        button_set_highlight(button, true);
+
+    return true;
+}
+
+static void resume_on_pressed(void)
+{
+    affine_background_change_background(AFFINE_BG_GAME);
+    // Since load_game will call game_reset, which deletes the whole game state machine,
+    // we need to call the Run Setup screen's _on_exit callback manually
+    run_setup_on_exit();
+    load_game(&s_save_game);
 }
 
 // COMMON BUTTONS
@@ -1133,16 +1293,16 @@ static void resume_substate_init(void)
  */
 static inline void toggle_seed_enabled(bool enable)
 {
-    use_seed = enable;
+    s_use_seed = enable;
 
     // Apply right main color to the Button
     choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED].button_pal_idx =
-        use_seed ? BLUE_BTN_MAIN_COLOR_PAL_IDX : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;
+        s_use_seed ? BLUE_BTN_MAIN_COLOR_PAL_IDX : BLUE_DISABLED_BTN_MAIN_COLOR_PAL_IDX;
     button_set_highlight(&choose_deck_bottom_buttons[RUN_SETUP_DECK_BB_SEED], false);
 
     // Replace Seed button tiles with the disabled one's
-    BG_POINT button_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS
-                                     : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;
+    BG_POINT button_tiles = s_use_seed ? RUN_SETUP_CHOOSE_DECK_SEED_BTN_3X3_SRC_POS
+                                       : RUN_SETUP_CHOOSE_DECK_SEED_BTN_DISABLED_3X3_SRC_POS;
     main_bg_se_copy_expand_3x3_rect(RUN_SETUP_CHOOSE_DECK_SEED_BTN_DEST, button_tiles);
 
     // Print Seed button text with the right color
@@ -1150,13 +1310,13 @@ static inline void toggle_seed_enabled(bool enable)
         "#{P:%d,%d; cx:0x%X000}%s",
         RUN_SETUP_SEED_DECK_TEXT_POS.x,
         RUN_SETUP_SEED_DECK_TEXT_POS.y,
-        use_seed ? TTE_WHITE_PB : TTE_BLACK_PB,
-        " Seed" // Extra space before to clean potential "Deck" text
+        s_use_seed ? TTE_WHITE_PB : TTE_BLACK_PB,
+        "  Seed" // Extra space before to clean potential "Deck" text
     );
 
     // Replace toggle button tiles with either checkmark of empty circle
-    Rect toggle_tiles = use_seed ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC
-                                 : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;
+    Rect toggle_tiles = s_use_seed ? RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_ON_SRC
+                                   : RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_OFF_SRC;
     main_bg_se_copy_rect(toggle_tiles, RUN_SETUP_CHOOSE_DECK_USE_SEED_BTN_DEST_POS);
 }
 
@@ -1165,7 +1325,7 @@ static inline void toggle_seed_enabled(bool enable)
  */
 static void use_seed_on_pressed(void)
 {
-    toggle_seed_enabled(!use_seed);
+    toggle_seed_enabled(!s_use_seed);
 }
 
 /**
@@ -1173,7 +1333,7 @@ static void use_seed_on_pressed(void)
  */
 static void seed_on_pressed(void)
 {
-    if (use_seed)
+    if (s_use_seed)
         state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_SEED);
 }
 
@@ -1184,12 +1344,12 @@ static void play_on_pressed(void)
 {
     // Apply provided Seed if enabled, and if we entered one. This prevents us from always using
     // seed "ZZZZZZ" if we enter the Seed menu and hit Play without typing anything.
-    if (use_seed && strlen(s_seed_str) > 0)
+    if (s_use_seed && strlen(s_seed_str) > 0)
         rng_set_seed(base36_to_u32(s_seed_str));
     else
         rng_shuffle_seed();
 
-    use_seed = false;
+    s_use_seed = false;
 
     game_change_state(GAME_STATE_GAME_START);
 }
@@ -1232,7 +1392,7 @@ static void run_setup_tabs_update(void)
 
     // Either not pressed anything or there is no saved data, "Resume" tab is left grayed out and
     // only one tab is available. Return early to not spend time on tab-changing logic
-    if (!key_hit(KEY_ANY) || !is_saved_game_valid)
+    if (!key_hit(KEY_TAB_RIGHT | KEY_TAB_LEFT) || !s_is_saved_game_valid)
         return;
 
     // Not all the way to the right and pressed R
