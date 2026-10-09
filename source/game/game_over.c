@@ -325,7 +325,7 @@ static Button* game_over_get_button_from_sel(const Selection* selection)
 
 static void game_over_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
         button_press(&game_over_buttons[selection->y][selection->x]);
 }
 

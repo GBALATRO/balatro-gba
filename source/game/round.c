@@ -572,7 +572,7 @@ static bool round_hand_row_on_selection_changed(
 
     bool on_the_same_row = new_selection->y == prev_selection->y; // == GAME_PLAYING_HAND_SEL_Y
 
-    if (on_the_same_row && key_is_down(SELECT_CARD) && !s_card_moved_too_fast &&
+    if (on_the_same_row && key_is_down(KEY_CARD_SELECT) && !s_card_moved_too_fast &&
         !s_card_selected_instead_of_moved)
     {
         bool moved_by_one_tile = abs(new_selection->x - prev_selection->x) == 1;
@@ -602,7 +602,7 @@ static bool round_hand_row_on_selection_changed(
     else
     {
         // select current card if we tried moving it too fast
-        if (key_released(SELECT_CARD) || (s_card_moved_too_fast && !s_moving_card))
+        if (key_released(KEY_CARD_SELECT) || (s_card_moved_too_fast && !s_moving_card))
         {
             hand_select_card(prev_card_idx);
             s_card_selected_instead_of_moved = true;
@@ -625,11 +625,11 @@ static bool round_hand_row_on_selection_changed(
 
 static void round_hand_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CARD_SELECT))
     {
         s_selection_hit_timer = g_game_vars.timer;
     }
-    else if (key_released(SELECT_CARD))
+    else if (key_released(KEY_CARD_SELECT))
     {
         if (!s_moving_card && !s_card_selected_instead_of_moved)
         {
@@ -640,16 +640,16 @@ static void round_hand_row_on_key_transit(SelectionGrid* selection_grid, Selecti
         s_card_selected_instead_of_moved = false;
         s_selection_hit_timer = UNDEFINED;
     }
-    else if (key_hit(DESELECT_CARDS))
+    else if (key_hit(KEY_CARDS_DESELECT))
     {
         hand_deselect_all_cards();
         compute_hand_value_info();
     }
-    else if (key_hit(PLAY_HAND_KEY))
+    else if (key_hit(KEY_PLAY_HAND))
     {
         round_execute_play_hand();
     }
-    else if (key_hit(DISCARD_HAND_KEY))
+    else if (key_hit(KEY_DISCARD_HAND))
     {
         round_execute_discard();
     }
@@ -696,7 +696,7 @@ static bool round_button_row_on_selection_changed(
 
 static void round_button_row_on_key_hit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&game_round_buttons[selection->x]);
     }

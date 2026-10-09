@@ -196,7 +196,7 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
         combo_pressed = false;
     }
 
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&main_menu_buttons[selection->x]);
     }

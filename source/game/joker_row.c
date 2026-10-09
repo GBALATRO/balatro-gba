@@ -24,7 +24,7 @@ bool jokers_sel_row_on_selection_changed(
 
     // swap Jokers if the A button is held down and all Jokers are on the same row
     bool swapping =
-        key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
+        key_is_down(KEY_CARD_SELECT) && new_selection->y == row_idx && prev_selection->y == row_idx;
 
     if (prev_selection->y == row_idx)
     {
@@ -51,7 +51,7 @@ bool jokers_sel_row_on_selection_changed(
             // If we land on this row while the A button is being held, we are in swapping mode
             // This means that we need to hide the price, whether we were already
             // on this row or if we come from another
-            if (!key_is_down(SELECT_CARD))
+            if (!key_is_down(KEY_CARD_SELECT))
             {
                 sprite_object_print_price_under(
                     (SpriteObject*)joker_object,
@@ -94,11 +94,11 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(get_jokers_list(), selection->x);
     if (joker_object != NULL)
     {
-        if (key_hit(SELECT_CARD))
+        if (key_hit(KEY_CARD_SELECT))
         {
             sprite_object_erase_text_under((SpriteObject*)joker_object);
         }
-        else if (key_released(SELECT_CARD))
+        else if (key_released(KEY_CARD_SELECT))
         {
             sprite_object_print_price_under(
                 (SpriteObject*)joker_object,
@@ -107,7 +107,7 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         }
     }
 
-    if (key_hit(SELL_KEY))
+    if (key_hit(KEY_SELL))
     {
         int sold_joker_idx = selection->x;
 
