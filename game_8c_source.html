@@ -816,33 +816,31 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>        }</div>
 <div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>    }</div>
 <div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span> </div>
-<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>    <a class="code hl_function" href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a>(BG_BLIND_SELECT, <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span> </div>
-<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    <span class="comment">// Deck size/max size</span></div>
-<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(DECK_SIZE_RECT);</div>
-<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>    tte_printf(</div>
-<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%d/%d&quot;</span>,</div>
-<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        DECK_SIZE_RECT.left,</div>
-<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        DECK_SIZE_RECT.top,</div>
-<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        TTE_WHITE_PB,</div>
-<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        deck_get_size(),</div>
-<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>        deck_get_max_size()</div>
-<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>    );</div>
-<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span> </div>
-<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>    display_round();                  <span class="comment">// Set the round display</span></div>
-<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>    display_score(g_game_vars.score); <span class="comment">// Set the score display</span></div>
-<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span> </div>
-<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>    display_chips(); <span class="comment">// Set the chips display</span></div>
-<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>    display_mult();  <span class="comment">// Set the multiplier display</span></div>
-<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span> </div>
-<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>    display_hands();    <span class="comment">// Hand</span></div>
-<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>    display_discards(); <span class="comment">// Discard</span></div>
-<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span> </div>
-<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>    display_money(); <span class="comment">// Set the money display</span></div>
-<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>    display_ante();</div>
-<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span> </div>
-<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>    game_change_state(GAME_STATE_BLIND_SELECT);</div>
-<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>}</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>    <span class="comment">// Deck size/max size</span></div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>    <a class="code hl_function" href="graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7">tte_erase_rect_wrapper</a>(DECK_SIZE_RECT);</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>    tte_printf(</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>        <span class="stringliteral">&quot;#{P:%d,%d; cx:0x%X000}%d/%d&quot;</span>,</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>        DECK_SIZE_RECT.left,</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>        DECK_SIZE_RECT.top,</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>        TTE_WHITE_PB,</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        deck_get_size(),</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>        deck_get_max_size()</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>    );</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span> </div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>    display_round();                  <span class="comment">// Set the round display</span></div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>    display_score(g_game_vars.score); <span class="comment">// Set the score display</span></div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span> </div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>    display_chips(); <span class="comment">// Set the chips display</span></div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>    display_mult();  <span class="comment">// Set the multiplier display</span></div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span> </div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>    display_hands();    <span class="comment">// Hand</span></div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>    display_discards(); <span class="comment">// Discard</span></div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span> </div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>    display_money(); <span class="comment">// Set the money display</span></div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>    display_ante();</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span> </div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>    game_change_state(GAME_STATE_BLIND_SELECT);</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>}</div>
 <div class="ttc" id="aaffine__background_8h_html"><div class="ttname"><a href="affine__background_8h.html">affine_background.h</a></div><div class="ttdoc">Utilities for affine background on GBA.</div></div>
 <div class="ttc" id="aaffine__background_8h_html_a7be0cf280b30b6df358b84c785a35e64a2157eda7fc259fcae0f4d4bda343e4ee"><div class="ttname"><a href="affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64a2157eda7fc259fcae0f4d4bda343e4ee">AFFINE_BG_GAME</a></div><div class="ttdeci">@ AFFINE_BG_GAME</div><div class="ttdoc">Display background for game play.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8h_source.html#l00056">affine_background.h:56</a></div></div>
 <div class="ttc" id="aaffine__background_8h_html_aa6cd0433282441f6df3317b595fef90a"><div class="ttname"><a href="affine__background_8h.html#aa6cd0433282441f6df3317b595fef90a">affine_background_change_background</a></div><div class="ttdeci">void affine_background_change_background(enum AffineBackgroundID new_bg)</div><div class="ttdoc">Update the background id.</div><div class="ttdef"><b>Definition</b> <a href="affine__background_8c_source.html#l00081">affine_background.c:81</a></div></div>
@@ -852,7 +850,6 @@ $(document).ready(function(){initNavTree('game_8c_source.html',''); initResizabl
 <div class="ttc" id="ablind__select_8h_html"><div class="ttname"><a href="blind__select_8h.html">blind_select.h</a></div><div class="ttdoc">Blind select state functions.</div></div>
 <div class="ttc" id="abutton_8h_html"><div class="ttname"><a href="button_8h.html">button.h</a></div><div class="ttdoc">A button structure containing the common button functionalities Including highlight and pressing func...</div></div>
 <div class="ttc" id="acommon__ui_8h_html"><div class="ttname"><a href="common__ui_8h.html">common_ui.h</a></div><div class="ttdoc">Common functions to render UI elements.</div></div>
-<div class="ttc" id="acommon__ui_8h_html_a7cc065b753e494969940447dfb3fb599"><div class="ttname"><a href="common__ui_8h.html#a7cc065b753e494969940447dfb3fb599">change_background</a></div><div class="ttdeci">void change_background(enum BackgroundId id, bool force_redraw)</div><div class="ttdef"><b>Definition</b> <a href="common__ui_8c_source.html#l00035">common_ui.c:35</a></div></div>
 <div class="ttc" id="agame__over_8h_html"><div class="ttname"><a href="game__over_8h.html">game_over.h</a></div><div class="ttdoc">Game Over screen state functions.</div></div>
 <div class="ttc" id="agame__variables_8h_html"><div class="ttname"><a href="game__variables_8h.html">game_variables.h</a></div><div class="ttdoc">Game global game variables struct definition.</div></div>
 <div class="ttc" id="agraphic__utils_8h_html"><div class="ttname"><a href="graphic__utils_8h.html">graphic_utils.h</a></div><div class="ttdoc">Graphic utility functions.</div></div>
