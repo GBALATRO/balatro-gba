@@ -2,5 +2,6 @@ FROM devkitpro/devkitarm:20251117
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN git config --global --add safe.directory '*'
 RUN apt-get update && apt-get install -y \
     python3-pil
