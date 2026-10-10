@@ -5,9 +5,7 @@
 #ifndef SKIP_TAGS_H
 #define SKIP_TAGS_H
 
-#include "game/common_ui.h"
-#include "graphic_utils.h"
-#include "joker.h"
+#include "list.h"
 #include "sprite.h"
 
 #include <tonc.h>

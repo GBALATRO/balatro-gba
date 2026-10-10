@@ -4,8 +4,6 @@
 #include "game.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
-#include "item.h"
-#include "mgba_logger.h"
 #include "pool.h"
 #include "random.h"
 #include "soundbank.h"

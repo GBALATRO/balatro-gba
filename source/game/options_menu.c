@@ -1,6 +1,5 @@
 #include "game/options_menu.h"
 
-#include "affine_background.h"
 #include "audio_utils.h"
 #include "background_options_menu_gfx.h"
 #include "button.h"

@@ -1,29 +1,20 @@
 #include "affine_background.h"
+#include "audio_utils.h"
 #include "blind.h"
 #include "card.h"
-#include "font.h"
 #include "game.h"
 #include "gbalatro_sys8.h"
 #include "graphic_utils.h"
 #include "joker.h"
 #include "random.h"
 #include "save.h"
+#include "soundbank.h"
+#include "soundbank_bin.h"
 #include "sprite.h"
 
 #include <maxmod.h>
 #include <string.h>
 #include <tonc.h>
-
-// Graphics
-#include "affine_background_gfx.h"
-#include "background_gfx.h"
-#include "graphic_utils.h"
-
-// Audio
-#include "audio_utils.h"
-#include "mgba_logger.h"
-#include "soundbank.h"
-#include "soundbank_bin.h"
 
 void init()
 {

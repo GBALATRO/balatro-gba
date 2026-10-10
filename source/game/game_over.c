@@ -9,7 +9,6 @@
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
-#include "layout.h"
 #include "list.h"
 #include "random.h"
 #include "selection_grid.h"
