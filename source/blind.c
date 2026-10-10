@@ -9,7 +9,6 @@
 #include "game.h"
 #include "game/common_ui.h"
 #include "graphic_utils.h"
-#include "hand.h"
 #include "list.h"
 #include "random.h"
 #include "stdbool.h"

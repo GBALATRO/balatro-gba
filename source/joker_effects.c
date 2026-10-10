@@ -4,7 +4,6 @@
 #include "hand.h"
 #include "joker.h"
 #include "list.h"
-#include "pool.h"
 #include "random.h"
 #include "util.h"
 
