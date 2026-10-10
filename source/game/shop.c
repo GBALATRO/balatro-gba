@@ -922,6 +922,4 @@ void game_shop_on_exit(void)
     increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 
     state_machine_remove(&shop_sm);
-
-    save_game();
 }
