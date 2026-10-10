@@ -1,7 +1,6 @@
 #include "game/common_ui.h"
 
 #include "blind_select.h"
-#include "game.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
 #include "game/round.h"

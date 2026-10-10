@@ -1,12 +1,10 @@
 #include "game/joker_row.h"
 
 #include "game.h"
-#include "game_variables.h"
 #include "joker.h"
-#include "layout.h"
 #include "list.h"
+#include "mgba_logger.h"
 #include "sprite.h"
-#include "util.h"
 
 int jokers_sel_row_get_size(void)
 {

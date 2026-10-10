@@ -2,8 +2,8 @@
 
 #include "card.h"
 #include "game.h"
-#include "game/shop.h"
 #include "joker.h"
+#include "mgba_logger.h"
 #include "util.h"
 
 static bool item_always_can_acquire(Item* item);

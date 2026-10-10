@@ -1,7 +1,5 @@
 #include "mgba_logger.h"
 
-#include "util.h"
-
 #ifdef MGBA_LOGGING
 
 #include <stdarg.h>

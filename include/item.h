@@ -12,7 +12,6 @@
 #define ITEM_H
 
 #include "graphic_utils.h"
-#include "mgba_logger.h"
 #include "random.h"
 #include "sprite.h"
 #include "util.h"

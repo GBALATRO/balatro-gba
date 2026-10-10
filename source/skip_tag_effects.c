@@ -6,7 +6,6 @@
 #include "hand.h"
 #include "joker.h"
 #include "list.h"
-#include "round_end.h"
 #include "skip_tag.h"
 #include "util.h"
 
