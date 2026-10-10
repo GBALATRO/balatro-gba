@@ -1,5 +1,6 @@
 #include "joker.h"
 
+#include "bitset.h"
 #include "card.h"
 #include "game/round.h"
 #include "game_variables.h"
@@ -50,7 +51,8 @@ static bool s_used_layers[MAX_JOKER_OBJECTS] = {false}; // Track used layers for
 static int s_joker_spritesheet_pb_map[MAX_NUM_JOKERS_SPRITESHEETS];
 static int s_joker_pb_num_sprite_users[JOKER_LAST_PB - JOKER_BASE_PB + 1] = {0};
 
-BITSET_DEFINE(s_rollable_jokers_bitset, MAX_DEFINABLE_JOKERS)
+// Initialize this to be the max size, it will be resized to the number of jokers at initialization
+BITSET_DEFINE(s_rollable_jokers_bitset, BITSET_MAX_BITS)
 
 // See linked issue for context of maps
 // https://github.com/GBALATRO/balatro-gba/issues/274#issue-3685075538
@@ -105,6 +107,8 @@ static enum JokerRarity joker_get_random_rarity(enum RngSequence key);
 
 void joker_init()
 {
+    bitset_clear(&s_rollable_jokers_bitset);
+    s_rollable_jokers_bitset.cap = get_joker_registry_size();
     // This should init once only so no need to free
     int num_spritesheets = s_get_num_spritesheets();
 
@@ -372,13 +376,8 @@ static inline bool joker_is_rollable(int joker_id)
 
 void joker_reset_rollable_jokers(void)
 {
-    int num_jokers = get_joker_registry_size();
-
     bitset_clear(&s_rollable_jokers_bitset);
-    for (int i = 0; i < num_jokers; i++)
-    {
-        bitset_set_idx(&s_rollable_jokers_bitset, i, true);
-    }
+    bitset_set_all(&s_rollable_jokers_bitset);
 }
 
 int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key)
