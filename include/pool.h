@@ -116,7 +116,7 @@
  *
  * @warning `type` must be the same type called with @ref POOL_GET. Otherwise it is undefined
  * behavior
- * 
+ *
  * @sa POOL_GET
  */
 #define POOL_FREE(type, obj) pool_free_##type(obj)
@@ -129,7 +129,7 @@
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @param obj A pointer `obj` of `type` with associated pool
  * @ret The index of `obj` in the mempool
- * 
+ *
  * @sa POOL_AT
  */
 #define POOL_IDX(type, obj) pool_idx_##type(obj)
@@ -142,7 +142,7 @@
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @param idx The index of the desired object in the pool, must be a value of 0 to pool_size - 1
  * @ret A pointer of `type`
- * 
+ *
  * @sa POOL_IDX
  */
 #define POOL_AT(type, idx) pool_at_##type(idx)
