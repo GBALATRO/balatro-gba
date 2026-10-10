@@ -146,18 +146,6 @@ bool bitset_is_empty(Bitset* bitset);
 int bitset_num_set_bits(Bitset* bitset);
 
 /**
- * @brief Find the index of the nth set bit
- *
- * Find the index of the nth flag set to `1`. This function is useful to get one value quickly,
- * but does not operate iteratively well. Use a @BitsetItr for iterative access to a bitset.
- *
- * @param bitset A @ref Bitset to operate on
- *
- * @return The index of the nth flag set to `1` in the bitset
- */
-int bitset_find_idx_of_nth_set(const Bitset* bitset, int n);
-
-/**
  * @brief Declare a @ref BitsetItr
  *
  * @param bitset A @ref Bitset to operate on
