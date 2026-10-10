@@ -15,6 +15,7 @@
 
 #include "bitset.h"
 #include "mgba_logger.h"
+#include "util.h"
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -79,18 +80,29 @@
     void pool_free_##type(type* entry)                                                   \
     {                                                                                    \
         if (entry == NULL)                                                               \
+        {                                                                                \
+            MGBA_FUNC_ERROR("Cannot free NULL in pool %s", "##type");                    \
             return;                                                                      \
+        }                                                                                \
         int offset = entry - &type##_pool.objects[0];                                    \
         bitset_set_idx(type##_pool.bitset, offset, false);                               \
     }                                                                                    \
     int pool_idx_##type(type* entry)                                                     \
     {                                                                                    \
+        if (entry == NULL)                                                               \
+        {                                                                                \
+            MGBA_FUNC_ERROR("Cannot find index of NULL in pool %s", "##type");           \
+            return UNDEFINED;                                                            \
+        }                                                                                \
         return entry - &type##_pool.objects[0];                                          \
     }                                                                                    \
     type* pool_at_##type(int idx)                                                        \
     {                                                                                    \
         if (idx < 0 || idx >= (type##_pool.bitset)->cap)                                 \
+        {                                                                                \
+            MGBA_FUNC_ERROR("Index %d is out of range for pool %s", idx, "##type");      \
             return NULL;                                                                 \
+        }                                                                                \
         return &type##_pool.objects[idx];                                                \
     }
 
@@ -130,6 +142,9 @@
  * @param obj A pointer `obj` of `type` with associated pool
  * @ret The index of `obj` in the mempool
  *
+ * @warning `type` must be the same type called with @ref POOL_GET. Otherwise it is undefined
+ * behavior
+ *
  * @sa POOL_AT
  */
 #define POOL_IDX(type, obj) pool_idx_##type(obj)
@@ -142,6 +157,9 @@
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @param idx The index of the desired object in the pool, must be a value of 0 to pool_size - 1
  * @ret A pointer of `type`
+ *
+ * @warning `type` must be the same type called with @ref POOL_GET. Otherwise it is undefined
+ * behavior
  *
  * @sa POOL_IDX
  */
