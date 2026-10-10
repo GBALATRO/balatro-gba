@@ -32,6 +32,47 @@ static bool free_affines[MAX_AFFINES] = {false};
 
 static List sprite_objects_list = LIST_DEFAULT;
 
+/**
+ * @brief Tile index LUT for all sprite types. Filled at init by calling `sprite_init`
+ *
+ * @sa sprite_init
+ */
+static int s_sprite_tids[MAX_SPRITE_TYPE] = {0};
+
+/**
+ * @brief Starting layer LUT for all sprite types. Filled at init by calling `sprite_init`
+ *
+ * @sa sprite_init
+ */
+static int s_sprite_starting_layers[MAX_SPRITE_TYPE] = {0};
+
+// clang-format off
+static const int s_sprite_counts[MAX_SPRITE_TYPE] = {
+    [CARD_SPRITE]        = MAX_HAND_SIZE + MAX_SELECTION_SIZE,
+    [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
+    [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
+    [JOKER_SPRITE]       = MAX_ACTIVE_JOKERS,
+    [DECK_SPRITE]        = 1
+};
+static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
+    [CARD_SPRITE]        = CARD_SPRITE_TILES,
+    [BLIND_TOKEN_SPRITE] = BLIND_SPRITE_TILES,
+    [SKIP_TAG_SPRITE]    = SKIP_TAG_SPRITE_TILES,
+    [JOKER_SPRITE]       = JOKER_SPRITE_TILES,
+    [DECK_SPRITE]        = CARD_SPRITE_TILES
+};
+// clang-format on
+
+int sprite_get_tid(enum SpriteType sprite_type, s16 layer)
+{
+    return s_sprite_tids[sprite_type] + layer * s_sprite_sizes[sprite_type];
+}
+
+int sprite_get_starting_layer(enum SpriteType sprite_type)
+{
+    return s_sprite_starting_layers[sprite_type];
+}
+
 // Sprite methods
 Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 {
@@ -115,15 +156,15 @@ void sprite_destroy(Sprite** sprite)
 
 s16 sprite_get_layer(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, UNDEFINED);
+    GBAL_RETURN_IF_NULL(sprite, UNDEFINED);
 
     return (s16)(sprite->obj - obj_buffer);
 }
 
 bool sprite_get_width(Sprite* sprite, int* width)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(width, false);
+    GBAL_RETURN_IF_NULL(sprite, false);
+    GBAL_RETURN_IF_NULL(width, false);
 
     *width = obj_get_width(sprite->obj);
     return true;
@@ -131,8 +172,8 @@ bool sprite_get_width(Sprite* sprite, int* width)
 
 bool sprite_get_height(Sprite* sprite, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(height, false);
+    GBAL_RETURN_IF_NULL(sprite, false);
+    GBAL_RETURN_IF_NULL(height, false);
 
     *height = obj_get_height(sprite->obj);
     return true;
@@ -140,9 +181,9 @@ bool sprite_get_height(Sprite* sprite, int* height)
 
 bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, false);
-    GBAL_RETURN_IF_NULL_RET(width, false);
-    GBAL_RETURN_IF_NULL_RET(height, false);
+    GBAL_RETURN_IF_NULL(sprite, false);
+    GBAL_RETURN_IF_NULL(width, false);
+    GBAL_RETURN_IF_NULL(height, false);
 
     const u8* size = obj_get_size(sprite->obj);
     *width = size[0];
@@ -154,6 +195,16 @@ bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 void sprite_init()
 {
     oam_init(obj_buffer, MAX_SPRITES);
+
+    // Start at 1, since the first element has a TID and starting layer of 0
+    for (enum SpriteType sprite_type = 1; sprite_type < MAX_SPRITE_TYPE; sprite_type++)
+    {
+        s_sprite_tids[sprite_type] =
+            s_sprite_tids[sprite_type - 1] +
+            s_sprite_counts[sprite_type - 1] * s_sprite_sizes[sprite_type - 1];
+        s_sprite_starting_layers[sprite_type] =
+            s_sprite_starting_layers[sprite_type - 1] + s_sprite_counts[sprite_type - 1];
+    }
 }
 
 void sprite_draw()
@@ -163,21 +214,21 @@ void sprite_draw()
 
 int sprite_get_pb(const Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite, UNDEFINED);
+    GBAL_RETURN_IF_NULL(sprite, UNDEFINED);
 
     return (sprite->obj->attr2 & ATTR2_PALBANK_MASK) >> ATTR2_PALBANK_SHIFT;
 }
 
 void sprite_hide(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite);
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
 
     obj_hide(sprite->obj);
 }
 
 void sprite_unhide(Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite);
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
 
     obj_unhide(sprite->obj, sprite->mode);
 }
@@ -185,7 +236,7 @@ void sprite_unhide(Sprite* sprite)
 // SpriteObject methods
 void sprite_object_init(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_object->sprite = NULL;
     sprite_object_reset_transform(sprite_object);
@@ -196,7 +247,7 @@ void sprite_object_init(SpriteObject* sprite_object)
 
 void sprite_object_destroy(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     list_remove_data(&sprite_objects_list, sprite_object);
     sprite_destroy(&sprite_object->sprite);
@@ -204,7 +255,7 @@ void sprite_object_destroy(SpriteObject* sprite_object)
 
 void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_destroy(&sprite_object->sprite); // Destroy the old sprite if it exists
     sprite_object->sprite = sprite;
@@ -212,21 +263,21 @@ void sprite_object_set_sprite(SpriteObject* sprite_object, Sprite* sprite)
 
 void sprite_object_hide(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_hide(sprite_object->sprite);
 }
 
 void sprite_object_unhide(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_unhide(sprite_object->sprite);
 }
 
 void sprite_object_reset_transform(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     sprite_object_position(sprite_object, 0, 0); // Target position
     sprite_object->vx = 0;
@@ -347,12 +398,14 @@ void sprite_object_update_all(void)
     }
 }
 
+#define SPRITE_SHAKE_VSCALE    0.3f
+#define SPRITE_SHAKE_VROTATION 8.0f
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
-    sprite_object->vscale = float2fx(0.3f);
-    sprite_object->vrotation = float2fx(8.0f); // Rotate the card when it's scored
+    sprite_object->vscale = float2fx(SPRITE_SHAKE_VSCALE);
+    sprite_object->vrotation = float2fx(SPRITE_SHAKE_VROTATION); // Rotate the card when it's scored
 
     if (sound_id == UNDEFINED)
         return; // If no sound ID is provided, do nothing
@@ -360,16 +413,39 @@ void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id)
     play_sfx(sound_id, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
 }
 
+void sprite_object_bounce(SpriteObject* sprite_object, FIXED strength)
+{
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
+    sprite_object->vscale = strength;
+}
+
+#define SPRITE_SWAY_VROTATION -10.0f
+void sprite_object_sway(SpriteObject* sprite_object)
+{
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
+    sprite_object->vrotation = float2fx(SPRITE_SWAY_VROTATION);
+}
+
+void sprite_object_set_target(SpriteObject* sprite_object, BG_POINT to)
+{
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
+    if (to.x == UNDEFINED || to.y == UNDEFINED)
+        return;
+
+    sprite_object->tx = int2fx(to.x);
+    sprite_object->ty = int2fx(to.y);
+}
+
 Sprite* sprite_object_get_sprite(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, NULL);
+    GBAL_RETURN_IF_NULL(sprite_object, NULL);
 
     return sprite_object->sprite;
 }
 
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     if (sprite_object->focused == focus)
     {
@@ -387,28 +463,28 @@ void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)
 
 bool sprite_object_get_width(SpriteObject* sprite_object, int* width)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_width(sprite_object->sprite, width);
 }
 
 bool sprite_object_get_height(SpriteObject* sprite_object, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_height(sprite_object->sprite, height);
 }
 
 bool sprite_object_get_dimensions(SpriteObject* sprite_object, int* width, int* height)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RETURN_IF_NULL(sprite_object, false);
 
     return sprite_get_dimensions(sprite_object->sprite, width, height);
 }
 
 bool sprite_object_is_focused(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_RET(sprite_object, false);
+    GBAL_RETURN_IF_NULL(sprite_object, false);
     return sprite_object->focused;
 }
 
@@ -418,13 +494,13 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
     int width = 0;
     Rect ret_rect = {0};
 
-    GBAL_RETURN_IF_NULL_RET(sprite_object, ret_rect);
+    GBAL_RETURN_IF_NULL(sprite_object, ret_rect);
 
     if (sprite_object_get_dimensions(sprite_object, &width, &height) == false)
     {
         // fallback
-        height = CARD_SPRITE_SIZE;
-        width = CARD_SPRITE_SIZE;
+        height = CARD_SPRITE_SIZE_PX;
+        width = CARD_SPRITE_SIZE_PX;
     }
 
     ret_rect.left = fx2int(sprite_object->tx);
@@ -437,7 +513,7 @@ static Rect sprite_object_get_text_rect_under(SpriteObject* sprite_object)
 
 void sprite_object_print_text_under(SpriteObject* sprite_object, const char text[])
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
     update_text_rect_to_center_str(&text_rect, text, SCREEN_LEFT);
@@ -446,7 +522,7 @@ void sprite_object_print_text_under(SpriteObject* sprite_object, const char text
 
 void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     // + 2 for null-terminator and "$"
     char price_str_buff[INT_MAX_DIGITS + 2];
@@ -456,7 +532,7 @@ void sprite_object_print_price_under(SpriteObject* sprite_object, int price)
 
 void sprite_object_erase_text_under(SpriteObject* sprite_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(sprite_object);
+    GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);
 
     Rect text_rect = sprite_object_get_text_rect_under(sprite_object);
 

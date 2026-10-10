@@ -13,10 +13,22 @@
 #endif
 
 /**
- * @def GBAL_UNUSED
- * @brief A friendly wrapper around the not so friendly looking __attribute__ syntax for ((unused))
+ * @def GBAL_ATTRIBUTE
+ * @brief A friendly wrapper around the not so friendly looking __attribute__ syntax
  */
-#define GBAL_UNUSED __attribute__((unused))
+#define GBAL_ATTRIBUTE(attr) __attribute__((attr))
+
+/**
+ * @def GBAL_UNUSED
+ * @brief Wrapper around the "unused" attribute
+ */
+#define GBAL_UNUSED GBAL_ATTRIBUTE(unused)
+
+/**
+ * @def GBAL_FALLTHROUGH
+ * @brief Wrapper around for the "fallthrough" attribute
+ */
+#define GBAL_FALLTHROUGH GBAL_ATTRIBUTE(fallthrough)
 
 #define UNDEFINED -1
 
@@ -67,40 +79,71 @@
 #endif
 
 /**
- * @brief Checks if @p param is NULL and prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
+ * @brief Returns @p ret_val and logs error @p message if @p expression is false.
  *
- * This version is for a void function, while @ref GBAL_RETURN_ON_ERROR_VAL_RET is for one with
- * a return value.
+ * @param ret_val The value to return in case @p expression is false.
+ * Pass @ref RET_NONE in a void function
+ *
+ * @param message The message to log if @p expression is false.
+ * See @ref GBAL_RETURN_IF_ASSERT_FAILS for a version with a default message
  */
-#define GBAL_RETURN_IF_NULL_VOID(param)                        \
-    do                                                         \
-    {                                                          \
-        if ((param) == NULL)                                   \
-        {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return;                                            \
-        }                                                      \
+#define GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, message, ...) \
+    do                                                                          \
+    {                                                                           \
+        if (!(expression))                                                      \
+        {                                                                       \
+            LOG_ERROR(message __VA_OPT__(, ) __VA_ARGS__);                      \
+            return ret_val;                                                     \
+        }                                                                       \
     } while (0)
 
 /**
- * @brief Checks if @p param is equal to NULL
- * and prints error message and returns in case it is.
- * Useful for checking arguments to a function or errors during control flow.
- * @param ret_val The value to return in case @p param is equal to NULL.
+ * @brief Returns @p ret_val and logs a default error message if @p expression is false.
  *
- * This version is for a function that returns a value while @ref GBAL_RETURN_ON_ERROR_VAL_VOID
- * is for a void function.
+ * @param ret_val The value to return in case @p expression is false.
+ * Pass @ref RET_NONE in a void function
+ *
+ * See @ref GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS for a version that allows passing
+ * any custom error message.
  */
-#define GBAL_RETURN_IF_NULL_RET(param, ret_val)                \
-    do                                                         \
-    {                                                          \
-        if ((param) == NULL)                                   \
-        {                                                      \
-            LOG_ERROR("Unexpected value: %s == NULL", #param); \
-            return (ret_val);                                  \
-        }                                                      \
-    } while (0)
+#define GBAL_RETURN_IF_ASSERT_FAILS(expression, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(expression, ret_val, "Assert failed: %s", #expression)
+
+/**
+ * @brief Returns @p ret_val and prints error message if @p param is equal to NULL.
+ * Useful for checking arguments or function return values during control flow.
+ *
+ * @param ret_val The value to return in case @p param is equal to NULL.
+ * Pass @ref RET_NONE in a void function
+ *
+ * See @ref GBAL_RETURN_IF_NULL for a version that logs a default error message.
+ */
+#define GBAL_CUST_MSG_RETURN_IF_NULL(param, ret_val, message, ...) \
+    GBAL_CUST_MSG_RETURN_IF_ASSERT_FAILS(                          \
+        (param) != NULL,                                           \
+        ret_val,                                                   \
+        message __VA_OPT__(, ) __VA_ARGS__                         \
+    )
+
+/**
+ * @brief Returns @p ret_val and prints a default error message if @p param is equal to NULL.
+ * Useful for checking arguments or function return values during control flow.
+ *
+ * @param ret_val The value to return in case @p param is equal to NULL.
+ * Pass @ref RET_NONE in a void function
+ *
+ * See @ref GBAL_CUST_MSG_RETURN_IF_NULL for a version that allows passing
+ * any custom error message.
+ */
+#define GBAL_RETURN_IF_NULL(param, ret_val) \
+    GBAL_CUST_MSG_RETURN_IF_NULL(param, ret_val, "Unexpected %s == NULL", #param)
+
+/**
+ * @brief An empty return value for RETURN_IF macros when used in void functions
+ * Expands to nothing because macros expand normally with blank arguments so it's more
+ * to explicitly convey that the empty value is intended.
+ */
+#define RET_NONE
 
 /**
  * @brief Avoid overflow when adding two u32 integers

@@ -11,10 +11,9 @@
 
 #include <tonc.h>
 
-#define MAX_HAND_SIZE 16
-
 enum HandState
 {
+    HAND_TAGS,
     HAND_DRAW,
     HAND_SELECT,
     // This is actually a misnomer because it's used for the deck

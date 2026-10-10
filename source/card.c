@@ -33,7 +33,7 @@ static bool s_more_readable = DEFAULT_MORE_READABLE;
 
 void card_init()
 {
-    GRIT_CPY(&pal_obj_mem[DECK_SPRITES_PB * PAL_ROW_LEN], decks_face_down_gfxPal);
+    GRIT_CPY(&pal_obj_mem[DECK_PB * PAL_ROW_LEN], decks_face_down_gfxPal);
 }
 
 void set_cards_high_contrast(bool enable)
@@ -123,37 +123,37 @@ void card_object_destroy(CardObject** card_object)
 
 void card_object_set_sprite(CardObject* card_object, s16 layer)
 {
-    int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
+    int tile_index = sprite_get_tid(CARD_SPRITE, layer);
     const unsigned int* card_tiles = s_more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &card_tiles[CARD_SPRITE_LUT[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
-        TILE_SIZE * CARD_SPRITE_OFFSET
+        TILE_SIZE * CARD_SPRITE_TILES
     );
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,
         tile_index,
         CARD_PB,
-        layer + CARD_STARTING_LAYER
+        sprite_get_starting_layer(CARD_SPRITE) + layer
     );
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
 void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
 {
-    int tile_index = CARD_TID + (layer * CARD_SPRITE_OFFSET);
+    int tile_index = sprite_get_tid(DECK_SPRITE, layer);
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &decks_face_down_gfxTiles[DECK_SPRITE_LUT[deck] * TILE_SIZE],
-        TILE_SIZE * CARD_SPRITE_OFFSET
+        TILE_SIZE * CARD_SPRITE_TILES
     );
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,
         tile_index,
-        DECK_SPRITES_PB,
-        layer + CARD_STARTING_LAYER
+        DECK_PB,
+        sprite_get_starting_layer(DECK_SPRITE) + layer
     );
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
@@ -186,17 +186,17 @@ Sprite* card_object_get_sprite(CardObject* card_object)
 
 int card_object_get_buy_price(Item* card_object)
 {
-    GBAL_RETURN_IF_NULL_RET(card_object, UNDEFINED);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(card_object, ITEM_TYPE_PLAYING_CARD, UNDEFINED);
+    GBAL_RETURN_IF_NULL(card_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(card_object->type == ITEM_TYPE_PLAYING_CARD, UNDEFINED);
 
     return 1;
 }
 
 void card_object_dispose(Item** card_object_item)
 {
-    GBAL_RETURN_IF_NULL_VOID(card_object_item);
-    GBAL_RETURN_IF_NULL_VOID(*card_object_item);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*card_object_item, ITEM_TYPE_PLAYING_CARD);
+    GBAL_RETURN_IF_NULL(card_object_item, RET_NONE);
+    GBAL_RETURN_IF_NULL(*card_object_item, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS((*card_object_item)->type == ITEM_TYPE_PLAYING_CARD, RET_NONE);
 
     CardObject* card_object = (CardObject*)(*card_object_item);
     card_object_destroy(&card_object);

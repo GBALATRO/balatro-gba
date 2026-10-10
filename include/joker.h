@@ -14,36 +14,17 @@
 
 #include <maxmod.h>
 
-// This won't be more than the number of jokers in your current deck
-// plus the amount that can fit in the shop, 8 should be fine. For now...
-#define MAX_ACTIVE_JOKERS 8
-
 #define MAX_DEFINABLE_JOKERS 150
 
-#define JOKER_SPRITE_OFFSET  16 // Offset for the joker sprites
-#define JOKER_STARTING_LAYER 26
-// Tile ID for the starting index in the tile memory
-#define JOKER_TID     (JOKER_STARTING_LAYER * JOKER_SPRITE_OFFSET)
-#define JOKER_BASE_PB 4 // The starting palette index for the jokers, after the boss blind tokens
-#define JOKER_LAST_PB (NUM_PALETTES - 1)
-// Currently allocating the rest of the palettes for the jokers.
-// This number needs to be decreased once we need to allocated palettes for other sprites
-// such as planet cards etc.
-
-#define BASE_EDITION     0
-#define FOIL_EDITION     1
-#define HOLO_EDITION     2
-#define POLY_EDITION     3
-#define NEGATIVE_EDITION 4
-
-#define MAX_EDITIONS 5
-
-#define COMMON_JOKER    0
-#define UNCOMMON_JOKER  1
-#define RARE_JOKER      2
-#define LEGENDARY_JOKER 3
-
-#define MAX_RARITIES (LEGENDARY_JOKER + 1)
+// Pack the enum into a u8 so that the Joker struct uses as little memory as possible
+enum JokerRarity : u8
+{
+    COMMON_JOKER,
+    UNCOMMON_JOKER,
+    RARE_JOKER,
+    LEGENDARY_JOKER,
+    MAX_RARITIES
+};
 
 // Percent chance to get a joker of each rarity
 // Note that this deviates slightly from the Balatro wiki to allow legendary
@@ -100,10 +81,9 @@ enum JokerEvent
 
 typedef struct
 {
-    u8 id;       // Unique ID for the joker, used to identify different jokers
-    u8 modifier; // base, foil, holo, poly, negative
+    u8 id; // Unique ID for the joker, used to identify different jokers
     u8 value;
-    u8 rarity;
+    enum JokerRarity rarity;
 
     // General purpose values that are interpreted differently for each Joker (scaling, last
     // retriggered card, etc...)
@@ -145,7 +125,7 @@ typedef int (*JokerDescFunc)(Joker* joker, Rect dest_rect);
 typedef struct
 {
     const char* name;
-    u8 rarity;
+    enum JokerRarity rarity;
     u8 base_value;
     bool is_desc_dynamic; // Is the little variable description at the bottom dynamic?
                           // Only used by the Misprint joker for now
@@ -171,28 +151,37 @@ u32 joker_get_score_effect(
     JokerEffect** joker_effect
 );
 
-const char* joker_get_rarity_string(u8 rarity);
+/**
+ * @brief Returns the sell value of the joker
+ * @param joker Pointer to the joker - if NULL returns UNDEFINED
+ * @return UNDEFINED if error occurred, the joker's sell value otherwise
+ */
+int joker_get_sell_value(const Joker* joker);
 
 /**
- * @brief Get Joker rarity panel color.
- *
- * The colors are organized in the `card_rarity_pal_gfx.png` file which is organized like this:
- *  - 0     -> transparency
- *  - 1,2   -> Common Joker
- *  - 3,4   -> Uncommon Joker
- *  - 5,6   -> Rare Joker
- *  - 7,8   -> Legendary Joker / Tarot Card
- *  - 9,10  -> Planet Card
- *  - 11,12 -> Spectral Card
- *  - 13,14 -> Voucher
- *
- * @param rarity Value of the rarity (Common, Rare...)
- * @param main_color Whether we want the main or shadow color
- * @return u16 value of the color, not a pointer
+ * @brief Returns the buy price of the joker
+ * @param joker Pointer to the joker - if NULL returns UNDEFINED
+ * @return UNDEFINED if error occurred, the joker's sell value otherwise
  */
-u16 joker_get_rarity_color(u8 rarity, bool main_color);
+int joker_get_buy_price(const Joker* joker);
 
-int joker_get_sell_value(const Joker* joker);
+/**
+ * @brief Get Joker name
+ *
+ * @param joker_object the Joker we want to get the name of
+ * @return const string containing the name of the Joker, NULL if joker data is invalid
+ */
+const char* joker_object_get_name(Item* joker_object);
+
+/**
+ * @brief Get Joker rarity name and associated panel color.
+ *
+ * @param joker_object pointer to a JokerObject we need the rarity's info of
+ * @return struct containing values of all info on this Joker's rarity
+ *
+ * @sa item_get_subtype_info
+ */
+ItemDescSubtypeInfo joker_object_get_rarity_info(Item* joker_object);
 
 JokerObject* joker_object_new(Joker* joker);
 void joker_object_destroy(JokerObject** joker_object);
@@ -208,6 +197,15 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id);
  */
 int joker_object_get_buy_price(Item* joker_object);
 
+/**
+ * @brief Returns the sell price of the joker object.
+ *
+ * @param joker_object the joker object whose price to return.
+ *
+ * @return UNDEFINED in case of error, the sell price of the joker otherwise.
+ */
+int joker_object_get_sell_price(Item* joker_object);
+
 // TODO: Move to an owned_jokers.c/.h file?
 /**
  * @brief Add a Joker to the list of owned Jokers and place it in the joker row.
@@ -222,6 +220,36 @@ void joker_object_add_to_owned(Item* joker_object);
  * @param joker_object Pointer to the JokerObject Item* to destroy; set to NULL.
  */
 void joker_object_dispose(Item** joker_object);
+
+/**
+ * @brief Print the description of the requested Joker centered within the specified Rect
+ *
+ * @param joker_object Joker to print the description of
+ * @param dest_rect Rectangular region the description must fit in. In case the text is too big, it
+ *                   will overflow downwards while still respecting left and right boundaries.
+ *
+ * @return the number of lines the description was actually printed on
+ */
+int joker_object_print_description(Item* joker_object, Rect dest_rect);
+
+/**
+ * @brief Rolls a random Joker among the available ones of a certain rarity
+ *
+ * @param joker_rarity the rarity of the joker we want to roll
+ *
+ * @return rolled joker ID
+ */
+int joker_roll_id_with_rarity(int joker_rarity);
+
+/**
+ * @brief Rolls a random Joker among the available ones of a certain rarity
+ *
+ * @param joker_rarity the rarity of the joker we want to roll
+ * @param key to the RNG sequence used
+ *
+ * @return rolled Joker ID
+ */
+int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key);
 
 /**
  * @brief Set whether a Joker is available to be rolled for the shop, packs, etc.

@@ -35,7 +35,6 @@
 #define AFFINE_BG_SBB 2
 #define AFFINE_BG_CBB 2
 #define PAL_ROW_LEN   16
-#define NUM_PALETTES  16
 
 /**
  * @def TILE_SIZE

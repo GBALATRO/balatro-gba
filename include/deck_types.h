@@ -8,8 +8,6 @@
 
 #include "graphic_utils.h"
 
-#define DECK_SPRITES_PB 1
-
 #define DECK_NAME_LENGTH 14 // 13 chars + '\0'
 #define DECK_DESC_WIDTH  DECK_NAME_LENGTH
 #define DECK_DESC_HEIGHT 5

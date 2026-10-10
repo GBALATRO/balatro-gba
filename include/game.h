@@ -11,7 +11,6 @@
 #define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_ITEMS       2 // TODO: Make this dynamic
-#define MAX_SELECTION_SIZE   5
 #define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))
 
 // TODO: Can make these dynamic to support interest-related jokers and vouchers
@@ -76,7 +75,12 @@ void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);
 List* get_jokers_list(void);
 List* get_expired_jokers_list(void);
-List* get_discarded_jokers_list(void);
+
+/**
+ * @brief Starts the discard animation for the item, destroying it when it ends
+ * @param item The discarded item
+ */
+void item_start_discard_animation(Item* item);
 
 int deck_get_size(void);
 int get_deck_top(void);
