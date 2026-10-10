@@ -9,6 +9,7 @@
 #include "background_gfx.h"
 #include "button.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "game/joker_row.h"
 #include "graphic_utils.h"
 #include "hand.h"
@@ -16,6 +17,7 @@
 #include "layout.h"
 #include "list.h"
 #include "selection_grid.h"
+#include "skip_tag.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
@@ -1057,7 +1059,17 @@ static inline bool round_is_over(void)
 
 static inline void round_process_input_and_state(void)
 {
-    if (get_hand_state() == HAND_SELECT)
+    if (get_hand_state() == HAND_TAGS)
+    {
+        // We're checking for scoring Tags in a general way here, but only the Juggler can
+        // really apply on round start
+        if (skip_tag_process_get_proc_stage() == SKIP_TAG_PROCESS_STAGE_END)
+        {
+            set_hand_state(HAND_DRAW);
+            g_game_vars.timer = TM_ZERO;
+        }
+    }
+    else if (get_hand_state() == HAND_SELECT)
     {
         round_process_hand_select_input();
     }
@@ -1186,7 +1198,7 @@ static inline void round_discarded_cards_loop(void)
         {
             discarded_card_object = card_object_new(discard_pop());
 
-            // Set the sprite for the discarded card object
+            // Set the sprite for the discarded card object. Reuse Id 0 to save a sprite
             card_object_set_sprite(discarded_card_object, 0);
             sprite_object_reset_transform((SpriteObject*)discarded_card_object);
 
@@ -1278,6 +1290,9 @@ static inline void cards_in_hand_update_loop(void)
 
             switch (get_hand_state())
             {
+                case HAND_TAGS:
+                    // Nothing to do here
+                    break;
                 case HAND_DRAW:
                     hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
                                           -HAND_SPACING_LUT[get_hand_top()];
@@ -1366,8 +1381,8 @@ static inline void cards_in_hand_update_loop(void)
                     }
 
                     break;
-                // Don't need to do anything here, just wait for the player to select cards
                 case HAND_PLAYING:
+                    // Don't need to do anything here, just wait for the player to select cards
                     hand_x = hand_x + (int2fx(i) - int2fx(get_hand_top()) / 2) *
                                           -HAND_SPACING_LUT[get_hand_top()];
                     hand_y += int2fx(24);
@@ -1382,15 +1397,18 @@ static inline void cards_in_hand_update_loop(void)
 
 static inline void round_ui_text_update(void)
 {
-    static int s_last_hand_size = 0;
-    static int s_last_deck_size = 0;
+    static int s_last_hand_size = UNDEFINED;
+    static int s_last_hand_max_size = UNDEFINED;
+    static int s_last_deck_size = UNDEFINED;
 
-    if (s_last_hand_size != hand_nb_held_cards() || s_last_deck_size != deck_get_size())
+    if (g_game_vars.timer == 1 || s_last_hand_size != hand_nb_held_cards() ||
+        s_last_hand_max_size != g_game_vars.hand_size || s_last_deck_size != deck_get_size())
     {
+        // TODO: Clean this code up a bit
+        // Print hand size/max size at correct height depending on background state
         switch (get_current_background())
         {
             case BG_CARD_SELECTING:
-                // Hand size/max size
                 tte_printf(
                     "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
                     HAND_SIZE_RECT_SELECT.left,
@@ -1402,7 +1420,6 @@ static inline void round_ui_text_update(void)
                 break;
 
             case BG_CARD_PLAYING:
-                // Hand size/max size
                 tte_printf(
                     "#{P:%d,%d; cx:0x%X000}%2d/%-2ld",
                     HAND_SIZE_RECT_PLAYING.left,
@@ -1421,6 +1438,7 @@ static inline void round_ui_text_update(void)
         display_deck_size_max();
 
         s_last_hand_size = hand_nb_held_cards();
+        s_last_hand_max_size = g_game_vars.hand_size;
         s_last_deck_size = deck_get_size();
     }
 }
@@ -1478,7 +1496,7 @@ static inline void round_process_flaming_score(void)
 
 static void joker_scoring_increment_text_cursor(int* cursor_pos_x)
 {
-    GBAL_RETURN_IF_NULL_VOID(cursor_pos_x);
+    GBAL_RETURN_IF_NULL(cursor_pos_x, RET_NONE);
 
     // + 1 For space
     const int joker_score_display_offset_px = (MAX_CARD_SCORE_STR_LEN + 1) * TTE_CHAR_SIZE;
@@ -1495,7 +1513,7 @@ static bool joker_object_score(
     enum JokerEvent joker_event
 )
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, false);
+    GBAL_RETURN_IF_NULL(joker_object, false);
 
     JokerEffect* joker_effect = NULL;
     u32 effect_flags_ret =
@@ -2023,8 +2041,9 @@ static inline void played_cards_update_loop(void)
 
         if (card_object_get_sprite(s_played_hand[played_idx]) == NULL)
         {
-            // Set the sprite for the played card object
-            card_object_set_sprite(s_played_hand[played_idx], played_idx + MAX_HAND_SIZE);
+            // Offset the index so played cards don't overlap with the hand
+            // and for example get overwritten when it the hand is reordered
+            card_object_set_sprite(s_played_hand[played_idx], MAX_HAND_SIZE + played_idx);
         }
 
         switch (play_state)
@@ -2112,7 +2131,8 @@ void round_on_init(void)
 {
     s_joker_scored_itr = list_itr_create(get_jokers_list());
 
-    set_hand_state(HAND_DRAW);
+    set_hand_state(HAND_TAGS);
+
     hand_set_nb_selected_cards(0);
     s_cards_drawn = 0;
 
@@ -2172,6 +2192,8 @@ void round_on_init(void)
 
     deck_shuffle(); // Shuffle the deck at the start of the round
 
+    skip_tag_process_start(SKIP_TAG_EVENT_ON_ROUND_START);
+
     /* Note that since cards_in_hand_update_loop() handles card highlight there's no need
      * to call a selection changed callback to highlight the initial card, this wouldn't work
      * otherwise or for the buttons.
@@ -2182,8 +2204,8 @@ void round_on_init(void)
 void round_on_update(void)
 {
     // Background logic (thissss might be moved to the card'ssss logic later. I'm a sssssnake)
-    if (get_hand_state() == HAND_DRAW || get_hand_state() == HAND_DISCARD ||
-        get_hand_state() == HAND_SELECT)
+    if (get_hand_state() == HAND_TAGS || get_hand_state() == HAND_DRAW ||
+        get_hand_state() == HAND_DISCARD || get_hand_state() == HAND_SELECT)
     {
         change_background(BG_CARD_SELECTING, false);
     }

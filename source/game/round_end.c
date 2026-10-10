@@ -5,6 +5,7 @@
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"
+#include "skip_tag.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
@@ -21,6 +22,14 @@ enum GameRoundEndStates
     DISPLAY_CASHOUT,
     DISMISS_ROUND_END_PANEL,
     ROUND_END_STATES_MAX
+};
+
+enum RewardType
+{
+    REWARD_TYPE_HAND,
+    REWARD_TYPE_INVESTMENT,
+    REWARD_TYPE_INTEREST,
+    REWARD_TYPE_MAX
 };
 
 static const u32 TM_RESET_STATIC_VARS = 30;
@@ -47,11 +56,77 @@ static const Rect ROUND_END_MENU_RECT         = {9,       7,      24,        20 
 static const BG_POINT CASHOUT_SRC_3X3_RECT_POS =   {5,  29};
 // clang-format on
 
-static int blind_reward = 0;
-static int hand_reward = 0;
-static int interest_reward = 0;
-static int interest_to_count = 0;
-static int interest_start_time = UNDEFINED;
+/**
+ * @brief Data struct for the different types of rewards.
+ *
+ * Contains both constant info (display, reward amount), and variables used during the round end
+ * animation.
+ */
+typedef struct RewardTypeData
+{
+    /**
+     * @brief the name of the reward (i.e. "Hands")
+     */
+    const char* text;
+
+    /**
+     * @brief the color the name of the reward is printed with
+     */
+    const u8 text_color;
+
+    /**
+     * @brief how many dollars the player recieves every time a certain type of reward is counted
+     * towards the total cashout. Equal to 1 most of the time, but the Investment Tag increments
+     * by a full reward amount per tag so the the multiplier is a full amount.
+     *
+     * @note make this not const if "To the Moon" is ever implemented, since it increases the
+     * Interest multiplier from 1 to 2
+     */
+    const int multiplier;
+
+    /**
+     * @brief how many times the reward was earned by the player during the last round
+     */
+    int count;
+
+    /**
+     * @brief how many times the reward still needs to be counted for this End of Round
+     */
+    int remaining;
+} RewardTypeData;
+
+// clang-format off
+static RewardTypeData s_reward_data[] = {
+    [REWARD_TYPE_HAND] = {
+        .text = "Hands",
+        .text_color = TTE_BLUE_PB,
+        .multiplier = 1,
+        .count = 0,
+        .remaining = 0
+    },
+    [REWARD_TYPE_INVESTMENT] = {
+        .text = "Boss",
+        .text_color = TTE_YELLOW_PB,
+        .multiplier = INVESTMENT_TAG_REWARD,
+        .count = 0,
+        .remaining = 0
+    },
+    [REWARD_TYPE_INTEREST] = {
+        .text = "Interest",
+        .text_color = TTE_YELLOW_PB,
+        .multiplier = 1,
+        .count = 0,
+        .remaining = 0
+    }
+};
+// clang-format on
+
+static enum RewardType s_current_reward = 0;
+static u32 s_current_reward_start_time = TM_DISPLAY_REWARDS_CONT_WAIT;
+static int s_reward_y_offset = 1;
+
+static int s_blind_reward = 0;
+static int s_cashout = 0;
 
 static int calculate_interest_reward(void);
 
@@ -98,13 +173,27 @@ static void round_end_start(void)
     if (g_game_vars.timer == TM_RESET_STATIC_VARS)
     {
         change_background(BG_ROUND_END, false); // Change the background to the round end background
-        state_machine_change_state(&round_end_sm, START_EXPAND_POPUP);
+
         g_game_vars.timer = TM_ZERO; // Reset the timer
-        blind_reward = blind_get_reward(g_game_vars.current_blind);
-        hand_reward = g_game_vars.hands;
-        interest_reward = calculate_interest_reward();
-        interest_to_count = interest_reward;
-        interest_start_time = UNDEFINED;
+        state_machine_change_state(&round_end_sm, START_EXPAND_POPUP);
+
+        s_current_reward = 0;
+        s_current_reward_start_time = TM_DISPLAY_REWARDS_CONT_WAIT;
+        s_reward_y_offset = 1;
+
+        s_blind_reward = blind_get_reward(g_game_vars.current_blind);
+        s_reward_data[REWARD_TYPE_HAND].count = g_game_vars.hands;
+        s_reward_data[REWARD_TYPE_INVESTMENT].count = g_game_vars.current_blind >= BLIND_TYPE_BOSS
+                                                        ? skip_tag_count(SKIP_TAG_TYPE_INVESTMENT)
+                                                        : 0;
+        s_reward_data[REWARD_TYPE_INTEREST].count = calculate_interest_reward();
+
+        s_cashout = blind_get_reward(g_game_vars.current_blind);
+        for (enum RewardType i = 0; i < REWARD_TYPE_MAX; i++)
+        {
+            s_reward_data[i].remaining = s_reward_data[i].count;
+            s_cashout += s_reward_data[i].count * s_reward_data[i].multiplier;
+        }
     }
 }
 
@@ -189,22 +278,22 @@ static void round_end_update_blind_reward(void)
 
     // TODO: Add sound effect here
 
-    if (blind_reward > 0)
+    if (s_blind_reward > 0)
     {
-        blind_reward--;
+        s_blind_reward--;
         tte_printf(
             "#{P:%d,%d; cx:0x%X000}$%d",
             BLIND_REWARD_RECT.left,
             BLIND_REWARD_RECT.top,
             TTE_YELLOW_PB,
-            blind_reward
+            s_blind_reward
         );
         tte_printf(
             "#{P:%d,%d; cx:0x%X000}$%d",
             ROUND_END_BLIND_REWARD_RECT.left,
             ROUND_END_BLIND_REWARD_RECT.top,
             TTE_YELLOW_PB,
-            blind_get_reward(g_game_vars.current_blind) - blind_reward
+            blind_get_reward(g_game_vars.current_blind) - s_blind_reward
         );
     }
     else if (g_game_vars.timer > FRAMES(20))
@@ -256,100 +345,85 @@ static inline void round_end_print_separator_ellipsis(void)
     tte_printf("#{P:%d,%d; cx:0x%X000}.", x, y, TTE_WHITE_PB);
 }
 
-// TODO: Allow for more generic rewards and consolidate with round_end_print_interest_reward()
-static inline void round_end_print_hand_reward(int hand_y_offset)
+static inline bool s_should_increment_curr_reward(void)
 {
-    int hand_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + hand_y_offset;
-    if (g_game_vars.timer == TM_DISPLAY_REWARDS_CONT_WAIT)
+    switch (s_current_reward)
     {
-        round_end_extend_black_panel_down(hand_y);
+        // For Hands and Interest rewards, updating the values on screen
+        // depends only on the timer
+        case REWARD_TYPE_HAND:
+        case REWARD_TYPE_INTEREST:
+            return g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0;
 
-        tte_printf(
-            "#{P:%lu,%d; cx:0x%X000}%d #{cx:0x%X000}Hands",
-            ROUND_END_REWARD_TEXT_X,
-            hand_y * TILE_SIZE,
-            TTE_BLUE_PB,
-            hand_reward,
-            TTE_WHITE_PB
-        );
-    }
-    // Increment the hand reward text until the hand reward variable is depleted
-    else if (g_game_vars.timer > TM_HAND_REWARD_INCR_WAIT &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
-    {
-        hand_reward--;
-        tte_printf(
-            "#{P:%lu, %d; cx:0x%X000}$%ld",
-            ROUND_END_REWARD_AMOUNT_X,
-            hand_y * TILE_SIZE,
-            TTE_YELLOW_PB,
-            g_game_vars.hands - hand_reward
-        );
-        if (hand_reward == 0)
-        {
-            interest_start_time = g_game_vars.timer + TM_REWARD_DISPLAY_INTERVAL;
-        }
+        // For the Investment Tag reward, updating the values on screen will
+        // rely on the Tag processing stage
+        case REWARD_TYPE_INVESTMENT:
+            return skip_tag_process_get_proc_stage() == SKIP_TAG_PROCESS_STAGE_TRIGGER;
+
+        default:
+            return true;
     }
 }
 
-static inline void round_end_print_interest_reward(int interest_y_offset)
+static inline void round_end_print_current_reward(void)
 {
-    int interest_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + interest_y_offset;
-
-    if (g_game_vars.timer == interest_start_time)
+    int reward_y = ROUND_END_REWARDS_ELLIPSIS_POS.y + s_reward_y_offset;
+    if (g_game_vars.timer == s_current_reward_start_time)
     {
-        round_end_extend_black_panel_down(interest_y);
+        round_end_extend_black_panel_down(reward_y);
 
         tte_printf(
-            "#{P:%lu,%d; cx:0x%X000}%d #{cx:0x%X000}Interest",
+            "#{P:%lu,%d; cx:0x%X000}%d #{cx:0x%X000}%s",
             ROUND_END_REWARD_TEXT_X,
-            interest_y * TILE_SIZE,
-            TTE_YELLOW_PB,
-            interest_reward,
-            TTE_WHITE_PB
+            reward_y * TILE_SIZE,
+            s_reward_data[s_current_reward].text_color,
+            s_reward_data[s_current_reward].count,
+            TTE_WHITE_PB,
+            s_reward_data[s_current_reward].text
         );
+
+        if (s_current_reward == REWARD_TYPE_INVESTMENT)
+            skip_tag_process_start(SKIP_TAG_EVENT_ON_ROUND_END);
     }
-    // Increment the interest reward text until the interest reward variable is depleted
-    else if (g_game_vars.timer > interest_start_time + TM_REWARD_DISPLAY_INTERVAL &&
-             g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0)
+
+    // Increment the reward text until the reward variable is depleted
+    else if (g_game_vars.timer > s_current_reward_start_time + TM_REWARD_DISPLAY_INTERVAL)
     {
-        interest_to_count--;
+        if (!s_should_increment_curr_reward())
+            return;
+
+        s_reward_data[s_current_reward].remaining--;
+        int accumulated_reward =
+            s_reward_data[s_current_reward].count - s_reward_data[s_current_reward].remaining;
+
         tte_printf(
             "#{P:%lu, %d; cx:0x%X000}$%d",
             ROUND_END_REWARD_AMOUNT_X,
-            interest_y * TILE_SIZE,
+            reward_y * TILE_SIZE,
             TTE_YELLOW_PB,
-            interest_reward - interest_to_count
+            accumulated_reward * s_reward_data[s_current_reward].multiplier
         );
+
+        if (s_reward_data[s_current_reward].remaining <= 0)
+        {
+            s_current_reward++;
+            s_reward_y_offset++;
+            s_current_reward_start_time = g_game_vars.timer + TM_REWARD_INCREMENT_INTERVAL;
+        }
     }
 }
 
 static void round_end_display_rewards(void)
 {
-    int hand_y_offset = 0;
-    int interest_y_offset = 0;
-
-    if (g_game_vars.hands > 0)
-    {
-        hand_y_offset = 1;
-    }
-    else
-    {
-        interest_start_time = TM_DISPLAY_REWARDS_CONT_WAIT;
-    }
-
-    if (interest_reward > 0)
-    {
-        interest_y_offset = hand_y_offset + 1;
-    }
-
     // Once all rewards are accounted for go to the next state
-    if (hand_reward <= 0 && interest_to_count <= 0)
+    if (s_current_reward >= REWARD_TYPE_MAX)
     {
         g_game_vars.timer = TM_ZERO;
         state_machine_change_state(&round_end_sm, DISPLAY_CASHOUT);
+        return;
     }
-    else if (g_game_vars.timer == TM_START_ROUND_END_REWARDS_ANIM)
+
+    if (g_game_vars.timer == TM_START_ROUND_END_REWARDS_ANIM)
     {
         round_end_extend_black_panel_down(ROUND_END_REWARDS_ELLIPSIS_POS.y);
     }
@@ -357,22 +431,21 @@ static void round_end_display_rewards(void)
     {
         round_end_print_separator_ellipsis();
     }
-    else if (g_game_vars.timer >= TM_DISPLAY_REWARDS_CONT_WAIT && hand_reward > 0)
+    else if (g_game_vars.timer >= TM_DISPLAY_REWARDS_CONT_WAIT)
     {
-        round_end_print_hand_reward(hand_y_offset);
-    }
-    else if (interest_start_time != UNDEFINED && g_game_vars.timer >= interest_start_time &&
-             interest_to_count > 0)
-    {
-        round_end_print_interest_reward(interest_y_offset);
+        // Go to the next reward if the current one has no remaining money to give
+        while (s_current_reward < REWARD_TYPE_MAX && s_reward_data[s_current_reward].remaining <= 0)
+            s_current_reward++;
+
+        if (s_current_reward < REWARD_TYPE_MAX)
+            round_end_print_current_reward();
     }
 }
 
 static inline void round_end_cashout(void)
 {
     // Reward the player
-    g_game_vars.money += g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
-                         calculate_interest_reward();
+    g_game_vars.money += s_cashout;
     display_money();
 
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
@@ -392,17 +465,14 @@ static void round_end_display_cashout()
         // Put the "cash out" button onto the round end panel
         main_bg_se_copy_expand_3x3_rect(CASHOUT_DEST_RECT, CASHOUT_SRC_3X3_RECT_POS);
 
-        int cashout_amount = g_game_vars.hands + blind_get_reward(g_game_vars.current_blind) +
-                             calculate_interest_reward();
-
-        bool omit_space = cashout_amount >= 10;
+        bool omit_space = s_cashout >= 10;
         tte_printf(
             "#{P:%d, %d; cx:0x%X000}Cash Out:%s$%d",
             CASHOUT_TEXT_RECT.left,
             CASHOUT_TEXT_RECT.top,
             TTE_WHITE_PB,
             omit_space ? "" : " ",
-            cashout_amount
+            s_cashout
         );
     }
 
@@ -451,7 +521,10 @@ void round_end_change_background(void)
 
 void round_end_on_init(void)
 {
+    // Reset hand size in case it was increased by the Juggle Tag
+    g_game_vars.hand_size = DEFAULT_HAND_SIZE;
     g_game_vars.timer = 0;
+    g_game_vars.nb_unused_discards += g_game_vars.discards;
     state_machine_register(&round_end_sm);
     state_machine_change_state(&round_end_sm, ROUND_END_START);
 }
@@ -463,11 +536,16 @@ void round_end_on_update(void)
 
 void round_end_on_exit(void)
 {
+    for (enum RewardType i = 0; i < REWARD_TYPE_MAX; i++)
+    {
+        s_reward_data[i].count = 0;
+        s_reward_data[i].remaining = 0;
+    }
+    s_blind_reward = 0;
+    s_cashout = 0;
+
     // Cleanup blind tokens from this round to avoid accumulating
     // allocated blind sprites each round
-    blind_reward = 0;
-    hand_reward = 0;
-    interest_reward = 0;
     sprite_destroy(&g_game_vars.playing_blind_token);
     sprite_destroy(&g_game_vars.round_end_blind_token);
     state_machine_remove(&round_end_sm);

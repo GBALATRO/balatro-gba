@@ -6,8 +6,6 @@
 #include "joker.h"
 #include "util.h"
 
-static Item* item_roll_new_unimplemented(enum RngSequence key);
-static void item_acquire_unimplemented(Item* item);
 static bool item_always_can_acquire(Item* item);
 
 // clang-format off
@@ -15,9 +13,13 @@ ItemFuncs item_func_table[] = {
     [ITEM_TYPE_JOKER] = {
         .roll_new = joker_object_roll_new,
         .get_buy_price = joker_object_get_buy_price,
+        .get_sell_price = joker_object_get_sell_price,
+        .get_name = joker_object_get_name,
+        .get_subtype_info = joker_object_get_rarity_info,
         .acquire = joker_object_add_to_owned,
         .can_acquire = joker_object_can_acquire,
-        .dispose = joker_object_dispose
+        .dispose = joker_object_dispose,
+        .print_description = joker_object_print_description
     },
     
     /* Currently playing cards have partial implementations since Magic Trick is not implemented
@@ -27,11 +29,15 @@ ItemFuncs item_func_table[] = {
      * all the basic functions to appear in the shop.
      */
     [ITEM_TYPE_PLAYING_CARD] = {
-        .roll_new = item_roll_new_unimplemented,
+        .roll_new = NULL,
         .get_buy_price = card_object_get_buy_price,
-        .acquire = item_acquire_unimplemented,
+        .get_sell_price = NULL,
+        .get_name = NULL,
+        .get_subtype_info = NULL,
+        .acquire = NULL,
         .can_acquire = item_always_can_acquire,
-        .dispose = card_object_dispose
+        .dispose = card_object_dispose,
+        .print_description = NULL
     }
 };
 // clang-format on
@@ -45,18 +51,6 @@ ItemFuncs* get_item_type_funcs(enum ItemType type)
     }
 
     return &item_func_table[type];
-}
-
-static Item* item_roll_new_unimplemented(enum RngSequence key)
-{
-    MGBA_FUNC_ERROR("Unimplemented roll_new function called");
-    return NULL;
-}
-
-static void item_acquire_unimplemented(Item* item)
-{
-    GBAL_RETURN_IF_NULL_VOID(item);
-    MGBA_FUNC_ERROR("Unimplemented acquire function called for item type type %d", (item)->type);
 }
 
 static bool item_always_can_acquire(Item* item)
