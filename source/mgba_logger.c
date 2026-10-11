@@ -2,6 +2,8 @@
 
 #ifdef MGBA_LOGGING
 
+#include "util.h"
+
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdio.h>

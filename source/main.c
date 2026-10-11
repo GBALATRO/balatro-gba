@@ -6,6 +6,7 @@
 #include "gbalatro_sys8.h"
 #include "graphic_utils.h"
 #include "joker.h"
+#include "mgba_logger.h"
 #include "random.h"
 #include "save.h"
 #include "soundbank.h"

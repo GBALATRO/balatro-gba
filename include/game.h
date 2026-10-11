@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "game_variables.h"
 #include "item.h"
 #include "sprite_container.h"
 
