@@ -518,6 +518,7 @@ void test_list_insertion(void)
 // - list_init
 // - list_push_back
 // - list_swap
+// - list_swap_at_idx
 // - list_is_empty
 // - list_get_len
 // - list_itr_create
@@ -560,8 +561,32 @@ void test_list_swap(void)
         index++;
     }
 
+    // Swap with ListNodes
+
+    int idx_a = 1;
+    int idx_b = 3;
+    ListNode* node_a = list_get_at_idx(&my_cool_list, idx_a);
+    ListNode* node_b = list_get_at_idx(&my_cool_list, idx_b);
+
+    assert(!list_swap(NULL, NULL));
+    assert(!list_swap(node_a, NULL));
+    assert(!list_swap(NULL, node_b));
+
+    assert(list_swap(node_a, node_b));
+    void* data_a = list_get_at_idx(&my_cool_list, idx_a);
+    void* data_b = list_get_at_idx(&my_cool_list, idx_b);
+    assert(*(int*)data_a == test_data[idx_a]);
+    assert(*(int*)data_b == test_data[idx_b]);
+    assert(list_swap(node_a, node_b));
+    data_a = list_get_at_idx(&my_cool_list, idx_a);
+    data_b = list_get_at_idx(&my_cool_list, idx_b);
+    assert(*(int*)data_a == test_data[idx_a]);
+    assert(*(int*)data_b == test_data[idx_b]);
+
+    // Swap with indices
+
     // swap nothing, out of range
-    assert(!list_swap(&my_cool_list, 100, 100));
+    assert(!list_swap_at_idx(&my_cool_list, 100, 100));
 
     itr = list_itr_create(&my_cool_list);
     index = 0;
@@ -574,7 +599,7 @@ void test_list_swap(void)
     }
 
     // swap nothing, in range
-    assert(list_swap(&my_cool_list, 0, 0));
+    assert(list_swap_at_idx(&my_cool_list, 0, 0));
 
     itr = list_itr_create(&my_cool_list);
     index = 0;
@@ -588,7 +613,7 @@ void test_list_swap(void)
 
     // swap head and "middle"
     int mid_idx = initial_list_size / 2;
-    assert(list_swap(&my_cool_list, 0, mid_idx));
+    assert(list_swap_at_idx(&my_cool_list, 0, mid_idx));
 
     itr = list_itr_create(&my_cool_list);
     index = 0;
@@ -618,7 +643,7 @@ void test_list_swap(void)
     }
 
     // swap tail and "middle"
-    assert(list_swap(&my_cool_list, initial_list_size - 1, mid_idx));
+    assert(list_swap_at_idx(&my_cool_list, initial_list_size - 1, mid_idx));
 
     itr = list_itr_create(&my_cool_list);
     index = 0;

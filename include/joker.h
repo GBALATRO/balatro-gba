@@ -69,8 +69,6 @@ enum JokerEvent
 #define JOKER_EFFECT_FLAG_EXPIRE    (1 << 5)
 #define JOKER_EFFECT_FLAG_MESSAGE   (1 << 6)
 
-#define MAX_JOKER_OBJECTS 32 // The maximum number of joker objects that can be created at once
-
 // Jokers in the game
 #define STENCIL_JOKER_ID      15
 #define SHORTCUT_JOKER_ID     48
