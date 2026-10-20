@@ -630,7 +630,12 @@ static inline void setup_deck_sprite()
     GBAL_RETURN_IF_NULL(deck_card, RET_NONE);
 
     run_setup_deck = card_object_new(deck_card);
-    GBAL_RETURN_IF_NULL(run_setup_deck, RET_NONE);
+    if (run_setup_deck == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to allocate run_setup_deck CardObject");
+        card_destroy(&deck_card);
+        return;
+    }
 
     // We put it at the same layer as the main menu Ace card, but it's okay because
     // both cards do not exist at the same time, one is destroyed before the other is created.
@@ -651,9 +656,11 @@ void run_setup_on_update(void)
 void run_setup_on_exit(void)
 {
     state_machine_remove(&run_setup_sm);
-
-    card_destroy(&run_setup_deck->card);
-    card_object_destroy(&run_setup_deck);
+    if (run_setup_deck != NULL)
+    {
+        card_destroy(&run_setup_deck->card);
+        card_object_destroy(&run_setup_deck);
+    }
 
     tte_erase_screen();
 }

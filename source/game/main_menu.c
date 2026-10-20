@@ -122,7 +122,12 @@ static inline void create_main_menu_ace()
     GBAL_RETURN_IF_NULL(main_menu_ace_card, RET_NONE);
 
     s_main_menu_ace = card_object_new(main_menu_ace_card);
-    GBAL_RETURN_IF_NULL(s_main_menu_ace, RET_NONE);
+    if (s_main_menu_ace == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to allocate main menu ace CardObject");
+        card_destroy(&main_menu_ace_card);
+        return;
+    }
 
     card_object_set_sprite(s_main_menu_ace, 0);
     GBAL_RETURN_IF_NULL(s_main_menu_ace->sprite, RET_NONE);

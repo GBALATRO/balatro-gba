@@ -106,6 +106,7 @@ u8 card_get_value(Card* card)
 CardObject* card_object_new(Card* card)
 {
     CardObject* card_object = POOL_GET(CardObject);
+    GBAL_RETURN_IF_NULL(card_object, NULL);
     sprite_object_init((SpriteObject*)card_object);
     card_object->card = card;
 

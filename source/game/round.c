@@ -2136,6 +2136,7 @@ void round_on_init(void)
     hand_set_nb_selected_cards(0);
     s_cards_drawn = 0;
 
+    // TODO: NULL-check created blind token...
     sprite_destroy(&g_game_vars.playing_blind_token);
     g_game_vars.playing_blind_token = blind_token_new(
         g_game_vars.current_blind,
