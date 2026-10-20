@@ -122,6 +122,8 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer)
         SKIP_TAGS_PB,
         sprite_get_starting_layer(SKIP_TAG_SPRITE) + layer
     );
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
+
     sprite_object_set_sprite((SpriteObject*)tag, sprite);
 }
 

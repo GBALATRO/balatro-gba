@@ -96,6 +96,8 @@ static void seed_keyboard_substate_update(void);
 
 static void resume_substate_init(void);
 
+static inline void setup_deck_sprite();
+
 // clang-format off
 static StateInfo state_info[] =
 {
@@ -606,18 +608,7 @@ void run_setup_on_init(void)
     }
     toggle_seed_enabled(use_seed);
 
-    // Rank doesn't matter, won't see it
-    run_setup_deck = card_object_new(card_new(SPADES, ACE));
-
-    // We put it at the same layer as the main menu Ace card, but it's okay because
-    // both cards do not exist at the same time, one is destroyed before the other is created.
-    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
-
-    sprite_object_position(
-        (SpriteObject*)run_setup_deck,
-        RUN_SETUP_DECK_SPRITE_T_X,
-        RUN_SETUP_DECK_SPRITE_T_Y
-    );
+    setup_deck_sprite();
 
     /* Uncomment these lines when we figure out how to properly restore a game save
     is_saved_game_valid = is_game_data_valid();
@@ -630,6 +621,26 @@ void run_setup_on_init(void)
     // Land on the deck swapping button when landing on this state from the Main Menu
     choose_deck_selection_grid.selection = RUN_SETUP_CHOOSE_DECK_INIT_SEL;
     state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
+}
+
+static inline void setup_deck_sprite()
+{
+    // Rank doesn't matter, won't see it... But IT'S THE ACE OF SPADES, THE ACE OF SPADES
+    Card* deck_card = card_new(SPADES, ACE);
+    GBAL_RETURN_IF_NULL(deck_card, RET_NONE);
+
+    run_setup_deck = card_object_new(deck_card);
+    GBAL_RETURN_IF_NULL(run_setup_deck, RET_NONE);
+
+    // We put it at the same layer as the main menu Ace card, but it's okay because
+    // both cards do not exist at the same time, one is destroyed before the other is created.
+    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
+
+    sprite_object_position(
+        (SpriteObject*)run_setup_deck,
+        RUN_SETUP_DECK_SPRITE_T_X,
+        RUN_SETUP_DECK_SPRITE_T_Y
+    );
 }
 
 void run_setup_on_update(void)

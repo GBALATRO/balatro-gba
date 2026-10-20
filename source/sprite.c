@@ -77,6 +77,7 @@ int sprite_get_starting_layer(enum SpriteType sprite_type)
 Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 {
     Sprite* sprite = POOL_GET(Sprite);
+    GBAL_RETURN_IF_NULL(sprite, NULL);
 
     sprite->obj = NULL;
     sprite->aff = NULL;

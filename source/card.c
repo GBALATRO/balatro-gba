@@ -68,6 +68,7 @@ bool get_cards_more_readable(void)
 Card* card_new(u8 suit, u8 rank)
 {
     Card* card = POOL_GET(Card);
+    GBAL_RETURN_IF_NULL(card, NULL);
 
     card->suit = suit;
     card->rank = rank;
@@ -77,6 +78,8 @@ Card* card_new(u8 suit, u8 rank)
 
 void card_destroy(Card** card)
 {
+    GBAL_RETURN_IF_NULL(card, RET_NONE);
+    GBAL_RETURN_IF_NULL(*card, RET_NONE);
     POOL_FREE(Card, *card);
     *card = NULL;
 }
@@ -114,8 +117,8 @@ CardObject* card_object_new(Card* card)
 
 void card_object_destroy(CardObject** card_object)
 {
-    if (*card_object == NULL)
-        return;
+    GBAL_RETURN_IF_NULL(card_object, RET_NONE);
+    GBAL_RETURN_IF_NULL(*card_object, RET_NONE);
     sprite_object_destroy((SpriteObject*)(*card_object));
     POOL_FREE(CardObject, *card_object);
     *card_object = NULL;
@@ -130,6 +133,7 @@ void card_object_set_sprite(CardObject* card_object, s16 layer)
         &card_tiles[CARD_SPRITE_LUT[card_object->card->suit][card_object->card->rank] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_TILES
     );
+
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,
@@ -137,6 +141,8 @@ void card_object_set_sprite(CardObject* card_object, s16 layer)
         CARD_PB,
         sprite_get_starting_layer(CARD_SPRITE) + layer
     );
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
+
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
@@ -155,6 +161,8 @@ void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType dec
         DECK_PB,
         sprite_get_starting_layer(DECK_SPRITE) + layer
     );
+
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 

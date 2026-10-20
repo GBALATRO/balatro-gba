@@ -271,6 +271,9 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers
         get_blind_pb(type),
         sprite_get_starting_layer(BLIND_TOKEN_SPRITE) + layer
     );
+
+    GBAL_RETURN_IF_NULL(sprite, NULL);
+
     sprite_position(sprite, x, y);
 
     return sprite;
