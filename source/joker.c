@@ -117,9 +117,14 @@ void joker_init()
 Joker* joker_new(u8 id)
 {
     if (id >= get_joker_registry_size())
+    {
+        MGBA_FUNC_ERROR("Invalid joker id %d", id);
         return NULL;
+    }
 
     Joker* joker = POOL_GET(Joker);
+    GBAL_RETURN_IF_NULL(joker, NULL);
+
     const JokerInfo* jinfo = get_joker_registry_entry(id);
 
     joker->id = id;
@@ -137,6 +142,7 @@ Joker* joker_new(u8 id)
 
 void joker_destroy(Joker** joker)
 {
+    GBAL_RETURN_IF_NULL(joker, RET_NONE);
     POOL_FREE(Joker, *joker);
     *joker = NULL;
 }

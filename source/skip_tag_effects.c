@@ -157,7 +157,12 @@ static void skip_tag_effect_top_up(void)
         GBAL_RETURN_IF_NULL(joker, RET_NONE);
 
         JokerObject* joker_object = joker_object_new(joker);
-        GBAL_RETURN_IF_NULL(joker_object, RET_NONE);
+        if (joker_object == NULL)
+        {
+            MGBA_FUNC_ERROR("Failed to allocate joker_object for joker of id %d", joker_id);
+            joker_destroy(&joker);
+            return;
+        }
 
         joker_set_rollable(joker_id, false);
         item_acquire((Item*)joker_object);
