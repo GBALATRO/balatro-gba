@@ -387,9 +387,10 @@ static inline void blind_select_move_boss_blind_panel(enum ScreenVertDir dir)
 static inline void blind_select_reroll_boss_anim_do_reroll(void)
 {
     // Temporarily mark the current Boss Blind as beaten so we can't roll it again
-    set_blind_beaten(g_game_vars.next_boss_blind, true);
+    enum BlindType old_boss_blind = g_game_vars.next_boss_blind;
+    set_blind_beaten(old_boss_blind, true);
     reroll_boss_blind();
-    set_blind_beaten(g_game_vars.next_boss_blind, false);
+    set_blind_beaten(old_boss_blind, false);
 
     apply_blind_tiles(g_game_vars.next_boss_blind, sprite_get_tid(blind_select_tokens[BOSS_BLIND]));
     pal_bg_mem[BOSS_BLIND_PANEL_OUTLINE_PAL_IDX] =

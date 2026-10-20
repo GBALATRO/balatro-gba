@@ -19,6 +19,7 @@
 #include <stdlib.h> //#include "random.h"
 #include <tonc.h>
 
+#define MAX_OWNED_TAGS                 (MAX_SKIP_TAGS - NB_SKIPPABLE_BLINDS)
 #define MAX_NON_OVERLAPING_TAG_SPRITES 5
 #define SKIP_TAG_HIDE_X_OFFSET         20
 
@@ -236,11 +237,10 @@ void add_skip_tag(SkipTag** blind_tag)
 
     // Add to the back, so that the oldest (at the bottom) has the lowest sprite
     // index and is thus shown on top of the others.
-    // Limit number to MAX_SKIP_TAGS - NB_SKIPPABLE_BLINDS so we always have room in the memory
-    // pool to allocate the two tags in the Blind Select menu. Don't do anything, you just won't
-    // get the tag.
+    // Limit number to MAX_OWNED_TAGS so we always have room in the memory pool to allocate the two
+    // tags in the Blind Select menu. Don't do anything, you just won't get the tag.
     int nb_owned_tags = list_get_len(&s_owned_skip_tags);
-    if (nb_owned_tags >= MAX_SKIP_TAGS - NB_SKIPPABLE_BLINDS)
+    if (nb_owned_tags >= MAX_OWNED_TAGS)
     {
         MGBA_FUNC_WARN("Memory pool limit reached, cannot obtain more Skip Tags");
         return;
@@ -280,11 +280,21 @@ void add_skip_tag(SkipTag** blind_tag)
 
 void remove_skip_tag(int tag_idx)
 {
-    // Remove the tag itself
     SkipTag* tag = list_get_at_idx(&s_owned_skip_tags, tag_idx);
+    int nb_tags = list_get_len(&s_owned_skip_tags);
+
+    // Shift Tag to be deleted so the remaining ones always use sequential layers starting from 0
+    for (int i = tag_idx; i < nb_tags; i++)
+    {
+        SkipTag* next_tag = list_get_at_idx(&s_owned_skip_tags, i);
+        sprite_object_swap_layers((SpriteObject*)tag, (SpriteObject*)next_tag);
+    }
+
+    // Remove the tag itself
     (void)list_remove_at_idx(&s_owned_skip_tags, tag_idx);
     skip_tag_destroy(&tag);
 
+    // Move remaining Sprites to retain even spacing
     rearrange_skip_tag_sprites(list_get_len(&s_owned_skip_tags), get_skip_tag_sprites_spacing());
 }
 

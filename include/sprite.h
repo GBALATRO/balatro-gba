@@ -21,9 +21,12 @@
 #define CARD_FOCUS_SFX_PITCH_OFFSET_RANGE 512
 
 // This won't be more than the number of jokers in your current deck
-// plus the amount that can fit in the shop, 8 should be fine. For now...
+// plus the amount that can fit in the shop and a margin of one to account for Jokers being
+// discarded having an animation.
+// 8 should be fine. For now...
 #define MAX_SHOP_JOKERS    2
 #define MAX_OWNED_JOKERS   5
+#define MAX_ACTIVE_JOKERS  (MAX_SHOP_JOKERS + MAX_OWNED_JOKERS + 1)
 #define MAX_HAND_SIZE      16
 #define MAX_SELECTION_SIZE 5
 #define MAX_BLIND_TOKEN    5

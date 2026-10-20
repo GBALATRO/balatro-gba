@@ -65,8 +65,8 @@ bool jokers_sel_row_on_selection_changed(
             (unsigned int)new_selection->x
         );
         sprite_object_swap_layers(
-            list_get_at_idx(owned_jokers_list, prev_selection->x),
-            list_get_at_idx(owned_jokers_list, new_selection->x)
+            list_get_at_idx(get_jokers_list(), prev_selection->x),
+            list_get_at_idx(get_jokers_list(), new_selection->x)
         );
     }
 

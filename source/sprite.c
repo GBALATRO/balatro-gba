@@ -261,10 +261,10 @@ void sprite_init()
                 s_sprite_starting_layers[sprite_type - 1] + s_sprite_counts[sprite_type - 1];
         }
 
-        s_sprite_tids_slots[sprite_type].w = (u32*)malloc(BITSET_ARRAY_SIZE * sizeof(u32));
+        s_sprite_tids_slots[sprite_type].w = (u32*)calloc(BITSET_ARRAY_SIZE, sizeof(u32));
         s_sprite_tids_slots[sprite_type].nbits = BITSET_BITS_PER_WORD;
         s_sprite_tids_slots[sprite_type].nwords = BITSET_ARRAY_SIZE;
-        s_sprite_tids_slots[sprite_type].cap = s_sprite_sizes[sprite_type];
+        s_sprite_tids_slots[sprite_type].cap = s_sprite_counts[sprite_type];
     }
 }
 
@@ -555,7 +555,6 @@ void sprite_object_sort_list(void* sprite_object_list, bool ascending)
             if ((ascending && (curr_layer < next_layer)) ||
                 (!ascending && (curr_layer > next_layer)))
             {
-                // list_swap(node, node->next);
                 sprite_object_swap_layers(
                     (SpriteObject*)node->data,
                     (SpriteObject*)node->next->data
