@@ -318,17 +318,7 @@ static void shop_create_top_row_items(void)
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
         Item* item = shop_create_top_row_item();
-
-        if (item == NULL)
-        {
-            MGBA_FUNC_WARN("Could not create shop item");
-
-            // TODO: Decide how to handle this case gracefully
-            // If the issue for example is that we can't generate any more jokers,
-            // because for example the user owns all of them,
-            // maybe we need to generate consumables instead.
-            return;
-        }
+        GBAL_RETURN_IF_NULL(item, RET_NONE);
 
         list_push_back(&new_shop_items, (SpriteObject*)item);
     }
