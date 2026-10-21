@@ -129,6 +129,8 @@ static bool round_hand_row_on_selection_changed(
 static int round_hand_row_get_size(void);
 
 static int hand_sel_idx_to_card_idx(int selection_index);
+static void start_undiscarded_card_animation(CardObject** undiscarded_card_object);
+static void finish_undiscarded_card_animation(CardObject** undiscarded_card_object);
 
 // clang-format off
 static SelectionGridRow game_round_selection_rows[] = {
@@ -1144,6 +1146,7 @@ static inline void card_draw(void)
         return;
 
     CardObject* card_object = card_object_new(deck_pop());
+    GBAL_RETURN_IF_NULL(card_object, RET_NONE);
 
     const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
     const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
@@ -1182,7 +1185,7 @@ static inline void round_process_card_draw(void)
     }
 }
 
-static inline void round_discarded_cards_loop(void)
+static inline void round_undiscard_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
     if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && s_discard_top >= -1 &&
@@ -1193,42 +1196,61 @@ static inline void round_discarded_cards_loop(void)
         change_background(BG_ROUND_END, false);
 
         // We take each discarded card and put it back into the deck with a short animation
-        static CardObject* discarded_card_object = NULL;
-        if (s_discard_top >= 0 && discarded_card_object == NULL)
+        static CardObject* undiscarded_card_object = NULL;
+        if (s_discard_top >= 0 && undiscarded_card_object == NULL)
         {
-            discarded_card_object = card_object_new(discard_pop());
-
-            // Set the sprite for the discarded card object. Reuse Id 0 to save a sprite
-            card_object_set_sprite(discarded_card_object, 0);
-            sprite_object_reset_transform((SpriteObject*)discarded_card_object);
-
-            discarded_card_object->tx = int2fx(204);
-            discarded_card_object->ty = int2fx(112);
-            discarded_card_object->x = int2fx(240);
-            discarded_card_object->y = int2fx(80);
+            start_undiscarded_card_animation(&undiscarded_card_object);
         }
-        else
+        else if (undiscarded_card_object->y >= undiscarded_card_object->ty)
         {
-            if (discarded_card_object->y >= discarded_card_object->ty)
-            {
-                deck_push(discarded_card_object->card); // Put the card back into the deck
-                card_object_destroy(&discarded_card_object);
-
-                play_sfx(
-                    SFX_CARD_DRAW,
-                    MM_BASE_PITCH_RATE + PITCH_STEP_UNDISCARD_SFX,
-                    SFX_DEFAULT_VOLUME
-                );
-            }
+            finish_undiscarded_card_animation(&undiscarded_card_object);
         }
 
         // If there are no more discarded cards, stop shuffling
-        if (s_discard_top == -1 && discarded_card_object == NULL)
+        if (s_discard_top == -1 && undiscarded_card_object == NULL)
         {
             // After HAND_SHUFFLING the round is over
             round_handle_round_over();
         }
     }
+}
+
+// @p undiscarded_card_object needs to be a pointer to pointer so destroy works properly
+static inline void start_undiscarded_card_animation(CardObject** undiscarded_card_object)
+{
+    Card* undiscarded_card = discard_pop();
+    *undiscarded_card_object = card_object_new(undiscarded_card);
+    GBAL_RETURN_IF_NULL(*undiscarded_card_object, RET_NONE);
+
+    // Set the sprite for the discarded card object. Reuse Id 0 to save a sprite
+    card_object_set_sprite(*undiscarded_card_object, 0);
+    if ((*undiscarded_card_object)->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for undiscarded card");
+        card_object_destroy(undiscarded_card_object);
+
+        // Skip the animation and push directly into the deck.
+        deck_push(undiscarded_card);
+        return;
+    }
+
+    sprite_object_reset_transform((SpriteObject*)*undiscarded_card_object);
+
+    (*undiscarded_card_object)->tx = int2fx(204);
+    (*undiscarded_card_object)->ty = int2fx(112);
+    (*undiscarded_card_object)->x = int2fx(240);
+    (*undiscarded_card_object)->y = int2fx(80);
+}
+
+// @p undiscarded_card_object needs to be a pointer to pointer so destroy works properly
+static inline void finish_undiscarded_card_animation(CardObject** undiscarded_card_object)
+{
+    GBAL_RETURN_IF_NULL(undiscarded_card_object, RET_NONE);
+    GBAL_RETURN_IF_NULL(*undiscarded_card_object, RET_NONE);
+    deck_push((*undiscarded_card_object)->card);
+    card_object_destroy(undiscarded_card_object);
+
+    play_sfx(SFX_CARD_DRAW, MM_BASE_PITCH_RATE + PITCH_STEP_UNDISCARD_SFX, SFX_DEFAULT_VOLUME);
 }
 
 static inline void select_cards_in_played_hand(void)
@@ -2221,7 +2243,7 @@ void round_on_update(void)
 
     round_process_card_draw();
 
-    round_discarded_cards_loop();
+    round_undiscard_loop();
 
     s_discarded_card = false;
 
