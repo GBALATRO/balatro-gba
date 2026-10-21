@@ -726,7 +726,7 @@ static inline void skip_tag_init_for_blind(enum BlindType blind_type)
 
     if (skip_tag->sprite == NULL)
     {
-        MGBA_FUNC_ERROR("Failed to set sprite for skip tag"); 
+        MGBA_FUNC_ERROR("Failed to set sprite for skip tag");
         skip_tag_destroy(&skip_tag);
         return;
     }
