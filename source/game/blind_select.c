@@ -722,11 +722,11 @@ static inline void skip_tag_init_for_blind(enum BlindType blind_type)
         skip_tag_pos = BIG_BLIND_SKIP_TAG_INIT_POS;
     }
 
-    skip_tag_set_sprite(blind_skip_tags[blind_type], skip_tag_layer);
+    skip_tag_set_sprite(skip_tag, skip_tag_layer);
 
-    if (blind_skip_tags[blind_type]->sprite == NULL)
+    if (skip_tag->sprite == NULL)
     {
-        MGBA_FUNC_ERROR("Failed to set sprite for skip tag");
+        MGBA_FUNC_ERROR("Failed to set sprite for skip tag"); 
         skip_tag_destroy(&skip_tag);
         return;
     }
