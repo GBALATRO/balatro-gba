@@ -1145,8 +1145,14 @@ static inline void card_draw(void)
         get_hand_top() >= MAX_HAND_SIZE - 1)
         return;
 
-    CardObject* card_object = card_object_new(deck_pop());
-    GBAL_RETURN_IF_NULL(card_object, RET_NONE);
+    Card* card = deck_pop();
+    CardObject* card_object = card_object_new(card);
+    if (card_object == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to create drawn card CardObject");
+        deck_push(card); // Get back in there
+        return;
+    }
 
     const FIXED deck_x = int2fx(CARD_DRAW_POS.x);
     const FIXED deck_y = int2fx(CARD_DRAW_POS.y);
@@ -2158,8 +2164,9 @@ void round_on_init(void)
     hand_set_nb_selected_cards(0);
     s_cards_drawn = 0;
 
-    // TODO: NULL-check created blind token...
     sprite_destroy(&g_game_vars.playing_blind_token);
+
+    // TODO: NULL-check created blind token...
     g_game_vars.playing_blind_token = blind_token_new(
         g_game_vars.current_blind,
         CUR_BLIND_TOKEN_POS.x,
