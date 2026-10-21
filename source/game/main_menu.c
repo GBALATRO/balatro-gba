@@ -130,7 +130,13 @@ static inline void create_main_menu_ace()
     }
 
     card_object_set_sprite(s_main_menu_ace, 0);
-    GBAL_RETURN_IF_NULL(s_main_menu_ace->sprite, RET_NONE);
+    if (s_main_menu_ace->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for main menu ace");
+        card_destroy(&main_menu_ace_card);
+        card_object_destroy(&s_main_menu_ace);
+        return;
+    }
 
     s_main_menu_ace->sprite->obj->attr0 |= ATTR0_AFF_DBL;
     s_main_menu_ace->tscale = float2fx(0.8f);

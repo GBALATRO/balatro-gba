@@ -134,7 +134,9 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 
 void sprite_destroy(Sprite** sprite)
 {
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
     if (*sprite == NULL)
+        // Not logging an error because this is not an error
         return;
 
     obj_hide((*sprite)->obj);

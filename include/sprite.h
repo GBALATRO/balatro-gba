@@ -174,7 +174,7 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index);
 /**
  * @brief Destroy Sprite
  *
- * @param sprite pointer to a pointer of Sprite to destroy. No action if **NULL**.
+ * @param sprite pointer to a pointer of Sprite to destroy. No action if *sprite == **NULL**.
  */
 void sprite_destroy(Sprite** sprite);
 

@@ -104,19 +104,6 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer)
     }
 
     int tile_index = sprite_get_tid(SKIP_TAG_SPRITE, layer);
-
-    memcpy32(
-        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &skip_tags_gfxTiles[tag->type * SKIP_TAG_SPRITE_TILES * TILE_SIZE],
-        SKIP_TAG_SPRITE_TILES * TILE_SIZE
-    );
-
-    // Recreate sprite
-    if (tag->sprite)
-    {
-        sprite_destroy(&tag->sprite);
-    }
-
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_16,
@@ -124,8 +111,13 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer)
         SKIP_TAGS_PB,
         sprite_get_starting_layer(SKIP_TAG_SPRITE) + layer
     );
-
     GBAL_RETURN_IF_NULL(sprite, RET_NONE);
+
+    memcpy32(
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
+        &skip_tags_gfxTiles[tag->type * SKIP_TAG_SPRITE_TILES * TILE_SIZE],
+        SKIP_TAG_SPRITE_TILES * TILE_SIZE
+    );
 
     sprite_object_set_sprite((SpriteObject*)tag, sprite);
 }

@@ -233,7 +233,7 @@ JokerObject* joker_object_new(Joker* joker)
         if (!s_used_layers[i])
         {
             layer = i;
-            s_used_layers[i] = true; // Mark this layer as used
+            s_used_layers[i] = true;
             break;
         }
     }

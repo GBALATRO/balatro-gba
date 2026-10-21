@@ -713,8 +713,6 @@ static inline void skip_tag_init_for_blind(enum BlindType blind_type)
     SkipTag* skip_tag = roll_skip_tag();
     GBAL_RETURN_IF_NULL(skip_tag, RET_NONE);
 
-    blind_skip_tags[blind_type] = skip_tag;
-
     s16 skip_tag_layer = SMALL_BLIND_SKIP_TAG_LAYER;
     BG_POINT skip_tag_pos = SMALL_BLIND_SKIP_TAG_INIT_POS;
 
@@ -725,6 +723,15 @@ static inline void skip_tag_init_for_blind(enum BlindType blind_type)
     }
 
     skip_tag_set_sprite(blind_skip_tags[blind_type], skip_tag_layer);
+
+    if (blind_skip_tags[blind_type]->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for skip tag");
+        skip_tag_destroy(&skip_tag);
+        return;
+    }
+
+    blind_skip_tags[blind_type] = skip_tag;
 
     sprite_object_position(
         (SpriteObject*)blind_skip_tags[blind_type],
