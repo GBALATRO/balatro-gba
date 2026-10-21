@@ -88,6 +88,7 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
     }
     else
     {
+        MGBA_FUNC_ERROR("No free sprite in sprite_index %d", sprite_index);
         POOL_FREE(Sprite, sprite);
         return NULL;
     }
@@ -108,6 +109,7 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 
         if (aff_index == MAX_AFFINES)
         {
+            MGBA_FUNC_ERROR("No more free affine sprites to allocate");
             POOL_FREE(Sprite, sprite);
             return NULL;
         }
