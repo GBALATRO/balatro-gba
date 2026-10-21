@@ -139,7 +139,7 @@ static inline void create_main_menu_ace()
 
 void main_menu_on_update(void)
 {
-    // Not checking for NULL because this is called every frame, but be warned.
+    // Not checking for NULL for performance because this is called every frame, but be warned.
     s_main_menu_ace->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
 
     selection_grid_process_input(&main_menu_selection_grid);
