@@ -402,17 +402,13 @@ int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key)
     }
 
     int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = rng_get_u32(key) % jokers_avail_size;
     int match_count = 0;
 
     BitsetItr itr = bitset_itr_create(&s_rollable_jokers_bitset);
 
-    int i = 0;
-    int joker_id = BASIC_JOKER_ID;
+    int joker_id = fallback_joker_id;
     while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
     {
-        if (i++ == fallback_random_idx)
-            fallback_joker_id = joker_id;
         const JokerInfo* info = get_joker_registry_entry(joker_id);
         if (info->rarity == joker_rarity)
         {
