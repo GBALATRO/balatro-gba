@@ -55,7 +55,7 @@ static void blind_select_print_blinds_reqs_and_rewards(void);
 static enum BlindType get_blind_type_from_token(enum BlindTokens blind);
 static void blind_tokens_init(void);
 static void blind_skip_tags_init(void);
-static inline void skip_tag_init_for_blind(enum BlindType blind_type);
+static void skip_tag_init_for_blind(enum BlindType blind_type);
 
 enum BlindSelectState
 {

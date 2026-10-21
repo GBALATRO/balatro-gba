@@ -640,6 +640,13 @@ static inline void setup_deck_sprite()
     // We put it at the same layer as the main menu Ace card, but it's okay because
     // both cards do not exist at the same time, one is destroyed before the other is created.
     card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
+    if (run_setup_deck->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for run setup deck");
+        card_destroy(&run_setup_deck->card);
+        card_object_destroy(&run_setup_deck);
+        return;
+    }
 
     sprite_object_position(
         (SpriteObject*)run_setup_deck,
