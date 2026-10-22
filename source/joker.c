@@ -449,15 +449,15 @@ Item* joker_object_roll_new(enum RngSequence key)
     Joker* joker = joker_new(joker_id);
     GBAL_RETURN_IF_NULL(joker, NULL);
 
-    joker_set_rollable(joker_id, false);
-
     Item* joker_object = (Item*)joker_object_new(joker);
     if (joker_object == NULL)
     {
         MGBA_FUNC_ERROR("Failed to create JokerObject of ID %d", joker_id);
         joker_destroy(&joker);
-        joker_set_rollable(joker_id, true);
+        return NULL;
     }
+
+    joker_set_rollable(joker_id, false);
 
     return joker_object;
 }
