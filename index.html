@@ -152,7 +152,7 @@ CI Checks</h1>
 <p>On pull-requests, various checks will be performed:</p><ol type="1">
 <li><b>Formatting</b>: <code>clang-format</code> will be ran on every <code>.c/.h</code> file with <a href="https://github.com/GBALATRO/balatro-gba/blob/main/.clang-format">this configuration</a>. Failures will cause the CI to fail.</li>
 <li><b>Unit Tests</b>: Unit tests are required to pass and are located in the repo <a href="https://github.com/GBALATRO/balatro-gba/tree/main/tests">here</a>.</li>
-<li><b>Rom Build</b>: The ROM must successfully build with the <code>make -j$(nproc)</code> command.</li>
+<li><b>Rom Build</b>: The ROM must successfully build with the <code>make -j$(nproc)</code> command as well as with logging enabled with the <code>MGBA_LOGGING=1 make -j\$(nproc)</code> command.</li>
 </ol>
 <h1><a class="anchor" id="autotoc_md5"></a>
 Code Style</h1>
