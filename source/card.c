@@ -65,7 +65,7 @@ bool get_cards_more_readable(void)
 }
 
 // Card methods
-Card* card_new(u8 suit, u8 rank)
+Card* card_new(enum CardSuit suit, enum CardRank rank)
 {
     Card* card = POOL_GET(Card);
 

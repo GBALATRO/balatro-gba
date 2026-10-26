@@ -172,68 +172,68 @@ DECLARE_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 const JokerInfo joker_registry[] = 
 {
     // Spritesheet 0
-    { "Joker",            COMMON_JOKER,    2, false, default_joker_desc,          default_joker_effect              }, // DEFAULT_JOKER_ID = 0
-    { "Abstract Joker",   COMMON_JOKER,    4, false, abstract_joker_desc,         abstract_joker_effect             }, // 1
-    { "Half Joker",       COMMON_JOKER,    5, false, half_joker_desc,             half_joker_effect                 }, // 2
-    { "Misprint",         COMMON_JOKER,    4, true,  misprint_joker_desc,         misprint_joker_effect             }, // 3
-    { "Scary Face",       COMMON_JOKER,    4, false, scary_face_joker_desc,       scary_face_joker_effect           }, // 4
-    { "Sock and Buskin",  UNCOMMON_JOKER,  6, false, sock_and_buskin_joker_desc,  sock_and_buskin_joker_effect      }, // 5
-    { "Acrobat",          UNCOMMON_JOKER,  6, false, acrobat_joker_desc,          acrobat_joker_effect              }, // 6
-    { "Fibonacci",        UNCOMMON_JOKER,  8, false, fibonnaci_joker_desc,        fibonnaci_joker_effect            }, // 7
-    { "Scholar",          COMMON_JOKER,    4, false, scholar_joker_desc,          scholar_joker_effect              }, // 8
-    { "Crafty Joker",     COMMON_JOKER,    4, false, crafty_joker_desc,           crafty_joker_effect               }, // 9
-    { "Droll Joker",      COMMON_JOKER,    4, false, droll_joker_desc,            droll_joker_effect                }, // 10
-    { "Raised Fist",      COMMON_JOKER,    5, false, raised_fist_joker_desc,      raised_fist_joker_effect          }, // 11
-    { "Reserved Parking", COMMON_JOKER,    6, false, reserved_parking_joker_desc, reserved_parking_joker_effect     }, // 12
-    { "Business Card",    COMMON_JOKER,    4, false, business_card_joker_desc,    business_card_joker_effect        }, // 13
-    { "Hanging Chad",     COMMON_JOKER,    4, false, hanging_chad_joker_desc,     hanging_chad_joker_effect         }, // 14
-    { "Joker Stencil",    UNCOMMON_JOKER,  8, false, stencil_joker_desc,          stencil_joker_effect              }, // 15
-    { "Banner",           COMMON_JOKER,    5, false, banner_joker_desc,           banner_joker_effect               }, // 16
-    { "Shoot the Moon",   COMMON_JOKER,    5, false, shoot_the_moon_joker_desc,   shoot_the_moon_joker_effect,      }, // 17
+    { "Joker",            COMMON_JOKER,    2, default_joker_desc,          default_joker_effect              }, // DEFAULT_JOKER_ID = 0
+    { "Abstract Joker",   COMMON_JOKER,    4, abstract_joker_desc,         abstract_joker_effect             }, // 1
+    { "Half Joker",       COMMON_JOKER,    5, half_joker_desc,             half_joker_effect                 }, // 2
+    { "Misprint",         COMMON_JOKER,    4, misprint_joker_desc,         misprint_joker_effect             }, // 3
+    { "Scary Face",       COMMON_JOKER,    4, scary_face_joker_desc,       scary_face_joker_effect           }, // 4
+    { "Sock and Buskin",  UNCOMMON_JOKER,  6, sock_and_buskin_joker_desc,  sock_and_buskin_joker_effect      }, // 5
+    { "Acrobat",          UNCOMMON_JOKER,  6, acrobat_joker_desc,          acrobat_joker_effect              }, // 6
+    { "Fibonacci",        UNCOMMON_JOKER,  8, fibonnaci_joker_desc,        fibonnaci_joker_effect            }, // 7
+    { "Scholar",          COMMON_JOKER,    4, scholar_joker_desc,          scholar_joker_effect              }, // 8
+    { "Crafty Joker",     COMMON_JOKER,    4, crafty_joker_desc,           crafty_joker_effect               }, // 9
+    { "Droll Joker",      COMMON_JOKER,    4, droll_joker_desc,            droll_joker_effect                }, // 10
+    { "Raised Fist",      COMMON_JOKER,    5, raised_fist_joker_desc,      raised_fist_joker_effect          }, // 11
+    { "Reserved Parking", COMMON_JOKER,    6, reserved_parking_joker_desc, reserved_parking_joker_effect     }, // 12
+    { "Business Card",    COMMON_JOKER,    4, business_card_joker_desc,    business_card_joker_effect        }, // 13
+    { "Hanging Chad",     COMMON_JOKER,    4, hanging_chad_joker_desc,     hanging_chad_joker_effect         }, // 14
+    { "Joker Stencil",    UNCOMMON_JOKER,  8, stencil_joker_desc,          stencil_joker_effect              }, // 15
+    { "Banner",           COMMON_JOKER,    5, banner_joker_desc,           banner_joker_effect               }, // 16
+    { "Shoot the Moon",   COMMON_JOKER,    5, shoot_the_moon_joker_desc,   shoot_the_moon_joker_effect,      }, // 17
     // Spritesheet 1 
-    { "Greedy Joker",     COMMON_JOKER,    5, false, greedy_joker_desc,           greedy_joker_effect               }, // 18
-    { "Lusty Joker",      COMMON_JOKER,    5, false, lusty_joker_desc,            lusty_joker_effect                }, // 19
+    { "Greedy Joker",     COMMON_JOKER,    5, greedy_joker_desc,           greedy_joker_effect               }, // 18
+    { "Lusty Joker",      COMMON_JOKER,    5, lusty_joker_desc,            lusty_joker_effect                }, // 19
     // Spritesheet 2
-    { "Wrathful Joker",   COMMON_JOKER,    5, false, wrathful_joker_desc,         wrathful_joker_effect             }, // 20
-    { "Gluttonous Joker", COMMON_JOKER,    5, false, gluttonous_joker_desc,       gluttonous_joker_effect           }, // 21
+    { "Wrathful Joker",   COMMON_JOKER,    5, wrathful_joker_desc,         wrathful_joker_effect             }, // 20
+    { "Gluttonous Joker", COMMON_JOKER,    5, gluttonous_joker_desc,       gluttonous_joker_effect           }, // 21
     // Spritesheet 3
-    { "Crazy Joker",      COMMON_JOKER,    4, false, crazy_joker_desc,            crazy_joker_effect                }, // 22
-    { "Mad Joker",        COMMON_JOKER,    4, false, mad_joker_desc,              mad_joker_effect                  }, // 23
-    { "Clever Joker",     COMMON_JOKER,    4, false, clever_joker_desc,           clever_joker_effect               }, // 24
-    { "Devious Joker",    COMMON_JOKER,    4, false, devious_joker_desc,          devious_joker_effect              }, // 25
-    { "Even Steven",      COMMON_JOKER,    4, false, even_steven_joker_desc,      even_steven_joker_effect          }, // 26
+    { "Crazy Joker",      COMMON_JOKER,    4, crazy_joker_desc,            crazy_joker_effect                }, // 22
+    { "Mad Joker",        COMMON_JOKER,    4, mad_joker_desc,              mad_joker_effect                  }, // 23
+    { "Clever Joker",     COMMON_JOKER,    4, clever_joker_desc,           clever_joker_effect               }, // 24
+    { "Devious Joker",    COMMON_JOKER,    4, devious_joker_desc,          devious_joker_effect              }, // 25
+    { "Even Steven",      COMMON_JOKER,    4, even_steven_joker_desc,      even_steven_joker_effect          }, // 26
     // Spritesheet 4
-    { "Blackboard",       UNCOMMON_JOKER,  6, false, blackboard_joker_desc,       blackboard_joker_effect           }, // 27
-    { "Mystic Summit",    COMMON_JOKER,    5, false, mystic_summit_joker_desc,    mystic_summit_joker_effect        }, // 28
-    { "Walkie Talkie",    COMMON_JOKER,    4, false, walkie_talkie_joker_desc,    walkie_talkie_joker_effect        }, // 29
-    { "Zany Joker",       COMMON_JOKER,    4, false, zany_joker_desc,             zany_joker_effect                 }, // 30
-    { "Wily Joker",       COMMON_JOKER,    4, false, wily_joker_desc,             wily_joker_effect                 }, // 31
+    { "Blackboard",       UNCOMMON_JOKER,  6, blackboard_joker_desc,       blackboard_joker_effect           }, // 27
+    { "Mystic Summit",    COMMON_JOKER,    5, mystic_summit_joker_desc,    mystic_summit_joker_effect        }, // 28
+    { "Walkie Talkie",    COMMON_JOKER,    4, walkie_talkie_joker_desc,    walkie_talkie_joker_effect        }, // 29
+    { "Zany Joker",       COMMON_JOKER,    4, zany_joker_desc,             zany_joker_effect                 }, // 30
+    { "Wily Joker",       COMMON_JOKER,    4, wily_joker_desc,             wily_joker_effect                 }, // 31
     // Spritesheet 5
-    { "Sly Joker",        COMMON_JOKER,    3, false, sly_joker_desc,              sly_joker_effect                  }, // 32
-    { "Jolly Joker",      COMMON_JOKER,    3, false, jolly_joker_desc,            jolly_joker_effect                }, // 33
-    { "Blue Joker",       COMMON_JOKER,    5, false, blue_joker_desc,             blue_joker_effect                 }, // 34
-    { "Odd Todd",         COMMON_JOKER,    4, false, odd_todd_joker_desc,         odd_todd_joker_effect             }, // 35
+    { "Sly Joker",        COMMON_JOKER,    3, sly_joker_desc,              sly_joker_effect                  }, // 32
+    { "Jolly Joker",      COMMON_JOKER,    3, jolly_joker_desc,            jolly_joker_effect                }, // 33
+    { "Blue Joker",       COMMON_JOKER,    5, blue_joker_desc,             blue_joker_effect                 }, // 34
+    { "Odd Todd",         COMMON_JOKER,    4, odd_todd_joker_desc,         odd_todd_joker_effect             }, // 35
     // Spritesheet 6
-    { "The Duo",          RARE_JOKER,      8, false, the_duo_joker_desc,          the_duo_joker_effect              }, // 36
-    { "The Trio",         RARE_JOKER,      8, false, the_trio_joker_desc,         the_trio_joker_effect             }, // 37
-    { "The Order",        RARE_JOKER,      8, false, the_order_joker_desc,        the_order_joker_effect            }, // 38
-    { "The Tribe",        RARE_JOKER,      8, false, the_tribe_joker_desc,        the_tribe_joker_effect            }, // 39
+    { "The Duo",          RARE_JOKER,      8, the_duo_joker_desc,          the_duo_joker_effect              }, // 36
+    { "The Trio",         RARE_JOKER,      8, the_trio_joker_desc,         the_trio_joker_effect             }, // 37
+    { "The Order",        RARE_JOKER,      8, the_order_joker_desc,        the_order_joker_effect            }, // 38
+    { "The Tribe",        RARE_JOKER,      8, the_tribe_joker_desc,        the_tribe_joker_effect            }, // 39
     // Spritesheet 7
-    { "The Family",       RARE_JOKER,      8, false, the_family_joker_desc,       the_family_joker_effect           }, // 40
-    { "Brainstorm",       RARE_JOKER,     10, false, brainstorm_joker_desc,       blueprint_brainstorm_joker_effect }, // 41 Brainstorm
+    { "The Family",       RARE_JOKER,      8, the_family_joker_desc,       the_family_joker_effect           }, // 40
+    { "Brainstorm",       RARE_JOKER,     10, brainstorm_joker_desc,       blueprint_brainstorm_joker_effect }, // 41 Brainstorm
     // Spritesheet 8
-    { "Smiley Face",      COMMON_JOKER,    4, false, smiley_face_joker_desc,      smiley_face_joker_effect          }, // 42
-    { "Bull",             UNCOMMON_JOKER,  6, false, bull_joker_desc,             bull_joker_effect                 }, // 43
+    { "Smiley Face",      COMMON_JOKER,    4, smiley_face_joker_desc,      smiley_face_joker_effect          }, // 42
+    { "Bull",             UNCOMMON_JOKER,  6, bull_joker_desc,             bull_joker_effect                 }, // 43
     // Individual Jokers (for now :3)
-    { "Photograph",       COMMON_JOKER,    5, false, photograph_joker_desc,       photograph_joker_effect,          }, // 44
-    { "Hack",             UNCOMMON_JOKER,  6, false, hack_joker_desc,             hack_joker_effect                 }, // 45
-    { "Pareidolia",       UNCOMMON_JOKER,  5, false, pareidolia_joker_desc,       joker_effect_noop                 }, // 46 Pareidolia
-    { "Bootstraps",       UNCOMMON_JOKER,  7, false, bootstraps_joker_desc,       bootstraps_joker_effect           }, // 47
-    { "Shortcut",         UNCOMMON_JOKER,  7, false, shortcut_joker_desc,         joker_effect_noop,                }, // 48 Shortcut
-    { "Dusk",             UNCOMMON_JOKER,  5, false, dusk_joker_desc,             dusk_joker_effect                 }, // 49
-    { "Four Fingers",     UNCOMMON_JOKER,  7, false, four_fingers_joker_desc,     joker_effect_noop,                }, // 50 Four Fingers
-    { "Seltzer",          UNCOMMON_JOKER,  6, false, seltzer_joker_desc,          seltzer_joker_effect,             }, // 51
-    { "Blueprint",        RARE_JOKER,     10, false, blueprint_joker_desc,        blueprint_brainstorm_joker_effect }, // 52 Blueprint
+    { "Photograph",       COMMON_JOKER,    5, photograph_joker_desc,       photograph_joker_effect,          }, // 44
+    { "Hack",             UNCOMMON_JOKER,  6, hack_joker_desc,             hack_joker_effect                 }, // 45
+    { "Pareidolia",       UNCOMMON_JOKER,  5, pareidolia_joker_desc,       joker_effect_noop                 }, // 46 Pareidolia
+    { "Bootstraps",       UNCOMMON_JOKER,  7, bootstraps_joker_desc,       bootstraps_joker_effect           }, // 47
+    { "Shortcut",         UNCOMMON_JOKER,  7, shortcut_joker_desc,         joker_effect_noop,                }, // 48 Shortcut
+    { "Dusk",             UNCOMMON_JOKER,  5, dusk_joker_desc,             dusk_joker_effect                 }, // 49
+    { "Four Fingers",     UNCOMMON_JOKER,  7, four_fingers_joker_desc,     joker_effect_noop,                }, // 50 Four Fingers
+    { "Seltzer",          UNCOMMON_JOKER,  6, seltzer_joker_desc,          seltzer_joker_effect,             }, // 51
+    { "Blueprint",        RARE_JOKER,     10, blueprint_joker_desc,        blueprint_brainstorm_joker_effect }, // 52 Blueprint
 
     // The following jokers don't have sprites yet,
     // uncomment them when their sprites are added.
@@ -1916,6 +1916,9 @@ static u32 hack_joker_effect(
                         (*joker_effect)->message = "Again!";
                         effect_flags_ret = JOKER_EFFECT_FLAG_RETRIGGER | JOKER_EFFECT_FLAG_MESSAGE;
                     }
+                    break;
+
+                default:
                     break;
             }
             break;

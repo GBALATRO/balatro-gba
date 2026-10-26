@@ -667,9 +667,9 @@ void game_start(void)
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
     // that allows for different decks and card types.
-    for (int suit = 0; suit < NUM_SUITS; suit++)
+    for (enum CardSuit suit = 0; suit < NUM_SUITS; suit++)
     {
-        for (int rank = 0; rank < NUM_RANKS; rank++)
+        for (enum CardRank rank = 0; rank < NUM_RANKS; rank++)
         {
             Card* card = card_new(suit, rank);
             deck_push(card);
