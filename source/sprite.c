@@ -275,6 +275,28 @@ void sprite_object_unhide(SpriteObject* sprite_object)
     sprite_unhide(sprite_object->sprite);
 }
 
+void sprite_object_hide_all_in_list(List* sprite_object_list)
+{
+    ListItr itr = list_itr_create(sprite_object_list);
+    SpriteObject* sprite_object;
+
+    while ((sprite_object = list_itr_next(&itr)))
+    {
+        sprite_object_hide(sprite_object);
+    }
+}
+
+void sprite_object_unhide_all_in_list(List* sprite_object_list)
+{
+    ListItr itr = list_itr_create(sprite_object_list);
+    SpriteObject* sprite_object;
+
+    while ((sprite_object = list_itr_next(&itr)))
+    {
+        sprite_object_unhide(sprite_object);
+    }
+}
+
 void sprite_object_reset_transform(SpriteObject* sprite_object)
 {
     GBAL_RETURN_IF_NULL(sprite_object, RET_NONE);

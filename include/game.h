@@ -24,7 +24,7 @@
 #define KEY_CARD_SELECT      KEY_CONFIRM
 #define KEY_CARDS_DESELECT   KEY_CANCEL // From tonc
 #define KEY_PEEK_DECK        KEY_L      // TODO: Not implemented, remove?
-#define KEY_PAUSE_GAME       KEY_START  // TODO: Not implemented, remove?
+#define KEY_PAUSE_GAME       KEY_START
 #define KEY_SHOW_DESCRIPTION KEY_B
 #define KEY_SELL             KEY_L
 #define KEY_TAB_LEFT         KEY_L

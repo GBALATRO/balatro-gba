@@ -1,6 +1,7 @@
 #include "graphic_utils.h"
 
 #include "layout.h"
+#include "mgba_logger.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -225,6 +226,30 @@ void main_bg_se_copy_expand_3w_row(Rect se_dest_rect, BG_POINT src_row_left_pnt)
         dest_inner_fill_rect.left += 1;
         dest_inner_fill_rect.right -= 1;
         main_bg_se_fill_rect_with_se(middle_fill_se, dest_inner_fill_rect);
+    }
+}
+
+void main_bg_se_copy_expand_column_hor(
+    BG_POINT se_dest_top_left,
+    u16 dest_row_length,
+    Rect src_col_rect
+)
+{
+    if (rect_width(&src_col_rect) != 1)
+    {
+        MGBA_FUNC_ERROR("Source Rect does not have a width of 1");
+        return;
+    }
+
+    int src_rect_height = rect_height(&src_col_rect);
+    for (int i = 0; i < src_rect_height; i++)
+    {
+        SE column_fill_se = se_mat[MAIN_BG_SBB][src_col_rect.top + i][src_col_rect.left];
+        memset16(
+            &se_mat[MAIN_BG_SBB][se_dest_top_left.y + i][se_dest_top_left.x],
+            column_fill_se,
+            dest_row_length
+        );
     }
 }
 
