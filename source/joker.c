@@ -117,9 +117,14 @@ void joker_init()
 Joker* joker_new(u8 id)
 {
     if (id >= get_joker_registry_size())
+    {
+        MGBA_FUNC_ERROR("Invalid joker id %d", id);
         return NULL;
+    }
 
     Joker* joker = POOL_GET(Joker);
+    GBAL_RETURN_IF_NULL(joker, NULL);
+
     const JokerInfo* jinfo = get_joker_registry_entry(id);
 
     joker->id = id;
@@ -137,6 +142,7 @@ Joker* joker_new(u8 id)
 
 void joker_destroy(Joker** joker)
 {
+    GBAL_RETURN_IF_NULL(joker, RET_NONE);
     POOL_FREE(Joker, *joker);
     *joker = NULL;
 }
@@ -217,6 +223,7 @@ JokerObject* joker_object_new(Joker* joker)
 {
     GBAL_RETURN_IF_NULL(joker, NULL);
     JokerObject* joker_object = POOL_GET(JokerObject);
+    GBAL_RETURN_IF_NULL(joker_object, NULL);
 
     sprite_object_init((SpriteObject*)joker_object);
 
@@ -226,7 +233,7 @@ JokerObject* joker_object_new(Joker* joker)
         if (!s_used_layers[i])
         {
             layer = i;
-            s_used_layers[i] = true; // Mark this layer as used
+            s_used_layers[i] = true;
             break;
         }
     }
@@ -249,6 +256,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     sprite_object_set_sprite(
         (SpriteObject*)joker_object,
+        // TODO: NULL-check
         sprite_new(
             ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             ATTR1_SIZE_32,
@@ -385,23 +393,22 @@ int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key)
 {
     // Now determine how many jokers are available based on the rarity
     int jokers_avail_size = get_num_rollable_jokers();
+    int fallback_joker_id = BASIC_JOKER_ID;
 
     if (jokers_avail_size == 0)
-        return UNDEFINED;
+    {
+        MGBA_FUNC_WARN("Absolutely no rollable jokers left");
+        return fallback_joker_id;
+    }
 
     int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = rng_get_u32(key) % jokers_avail_size;
-    int fallback_random_joker_id = UNDEFINED;
     int match_count = 0;
 
     BitsetItr itr = bitset_itr_create(&s_rollable_jokers_bitset);
 
-    int i = 0;
-    int joker_id = UNDEFINED;
+    int joker_id = fallback_joker_id;
     while ((joker_id = bitset_itr_next(&itr)) != UNDEFINED)
     {
-        if (i++ == fallback_random_idx)
-            fallback_random_joker_id = joker_id;
         const JokerInfo* info = get_joker_registry_entry(joker_id);
         if (info->rarity == joker_rarity)
         {
@@ -409,17 +416,17 @@ int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key)
         }
     }
 
-    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32(key) % match_count]
-                                              : fallback_random_joker_id;
+    if (match_count <= 0)
+    {
+        MGBA_FUNC_WARN("No rollable joker id of rarity %d", joker_rarity);
+        return fallback_joker_id;
+    }
 
-    return selected_joker_id;
+    return matching_joker_ids[rng_get_u32(key) % match_count];
 }
 
 Item* joker_object_roll_new(enum RngSequence key)
 {
-    if (no_rollable_jokers())
-        return NULL;
-
     int joker_id = 0;
 #ifdef TEST_JOKER_ID0 // Allow defining an ID for a joker to always appear in shop and be tested
     if (joker_is_rollable(TEST_JOKER_ID0))
@@ -439,13 +446,20 @@ Item* joker_object_roll_new(enum RngSequence key)
         joker_id = joker_roll_id(joker_get_random_rarity(key), key);
     }
 
-    // If for some reason only no joker is left, don't make another
-    if (joker_id == UNDEFINED)
+    Joker* joker = joker_new(joker_id);
+    GBAL_RETURN_IF_NULL(joker, NULL);
+
+    Item* joker_object = (Item*)joker_object_new(joker);
+    if (joker_object == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to create JokerObject of ID %d", joker_id);
+        joker_destroy(&joker);
         return NULL;
+    }
 
     joker_set_rollable(joker_id, false);
 
-    return (Item*)joker_object_new(joker_new(joker_id));
+    return joker_object;
 }
 
 /**

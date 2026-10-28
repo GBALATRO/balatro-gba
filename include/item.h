@@ -132,7 +132,8 @@ typedef struct ItemFuncs
  * @param item_type The type of the item to roll
  * @param key to the RNG sequence used to roll the Item
  *
- * @return The newly created randomly rolled item
+ * @return The newly created randomly rolled item, should not be NULL, all item types should have
+ *          a default item to roll in case none are rollable.
  */
 Item* item_roll_new(enum ItemType item_type, enum RngSequence key);
 

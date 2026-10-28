@@ -55,6 +55,7 @@ static void blind_select_print_blinds_reqs_and_rewards(void);
 static enum BlindType get_blind_type_from_token(enum BlindTokens blind);
 static void blind_tokens_init(void);
 static void blind_skip_tags_init(void);
+static void skip_tag_init_for_blind(enum BlindType blind_type);
 
 enum BlindSelectState
 {
@@ -696,24 +697,46 @@ static void blind_skip_tags_init(void)
     if (g_game_vars.current_blind != BLIND_TYPE_SMALL)
         return;
 
-    skip_tag_destroy(&blind_skip_tags[0]);
-    skip_tag_destroy(&blind_skip_tags[1]);
+    skip_tag_init_for_blind(BLIND_TYPE_SMALL);
+    skip_tag_init_for_blind(BLIND_TYPE_BIG);
+}
 
-    blind_skip_tags[0] = roll_skip_tag();
-    blind_skip_tags[1] = roll_skip_tag();
-
-    skip_tag_set_sprite(blind_skip_tags[0], SMALL_BLIND_SKIP_TAG_LAYER);
-    skip_tag_set_sprite(blind_skip_tags[1], BIG_BLIND_SKIP_TAG_LAYER);
-
-    sprite_object_position(
-        (SpriteObject*)blind_skip_tags[0],
-        SMALL_BLIND_SKIP_TAG_INIT_POS.x,
-        SMALL_BLIND_SKIP_TAG_INIT_POS.y
+static inline void skip_tag_init_for_blind(enum BlindType blind_type)
+{
+    GBAL_RETURN_IF_ASSERT_FAILS(
+        blind_type == BLIND_TYPE_SMALL || blind_type == BLIND_TYPE_BIG,
+        RET_NONE
     );
+
+    skip_tag_destroy(&blind_skip_tags[blind_type]);
+
+    SkipTag* skip_tag = roll_skip_tag();
+    GBAL_RETURN_IF_NULL(skip_tag, RET_NONE);
+
+    s16 skip_tag_layer = SMALL_BLIND_SKIP_TAG_LAYER;
+    BG_POINT skip_tag_pos = SMALL_BLIND_SKIP_TAG_INIT_POS;
+
+    if (blind_type == BLIND_TYPE_BIG)
+    {
+        skip_tag_layer = BIG_BLIND_SKIP_TAG_LAYER;
+        skip_tag_pos = BIG_BLIND_SKIP_TAG_INIT_POS;
+    }
+
+    skip_tag_set_sprite(skip_tag, skip_tag_layer);
+
+    if (skip_tag->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for skip tag");
+        skip_tag_destroy(&skip_tag);
+        return;
+    }
+
+    blind_skip_tags[blind_type] = skip_tag;
+
     sprite_object_position(
-        (SpriteObject*)blind_skip_tags[1],
-        BIG_BLIND_SKIP_TAG_INIT_POS.x,
-        BIG_BLIND_SKIP_TAG_INIT_POS.y
+        (SpriteObject*)blind_skip_tags[blind_type],
+        skip_tag_pos.x,
+        skip_tag_pos.y
     );
 }
 

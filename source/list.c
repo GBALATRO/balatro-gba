@@ -7,6 +7,7 @@
 #include "list.h"
 
 #include "pool.h"
+#include "util.h"
 
 #include <stdbool.h>
 
@@ -67,6 +68,7 @@ bool list_is_empty(const List* list)
 void list_push_front(List* list, void* data)
 {
     ListNode* node = POOL_GET(ListNode);
+    GBAL_RETURN_IF_NULL(node, RET_NONE);
 
     node->data = data;
     node->prev = NULL;
@@ -89,6 +91,8 @@ void list_push_front(List* list, void* data)
 void list_push_back(List* list, void* data)
 {
     ListNode* node = POOL_GET(ListNode);
+    GBAL_RETURN_IF_NULL(node, RET_NONE);
+
     node->data = data;
     node->prev = list->tail;
     node->next = NULL;

@@ -40,7 +40,7 @@ static JokerEffect s_shared_joker_effect = {0};
 
 // Joker Descriptions
 
-DECLARE_JOKER_DESC_FUNC(default_joker_desc)
+DECLARE_JOKER_DESC_FUNC(basic_joker_desc)
 DECLARE_JOKER_DESC_FUNC(greedy_joker_desc)
 DECLARE_JOKER_DESC_FUNC(lusty_joker_desc)
 DECLARE_JOKER_DESC_FUNC(wrathful_joker_desc)
@@ -104,7 +104,7 @@ static u32 sinful_joker_effect(
 );
 
 DECLARE_JOKER_EFFECT_FUNC(joker_effect_noop)
-DECLARE_JOKER_EFFECT_FUNC(default_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(basic_joker_effect)
 DECLARE_JOKER_EFFECT_FUNC(greedy_joker_effect)
 DECLARE_JOKER_EFFECT_FUNC(lusty_joker_effect)
 DECLARE_JOKER_EFFECT_FUNC(wrathful_joker_effect)
@@ -172,7 +172,7 @@ DECLARE_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
 const JokerInfo joker_registry[] = 
 {
     // Spritesheet 0
-    { "Joker",            COMMON_JOKER,    2, false, default_joker_desc,          default_joker_effect              }, // DEFAULT_JOKER_ID = 0
+    { "Joker",            COMMON_JOKER,    2, false, basic_joker_desc,            basic_joker_effect                }, // 0
     { "Abstract Joker",   COMMON_JOKER,    4, false, abstract_joker_desc,         abstract_joker_effect             }, // 1
     { "Half Joker",       COMMON_JOKER,    5, false, half_joker_desc,             half_joker_effect                 }, // 2
     { "Misprint",         COMMON_JOKER,    4, true,  misprint_joker_desc,         misprint_joker_effect             }, // 3
@@ -220,25 +220,20 @@ const JokerInfo joker_registry[] =
     { "The Tribe",        RARE_JOKER,      8, false, the_tribe_joker_desc,        the_tribe_joker_effect            }, // 39
     // Spritesheet 7
     { "The Family",       RARE_JOKER,      8, false, the_family_joker_desc,       the_family_joker_effect           }, // 40
-    { "Brainstorm",       RARE_JOKER,     10, false, brainstorm_joker_desc,       blueprint_brainstorm_joker_effect }, // 41 Brainstorm
+    { "Brainstorm",       RARE_JOKER,     10, false, brainstorm_joker_desc,       blueprint_brainstorm_joker_effect }, // 41
     // Spritesheet 8
     { "Smiley Face",      COMMON_JOKER,    4, false, smiley_face_joker_desc,      smiley_face_joker_effect          }, // 42
     { "Bull",             UNCOMMON_JOKER,  6, false, bull_joker_desc,             bull_joker_effect                 }, // 43
     // Individual Jokers (for now :3)
     { "Photograph",       COMMON_JOKER,    5, false, photograph_joker_desc,       photograph_joker_effect,          }, // 44
     { "Hack",             UNCOMMON_JOKER,  6, false, hack_joker_desc,             hack_joker_effect                 }, // 45
-    { "Pareidolia",       UNCOMMON_JOKER,  5, false, pareidolia_joker_desc,       joker_effect_noop                 }, // 46 Pareidolia
+    { "Pareidolia",       UNCOMMON_JOKER,  5, false, pareidolia_joker_desc,       joker_effect_noop                 }, // 46
     { "Bootstraps",       UNCOMMON_JOKER,  7, false, bootstraps_joker_desc,       bootstraps_joker_effect           }, // 47
-    { "Shortcut",         UNCOMMON_JOKER,  7, false, shortcut_joker_desc,         joker_effect_noop,                }, // 48 Shortcut
+    { "Shortcut",         UNCOMMON_JOKER,  7, false, shortcut_joker_desc,         joker_effect_noop,                }, // 48
     { "Dusk",             UNCOMMON_JOKER,  5, false, dusk_joker_desc,             dusk_joker_effect                 }, // 49
-    { "Four Fingers",     UNCOMMON_JOKER,  7, false, four_fingers_joker_desc,     joker_effect_noop,                }, // 50 Four Fingers
+    { "Four Fingers",     UNCOMMON_JOKER,  7, false, four_fingers_joker_desc,     joker_effect_noop,                }, // 50
     { "Seltzer",          UNCOMMON_JOKER,  6, false, seltzer_joker_desc,          seltzer_joker_effect,             }, // 51
-    { "Blueprint",        RARE_JOKER,     10, false, blueprint_joker_desc,        blueprint_brainstorm_joker_effect }, // 52 Blueprint
-
-    // The following jokers don't have sprites yet,
-    // uncomment them when their sprites are added.
-#if 0
-#endif
+    { "Blueprint",        RARE_JOKER,     10, false, blueprint_joker_desc,        blueprint_brainstorm_joker_effect }, // 52
 };
 // clang-format on
 
@@ -260,7 +255,7 @@ size_t get_joker_registry_size(void)
 
 #pragma region JOKER DESCRIPTIONS
 
-static int default_joker_desc(Joker* joker, Rect dest_rect)
+static int basic_joker_desc(Joker* joker, Rect dest_rect)
 {
     static const char desc[] = TTE_RED_TAG "+4 " TTE_BLACK_TAG "Mult";
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
@@ -727,7 +722,7 @@ static u32 joker_effect_noop(
     return JOKER_EFFECT_FLAG_NONE;
 }
 
-static u32 default_joker_effect(
+static u32 basic_joker_effect(
     Joker* joker,
     Card* scored_card,
     enum JokerEvent joker_event,

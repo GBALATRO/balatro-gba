@@ -51,15 +51,9 @@
 
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
 
-// These functions need to be forward declared
-// so they're visible to the state_info array,
-// and the sub-state function tables.
-// This could be done, and maybe should be done,
-// with an X macro, but I'll leave that to the
-// reviewer(s).
-
 int deck_get_size(void);
 static int deck_get_max_size(void);
+void deck_fill_cards_default();
 
 // Consts
 
@@ -646,6 +640,28 @@ void deck_shuffle(void)
     }
 }
 
+/**
+ * @brief Fills the deck with the default standard 52 cards
+ * Later on this can be replaced with a more dynamic system
+ * that allows for different decks and card types.
+ */
+void deck_fill_cards_default()
+{
+    for (int suit = 0; suit < NUM_SUITS; suit++)
+    {
+        for (int rank = 0; rank < NUM_RANKS; rank++)
+        {
+            Card* card = card_new(suit, rank);
+
+            // Fully abort if a card is NULL because it means there's an issue
+            // and there's no point trying to fill the rest of the deck
+            GBAL_RETURN_IF_NULL(card, RET_NONE);
+
+            deck_push(card);
+        }
+    }
+}
+
 void game_start(void)
 {
     affine_background_change_background(AFFINE_BG_GAME);
@@ -654,38 +670,20 @@ void game_start(void)
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
 
-    // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
-    // that allows for different decks and card types.
-    for (int suit = 0; suit < NUM_SUITS; suit++)
-    {
-        for (int rank = 0; rank < NUM_RANKS; rank++)
-        {
-            Card* card = card_new(suit, rank);
-            deck_push(card);
-        }
-    }
+    deck_fill_cards_default();
 
-    // Deck size/max size
-    tte_erase_rect_wrapper(DECK_SIZE_RECT);
-    tte_printf(
-        "#{P:%d,%d; cx:0x%X000}%d/%d",
-        DECK_SIZE_RECT.left,
-        DECK_SIZE_RECT.top,
-        TTE_WHITE_PB,
-        deck_get_size(),
-        deck_get_max_size()
-    );
+    display_deck_size_max();
 
-    display_round();                  // Set the round display
-    display_score(g_game_vars.score); // Set the score display
+    display_round();
+    display_score(g_game_vars.score);
 
-    display_chips(); // Set the chips display
-    display_mult();  // Set the multiplier display
+    display_chips();
+    display_mult();
 
-    display_hands();    // Hand
-    display_discards(); // Discard
+    display_hands();
+    display_discards();
 
-    display_money(); // Set the money display
+    display_money();
     display_ante();
 
     game_change_state(GAME_STATE_BLIND_SELECT);
