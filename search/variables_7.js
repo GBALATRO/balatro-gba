@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['len_0',['len',['../structList.html#afed088663f8704004425cdae2120b9b3',1,'List']]],
-  ['list_1',['list',['../structListItr.html#adc5a33c24031c978eeae95cff8efea95',1,'ListItr']]]
+  ['justification_0',['justification',['../structSpriteContainer.html#a71e7e6dc450faa98dc8b538844c91e2d',1,'SpriteContainer']]],
+  ['justification_5fortho_1',['justification_ortho',['../structSpriteContainer.html#a02f8ee060f55767c1a78e3f2663194eb',1,'SpriteContainer']]]
 ];

@@ -9,7 +9,8 @@ var searchData=
   ['skiptag_6',['SkipTag',['../structSkipTag.html',1,'']]],
   ['skiptaginfo_7',['SkipTagInfo',['../structSkipTagInfo.html',1,'']]],
   ['sprite_8',['Sprite',['../structSprite.html',1,'']]],
-  ['spriteobject_9',['SpriteObject',['../structSpriteObject.html',1,'']]],
-  ['stateinfo_10',['StateInfo',['../structStateInfo.html',1,'']]],
-  ['statemachine_11',['StateMachine',['../structStateMachine.html',1,'']]]
+  ['spritecontainer_9',['SpriteContainer',['../structSpriteContainer.html',1,'']]],
+  ['spriteobject_10',['SpriteObject',['../structSpriteObject.html',1,'']]],
+  ['stateinfo_11',['StateInfo',['../structStateInfo.html',1,'']]],
+  ['statemachine_12',['StateMachine',['../structStateMachine.html',1,'']]]
 ];

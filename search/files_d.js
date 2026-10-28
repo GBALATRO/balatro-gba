@@ -9,5 +9,6 @@ var searchData=
   ['skip_5ftag_2eh_6',['skip_tag.h',['../skip__tag_8h.html',1,'']]],
   ['splash_5fscreen_2eh_7',['splash_screen.h',['../splash__screen_8h.html',1,'']]],
   ['sprite_2eh_8',['sprite.h',['../sprite_8h.html',1,'']]],
-  ['state_5fmachine_2eh_9',['state_machine.h',['../state__machine_8h.html',1,'']]]
+  ['sprite_5fcontainer_2eh_9',['sprite_container.h',['../sprite__container_8h.html',1,'']]],
+  ['state_5fmachine_2eh_10',['state_machine.h',['../state__machine_8h.html',1,'']]]
 ];

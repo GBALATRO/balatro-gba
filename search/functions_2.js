@@ -18,5 +18,14 @@ var searchData=
   ['choose_5fseed_5fget_5fkeyboard_5fshort_5frow_5fsize_15',['choose_seed_get_keyboard_short_row_size',['../run__setup_8c.html#a9f8aa1689b9152706d73e32f5d237d38',1,'run_setup.c']]],
   ['choose_5fseed_5frow_5fon_5fkey_5ftransit_16',['choose_seed_row_on_key_transit',['../run__setup_8c.html#ab295cea158b7e51055006f813e1a4d49',1,'run_setup.c']]],
   ['choose_5fseed_5frow_5fon_5fselection_5fchanged_17',['choose_seed_row_on_selection_changed',['../run__setup_8c.html#aaf56f9b6363b2ce378251ae6e2639c69',1,'run_setup.c']]],
-  ['compute_5fhand_5fvalue_5finfo_18',['compute_hand_value_info',['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]]
+  ['compute_5fhand_5fvalue_5finfo_18',['compute_hand_value_info',['../hand_8h.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c'],['../hand_8c.html#ae7bd4b295ad0106d523da0c57c798748',1,'compute_hand_value_info(void):&#160;hand.c']]],
+  ['container_5fappend_5flist_19',['container_append_list',['../sprite__container_8h.html#af61f749c04463574b18affa16bdf81a4',1,'sprite_container.c']]],
+  ['container_5fclear_5fcontents_20',['container_clear_contents',['../sprite__container_8h.html#a207c1c9a738e48a2f1233f01f9721a0e',1,'sprite_container.c']]],
+  ['container_5finsert_21',['container_insert',['../sprite__container_8h.html#a7c6e4c6109773e773881711e046496ac',1,'sprite_container.c']]],
+  ['container_5fitr_5fremove_5fcurrent_5fnode_22',['container_itr_remove_current_node',['../sprite__container_8h.html#a6aad8230a3d67eb18877f6525edab367',1,'sprite_container.c']]],
+  ['container_5fpush_5fback_23',['container_push_back',['../sprite__container_8h.html#ae0fa1573af0f74d887bf071c5fed629b',1,'sprite_container.c']]],
+  ['container_5fpush_5ffront_24',['container_push_front',['../sprite__container_8h.html#a6afa088fac40a7e1fb233fcb26b8ece9',1,'sprite_container.c']]],
+  ['container_5fremove_5fat_5fidx_25',['container_remove_at_idx',['../sprite__container_8h.html#acf5110c2fd8675c9ca3d4cfc4e4c687e',1,'sprite_container.c']]],
+  ['container_5fremove_5fdata_26',['container_remove_data',['../sprite__container_8h.html#a303184b1815d542ff66888f242ee95a0',1,'sprite_container.c']]],
+  ['container_5fswap_27',['container_swap',['../sprite__container_8h.html#a6abb770283e906897b44d718b4cb98fe',1,'sprite_container.c']]]
 ];

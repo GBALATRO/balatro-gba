@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['nbits_0',['nbits',['../structBitset.html#a4319e1b6017c222f7a8f76d28b29a33a',1,'Bitset']]],
-  ['next_1',['next',['../structListNode.html#ac8677cf490a46744e8c4b69ab26ea9df',1,'ListNode']]],
-  ['next_5fnode_2',['next_node',['../structListItr.html#a4ffa1d50194521c927e48fb52d86f20f',1,'ListItr']]],
-  ['num_5finfos_3',['num_infos',['../structStateMachine.html#aa4b2efb54ccb39bbc11dbcfca604fe4e',1,'StateMachine']]],
-  ['nwords_4',['nwords',['../structBitset.html#a6953acccb3e7058540129d4f8f20b546',1,'Bitset']]]
+  ['maximum_5fspacing_0',['maximum_spacing',['../structSpriteContainer.html#ab1ce5912b52f7ac98c157c8a9fa91913',1,'SpriteContainer']]],
+  ['mode_1',['mode',['../structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13',1,'Sprite']]],
+  ['multiplier_2',['multiplier',['../structRewardTypeData.html#a2fd86b96d6a4d93cea05afc384e9b734',1,'RewardTypeData']]]
 ];

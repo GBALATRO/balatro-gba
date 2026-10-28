@@ -9,5 +9,6 @@ var searchData=
   ['options_5fmenu_5fon_5finit_6',['options_menu_on_init',['../options__menu_8h.html#a8c04c5bd865d9775a715c391c6cd46f9',1,'options_menu.c']]],
   ['options_5fmenu_5fon_5fupdate_7',['options_menu_on_update',['../options__menu_8h.html#a9b26816e7cb33161af6dc0b5e2a1bd72',1,'options_menu.c']]],
   ['or_20tt_20make_20tt_20installed_8',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md30',1,'']]],
-  ['out_20and_20won_20t_20compile_9',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]]
+  ['orientation_9',['orientation',['../structSpriteContainer.html#ac1140ecd610e506716fa7ed67a61fb9a',1,'SpriteContainer']]],
+  ['out_20and_20won_20t_20compile_10',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]]
 ];

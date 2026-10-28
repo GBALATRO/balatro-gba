@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w_0',['w',['../structBitset.html#ac71d9ba707d832fafdd4ab5e6f2ad465',1,'Bitset']]],
-  ['word_1',['word',['../structBitsetItr.html#a32e8aeb1c57991c216eeb16a1599d816',1,'BitsetItr']]],
-  ['wrap_2',['wrap',['../structSelGridRowAttributes.html#ad694781c319f7ac04c4b381152b4abaf',1,'SelGridRowAttributes']]]
+  ['vrotation_0',['vrotation',['../structSpriteObject.html#abcd79dc8fb5a88ef150ad56c2efcaea7',1,'SpriteObject']]],
+  ['vscale_1',['vscale',['../structSpriteObject.html#a2a1e7cf65a6914eba92bb4de0d1eae1e',1,'SpriteObject']]],
+  ['vx_2',['vx',['../structSpriteObject.html#a6dc35dca53ed4cb47eb805c568f2b344',1,'SpriteObject']]]
 ];

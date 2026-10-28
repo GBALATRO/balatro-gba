@@ -36,6 +36,7 @@ var annotated_dup =
     [ "SkipTag", "structSkipTag.html", null ],
     [ "SkipTagInfo", "structSkipTagInfo.html", null ],
     [ "Sprite", "structSprite.html", "structSprite" ],
+    [ "SpriteContainer", "structSpriteContainer.html", "structSpriteContainer" ],
     [ "SpriteObject", "structSpriteObject.html", "structSpriteObject" ],
     [ "StateInfo", "structStateInfo.html", null ],
     [ "StateMachine", "structStateMachine.html", "structStateMachine" ],

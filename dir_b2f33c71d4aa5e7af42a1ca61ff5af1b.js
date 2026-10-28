@@ -27,6 +27,7 @@ var dir_b2f33c71d4aa5e7af42a1ca61ff5af1b =
     [ "skip_tag_effects.c", "skip__tag__effects_8c_source.html", null ],
     [ "splash_screen.c", "splash__screen_8c_source.html", null ],
     [ "sprite.c", "sprite_8c_source.html", null ],
+    [ "sprite_container.c", "sprite__container_8c_source.html", null ],
     [ "state_machine.c", "state__machine_8c_source.html", null ],
     [ "util.c", "util_8c_source.html", null ],
     [ "version.c", "version_8c_source.html", null ]

@@ -196,6 +196,8 @@ Functions</h2></td></tr>
 <tr class="separator:a99e81da43177b6ba0e115fb24ca168ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeecf07ac54a546ae3dc7e9f4d2b0d098" id="r_aeecf07ac54a546ae3dc7e9f4d2b0d098"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#aeecf07ac54a546ae3dc7e9f4d2b0d098">list_push_back</a> (<a class="el" href="structList.html">List</a> *list, void *data)</td></tr>
 <tr class="separator:aeecf07ac54a546ae3dc7e9f4d2b0d098"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c99fb1cf92f8704ada57d1ae33b0f51" id="r_a1c99fb1cf92f8704ada57d1ae33b0f51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a1c99fb1cf92f8704ada57d1ae33b0f51">list_append_other_list</a> (<a class="el" href="structList.html">List</a> *list, <a class="el" href="structList.html">List</a> *added_list)</td></tr>
+<tr class="separator:a1c99fb1cf92f8704ada57d1ae33b0f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57bd51e137dc1dc484916af563605f62" id="r_a57bd51e137dc1dc484916af563605f62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a57bd51e137dc1dc484916af563605f62">list_insert</a> (<a class="el" href="structList.html">List</a> *list, void *data, unsigned int idx)</td></tr>
 <tr class="separator:a57bd51e137dc1dc484916af563605f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08ee696c9e3cb8fdbf2f99450635711e" id="r_a08ee696c9e3cb8fdbf2f99450635711e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="list_8h.html#a08ee696c9e3cb8fdbf2f99450635711e">list_swap</a> (<a class="el" href="structList.html">List</a> *list, unsigned int idx_a, unsigned int idx_b)</td></tr>
@@ -301,6 +303,45 @@ List Implementation</h1>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a1c99fb1cf92f8704ada57d1ae33b0f51" name="a1c99fb1cf92f8704ada57d1ae33b0f51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c99fb1cf92f8704ada57d1ae33b0f51">&#9670;&#160;</a></span>list_append_other_list()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void list_append_other_list </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structList.html">List</a> *&#160;</td>
+          <td class="paramname"><em>list</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structList.html">List</a> *&#160;</td>
+          <td class="paramname"><em>added_list</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Append a list of entries to the <code>tail</code> of a list</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list</td><td>pointer to a <a class="el" href="structList.html">List</a> to append another one to </td></tr>
+    <tr><td class="paramname">added_list</td><td>pointer to a list of data entries to put into the <a class="el" href="structList.html">List</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>After appending the lists point to the same memory so <code>added_list</code> must no longer be used. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00110">110</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+
+</div>
+</div>
 <a id="aac53d4a634fec0aa2adad813d0497056" name="aac53d4a634fec0aa2adad813d0497056"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aac53d4a634fec0aa2adad813d0497056">&#9670;&#160;</a></span>list_clear()</h2>
 
@@ -365,7 +406,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to the data at the index of the list, or NULL if out-of-bounds </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00219">219</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00234">234</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -393,7 +434,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of elements in the list </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00214">214</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00229">229</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -481,7 +522,7 @@ List Implementation</h1>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00110">110</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00125">125</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -537,7 +578,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="structListItr.html">ListItr</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00257">257</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00272">272</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -565,7 +606,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the data pointer at the next <a class="el" href="structListNode.html">ListNode</a> if valid, otherwise return NULL. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00281">281</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00296">296</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -594,7 +635,7 @@ List Implementation</h1>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When working with <a class="el" href="structListItr.html">ListItr</a>, use this and not list_remove_at() as it will "break" the iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00307">307</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00322">322</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -709,7 +750,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if successfully removed, <code>false</code> if out-of-bounds </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00237">237</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00252">252</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -749,7 +790,7 @@ List Implementation</h1>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code> if successfully removed, <code>false</code> otherwise</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>When working with <a class="el" href="structListItr.html">ListItr</a>, use <a class="el" href="list_8h.html#aadae204b696ed083c90efeb417d786f9">list_itr_remove_current_node()</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00316">316</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00331">331</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -796,7 +837,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successful, false otherwise </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00148">148</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00163">163</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -824,7 +865,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A new reverse <a class="el" href="structListItr.html">ListItr</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00269">269</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00284">284</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
