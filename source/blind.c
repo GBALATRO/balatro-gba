@@ -275,3 +275,29 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers
 
     return sprite;
 }
+
+void increment_blind(enum BlindState increment_reason)
+{
+    switch (g_game_vars.current_blind)
+    {
+        // defeated small blind: go to big and raise the big blind's skip tag sprite by one tile
+        case BLIND_TYPE_SMALL:
+            g_game_vars.current_blind = BLIND_TYPE_BIG;
+            g_game_vars.blinds_states[SMALL_BLIND] = increment_reason;
+            g_game_vars.blinds_states[BIG_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated big blind: go to next boss
+        case BLIND_TYPE_BIG:
+            g_game_vars.current_blind = g_game_vars.next_boss_blind;
+            g_game_vars.blinds_states[BIG_BLIND] = increment_reason;
+            g_game_vars.blinds_states[BOSS_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated a boss: reset everything
+        default:
+            g_game_vars.current_blind = BLIND_TYPE_SMALL;
+            g_game_vars.blinds_states[SMALL_BLIND] = BLIND_STATE_CURRENT;
+            g_game_vars.blinds_states[BIG_BLIND] = BLIND_STATE_UPCOMING;
+            g_game_vars.blinds_states[BOSS_BLIND] = BLIND_STATE_UPCOMING;
+            break;
+    }
+}
