@@ -16,6 +16,7 @@
 #include "joker.h"
 #include "layout.h"
 #include "list.h"
+#include "save.h"
 #include "selection_grid.h"
 #include "skip_tag.h"
 #include "soundbank.h"
@@ -2129,6 +2130,8 @@ static inline void played_cards_update_loop(void)
 
 void round_on_init(void)
 {
+    save_game(GAME_STATE_ROUND);
+
     s_joker_scored_itr = list_itr_create(get_jokers_list());
 
     set_hand_state(HAND_TAGS);

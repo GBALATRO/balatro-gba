@@ -80,7 +80,7 @@ List* get_owned_skip_tags(void)
 
 // SkipTag new/destroy functions
 
-SkipTag* skip_tag_new(enum SkipTagTypes tag_type)
+SkipTag* skip_tag_new(enum SkipTagType tag_type)
 {
     SkipTag* tag = POOL_GET(SkipTag);
     GBAL_RETURN_IF_NULL(tag, NULL);
@@ -153,7 +153,7 @@ void set_owned_skip_tags_moved_offscreen(bool move_offscreen)
 
 SkipTag* roll_skip_tag(void)
 {
-    enum SkipTagTypes tag_type = 0;
+    enum SkipTagType tag_type = 0;
     if (g_game_vars.ante == 1)
     {
         tag_type = ante1_skip_tags_roll_table[rng_get_u32(RNG_SEQ_SKIP_TAGS) % NB_ANTE1_SKIP_TAGS];
@@ -194,7 +194,7 @@ static void rearrange_skip_tag_sprites(int nb_owned_tags, int tag_spacing)
 
 // Unused for now, may be useful for upcoming tags
 GBAL_UNUSED
-bool skip_tag_is_owned(enum SkipTagTypes tag_type)
+bool skip_tag_is_owned(enum SkipTagType tag_type)
 {
     SkipTag* tag;
     ListItr tag_itr = list_itr_create(&s_owned_skip_tags);
@@ -210,7 +210,7 @@ bool skip_tag_is_owned(enum SkipTagTypes tag_type)
     return false;
 }
 
-int skip_tag_count(enum SkipTagTypes tag_type)
+int skip_tag_count(enum SkipTagType tag_type)
 {
     int count = 0;
     SkipTag* tag;

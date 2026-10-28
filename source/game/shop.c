@@ -266,6 +266,8 @@ void shop_change_background(void)
 
 void shop_on_init(void)
 {
+    save_game(GAME_STATE_SHOP);
+
     shop_change_background();
 
     s_timer = TM_ZERO;

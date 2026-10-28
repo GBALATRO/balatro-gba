@@ -9,6 +9,7 @@
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "layout.h"
+#include "save.h"
 #include "selection_grid.h"
 #include "skip_tag.h"
 #include "soundbank.h"
@@ -168,6 +169,31 @@ static Button blind_select_buttons[] = {
 
 static Sprite* blind_select_tokens[NUM_BLINDS_PER_ANTE] = {NULL};
 static SkipTag* blind_skip_tags[NB_SKIPPABLE_BLINDS] = {NULL};
+
+enum SkipTagType get_blind_skip_tag_type(int blind_tag_idx)
+{
+    if (blind_tag_idx < 0 || blind_tag_idx >= NB_SKIPPABLE_BLINDS)
+    {
+        MGBA_FUNC_ERROR("Cannot get Skip Tag for Blind %d", blind_tag_idx);
+        return UNDEFINED;
+    }
+
+    return (blind_skip_tags[blind_tag_idx] == NULL) ? UNDEFINED
+                                                    : blind_skip_tags[blind_tag_idx]->type;
+}
+
+void set_blind_skip_tag(int blind_tag_idx, enum SkipTagType tag_type)
+{
+    if (blind_skip_tags[blind_tag_idx] != NULL)
+        skip_tag_destroy(&blind_skip_tags[blind_tag_idx]);
+
+    // Don't raise an error here, it is expected that we pass UNDEFINED as a Tag Type when reloading
+    // a saved game, if the Tag was already redeemed
+    if (tag_type >= MAX_SKIP_TAG_TYPES)
+        return;
+
+    blind_skip_tags[blind_tag_idx] = skip_tag_new(tag_type);
+}
 
 static void blind_select_start_anim_seq()
 {
@@ -693,32 +719,39 @@ static void blind_tokens_init()
 
 static void blind_skip_tags_init(void)
 {
-    if (g_game_vars.current_blind != BLIND_TYPE_SMALL)
-        return;
+    if (g_game_vars.current_blind == BLIND_TYPE_SMALL)
+    {
+        skip_tag_destroy(&blind_skip_tags[0]);
+        skip_tag_destroy(&blind_skip_tags[1]);
 
-    skip_tag_destroy(&blind_skip_tags[0]);
-    skip_tag_destroy(&blind_skip_tags[1]);
+        blind_skip_tags[0] = roll_skip_tag();
+        blind_skip_tags[1] = roll_skip_tag();
+    }
 
-    blind_skip_tags[0] = roll_skip_tag();
-    blind_skip_tags[1] = roll_skip_tag();
-
-    skip_tag_set_sprite(blind_skip_tags[0], SMALL_BLIND_SKIP_TAG_LAYER);
-    skip_tag_set_sprite(blind_skip_tags[1], BIG_BLIND_SKIP_TAG_LAYER);
-
-    sprite_object_position(
-        (SpriteObject*)blind_skip_tags[0],
-        SMALL_BLIND_SKIP_TAG_INIT_POS.x,
-        SMALL_BLIND_SKIP_TAG_INIT_POS.y
-    );
-    sprite_object_position(
-        (SpriteObject*)blind_skip_tags[1],
-        BIG_BLIND_SKIP_TAG_INIT_POS.x,
-        BIG_BLIND_SKIP_TAG_INIT_POS.y
-    );
+    if (blind_skip_tags[0])
+    {
+        sprite_object_position(
+            (SpriteObject*)blind_skip_tags[0],
+            SMALL_BLIND_SKIP_TAG_INIT_POS.x,
+            SMALL_BLIND_SKIP_TAG_INIT_POS.y
+        );
+        skip_tag_set_sprite(blind_skip_tags[0], SMALL_BLIND_SKIP_TAG_LAYER);
+    }
+    if (blind_skip_tags[1])
+    {
+        sprite_object_position(
+            (SpriteObject*)blind_skip_tags[1],
+            BIG_BLIND_SKIP_TAG_INIT_POS.x,
+            BIG_BLIND_SKIP_TAG_INIT_POS.y
+        );
+        skip_tag_set_sprite(blind_skip_tags[1], BIG_BLIND_SKIP_TAG_LAYER);
+    }
 }
 
 void blind_select_on_init(void)
 {
+    save_game(GAME_STATE_BLIND_SELECT);
+
     s_timer = TM_ZERO;
     state_machine_register(&blind_select_sm);
     state_machine_change_state(&blind_select_sm, START_ANIM_SEQ);
@@ -727,8 +760,7 @@ void blind_select_on_init(void)
 
     blind_tokens_init();
 
-    if (g_game_vars.current_blind == BLIND_TYPE_SMALL)
-        blind_skip_tags_init();
+    blind_skip_tags_init();
 
     // TODO: silly bug rn, the sprite tokens are unhidden on a background change.
     // this probably shouldn't be here. also need to force redraw or the callback

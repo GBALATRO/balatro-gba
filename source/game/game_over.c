@@ -12,6 +12,7 @@
 #include "layout.h"
 #include "list.h"
 #include "random.h"
+#include "save.h"
 #include "selection_grid.h"
 #include "skip_tag.h"
 #include "soundbank.h"
@@ -147,14 +148,6 @@ static void game_over_common_init(enum EndCondition init_condition)
         sprite_object_hide((SpriteObject*)(joker_object));
     }
 
-    // Destroy any preexisting cards in the deck, which will be present if we restart a run
-    Card* card = NULL;
-    while (get_deck_top() >= 0)
-    {
-        card = deck_pop();
-        card_destroy(&card);
-    }
-
     remove_all_skip_tags();
 
     // Clears the round end menu
@@ -181,6 +174,9 @@ static void game_over_common_init(enum EndCondition init_condition)
         &game_over_buttons[GAME_OVER_RUN_MENU_ROW][GAME_OVER_MAIN_MENU_BTN_COL],
         false
     );
+
+    // Get rid of the current save data when we lose the game
+    erase_save_data();
 }
 
 void game_win_on_init(void)
