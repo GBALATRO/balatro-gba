@@ -721,40 +721,6 @@ static inline void round_process_hand_select_input(void)
     selection_grid_process_input(&game_round_selection_grid);
 }
 
-/**
- * @brief Evaluates if we have won or lost when we can no longer play so that we land on the correct
- *         Game Over screen
- */
-static inline void round_handle_round_over(void)
-{
-    enum GameState next_state = GAME_STATE_ROUND_END;
-
-    if (g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))
-    {
-        if (g_game_vars.current_blind > BLIND_TYPE_BIG)
-        {
-            if (g_game_vars.ante < MAX_ANTE)
-            {
-                g_game_vars.ante++;
-                display_ante();
-
-                // mark current boss blind as beaten and allow for reroll
-                set_blind_beaten(g_game_vars.next_boss_blind);
-            }
-            else
-            {
-                next_state = GAME_STATE_WIN;
-            }
-        }
-    }
-    else if (g_game_vars.hands == 0)
-    {
-        next_state = GAME_STATE_LOSE;
-    }
-
-    game_change_state(next_state);
-}
-
 static inline void card_in_hand_loop_handle_discard_and_shuffling(
     int card_idx,
     FIXED* hand_x,
@@ -1182,12 +1148,39 @@ static inline void round_process_card_draw(void)
     }
 }
 
+static inline bool round_is_game_over(void)
+{
+    if (g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))
+    {
+        if (g_game_vars.current_blind > BLIND_TYPE_BIG && g_game_vars.ante >= MAX_ANTE)
+        {
+            game_change_state(GAME_STATE_WIN);
+            return true;
+        }
+    }
+    else if (g_game_vars.hands == 0)
+    {
+        game_change_state(GAME_STATE_LOSE);
+        return true;
+    }
+    return false;
+}
+
 static inline void round_discarded_cards_loop(void)
 {
     // Discarded cards loop (mainly for shuffling)
     if (hand_nb_held_cards() == 0 && get_hand_state() == HAND_SHUFFLING && s_discard_top >= -1 &&
         g_game_vars.timer > FRAMES(10))
     {
+        // Bybass card shuffling if the game is over (be it win or lose)
+        if (round_is_game_over())
+        {
+            Card* discarded_card = NULL;
+            while ((discarded_card = discard_pop()))
+                deck_push(discarded_card);
+            return;
+        }
+
         // Change the background to the round end background. This is how it works in Balatro, so
         // I'm doing it this way too.
         change_background(BG_ROUND_END, false);
@@ -1223,10 +1216,17 @@ static inline void round_discarded_cards_loop(void)
         }
 
         // If there are no more discarded cards, stop shuffling
+        // After HAND_SHUFFLING the round is over
         if (s_discard_top == -1 && discarded_card_object == NULL)
         {
-            // After HAND_SHUFFLING the round is over
-            round_handle_round_over();
+            if (g_game_vars.current_blind > BLIND_TYPE_BIG)
+            {
+                set_blind_beaten(g_game_vars.next_boss_blind);
+                g_game_vars.ante++;
+                display_ante();
+            }
+
+            game_change_state(GAME_STATE_ROUND_END);
         }
     }
 }
