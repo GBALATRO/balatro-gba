@@ -24,13 +24,60 @@
 #define SPRING_DAMP_ROUNDING    (1 << (SPRING_DAMP_DENOM_SHIFT - 1))
 
 /**
+ * @brief Size of Sprites LUT for all sprite types. Expressed in number of Tiles.
+ *
+ * @sa SpriteType
+ */
+static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) [spriteTypeEnum] = spriteSize,
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
+};
+
+/**
+ * @brief Number of Sprites LUT for all sprite types.
+ *
+ * @sa SpriteType
+ */
+static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) [spriteTypeEnum] = spriteCount,
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
+};
+
+// Declaring the internal Bitset arrays, since we need them all to declare the array of Bitsets.
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
+    static uint32_t spriteTypeEnum##_bitset_w[BITSET_ARRAY_SIZE] = {0};
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
+
+/**
+ * @brief Array of Bitsets storing what Sprite TIDs are currently in use for each SpriteType
+ *
+ * Granularity for these Bitsets is the Sprite, not the Tile.
+ *
+ * @sa SpriteType
+ */
+// clang-format off
+static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE] = {
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
+    [spriteTypeEnum] = {                                         \
+        .w      = spriteTypeEnum##_bitset_w,                     \
+        .nbits  = BITSET_BITS_PER_WORD,                          \
+        .nwords = BITSET_ARRAY_SIZE,                             \
+        .cap    = spriteCount                                    \
+    },
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
+};
+// clang-format on
+
+/**
  * @brief Starting TIDs LUT for all sprite types. Filled at init by calling `common_ui_init`
  *
  * @sa common_ui_init
  */
 static u32 s_sprite_starting_tids[MAX_SPRITE_TYPE] = {0};
-
-static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE];
 
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
@@ -46,23 +93,6 @@ static List sprite_objects_list = LIST_DEFAULT;
  * @sa sprite_init
  */
 static s16 s_sprite_starting_layers[MAX_SPRITE_TYPE] = {0};
-
-// clang-format off
-static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
-    [CARD_SPRITE]        = MAX_HAND_SIZE + MAX_SELECTION_SIZE,
-    [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
-    [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
-    [JOKER_SPRITE]       = MAX_ACTIVE_JOKERS,
-    [DECK_SPRITE]        = 1
-};
-static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
-    [CARD_SPRITE]        = CARD_SPRITE_TILES,
-    [BLIND_TOKEN_SPRITE] = BLIND_SPRITE_TILES,
-    [SKIP_TAG_SPRITE]    = SKIP_TAG_SPRITE_TILES,
-    [JOKER_SPRITE]       = JOKER_SPRITE_TILES,
-    [DECK_SPRITE]        = CARD_SPRITE_TILES
-};
-// clang-format on
 
 // Sprite methods
 Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, int tid, u32 pb, int layer)
@@ -255,12 +285,6 @@ void sprite_init()
             s_sprite_starting_layers[sprite_type] =
                 s_sprite_starting_layers[sprite_type - 1] + s_sprite_counts[sprite_type - 1];
         }
-
-        s_sprite_used_tid_slots_bitsets[sprite_type].w =
-            (u32*)calloc(BITSET_ARRAY_SIZE, sizeof(u32));
-        s_sprite_used_tid_slots_bitsets[sprite_type].nbits = BITSET_BITS_PER_WORD;
-        s_sprite_used_tid_slots_bitsets[sprite_type].nwords = BITSET_ARRAY_SIZE;
-        s_sprite_used_tid_slots_bitsets[sprite_type].cap = s_sprite_counts[sprite_type];
     }
 
     // Check if we haven't asked for more Tiles than Tanc's tile_mem can handle
