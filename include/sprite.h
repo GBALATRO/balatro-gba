@@ -33,11 +33,6 @@
 #define MAX_BLIND_TOKEN    5
 #define MAX_SKIP_TAGS      16
 
-// Sprite sizes in number of tiles
-#define CARD_SPRITE_SIZE     16
-#define JOKER_SPRITE_SIZE    CARD_SPRITE_SIZE
-#define BLIND_SPRITE_SIZE    16
-#define SKIP_TAG_SPRITE_SIZE 4
 /** @} */
 
 /**
@@ -57,11 +52,9 @@
  */
 enum SpriteType
 {
-    CARD_SPRITE,
-    BLIND_TOKEN_SPRITE,
-    SKIP_TAG_SPRITE,
-    JOKER_SPRITE,
-    DECK_SPRITE,
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) spriteTypeEnum,
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
     MAX_SPRITE_TYPE
 };
 
