@@ -59,6 +59,7 @@ void push_back_one_entry(void)
     assert(list_get_at_idx(&my_cool_list, 0) == &test_data);
     assert(list_get_at_idx(&my_cool_list, 1) == NULL);
     assert(!list_is_empty(&my_cool_list));
+
     // clear the list
     list_clear(&my_cool_list);
 
@@ -286,6 +287,55 @@ void push_back_three_remove_push_front_three_entries(void)
     assert(list_is_empty(&my_cool_list));
 }
 
+// Test appending a list at the end of another
+// - list_init
+// - list_push_back
+// - list_get_len
+// - list_get_at_idx
+// - list_append_other_list
+// - list_clear
+// - list_is_empty
+void test_list_append_other(void)
+{
+    // Prepare first list to append to
+    List list1 = list_init();
+    int test_data = 1337;
+    list_push_back(&list1, &test_data);
+    assert(list_get_len(&list1) == 1);
+    assert(list_get_at_idx(&list1, 0) == &test_data);
+
+    // Prepare other list
+    List list2 = list_init();
+    int other_data1 = 42;
+    int other_data2 = 308;
+    list_push_back(&list2, &other_data1);
+    list_push_back(&list2, &other_data2);
+    assert(list_get_len(&list2) == 2);
+    assert(list_get_at_idx(&list2, 0) == &other_data1);
+    assert(list_get_at_idx(&list2, 1) == &other_data2);
+
+    list_append_other_list(&list1, &list2);
+    assert(list_get_len(&list1) == 3);
+    assert(*(int*)(list1.head->data) == test_data);
+    assert(list_get_at_idx(&list1, 0) == &test_data);
+    assert(list_get_at_idx(&list1, 1) == &other_data1);
+    assert(list_get_at_idx(&list1, 2) == &other_data2);
+    assert(list_get_at_idx(&list1, 3) == NULL);
+    assert(!list_is_empty(&list1));
+
+    // clear the lists
+    list_clear(&list1);
+    list_clear(&list2);
+
+    // verify no data
+    assert(list1.head == NULL);
+    assert(list1.tail == NULL);
+    assert(list_is_empty(&list1));
+    assert(list2.head == NULL);
+    assert(list2.tail == NULL);
+    assert(list_is_empty(&list2));
+}
+
 // Test inserting at head, middle, and tail of list
 // - list_init
 // - list_push_back
@@ -423,8 +473,6 @@ void test_list_insertion(void)
         }
         index++;
     }
-
-    printf("\n");
 
     ListItr rev_itr = rev_list_itr_create(&my_cool_list);
     index = initial_list_size + 2;
@@ -743,6 +791,9 @@ int main(void)
 
     printf("Testing List Complete Exercise.\n");
     push_back_three_remove_push_front_three_entries();
+
+    printf("Testing List Append Other List.\n");
+    test_list_append_other();
 
     printf("Testing List Insertion.\n");
     test_list_insertion();
