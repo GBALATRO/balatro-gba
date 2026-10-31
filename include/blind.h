@@ -206,7 +206,7 @@ void apply_blind_colors(enum BlindType type);
  * @brief Change the tiles of the BlindToken Sprite to that of the given BlindType.
  *
  * @param type of the Blind we want to apply the tiles of.
- * @param tile_index the index in memory the Toekn's tiles are stored at
+ * @param tile_index the index in memory the Token's tiles are stored at
  */
 void apply_blind_tiles(enum BlindType type, int tile_index);
 

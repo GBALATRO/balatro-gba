@@ -31,15 +31,8 @@ static const unsigned short* joker_gfxPal[] = {
 #undef DEF_JOKER_GFX
 };
 
-/* So for the card objects, I needed them to be properly sorted
-   which is why they let you specify the layer index when creating a new card object.
-   Since the cards would overlap a lot in your hand, If they weren't sorted properly, it would look
-   like a mess. The joker objects are functionally identical to card objects, so they use the same
-   logic. But I'm going to use a simpler approach for the joker objects since I'm lazy and sorting
-   them wouldn't look good enough to warrant the effort.
-*/
-static bool s_used_layers[MAX_ACTIVE_JOKERS] = {false}; // Track used layers for joker sprites
-// TODO: Refactor sorting into SpriteObject?
+// Track used layers for joker sprites
+static bool s_used_layers[MAX_ACTIVE_JOKERS] = {false};
 
 // Maps the spritesheet index to the palette bank index allocated to it.
 // Spritesheets that were not allocated are
@@ -232,6 +225,12 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->is_owned = false;
 
     int tile_index = sprite_type_get_avail_tid(JOKER_SPRITE);
+    if (tile_index == UNDEFINED)
+    {
+        MGBA_FUNC_ERROR("Cannot allocate new Joker Sprite");
+        return NULL;
+    }
+
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
@@ -263,7 +262,7 @@ void joker_object_destroy(JokerObject** joker_object)
     if (joker_object == NULL || *joker_object == NULL)
         return;
 
-    int layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
+    s16 layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
                 sprite_type_get_starting_layer(JOKER_SPRITE);
     s_used_layers[layer] = false;
     s_joker_pb_remove_sprite_user(sprite_get_pb(joker_object_get_sprite(*joker_object)));
@@ -337,7 +336,7 @@ void joker_object_add_to_owned(Item* joker_object)
     GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
 
     add_joker((JokerObject*)joker_object);
-    sprite_object_sort_list((void*)get_jokers_list(), true);
+    sprite_object_list_sort_layers(get_jokers_list(), false);
 }
 
 void joker_set_rollable(int joker_id, bool rollable)

@@ -190,7 +190,7 @@ void set_blind_beaten(enum BlindType type, bool is_beaten)
         beaten_idx++;
     }
 
-    // If Blind needs to be maked as beaten, we have to find it in the list first to remove it
+    // If Blind needs to be marked as beaten, we have to find it in the list first to remove it
     if (is_beaten)
     {
         if (beaten_idx < list_get_len(p_unbeaten_blinds))
@@ -272,7 +272,13 @@ void apply_blind_tiles(enum BlindType type, int tile_index)
 
 Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers layer)
 {
-    u32 tile_index = sprite_type_get_avail_tid(BLIND_TOKEN_SPRITE);
+    int tile_index = sprite_type_get_avail_tid(BLIND_TOKEN_SPRITE);
+    if (tile_index == UNDEFINED)
+    {
+        MGBA_FUNC_ERROR("Cannot allocate new Blind Token Sprite");
+        return NULL;
+    }
+
     apply_blind_tiles(type, tile_index);
 
     Sprite* sprite = sprite_new(

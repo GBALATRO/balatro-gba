@@ -111,6 +111,12 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer)
     }
 
     int tile_index = sprite_type_get_avail_tid(SKIP_TAG_SPRITE);
+    if (tile_index == UNDEFINED)
+    {
+        MGBA_FUNC_ERROR("Cannot allocate new Skip Tag Sprite");
+        return;
+    }
+
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &skip_tags_gfxTiles[tag->type * SKIP_TAG_SPRITE_TILES * TILE_SIZE],

@@ -180,7 +180,7 @@ void swap_cards_in_hand(int idx_a, int idx_b)
     CardObject* temp = s_hand.cards[idx_a];
     s_hand.cards[idx_a] = s_hand.cards[idx_b];
     s_hand.cards[idx_b] = temp;
-    int starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
+    s16 starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
     sprite_swap_layers(starting_layer + idx_a, starting_layer + idx_b);
 }
 
@@ -244,7 +244,7 @@ bool shift_null_card_to_end(int null_card_idx)
         CardObject* tmp_object = s_hand.cards[null_card_idx + j];
         s_hand.cards[null_card_idx + j] = s_hand.cards[non_null_card_idx + j];
         s_hand.cards[non_null_card_idx + j] = tmp_object;
-        int starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
+        s16 starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
         sprite_swap_layers(
             starting_layer + null_card_idx + j,
             starting_layer + non_null_card_idx + j
@@ -254,10 +254,8 @@ bool shift_null_card_to_end(int null_card_idx)
     return true;
 }
 
-void reorder_card_sprites_layers(void)
+void shift_all_null_cards_to_end(void)
 {
-    // Update the sprites in the hand by destroying them and creating new ones in the correct order
-    // (This feels like a diabolical solution but like literally how else would you do this)
     for (int i = 0; i <= s_hand.hand_top; i++)
     {
         // a NULL card will only happen if we rearrange the sprites without having sorted them
@@ -268,20 +266,6 @@ void reorder_card_sprites_layers(void)
             {
                 break;
             }
-        }
-    }
-
-    // Recreate the sprites for the remaining non NULL cards, in order
-    for (int i = 0; i <= s_hand.hand_top; i++)
-    {
-        if (s_hand.cards[i] != NULL)
-        {
-            // Set the sprite for the card object
-            sprite_position(
-                card_object_get_sprite(s_hand.cards[i]),
-                fx2int(s_hand.cards[i]->x),
-                fx2int(s_hand.cards[i]->y)
-            );
         }
     }
 }
@@ -297,7 +281,7 @@ void sort_cards(void)
         sort_hand_by_rank();
     }
 
-    reorder_card_sprites_layers();
+    shift_all_null_cards_to_end();
 }
 
 void hand_change_sort(bool to_sort_by_suit)

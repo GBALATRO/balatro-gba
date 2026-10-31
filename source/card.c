@@ -120,7 +120,13 @@ void card_object_destroy(CardObject** card_object)
 
 void card_object_set_sprite(CardObject* card_object, s16 layer)
 {
-    u32 tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    int tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    if (tile_index == UNDEFINED)
+    {
+        MGBA_FUNC_ERROR("Cannot allocate new Card Sprite");
+        return;
+    }
+
     const unsigned int* card_tiles = s_more_readable ? deck_big_gfxTiles : deck_gfxTiles;
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
@@ -140,7 +146,13 @@ void card_object_set_sprite(CardObject* card_object, s16 layer)
 
 void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
 {
-    u32 tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    int tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    if (tile_index == UNDEFINED)
+    {
+        MGBA_FUNC_ERROR("Cannot allocate new face down Card Sprite");
+        return;
+    }
+
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &decks_face_down_gfxTiles[DECK_SPRITE_LUT[deck] * TILE_SIZE],

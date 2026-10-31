@@ -6,6 +6,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
+#include "list.h"
+
 #include <maxmod.h>
 #include <tonc.h>
 
@@ -20,13 +22,12 @@
 #define SPRITE_FOCUS_RAISE_PX             10
 #define CARD_FOCUS_SFX_PITCH_OFFSET_RANGE 512
 
-// This won't be more than the number of jokers in your current deck
-// plus the amount that can fit in the shop and a margin of one to account for Jokers being
-// discarded having an animation.
-// 8 should be fine. For now...
-#define MAX_SHOP_JOKERS    2
-#define MAX_OWNED_JOKERS   5
-#define MAX_ACTIVE_JOKERS  (MAX_SHOP_JOKERS + MAX_OWNED_JOKERS + 1)
+#define MAX_SHOP_JOKERS  2
+#define MAX_OWNED_JOKERS 5
+
+// + 1 to account for Jokers being discarded having an animation.
+#define MAX_ACTIVE_JOKERS (MAX_SHOP_JOKERS + MAX_OWNED_JOKERS + 1)
+
 #define MAX_HAND_SIZE      16
 #define MAX_SELECTION_SIZE 5
 #define MAX_BLIND_TOKEN    5
@@ -74,9 +75,6 @@ typedef struct
      */
     OBJ_ATTR* obj;
 
-    u16 a0;
-    u16 a1;
-
     /**
      * @brief GBA sprite affine matrices registers info
      */
@@ -101,7 +99,7 @@ typedef struct
     /**
      * @brief Index of the Sprite's tile data in memory, relative to the Sprite type's starting tid
      */
-    u32 tid_slot;
+    int tid_slot;
 
     /**
      * @brief type of the Sprite, used to free the tid when destroyed
@@ -183,7 +181,7 @@ typedef struct
  * @return Valid Sprite if allocations are successful.
  *         Otherwise, return **NULL**.
  */
-Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, u32 tid, u32 pb, int layer);
+Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, int tid, u32 pb, int layer);
 
 /**
  * @brief Destroy Sprite
@@ -198,26 +196,23 @@ void sprite_destroy(Sprite** sprite);
  * @param sprite pointer to Sprite, cannot be **NULL**
  * @return tile index of the requested Sprite
  */
-u32 sprite_get_tid(Sprite* sprite);
+int sprite_get_tid(Sprite* sprite);
 
 /**
- * @brief Get an available tile index for a certain SpriteType and mark it as used
- *
- * This function completely decouples the tile index from the layer, so that sprites
- * can be reordered independently of where they are placed in memory
+ * @brief Allocate an available tile index for a certain SpriteType and mark it as used
  *
  * @param sprite_type
- * @return index in tiles memory where to put the sprite
+ * @return index in tiles memory where to put the sprite tiles
  */
-u32 sprite_type_get_avail_tid(enum SpriteType sprite_type);
+int sprite_type_get_avail_tid(enum SpriteType sprite_type);
 
 /**
  * @brief Get the starting layer of a certain type of sprite
  *
  * @param sprite_type
- * @return int
+ * @return s16
  */
-int sprite_type_get_starting_layer(enum SpriteType sprite_type);
+s16 sprite_type_get_starting_layer(enum SpriteType sprite_type);
 
 /**
  * @brief Get index of Sprite in the GBA object buffer
@@ -235,7 +230,7 @@ s16 sprite_get_layer(Sprite* sprite);
  * themselves are not needed in any way, the only data that will be moved is the OBJ_ATTR
  * structures in OAM memory.
  *
- * Thus, the Sprites at sprite_index1 and sprite_index2 can be non-existent, the underlying data
+ * Thus, the Sprites at sprite_index1 and sprite_index2 can be NULL, the underlying data
  * will be moved all the same with no issue.
  *
  * @param sprite_index1 layer of the first Sprite, between 0 and 127
@@ -435,13 +430,12 @@ void sprite_object_swap_layers(SpriteObject* sprite_object1, SpriteObject* sprit
  *
  * The order of the ListNodes themselves will not be changed, only the sprite indices.
  *
- * @param sprite_object_list pointer to a List, passed as a void* to avoid including list.h in
- *                            sprite.h
+ * @param sprite_object_list pointer to a List to sort
  * @param ascending sorting by ascending order if true, descending if false
  *
  * @sa sprite_object_swap_layers
  */
-void sprite_object_sort_list(void* sprite_object_list, bool ascending);
+void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending);
 
 /**
  * @brief Set the focus for SpriteObject

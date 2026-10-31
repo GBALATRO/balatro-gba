@@ -30,13 +30,13 @@
  */
 static u32 s_sprite_starting_tids[MAX_SPRITE_TYPE] = {0};
 
-static Bitset s_sprite_tids_slots[MAX_SPRITE_TYPE];
+static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE];
 
 OBJ_ATTR obj_buffer[MAX_SPRITES];
 OBJ_AFFINE* obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
 
-static Sprite* s_free_sprites[MAX_SPRITES] = {NULL};
-static bool s_free_affines[MAX_AFFINES] = {false};
+static Sprite* s_used_sprites[MAX_SPRITES] = {NULL};
+static bool s_used_affines[MAX_AFFINES] = {false};
 
 static List sprite_objects_list = LIST_DEFAULT;
 
@@ -45,10 +45,10 @@ static List sprite_objects_list = LIST_DEFAULT;
  *
  * @sa sprite_init
  */
-static int s_sprite_starting_layers[MAX_SPRITE_TYPE] = {0};
+static s16 s_sprite_starting_layers[MAX_SPRITE_TYPE] = {0};
 
 // clang-format off
-static const int s_sprite_counts[MAX_SPRITE_TYPE] = {
+static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
     [CARD_SPRITE]        = MAX_HAND_SIZE + MAX_SELECTION_SIZE,
     [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
     [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
@@ -64,16 +64,11 @@ static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
 };
 // clang-format on
 
-int sprite_get_starting_layer(enum SpriteType sprite_type)
-{
-    return s_sprite_starting_layers[sprite_type];
-}
-
 // Sprite methods
-Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, u32 tid, u32 pb, int layer)
+Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, int tid, u32 pb, int layer)
 {
     Sprite* sprite = POOL_GET(Sprite);
-    int sprite_index = sprite_type_get_starting_layer(sprite_type) + layer;
+    s16 sprite_index = sprite_type_get_starting_layer(sprite_type) + layer;
 
     sprite->type = sprite_type;
     sprite->obj = NULL;
@@ -82,9 +77,9 @@ Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, u32 tid, u32 pb,
     sprite->idx = sprite_index;
     sprite->mode = a0 & ATTR0_MODE_MASK;
 
-    if (!s_free_sprites[sprite_index])
+    if (!s_used_sprites[sprite_index])
     {
-        s_free_sprites[sprite_index] = sprite;
+        s_used_sprites[sprite_index] = sprite;
     }
     else
     {
@@ -98,9 +93,9 @@ Sprite* sprite_new(enum SpriteType sprite_type, u16 a0, u16 a1, u32 tid, u32 pb,
 
         for (int i = 0; i < MAX_AFFINES; i++)
         {
-            if (!s_free_affines[i])
+            if (!s_used_affines[i])
             {
-                s_free_affines[i] = true;
+                s_used_affines[i] = true;
                 aff_index = i;
                 break;
             }
@@ -137,28 +132,28 @@ void sprite_destroy(Sprite** sprite)
 
     if ((*sprite)->aff != NULL)
     {
-        s_free_affines[(*sprite)->aff - obj_aff_buffer] = false;
+        s_used_affines[(*sprite)->aff - obj_aff_buffer] = false;
     }
 
-    s_free_sprites[(*sprite)->idx] = NULL;
+    s_used_sprites[(*sprite)->idx] = NULL;
 
-    bitset_set_idx(&s_sprite_tids_slots[(*sprite)->type], (*sprite)->tid_slot, false);
+    bitset_set_idx(&s_sprite_used_tid_slots_bitsets[(*sprite)->type], (*sprite)->tid_slot, false);
 
     POOL_FREE(Sprite, *sprite);
 
     *sprite = NULL;
 }
 
-u32 sprite_get_tid(Sprite* sprite)
+int sprite_get_tid(Sprite* sprite)
 {
     GBAL_RETURN_IF_NULL(sprite, UNDEFINED);
     return s_sprite_starting_tids[sprite->type] + sprite->tid_slot * s_sprite_sizes[sprite->type];
 }
 
-u32 sprite_type_get_avail_tid(enum SpriteType sprite_type)
+int sprite_type_get_avail_tid(enum SpriteType sprite_type)
 {
     // Get first available free tid slot
-    int tid_slot = bitset_set_next_free_idx(&s_sprite_tids_slots[sprite_type]);
+    int tid_slot = bitset_set_next_free_idx(&s_sprite_used_tid_slots_bitsets[sprite_type]);
 
     if (tid_slot == UNDEFINED)
     {
@@ -169,7 +164,7 @@ u32 sprite_type_get_avail_tid(enum SpriteType sprite_type)
     return s_sprite_starting_tids[sprite_type] + tid_slot * s_sprite_sizes[sprite_type];
 }
 
-int sprite_type_get_starting_layer(enum SpriteType sprite_type)
+s16 sprite_type_get_starting_layer(enum SpriteType sprite_type)
 {
     return s_sprite_starting_layers[sprite_type];
 }
@@ -183,8 +178,8 @@ s16 sprite_get_layer(Sprite* sprite)
 
 void sprite_swap_layers(int sprite_index1, int sprite_index2)
 {
-    Sprite* sprite1 = s_free_sprites[sprite_index1];
-    Sprite* sprite2 = s_free_sprites[sprite_index2];
+    Sprite* sprite1 = s_used_sprites[sprite_index1];
+    Sprite* sprite2 = s_used_sprites[sprite_index2];
 
     // swap pointers
 
@@ -202,8 +197,8 @@ void sprite_swap_layers(int sprite_index1, int sprite_index2)
         sprite2->idx = sprite_index1;
     }
 
-    s_free_sprites[sprite_index1] = sprite2;
-    s_free_sprites[sprite_index2] = sprite1;
+    s_used_sprites[sprite_index1] = sprite2;
+    s_used_sprites[sprite_index2] = sprite1;
 
     // swap the OBJ_ATTR themselves, so that the sprites still point to the same data
 
@@ -261,10 +256,25 @@ void sprite_init()
                 s_sprite_starting_layers[sprite_type - 1] + s_sprite_counts[sprite_type - 1];
         }
 
-        s_sprite_tids_slots[sprite_type].w = (u32*)calloc(BITSET_ARRAY_SIZE, sizeof(u32));
-        s_sprite_tids_slots[sprite_type].nbits = BITSET_BITS_PER_WORD;
-        s_sprite_tids_slots[sprite_type].nwords = BITSET_ARRAY_SIZE;
-        s_sprite_tids_slots[sprite_type].cap = s_sprite_counts[sprite_type];
+        s_sprite_used_tid_slots_bitsets[sprite_type].w =
+            (u32*)calloc(BITSET_ARRAY_SIZE, sizeof(u32));
+        s_sprite_used_tid_slots_bitsets[sprite_type].nbits = BITSET_BITS_PER_WORD;
+        s_sprite_used_tid_slots_bitsets[sprite_type].nwords = BITSET_ARRAY_SIZE;
+        s_sprite_used_tid_slots_bitsets[sprite_type].cap = s_sprite_counts[sprite_type];
+    }
+
+    // Check if we haven't asked for more Tiles than Tanc's tile_mem can handle
+    enum SpriteType last_type = MAX_SPRITE_TYPE - 1;
+    int tiles_num =
+        s_sprite_starting_tids[last_type] + s_sprite_counts[last_type] * s_sprite_sizes[last_type];
+
+    if (tiles_num >= TILE_MEM_OBJ_NUM_TILES)
+    {
+        MGBA_FUNC_FATAL(
+            "Cannot allocate memory space for all requested Sprites: asked for %d Tiles, max is %d",
+            tiles_num,
+            TILE_MEM_OBJ_NUM_TILES
+        );
     }
 }
 
@@ -508,10 +518,20 @@ void sprite_object_swap_layers(SpriteObject* sprite_object1, SpriteObject* sprit
 {
     if ((sprite_object1 == NULL || sprite_object1->sprite == NULL) ||
         (sprite_object2 == NULL || sprite_object2->sprite == NULL))
+    {
+        MGBA_FUNC_ERROR("Cannot swap layers between NULL SpriteObjects or Sprites");
         return;
+    }
 
     if (sprite_object1->sprite->type != sprite_object2->sprite->type)
+    {
+        MGBA_FUNC_ERROR(
+            "Cannot swap layers between Sprites of different types (%d and %d)",
+            sprite_object1->sprite->type,
+            sprite_object2->sprite->type
+        );
         return;
+    }
 
     sprite_swap_layers(sprite_object1->sprite->idx, sprite_object2->sprite->idx);
 }
@@ -520,51 +540,57 @@ void sprite_object_swap_layers(SpriteObject* sprite_object1, SpriteObject* sprit
  * @brief Get the layer of the Sprite associated with the given SpriteObject
  *
  * @param sprite_object pointer to a SpriteObject
- * @return the layer of its Sprite if it exists, UNDEFINED if it doesn't
+ * @return the layer of its Sprite if it isn't NULL, UNDEFINED otherwise
  */
 static inline int sprite_object_get_layer(SpriteObject* sprite_object)
 {
-    if (sprite_object == NULL)
-        return UNDEFINED;
+    GBAL_RETURN_IF_NULL(sprite_object, UNDEFINED);
     return sprite_object->sprite->idx;
 }
 
-void sprite_object_sort_list(void* sprite_object_list, bool ascending)
+void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending)
 {
-    if (sprite_object_list == NULL)
+    GBAL_RETURN_IF_NULL(sprite_object_list, RET_NONE);
+
+    // Edge case: List of length 1 is already sorted
+    int list_len = list_get_len(sprite_object_list);
+    if (list_len <= 1)
         return;
 
-    ListNode* start = ((List*)sprite_object_list)->head;
+    // Initialize iterators once
+    ListItr forward_itr = list_itr_create(sprite_object_list);
+    ListItr reverse_itr = forward_itr;
+    reverse_itr.direction = LIST_ITR_REVERSE;
 
-    if (start == NULL)
-        return;
+    // Advance forward_itr once so it points to index 1 (we know it exists because list_len > 1)
+    (void)list_itr_next(&forward_itr);
 
-    bool swapped = false;
-    ListNode* node;
-    ListNode* node_prev = NULL;
-
-    do
+    // Main Insertion Sort Loop
+    SpriteObject* inserted_sprite_object = NULL;
+    while ((inserted_sprite_object = list_itr_next(&forward_itr)))
     {
-        swapped = false;
-        node = start;
+        GBAL_RETURN_IF_NULL(inserted_sprite_object->sprite, RET_NONE);
+        s16 inserted_layer = sprite_get_layer(inserted_sprite_object->sprite);
 
-        while (node->next != node_prev)
+        // Initialize reverse iterator manually to avoid creating it and seeking the right position
+        // every time
+        reverse_itr.current_node = forward_itr.current_node;
+        reverse_itr.next_node = reverse_itr.current_node->prev;
+
+        // This is an insertion sort, the element corresponding to `forward_itr` will be moved back
+        // until it falls into place
+        SpriteObject* sorted_sprite_object = NULL;
+        while ((sorted_sprite_object = list_itr_next(&reverse_itr)))
         {
-            int curr_layer = sprite_object_get_layer((SpriteObject*)node->data);
-            int next_layer = sprite_object_get_layer((SpriteObject*)node->next->data);
-            if ((ascending && (curr_layer < next_layer)) ||
-                (!ascending && (curr_layer > next_layer)))
-            {
-                sprite_object_swap_layers(
-                    (SpriteObject*)node->data,
-                    (SpriteObject*)node->next->data
-                );
-                swapped = true;
-            }
-            node = node->next;
+            GBAL_RETURN_IF_NULL(sorted_sprite_object->sprite, RET_NONE);
+            s16 sorted_layer = sprite_get_layer(sorted_sprite_object->sprite);
+
+            if (ascending ? (sorted_layer <= inserted_layer) : (sorted_layer >= inserted_layer))
+                break;
+
+            sprite_swap_layers(sorted_layer, inserted_layer);
         }
-        node_prev = node;
-    } while (swapped);
+    }
 }
 
 void sprite_object_set_focus(SpriteObject* sprite_object, bool focus)

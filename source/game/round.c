@@ -767,7 +767,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 g_game_vars.timer = TM_ZERO;
 
                 // Protect against an edge case where `card_idx == hand_top` before discarding. In
-                // that case, calling `reorder_card_sprites_layers` cannot shift the discarded card,
+                // that case, calling `shift_all_null_cards_to_end` cannot shift the discarded card,
                 // and we end up with an element at `card_idx` that is still NULL.
                 if (hand[card_idx] != NULL)
                 {
@@ -1352,7 +1352,7 @@ static inline void cards_in_hand_update_loop(void)
                         played_push(hand[i]);
                         sprite_destroy(&hand[i]->sprite);
                         hand[i] = NULL;
-                        reorder_card_sprites_layers();
+                        shift_all_null_cards_to_end();
 
                         play_sfx(
                             SFX_CARD_DRAW,
