@@ -103,7 +103,7 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
-static Joker* blueprint_brainstorm_get_copied_joker(const Joker* copy_joker);
+static bool blueprint_brainstorm_get_copied_joker(const Joker* copy_joker, Joker** copied_joker);
 
 DECLARE_JOKER_EFFECT_FUNC(joker_effect_noop)
 DECLARE_JOKER_EFFECT_FUNC(default_joker_effect)
@@ -650,24 +650,29 @@ static int dusk_joker_desc(Joker* joker, Rect dest_rect)
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
+#define COMPATIBLE_TEXT      TTE_GREEN_TAG "\n\n(Compatible)"
+#define INCOMPATIBLE_TEXT    TTE_RED_TAG "\n\n(Incompatible)"
+#define BRAINSTORM_BASE_DESC TTE_BLACK_TAG "Copies ability of the leftmost " TTE_YELLOW_TAG "Joker"
+#define BLUEPRINT_BASE_DESC \
+    TTE_BLACK_TAG "Copies ability of " TTE_YELLOW_TAG "Joker" TTE_BLACK_TAG " to the right"
+
 static int brainstorm_joker_desc(Joker* joker, Rect dest_rect)
 {
-    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker);
-    const char* desc = copied_joker ? TTE_BLACK_TAG "Copies ability of the leftmost " TTE_YELLOW_TAG
-                                                    "Joker\n\n" TTE_GREEN_TAG "Compatible"
-                                    : TTE_BLACK_TAG "Copies ability of the leftmost " TTE_YELLOW_TAG
-                                                    "Joker\n\n" TTE_RED_TAG "Incompatible";
+    Joker* copied_joker = NULL;
+    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
+    const char* desc = !owned       ? BRAINSTORM_BASE_DESC
+                     : copied_joker ? BRAINSTORM_BASE_DESC COMPATIBLE_TEXT
+                                    : BRAINSTORM_BASE_DESC INCOMPATIBLE_TEXT;
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
 static int blueprint_joker_desc(Joker* joker, Rect dest_rect)
 {
-    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker);
-    const char* desc = copied_joker
-                         ? TTE_BLACK_TAG "Copies ability of " TTE_YELLOW_TAG "Joker" TTE_BLACK_TAG
-                                         " to the right\n\n" TTE_GREEN_TAG "Compatible"
-                         : TTE_BLACK_TAG "Copies ability of " TTE_YELLOW_TAG "Joker" TTE_BLACK_TAG
-                                         " to the right\n\n" TTE_RED_TAG "Incompatible";
+    Joker* copied_joker = NULL;
+    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
+    const char* desc = !owned       ? BLUEPRINT_BASE_DESC
+                     : copied_joker ? BLUEPRINT_BASE_DESC COMPATIBLE_TEXT
+                                    : BLUEPRINT_BASE_DESC INCOMPATIBLE_TEXT;
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
@@ -1823,10 +1828,11 @@ static u32 blueprint_brainstorm_joker_effect(
     }
 
     // Get copied Joker
-    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker);
+    Joker* copied_joker = NULL;
+    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
 
     // Not an error to get NULL here, so don't use GBAL_RETURN_IF_NULL
-    if (copied_joker == NULL)
+    if (!owned || copied_joker == NULL)
         return effect_flags_ret;
 
     u8 copied_joker_id = copied_joker->id;
@@ -1845,8 +1851,10 @@ static u32 blueprint_brainstorm_joker_effect(
     return effect_flags_ret;
 }
 
-static Joker* blueprint_brainstorm_get_copied_joker(const Joker* base_joker)
+static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker** copied_joker)
 {
+    GBAL_RETURN_IF_NULL(copied_joker, false);
+
     // find ourselves in the Jokers list
     List* jokers = get_jokers_list();
     ListItr itr = list_itr_create(jokers);
@@ -1858,7 +1866,8 @@ static Joker* blueprint_brainstorm_get_copied_joker(const Joker* base_joker)
     }
 
     // This will happen if we are not a scoring Joker, a.k.a. still a Shop Item
-    GBAL_RETURN_IF_NULL(copied_joker_object, NULL);
+    if (copied_joker_object == NULL)
+        return false;
 
     // find the copied Joker, may need to bounce around Blueprints and a Brainstorm
     // If we encounter NULL, we have a Blueprint at the end of the list that can't copy anything.
@@ -1884,11 +1893,13 @@ static Joker* blueprint_brainstorm_get_copied_joker(const Joker* base_joker)
 
             // We encountered a Joker that isn't a Copying Joker and copy it now
             default:
-                return copied_joker_object->joker;
+                *copied_joker = copied_joker_object->joker;
+                copied_joker_object = NULL;
+                break;
         }
     } while (copied_joker_object != NULL && brainstorm_counter < 2);
 
-    return NULL;
+    return true;
 }
 
 static u32 hack_joker_effect(
