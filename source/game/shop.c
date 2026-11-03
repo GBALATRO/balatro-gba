@@ -11,7 +11,6 @@
 #include "bitset.h"
 #include "button.h"
 #include "game.h"
-#include "game/blind_select.h"
 #include "game/joker_row.h"
 #include "game_variables.h"
 #include "joker.h"
@@ -968,8 +967,6 @@ void shop_on_exit(void)
     }
 
     list_clear(shop_items_list);
-
-    increment_blind(BLIND_STATE_DEFEATED); // TODO: Move to game_round_end()?
 
     state_machine_remove(&shop_sm);
 }

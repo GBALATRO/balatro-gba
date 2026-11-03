@@ -36,6 +36,4 @@ void blind_select_on_update(void);
  */
 void blind_select_on_exit(void);
 
-void increment_blind(enum BlindState increment_reason);
-
 #endif // GAME_BLIND_SELECT_H
