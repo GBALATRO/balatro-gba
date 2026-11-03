@@ -2,14 +2,7 @@ var sprite_8h =
 [
     [ "Sprite", "structSprite.html", "structSprite" ],
     [ "SpriteObject", "structSpriteObject.html", "structSpriteObject" ],
-    [ "SpriteType", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31a", [
-      [ "CARD_SPRITE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aa2276145fbcd498f536060a3c986bb353", null ],
-      [ "BLIND_TOKEN_SPRITE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aabc32eab4abbb86de7d5741845988ddb9", null ],
-      [ "SKIP_TAG_SPRITE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aa33b1fb3330de8e66772da649359b408e", null ],
-      [ "JOKER_SPRITE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aab35bcae94eb655181c37e02148c02a27", null ],
-      [ "DECK_SPRITE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aacd3b19e3d3b767e20c2c95e44b5e427b", null ],
-      [ "MAX_SPRITE_TYPE", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31aab6b6096f15bbb744dd829dc599aaa6d8", null ]
-    ] ],
+    [ "SpriteType", "sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31a", null ],
     [ "sprite_destroy", "sprite_8h.html#abbbc989fe5cd8e1e93f9784e1048be47", null ],
     [ "sprite_draw", "sprite_8h.html#aeae667aa51109000495c9a7f19fa08e8", null ],
     [ "sprite_get_dimensions", "sprite_8h.html#a892674d2db5b33bb55aacffa2686632a", null ],

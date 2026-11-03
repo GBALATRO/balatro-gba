@@ -14,8 +14,8 @@ var searchData=
   ['main_5fmenu_5fon_5fexit_11',['main_menu_on_exit',['../main__menu_8h.html#a07be46639bf0d2c0ed7045024966cbf6',1,'main_menu.c']]],
   ['main_5fmenu_5fon_5finit_12',['main_menu_on_init',['../main__menu_8h.html#a1373b8657b89c8d6dcac7eafbbb6bdaf',1,'main_menu.c']]],
   ['main_5fmenu_5fon_5fupdate_13',['main_menu_on_update',['../main__menu_8h.html#a0f52b2f601544b37f37e08dfdcb4a9bd',1,'main_menu.c']]],
-  ['make_20tt_20installed_14',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md30',1,'']]],
-  ['make_20tt_20it_20errors_20out_20and_20won_20t_20compile_15',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
+  ['make_20installed_14',['4. It says I don&apos;t have &lt;span class=&quot;tt&quot;&gt;Git&lt;/span&gt; or &lt;span class=&quot;tt&quot;&gt;Make&lt;/span&gt; installed!',['../index.html#autotoc_md30',1,'']]],
+  ['make_20it_20errors_20out_20and_20won_20t_20compile_15',['1. When I run &lt;span class=&quot;tt&quot;&gt;make&lt;/span&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
   ['making_20contributions_16',['Making Contributions',['../index.html#autotoc_md1',1,'']]],
   ['manually_17',['Manually',['../index.html#autotoc_md13',1,'']]],
   ['max_5fbase36_18',['MAX_BASE36',['../util_8h.html#a1ce076ed9d155bf8e50c66f6f6c24d5d',1,'util.h']]],
@@ -33,6 +33,6 @@ var searchData=
   ['mm_5fsfx_5ffull_5fvolume_30',['MM_SFX_FULL_VOLUME',['../audio__utils_8h.html#a2f4d24c1006e56692fbb994e23e75312',1,'audio_utils.h']]],
   ['mode_31',['mode',['../structSprite.html#a956e7bd37e48f4198fbb8cc60d1a5a13',1,'Sprite']]],
   ['multiplier_32',['multiplier',['../structRewardTypeData.html#a2fd86b96d6a4d93cea05afc384e9b734',1,'RewardTypeData']]],
-  ['music_20strong_33',['&lt;strong&gt;Music&lt;/strong&gt;',['../md_README.html#autotoc_md41',1,'']]],
+  ['music_33',['&lt;b&gt;Music&lt;/b&gt;',['../md_README.html#autotoc_md41',1,'']]],
   ['musicplayerstate_34',['MusicPlayerState',['../structMusicPlayerState.html',1,'']]]
 ];

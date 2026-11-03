@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['t_20compile_0',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
+  ['t_20compile_0',['1. When I run &lt;span class=&quot;tt&quot;&gt;make&lt;/span&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
   ['t_20find_20the_20compiled_20rom_1',['2. I can&apos;t find the compiled rom!',['../index.html#autotoc_md28',1,'']]],
-  ['t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_2',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md30',1,'']]],
+  ['t_20have_20git_20or_20make_20installed_2',['4. It says I don&apos;t have &lt;span class=&quot;tt&quot;&gt;Git&lt;/span&gt; or &lt;span class=&quot;tt&quot;&gt;Make&lt;/span&gt; installed!',['../index.html#autotoc_md30',1,'']]],
   ['t_20start_3',['3. The Game won&apos;t start!',['../index.html#autotoc_md29',1,'']]],
   ['tab_5fset_5fhighlight_4',['tab_set_highlight',['../run__setup_8c.html#a8b50b61adfa7d1b1d74e2db26d8dac7f',1,'run_setup.c']]],
   ['tagprocessinfo_5',['TagProcessInfo',['../structTagProcessInfo.html',1,'']]],
@@ -23,13 +23,10 @@ var searchData=
   ['trotation_20',['trotation',['../structSpriteObject.html#a5da2ef686423fa4bcc6f39c2416e0039',1,'SpriteObject']]],
   ['truncate_5fuint_5fto_5fsuffixed_5fstr_21',['truncate_uint_to_suffixed_str',['../util_8h.html#a75d2bcf3ada5a77afd676b0c7209556a',1,'util.c']]],
   ['tscale_22',['tscale',['../structSpriteObject.html#a9fac583aa7e114c134394f42e81e4253',1,'SpriteObject']]],
-  ['tt_20git_20tt_20not_20required_23',['With &lt;tt&gt;Git&lt;/tt&gt; (not required)',['../index.html#autotoc_md24',1,'']]],
-  ['tt_20git_20tt_20or_20tt_20make_20tt_20installed_24',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md30',1,'']]],
-  ['tt_20make_20tt_20it_20errors_20out_20and_20won_20t_20compile_25',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
-  ['tte_5fchar_5fsize_26',['TTE_CHAR_SIZE',['../graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6',1,'graphic_utils.h']]],
-  ['tte_5ferase_5frect_5fwrapper_27',['tte_erase_rect_wrapper',['../graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7',1,'graphic_utils.c']]],
-  ['tte_5fprintf_5fjustified_5fin_5frect_28',['tte_printf_justified_in_rect',['../graphic__utils_8h.html#a882aaf87f63de6fdbcc83014381d0af3',1,'graphic_utils.c']]],
-  ['tx_29',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
-  ['type_30',['type',['../structItem.html#abcafd47dddaa3d0d1398448b8a61c48d',1,'Item']]],
-  ['type_5fseed_5fchar_31',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
+  ['tte_5fchar_5fsize_23',['TTE_CHAR_SIZE',['../graphic__utils_8h.html#a863b859642d0a74d0765f8c96f972af6',1,'graphic_utils.h']]],
+  ['tte_5ferase_5frect_5fwrapper_24',['tte_erase_rect_wrapper',['../graphic__utils_8h.html#a86fe19f87df82284e96d7e8aacb001d7',1,'graphic_utils.c']]],
+  ['tte_5fprintf_5fjustified_5fin_5frect_25',['tte_printf_justified_in_rect',['../graphic__utils_8h.html#a882aaf87f63de6fdbcc83014381d0af3',1,'graphic_utils.c']]],
+  ['tx_26',['tx',['../structSpriteObject.html#a53ba73970f94c3b60071771a6a2e26ab',1,'SpriteObject']]],
+  ['type_27',['type',['../structItem.html#abcafd47dddaa3d0d1398448b8a61c48d',1,'Item']]],
+  ['type_5fseed_5fchar_28',['type_seed_char',['../run__setup_8c.html#aec2f6732aa17912485bc9df367203f67',1,'run_setup.c']]]
 ];

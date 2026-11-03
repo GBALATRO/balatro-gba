@@ -17,7 +17,7 @@ var searchData=
   ['affine_5fbg_5fpal_5flen_14',['AFFINE_BG_PAL_LEN',['../affine__background_8h.html#abf2b02be405747d46c04fe0d1d29a9f4',1,'affine_background.h']]],
   ['affine_5fbg_5fpb_15',['AFFINE_BG_PB',['../affine__background_8h.html#af2d7cb69277acd5f39d8a48cb1313301',1,'affine_background.h']]],
   ['affinebackgroundid_16',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
-  ['and_20won_20t_20compile_17',['1. When I run &lt;tt&gt;make&lt;/tt&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
+  ['and_20won_20t_20compile_17',['1. When I run &lt;span class=&quot;tt&quot;&gt;make&lt;/span&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
   ['apply_5fblind_5fcolors_18',['apply_blind_colors',['../blind_8h.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c'],['../blind_8c.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c']]],
   ['apply_5fblind_5ftiles_19',['apply_blind_tiles',['../blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c'],['../blind_8c.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c']]],
   ['art_20',['Art',['../index.html#autotoc_md3',1,'']]],

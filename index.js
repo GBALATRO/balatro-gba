@@ -20,18 +20,18 @@ var index =
     [ "Debugging", "index.html#autotoc_md16", [
       [ "Logging", "index.html#autotoc_md17", null ]
     ] ],
-    [ "<strong>Build Instructions</strong>", "index.html#autotoc_md18", [
+    [ "<b>Build Instructions</b>", "index.html#autotoc_md18", [
       [ "Docker", "index.html#autotoc_md19", [
         [ "Step-by-Step", "index.html#autotoc_md20", null ]
       ] ],
       [ "Windows", "index.html#autotoc_md23", null ],
-      [ "With <tt>Git</tt> (not required)", "index.html#autotoc_md24", null ],
+      [ "With <span class=\"tt\">Git</span> (not required)", "index.html#autotoc_md24", null ],
       [ "MacOS", "index.html#autotoc_md25", null ],
       [ "Common Issues:", "index.html#autotoc_md26", [
-        [ "1. When I run <tt>make</tt> it errors out and won't compile!", "index.html#autotoc_md27", null ],
+        [ "1. When I run <span class=\"tt\">make</span> it errors out and won't compile!", "index.html#autotoc_md27", null ],
         [ "2. I can't find the compiled rom!", "index.html#autotoc_md28", null ],
         [ "3. The Game won't start!", "index.html#autotoc_md29", null ],
-        [ "4. It says I don't have <tt>Git</tt> or <tt>Make</tt> installed!", "index.html#autotoc_md30", null ]
+        [ "4. It says I don't have <span class=\"tt\">Git</span> or <span class=\"tt\">Make</span> installed!", "index.html#autotoc_md30", null ]
       ] ]
     ] ]
 ];

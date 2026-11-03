@@ -6,10 +6,7 @@ var list_8h =
     [ "LIST_DEFAULT", "list_8h.html#ae3af686b4f37d17030e55fe7934f9afe", null ],
     [ "MAX_LIST_NODES", "list_8h.html#aaa7ed2609f3cb7989e83563890c30b24", null ],
     [ "List", "list_8h.html#a61366e7da8638d66a464a4a6f4799199", null ],
-    [ "ListItrDirection", "list_8h.html#acd43e43d3423800ffb7f1163d636d060", [
-      [ "LIST_ITR_FORWARD", "list_8h.html#acd43e43d3423800ffb7f1163d636d060a8a16a0a284f35301f8434900886433e5", null ],
-      [ "LIST_ITR_REVERSE", "list_8h.html#acd43e43d3423800ffb7f1163d636d060a30ee7017ab01b211f7c06ce27962871f", null ]
-    ] ],
+    [ "ListItrDirection", "list_8h.html#acd43e43d3423800ffb7f1163d636d060", null ],
     [ "list_append_other_list", "list_8h.html#a1c99fb1cf92f8704ada57d1ae33b0f51", null ],
     [ "list_clear", "list_8h.html#aac53d4a634fec0aa2adad813d0497056", null ],
     [ "list_get_at_idx", "list_8h.html#a3c604970a7f427ee628ab97749fde17c", null ],

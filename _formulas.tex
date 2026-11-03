@@ -1,8 +1,10 @@
 \documentclass{article}
+\usepackage{iftex}
 \usepackage{ifthen}
 \usepackage{epsfig}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\ifPDFTeX
 \usepackage{newunicodechar}
   \makeatletter
     \def\doxynewunicodechar#1#2{%
@@ -23,9 +25,10 @@
   \doxynewunicodechar{²}{${}^{2}$}% Superscript two
   \doxynewunicodechar{³}{${}^{3}$}% Superscript three
 
+\fi
 \pagestyle{empty}
 \begin{document}
- b36[0] * 36^0 + b36[1] * 36^1 + b36[2] * 36^2 ... 
+b36[0] * 36^0 + b36[1] * 36^1 + b36[2] * 36^2 ...
 \pagebreak
 
 \end{document}

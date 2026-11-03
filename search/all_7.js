@@ -16,5 +16,5 @@ var searchData=
   ['disclaimer_13',['Disclaimer',['../md_README.html#autotoc_md33',1,'']]],
   ['docker_14',['Docker',['../index.html#autotoc_md19',1,'']]],
   ['documentation_15',['Documentation',['../index.html#autotoc_md6',1,'']]],
-  ['don_20t_20have_20tt_20git_20tt_20or_20tt_20make_20tt_20installed_16',['4. It says I don&apos;t have &lt;tt&gt;Git&lt;/tt&gt; or &lt;tt&gt;Make&lt;/tt&gt; installed!',['../index.html#autotoc_md30',1,'']]]
+  ['don_20t_20have_20git_20or_20make_20installed_16',['4. It says I don&apos;t have &lt;span class=&quot;tt&quot;&gt;Git&lt;/span&gt; or &lt;span class=&quot;tt&quot;&gt;Make&lt;/span&gt; installed!',['../index.html#autotoc_md30',1,'']]]
 ];
