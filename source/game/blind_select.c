@@ -703,10 +703,7 @@ static void blind_skip_tags_init(void)
 
 static inline void skip_tag_init_for_blind(enum BlindType blind_type)
 {
-    GBAL_RETURN_IF_ASSERT_FAILS(
-        blind_type == BLIND_TYPE_SMALL || blind_type == BLIND_TYPE_BIG,
-        RET_NONE
-    );
+    GBAL_RETURN_IF_ASSERT_FAILS(blind_type < BLIND_TYPE_BOSS, RET_NONE);
 
     skip_tag_destroy(&blind_skip_tags[blind_type]);
 

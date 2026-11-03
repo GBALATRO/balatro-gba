@@ -256,7 +256,7 @@ JokerObject* joker_object_new(Joker* joker)
 
     sprite_object_set_sprite(
         (SpriteObject*)joker_object,
-        // TODO: NULL-check
+        // TODO after #598: NULL-check
         sprite_new(
             ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
             ATTR1_SIZE_32,

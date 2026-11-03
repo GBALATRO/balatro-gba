@@ -2165,30 +2165,26 @@ void round_on_init(void)
     s_cards_drawn = 0;
 
     sprite_destroy(&g_game_vars.playing_blind_token);
-
-    // TODO: NULL-check created blind token...
     g_game_vars.playing_blind_token = blind_token_new(
         g_game_vars.current_blind,
         CUR_BLIND_TOKEN_POS.x,
         CUR_BLIND_TOKEN_POS.y,
         PLAYING_BLIND_TOKEN_LAYER
-    ); // Create the blind token sprite at the top left corner
-    // TODO: Hide blind token and display it after sliding blind rect animation
-    // if (g_game_vars.playing_blind_token != NULL)
-    //{
-    //    sprite_hide(g_game_vars.playing_blind_token); // Hide the blind token sprite for now
-    //}
-    sprite_destroy(&g_game_vars.round_end_blind_token);
-    g_game_vars.round_end_blind_token = blind_token_new(
-        g_game_vars.current_blind,
-        81,
-        86,
-        ROUND_END_BLIND_TOKEN_LAYER
-    ); // Create the blind token sprite for round end
-
-    if (g_game_vars.round_end_blind_token != NULL)
+    );
+    if (g_game_vars.playing_blind_token == NULL)
     {
-        sprite_hide(g_game_vars.round_end_blind_token); // Hide the blind token sprite for now
+        MGBA_FUNC_ERROR("Failed to create round playing blind token");
+    }
+
+    // Hide the blind token sprite for now and display it after the sliding animation
+    sprite_hide(g_game_vars.round_end_blind_token);
+
+    sprite_destroy(&g_game_vars.round_end_blind_token);
+    g_game_vars.round_end_blind_token =
+        blind_token_new(g_game_vars.current_blind, 81, 86, ROUND_END_BLIND_TOKEN_LAYER);
+    if (g_game_vars.round_end_blind_token == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to create round end blind token");
     }
 
     Rect blind_req_text_rect = BLIND_REQ_TEXT_RECT;
@@ -2225,8 +2221,8 @@ void round_on_init(void)
     skip_tag_process_start(SKIP_TAG_EVENT_ON_ROUND_START);
 
     /* Note that since cards_in_hand_update_loop() handles card highlight there's no need
-     * to call a selection changed callback to highlight the initial card, this wouldn't work
-     * otherwise or for the buttons.
+     * to call a selection changed callback to highlight the initial card like is done in the shop,
+     * this wouldn't work otherwise or for the buttons.
      */
     game_round_selection_grid.selection = GAME_PLAYING_INIT_SEL;
 }

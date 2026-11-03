@@ -275,6 +275,7 @@ void shop_on_init(void)
 
     skip_tag_process_start(SKIP_TAG_EVENT_ON_SHOP_INIT);
 
+    // TODO: Change SHOP_INIT_SEL to the actual initial position and pass tribool 0?
     // The selection grid is initialized outside of bounds and moved
     // to trigger the selection change so the initial selection is visible
     shop_selection_grid.selection = SHOP_INIT_SEL;
