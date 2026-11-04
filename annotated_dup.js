@@ -9,7 +9,7 @@ var annotated_dup =
     [ "Card", "structCard.html", null ],
     [ "CardObject", "structCardObject.html", null ],
     [ "ContainedHandTypes", "structContainedHandTypes.html", null ],
-    [ "GameVariables", "structGameVariables.html", null ],
+    [ "GameVariables", "structGameVariables.html", "structGameVariables" ],
     [ "Hand", "structHand.html", null ],
     [ "HandValues", "structHandValues.html", null ],
     [ "Item", "structItem.html", "structItem" ],

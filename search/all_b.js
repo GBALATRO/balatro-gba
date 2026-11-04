@@ -11,8 +11,9 @@ var searchData=
   ['hand_5fsel_5fidx_5fto_5fcard_5fidx_8',['hand_sel_idx_to_card_idx',['../round_8c.html#ac922f137d1d3ab206c5583954ba346fd',1,'round.c']]],
   ['hand_5fselect_5fcard_9',['hand_select_card',['../hand_8h.html#ad996a34130bd7cc8511f563a1969c690',1,'hand_select_card(int index):&#160;hand.c'],['../hand_8c.html#ad996a34130bd7cc8511f563a1969c690',1,'hand_select_card(int index):&#160;hand.c']]],
   ['hand_5fset_5fnb_5fselected_5fcards_10',['hand_set_nb_selected_cards',['../hand_8h.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c'],['../hand_8c.html#a0a039061bea3c82e0f1f86deb85fdc7d',1,'hand_set_nb_selected_cards(int new_selections):&#160;hand.c']]],
-  ['handvalues_11',['HandValues',['../structHandValues.html',1,'']]],
-  ['has_5fh_5fexit_5fidx_12',['has_h_exit_idx',['../structSelGridRowAttributes.html#a6599c8f0c5bae86b6e3b2d13fbf2768c',1,'SelGridRowAttributes']]],
-  ['have_20git_20or_20make_20installed_13',['4. It says I don&apos;t have &lt;span class=&quot;tt&quot;&gt;Git&lt;/span&gt; or &lt;span class=&quot;tt&quot;&gt;Make&lt;/span&gt; installed!',['../index.html#autotoc_md30',1,'']]],
-  ['head_14',['head',['../structList.html#a699a4c101c9310aad7e399005dc12545',1,'List']]]
+  ['hand_5fsize_11',['hand_size',['../structGameVariables.html#a83489b2d1b26c9738f94b4956977ae4c',1,'GameVariables']]],
+  ['handvalues_12',['HandValues',['../structHandValues.html',1,'']]],
+  ['has_5fh_5fexit_5fidx_13',['has_h_exit_idx',['../structSelGridRowAttributes.html#a6599c8f0c5bae86b6e3b2d13fbf2768c',1,'SelGridRowAttributes']]],
+  ['have_20git_20or_20make_20installed_14',['4. It says I don&apos;t have &lt;span class=&quot;tt&quot;&gt;Git&lt;/span&gt; or &lt;span class=&quot;tt&quot;&gt;Make&lt;/span&gt; installed!',['../index.html#autotoc_md30',1,'']]],
+  ['head_15',['head',['../structList.html#a699a4c101c9310aad7e399005dc12545',1,'List']]]
 ];

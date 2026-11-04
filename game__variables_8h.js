@@ -1,4 +1,4 @@
 var game__variables_8h =
 [
-    [ "GameVariables", "structGameVariables.html", null ]
+    [ "GameVariables", "structGameVariables.html", "structGameVariables" ]
 ];

@@ -14,11 +14,12 @@ var searchData=
   ['get_5fhand_5ftype_11',['get_hand_type',['../hand_8h.html#a3b870a7b9c35fe38077088a0a4956ef4',1,'get_hand_type(void):&#160;hand.c'],['../hand_8c.html#a3b870a7b9c35fe38077088a0a4956ef4',1,'get_hand_type(void):&#160;hand.c']]],
   ['get_5fitem_5ftype_5ffuncs_12',['get_item_type_funcs',['../item__funcs_8h.html#aa487c0d2967bf235725dfe6383fba4a6',1,'item_funcs.c']]],
   ['get_5fkeyboard_5findex_5ffrom_5fsel_13',['get_keyboard_index_from_sel',['../run__setup_8c.html#a4f8e645ad43810f5bc789c0385b89318',1,'run_setup.c']]],
-  ['get_5fowned_5fskip_5ftags_14',['get_owned_skip_tags',['../skip__tag_8h.html#aff0f9c2b9ebbce87959c3d80b535c2d3',1,'get_owned_skip_tags(void):&#160;skip_tag.c'],['../skip__tag_8c.html#aff0f9c2b9ebbce87959c3d80b535c2d3',1,'get_owned_skip_tags(void):&#160;skip_tag.c']]],
-  ['get_5fplayed_5fdistribution_15',['get_played_distribution',['../round_8c.html#ace375f4cc13086b5d150e53892d471f8',1,'round.c']]],
-  ['get_5fplayed_5fsize_16',['get_played_size',['../round_8h.html#a39727c2ef1584b79537ff9bee3e6a5a5',1,'get_played_size(void):&#160;round.c'],['../round_8c.html#a39727c2ef1584b79537ff9bee3e6a5a5',1,'get_played_size(void):&#160;round.c']]],
-  ['get_5fplayed_5ftop_17',['get_played_top',['../round_8h.html#ac8cec2b58cfa75bf971c1013aa1e9a40',1,'get_played_top(void):&#160;round.c'],['../round_8c.html#ac8cec2b58cfa75bf971c1013aa1e9a40',1,'get_played_top(void):&#160;round.c']]],
-  ['get_5fsave_5fheader_18',['get_save_header',['../save_8c.html#aa7c710df5af72243541a55e499e53bd9',1,'save.c']]],
-  ['get_5fscored_5fcard_5findex_19',['get_scored_card_index',['../round_8h.html#a2a4916e063f7e60e36f4f4f95d5a0050',1,'get_scored_card_index(void):&#160;round.c'],['../round_8c.html#a2a4916e063f7e60e36f4f4f95d5a0050',1,'get_scored_card_index(void):&#160;round.c']]],
-  ['get_5fskip_5ftag_5fregistry_5fentry_20',['get_skip_tag_registry_entry',['../skip__tag_8h.html#afd10c29199110e47beb5f8fcdd93b733',1,'skip_tag_effects.c']]]
+  ['get_5fnum_5fcards_5fin_5fhand_14',['get_num_cards_in_hand',['../hand_8h.html#a33f3629ed4aeb01a8fb4f896057d53a4',1,'get_num_cards_in_hand(void):&#160;hand.c'],['../hand_8c.html#a33f3629ed4aeb01a8fb4f896057d53a4',1,'get_num_cards_in_hand(void):&#160;hand.c']]],
+  ['get_5fowned_5fskip_5ftags_15',['get_owned_skip_tags',['../skip__tag_8h.html#aff0f9c2b9ebbce87959c3d80b535c2d3',1,'get_owned_skip_tags(void):&#160;skip_tag.c'],['../skip__tag_8c.html#aff0f9c2b9ebbce87959c3d80b535c2d3',1,'get_owned_skip_tags(void):&#160;skip_tag.c']]],
+  ['get_5fplayed_5fdistribution_16',['get_played_distribution',['../round_8c.html#ace375f4cc13086b5d150e53892d471f8',1,'round.c']]],
+  ['get_5fplayed_5fsize_17',['get_played_size',['../round_8h.html#a39727c2ef1584b79537ff9bee3e6a5a5',1,'get_played_size(void):&#160;round.c'],['../round_8c.html#a39727c2ef1584b79537ff9bee3e6a5a5',1,'get_played_size(void):&#160;round.c']]],
+  ['get_5fplayed_5ftop_18',['get_played_top',['../round_8h.html#ac8cec2b58cfa75bf971c1013aa1e9a40',1,'get_played_top(void):&#160;round.c'],['../round_8c.html#ac8cec2b58cfa75bf971c1013aa1e9a40',1,'get_played_top(void):&#160;round.c']]],
+  ['get_5fsave_5fheader_19',['get_save_header',['../save_8c.html#aa7c710df5af72243541a55e499e53bd9',1,'save.c']]],
+  ['get_5fscored_5fcard_5findex_20',['get_scored_card_index',['../round_8h.html#a2a4916e063f7e60e36f4f4f95d5a0050',1,'get_scored_card_index(void):&#160;round.c'],['../round_8c.html#a2a4916e063f7e60e36f4f4f95d5a0050',1,'get_scored_card_index(void):&#160;round.c']]],
+  ['get_5fskip_5ftag_5fregistry_5fentry_21',['get_skip_tag_registry_entry',['../skip__tag_8h.html#afd10c29199110e47beb5f8fcdd93b733',1,'skip_tag_effects.c']]]
 ];

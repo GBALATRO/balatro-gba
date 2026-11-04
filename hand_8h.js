@@ -9,6 +9,7 @@ var hand_8h =
     [ "get_hand_state", "hand_8h.html#a4aaf779a75b1c61697315a7d0defdfe1", null ],
     [ "get_hand_top", "hand_8h.html#a41c74b16743c1e9a1b7409629d2a5c8e", null ],
     [ "get_hand_type", "hand_8h.html#a3b870a7b9c35fe38077088a0a4956ef4", null ],
+    [ "get_num_cards_in_hand", "hand_8h.html#a33f3629ed4aeb01a8fb4f896057d53a4", null ],
     [ "hand_change_sort", "hand_8h.html#ae31189b3cd0a76afd9fea79b94ea017f", null ],
     [ "hand_deselect_all_cards", "hand_8h.html#ae964ed1f7566571c174a23be50819080", null ],
     [ "hand_get_nb_selected_cards", "hand_8h.html#aac8c352a03a71c29be4634442721a502", null ],
