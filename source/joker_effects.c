@@ -1851,6 +1851,16 @@ static u32 blueprint_brainstorm_joker_effect(
     return effect_flags_ret;
 }
 
+/**
+ * @brief Parses the owned Jokers to determine if the base Copy Joker is a Joker we own, and if yes
+ *        whether the Joker it is trying to copy is compatible or not.
+ *
+ * @param[in]  base_joker   pointer to the starting copy Joker
+ * @param[out] copied_joker pointer of pointer to the copied Joker, will be **NULL** if the
+ *                          @p base_joker isn't copying any Joker or if it's incompatible
+ *
+ * @return true if @p base_joker is owned, false otherwise
+ */
 static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker** copied_joker)
 {
     GBAL_RETURN_IF_NULL(copied_joker, false);
@@ -1877,9 +1887,7 @@ static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker
     {
         switch (copied_joker_object->joker->id)
         {
-            // Add cases for incompatible Jokers if some get added
-
-            // get the next Joker for Blueprint
+            // Get the next Joker for Blueprint
             case BLUEPRINT_JOKER_ID:
                 copied_joker_object = list_itr_next(&itr);
                 break;
@@ -1889,6 +1897,14 @@ static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker
                 brainstorm_counter++;
                 itr = list_itr_create(jokers);
                 copied_joker_object = list_itr_next(&itr);
+                break;
+
+            // We encountered an incompatible Jokers, set `copied_joker` to NULL to signal so
+            case SHORTCUT_JOKER_ID:
+            case PAREIDOLIA_JOKER_ID:
+            case FOUR_FINGERS_JOKER_ID:
+                *copied_joker = NULL;
+                copied_joker_object = NULL;
                 break;
 
             // We encountered a Joker that isn't a Copying Joker and copy it now
