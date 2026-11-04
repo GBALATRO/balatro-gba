@@ -1203,7 +1203,7 @@ static u32 blackboard_joker_effect(
 
     bool all_cards_are_spades_or_clubs = true;
     CardObject** hand = get_hand_array();
-    for (int i = 0; i < g_game_vars.hand_size; i++)
+    for (int i = 0; i < get_num_cards_in_hand(); i++)
     {
         u8 suit = hand[i]->card->suit;
         if (suit == HEARTS || suit == DIAMONDS)
@@ -1256,12 +1256,10 @@ static u32 raised_fist_joker_effect(
         // Use this event to compute the index of the lowest value card only once.
         // Aces are always considered high value, even in an ace-low straight
         case JOKER_EVENT_ON_HAND_PLAYED:
-            // index initialized at 0 but accessed only if
-            // hand_size > 0 so we're never out of bounds
             *p_lowest_value_index = 0;
             u8 lowest_value = IMPOSSIBLY_HIGH_CARD_VALUE;
             CardObject** hand = get_hand_array();
-            for (int i = 0; i < g_game_vars.hand_size; i++)
+            for (int i = 0; i < get_num_cards_in_hand(); i++)
             {
                 u8 value = card_get_value(hand[i]->card);
                 if (lowest_value > value)

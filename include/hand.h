@@ -125,6 +125,13 @@ ContainedHandTypes* get_contained_hands(void);
 CardObject** get_hand_array(void);
 
 /**
+ * @brief Get the current number of cards in the hand. Prefer using this over @ref get_hand_top()
+ *
+ * @return The current number of cards in the hand
+ */
+int get_num_cards_in_hand(void);
+
+/**
  * @brief Get the position in hand array of the last card obtained
  *
  * @return int

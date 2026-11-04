@@ -53,7 +53,14 @@ typedef struct
 
     // Run variables
     s32 money;
+
+    /**
+     * The hand size of the player.
+     * Note that this isn't the actual number of cards which may be smaller,
+     * use get_num_cards_in_hand() for that.
+     */
     s32 hand_size;
+
     s32 ante;
     s32 round;
     s32 deck;

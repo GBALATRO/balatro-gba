@@ -103,6 +103,11 @@ CardObject** get_hand_array(void)
     return s_hand.cards;
 }
 
+int get_num_cards_in_hand(void)
+{
+    return s_hand.hand_top + 1;
+}
+
 int get_hand_top(void)
 {
     return s_hand.hand_top;
