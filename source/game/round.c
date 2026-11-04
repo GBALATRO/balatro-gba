@@ -1148,22 +1148,17 @@ static inline void round_process_card_draw(void)
     }
 }
 
-static inline bool round_is_game_over(void)
+static inline enum GameState check_game_over_state(void)
 {
     if (g_game_vars.score >= blind_get_requirement(g_game_vars.current_blind, g_game_vars.ante))
     {
         if (g_game_vars.current_blind > BLIND_TYPE_BIG && g_game_vars.ante >= MAX_ANTE)
-        {
-            game_change_state(GAME_STATE_WIN);
-            return true;
-        }
+            return GAME_STATE_WIN;
     }
     else if (g_game_vars.hands == 0)
-    {
-        game_change_state(GAME_STATE_LOSE);
-        return true;
-    }
-    return false;
+        return GAME_STATE_LOSE;
+
+    return GAME_STATE_UNDEFINED;
 }
 
 static inline void round_discarded_cards_loop(void)
@@ -1173,11 +1168,13 @@ static inline void round_discarded_cards_loop(void)
         g_game_vars.timer > FRAMES(10))
     {
         // Bybass card shuffling if the game is over (be it win or lose)
-        if (round_is_game_over())
+        enum GameState next_state = check_game_over_state();
+        if (next_state != GAME_STATE_UNDEFINED)
         {
             Card* discarded_card = NULL;
             while ((discarded_card = discard_pop()))
-                deck_push(discarded_card);
+                card_destroy(&discarded_card);
+            game_change_state(next_state);
             return;
         }
 
