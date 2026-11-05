@@ -148,8 +148,3 @@ void set_volume(int volume)
     music_player.volume.current = volume;
     mmSetModuleVolume(volume);
 }
-
-int volume_module_step_to_val(unsigned char step)
-{
-    return MM_MODULE_FULL_VOLUME * step / VOLUME_OPTION_MAX;
-}
