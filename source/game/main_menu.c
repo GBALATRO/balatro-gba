@@ -99,16 +99,13 @@ void main_menu_change_background(void)
     }
 }
 
+static inline void create_main_menu_ace();
+
 void main_menu_on_init(void)
 {
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU, true);
-    s_main_menu_ace = card_object_new(card_new(SPADES, ACE));
-    card_object_set_sprite(s_main_menu_ace, 0);
-    // TODO: NULL-check sprite
-    s_main_menu_ace->sprite->obj->attr0 |= ATTR0_AFF_DBL;
-    s_main_menu_ace->tscale = float2fx(0.8f);
-    sprite_object_position((SpriteObject*)s_main_menu_ace, MAIN_MENU_ACE_T_X, MAIN_MENU_ACE_T_Y);
+    create_main_menu_ace();
 
     // Select last highlighted button, Play button by default.
     // e.g. if we return from the options menu, we want the Options button to be highlighted.
@@ -119,8 +116,36 @@ void main_menu_on_init(void)
     button_set_highlight(&main_menu_buttons[main_menu_selection_grid.selection.x], true);
 }
 
+static inline void create_main_menu_ace()
+{
+    Card* main_menu_ace_card = card_new(SPADES, ACE); // By Motorhead
+    GBAL_RETURN_IF_NULL(main_menu_ace_card, RET_NONE);
+
+    s_main_menu_ace = card_object_new(main_menu_ace_card);
+    if (s_main_menu_ace == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to allocate main menu ace CardObject");
+        card_destroy(&main_menu_ace_card);
+        return;
+    }
+
+    card_object_set_sprite(s_main_menu_ace, 0);
+    if (s_main_menu_ace->sprite == NULL)
+    {
+        MGBA_FUNC_ERROR("Failed to set sprite for main menu ace");
+        card_destroy(&main_menu_ace_card);
+        card_object_destroy(&s_main_menu_ace);
+        return;
+    }
+
+    s_main_menu_ace->sprite->obj->attr0 |= ATTR0_AFF_DBL;
+    s_main_menu_ace->tscale = float2fx(0.8f);
+    sprite_object_position((SpriteObject*)s_main_menu_ace, MAIN_MENU_ACE_T_X, MAIN_MENU_ACE_T_Y);
+}
+
 void main_menu_on_update(void)
 {
+    // Not checking for NULL for performance because this is called every frame, but be warned.
     s_main_menu_ace->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
 
     selection_grid_process_input(&main_menu_selection_grid);

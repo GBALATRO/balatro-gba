@@ -274,6 +274,7 @@ void shop_on_init(void)
 
     skip_tag_process_start(SKIP_TAG_EVENT_ON_SHOP_INIT);
 
+    // TODO: Change SHOP_INIT_SEL to the actual initial position and pass tribool 0?
     // The selection grid is initialized outside of bounds and moved
     // to trigger the selection change so the initial selection is visible
     shop_selection_grid.selection = SHOP_INIT_SEL;
@@ -317,17 +318,7 @@ static void shop_create_top_row_items(void)
     for (int i = 0; i < MAX_SHOP_ITEMS; i++)
     {
         Item* item = shop_create_top_row_item();
-
-        if (item == NULL)
-        {
-            MGBA_FUNC_WARN("Could not create shop item");
-
-            // TODO: Decide how to handle this case gracefully
-            // If the issue for example is that we can't generate any more jokers,
-            // because for example the user owns all of them,
-            // maybe we need to generate consumables instead.
-            return;
-        }
+        GBAL_RETURN_IF_NULL(item, RET_NONE);
 
         list_push_back(&new_shop_items, (SpriteObject*)item);
     }

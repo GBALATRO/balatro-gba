@@ -77,6 +77,7 @@ int sprite_get_starting_layer(enum SpriteType sprite_type)
 Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 {
     Sprite* sprite = POOL_GET(Sprite);
+    GBAL_RETURN_IF_NULL(sprite, NULL);
 
     sprite->obj = NULL;
     sprite->aff = NULL;
@@ -87,6 +88,7 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
     }
     else
     {
+        MGBA_FUNC_ERROR("No free sprite in sprite_index %d", sprite_index);
         POOL_FREE(Sprite, sprite);
         return NULL;
     }
@@ -107,6 +109,7 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 
         if (aff_index == MAX_AFFINES)
         {
+            MGBA_FUNC_ERROR("No more free affine sprites to allocate");
             POOL_FREE(Sprite, sprite);
             return NULL;
         }
@@ -133,7 +136,9 @@ Sprite* sprite_new(u16 a0, u16 a1, u32 tid, u32 pb, s16 sprite_index)
 
 void sprite_destroy(Sprite** sprite)
 {
+    GBAL_RETURN_IF_NULL(sprite, RET_NONE);
     if (*sprite == NULL)
+        // Not logging an error because this is not an error
         return;
 
     obj_hide((*sprite)->obj);

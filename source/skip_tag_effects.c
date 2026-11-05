@@ -120,6 +120,9 @@ static void skip_tag_effect_double(void)
     // tag exists and isn't a double tag
     SkipTag* latest_tag = get_owned_skip_tags()->tail->data;
     SkipTag* latest_tag_copy = skip_tag_new(latest_tag->type);
+
+    GBAL_RETURN_IF_NULL(latest_tag_copy, RET_NONE);
+
     add_skip_tag(&latest_tag_copy);
 }
 
@@ -153,8 +156,16 @@ static void skip_tag_effect_top_up(void)
         Joker* joker = joker_new(joker_id);
         GBAL_RETURN_IF_NULL(joker, RET_NONE);
 
+        JokerObject* joker_object = joker_object_new(joker);
+        if (joker_object == NULL)
+        {
+            MGBA_FUNC_ERROR("Failed to allocate joker_object for joker of id %d", joker_id);
+            joker_destroy(&joker);
+            return;
+        }
+
         joker_set_rollable(joker_id, false);
-        item_acquire((Item*)joker_object_new(joker));
+        item_acquire((Item*)joker_object);
     }
 }
 

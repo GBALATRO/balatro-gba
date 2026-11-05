@@ -72,6 +72,7 @@ enum JokerEvent
 #define MAX_JOKER_OBJECTS 32 // The maximum number of joker objects that can be created at once
 
 // Jokers in the game
+#define BASIC_JOKER_ID        0 // AKA "Joker" or "Jimbo"
 #define STENCIL_JOKER_ID      15
 #define SHORTCUT_JOKER_ID     48
 #define BRAINSTORM_JOKER_ID   41
@@ -236,18 +237,10 @@ int joker_object_print_description(Item* joker_object, Rect dest_rect);
  * @brief Rolls a random Joker among the available ones of a certain rarity
  *
  * @param joker_rarity the rarity of the joker we want to roll
- *
- * @return rolled joker ID
- */
-int joker_roll_id_with_rarity(int joker_rarity);
-
-/**
- * @brief Rolls a random Joker among the available ones of a certain rarity
- *
- * @param joker_rarity the rarity of the joker we want to roll
  * @param key to the RNG sequence used
  *
- * @return rolled Joker ID
+ * @return rolled Joker ID, defaults to @ref BASIC_JOKER_ID if there are no rollable jokers
+ *         of @p joker_rarity
  */
 int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key);
 
