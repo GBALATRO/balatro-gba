@@ -59,6 +59,7 @@ void push_back_one_entry(void)
     assert(list_get_at_idx(&my_cool_list, 0) == &test_data);
     assert(list_get_at_idx(&my_cool_list, 1) == NULL);
     assert(!list_is_empty(&my_cool_list));
+
     // clear the list
     list_clear(&my_cool_list);
 
@@ -286,6 +287,147 @@ void push_back_three_remove_push_front_three_entries(void)
     assert(list_is_empty(&my_cool_list));
 }
 
+// Test appending a list at the end of another
+// - list_init
+// - list_push_back
+// - list_get_len
+// - list_get_at_idx
+// - list_append_other_list
+// - list_clear
+// - list_is_empty
+void test_list_append_other(void)
+{
+    // Prepare first list to append to
+    List list1 = list_init();
+    int test_data1 = 137;
+    int test_data2 = 1312;
+    list_push_back(&list1, &test_data1);
+    list_push_back(&list1, &test_data2);
+    assert(list_get_len(&list1) == 2);
+    assert(list_get_at_idx(&list1, 0) == &test_data1);
+    assert(list_get_at_idx(&list1, 1) == &test_data2);
+
+    // Prepare other list
+    List list2 = list_init();
+    int other_data1 = 42;
+    int other_data2 = 308;
+    list_push_back(&list2, &other_data1);
+    list_push_back(&list2, &other_data2);
+    assert(list_get_len(&list2) == 2);
+    assert(list_get_at_idx(&list2, 0) == &other_data1);
+    assert(list_get_at_idx(&list2, 1) == &other_data2);
+
+    // Append
+    list_append_other_list(&list1, &list2);
+    assert(list_get_len(&list1) == 4);
+
+    ListItr itr = list_itr_create(&list1);
+    assert(list_itr_next(&itr) == &test_data1);
+    assert(list_itr_next(&itr) == &test_data2);
+    assert(list_itr_next(&itr) == &other_data1);
+    assert(list_itr_next(&itr) == &other_data2);
+    assert(list_itr_next(&itr) == NULL);
+
+    itr = rev_list_itr_create(&list1);
+    assert(list_itr_next(&itr) == &other_data2);
+    assert(list_itr_next(&itr) == &other_data1);
+    assert(list_itr_next(&itr) == &test_data2);
+    assert(list_itr_next(&itr) == &test_data1);
+    assert(list_itr_next(&itr) == NULL);
+
+    // clear the lists (need only list1, as the nodes of list2 are included and point to the same
+    // memory in the pool)
+    list_clear(&list1);
+
+    // verify no data
+    assert(list1.head == NULL);
+    assert(list1.tail == NULL);
+    assert(list_is_empty(&list1));
+}
+
+// Test appending a list at the end of an empty one
+// - list_init
+// - list_push_back
+// - list_get_len
+// - list_get_at_idx
+// - list_append_other_list
+// - list_clear
+// - list_is_empty
+void test_list_append_other_first_is_empty(void)
+{
+    // Prepare lists
+    List list1 = list_init();
+    List list2 = list_init();
+    assert(list_get_len(&list1) == 0);
+    assert(list_get_len(&list2) == 0);
+
+    // Fill list2
+    int test_data1 = 42;
+    int test_data2 = 308;
+    list_push_back(&list2, &test_data1);
+    list_push_back(&list2, &test_data2);
+    assert(list_get_len(&list2) == 2);
+    assert(list_get_at_idx(&list2, 0) == &test_data1);
+    assert(list_get_at_idx(&list2, 1) == &test_data2);
+
+    // Append empty <- filled (something happens!)
+    // list1 and list2 now point entirely to the same memory in the pool
+    list_append_other_list(&list1, &list2);
+    assert(list_get_len(&list1) == list_get_len(&list2));
+    assert(list_get_at_idx(&list1, 0) == list_get_at_idx(&list2, 0));
+    assert(list_get_at_idx(&list1, 1) == list_get_at_idx(&list2, 1));
+
+    // clear the lists
+    list_clear(&list1);
+
+    // verify no data
+    assert(list1.head == NULL);
+    assert(list1.tail == NULL);
+    assert(list_is_empty(&list1));
+}
+
+// Test appending an empty list at the end of a non-empty one
+// - list_init
+// - list_push_back
+// - list_get_len
+// - list_get_at_idx
+// - list_append_other_list
+// - list_clear
+// - list_is_empty
+void test_list_append_other_second_is_empty(void)
+{
+    // Prepare lists
+    List list1 = list_init();
+    List list2 = list_init();
+    assert(list_get_len(&list1) == 0);
+    assert(list_get_len(&list2) == 0);
+
+    // Append empty <- empty (nothing happens)
+    list_append_other_list(&list1, &list2);
+    assert(list_get_len(&list1) == 0);
+
+    // Fill list1
+    int test_data1 = 137;
+    int test_data2 = 1312;
+    list_push_back(&list1, &test_data1);
+    list_push_back(&list1, &test_data2);
+    assert(list_get_len(&list1) == 2);
+    assert(list_get_at_idx(&list1, 0) == &test_data1);
+    assert(list_get_at_idx(&list1, 1) == &test_data2);
+
+    // Append filled <- empty (nothing happens)
+    list_append_other_list(&list1, &list2);
+    assert(list_get_len(&list1) == 2);
+
+    // clear the lists
+    list_clear(&list1);
+
+    // verify no data
+    assert(list1.head == NULL);
+    assert(list1.tail == NULL);
+    assert(list_is_empty(&list1));
+}
+
 // Test inserting at head, middle, and tail of list
 // - list_init
 // - list_push_back
@@ -423,8 +565,6 @@ void test_list_insertion(void)
         }
         index++;
     }
-
-    printf("\n");
 
     ListItr rev_itr = rev_list_itr_create(&my_cool_list);
     index = initial_list_size + 2;
@@ -743,6 +883,15 @@ int main(void)
 
     printf("Testing List Complete Exercise.\n");
     push_back_three_remove_push_front_three_entries();
+
+    printf("Testing List Append Non-Empty into Non-Empty.\n");
+    test_list_append_other();
+
+    printf("Testing List Append Non-Empty into Empty.\n");
+    test_list_append_other_first_is_empty();
+
+    printf("Testing List Append Empty into Non-Empty.\n");
+    test_list_append_other_second_is_empty();
 
     printf("Testing List Insertion.\n");
     test_list_insertion();
