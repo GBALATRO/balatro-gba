@@ -42,9 +42,16 @@ int bitset_set_next_free_idx(Bitset* bitset)
         if (inv)
         {
             int bit = __builtin_ctz(inv);
-            bitset->w[i] |= ((uint32_t)1 << bit);
             int idx = i * BITSET_BITS_PER_WORD + bit;
-            return (idx < bitset->cap) ? idx : UNDEFINED;
+            if (idx < bitset->cap)
+            {
+                bitset->w[i] |= ((uint32_t)1 << bit);
+                return idx;
+            }
+            else
+            {
+                return UNDEFINED;
+            };
         }
     }
 
@@ -89,42 +96,6 @@ int bitset_num_set_bits(Bitset* bitset)
     return sum;
 }
 
-int bitset_find_idx_of_nth_set(const Bitset* bitset, int n)
-{
-    int tracker = 0;
-    int prev_tracker = 0;
-
-    for (int i = 0; i < bitset->nwords; i++)
-    {
-        tracker += __builtin_popcount(bitset->w[i]);
-
-        if (tracker > n)
-        {
-            // The index is here somewhere
-            // this one is to count the 1's not the offset, underflow to -1 is good for finding the
-            // 0 index
-            int base = prev_tracker - 1;
-            // this one is for the actual offset we want to map the id to
-            int offset = bitset->nbits * i;
-            for (int j = 0; j < bitset->nbits; j++)
-            {
-                if (base == n)
-                {
-                    return offset - 1;
-                }
-                base += (bitset->w[i] >> j) & 0x01;
-                offset++;
-            }
-
-            break;
-        }
-
-        prev_tracker = tracker;
-    }
-
-    return UNDEFINED;
-}
-
 BitsetItr bitset_itr_create(const Bitset* bitset)
 {
     BitsetItr itr = {
@@ -165,7 +136,6 @@ int bitset_itr_next(BitsetItr* itr)
         }
         itr->bit = 0;
     }
-    itr->word = 0;
 
     return UNDEFINED;
 }
