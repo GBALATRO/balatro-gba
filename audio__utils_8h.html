@@ -159,8 +159,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a0805d40ac3ce386caec3227b03c66344" id="r_a0805d40ac3ce386caec3227b03c66344"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0805d40ac3ce386caec3227b03c66344">play_regular_music</a> (void)</td></tr>
 <tr class="memdesc:a0805d40ac3ce386caec3227b03c66344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play music at a normal pitch and tempo.  <br /></td></tr>
 <tr class="memitem:a7b6268964a7ed563de758dc59c53f395" id="r_a7b6268964a7ed563de758dc59c53f395"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b6268964a7ed563de758dc59c53f395">set_volume</a> (int volume)</td></tr>
-<tr class="memitem:a9bcb541674be186faebfd4b6d5de35e0" id="r_a9bcb541674be186faebfd4b6d5de35e0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bcb541674be186faebfd4b6d5de35e0">volume_module_step_to_val</a> (unsigned char step)</td></tr>
-<tr class="memdesc:a9bcb541674be186faebfd4b6d5de35e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get MaxMod module audio value from VOLUME_OPTION value.  <br /></td></tr>
+<tr class="memitem:a639c86a01452c2d830514e503b298d48" id="r_a639c86a01452c2d830514e503b298d48"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a639c86a01452c2d830514e503b298d48">volume_module_step_to_val</a> (u8 step)</td></tr>
+<tr class="memdesc:a639c86a01452c2d830514e503b298d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get MaxMod module audio value from VOLUME_OPTION value.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utilities for using maxmod to play sound effects. </p>
@@ -393,8 +393,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9bcb541674be186faebfd4b6d5de35e0" name="a9bcb541674be186faebfd4b6d5de35e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bcb541674be186faebfd4b6d5de35e0">&#9670;&#160;</a></span>volume_module_step_to_val()</h2>
+<a id="a639c86a01452c2d830514e503b298d48" name="a639c86a01452c2d830514e503b298d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a639c86a01452c2d830514e503b298d48">&#9670;&#160;</a></span>volume_module_step_to_val()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,13 +405,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int volume_module_step_to_val </td>
           <td>(</td>
-          <td class="paramtype">unsigned char</td>          <td class="paramname"><span class="paramname"><em>step</em></span></td><td>)</td>
+          <td class="paramtype">u8</td>          <td class="paramname"><span class="paramname"><em>step</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
