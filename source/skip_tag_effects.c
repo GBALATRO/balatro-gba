@@ -53,7 +53,7 @@ const SkipTagInfo skip_tag_registry[] =
 
 static const size_t skip_tag_registry_size = NUM_ELEM_IN_ARR(skip_tag_registry);
 
-const SkipTagInfo* get_skip_tag_registry_entry(enum SkipTagTypes tag_type)
+const SkipTagInfo* get_skip_tag_registry_entry(enum SkipTagType tag_type)
 {
     if (tag_type < 0 || (size_t)tag_type >= skip_tag_registry_size)
     {
