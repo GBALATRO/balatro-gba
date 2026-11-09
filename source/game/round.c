@@ -1168,13 +1168,13 @@ static inline void round_discarded_cards_loop(void)
         g_game_vars.timer > FRAMES(10))
     {
         // Bybass card shuffling if the game is over (be it win or lose)
-        enum GameState next_state = check_game_over_state();
-        if (next_state != GAME_STATE_UNDEFINED)
+        enum GameState game_over_state = check_game_over_state();
+        if (game_over_state != GAME_STATE_UNDEFINED)
         {
             Card* discarded_card = NULL;
             while ((discarded_card = discard_pop()))
-                card_destroy(&discarded_card);
-            game_change_state(next_state);
+                deck_push(discarded_card);
+            game_change_state(game_over_state);
             return;
         }
 
