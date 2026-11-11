@@ -1,8 +1,8 @@
 #include "mgba_logger.h"
 
-#include "util.h"
-
 #ifdef MGBA_LOGGING
+
+#include "util.h"
 
 #include <stdarg.h>
 #include <stdint.h>

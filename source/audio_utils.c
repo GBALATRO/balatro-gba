@@ -7,7 +7,6 @@
 #include "audio_utils.h"
 
 #include "game_variables.h"
-#include "mgba_logger.h"
 #include "state_machine.h"
 #include "util.h"
 

@@ -10,11 +10,9 @@
 #include "card.h"
 #include "game.h"
 #include "game/common_ui.h"
-#include "game/round.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
-#include "util.h"
 
 #include <tonc.h>
 

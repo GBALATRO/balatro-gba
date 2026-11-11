@@ -4,7 +4,6 @@
 #include "save.h"
 
 #include "audio_utils.h"
-#include "bitset.h"
 #include "card.h"
 #include "game.h"
 #include "game_variables.h"
@@ -13,7 +12,6 @@
 #include "util.h"
 #include "version.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 // See https://gbadev.net/gbadoc/memory.html for more details on SRAM

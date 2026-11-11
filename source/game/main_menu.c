@@ -14,7 +14,6 @@
 #include "sprite.h"
 #include "version.h"
 
-#include <stdint.h>
 #include <tonc.h>
 #include <tonc_math.h>
 #include <tonc_memdef.h>

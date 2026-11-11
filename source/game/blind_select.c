@@ -17,8 +17,6 @@
 #include "timer.h"
 #include "util.h"
 
-#include <maxmod.h>
-
 // Palette indices for colors that change at runtime start at 32
 // while indices 0 to 31 are for static colors.
 // The indexing is determined by background_blind_select_gfx.png

@@ -1,9 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game/common_ui.h"
 #include "game_variables.h"
-#include "graphic_utils.h"
 #include "item.h"
 #include "sprite_container.h"
 

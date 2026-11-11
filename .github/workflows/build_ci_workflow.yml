@@ -78,7 +78,7 @@ jobs:
           docker compose -f docker-compose.yml run --rm \
           -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
           gbalatro \
-          sh -c "make -j\$(nproc)"
+          sh -c "make -j\$(nproc) && ./scripts/get_memory_map.sh build/balatro-gba.elf"
 
       - name: 'Upload Artifact'
         if: ${{ inputs.upload-build-artifact }}
