@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"run__setup_8c.html#a021d858e94646371f960ac039d09244d":[3,0,1,0,8,1],
 "run__setup_8c.html#a0f1cdfa154c8147d52038214a678a6e8":[3,0,1,0,8,17],
 "run__setup_8c.html#a1092fc659186157c9e79f5b8a8505e42":[3,0,1,0,8,15],
 "run__setup_8c.html#a1965e457198b2b2f241700c9b76dbe62":[3,0,1,0,8,22],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "structHandValues.html":[2,0,11],
 "structItem.html":[2,0,12],
 "structItem.html#a89144277bc691613127f9fc4f8030b08":[2,0,12,1],
-"structItem.html#abcafd47dddaa3d0d1398448b8a61c48d":[2,0,12,2]
+"structItem.html#abcafd47dddaa3d0d1398448b8a61c48d":[2,0,12,2],
+"structItem.html#afb3cf4226358a25c020f6c92e8c879a7":[2,0,12,0]
 };

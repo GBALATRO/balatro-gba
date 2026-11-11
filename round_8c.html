@@ -247,8 +247,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:a90fc589c9cebd37220a1b9d948c027a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Triggers the playing of the currently selected cards in hand.  <br /></td></tr>
 <tr class="memitem:a8ed5682fe5c3756c8fea83ae29ef9cb4" id="r_a8ed5682fe5c3756c8fea83ae29ef9cb4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ed5682fe5c3756c8fea83ae29ef9cb4">round_button_set_highlight</a> (int btn_idx, bool highlight)</td></tr>
 <tr class="memitem:a407e303d61c947a2f5b86ef6355d7c38" id="r_a407e303d61c947a2f5b86ef6355d7c38"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a407e303d61c947a2f5b86ef6355d7c38">round_process_hand_select_input</a> (void)</td></tr>
-<tr class="memitem:ae6bd984ae4e2b54b94d53a1be6f9eb4f" id="r_ae6bd984ae4e2b54b94d53a1be6f9eb4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6bd984ae4e2b54b94d53a1be6f9eb4f">round_handle_round_over</a> (void)</td></tr>
-<tr class="memdesc:ae6bd984ae4e2b54b94d53a1be6f9eb4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates if we have won or lost when we can no longer play so that we land on the correct Game Over screen.  <br /></td></tr>
 <tr class="memitem:a8e704d57f14fde451ed1f2e2c34e1e94" id="r_a8e704d57f14fde451ed1f2e2c34e1e94"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e704d57f14fde451ed1f2e2c34e1e94">card_in_hand_loop_handle_discard_and_shuffling</a> (int card_idx, FIXED *hand_x, FIXED *hand_y, bool *break_loop)</td></tr>
 <tr class="memitem:afdc5b0e58f434c053a8943de8afa07a1" id="r_afdc5b0e58f434c053a8943de8afa07a1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afdc5b0e58f434c053a8943de8afa07a1">select_flush_and_straight_cards_in_played_hand</a> (void)</td></tr>
 <tr class="memitem:ad6bbe4dc1fe78c80bcd32bc1632ada5e" id="r_ad6bbe4dc1fe78c80bcd32bc1632ada5e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6bbe4dc1fe78c80bcd32bc1632ada5e">select_all_five_cards_in_played_hand</a> (void)</td></tr>
@@ -263,6 +261,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a0629b6ce6e9dfa19f2887d9eaed5bdf2" id="r_a0629b6ce6e9dfa19f2887d9eaed5bdf2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0629b6ce6e9dfa19f2887d9eaed5bdf2">card_draw</a> (void)</td></tr>
 <tr class="memdesc:a0629b6ce6e9dfa19f2887d9eaed5bdf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw the next card at the top of the Deck and play a little <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> animation to position it in our hand.  <br /></td></tr>
 <tr class="memitem:a755a272ecf6b0f195b379e6ffb569087" id="r_a755a272ecf6b0f195b379e6ffb569087"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a755a272ecf6b0f195b379e6ffb569087">round_process_card_draw</a> (void)</td></tr>
+<tr class="memitem:acc88d05ea42edf6c357bb046cd352be2" id="r_acc88d05ea42edf6c357bb046cd352be2"><td class="memItemLeft" align="right" valign="top">static enum GameState&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc88d05ea42edf6c357bb046cd352be2">check_game_over_state</a> (void)</td></tr>
 <tr class="memitem:a95860dc441bef4fa5b9128777af0da55" id="r_a95860dc441bef4fa5b9128777af0da55"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95860dc441bef4fa5b9128777af0da55">round_discarded_cards_loop</a> (void)</td></tr>
 <tr class="memitem:a468da60e7935bcc932401b5ce979400c" id="r_a468da60e7935bcc932401b5ce979400c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a468da60e7935bcc932401b5ce979400c">select_cards_in_played_hand</a> (void)</td></tr>
 <tr class="memitem:a6727b1a010a1a719f8957bb450b1e4c3" id="r_a6727b1a010a1a719f8957bb450b1e4c3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6727b1a010a1a719f8957bb450b1e4c3">cards_in_hand_update_loop</a> (void)</td></tr>
@@ -868,7 +867,7 @@ Variables</h2></td></tr>
 
 <p>Draw the next card at the top of the Deck and play a little <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> animation to position it in our hand. </p>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01140">1140</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01106">1106</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -909,7 +908,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00758">758</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00724">724</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -936,7 +935,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01276">1276</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01273">1273</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -984,7 +983,34 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if a scoring <a class="el" href="structJoker.html">Joker</a> was encountered, false if not </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>JokerEvent </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01640">1640</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01637">1637</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+
+</div>
+</div>
+<a id="acc88d05ea42edf6c357bb046cd352be2" name="acc88d05ea42edf6c357bb046cd352be2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc88d05ea42edf6c357bb046cd352be2">&#9670;&#160;</a></span>check_game_over_state()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum GameState check_game_over_state </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01151">1151</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1250,7 +1276,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01510">1510</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01507">1507</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1277,7 +1303,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01497">1497</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01494">1494</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1308,7 +1334,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6110e31a259ba9c8d30f5bb493ba8a0e" title="Iterate over the Jokers List until we encounter one that scores for the specified event.">check_and_score_joker_for_event</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01698">1698</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01695">1695</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1344,7 +1370,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01974">1974</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01971">1971</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1379,7 +1405,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01929">1929</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01926">1926</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1410,7 +1436,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if the <a class="el" href="structJoker.html">Joker</a> scoring loop has returned early </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6110e31a259ba9c8d30f5bb493ba8a0e" title="Iterate over the Jokers List until we encounter one that scores for the specified event.">check_and_score_joker_for_event</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01784">1784</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01781">1781</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1440,7 +1466,7 @@ Variables</h2></td></tr>
 <p>Score all played cards in order, then Jokers after each one. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the Cards scoring loop has returned early. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01715">1715</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01712">1712</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1471,7 +1497,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if the <a class="el" href="structJoker.html">Joker</a> scoring loop has returned early </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6110e31a259ba9c8d30f5bb493ba8a0e" title="Iterate over the Jokers List until we encounter one that scores for the specified event.">check_and_score_joker_for_event</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01898">1898</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01895">1895</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1502,7 +1528,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if the <a class="el" href="structJoker.html">Joker</a> scoring loop has returned early </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6110e31a259ba9c8d30f5bb493ba8a0e" title="Iterate over the Jokers List until we encounter one that scores for the specified event.">check_and_score_joker_for_event</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01834">1834</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01831">1831</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1533,7 +1559,7 @@ Variables</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true if the <a class="el" href="structJoker.html">Joker</a> scoring loop has returned early </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a6110e31a259ba9c8d30f5bb493ba8a0e" title="Iterate over the Jokers List until we encounter one that scores for the specified event.">check_and_score_joker_for_event</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01871">1871</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01868">1868</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1560,7 +1586,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01658">1658</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01655">1655</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1587,7 +1613,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02030">2030</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02027">2027</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -1850,7 +1876,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01185">1185</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01164">1164</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2011,35 +2037,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ae6bd984ae4e2b54b94d53a1be6f9eb4f" name="ae6bd984ae4e2b54b94d53a1be6f9eb4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6bd984ae4e2b54b94d53a1be6f9eb4f">&#9670;&#160;</a></span>round_handle_round_over()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void round_handle_round_over </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Evaluates if we have won or lost when we can no longer play so that we land on the correct Game Over screen. </p>
-
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00728">728</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
-
-</div>
-</div>
 <a id="a4c264e352e6e269e804edca284f81317" name="a4c264e352e6e269e804edca284f81317"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4c264e352e6e269e804edca284f81317">&#9670;&#160;</a></span>round_is_over()</h2>
 
@@ -2066,7 +2063,7 @@ Variables</h2></td></tr>
 <p>Determines if the round is over, be it because we lost or won the round. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the round is over, false if we can still play. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01054">1054</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01020">1020</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2087,7 +2084,7 @@ Variables</h2></td></tr>
 
 <p>Round state initialization. </p>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02130">2130</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02127">2127</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2108,7 +2105,7 @@ Variables</h2></td></tr>
 
 <p>Round state update. </p>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02204">2204</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l02201">2201</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2164,7 +2161,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01167">1167</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01133">1133</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2191,7 +2188,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01469">1469</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01466">1466</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2245,7 +2242,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01060">1060</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01026">1026</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2330,7 +2327,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01398">1398</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01395">1395</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2357,7 +2354,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00898">898</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00864">864</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2384,7 +2381,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01234">1234</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01231">1231</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2411,7 +2408,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00851">851</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00817">817</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2438,7 +2435,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00906">906</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00872">872</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2465,7 +2462,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01033">1033</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00999">999</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2492,7 +2489,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01013">1013</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00979">979</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2519,7 +2516,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00944">944</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00910">910</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2546,7 +2543,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00975">975</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l00941">941</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>
@@ -2594,7 +2591,7 @@ Variables</h2></td></tr>
 
 <p>Checks whether the score that would result from the current Chips and Mult exceeds the current <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a>'s score requirement, and applies the flaming effect if needed. </p>
 
-<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01446">1446</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="round_8c_source.html#l01443">1443</a> of file <a class="el" href="round_8c_source.html">round.c</a>.</p>
 
 </div>
 </div>

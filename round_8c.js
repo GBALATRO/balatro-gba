@@ -26,7 +26,6 @@ var round_8c =
     [ "round_discard_on_pressed", "round_8c.html#ad479b5e67a193e5f1e4ca863f574ca69", null ],
     [ "round_execute_discard", "round_8c.html#a7c24c955f5803f64fe5436b375087055", null ],
     [ "round_execute_play_hand", "round_8c.html#a90fc589c9cebd37220a1b9d948c027a8", null ],
-    [ "round_handle_round_over", "round_8c.html#ae6bd984ae4e2b54b94d53a1be6f9eb4f", null ],
     [ "round_is_over", "round_8c.html#a4c264e352e6e269e804edca284f81317", null ],
     [ "round_on_init", "round_8c.html#a2463539de4933ae2d3831685271ae6dd", null ],
     [ "round_on_update", "round_8c.html#a2e859599b0a4bff14b21f30f537c7ad0", null ],

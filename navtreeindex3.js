@@ -1,6 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"structItem.html#afb3cf4226358a25c020f6c92e8c879a7":[2,0,12,0],
 "structItemDescSubtypeInfo.html":[2,0,13],
 "structItemFuncs.html":[2,0,14],
 "structItemFuncs.html#aff016d1f06bb606764548ecc34275c9f":[2,0,14,0],
