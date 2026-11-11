@@ -8,7 +8,6 @@
 
 #include "audio_utils.h"
 #include "background_shop_gfx.h"
-#include "bitset.h"
 #include "button.h"
 #include "game.h"
 #include "game/joker_row.h"
@@ -20,7 +19,6 @@
 #include "random.h"
 #include "save.h"
 #include "skip_tag.h"
-#include "soundbank.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"

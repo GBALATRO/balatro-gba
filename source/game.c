@@ -2,7 +2,6 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
-#include "background_main_menu_gfx.h"
 #include "card.h"
 #include "game/blind_select.h"
 #include "game/game_over.h"
@@ -20,14 +19,11 @@
 #include "layout.h"
 #include "list.h"
 #include "random.h"
-#include "soundbank.h"
 #include "sprite.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
 
-#include <maxmod.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 

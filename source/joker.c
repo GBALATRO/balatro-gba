@@ -6,7 +6,6 @@
 #include "mgba_logger.h"
 #include "pool.h"
 #include "random.h"
-#include "soundbank.h"
 #include "util.h"
 
 // Tiles and palettes

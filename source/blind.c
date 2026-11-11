@@ -11,7 +11,6 @@
 #include "graphic_utils.h"
 #include "list.h"
 #include "random.h"
-#include "stdbool.h"
 #include "util.h"
 
 #include <stdlib.h>

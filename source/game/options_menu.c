@@ -13,7 +13,6 @@
 #include "soundbank.h"
 #include "util.h"
 
-#include <stdint.h>
 #include <string.h>
 #include <tonc.h>
 #include <tonc_math.h>

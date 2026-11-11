@@ -2,14 +2,11 @@
 
 #include "graphic_utils.h"
 #include "item.h"
+#include "pool.h"
 #include "util.h"
 
 #include <maxmod.h>
 #include <stdlib.h>
-
-// Audio
-#include "pool.h"
-#include "soundbank.h"
 
 // Card Sprites and Palettes
 #include "deck_big_gfx.h"

@@ -9,7 +9,6 @@
 #include "mgba_logger.h"
 #include "random.h"
 #include "save.h"
-#include "soundbank.h"
 #include "soundbank_bin.h"
 #include "sprite.h"
 
