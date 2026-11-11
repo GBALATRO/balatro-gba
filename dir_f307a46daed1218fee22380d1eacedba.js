@@ -9,5 +9,6 @@ var dir_f307a46daed1218fee22380d1eacedba =
     [ "round.h", "round_8h.html", "round_8h" ],
     [ "round_end.h", "round__end_8h.html", "round__end_8h" ],
     [ "run_setup.h", "run__setup_8h.html", "run__setup_8h" ],
-    [ "shop.h", "shop_8h.html", "shop_8h" ]
+    [ "shop.h", "shop_8h.html", "shop_8h" ],
+    [ "splash_screen.h", "splash__screen_8h.html", "splash__screen_8h" ]
 ];

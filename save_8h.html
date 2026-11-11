@@ -129,8 +129,7 @@ $(function(){initNavTree('save_8h.html','',''); });
 
 <p>Utils functions to save/load data structures from/to the SRAM.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="game__variables_8h_source.html">game_variables.h</a>&quot;</code><br />
-<code>#include &lt;tonc.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;tonc.h&gt;</code><br />
 </div>
 <p><a href="save_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -158,9 +157,9 @@ Functions</h2></td></tr>
 <div class="line">│ Engine vars │</div>
 <div class="line">│   Jokers    │</div>
 <div class="line">└─────────────┘</div>
-<div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00159">save.c:160</a></div></div>
-<div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00052">save.c:53</a></div></div>
-<div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00086">save.c:87</a></div></div>
+<div class="ttc" id="astructSaveGame_html"><div class="ttname"><a href="structSaveGame.html">SaveGame</a></div><div class="ttdoc">SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00157">save.c:158</a></div></div>
+<div class="ttc" id="astructSaveHeader_html"><div class="ttname"><a href="structSaveHeader.html">SaveHeader</a></div><div class="ttdoc">SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00050">save.c:51</a></div></div>
+<div class="ttc" id="astructSaveOptions_html"><div class="ttname"><a href="structSaveOptions.html">SaveOptions</a></div><div class="ttdoc">SaveOptions will only contain options data set in the Options Menu.</div><div class="ttdef"><b>Definition</b> <a href="save_8c_source.html#l00084">save.c:85</a></div></div>
 </div><!-- fragment --><p><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a> indicates save validity by its presence. <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a> contains options values set in the corresponding menu and apply to the game itself. <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> contains values tied to a run with round, ante, money, owned Jokers etc...</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structSaveHeader.html" title="SaveHeader for validation checks to be packed and written to SRAM for validation. Defined in this dis...">SaveHeader</a>, <a class="el" href="structSaveOptions.html" title="SaveOptions will only contain options data set in the Options Menu.">SaveOptions</a>, <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a></dd></dl>
 <p>I strongly recommend using <span class="tt">xxd -l 512 -e -g 4 &lt;gbalatro.sav&gt;</span> to view the contents of the save </p>
@@ -185,7 +184,7 @@ Functions</h2></td></tr>
 <p>Checks whether the <a class="el" href="structSaveGame.html" title="SaveGame will contain the data about the current run to be saved to SRAM. GameVariables was used for ...">SaveGame</a> section is present and valid. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if it is, false if not. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00335">335</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00333">333</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -207,7 +206,7 @@ Functions</h2></td></tr>
 <p>Load previous run data from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#a9e232271002ca804d61417ca6773b07a" title="Save current run data to SRAM.">save_game</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00378">378</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00376">376</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -229,7 +228,7 @@ Functions</h2></td></tr>
 <p>Load options values from SRAM. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#af08a6f81dc09e7abbf2e4f33f99bec6e" title="Save options values to SRAM.">save_options</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00316">316</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00314">314</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -250,7 +249,7 @@ Functions</h2></td></tr>
 
 <p>Save current run data to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00341">341</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00339">339</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
@@ -271,7 +270,7 @@ Functions</h2></td></tr>
 
 <p>Save options values to SRAM. </p>
 
-<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00302">302</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="save_8c_source.html#l00300">300</a> of file <a class="el" href="save_8c_source.html">save.c</a>.</p>
 
 </div>
 </div>
