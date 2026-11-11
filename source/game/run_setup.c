@@ -96,7 +96,7 @@ static void seed_keyboard_substate_update(void);
 
 static void resume_substate_init(void);
 
-static inline void setup_deck_sprite();
+static inline void setup_deck_sprite(void);
 
 // clang-format off
 static StateInfo state_info[] =
@@ -623,7 +623,7 @@ void run_setup_on_init(void)
     state_machine_change_state(&run_setup_sm, RUN_SETUP_SUBSTATE_CHOOSE_DECK);
 }
 
-static inline void setup_deck_sprite()
+static inline void setup_deck_sprite(void)
 {
     // Rank doesn't matter, won't see it... But IT'S THE ACE OF SPADES, THE ACE OF SPADES
     Card* deck_card = card_new(SPADES, ACE);

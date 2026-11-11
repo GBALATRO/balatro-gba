@@ -53,7 +53,7 @@
 
 int deck_get_size(void);
 static int deck_get_max_size(void);
-void deck_fill_cards_default();
+static void deck_fill_cards_default(void);
 
 // Consts
 
@@ -645,7 +645,7 @@ void deck_shuffle(void)
  * Later on this can be replaced with a more dynamic system
  * that allows for different decks and card types.
  */
-void deck_fill_cards_default()
+static inline void deck_fill_cards_default(void)
 {
     for (int suit = 0; suit < NUM_SUITS; suit++)
     {

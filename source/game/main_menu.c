@@ -99,7 +99,7 @@ void main_menu_change_background(void)
     }
 }
 
-static inline void create_main_menu_ace();
+static inline void create_main_menu_ace(void);
 
 void main_menu_on_init(void)
 {
@@ -116,7 +116,7 @@ void main_menu_on_init(void)
     button_set_highlight(&main_menu_buttons[main_menu_selection_grid.selection.x], true);
 }
 
-static inline void create_main_menu_ace()
+static inline void create_main_menu_ace(void)
 {
     Card* main_menu_ace_card = card_new(SPADES, ACE); // By Motorhead
     GBAL_RETURN_IF_NULL(main_menu_ace_card, RET_NONE);
