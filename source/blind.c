@@ -10,6 +10,7 @@
 #include "game/common_ui.h"
 #include "graphic_utils.h"
 #include "list.h"
+#include "mgba_logger.h"
 #include "random.h"
 #include "util.h"
 

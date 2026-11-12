@@ -1219,7 +1219,7 @@ static inline void round_discarded_cards_loop(void)
         {
             if (g_game_vars.current_blind > BLIND_TYPE_BIG)
             {
-                set_blind_beaten(g_game_vars.next_boss_blind);
+                set_blind_beaten(g_game_vars.next_boss_blind, true);
                 g_game_vars.ante++;
                 display_ante();
             }
