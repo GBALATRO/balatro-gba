@@ -120,7 +120,7 @@ void card_object_destroy(CardObject** card_object)
 
 void card_object_set_sprite(CardObject* card_object, s16 layer)
 {
-    int tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    int tile_index = sprite_type_alloc_avail_tid(CARD_SPRITE);
     if (tile_index == UNDEFINED)
     {
         MGBA_FUNC_ERROR("Cannot allocate new Card Sprite");
@@ -146,7 +146,7 @@ void card_object_set_sprite(CardObject* card_object, s16 layer)
 
 void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
 {
-    int tile_index = sprite_type_get_avail_tid(CARD_SPRITE);
+    int tile_index = sprite_type_alloc_avail_tid(CARD_SPRITE);
     if (tile_index == UNDEFINED)
     {
         MGBA_FUNC_ERROR("Cannot allocate new face down Card Sprite");

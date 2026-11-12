@@ -45,9 +45,10 @@ static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
 #undef DEF_SPRITE_TYPE
 };
 
-// Declaring the internal Bitset arrays, since we need them all to declare the array of Bitsets.
+// Declaring the bitsets used by `s_sprite_used_tid_slots_bitsets`, since we need them all to
+// declare the array.
 #define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
-    static uint32_t spriteTypeEnum##_bitset_w[BITSET_ARRAY_SIZE] = {0};
+    BITSET_DEFINE(spriteTypeEnum##_bitset, spriteSize)
 #include "def_sprite_type_table.h"
 #undef DEF_SPRITE_TYPE
 
@@ -58,19 +59,7 @@ static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
  *
  * @sa SpriteType
  */
-// clang-format off
-static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE] = {
-#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
-    [spriteTypeEnum] = {                                         \
-        .w      = spriteTypeEnum##_bitset_w,                     \
-        .nbits  = BITSET_BITS_PER_WORD,                          \
-        .nwords = BITSET_ARRAY_SIZE,                             \
-        .cap    = spriteCount                                    \
-    },
-#include "def_sprite_type_table.h"
-#undef DEF_SPRITE_TYPE
-};
-// clang-format on
+static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE];
 
 /**
  * @brief Starting TIDs LUT for all sprite types. Filled at init by calling `common_ui_init`
@@ -180,7 +169,7 @@ int sprite_get_tid(Sprite* sprite)
     return s_sprite_starting_tids[sprite->type] + sprite->tid_slot * s_sprite_sizes[sprite->type];
 }
 
-int sprite_type_get_avail_tid(enum SpriteType sprite_type)
+int sprite_type_alloc_avail_tid(enum SpriteType sprite_type)
 {
     // Get first available free tid slot
     int tid_slot = bitset_set_next_free_idx(&s_sprite_used_tid_slots_bitsets[sprite_type]);
@@ -272,6 +261,12 @@ bool sprite_get_dimensions(Sprite* sprite, int* width, int* height)
 void sprite_init()
 {
     oam_init(obj_buffer, MAX_SPRITES);
+
+// Had to move the assignment here, even with X-macros it wouldn't let me do it at init
+#define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
+    s_sprite_used_tid_slots_bitsets[spriteTypeEnum] = spriteTypeEnum##_bitset;
+#include "def_sprite_type_table.h"
+#undef DEF_SPRITE_TYPE
 
     for (enum SpriteType sprite_type = 0; sprite_type < MAX_SPRITE_TYPE; sprite_type++)
     {
@@ -583,8 +578,7 @@ void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending)
 
     // Initialize iterators once
     ListItr forward_itr = list_itr_create(sprite_object_list);
-    ListItr reverse_itr = forward_itr;
-    reverse_itr.direction = LIST_ITR_REVERSE;
+    ListItr reverse_itr = rev_list_itr_create(sprite_object_list);
 
     // Advance forward_itr once so it points to index 1 (we know it exists because list_len > 1)
     (void)list_itr_next(&forward_itr);

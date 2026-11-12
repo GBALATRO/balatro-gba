@@ -197,7 +197,7 @@ int sprite_get_tid(Sprite* sprite);
  * @param sprite_type
  * @return index in tiles memory where to put the sprite tiles
  */
-int sprite_type_get_avail_tid(enum SpriteType sprite_type);
+int sprite_type_alloc_avail_tid(enum SpriteType sprite_type);
 
 /**
  * @brief Get the starting layer of a certain type of sprite

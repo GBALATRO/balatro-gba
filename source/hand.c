@@ -173,8 +173,9 @@ void compute_hand_value_info(void)
     display_mult();
 }
 
-// idx_a and idx_b are assumed to be valid indexes within the hand array
-// no checks will be performed here for performance's sake
+// This function uses indices idx_a and idx_b within the hand array.
+// We do not access the cards' SpriteObjects and do not need them to be valid,
+// this way no checks need to be performed for performance's sake.
 void swap_cards_in_hand(int idx_a, int idx_b)
 {
     CardObject* temp = s_hand.cards[idx_a];

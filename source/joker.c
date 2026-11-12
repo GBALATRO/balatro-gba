@@ -224,7 +224,7 @@ JokerObject* joker_object_new(Joker* joker)
     joker_object->type = ITEM_TYPE_JOKER;
     joker_object->is_owned = false;
 
-    int tile_index = sprite_type_get_avail_tid(JOKER_SPRITE);
+    int tile_index = sprite_type_alloc_avail_tid(JOKER_SPRITE);
     if (tile_index == UNDEFINED)
     {
         MGBA_FUNC_ERROR("Cannot allocate new Joker Sprite");

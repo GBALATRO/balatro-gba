@@ -205,6 +205,13 @@ void hand_deselect_all_cards(void);
  */
 void swap_cards_in_hand(int idx_a, int idx_b);
 
+/**
+ * @brief Shift the given NULL card in the Hand array towards the end until there are no more
+ *         non-NULL cards after it
+ *
+ * @param null_card_idx The index of the NULL card to move in the Hand array
+ * @return true if the card was actually moved, false if there was nothing to do
+ */
 bool shift_null_card_to_end(int null_card_idx);
 
 /**

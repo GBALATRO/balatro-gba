@@ -273,7 +273,7 @@ void apply_blind_tiles(enum BlindType type, int tile_index)
 
 Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers layer)
 {
-    int tile_index = sprite_type_get_avail_tid(BLIND_TOKEN_SPRITE);
+    int tile_index = sprite_type_alloc_avail_tid(BLIND_TOKEN_SPRITE);
     if (tile_index == UNDEFINED)
     {
         MGBA_FUNC_ERROR("Cannot allocate new Blind Token Sprite");

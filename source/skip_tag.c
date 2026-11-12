@@ -110,7 +110,7 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer)
         sprite_destroy(&tag->sprite);
     }
 
-    int tile_index = sprite_type_get_avail_tid(SKIP_TAG_SPRITE);
+    int tile_index = sprite_type_alloc_avail_tid(SKIP_TAG_SPRITE);
     if (tile_index == UNDEFINED)
     {
         MGBA_FUNC_ERROR("Cannot allocate new Skip Tag Sprite");
