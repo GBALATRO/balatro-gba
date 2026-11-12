@@ -103,7 +103,7 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
-static bool blueprint_brainstorm_get_copied_joker(const Joker* copy_joker, Joker** copied_joker);
+static Joker* blueprint_brainstorm_get_copied_joker(const Joker* copy_joker, bool* is_owned);
 
 DECLARE_JOKER_EFFECT_FUNC(joker_effect_noop)
 DECLARE_JOKER_EFFECT_FUNC(default_joker_effect)
@@ -658,18 +658,21 @@ static int dusk_joker_desc(Joker* joker, Rect dest_rect)
 
 static int brainstorm_joker_desc(Joker* joker, Rect dest_rect)
 {
-    Joker* copied_joker = NULL;
-    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
+    bool owned = false;
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, &owned);
     const char* desc = !owned       ? BRAINSTORM_BASE_DESC
                      : copied_joker ? BRAINSTORM_BASE_DESC COMPATIBLE_TEXT
                                     : BRAINSTORM_BASE_DESC INCOMPATIBLE_TEXT;
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
+// This function is basically the same as the brainstorm one, but it's been duplicated to avoid
+// doing any complicated shenanigans with the description strings.
+// I think it's way simpler and efficient that way.
 static int blueprint_joker_desc(Joker* joker, Rect dest_rect)
 {
-    Joker* copied_joker = NULL;
-    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
+    bool owned = false;
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, &owned);
     const char* desc = !owned       ? BLUEPRINT_BASE_DESC
                      : copied_joker ? BLUEPRINT_BASE_DESC COMPATIBLE_TEXT
                                     : BLUEPRINT_BASE_DESC INCOMPATIBLE_TEXT;
@@ -1828,11 +1831,10 @@ static u32 blueprint_brainstorm_joker_effect(
     }
 
     // Get copied Joker
-    Joker* copied_joker = NULL;
-    bool owned = blueprint_brainstorm_get_copied_joker(joker, &copied_joker);
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, NULL);
 
     // Not an error to get NULL here, so don't use GBAL_RETURN_IF_NULL
-    if (!owned || copied_joker == NULL)
+    if (copied_joker == NULL)
         return effect_flags_ret;
 
     u8 copied_joker_id = copied_joker->id;
@@ -1852,19 +1854,18 @@ static u32 blueprint_brainstorm_joker_effect(
 }
 
 /**
- * @brief Parses the owned Jokers to determine if the base Copy Joker is a Joker we own, and if yes
- *        whether the Joker it is trying to copy is compatible or not.
+ * @brief Assuming @p base_joker is a copying joker (Blueprint/Brainstorm), finds the final copied
+ *         joker in the copy chain.
  *
- * @param[in]  base_joker   pointer to the starting copy Joker
- * @param[out] copied_joker pointer of pointer to the copied Joker, will be **NULL** if the
- *                          @p base_joker isn't copying any Joker or if it's incompatible
+ * @param[in]  base_joker pointer to the starting copy Joker
+ * @param[out] is_owned   pointer to a boolean, true if @p base_joker is owned, false otherwise.
+ *                        Will not be used if **NULL**.
  *
- * @return true if @p base_joker is owned, false otherwise
+ * @return the copied Joker, will be **NULL** if the @p base_joker isn't copying any Joker or if
+ *          it's incompatible
  */
-static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker** copied_joker)
+static Joker* blueprint_brainstorm_get_copied_joker(const Joker* base_joker, bool* is_owned)
 {
-    GBAL_RETURN_IF_NULL(copied_joker, false);
-
     // find ourselves in the Jokers list
     List* jokers = get_jokers_list();
     ListItr itr = list_itr_create(jokers);
@@ -1872,16 +1873,25 @@ static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker
     while ((copied_joker_object = list_itr_next(&itr)))
     {
         if (copied_joker_object->joker == base_joker)
+        {
+            if (is_owned != NULL)
+                *is_owned = true;
             break;
+        }
     }
 
     // This will happen if we are not a scoring Joker, a.k.a. still a Shop Item
     if (copied_joker_object == NULL)
-        return false;
+    {
+        if (is_owned != NULL)
+            *is_owned = false;
+        return NULL;
+    }
 
     // find the copied Joker, may need to bounce around Blueprints and a Brainstorm
     // If we encounter NULL, we have a Blueprint at the end of the list that can't copy anything.
     // If we go through a Brainstorms twice, we will be in a loop and need to exit
+    Joker* copied_joker = NULL;
     u8 brainstorm_counter = 0;
     do
     {
@@ -1903,19 +1913,18 @@ static bool blueprint_brainstorm_get_copied_joker(const Joker* base_joker, Joker
             case SHORTCUT_JOKER_ID:
             case PAREIDOLIA_JOKER_ID:
             case FOUR_FINGERS_JOKER_ID:
-                *copied_joker = NULL;
                 copied_joker_object = NULL;
                 break;
 
             // We encountered a Joker that isn't a Copying Joker and copy it now
             default:
-                *copied_joker = copied_joker_object->joker;
+                copied_joker = copied_joker_object->joker;
                 copied_joker_object = NULL;
                 break;
         }
     } while (copied_joker_object != NULL && brainstorm_counter < 2);
 
-    return true;
+    return copied_joker;
 }
 
 static u32 hack_joker_effect(
