@@ -99,7 +99,7 @@ static int s_get_unused_joker_pb(void);
 static int s_allocate_pb_if_needed(u8 joker_id);
 static enum JokerRarity joker_get_random_rarity(enum RngSequence key);
 
-void joker_init()
+void joker_init(void)
 {
     // This should init once only so no need to free
     int num_spritesheets = s_get_num_spritesheets();

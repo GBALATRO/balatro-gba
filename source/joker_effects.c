@@ -1256,7 +1256,7 @@ static u32 raised_fist_joker_effect(
         // Aces are always considered high value, even in an ace-low straight
         case JOKER_EVENT_ON_HAND_PLAYED:
             *p_lowest_value_index = 0;
-            u8 lowest_value = IMPOSSIBLY_HIGH_CARD_VALUE;
+            u8 lowest_value = UINT8_MAX; // Arbitrary, impossibly high value to start with
             CardObject** hand = get_hand_array();
             for (int i = 0; i < get_num_cards_in_hand(); i++)
             {

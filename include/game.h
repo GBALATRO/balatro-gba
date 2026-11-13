@@ -91,7 +91,7 @@ enum GameState
 
 /**
  * @brief Initialize all data structures, assuming they are not present and need to be created from
- * scratch
+ *        scratch
  */
 void game_init(void);
 
@@ -107,7 +107,10 @@ void game_reset(void);
 
 /**
  * @brief Called from the program's main loop to advance the state of the game, mainly by processing
- *         all the registered State Machines
+ *        all the registered State Machines.
+ *
+ * @note This will thus be called 60 times per second with a game tick of 16.67 ms, as per the
+ *       GBA's design
  */
 void game_update(void);
 
@@ -126,7 +129,6 @@ void game_change_state(enum GameState new_game_state);
  */
 enum GameState game_get_state(void);
 
-// TODO
 /**
  * @brief Callback for the `GAME_STATE_GAME_START` state. Sets up the Deck and displays various
  *         initial values.
@@ -141,8 +143,6 @@ void game_start(void);
 /**
  * @brief Get the actual, current size of the Deck of Cards.
  *
- * Is exactly one more than the Deck top.
- *
  * @return int
  *
  * @sa get_deck_top
@@ -152,7 +152,7 @@ int deck_get_size(void);
 /**
  * @brief Get the index of the Card at the top of the Deck (the next one to be drawn).
  *
- * Is exactly one less than the Deck current size
+ * Is exactly one less than the Deck's current size
  *
  * @return int
  *
@@ -194,37 +194,29 @@ int get_num_discards_remaining(void);
 int get_num_hands_remaining(void);
 
 /**
+ * @name Display functions
+ * Functions to display elements on the screen.
+ * @{
+ */
+
+/**
  * @brief Display the number of cards remaining in the Deck vs. the total number of cards in our
  * possession, in the bottom-left corner of the screen.
  */
 void display_deck_size_max(void);
 
-/**
- * @brief Display the base Chips for the currently selected Hand.
- */
 void display_chips(void);
-
-/**
- * @brief Display the base Mult for the currently selected Hand.
- */
 void display_mult(void);
-
-/**
- * @brief Display the amount of money currently in our possession.
- */
 void display_money(void);
-
-/**
- * @brief Display the current Ante
- */
 void display_ante(void);
-
 void display_round(void);
 void display_hands(void);
 void display_discards(void);
 void display_temp_score(u32 value);
 void erase_temp_score(void);
 void display_score(u32 value);
+
+/** @} */
 
 // Item specific functions
 

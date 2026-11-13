@@ -32,30 +32,35 @@ enum JokerRarity : u8
 
 /**
  * @def COMMON_JOKER_CHANCE
- * @brief Chances out of 100 for a Common Joker to appear in the shop
+ * @brief Probability percentage for a Common Joker to appear in the shop
  */
 #define COMMON_JOKER_CHANCE 70
 
 /**
  * @def UNCOMMON_JOKER_CHANCE
- * @brief Chances out of 100 for an Uncommon Joker to appear in the shop
+ * @brief Probability percentage for an Uncommon Joker to appear in the shop
  */
 #define UNCOMMON_JOKER_CHANCE 25
 
 /**
  * @def RARE_JOKER_CHANCE
- * @brief Chances out of 100 for a Rare Joker to appear in the shop
+ * @brief Probability percentage for a Rare Joker to appear in the shop
  */
 #define RARE_JOKER_CHANCE 5
 
 /**
  * @def LEGENDARY_JOKER_CHANCE
- * @brief Chances out of 100 for a Legendary Joker to appear in the shop
+ * @brief Probability percentage for a Legendary Joker to appear in the shop
  */
 #define LEGENDARY_JOKER_CHANCE 0
 
-// These are the common Joker Events. Special Joker behaviour will be checked on a
-// Joker per Joker basis (see if it's there, then do something, e.g. Pareidolia, Baseball Card)
+/**
+ * @brief Generic Joker Events which can be checked on the whole list of owned Jokers at certain
+ *        points of the game.
+ *
+ * Special Joker behaviours that do not follow this flow will be checked on a Joker per Joker basis
+ * (see if it's there, then do something very specific, e.g. Pareidolia, Baseball Card)
+ */
 enum JokerEvent
 {
     /**
@@ -227,7 +232,7 @@ typedef struct
  * @param[in]  scored_card  pointer to the Card the effect of the Joker applies to. Cannot be
  *                          **NULL** if related to the given @p joker_event
  * @param[in]  joker_event  event for which the effect is being processed
- * @param[out] joker_effect pointer of pointer to the single JokerEffect structure
+ * @param[out] joker_effect pointer to pointer to the single JokerEffect structure
  * @return a set of JokerEffectFlag to indicate what fields of the @p joker_effect are valid to
  *         access
  */
@@ -306,7 +311,7 @@ size_t get_joker_registry_size(void);
 /**
  * @brief Initializes the necessary internal data to manage the Jokers
  */
-void joker_init();
+void joker_init(void);
 
 /**
  * @brief Create a Joker with a certain type
@@ -319,7 +324,7 @@ Joker* joker_new(u8 id);
 /**
  * @brief Destroy the given Joker struct and free its slot in the corresponding memory pool
  *
- * @param joker pointer of pointer to the Joker struct to destroy and free
+ * @param joker pointer to pointer to the Joker struct to destroy and free
  */
 void joker_destroy(Joker** joker);
 
@@ -342,7 +347,7 @@ void joker_destroy(Joker** joker);
  * @param[in]  scored_card  pointer to the Card the effect of the Joker applies to. Cannot be
  *                          **NULL** if related to the given @p joker_event
  * @param[in]  joker_event  event to score the Joker for
- * @param[out] joker_effect pointer of pointer to the JokerEffect structure
+ * @param[out] joker_effect pointer to pointer to the JokerEffect structure
  * @return a set of JokerEffectFlag to indicate what fields of the @p joker_effect are valid to
  *         access
  */
@@ -398,7 +403,7 @@ JokerObject* joker_object_new(Joker* joker);
 /**
  * @brief Destroy the given JokerObject struct and free its slot in the corresponding memory pool
  *
- * @param joker_object pointer of pointer to the JokerObject struct to destroy and free; set to
+ * @param joker_object pointer to pointer to the JokerObject struct to destroy and free; set to
  *                     NULL.
  */
 void joker_object_destroy(JokerObject** joker_object);
