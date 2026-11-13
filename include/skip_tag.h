@@ -150,7 +150,7 @@ void skip_tag_set_sprite(SkipTag* tag, s16 layer);
  * @brief Destroy the given SkipTag, invalidate it in the corresponding memory pool and set the
  *        pointer provided to NULL
  *
- * @param tag pointer of pointer to the SkipTag we want to destroy
+ * @param tag pointer to pointer to the SkipTag we want to destroy
  */
 void skip_tag_destroy(SkipTag** tag);
 

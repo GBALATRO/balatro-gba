@@ -44,7 +44,6 @@ enum CardSuit : u8
 
 /**
  * @brief Card ranks as stored in the Card structures
- * @sa RANK_OFFSET
  */
 enum CardRank : u8
 {
@@ -63,19 +62,6 @@ enum CardRank : u8
     ACE,
     NUM_RANKS
 };
-
-/**
- * @def RANK_OFFSET
- * @brief Offset of the rank to get the chips actually scored by simple cards to account for the
- *         lowest rank being 2 when rank values start at 0
- */
-#define RANK_OFFSET 2
-
-/**
- * @def IMPOSSIBLY_HIGH_CARD_VALUE
- * @brief Arbitrary high value used as default when searching for the lowest Card value scored
- */
-#define IMPOSSIBLY_HIGH_CARD_VALUE 100
 
 /**
  * @def DEFAULT_HIGH_CONTRAST
@@ -177,7 +163,7 @@ Card* card_new(enum CardSuit suit, enum CardRank rank);
 /**
  * @brief Destroy the given Card struct and free its slot in the corresponding memory pool
  *
- * @param card pointer of pointer to the Card struct to destroy and free
+ * @param card pointer to pointer to the Card struct to destroy and free
  */
 void card_destroy(Card** card);
 
@@ -194,7 +180,7 @@ u8 card_get_value(Card* card);
 /**
  * @brief Create a new CardObject structure
  *
- * @param card pointer to the Card structure to base the CardObject on
+ * @param card pointer to the Card structure the CardObject will hold
  * @return pointer to the new CardObject structure in the corresponding memory pool
  */
 CardObject* card_object_new(Card* card);
@@ -202,7 +188,7 @@ CardObject* card_object_new(Card* card);
 /**
  * @brief Destroy the given CardObject struct and free its slot in the corresponding memory pool
  *
- * @param card pointer of pointer to the CardObject struct to destroy and free; set to NULL.
+ * @param card pointer to pointer to the CardObject struct to destroy and free; set to NULL.
  */
 void card_object_destroy(CardObject** card_object);
 
