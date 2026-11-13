@@ -206,11 +206,19 @@ void hand_deselect_all_cards(void);
 void swap_cards_in_hand(int idx_a, int idx_b);
 
 /**
- * @brief Destroy the sprites of the Cards held in hand and recreate then in the same
- *         order as the Cards in the hand array. This allows Cards to render properly
- *         when help in hand during the round or a Tarot/Spectral booster pack.
+ * @brief Shift the given NULL card in the Hand array towards the end until there are no more
+ *         non-NULL cards after it
+ *
+ * @param null_card_idx The index of the NULL card to move in the Hand array
+ * @return true if the card was actually moved, false if there was nothing to do
  */
-void reorder_card_sprites_layers(void);
+bool shift_null_card_to_end(int null_card_idx);
+
+/**
+ * @brief Move all NULL Cards to the end of the Hand array if they're not already.
+ *         Gets rid of any gaps within the Hand array, as all non-NULL Cards need to be contiguous.
+ */
+void shift_all_null_cards_to_end(void);
 
 /**
  * @brief Sort the hand array according to the selected method to do that.
