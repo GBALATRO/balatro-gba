@@ -5,7 +5,8 @@
 void bitset_set_idx(Bitset* bitset, int idx, bool on)
 {
     GBAL_RETURN_IF_NULL(bitset, RET_NONE);
-    GBAL_RETURN_IF_ASSERT_FAILS(idx >= bitset->cap || idx < 0, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx < bitset->cap && idx >= 0, RET_NONE);
+    printf("test: %lu, %d, %d, %d\n", (unsigned long)bitset, bitset->cap, idx, on);
 
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
@@ -88,7 +89,7 @@ bool bitset_is_empty(Bitset* bitset)
 bool bitset_get_idx(Bitset* bitset, int idx)
 {
     GBAL_RETURN_IF_NULL(bitset, false);
-    GBAL_RETURN_IF_ASSERT_FAILS(idx >= bitset->cap || idx < 0, false);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx < bitset->cap && idx >= 0, false);
 
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
