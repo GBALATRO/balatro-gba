@@ -8,6 +8,7 @@
 #define UTIL_H
 
 #include <stdint.h>
+#include <stdio.h>
 #ifdef MGBA_LOGGING
 #include "mgba_logger.h"
 #endif

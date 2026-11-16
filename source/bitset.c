@@ -4,12 +4,15 @@
 
 void bitset_set_idx(Bitset* bitset, int idx, bool on)
 {
+    GBAL_RETURN_IF_NULL(bitset, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx >= bitset->cap || idx < 0, RET_NONE);
+
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
 
     // Below are the "fast" forms of the above operations, respectively.
     // These are more efficient, but removed for readability
-    // See: https://github.com/cellos51/balatro-gba/pull/132#discussion_r2365966071
+    // See: https://github.com/GBALATRO/balatro-gba/pull/132#discussion_r2365966071
     // Divide by 32 to get the word index
     // uint32_t i = idx >> 5;
     // Get last 5-bits, same as a modulo (% 32) operation on positive numbers
@@ -26,6 +29,8 @@ void bitset_set_idx(Bitset* bitset, int idx, bool on)
 
 int bitset_set_next_free_idx(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, UNDEFINED);
+
     for (uint32_t i = 0; i < bitset->nwords; i++)
     {
         uint32_t inv = ~bitset->w[i];
@@ -60,6 +65,8 @@ int bitset_set_next_free_idx(Bitset* bitset)
 
 void bitset_clear(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, RET_NONE);
+
     for (int i = 0; i < bitset->nwords; i++)
     {
         bitset->w[i] = 0;
@@ -68,6 +75,8 @@ void bitset_clear(Bitset* bitset)
 
 bool bitset_is_empty(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, false);
+
     for (int i = 0; i < bitset->nwords; i++)
     {
         if (bitset->w[i])
@@ -78,6 +87,9 @@ bool bitset_is_empty(Bitset* bitset)
 
 bool bitset_get_idx(Bitset* bitset, int idx)
 {
+    GBAL_RETURN_IF_NULL(bitset, false);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx >= bitset->cap || idx < 0, false);
+
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
 
@@ -86,6 +98,8 @@ bool bitset_get_idx(Bitset* bitset, int idx)
 
 int bitset_num_set_bits(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, UNDEFINED);
+
     int sum = 0;
 
     for (int i = 0; i < bitset->nwords; i++)
@@ -110,6 +124,8 @@ BitsetItr bitset_itr_create(const Bitset* bitset)
 
 int bitset_itr_next(BitsetItr* itr)
 {
+    GBAL_RETURN_IF_NULL(itr, UNDEFINED);
+    GBAL_RETURN_IF_NULL(itr->bitset, UNDEFINED);
     // So, worst case scenario for this is one bit at the end of the last
     // word in the bitset. You would look (32 * 7) + 31 times!
     // This can be sped up with by checking if the word is empty first.
@@ -136,6 +152,7 @@ int bitset_itr_next(BitsetItr* itr)
         }
         itr->bit = 0;
     }
+    itr->word = 0;
 
     return UNDEFINED;
 }

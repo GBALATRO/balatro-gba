@@ -6,8 +6,13 @@
  * Memory pools predefined arrays of objects with accessors meant to replace basic `malloc` and
  * `free` calls. This is so the memory management is kept controlled, traceable, defragmented, and
  * simple (in terms of how it is stored and accessed at runtime). Pools are stored in contiguous
- * memory. @ref POOL_IDX is used to get the index of objects inside the pool. Additionally, @ref
- * POOL_AT is used to get pointers at the index of pool memory.
+ * memory. Memory pools' content and sizes are configured in `def_balatro_mempool.h`.
+ *
+ * Memory pools use @ref POOL_GET and @ref POOL_FREE in place of `malloc`/`free`.
+ *
+ * Additionally lower level functions are also provided. @ref POOL_IDX is used to get the index of
+ * objects inside the pool. Additionally, @ref POOL_AT is used to get pointers at the index of pool
+ * memory.
  *
  */
 #ifndef POOL_H
@@ -109,7 +114,7 @@
 /**
  * @def POOL_GET
  *
- * @brief Allocates a pointer of `type` from it's mempool. An allocated pointer must be freed using @ref POOL_FREE
+ * @brief Allocates a pointer of `type` from its mempool. An allocated pointer must be freed using @ref POOL_FREE
  *
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @ret A pointer of `type`
@@ -121,7 +126,7 @@
 /**
  * @def POOL_FREE
  *
- * @brief Free a pointer of `type` from it's mempool
+ * @brief Free a pointer of `type` from its mempool
  *
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @param obj A pointer `obj` of `type` with associated pool
