@@ -109,7 +109,7 @@
 /**
  * @def POOL_GET
  *
- * @brief Get a pointer of `type` from it's mempool
+ * @brief Allocates a pointer of `type` from it's mempool. An allocated pointer must be freed using @ref POOL_FREE
  *
  * @param type The struct `type` associated with defined `*_mempool.h`
  * @ret A pointer of `type`
