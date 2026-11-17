@@ -29,6 +29,10 @@ jobs:
     name: Run unit tests
     uses: ./.github/workflows/unit_tests_ci_workflow.yml
 
+  instruction-set-compat-job:
+    name: Other Emulators Instruction Set Compatibility
+    uses: ./.github/workflows/instruction_set_compat_ci_workflow.yml
+
   build:
     name: Build ROM
     runs-on: ubuntu-latest
