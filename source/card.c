@@ -62,7 +62,7 @@ bool get_cards_more_readable(void)
 }
 
 // Card methods
-Card* card_new(u8 suit, u8 rank)
+Card* card_new(enum CardSuit suit, enum CardRank rank)
 {
     Card* card = POOL_GET(Card);
 
@@ -80,20 +80,25 @@ void card_destroy(Card** card)
 
 u8 card_get_value(Card* card)
 {
-    if (card->rank == JACK || card->rank == QUEEN || card->rank == KING)
+    // Offset of the rank to get the chips actually scored by plain cards to account for the
+    // lowest rank being 2 when rank values start at 0
+    static int rank_offset = 2;
+
+    switch (card->rank)
     {
-        return 10; // Face cards are worth 10
-    }
-    else if (card->rank == ACE)
-    {
-        return 11; // Ace is worth 11
-    }
-    else
-    {
-        return card->rank + RANK_OFFSET; // 2-10 are worth their rank + RANK_OFFSET
+        case JACK:
+        case QUEEN:
+        case KING:
+            return 10; // Face cards are worth 10
+
+        case ACE:
+            return 11; // Aces are worth 11
+
+        default:
+            break;
     }
 
-    return 0; // Should never reach here, but just in case
+    return card->rank + rank_offset; // 2-10 are worth their rank + rank_offset
 }
 
 // CardObject methods
