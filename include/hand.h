@@ -11,6 +11,12 @@
 
 #include <tonc.h>
 
+typedef struct
+{
+    u32 chips;
+    u32 mult;
+} HandBonus;
+
 enum HandState
 {
     HAND_TAGS,
@@ -24,10 +30,11 @@ enum HandState
     HAND_PLAYING
 };
 
-enum HandType
+enum HandType : u8
 {
     NONE,
-    HIGH_CARD,
+    HAND_TYPE_MIN,
+    HIGH_CARD = HAND_TYPE_MIN,
     PAIR,
     TWO_PAIR,
     THREE_OF_A_KIND,
@@ -36,6 +43,7 @@ enum HandType
     FULL_HOUSE,
     FOUR_OF_A_KIND,
     STRAIGHT_FLUSH,
+    HAND_TYPE_NORMAL_MAX = STRAIGHT_FLUSH,
     ROYAL_FLUSH,
     FIVE_OF_A_KIND,
     FLUSH_HOUSE,
@@ -94,6 +102,17 @@ void set_hand_state(enum HandState);
 enum HandState get_hand_state(void);
 
 /**
+ * @brief Get the total Chips and Mult granted by a Hand, taking its level into account
+ *
+ * @param hand_type Hand for which to compute the Chips and Mults
+ *
+ * @return structure containing the total Chips and Mult the given Hand will give
+ *
+ * @sa HandBonus
+ */
+HandBonus get_hand_total_bonus(enum HandType hand_type);
+
+/**
  * @brief Determine the HandType and ContainedHandTypes of the currently selected Cards,
  *         then print the Hand's name, chips, and mult on screen.
  */
@@ -107,6 +126,18 @@ void compute_hand_value_info(void);
  * @sa compute_hand_value_info
  */
 enum HandType get_hand_type(void);
+
+/**
+ * @brief Returns whether the HandType provided is secret or not
+ *
+ * A secret Hand Type is one whose info be displayed in the Hand Levels info menu, and Planet Cards
+ * be obtained only after it was played during this run
+ *
+ * @param hand_type
+ *
+ * @return true if @p hand_type is a secret Hand, false if it isn't
+ */
+bool is_hand_type_secret(enum HandType hand_type);
 
 /**
  * @brief Get the contained hands within the selected hand
