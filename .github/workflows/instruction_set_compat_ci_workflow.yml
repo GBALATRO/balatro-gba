@@ -1,0 +1,54 @@
+name: Other Emulators Instruction Set Compatibility
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  run-instruction-set-compat-tests:
+    name: Run instruction set compatibility tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install ARM binutils and Unicorn
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y binutils-arm-none-eabi
+          python3 -m venv .venv
+          .venv/bin/pip install unicorn
+
+      - name: Get docker image cache
+        uses: actions/cache@v5
+        with:
+          path: /tmp/docker-cache
+          key: docker-images-${{ hashFiles('docker-compose.yml') }}
+
+      - name: Load or pull images
+        run: |
+          if [ -f /tmp/docker-cache/gbalatro.tar ]; then
+            echo "Loading Image"
+            docker load -i /tmp/docker-cache/gbalatro.tar
+          else
+            echo "Pulling Image"
+            docker compose build gbalatro
+            mkdir -p /tmp/docker-cache
+            docker save $(docker compose config | grep image: | awk '{print $2}') -o /tmp/docker-cache/gbalatro.tar
+          fi
+
+      - name: Export UID/GID for Compose
+        run: |
+          echo "UID=$(id -u)" >> "$GITHUB_ENV"
+          echo "GID=$(id -g)" >> "$GITHUB_ENV"
+
+      - name: Build linked ELF
+        run: |
+          docker compose -f docker-compose.yml run --rm \
+          -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
+          gbalatro \
+          sh -c "make -j\$(nproc)"
+
+      - name: Run instruction set compatibility tests
+        run: .venv/bin/python tests/aeabi_uldivmod_test.py build/balatro-gba.elf
