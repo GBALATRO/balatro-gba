@@ -12,6 +12,7 @@
 #include "game/common_ui.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
+#include "mgba_logger.h"
 #include "soundbank.h"
 
 #include <tonc.h>
