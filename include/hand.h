@@ -200,6 +200,10 @@ void hand_deselect_all_cards(void);
 /**
  * @brief Swaps the order of two cards in hand.
  *
+ * By using the indices here to swap the underlying Sprite data directly, we do not need to
+ * dereference the Cards' SpriteObjects. This in turn means that we do not need them to be valid,
+ * this way no checks need to be performed which improves performance.
+ *
  * @param idx_a index of the first card
  * @param idx_b index of the second card
  */

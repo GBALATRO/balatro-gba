@@ -53,13 +53,14 @@ static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
 #undef DEF_SPRITE_TYPE
 
 /**
- * @brief Array of Bitsets storing what Sprite TIDs are currently in use for each SpriteType
+ * @brief Array of pointers to Bitsets storing what Sprite TIDs are currently in use for each
+ *        SpriteType
  *
  * Granularity for these Bitsets is the Sprite, not the Tile.
  *
  * @sa SpriteType
  */
-static Bitset s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE];
+static Bitset* s_sprite_used_tid_slots_bitsets[MAX_SPRITE_TYPE];
 
 /**
  * @brief Starting TIDs LUT for all sprite types. Filled at init by calling `common_ui_init`
@@ -156,7 +157,7 @@ void sprite_destroy(Sprite** sprite)
 
     s_used_sprites[(*sprite)->idx] = NULL;
 
-    bitset_set_idx(&s_sprite_used_tid_slots_bitsets[(*sprite)->type], (*sprite)->tid_slot, false);
+    bitset_set_idx(s_sprite_used_tid_slots_bitsets[(*sprite)->type], (*sprite)->tid_slot, false);
 
     POOL_FREE(Sprite, *sprite);
 
@@ -172,7 +173,7 @@ int sprite_get_tid(Sprite* sprite)
 int sprite_type_alloc_avail_tid(enum SpriteType sprite_type)
 {
     // Get first available free tid slot
-    int tid_slot = bitset_set_next_free_idx(&s_sprite_used_tid_slots_bitsets[sprite_type]);
+    int tid_slot = bitset_set_next_free_idx(s_sprite_used_tid_slots_bitsets[sprite_type]);
 
     if (tid_slot == UNDEFINED)
     {
@@ -262,9 +263,8 @@ void sprite_init()
 {
     oam_init(obj_buffer, MAX_SPRITES);
 
-// Had to move the assignment here, even with X-macros it wouldn't let me do it at init
 #define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
-    s_sprite_used_tid_slots_bitsets[spriteTypeEnum] = spriteTypeEnum##_bitset;
+    s_sprite_used_tid_slots_bitsets[spriteTypeEnum] = &spriteTypeEnum##_bitset;
 #include "def_sprite_type_table.h"
 #undef DEF_SPRITE_TYPE
 
@@ -576,9 +576,7 @@ void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending)
     if (list_len <= 1)
         return;
 
-    // Initialize iterators once
     ListItr forward_itr = list_itr_create(sprite_object_list);
-    ListItr reverse_itr = rev_list_itr_create(sprite_object_list);
 
     // Advance forward_itr once so it points to index 1 (we know it exists because list_len > 1)
     (void)list_itr_next(&forward_itr);
@@ -590,13 +588,9 @@ void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending)
         GBAL_RETURN_IF_NULL(inserted_sprite_object->sprite, RET_NONE);
         s16 inserted_layer = sprite_get_layer(inserted_sprite_object->sprite);
 
-        // Initialize reverse iterator manually to avoid creating it and seeking the right position
-        // every time
-        reverse_itr.current_node = forward_itr.current_node;
-        reverse_itr.next_node = reverse_itr.current_node->prev;
-
         // This is an insertion sort, the element corresponding to `forward_itr` will be moved back
         // until it falls into place
+        ListItr reverse_itr = list_itr_get_direction_switched(&forward_itr);
         SpriteObject* sorted_sprite_object = NULL;
         while ((sorted_sprite_object = list_itr_next(&reverse_itr)))
         {

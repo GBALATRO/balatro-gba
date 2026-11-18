@@ -173,14 +173,13 @@ void compute_hand_value_info(void)
     display_mult();
 }
 
-// This function uses indices idx_a and idx_b within the hand array.
-// We do not access the cards' SpriteObjects and do not need them to be valid,
-// this way no checks need to be performed for performance's sake.
 void swap_cards_in_hand(int idx_a, int idx_b)
 {
     CardObject* temp = s_hand.cards[idx_a];
     s_hand.cards[idx_a] = s_hand.cards[idx_b];
     s_hand.cards[idx_b] = temp;
+    // Compute Sprite layers from the Card indices in the Hand array to
+    // avoid having to dereference the associated SpriteObjects
     s16 starting_layer = sprite_type_get_starting_layer(CARD_SPRITE);
     sprite_swap_layers(starting_layer + idx_a, starting_layer + idx_b);
 }
