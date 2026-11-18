@@ -283,6 +283,15 @@ ListItr list_itr_create(List* list);
 ListItr rev_list_itr_create(List* list);
 
 /**
+ * @brief Create a copy of a @ref ListItr with its direction reversed
+ *
+ * @param list_itr pointer to a @ref ListItr
+ *
+ * @return A new @ref ListItr going the other way compared to @p list_itr
+ */
+ListItr list_itr_get_direction_switched(const ListItr* list_itr);
+
+/**
  * Get the next data entry in a @ref ListItr
  *
  * @param itr pointer to the @ref ListItr

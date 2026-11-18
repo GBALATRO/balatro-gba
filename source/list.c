@@ -297,6 +297,30 @@ ListItr rev_list_itr_create(List* list)
     return itr;
 }
 
+ListItr list_itr_get_direction_switched(const ListItr* list_itr)
+{
+    ListNode* old_node = list_itr->current_node;
+    enum ListItrDirection new_direction = 1 - list_itr->direction;
+
+    ListNode* next_itr_node = NULL;
+    if (old_node)
+    {
+        if (new_direction == LIST_ITR_FORWARD)
+            next_itr_node = old_node->next;
+        else
+            next_itr_node = old_node->prev;
+    }
+
+    ListItr itr = {
+        .list = list_itr->list,
+        .next_node = next_itr_node,
+        .current_node = list_itr->current_node,
+        .direction = new_direction,
+    };
+
+    return itr;
+}
+
 void* list_itr_next(ListItr* itr)
 {
     ListNode* ln = s_list_itr_node_next(itr);
