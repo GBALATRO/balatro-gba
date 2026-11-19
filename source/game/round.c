@@ -938,6 +938,20 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
 }
 
 /**
+ * @brief Start shuffling the cards left in hand back into the Deck, which ends the Round.
+ */
+static void round_start_shuffling(void)
+{
+    // WHY: the discard sound gets lower with each card of the shuffle. The count used to be reset
+    // only by the Discard action, so without one it kept growing from Round to Round until the
+    // pitch rate went below zero, which froze the game.
+    s_cards_discarded = 0;
+    s_sound_played = false;
+
+    set_hand_state(HAND_SHUFFLING);
+}
+
+/**
  * @brief Abandon the Round, which then ends as a loss.
  */
 static void round_forfeit(void)
@@ -947,7 +961,7 @@ static void round_forfeit(void)
     g_game_vars.hands = 0;
     display_hands();
 
-    set_hand_state(HAND_SHUFFLING);
+    round_start_shuffling();
     g_game_vars.timer = TM_ZERO;
 }
 
@@ -2278,7 +2292,7 @@ static bool play_ended_played_cards_update(int played_idx)
             {
                 if (round_is_over())
                 {
-                    set_hand_state(HAND_SHUFFLING);
+                    round_start_shuffling();
                 }
                 else
                 {

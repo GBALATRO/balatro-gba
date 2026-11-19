@@ -11,6 +11,7 @@ _codeql_detected_source_root
 /tests/list/build
 /tests/pool/build
 /tests/run_history/build
+/tests/sfx_pitch/build
 doc
 tests/util/.vscode
 tests/util/build
