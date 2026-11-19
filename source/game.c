@@ -3,6 +3,7 @@
 #include "affine_background.h"
 #include "affine_background_gfx.h"
 #include "card.h"
+#include "game/best_runs.h"
 #include "game/blind_select.h"
 #include "game/deck_pile.h"
 #include "game/game_over.h"

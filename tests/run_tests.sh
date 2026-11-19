@@ -20,3 +20,4 @@ run_test bitset
 run_test list
 run_test pool
 run_test util
+run_test run_history

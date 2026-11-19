@@ -23,6 +23,8 @@
 #define HEADER_ADDRESS  0x0
 #define OPTIONS_ADDRESS 0x10
 #define GAME_ADDRESS    0x30
+// WHY: far from the other sections so they can grow without moving the ranking
+#define RUN_HISTORY_ADDRESS 0x1000
 
 #define SAVE_SECTION_FLAG_NONE    0
 #define SAVE_SECTION_FLAG_OPTIONS (1 << 0)
@@ -33,6 +35,11 @@
 #define GIT_HASH_START  17 // starts after "GBALATRO-VERSION:" in the gbalatro_version var
 
 #define SAVE_LABEL_SIZE 16
+
+// WHY: emulators and flashcarts that find the save type by scanning the ROM for this string
+// (VisualBoyAdvance-M for example) give the game no save memory without it and silently drop
+// every write. They look for it on 4-byte boundaries only.
+__attribute__((used, aligned(4))) static const char SAVE_TYPE_ID[] = "SRAM_V113";
 
 // clang-format off
 /**
@@ -328,6 +335,21 @@ void load_options(void)
     set_volume(volume_module_step_to_val(g_game_vars.music_volume));
     set_cards_high_contrast(options.cards_high_contrast);
     set_cards_more_readable(options.cards_more_readable);
+}
+
+void save_run_history(const RunHistory* history)
+{
+    // WHY: the ranking is not flagged in the SaveHeader, whose git hash check discards the
+    // save with every new version of the ROM. It carries its own magic and version instead.
+    write_sram(RUN_HISTORY_ADDRESS, (const u8*)history, sizeof(*history));
+}
+
+void load_run_history(RunHistory* history)
+{
+    read_sram(RUN_HISTORY_ADDRESS, (u8*)history, sizeof(*history));
+
+    if (!run_history_is_valid(history))
+        run_history_init(history);
 }
 
 bool is_game_data_valid(void)

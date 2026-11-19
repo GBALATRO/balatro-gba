@@ -46,7 +46,8 @@ enum BackgroundId
     BG_BLIND_SELECT,
     BG_RUN_SETUP,
     BG_OPTIONS_MENU,
-    BG_MAIN_MENU
+    BG_MAIN_MENU,
+    BG_BEST_RUNS
 };
 
 enum BackgroundId get_current_background(void);

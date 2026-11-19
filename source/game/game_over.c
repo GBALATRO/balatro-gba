@@ -6,6 +6,7 @@
 #include "button.h"
 #include "card.h"
 #include "game.h"
+#include "game/best_runs.h"
 #include "game/deck_pile.h"
 #include "graphic_utils.h"
 #include "hand.h"
@@ -138,6 +139,8 @@ static void game_over_common_init(enum EndCondition init_condition)
     s_timer = TM_ZERO;
     s_reuse_seed = false;
     s_continue_run = false;
+
+    best_runs_record_finished_run(init_condition == END_CONDITION_WIN);
 
     // Hide all Joker sprites
     JokerObject* joker_object = NULL;
