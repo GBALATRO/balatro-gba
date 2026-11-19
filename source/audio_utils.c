@@ -7,6 +7,7 @@
 #include "audio_utils.h"
 
 #include "game_variables.h"
+#include "sfx_pitch.h"
 #include "state_machine.h"
 #include "util.h"
 
@@ -99,12 +100,13 @@ static void speed_change_update(void)
         state_machine_remove(&song_speed_sm);
 }
 
-void play_sfx(mm_word id, mm_word rate, mm_byte volume)
+void play_sfx(mm_word id, int rate, mm_byte volume)
 {
     int adj_volume = volume * g_game_vars.sound_volume / VOLUME_OPTION_MAX;
     mm_sound_effect sfx = {
         {id},
-        rate,
+        // WHY: an unplayable rate makes the sound mixer write past its buffer, see sfx_pitch.h
+        sfx_pitch_rate_clamp(rate),
         0,
         adj_volume,
         SFX_DEFAULT_PAN,

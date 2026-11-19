@@ -157,8 +157,9 @@ static const BG_POINT RUN_SETUP_CHOOSE_SEED_DECK_BTN_3X3_SRC_POS = RUN_SETUP_CHO
 static const Rect     RUN_SETUP_CHOOSE_SEED_DECK_BTN_DEST                 = {17, 14, 24, 16};
 
 // Pixel sizes
-#define RUN_SETUP_DECK_SPRITE_T_X 48
-#define RUN_SETUP_DECK_SPRITE_T_Y 54
+#define RUN_SETUP_DECK_SPRITE_T_X   48
+#define RUN_SETUP_DECK_SPRITE_T_Y   54
+#define RUN_SETUP_DECK_SPRITE_LAYER 0
 static const BG_POINT RUN_SETUP_DECK_NAME_TEXT_POS  = {80 , 40 };
 static const BG_POINT RUN_SETUP_DECK_DESC_TEXT_POS  = {80 , 56 };
 static const Rect     RUN_SETUP_DECK_NAME_DESC_RECT = {80 , 40 ,176, 96 };
@@ -257,6 +258,8 @@ enum RunSetupDeckBottomButtons
 // CHOOSE DECK SELECTION GRID
 
 static int change_deck_get_row_size(void);
+static void change_deck(int direction);
+static void change_deck_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection);
 static bool choose_deck_row_on_selection_changed(
     SelectionGrid* selection_grid,
     int row_idx,
@@ -272,7 +275,7 @@ static SelectionGridRow choose_deck_rows[RUN_SETUP_DECK_ROW_MAX] = {
         RUN_SETUP_DECK_ROW_CHANGE_DECK,
         change_deck_get_row_size,
         choose_deck_row_on_selection_changed,
-        NULL,
+        change_deck_row_on_key_transit,
         {.wrap = true}
     }, {
         RUN_SETUP_DECK_ROW_SEED_PLAY,
@@ -610,7 +613,7 @@ void run_setup_on_init(void)
 
     // We put it at the same layer as the main menu Ace card, but it's okay because
     // both cards do not exist at the same time, one is destroyed before the other is created.
-    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, 0);
+    card_object_set_sprite_face_down(run_setup_deck, g_game_vars.deck, RUN_SETUP_DECK_SPRITE_LAYER);
 
     sprite_object_position(
         (SpriteObject*)run_setup_deck,
@@ -772,8 +775,12 @@ static bool choose_deck_row_on_selection_changed(
     button_set_highlight(change_deck_get_button_from_sel(prev_selection), false);
     button_set_highlight(change_deck_get_button_from_sel(new_selection), true);
 
-    // TODO: detect left/right press on Change Deck row to allow swapping
-    // Decks need to be implemented for this
+    // WHY: the Change Deck row holds a single button, so a selection change that stays on it
+    // can only come from a left/right press
+    bool is_horz_press_on_change_deck = prev_selection->y == RUN_SETUP_DECK_ROW_CHANGE_DECK &&
+                                        new_selection->y == RUN_SETUP_DECK_ROW_CHANGE_DECK;
+    if (is_horz_press_on_change_deck)
+        change_deck(bit_tribool(key_hit(KEY_ANY), KI_RIGHT, KI_LEFT));
 
     return true;
 }
@@ -1202,10 +1209,37 @@ static void back_on_pressed(void)
 }
 
 /**
+ * @brief Switch to the next or previous Deck and show it.
+ *
+ * @param direction 1 for the next Deck, -1 for the previous one
+ */
+static void change_deck(int direction)
+{
+    g_game_vars.deck = wrap(g_game_vars.deck + direction, 0, DECK_TYPE_MAX);
+
+    card_load_face_down_tiles(g_game_vars.deck, RUN_SETUP_DECK_SPRITE_LAYER);
+    print_deck_name(g_game_vars.deck, RUN_SETUP_DECK_NAME_TEXT_POS);
+    print_deck_description(g_game_vars.deck, RUN_SETUP_DECK_DESC_TEXT_POS);
+}
+
+/**
  * @brief Button Callback used for cycling through the Decks.
  */
 static void change_deck_on_pressed(void)
 {
+    change_deck(1);
+}
+
+/**
+ * @brief Handle button inputs for the Change Deck row of `choose_deck_selection_grid`
+ *
+ * @param selection_grid pointer to `choose_deck_selection_grid`
+ * @param selection current Selection in selection_grid
+ */
+static void change_deck_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
+{
+    if (key_hit(KEY_CONFIRM))
+        button_press(&change_deck_button);
 }
 
 /**

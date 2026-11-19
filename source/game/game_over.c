@@ -6,6 +6,8 @@
 #include "button.h"
 #include "card.h"
 #include "game.h"
+#include "game/best_runs.h"
+#include "game/deck_pile.h"
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
@@ -138,6 +140,8 @@ static void game_over_common_init(enum EndCondition init_condition)
     s_reuse_seed = false;
     s_continue_run = false;
 
+    best_runs_record_finished_run(init_condition == END_CONDITION_WIN);
+
     // Hide all Joker sprites
     JokerObject* joker_object = NULL;
     ListItr itr = list_itr_create(get_jokers_list());
@@ -155,6 +159,9 @@ static void game_over_common_init(enum EndCondition init_condition)
     }
 
     remove_all_skip_tags();
+
+    // WHY: the Game Over background has no Deck pile
+    deck_pile_hide();
 
     // Clears the round end menu
     toggle_windows(false, false);

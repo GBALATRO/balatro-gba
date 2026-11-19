@@ -2,6 +2,7 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "deck_types.h"
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"
@@ -27,6 +28,7 @@ enum GameRoundEndStates
 enum RewardType
 {
     REWARD_TYPE_HAND,
+    REWARD_TYPE_DISCARD,
     REWARD_TYPE_INVESTMENT,
     REWARD_TYPE_INTEREST,
     REWARD_TYPE_MAX
@@ -79,10 +81,9 @@ typedef struct RewardTypeData
      * towards the total cashout. Equal to 1 most of the time, but the Investment Tag increments
      * by a full reward amount per tag so the the multiplier is a full amount.
      *
-     * @note make this not const if "To the Moon" is ever implemented, since it increases the
-     * Interest multiplier from 1 to 2
+     * @note not const because the Hands and Discards multipliers depend on the Deck of the run
      */
-    const int multiplier;
+    int multiplier;
 
     /**
      * @brief how many times the reward was earned by the player during the last round
@@ -101,6 +102,13 @@ static RewardTypeData s_reward_data[] = {
         .text = "Hands",
         .text_color = TTE_BLUE_PB,
         .multiplier = 1,
+        .count = 0,
+        .remaining = 0
+    },
+    [REWARD_TYPE_DISCARD] = {
+        .text = "Discards",
+        .text_color = TTE_RED_PB,
+        .multiplier = 0,
         .count = 0,
         .remaining = 0
     },
@@ -161,6 +169,9 @@ static StateMachine round_end_sm = STATE_MACHINE_DEFINE(state_info, ROUND_END_ST
 
 static int calculate_interest_reward(void)
 {
+    if (!deck_get_rules(g_game_vars.deck)->earns_interest)
+        return 0;
+
     int reward = (g_game_vars.money / 5) * INTEREST_PER_5;
     if (reward > MAX_INTEREST)
         reward = MAX_INTEREST;
@@ -182,7 +193,15 @@ static void round_end_start(void)
         s_reward_y_offset = 1;
 
         s_blind_reward = blind_get_reward(g_game_vars.current_blind);
+
+        const DeckRules* deck_rules = deck_get_rules(g_game_vars.deck);
+        s_reward_data[REWARD_TYPE_HAND].multiplier = deck_rules->money_per_remaining_hand;
         s_reward_data[REWARD_TYPE_HAND].count = g_game_vars.hands;
+        // WHY: a reward worth nothing must not get its own line on the End of Round panel
+        bool discards_pay = deck_rules->money_per_remaining_discard > 0;
+        s_reward_data[REWARD_TYPE_DISCARD].multiplier = deck_rules->money_per_remaining_discard;
+        s_reward_data[REWARD_TYPE_DISCARD].count = discards_pay ? g_game_vars.discards : 0;
+
         s_reward_data[REWARD_TYPE_INVESTMENT].count = g_game_vars.current_blind >= BLIND_TYPE_BOSS
                                                         ? skip_tag_count(SKIP_TAG_TYPE_INVESTMENT)
                                                         : 0;
@@ -352,6 +371,7 @@ static inline bool s_should_increment_curr_reward(void)
         // For Hands and Interest rewards, updating the values on screen
         // depends only on the timer
         case REWARD_TYPE_HAND:
+        case REWARD_TYPE_DISCARD:
         case REWARD_TYPE_INTEREST:
             return g_game_vars.timer % FRAMES(TM_REWARD_INCREMENT_INTERVAL) == 0;
 
@@ -448,8 +468,9 @@ static inline void round_end_cashout(void)
     g_game_vars.money += s_cashout;
     display_money();
 
-    g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
-    g_game_vars.discards = MAX_DISCARDS; // Reset the discards to the maximum
+    const DeckRules* deck_rules = deck_get_rules(g_game_vars.deck);
+    g_game_vars.hands = deck_rules->hands;       // Reset the hands to the maximum
+    g_game_vars.discards = deck_rules->discards; // Reset the discards to the maximum
     // TODO: these can just be in one spot, passing global to global
     display_hands();    // Set the hands display
     display_discards(); // Set the discards display
@@ -522,7 +543,7 @@ void round_end_change_background(void)
 void round_end_on_init(void)
 {
     // Reset hand size in case it was increased by the Juggle Tag
-    g_game_vars.hand_size = DEFAULT_HAND_SIZE;
+    g_game_vars.hand_size = deck_get_rules(g_game_vars.deck)->hand_size;
     g_game_vars.timer = 0;
     g_game_vars.nb_unused_discards += g_game_vars.discards;
     state_machine_register(&round_end_sm);

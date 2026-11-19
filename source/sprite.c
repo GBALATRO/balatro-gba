@@ -50,7 +50,8 @@ static const int s_sprite_counts[MAX_SPRITE_TYPE] = {
     [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
     [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
     [JOKER_SPRITE]       = MAX_ACTIVE_JOKERS,
-    [DECK_SPRITE]        = 1
+    // One for the Run Setup screen, one for the in-game Deck pile
+    [DECK_SPRITE]        = 2
 };
 static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
     [CARD_SPRITE]        = CARD_SPRITE_TILES,
@@ -208,6 +209,14 @@ void sprite_init()
 void sprite_draw()
 {
     oam_copy(oam_mem, obj_buffer, MAX_SPRITES);
+}
+
+void sprite_set_all_priority(u16 priority)
+{
+    for (int i = 0; i < MAX_SPRITES; i++)
+    {
+        BFN_SET(obj_buffer[i].attr2, priority, ATTR2_PRIO);
+    }
 }
 
 int sprite_get_pb(const Sprite* sprite)

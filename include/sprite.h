@@ -255,6 +255,15 @@ void sprite_init(void);
 void sprite_draw(void);
 
 /**
+ * @brief Set the draw priority of every sprite against the background layers.
+ *
+ * A sprite is drawn over the layers whose priority number is the same or higher.
+ *
+ * @param priority 0 to be drawn over every layer (the default), up to 3
+ */
+void sprite_set_all_priority(u16 priority);
+
+/**
  * @brief Initialize a SpriteObject to a default state.
  * Must be called only once per SpriteObject when it is created.
  *

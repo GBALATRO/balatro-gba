@@ -25,8 +25,9 @@ enum SpritePaletteBanks
 };
 
 // This won't be more than the number of jokers in your current deck
-// plus the amount that can fit in the shop, 8 should be fine. For now...
-#define MAX_ACTIVE_JOKERS  8
+// plus the amount that can fit in the shop, with one spare. For now...
+// WHY: the Black Deck holds 6 Jokers, one more than the other Decks
+#define MAX_ACTIVE_JOKERS  9
 #define MAX_HAND_SIZE      16
 #define MAX_SELECTION_SIZE 5
 #define MAX_BLIND_TOKEN    5
@@ -45,7 +46,8 @@ enum BackgroundId
     BG_BLIND_SELECT,
     BG_RUN_SETUP,
     BG_OPTIONS_MENU,
-    BG_MAIN_MENU
+    BG_MAIN_MENU,
+    BG_BEST_RUNS
 };
 
 enum BackgroundId get_current_background(void);

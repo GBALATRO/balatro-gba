@@ -22,11 +22,14 @@
 #define PLAY_BUTTON_OUTLINE_PID       2
 #define OPTIONS_BUTTON_MAIN_COLOR_PID 3
 #define OPTIONS_BUTTON_OUTLINE_PID    4
+#define SCORE_BUTTON_MAIN_COLOR_PID   8
+#define SCORE_BUTTON_OUTLINE_PID      9
 
 enum MainButtons
 {
     PLAY_BTN_IDX,
     OPTIONS_BTN_IDX,
+    SCORE_BTN_IDX,
     MAIN_MENU_NB_BTN
 };
 
@@ -52,6 +55,7 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
 
 static void play_on_pressed(void);
 static void options_on_pressed(void);
+static void score_on_pressed(void);
 
 // clang-format off
 static SelectionGridRow main_menu_selection_rows[] = {
@@ -67,6 +71,7 @@ static SelectionGridRow main_menu_selection_rows[] = {
 static Button main_menu_buttons[] = {
     {PLAY_BUTTON_OUTLINE_PID,    PLAY_BUTTON_MAIN_COLOR_PID,    play_on_pressed,    NULL},
     {OPTIONS_BUTTON_OUTLINE_PID, OPTIONS_BUTTON_MAIN_COLOR_PID, options_on_pressed, NULL},
+    {SCORE_BUTTON_OUTLINE_PID,   SCORE_BUTTON_MAIN_COLOR_PID,   score_on_pressed,   NULL},
 };
 
 static SelectionGrid main_menu_selection_grid = {
@@ -209,4 +214,9 @@ static void play_on_pressed(void)
 static void options_on_pressed(void)
 {
     game_change_state(GAME_STATE_OPTIONS_MENU);
+}
+
+static void score_on_pressed(void)
+{
+    game_change_state(GAME_STATE_BEST_RUNS);
 }

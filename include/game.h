@@ -8,7 +8,9 @@
 #include <tonc.h>
 
 #define MAX_DECK_SIZE        52
-#define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
+// Most Joker slots any Deck gives (see deck_types.c), use game_get_joker_slots() for the actual
+// number of slots of the run. This doesn't account for negatives right now.
+#define MAX_JOKERS_HELD_SIZE 6
 #define MAX_SHOP_ITEMS       2 // TODO: Make this dynamic
 #define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))
 
@@ -22,7 +24,7 @@
 #define KEY_CARD_SELECT      KEY_CONFIRM
 #define KEY_CARDS_DESELECT   KEY_CANCEL // From tonc
 #define KEY_PEEK_DECK        KEY_L      // TODO: Not implemented, remove?
-#define KEY_PAUSE_GAME       KEY_START  // TODO: Not implemented, remove?
+#define KEY_PAUSE_GAME       KEY_START
 #define KEY_SHOW_DESCRIPTION KEY_B
 #define KEY_SELL             KEY_L
 #define KEY_TAB_LEFT         KEY_L
@@ -71,6 +73,14 @@ enum GameState game_get_state(void);
 
 bool is_joker_owned(int joker_id);
 bool joker_object_can_acquire(Item* item);
+
+/**
+ * @brief Get how many Jokers the player can own with the Deck of the current run.
+ *
+ * @return the number of Joker slots, at most MAX_JOKERS_HELD_SIZE
+ */
+int game_get_joker_slots(void);
+
 bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);

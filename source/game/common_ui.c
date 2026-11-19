@@ -1,6 +1,7 @@
 #include "game/common_ui.h"
 
 #include "blind_select.h"
+#include "game/best_runs.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
 #include "game/round.h"
@@ -24,6 +25,7 @@ static const BackgroundRenderCallback bgCallbacks[] = {
     [BG_RUN_SETUP] = run_setup_change_background,
     [BG_OPTIONS_MENU] = options_menu_change_background,
     [BG_MAIN_MENU] = main_menu_change_background,
+    [BG_BEST_RUNS] = best_runs_change_background,
 };
 
 enum BackgroundId get_current_background(void)
