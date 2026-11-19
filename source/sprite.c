@@ -50,7 +50,8 @@ static const int s_sprite_counts[MAX_SPRITE_TYPE] = {
     [BLIND_TOKEN_SPRITE] = MAX_BLIND_TOKEN,
     [SKIP_TAG_SPRITE]    = MAX_SKIP_TAGS,
     [JOKER_SPRITE]       = MAX_ACTIVE_JOKERS,
-    [DECK_SPRITE]        = 1
+    // One for the Run Setup screen, one for the in-game Deck pile
+    [DECK_SPRITE]        = 2
 };
 static const int s_sprite_sizes[MAX_SPRITE_TYPE] = {
     [CARD_SPRITE]        = CARD_SPRITE_TILES,

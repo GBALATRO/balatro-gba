@@ -137,7 +137,7 @@ void card_object_set_sprite(CardObject* card_object, s16 layer)
     sprite_object_set_sprite((SpriteObject*)card_object, sprite);
 }
 
-void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
+void card_load_face_down_tiles(enum DeckType deck, s16 layer)
 {
     int tile_index = sprite_get_tid(DECK_SPRITE, layer);
     memcpy32(
@@ -145,6 +145,13 @@ void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType dec
         &decks_face_down_gfxTiles[DECK_SPRITE_LUT[deck] * TILE_SIZE],
         TILE_SIZE * CARD_SPRITE_TILES
     );
+}
+
+void card_object_set_sprite_face_down(CardObject* card_object, enum DeckType deck, s16 layer)
+{
+    int tile_index = sprite_get_tid(DECK_SPRITE, layer);
+    card_load_face_down_tiles(deck, layer);
+
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP | ATTR0_AFF,
         ATTR1_SIZE_32,

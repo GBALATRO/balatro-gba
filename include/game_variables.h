@@ -24,11 +24,6 @@
 #define DEFAULT_MUSIC_VOLUME VOLUME_OPTION_MAX
 #define DEFAULT_SOUND_VOLUME VOLUME_OPTION_MAX
 
-#define MAX_HANDS    4
-#define MAX_DISCARDS 4
-
-#define DEFAULT_HAND_SIZE 8
-
 /**
  * @brief A central location for all game variables.
  *

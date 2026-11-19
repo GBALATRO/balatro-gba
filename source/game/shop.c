@@ -10,6 +10,7 @@
 #include "background_shop_gfx.h"
 #include "button.h"
 #include "game.h"
+#include "game/deck_pile.h"
 #include "game/joker_row.h"
 #include "game_variables.h"
 #include "joker.h"
@@ -710,7 +711,10 @@ static void shop_show_item_desc_on_update(void)
 
         // Hide Deck (last frames only)
         if (TM_SHOW_ITEM_DESC_WAIT - s_timer < TM_HIDE_DECK_WAIT)
+        {
             main_bg_se_move_rect_1_tile_vert(DECK_ANIM_RECT, SCREEN_DOWN);
+            deck_pile_move_vert(SCREEN_DOWN);
+        }
         // Hide shop panel
         main_bg_se_move_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_DOWN);
         // Hide Owned Cards panels
@@ -819,6 +823,7 @@ static void shop_hide_item_desc_on_update(void)
             s_timer < (s_show_description_anim_progress - (TM_HIDE_DECK_WAIT + 1)))
         {
             main_bg_se_move_rect_1_tile_vert(DECK_ANIM_RECT, SCREEN_UP);
+            deck_pile_move_vert(SCREEN_UP);
         }
         // Show menu panel
         main_bg_se_move_rect_1_tile_vert(POP_MENU_ANIM_RECT, SCREEN_UP);

@@ -21,6 +21,43 @@ static const char DECK_NAMES[DECK_TYPE_MAX][DECK_NAME_LENGTH] = {
     "Painted Deck "
 };
 
+// Rules of a run before any Deck changes them
+#define BASE_HANDS          4
+#define BASE_DISCARDS       3
+#define BASE_HAND_SIZE      8
+#define BASE_JOKER_SLOTS    5
+#define BASE_STARTING_MONEY 4
+
+// clang-format off
+#define DECK_RULES_BASE                    \
+    .hands = BASE_HANDS,                   \
+    .discards = BASE_DISCARDS,             \
+    .hand_size = BASE_HAND_SIZE,           \
+    .joker_slots = BASE_JOKER_SLOTS,       \
+    .starting_money = BASE_STARTING_MONEY, \
+    .money_per_remaining_hand = 1,         \
+    .money_per_remaining_discard = 0,      \
+    .earns_interest = true
+
+/**
+ * @brief Rules of every Deck: the base rules, then what the Deck changes.
+ *
+ * Each entry must match the description printed by its `print_desc_*_deck()` function.
+ */
+static const DeckRules DECK_RULES[DECK_TYPE_MAX] = {
+    [DECK_TYPE_RED]     = {DECK_RULES_BASE, .discards = BASE_DISCARDS + 1},
+    [DECK_TYPE_BLUE]    = {DECK_RULES_BASE, .hands = BASE_HANDS + 1},
+    [DECK_TYPE_YELLOW]  = {DECK_RULES_BASE, .starting_money = BASE_STARTING_MONEY + 10},
+    [DECK_TYPE_GREEN]   = {DECK_RULES_BASE, .money_per_remaining_hand = 2,
+                                            .money_per_remaining_discard = 1,
+                                            .earns_interest = false},
+    [DECK_TYPE_BLACK]   = {DECK_RULES_BASE, .joker_slots = BASE_JOKER_SLOTS + 1,
+                                            .hands = BASE_HANDS - 1},
+    [DECK_TYPE_PAINTED] = {DECK_RULES_BASE, .hand_size = BASE_HAND_SIZE + 2,
+                                            .joker_slots = BASE_JOKER_SLOTS - 1}
+};
+// clang-format on
+
 static void print_desc_red_deck(BG_POINT pos);
 static void print_desc_blue_deck(BG_POINT pos);
 static void print_desc_yellow_deck(BG_POINT pos);
@@ -37,6 +74,14 @@ static const PrintDescCallback deck_description_functions[DECK_TYPE_MAX] = {
     print_desc_black_deck,
     print_desc_painted_deck
 };
+
+const DeckRules* deck_get_rules(enum DeckType deck)
+{
+    if ((int)deck < 0 || deck >= DECK_TYPE_MAX)
+        return &DECK_RULES[DECK_TYPE_RED];
+
+    return &DECK_RULES[deck];
+}
 
 void print_deck_name(enum DeckType deck, BG_POINT pos)
 {

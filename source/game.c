@@ -4,6 +4,7 @@
 #include "affine_background_gfx.h"
 #include "card.h"
 #include "game/blind_select.h"
+#include "game/deck_pile.h"
 #include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
@@ -35,7 +36,6 @@
 
 #define STARTING_ROUND 0
 #define STARTING_ANTE  1
-#define STARTING_MONEY 4
 #define STARTING_SCORE 0
 
 #define EXPIRE_ANIMATION_FRAME_COUNT 3
@@ -93,7 +93,7 @@ GameVariables g_game_vars = {
 
     .score = 0, .chips = 0, .mult = 0,
     .hands = 0, .discards = 0,
-    .money = 0, .hand_size = DEFAULT_HAND_SIZE,
+    .money = 0, .hand_size = 0,
     .ante = 0, .round = 0,
     .deck = DECK_TYPE_RED,
     .nb_played_hands = {0},
@@ -170,6 +170,24 @@ void display_ante(void)
     );
 }
 
+/**
+ * @brief Give the player what the Deck of the run starts with.
+ */
+static void game_apply_deck_starting_rules(void)
+{
+    const DeckRules* deck_rules = deck_get_rules(g_game_vars.deck);
+
+    g_game_vars.hands = deck_rules->hands;
+    g_game_vars.discards = deck_rules->discards;
+    g_game_vars.money = deck_rules->starting_money;
+    g_game_vars.hand_size = deck_rules->hand_size;
+}
+
+int game_get_joker_slots(void)
+{
+    return deck_get_rules(g_game_vars.deck)->joker_slots;
+}
+
 void game_init()
 {
     state_machine_remove(&game_sm);
@@ -185,13 +203,10 @@ void game_init()
     g_game_vars.score = STARTING_SCORE;
     g_game_vars.chips = 0;
     g_game_vars.mult = 0;
-    g_game_vars.hands = MAX_HANDS;
-    g_game_vars.discards = MAX_DISCARDS;
-    g_game_vars.money = STARTING_MONEY;
-    g_game_vars.hand_size = DEFAULT_HAND_SIZE;
     g_game_vars.ante = STARTING_ANTE;
     g_game_vars.round = STARTING_ROUND;
-    g_game_vars.deck = DECK_TYPE_RED;
+    // WHY: the Deck is kept so the Run Setup screen opens on the last Deck played
+    game_apply_deck_starting_rules();
     for (int i = 0; i < HAND_TYPE_MAX; i++)
         g_game_vars.nb_played_hands[i] = 0;
     g_game_vars.best_hand_score = 0;
@@ -270,7 +285,7 @@ static inline void discarded_items_update_loop(void)
 bool joker_object_can_acquire(Item* joker_object)
 {
     GBAL_RETURN_IF_NULL(joker_object, false);
-    return (list_get_len(&s_owned_jokers_container.contents_list) < MAX_JOKERS_HELD_SIZE);
+    return (list_get_len(&s_owned_jokers_container.contents_list) < game_get_joker_slots());
 }
 
 static inline void expired_jokers_update_loop(void)
@@ -647,8 +662,9 @@ void game_start(void)
     affine_background_change_background(AFFINE_BG_GAME);
     tte_colors_setup();
 
-    g_game_vars.hands = MAX_HANDS;
-    g_game_vars.discards = MAX_DISCARDS;
+    // WHY: the Deck is chosen on the Run Setup screen, after game_init() ran
+    game_apply_deck_starting_rules();
+    deck_pile_show(g_game_vars.deck);
 
     // Fill the deck with all the cards. Later on this can be replaced with a more dynamic system
     // that allows for different decks and card types.

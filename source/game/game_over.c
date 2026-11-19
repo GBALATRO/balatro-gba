@@ -6,6 +6,7 @@
 #include "button.h"
 #include "card.h"
 #include "game.h"
+#include "game/deck_pile.h"
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
@@ -155,6 +156,9 @@ static void game_over_common_init(enum EndCondition init_condition)
     }
 
     remove_all_skip_tags();
+
+    // WHY: the Game Over background has no Deck pile
+    deck_pile_hide();
 
     // Clears the round end menu
     toggle_windows(false, false);

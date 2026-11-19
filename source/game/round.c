@@ -10,6 +10,7 @@
 #include "button.h"
 #include "game.h"
 #include "game/common_ui.h"
+#include "game/deck_pile.h"
 #include "game/joker_desc.h"
 #include "game/joker_row.h"
 #include "game/pause_menu.h"
@@ -339,6 +340,7 @@ static void round_show_joker_desc(void)
         if (TM_SHOW_CARD_DESC_WAIT - s_desc_timer < TM_HIDE_DECK_WAIT)
         {
             main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_DOWN);
+            deck_pile_move_vert(SCREEN_DOWN);
             s_deck_tuck_frames++;
         }
     }
@@ -367,6 +369,7 @@ static void round_hide_joker_desc(void)
     if (description_card == NULL)
     {
         joker_desc_restore_underlay();
+        deck_pile_reset_position();
         round_desc_restore_hand_select_windows();
         s_deck_tuck_frames = 0;
         s_deck_untuck_remaining = 0;
@@ -419,6 +422,7 @@ static void round_hide_joker_desc(void)
         if (s_deck_untuck_remaining > 0)
         {
             main_bg_se_move_rect_1_tile_vert(PLAY_DECK_ANIM_RECT, SCREEN_UP);
+            deck_pile_move_vert(SCREEN_UP);
             s_deck_untuck_remaining--;
             if (s_deck_untuck_remaining == 0)
             {

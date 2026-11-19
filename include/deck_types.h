@@ -24,6 +24,29 @@ enum DeckType
 };
 
 /**
+ * @brief Gameplay rules a Deck applies to a run.
+ */
+typedef struct DeckRules
+{
+    s8 hands;                       // Hands available every Round
+    s8 discards;                    // Discards available every Round
+    s8 hand_size;                   // Cards held in hand
+    s8 joker_slots;                 // Jokers the player can own
+    s8 starting_money;              // Money at the start of the run
+    s8 money_per_remaining_hand;    // End of Round reward
+    s8 money_per_remaining_discard; // End of Round reward
+    bool earns_interest;            // Whether held money pays interest at the End of Round
+} DeckRules;
+
+/**
+ * @brief Get the gameplay rules of a Deck.
+ *
+ * @param deck DeckType we want the rules of.
+ * @return the rules of @p deck, or the Red Deck's if @p deck is not a valid DeckType
+ */
+const DeckRules* deck_get_rules(enum DeckType deck);
+
+/**
  * @brief Prints the Deck name string to the screen at the given position.
  *
  * @param deck Decktype we want the name of.
