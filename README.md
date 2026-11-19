@@ -51,6 +51,8 @@ https://github.com/user-attachments/assets/54a9e2e9-1a02-48d5-bb9d-5ab257a7e03b
 
 (Hold B: Display Joker Description on focused Joker)
 
+(Start: Pause during a Round - Resume / Quit run)
+
 # Contributing
 
 If you would like to contribute, please read CONTRIBUTING.md.

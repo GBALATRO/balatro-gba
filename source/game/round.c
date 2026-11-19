@@ -12,6 +12,7 @@
 #include "game/common_ui.h"
 #include "game/joker_desc.h"
 #include "game/joker_row.h"
+#include "game/pause_menu.h"
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
@@ -932,8 +933,28 @@ static inline int hand_sel_idx_to_card_idx(int selection_index)
     return hand_nb_held_cards() - selection_index - 1;
 }
 
+/**
+ * @brief Abandon the Round, which then ends as a loss.
+ */
+static void round_forfeit(void)
+{
+    // WHY: with no hands left and the score under the Blind requirement, shuffling the hand
+    // away lets round_discarded_cards_loop() switch to the Game Over state by itself
+    g_game_vars.hands = 0;
+    display_hands();
+
+    set_hand_state(HAND_SHUFFLING);
+    g_game_vars.timer = TM_ZERO;
+}
+
 static inline void round_process_hand_select_input(void)
 {
+    if (key_hit(KEY_PAUSE_GAME))
+    {
+        pause_menu_open(round_forfeit);
+        return;
+    }
+
     selection_grid_process_input(&game_round_selection_grid);
 
     // Hold B on the jokers row to view a description (same binding as the shop)

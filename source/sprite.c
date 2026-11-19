@@ -210,6 +210,14 @@ void sprite_draw()
     oam_copy(oam_mem, obj_buffer, MAX_SPRITES);
 }
 
+void sprite_set_all_priority(u16 priority)
+{
+    for (int i = 0; i < MAX_SPRITES; i++)
+    {
+        BFN_SET(obj_buffer[i].attr2, priority, ATTR2_PRIO);
+    }
+}
+
 int sprite_get_pb(const Sprite* sprite)
 {
     GBAL_RETURN_IF_NULL(sprite, UNDEFINED);

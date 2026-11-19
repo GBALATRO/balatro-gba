@@ -7,6 +7,7 @@
 #include "game/game_over.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
+#include "game/pause_menu.h"
 #include "game/round.h"
 #include "game/round_end.h"
 #include "game/run_setup.h"
@@ -314,6 +315,13 @@ static inline void jokers_update_loop(void)
 
 void game_update()
 {
+    // WHY: while paused nothing in the run may advance (timers, RNG, animations)
+    if (pause_menu_is_open())
+    {
+        pause_menu_update();
+        return;
+    }
+
     rng_update();
 
     g_game_vars.timer++;
