@@ -48,7 +48,7 @@ static const s16 s_sprite_counts[MAX_SPRITE_TYPE] = {
 // Declaring the bitsets used by `s_sprite_used_tid_slots_bitsets`, since we need them all to
 // declare the array.
 #define DEF_SPRITE_TYPE(spriteTypeEnum, spriteSize, spriteCount) \
-    BITSET_DEFINE(spriteTypeEnum##_bitset, spriteSize)
+    BITSET_DEFINE(spriteTypeEnum##_bitset, spriteCount)
 #include "def_sprite_type_table.h"
 #undef DEF_SPRITE_TYPE
 
@@ -590,7 +590,7 @@ void sprite_object_list_sort_layers(List* sprite_object_list, bool ascending)
 
         // This is an insertion sort, the element corresponding to `forward_itr` will be moved back
         // until it falls into place
-        ListItr reverse_itr = list_itr_get_direction_switched(&forward_itr);
+        ListItr reverse_itr = list_itr_get_reversed(&forward_itr);
         SpriteObject* sorted_sprite_object = NULL;
         while ((sorted_sprite_object = list_itr_next(&reverse_itr)))
         {

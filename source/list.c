@@ -297,11 +297,12 @@ ListItr rev_list_itr_create(List* list)
     return itr;
 }
 
-ListItr list_itr_get_direction_switched(const ListItr* list_itr)
+ListItr list_itr_get_reversed(const ListItr* list_itr)
 {
-    ListNode* old_node = list_itr->current_node;
-    enum ListItrDirection new_direction = 1 - list_itr->direction;
+    enum ListItrDirection new_direction =
+        (list_itr->direction == LIST_ITR_FORWARD) ? LIST_ITR_REVERSE : LIST_ITR_FORWARD;
 
+    ListNode* old_node = list_itr->current_node;
     ListNode* next_itr_node = NULL;
     if (old_node)
     {

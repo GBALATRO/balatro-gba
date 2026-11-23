@@ -291,20 +291,22 @@ void push_back_three_remove_push_front_three_entries(void)
 // - list_init
 // - list_push_back
 // - list_itr_next
-// - list_itr_get_direction_switched
+// - list_itr_get_reversed
 // - list_itr_remove_current_node
 // - list_clear
 // - list_is_empty
-void test_list_itr_get_direction_switched(void)
+void test_list_itr_get_reversed(void)
 {
-    // All tests will happen on the List [4, 2, 0]
+    // All tests will happen on the List [4, 2, 0, 9]
     List list = list_init();
     int test_data1 = 4;
     int test_data2 = 2;
     int test_data3 = 0;
+    int test_data4 = 9;
     list_push_back(&list, &test_data1);
     list_push_back(&list, &test_data2);
     list_push_back(&list, &test_data3);
+    list_push_back(&list, &test_data4);
 
     // Test 1
 
@@ -314,7 +316,7 @@ void test_list_itr_get_direction_switched(void)
     
     // Reverse iterator should then point to nothing since it would be facing backwards and there
     // is nothing before a List's head
-    ListItr reverse_itr = list_itr_get_direction_switched(&itr);
+    ListItr reverse_itr = list_itr_get_reversed(&itr);
     assert(list_itr_next(&reverse_itr) == NULL);
 
     // Test 2
@@ -322,37 +324,59 @@ void test_list_itr_get_direction_switched(void)
     // Position normal iterator at the end of the List
     assert(list_itr_next(&itr) == &test_data2);
     assert(list_itr_next(&itr) == &test_data3);
+    assert(list_itr_next(&itr) == &test_data4);
     assert(list_itr_next(&itr) == NULL);
 
     // Reverse iterator should now be located at the tail
-    reverse_itr = list_itr_get_direction_switched(&itr);
+    reverse_itr = list_itr_get_reversed(&itr);
     assert(reverse_itr.current_node == list.tail);
+
+    // Check that reverse iterator iterates over the whole list in reverse order as expected,
+    // Excluding the last element since we're positioned on it
+    assert(list_itr_next(&reverse_itr) == &test_data3);
+    assert(list_itr_next(&reverse_itr) == &test_data2);
+    assert(list_itr_next(&reverse_itr) == &test_data1);
+    assert(list_itr_next(&reverse_itr) == NULL);
 
     // Test 3
 
-    // Remove current node with reverse_itr
-    list_itr_remove_current_node(&reverse_itr);
-    assert(list_itr_next(&reverse_itr) == &test_data2);
+    // Reverse the iterator again so it points towards the end of the List
+    reverse_itr = list_itr_get_reversed(&reverse_itr);
+    assert(reverse_itr.current_node == list.head);
 
-    // List should now look like [4, 2]
+    // remove element 3, reverse again
+    assert(list_itr_next(&reverse_itr) == &test_data2);
+    assert(list_itr_next(&reverse_itr) == &test_data3);
+    list_itr_remove_current_node(&reverse_itr);
+    reverse_itr = list_itr_get_reversed(&reverse_itr);
+
+    // Because of how list_itr_remove_current_node works, the reversed iterator should be
+    // positioned at index 2 and point to index 1 after the deletion
+    assert(list_itr_next(&reverse_itr) == &test_data1);
+    assert(list_itr_next(&reverse_itr) == NULL);
+
+    // List should now look like [4, 2, 9]
     itr = list_itr_create(&list);
     assert(list_itr_next(&itr) == &test_data1);
     assert(list_itr_next(&itr) == &test_data2);
+    assert(list_itr_next(&itr) == &test_data4);
     assert(list_itr_next(&itr) == NULL);
 
     // Test 4
 
-    // Try to move to the beginning of the List with the reverse_itr after a deletion
-    assert(list_itr_next(&reverse_itr) == &test_data1);
+    // Make the reversed iterator change direction again to go in the normal order
+    // and try to iterate normally after deleting the List's head
+    reverse_itr = list_itr_get_reversed(&reverse_itr);
+    assert(reverse_itr.current_node == list.head);
+    list_itr_remove_current_node(&reverse_itr);
+    assert(list_itr_next(&reverse_itr) == &test_data2);
+    assert(list_itr_next(&reverse_itr) == &test_data4);
     assert(list_itr_next(&reverse_itr) == NULL);
 
-    // Remove the current head of the list
-    list_itr_remove_current_node(&reverse_itr);
-    //assert(reverse_itr.current_node == list.head);
-
-    // List should now be a single element: [2]
+    // List should now look like [2, 9]
     itr = list_itr_create(&list);
     assert(list_itr_next(&itr) == &test_data2);
+    assert(list_itr_next(&itr) == &test_data4);
     assert(list_itr_next(&itr) == NULL);
 
     // Clear List
@@ -958,7 +982,7 @@ int main(void)
     push_back_three_remove_push_front_three_entries();
 
     printf("Testing List Iterator Reversing.\n");
-    test_list_itr_get_direction_switched();
+    test_list_itr_get_reversed();
 
     printf("Testing List Append Non-Empty into Non-Empty.\n");
     test_list_append_other();

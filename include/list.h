@@ -289,7 +289,7 @@ ListItr rev_list_itr_create(List* list);
  *
  * @return A new @ref ListItr going the other way compared to @p list_itr
  */
-ListItr list_itr_get_direction_switched(const ListItr* list_itr);
+ListItr list_itr_get_reversed(const ListItr* list_itr);
 
 /**
  * Get the next data entry in a @ref ListItr
