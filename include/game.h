@@ -1,17 +1,15 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game/common_ui.h"
 #include "game_variables.h"
-#include "graphic_utils.h"
 #include "item.h"
+#include "sprite_container.h"
 
 #include <tonc.h>
 
 #define MAX_DECK_SIZE        52
 #define MAX_JOKERS_HELD_SIZE 5 // This doesn't account for negatives right now.
 #define MAX_SHOP_ITEMS       2 // TODO: Make this dynamic
-#define MAX_SELECTION_SIZE   5
 #define FRAMES(x)            (((x) + (g_game_vars.game_speed) - 1) / (g_game_vars.game_speed))
 
 // TODO: Can make these dynamic to support interest-related jokers and vouchers
@@ -19,20 +17,22 @@
 #define INTEREST_PER_5 1
 
 // Input bindings
-#define SELECT_CARD    KEY_A
-#define DESELECT_CARDS KEY_B
-#define PEEK_DECK      KEY_L // Not implemented
-#define SORT_HAND      KEY_R
-#define PAUSE_GAME     KEY_START // Not implemented
-#define SELL_KEY       KEY_L
-#define TAB_LEFT       KEY_L
-#define TAB_RIGHT      KEY_R
 
-// Matching the position of the on-screen buttons
-#define PLAY_HAND_KEY KEY_L
-// Same value as SELL_KEY - activated on the joker row, while this is activated on the hand row
+#define KEY_CONFIRM          KEY_A // Not using tonc's KEY_ACCEPT because it includes SELECT
+#define KEY_CARD_SELECT      KEY_CONFIRM
+#define KEY_CARDS_DESELECT   KEY_CANCEL // From tonc
+#define KEY_PEEK_DECK        KEY_L      // TODO: Not implemented, remove?
+#define KEY_PAUSE_GAME       KEY_START  // TODO: Not implemented, remove?
+#define KEY_SHOW_DESCRIPTION KEY_B
+#define KEY_SELL             KEY_L
+#define KEY_TAB_LEFT         KEY_L
+#define KEY_TAB_RIGHT        KEY_R
 
-#define DISCARD_HAND_KEY KEY_R
+// Using these buttons for play and discard hand to match the position of the on-screen buttons
+#define KEY_PLAY_HAND KEY_L
+// Same value as KEY_SELL - okay because they are activated on different rows
+
+#define KEY_DISCARD_HAND KEY_R
 
 struct List;
 typedef struct List List;
@@ -75,8 +75,14 @@ bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);
 List* get_jokers_list(void);
+SpriteContainer* get_jokers_sprite_container(void);
 List* get_expired_jokers_list(void);
-List* get_discarded_jokers_list(void);
+
+/**
+ * @brief Starts the discard animation for the item, destroying it when it ends
+ * @param item The discarded item
+ */
+void item_start_discard_animation(Item* item);
 
 int deck_get_size(void);
 int get_deck_top(void);

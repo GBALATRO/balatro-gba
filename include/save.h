@@ -27,8 +27,6 @@
 #ifndef SAVE_H
 #define SAVE_H
 
-#include "game_variables.h"
-
 #include <tonc.h>
 
 /**

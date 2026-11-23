@@ -1,6 +1,5 @@
 #include "game/options_menu.h"
 
-#include "affine_background.h"
 #include "audio_utils.h"
 #include "background_options_menu_gfx.h"
 #include "button.h"
@@ -14,7 +13,6 @@
 #include "soundbank.h"
 #include "util.h"
 
-#include <stdint.h>
 #include <string.h>
 #include <tonc.h>
 #include <tonc_math.h>
@@ -36,7 +34,10 @@ enum OptionSpeedButtons
     NB_GAME_SPEED_BUTTONS
 };
 
-// Color palette indices
+// Palette indices for colors that change at runtime (i.e. button outlines) start at 16 and are
+// sorted by the position of the buttons in the menu from top to bottom, and from left to right.
+// Indices for static colors (i.e. background and main button colors) range from 0 to 15.
+// The indexing is determined by background_options_menu_gfx.png.
 #define MENU_BUTTON_MAIN_COLOR_PAL_IDX          1
 #define SAVE_BUTTON_MAIN_COLOR_PAL_IDX          3
 #define BACK_BUTTON_MAIN_COLOR_PAL_IDX          4
@@ -356,7 +357,7 @@ static void update_volume_slider_graphics(enum OptionButtonRows sel_row)
     );
 }
 
-void game_options_menu_change_background(void)
+void options_menu_change_background(void)
 {
     tte_erase_screen();
 
@@ -396,7 +397,7 @@ void game_options_menu_change_background(void)
     );
 }
 
-void game_options_menu_on_init(void)
+void options_menu_on_init(void)
 {
     change_background(BG_OPTIONS_MENU, false);
 
@@ -412,7 +413,7 @@ void game_options_menu_on_init(void)
     update_volume_slider_graphics(SOUND_VOLUME_ROW_IDX);
 }
 
-void game_options_menu_on_update(void)
+void options_menu_on_update(void)
 {
     selection_grid_process_input(&options_menu_selection_grid);
 
@@ -426,7 +427,7 @@ void game_options_menu_on_update(void)
     }
 }
 
-void game_options_menu_on_exit(void)
+void options_menu_on_exit(void)
 {
     tte_erase_screen();
 }
@@ -572,7 +573,7 @@ static bool game_speed_row_on_selection_changed(
  */
 static void options_menu_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&options_menu_buttons[selection->y][selection->x]);
     }

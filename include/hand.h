@@ -11,10 +11,9 @@
 
 #include <tonc.h>
 
-#define MAX_HAND_SIZE 16
-
 enum HandState
 {
+    HAND_TAGS,
     HAND_DRAW,
     HAND_SELECT,
     // This is actually a misnomer because it's used for the deck
@@ -124,6 +123,13 @@ ContainedHandTypes* get_contained_hands(void);
  * @return CardObject**
  */
 CardObject** get_hand_array(void);
+
+/**
+ * @brief Get the current number of cards in the hand. Prefer using this over @ref get_hand_top()
+ *
+ * @return The current number of cards in the hand
+ */
+int get_num_cards_in_hand(void);
 
 /**
  * @brief Get the position in hand array of the last card obtained

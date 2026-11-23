@@ -2,13 +2,11 @@
 
 #include "audio_utils.h"
 #include "game.h"
-#include "game_variables.h"
 #include "joker.h"
-#include "layout.h"
 #include "list.h"
+#include "mgba_logger.h"
 #include "soundbank.h"
 #include "sprite.h"
-#include "util.h"
 
 int jokers_sel_row_get_size(void)
 {
@@ -22,16 +20,14 @@ bool jokers_sel_row_on_selection_changed(
     const Selection* new_selection
 )
 {
-    List* owned_jokers_list = get_jokers_list();
-
     // swap Jokers if the A button is held down and all Jokers are on the same row
     bool swapping =
-        key_is_down(SELECT_CARD) && new_selection->y == row_idx && prev_selection->y == row_idx;
+        key_is_down(KEY_CARD_SELECT) && new_selection->y == row_idx && prev_selection->y == row_idx;
 
     if (prev_selection->y == row_idx)
     {
         JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(owned_jokers_list, prev_selection->x);
+            (JokerObject*)list_get_at_idx(get_jokers_list(), prev_selection->x);
         // Don't change focus from current Joker if swapping
         if (joker_object != NULL && !swapping)
         {
@@ -43,7 +39,7 @@ bool jokers_sel_row_on_selection_changed(
     if (new_selection->y == row_idx)
     {
         JokerObject* joker_object =
-            (JokerObject*)list_get_at_idx(owned_jokers_list, new_selection->x);
+            (JokerObject*)list_get_at_idx(get_jokers_list(), new_selection->x);
         if (joker_object != NULL)
         {
             if (!swapping)
@@ -53,11 +49,11 @@ bool jokers_sel_row_on_selection_changed(
             // If we land on this row while the A button is being held, we are in swapping mode
             // This means that we need to hide the price, whether we were already
             // on this row or if we come from another
-            if (!key_is_down(SELECT_CARD))
+            if (!key_is_down(KEY_CARD_SELECT))
             {
                 sprite_object_print_price_under(
                     (SpriteObject*)joker_object,
-                    joker_get_sell_value(joker_object->joker)
+                    joker_object_get_sell_price((Item*)joker_object)
                 );
             }
         }
@@ -65,8 +61,8 @@ bool jokers_sel_row_on_selection_changed(
 
     if (swapping)
     {
-        list_swap(
-            owned_jokers_list,
+        container_swap(
+            get_jokers_sprite_container(),
             (unsigned int)prev_selection->x,
             (unsigned int)new_selection->x
         );
@@ -75,29 +71,22 @@ bool jokers_sel_row_on_selection_changed(
     return true;
 }
 
-static inline void joker_start_discard_animation(JokerObject* joker_object)
-{
-    joker_object->tx = int2fx(JOKER_DISCARD_TARGET.x);
-    joker_object->ty = int2fx(JOKER_DISCARD_TARGET.y);
-    list_push_back(get_discarded_jokers_list(), joker_object);
-}
-
-static inline void game_sell_joker(int joker_idx)
+static inline void sell_joker(int joker_idx)
 {
     List* owned_jokers_list = get_jokers_list();
 
     if (joker_idx < 0 || joker_idx >= list_get_len(owned_jokers_list))
+    {
+        MGBA_FUNC_ERROR("Invalid joker_idx == %d", joker_idx);
         return;
+    }
 
-    JokerObject* joker_object = (JokerObject*)list_get_at_idx(owned_jokers_list, joker_idx);
-    g_game_vars.money += joker_get_sell_value(joker_object->joker);
+    Item* joker_object = (Item*)list_get_at_idx(owned_jokers_list, joker_idx);
+    item_sell(joker_object);
+
+    // TODO: Move to item_sell()?
     play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
-    display_money();
-    sprite_object_erase_text_under((SpriteObject*)joker_object);
-
     remove_owned_joker(joker_idx);
-
-    joker_start_discard_animation(joker_object);
 }
 
 void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
@@ -105,20 +94,20 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
     JokerObject* joker_object = (JokerObject*)list_get_at_idx(get_jokers_list(), selection->x);
     if (joker_object != NULL)
     {
-        if (key_hit(SELECT_CARD))
+        if (key_hit(KEY_CARD_SELECT))
         {
             sprite_object_erase_text_under((SpriteObject*)joker_object);
         }
-        else if (key_released(SELECT_CARD))
+        else if (key_released(KEY_CARD_SELECT))
         {
             sprite_object_print_price_under(
                 (SpriteObject*)joker_object,
-                joker_get_sell_value(joker_object->joker)
+                joker_object_get_sell_price((Item*)joker_object)
             );
         }
     }
 
-    if (key_hit(SELL_KEY))
+    if (key_hit(KEY_SELL))
     {
         int sold_joker_idx = selection->x;
 
@@ -126,6 +115,6 @@ void jokers_sel_row_on_key_transit(SelectionGrid* selection_grid, Selection* sel
         // Do this before selling the joker so valid row sizes are used
         selection_grid_move_selection_vert(selection_grid, SCREEN_DOWN);
 
-        game_sell_joker(sold_joker_idx);
+        sell_joker(sold_joker_idx);
     }
 }

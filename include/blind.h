@@ -28,9 +28,9 @@ enum BlindTokens
 /**
  * @enum BlindTokenLayers
  * @brief Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative
- *         to `BLIND_BASE_LAYER`
+ *         to the starting layer for the BLIND_TOKEN_SPRITE SpriteType
  *
- * @sa BLIND_BASE_LAYER
+ * @sa BLIND_TOKEN_SPRITE, sprite_get_starting_layer
  */
 enum BlindTokenLayers
 {
@@ -222,5 +222,13 @@ void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer);
  * @sa BlindTokenLayers
  */
 Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers sprite_index);
+
+/**
+ * @brief Increment g_game_vars.current_blind to the next blind.
+ *
+ * @param increment_reason Expected BLIND_STATE_DEFEATED or BLIND_STATE_SKIPPED - set the state
+ * of the pre-increment blind.
+ */
+void increment_blind(enum BlindState increment_reason);
 
 #endif // BLIND_H

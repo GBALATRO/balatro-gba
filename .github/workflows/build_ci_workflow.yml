@@ -66,7 +66,14 @@ jobs:
           echo "UID=$(id -u)" >> "$GITHUB_ENV"
           echo "GID=$(id -g)" >> "$GITHUB_ENV"
 
-      - name: Build the project
+      - name: Build Debug
+        run: |
+          docker compose -f docker-compose.yml run --rm \
+          -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \
+          gbalatro \
+          sh -c "MGBA_LOGGING=1 make -j\$(nproc) && make clean"
+
+      - name: Build Release
         run: |
           docker compose -f docker-compose.yml run --rm \
           -e PATH=/opt/devkitpro/devkitARM/bin:/opt/devkitpro/tools/bin:$PATH \

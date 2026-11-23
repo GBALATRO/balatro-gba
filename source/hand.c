@@ -9,11 +9,10 @@
 #include "audio_utils.h"
 #include "card.h"
 #include "game.h"
-#include "game/round.h"
+#include "game/common_ui.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "soundbank.h"
-#include "util.h"
 
 #include <tonc.h>
 
@@ -67,7 +66,7 @@ static Hand s_hand = {
     .hand_selections = 0,
     .hand_type = NONE,
     .contained_hands = {{{0}}},
-    .state = HAND_DRAW,
+    .state = HAND_TAGS,
     .sort_by_suit = false
 };
 
@@ -100,6 +99,11 @@ void set_hand_state(enum HandState new_hand_state)
 CardObject** get_hand_array(void)
 {
     return s_hand.cards;
+}
+
+int get_num_cards_in_hand(void)
+{
+    return s_hand.hand_top + 1;
 }
 
 int get_hand_top(void)
@@ -266,13 +270,7 @@ void reorder_card_sprites_layers(void)
     {
         if (s_hand.cards[i] != NULL)
         {
-            // Set the sprite for the card object
             card_object_set_sprite(s_hand.cards[i], i);
-            sprite_position(
-                card_object_get_sprite(s_hand.cards[i]),
-                fx2int(s_hand.cards[i]->x),
-                fx2int(s_hand.cards[i]->y)
-            );
         }
     }
 }

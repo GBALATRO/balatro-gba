@@ -9,21 +9,21 @@
 /**
  * @brief Change to the round end background
  */
-void game_round_end_change_background(void);
+void round_end_change_background(void);
 
 /**
  * @brief Round end state initialization
  */
-void game_round_end_on_init(void);
+void round_end_on_init(void);
 
 /**
  * @brief Round end state update
  */
-void game_round_end_on_update(void);
+void round_end_on_update(void);
 
 /**
  * @brief Round end cleanup
  */
-void game_round_end_on_exit(void);
+void round_end_on_exit(void);
 
 #endif // GAME_ROUND_END_H

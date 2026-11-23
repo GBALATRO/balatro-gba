@@ -107,6 +107,25 @@ void list_push_back(List* list, void* data)
     list->len++;
 }
 
+void list_append_other_list(List* list, List* added_list)
+{
+    if (list_is_empty(added_list))
+        return;
+
+    if (list_is_empty(list))
+    {
+        list->head = added_list->head;
+    }
+    else
+    {
+        added_list->head->prev = list->tail;
+        list->tail->next = added_list->head;
+    }
+
+    list->tail = added_list->tail;
+    list->len += added_list->len;
+}
+
 void list_insert(List* list, void* data, unsigned int idx)
 {
     if (idx >= list->len)

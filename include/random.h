@@ -13,18 +13,41 @@
 #include <tonc.h>
 
 /**
+ * @brief Keys to different independent RNG sequences
+ */
+enum RngSequence
+{
+    RNG_SEQ_CARD_SHUFFLE,
+    RNG_SEQ_BLIND,
+    RNG_SEQ_SHOP_ITEMS,
+    RNG_SEQ_SKIP_TAGS,
+
+    // Each Joker/Tag with a random effect has its own independent RNG sequence
+    RNG_SEQ_JOKER_MISPRINT,
+    RNG_SEQ_JOKER_RESERVED_PARKING,
+    RNG_SEQ_JOKER_BUSINESS_CARD,
+    RNG_SEQ_TAG_TOP_UP,
+
+    // For non-gameplay related things such as sound effects or visual effects, so as to not
+    // interfere with important stuff like Shop rolls or Joker effects.
+    RNG_SEQ_MISC,
+
+    RNG_SEQ_MAX
+};
+
+/**
  * @brief Information to track and restore RNG state
  */
 typedef struct
 {
     /** Initial seed */
     u32 seed;
-    /** Position in the rng sequence. */
-    u32 step;
+    /** Individual states for independent rng sequences */
+    u32 states[RNG_SEQ_MAX];
 } RngInfo;
 
 /**
- * @brief Starts counting CPU cycles, this will be used by rng_shuffle_seed to
+ * @brief Starts counting CPU cycles, which will be used by rng_shuffle_seed to
  *         generate a more random seed. To be called once on game start.
  */
 void rng_init(void);
@@ -44,23 +67,30 @@ void rng_update(void);
 void rng_set_seed(u32 seed);
 
 /**
- * @brief Uses the CPU cycles counter to randomize the RNG seed as much as possible.
- *         This will be called by the main menu and the game over screens so that
- *         the next run's seed isn't the same as the last's.
- *         rng_start_sampling needs to have been called, and will stop the profiling.
+ * @brief Sets a new randomized seed for the RNG using a source of entropy.
+ *
+ * This needs to be called at least once before generating anything random but not on the very
+ * first cycle because it uses a CPU timer for entropy.
+ *
+ * This would also be used to generate the new seed when starting a new non-player-seeded run
+ *
+ * @note `rng_init` needs to have been called, so that the CPU profiling can provide entropy.
+ * @sa rng_init
  */
 void rng_shuffle_seed(void);
 
 /**
- * @brief Get the next "randomly" generated number in the sequence from the current seed.
+ * @brief Get the next "randomly" generated number in the sequence corresponding to the given type.
+ *
+ * @param key key to the RNG sequence we need to pull a random number from
  *
  * @return u32
  */
-u32 rng_get_u32(void);
+u32 rng_get_u32(enum RngSequence key);
 
 /**
- * @brief Restore RNG info struct in the GameVariables. Sets the `seed` and seeks the
- *         position `step` in the rng sequence.
+ * @brief Restore RNG info struct in the GameVariables. Sets the `seed` and restores the state for
+ *         each independent sequence
  *
  * @param info RngInfo struct applied
  *

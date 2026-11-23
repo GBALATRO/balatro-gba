@@ -2,20 +2,16 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
-#include "audio_utils.h"
-#include "background_main_menu_gfx.h"
-#include "button.h"
 #include "card.h"
 #include "game/blind_select.h"
-#include "game/common_ui.h"
 #include "game/game_over.h"
-#include "game/joker_row.h"
 #include "game/main_menu.h"
 #include "game/options_menu.h"
 #include "game/round.h"
 #include "game/round_end.h"
 #include "game/run_setup.h"
 #include "game/shop.h"
+#include "game/splash_screen.h"
 #include "game_variables.h"
 #include "graphic_utils.h"
 #include "hand.h"
@@ -23,18 +19,11 @@
 #include "layout.h"
 #include "list.h"
 #include "random.h"
-#include "save.h"
-#include "selection_grid.h"
-#include "soundbank.h"
-#include "splash_screen.h"
 #include "sprite.h"
 #include "state_machine.h"
 #include "timer.h"
-#include "tonc_memdef.h"
 #include "util.h"
 
-#include <maxmod.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -63,25 +52,26 @@ static int deck_get_max_size(void);
 // Consts
 
 // clang-format off
-// Rects                                       left     top     right   bottom
+// Rects                                        left     top     right   bottom
+const static Rect OWNED_JOKERS_CONTAINER_RECT = {72,     10,     176,    42};
 
 // Rects for TTE (in pixels)
 
 // Score displayed in the same place as the hand type
-static const Rect TEMP_SCORE_RECT           = {8,       64,     64,     72  }; 
-static const Rect SCORE_RECT                = {24,      48,     64,     56  };
+static const Rect TEMP_SCORE_RECT             = {8,       64,     64,     72  }; 
+static const Rect SCORE_RECT                  = {24,      48,     64,     56  };
 
-static const Rect MONEY_TEXT_RECT           = {8,       120,    64,     128 };
-static const Rect CHIPS_TEXT_RECT           = {8,       80,     32,     88  };
-static const Rect MULT_TEXT_RECT            = {40,      80,     64,     88  };
+static const Rect MONEY_TEXT_RECT             = {8,       120,    64,     128 };
+static const Rect CHIPS_TEXT_RECT             = {8,       80,     32,     88  };
+static const Rect MULT_TEXT_RECT              = {40,      80,     64,     88  };
 
 // Rects with UNDEFINED are only used in tte_printf, they need to be fully defined
 // to be used with tte_erase_rect_wrapper()
-static const Rect HANDS_TEXT_RECT           = {16,      104,    UNDEFINED, UNDEFINED };
-static const Rect DISCARDS_TEXT_RECT        = {48,      104,    UNDEFINED, UNDEFINED };
-static const Rect DECK_SIZE_RECT            = {200,     152,    240,       160       };
-static const Rect ROUND_TEXT_RECT           = {48,      144,    UNDEFINED, UNDEFINED };
-static const Rect ANTE_TEXT_RECT            = {8,       144,    UNDEFINED, UNDEFINED };
+static const Rect HANDS_TEXT_RECT             = {16,      104,    UNDEFINED, UNDEFINED };
+static const Rect DISCARDS_TEXT_RECT          = {48,      104,    UNDEFINED, UNDEFINED };
+static const Rect DECK_SIZE_RECT              = {200,     152,    240,       160       };
+static const Rect ROUND_TEXT_RECT             = {48,      144,    UNDEFINED, UNDEFINED };
+static const Rect ANTE_TEXT_RECT              = {8,       144,    UNDEFINED, UNDEFINED };
 // clang-format on
 
 static StateInfo state_info[] = {
@@ -98,12 +88,18 @@ static StateMachine game_sm = STATE_MACHINE_DEFINE(state_info, GAME_STATE_MAX);
 GameVariables g_game_vars = {
     .timer = 0,
     // Setting the seed to an invalid value so that the Run Setup screen knows we're not reusing a previous Run's seed
-    .rng_info = {UNDEFINED, 0},
+    .rng_info = {UNDEFINED, {0}},
 
-    .round = 0, .ante = 0, .money = 0, .hand_size = DEFAULT_HAND_SIZE,
+    .score = 0, .chips = 0, .mult = 0,
+    .hands = 0, .discards = 0,
+    .money = 0, .hand_size = DEFAULT_HAND_SIZE,
+    .ante = 0, .round = 0,
     .deck = DECK_TYPE_RED,
+    .nb_played_hands = {0},
 
-    .best_hand_score = 0, .nb_played_hands = {0},
+    .best_hand_score = 0,
+    .nb_skipped_rounds = 0,
+    .nb_unused_discards = 0,
 
     .current_blind = BLIND_TYPE_SMALL,
     .next_boss_blind = BLIND_TYPE_BIG,
@@ -114,12 +110,6 @@ GameVariables g_game_vars = {
         BLIND_STATE_UPCOMING
     },
 
-    .hands = 0,
-    .discards = 0,
-    .score = 0,
-    .chips = 0,
-    .mult = 0,
-
     .playing_blind_token = NULL,
     .round_end_blind_token = NULL,
 
@@ -129,8 +119,18 @@ GameVariables g_game_vars = {
 };
 // clang-format on
 
-static List s_owned_jokers_list;
-static List s_discarded_jokers_list;
+static SpriteContainer s_owned_jokers_container = {
+    .contents_list = LIST_DEFAULT,
+    .custom_update = NULL,
+    .pos = OWNED_JOKERS_CONTAINER_RECT,
+    .orientation = LAYOUT_ORI_HORIZONTAL,
+    .justification = LAYOUT_JUST_CENTER,
+    .justification_ortho = LAYOUT_JUST_CENTER,
+    .sprite_local_visible_rect = CARD_SPRITE_LOCAL_RECT,
+    .maximum_spacing = 20 // Centering where 2 jokers roughly divide the row into 3 equal sections
+};
+
+static List s_discarded_items_list;
 static List s_expired_jokers_list;
 
 // Stacks
@@ -174,38 +174,39 @@ void game_init()
     state_machine_remove(&game_sm);
     state_machine_register(&game_sm);
     // Initialize all jokers list once
-    s_owned_jokers_list = list_init();
-    s_discarded_jokers_list = list_init();
+    s_discarded_items_list = list_init();
     s_expired_jokers_list = list_init();
     // TODO: Move this to an initialization of the play scoring states
 
-    game_shop_reset();
+    shop_reset();
 
+    g_game_vars.timer = TM_ZERO;
+    g_game_vars.score = STARTING_SCORE;
+    g_game_vars.chips = 0;
+    g_game_vars.mult = 0;
     g_game_vars.hands = MAX_HANDS;
     g_game_vars.discards = MAX_DISCARDS;
-    g_game_vars.timer = TM_ZERO;
+    g_game_vars.money = STARTING_MONEY;
+    g_game_vars.hand_size = DEFAULT_HAND_SIZE;
+    g_game_vars.ante = STARTING_ANTE;
+    g_game_vars.round = STARTING_ROUND;
+    g_game_vars.deck = DECK_TYPE_RED;
+    for (int i = 0; i < HAND_TYPE_MAX; i++)
+        g_game_vars.nb_played_hands[i] = 0;
+    g_game_vars.best_hand_score = 0;
+    g_game_vars.nb_skipped_rounds = 0;
+    g_game_vars.nb_unused_discards = 0;
     g_game_vars.current_blind = BLIND_TYPE_SMALL;
     g_game_vars.blinds_states[0] = BLIND_STATE_CURRENT;
     g_game_vars.blinds_states[1] = BLIND_STATE_UPCOMING;
     g_game_vars.blinds_states[2] = BLIND_STATE_UPCOMING;
-    g_game_vars.ante = STARTING_ANTE;
-    g_game_vars.money = STARTING_MONEY;
-    g_game_vars.score = STARTING_SCORE;
-    g_game_vars.round = 0;
-    g_game_vars.chips = 0;
-    g_game_vars.mult = 0;
-    g_game_vars.round = STARTING_ROUND;
-
-    g_game_vars.best_hand_score = 0;
-    for (int i = 0; i < HAND_TYPE_MAX; i++)
-        g_game_vars.nb_played_hands[i] = 0;
 }
 
 void game_reset()
 {
-    while (list_get_len(&s_owned_jokers_list) > 0)
+    while (list_get_len(&s_owned_jokers_container.contents_list) > 0)
     {
-        JokerObject* joker_object = list_get_at_idx(&s_owned_jokers_list, 0);
+        JokerObject* joker_object = list_get_at_idx(&s_owned_jokers_container.contents_list, 0);
         remove_owned_joker(0);
         joker_object_destroy(&joker_object);
     }
@@ -218,8 +219,8 @@ void game_reset()
     sprite_destroy(&g_game_vars.playing_blind_token);
     sprite_destroy(&g_game_vars.round_end_blind_token);
 
-    list_clear(&s_owned_jokers_list);
-    list_clear(&s_discarded_jokers_list);
+    container_clear_contents(&s_owned_jokers_container);
+    list_clear(&s_discarded_items_list);
     list_clear(&s_expired_jokers_list);
 
     game_init();
@@ -238,56 +239,37 @@ void game_reset()
     affine_background_load_palette(affine_background_gfxPal);
 }
 
-static inline void discarded_jokers_update_loop(void)
+void item_start_discard_animation(Item* item)
 {
-    if (list_is_empty(&s_discarded_jokers_list))
+    item->tx = int2fx(ITEM_DISCARD_TARGET.x);
+    item->ty = int2fx(ITEM_DISCARD_TARGET.y);
+    list_push_back(&s_discarded_items_list, item);
+}
+
+static inline void discarded_items_update_loop(void)
+{
+    if (list_is_empty(&s_discarded_items_list))
     {
         return;
     }
 
-    ListItr itr = list_itr_create(&s_discarded_jokers_list);
-    JokerObject* joker_object;
+    ListItr itr = list_itr_create(&s_discarded_items_list);
+    Item* item;
 
-    while ((joker_object = list_itr_next(&itr)))
+    while ((item = list_itr_next(&itr)))
     {
-        if (joker_object->x == joker_object->tx && joker_object->y == joker_object->ty)
+        if (item->x == item->tx && item->y == item->ty)
         {
             list_itr_remove_current_node(&itr);
-            // TODO: joker_object_dispose() instead?
-            joker_object_destroy(&joker_object);
+            item_dispose(&item);
         }
-    }
-}
-
-static inline void held_jokers_update_loop(void)
-{
-    static const int SPACING_LUT[MAX_JOKERS_HELD_SIZE][MAX_JOKERS_HELD_SIZE] = {
-        {0,  0,   0,   0,   0  },
-        {13, -13, 0,   0,   0  },
-        {26, 0,   -26, 0,   0  },
-        {39, 13,  -13, -39, 0  },
-        {40, 20,  0,   -20, -40}
-    };
-
-    FIXED hand_x = int2fx(HELD_JOKERS_POS.x);
-
-    ListItr itr = list_itr_create(&s_owned_jokers_list);
-    JokerObject* joker;
-    int jokers_top = list_get_len(&s_owned_jokers_list) - 1;
-    int i = 0;
-    while ((joker = list_itr_next(&itr)))
-    {
-        // Let the Shop handle the position of this Joker
-        if (joker != game_shop_get_description_card())
-            joker->tx = hand_x - int2fx(SPACING_LUT[jokers_top][i]);
-        i++;
     }
 }
 
 bool joker_object_can_acquire(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, false);
-    return (list_get_len(get_jokers_list()) < MAX_JOKERS_HELD_SIZE);
+    GBAL_RETURN_IF_NULL(joker_object, false);
+    return (list_get_len(&s_owned_jokers_container.contents_list) < MAX_JOKERS_HELD_SIZE);
 }
 
 static inline void expired_jokers_update_loop(void)
@@ -307,7 +289,7 @@ static inline void expired_jokers_update_loop(void)
         {
             // get joker idx
             int expired_joker_idx = 0;
-            ListItr joker_itr = list_itr_create(&s_owned_jokers_list);
+            ListItr joker_itr = list_itr_create(&s_owned_jokers_container.contents_list);
             JokerObject* expired_joker;
             while ((expired_joker = list_itr_next(&joker_itr)) && expired_joker != joker_object)
             {
@@ -327,8 +309,6 @@ static inline void expired_jokers_update_loop(void)
 
 static inline void jokers_update_loop(void)
 {
-    held_jokers_update_loop();
-    discarded_jokers_update_loop();
     expired_jokers_update_loop();
 }
 
@@ -339,6 +319,7 @@ void game_update()
     g_game_vars.timer++;
 
     jokers_update_loop();
+    discarded_items_update_loop();
 
     state_machine_update();
 
@@ -359,7 +340,7 @@ enum GameState game_get_state(void)
 
 bool is_joker_owned(int joker_id)
 {
-    ListItr itr = list_itr_create(&s_owned_jokers_list);
+    ListItr itr = list_itr_create(&s_owned_jokers_container.contents_list);
     JokerObject* joker;
 
     while ((joker = list_itr_next(&itr)))
@@ -374,17 +355,17 @@ bool is_joker_owned(int joker_id)
 
 List* get_jokers_list(void)
 {
-    return &s_owned_jokers_list;
+    return &s_owned_jokers_container.contents_list;
+}
+
+SpriteContainer* get_jokers_sprite_container(void)
+{
+    return &s_owned_jokers_container;
 }
 
 List* get_expired_jokers_list(void)
 {
     return &s_expired_jokers_list;
-}
-
-List* get_discarded_jokers_list(void)
-{
-    return &s_discarded_jokers_list;
 }
 
 bool is_shortcut_joker_active(void)
@@ -400,7 +381,7 @@ int get_straight_and_flush_size(void)
 
 void add_joker(JokerObject* joker_object)
 {
-    list_push_back(&s_owned_jokers_list, joker_object);
+    container_push_back(&s_owned_jokers_container, (SpriteObject*)joker_object);
 
     // TODO: Extract to on_joker_added() callback
     // In case the player gets multiple Four Fingers Jokers,
@@ -419,7 +400,8 @@ void add_joker(JokerObject* joker_object)
 void remove_owned_joker(int owned_joker_idx)
 {
     // TODO: Extract to on_joker_removed() callback
-    JokerObject* joker_object = list_get_at_idx(&s_owned_jokers_list, owned_joker_idx);
+    JokerObject* joker_object =
+        list_get_at_idx(&s_owned_jokers_container.contents_list, owned_joker_idx);
     // In case the player gets multiple Four Fingers Jokers,
     // and only reset the size when all of them have been removed
     if (joker_object->joker->id == FOUR_FINGERS_JOKER_ID)
@@ -434,7 +416,7 @@ void remove_owned_joker(int owned_joker_idx)
 
     // TODO: Move to site of joker_destroy()?
     joker_set_rollable(joker_object->joker->id, true);
-    list_remove_at_idx(&s_owned_jokers_list, owned_joker_idx);
+    container_remove_at_idx(&s_owned_jokers_container, owned_joker_idx);
 }
 
 int get_deck_top(void)
@@ -645,7 +627,7 @@ void deck_shuffle(void)
 {
     for (int i = s_deck_top; i > 0; i--)
     {
-        int j = rng_get_u32() % (i + 1);
+        int j = rng_get_u32(RNG_SEQ_CARD_SHUFFLE) % (i + 1);
         Card* temp = s_deck[i];
         s_deck[i] = s_deck[j];
         s_deck[j] = temp;
@@ -670,8 +652,6 @@ void game_start(void)
             deck_push(card);
         }
     }
-
-    change_background(BG_BLIND_SELECT, false);
 
     // Deck size/max size
     tte_erase_rect_wrapper(DECK_SIZE_RECT);

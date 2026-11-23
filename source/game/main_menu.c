@@ -14,7 +14,6 @@
 #include "sprite.h"
 #include "version.h"
 
-#include <stdint.h>
 #include <tonc.h>
 #include <tonc_math.h>
 #include <tonc_memdef.h>
@@ -83,7 +82,7 @@ static CardObject* s_main_menu_ace = NULL;
 // Keep track of last highlighted button
 static enum MainButtons s_last_highlighted_button = PLAY_BTN_IDX;
 
-void game_main_menu_change_background(void)
+void main_menu_change_background(void)
 {
     toggle_windows(false, false);
 
@@ -99,7 +98,7 @@ void game_main_menu_change_background(void)
     }
 }
 
-void game_main_menu_on_init(void)
+void main_menu_on_init(void)
 {
     affine_background_change_background(AFFINE_BG_MAIN_MENU);
     change_background(BG_MAIN_MENU, true);
@@ -119,14 +118,14 @@ void game_main_menu_on_init(void)
     button_set_highlight(&main_menu_buttons[main_menu_selection_grid.selection.x], true);
 }
 
-void game_main_menu_on_update(void)
+void main_menu_on_update(void)
 {
     s_main_menu_ace->trotation = lu_sin((g_game_vars.timer << 8) / 2) / 3;
 
     selection_grid_process_input(&main_menu_selection_grid);
 }
 
-void game_main_menu_on_exit(void)
+void main_menu_on_exit(void)
 {
     // Save selected button
     s_last_highlighted_button = main_menu_selection_grid.selection.x;
@@ -196,7 +195,7 @@ static void main_menu_on_key_transit(SelectionGrid* selection_grid, Selection* s
         combo_pressed = false;
     }
 
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
     {
         button_press(&main_menu_buttons[selection->x]);
     }

@@ -4,7 +4,6 @@
 #include "hand.h"
 #include "joker.h"
 #include "list.h"
-#include "pool.h"
 #include "random.h"
 #include "util.h"
 
@@ -14,15 +13,15 @@
 
 #define MISPRINT_MAX_MULT 23
 
-#define REGISTER_JOKER_DESC_FUNC(joker_desc_name) \
+#define DECLARE_JOKER_DESC_FUNC(joker_desc_name) \
     static int joker_desc_name(Joker* joker, Rect dest_rect);
 
-#define REGISTER_JOKER_EFFECT_FUNC(joker_effect_name) \
-    static u32 joker_effect_name(                     \
-        Joker* joker,                                 \
-        Card* scored_card,                            \
-        enum JokerEvent joker_event,                  \
-        JokerEffect** joker_effect                    \
+#define DECLARE_JOKER_EFFECT_FUNC(joker_effect_name) \
+    static u32 joker_effect_name(                    \
+        Joker* joker,                                \
+        Card* scored_card,                           \
+        enum JokerEvent joker_event,                 \
+        JokerEffect** joker_effect                   \
     );
 
 #define SCORE_ON_EVENT_ONLY_WITH_CARD(scored_card, restricted_event, checked_event) \
@@ -40,59 +39,59 @@ static JokerEffect s_shared_joker_effect = {0};
 
 // Joker Descriptions
 
-REGISTER_JOKER_DESC_FUNC(default_joker_desc)
-REGISTER_JOKER_DESC_FUNC(greedy_joker_desc)
-REGISTER_JOKER_DESC_FUNC(lusty_joker_desc)
-REGISTER_JOKER_DESC_FUNC(wrathful_joker_desc)
-REGISTER_JOKER_DESC_FUNC(gluttonous_joker_desc)
-REGISTER_JOKER_DESC_FUNC(jolly_joker_desc)
-REGISTER_JOKER_DESC_FUNC(zany_joker_desc)
-REGISTER_JOKER_DESC_FUNC(mad_joker_desc)
-REGISTER_JOKER_DESC_FUNC(crazy_joker_desc)
-REGISTER_JOKER_DESC_FUNC(droll_joker_desc)
-REGISTER_JOKER_DESC_FUNC(sly_joker_desc)
-REGISTER_JOKER_DESC_FUNC(wily_joker_desc)
-REGISTER_JOKER_DESC_FUNC(clever_joker_desc)
-REGISTER_JOKER_DESC_FUNC(devious_joker_desc)
-REGISTER_JOKER_DESC_FUNC(crafty_joker_desc)
-REGISTER_JOKER_DESC_FUNC(half_joker_desc)
-REGISTER_JOKER_DESC_FUNC(stencil_joker_desc)
-REGISTER_JOKER_DESC_FUNC(misprint_joker_desc)
-REGISTER_JOKER_DESC_FUNC(walkie_talkie_joker_desc)
-REGISTER_JOKER_DESC_FUNC(fibonnaci_joker_desc)
-REGISTER_JOKER_DESC_FUNC(banner_joker_desc)
-REGISTER_JOKER_DESC_FUNC(mystic_summit_joker_desc)
-REGISTER_JOKER_DESC_FUNC(blackboard_joker_desc)
-REGISTER_JOKER_DESC_FUNC(blue_joker_desc)
-REGISTER_JOKER_DESC_FUNC(raised_fist_joker_desc)
-REGISTER_JOKER_DESC_FUNC(reserved_parking_joker_desc)
-REGISTER_JOKER_DESC_FUNC(business_card_joker_desc)
-REGISTER_JOKER_DESC_FUNC(scholar_joker_desc)
-REGISTER_JOKER_DESC_FUNC(scary_face_joker_desc)
-REGISTER_JOKER_DESC_FUNC(abstract_joker_desc)
-REGISTER_JOKER_DESC_FUNC(bull_joker_desc)
-REGISTER_JOKER_DESC_FUNC(smiley_face_joker_desc)
-REGISTER_JOKER_DESC_FUNC(even_steven_joker_desc)
-REGISTER_JOKER_DESC_FUNC(odd_todd_joker_desc)
-REGISTER_JOKER_DESC_FUNC(acrobat_joker_desc)
-REGISTER_JOKER_DESC_FUNC(hanging_chad_joker_desc)
-REGISTER_JOKER_DESC_FUNC(the_duo_joker_desc)
-REGISTER_JOKER_DESC_FUNC(the_trio_joker_desc)
-REGISTER_JOKER_DESC_FUNC(the_family_joker_desc)
-REGISTER_JOKER_DESC_FUNC(the_order_joker_desc)
-REGISTER_JOKER_DESC_FUNC(the_tribe_joker_desc)
-REGISTER_JOKER_DESC_FUNC(bootstraps_joker_desc)
-REGISTER_JOKER_DESC_FUNC(shoot_the_moon_joker_desc)
-REGISTER_JOKER_DESC_FUNC(pareidolia_joker_desc)
-REGISTER_JOKER_DESC_FUNC(photograph_joker_desc)
-REGISTER_JOKER_DESC_FUNC(dusk_joker_desc)
-REGISTER_JOKER_DESC_FUNC(shortcut_joker_desc)
-REGISTER_JOKER_DESC_FUNC(blueprint_joker_desc)
-REGISTER_JOKER_DESC_FUNC(brainstorm_joker_desc)
-REGISTER_JOKER_DESC_FUNC(hack_joker_desc)
-REGISTER_JOKER_DESC_FUNC(four_fingers_joker_desc)
-REGISTER_JOKER_DESC_FUNC(seltzer_joker_desc)
-REGISTER_JOKER_DESC_FUNC(sock_and_buskin_joker_desc)
+DECLARE_JOKER_DESC_FUNC(default_joker_desc)
+DECLARE_JOKER_DESC_FUNC(greedy_joker_desc)
+DECLARE_JOKER_DESC_FUNC(lusty_joker_desc)
+DECLARE_JOKER_DESC_FUNC(wrathful_joker_desc)
+DECLARE_JOKER_DESC_FUNC(gluttonous_joker_desc)
+DECLARE_JOKER_DESC_FUNC(jolly_joker_desc)
+DECLARE_JOKER_DESC_FUNC(zany_joker_desc)
+DECLARE_JOKER_DESC_FUNC(mad_joker_desc)
+DECLARE_JOKER_DESC_FUNC(crazy_joker_desc)
+DECLARE_JOKER_DESC_FUNC(droll_joker_desc)
+DECLARE_JOKER_DESC_FUNC(sly_joker_desc)
+DECLARE_JOKER_DESC_FUNC(wily_joker_desc)
+DECLARE_JOKER_DESC_FUNC(clever_joker_desc)
+DECLARE_JOKER_DESC_FUNC(devious_joker_desc)
+DECLARE_JOKER_DESC_FUNC(crafty_joker_desc)
+DECLARE_JOKER_DESC_FUNC(half_joker_desc)
+DECLARE_JOKER_DESC_FUNC(stencil_joker_desc)
+DECLARE_JOKER_DESC_FUNC(misprint_joker_desc)
+DECLARE_JOKER_DESC_FUNC(walkie_talkie_joker_desc)
+DECLARE_JOKER_DESC_FUNC(fibonnaci_joker_desc)
+DECLARE_JOKER_DESC_FUNC(banner_joker_desc)
+DECLARE_JOKER_DESC_FUNC(mystic_summit_joker_desc)
+DECLARE_JOKER_DESC_FUNC(blackboard_joker_desc)
+DECLARE_JOKER_DESC_FUNC(blue_joker_desc)
+DECLARE_JOKER_DESC_FUNC(raised_fist_joker_desc)
+DECLARE_JOKER_DESC_FUNC(reserved_parking_joker_desc)
+DECLARE_JOKER_DESC_FUNC(business_card_joker_desc)
+DECLARE_JOKER_DESC_FUNC(scholar_joker_desc)
+DECLARE_JOKER_DESC_FUNC(scary_face_joker_desc)
+DECLARE_JOKER_DESC_FUNC(abstract_joker_desc)
+DECLARE_JOKER_DESC_FUNC(bull_joker_desc)
+DECLARE_JOKER_DESC_FUNC(smiley_face_joker_desc)
+DECLARE_JOKER_DESC_FUNC(even_steven_joker_desc)
+DECLARE_JOKER_DESC_FUNC(odd_todd_joker_desc)
+DECLARE_JOKER_DESC_FUNC(acrobat_joker_desc)
+DECLARE_JOKER_DESC_FUNC(hanging_chad_joker_desc)
+DECLARE_JOKER_DESC_FUNC(the_duo_joker_desc)
+DECLARE_JOKER_DESC_FUNC(the_trio_joker_desc)
+DECLARE_JOKER_DESC_FUNC(the_family_joker_desc)
+DECLARE_JOKER_DESC_FUNC(the_order_joker_desc)
+DECLARE_JOKER_DESC_FUNC(the_tribe_joker_desc)
+DECLARE_JOKER_DESC_FUNC(bootstraps_joker_desc)
+DECLARE_JOKER_DESC_FUNC(shoot_the_moon_joker_desc)
+DECLARE_JOKER_DESC_FUNC(pareidolia_joker_desc)
+DECLARE_JOKER_DESC_FUNC(photograph_joker_desc)
+DECLARE_JOKER_DESC_FUNC(dusk_joker_desc)
+DECLARE_JOKER_DESC_FUNC(shortcut_joker_desc)
+DECLARE_JOKER_DESC_FUNC(blueprint_joker_desc)
+DECLARE_JOKER_DESC_FUNC(brainstorm_joker_desc)
+DECLARE_JOKER_DESC_FUNC(hack_joker_desc)
+DECLARE_JOKER_DESC_FUNC(four_fingers_joker_desc)
+DECLARE_JOKER_DESC_FUNC(seltzer_joker_desc)
+DECLARE_JOKER_DESC_FUNC(sock_and_buskin_joker_desc)
 
 // Joker Effect functions
 
@@ -103,58 +102,59 @@ static u32 sinful_joker_effect(
     JokerEffect** joker_effect
 );
 
-REGISTER_JOKER_EFFECT_FUNC(joker_effect_noop)
-REGISTER_JOKER_EFFECT_FUNC(default_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(greedy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(lusty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wrathful_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(jolly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(zany_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crazy_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(droll_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sly_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(wily_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(clever_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(devious_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(crafty_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(half_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(stencil_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(misprint_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(banner_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blackboard_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blue_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(business_card_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scholar_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(scary_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(abstract_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bull_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(even_steven_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(acrobat_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_duo_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_trio_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_family_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_order_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(photograph_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(dusk_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(hack_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(seltzer_joker_effect)
-REGISTER_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
+static Joker* blueprint_brainstorm_get_copied_joker(const Joker* copy_joker, bool* is_owned);
 
-// clang-format off
+DECLARE_JOKER_EFFECT_FUNC(joker_effect_noop)
+DECLARE_JOKER_EFFECT_FUNC(default_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(greedy_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(lusty_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(wrathful_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(gluttonous_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(jolly_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(zany_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(mad_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(crazy_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(droll_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(sly_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(wily_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(clever_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(devious_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(crafty_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(half_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(stencil_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(misprint_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(walkie_talkie_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(fibonnaci_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(banner_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(mystic_summit_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blackboard_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blue_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(raised_fist_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(reserved_parking_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(business_card_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(scholar_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(scary_face_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(abstract_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(bull_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(smiley_face_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(even_steven_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(odd_todd_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(acrobat_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(hanging_chad_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_duo_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_trio_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_family_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_order_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(the_tribe_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(bootstraps_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(shoot_the_moon_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(photograph_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(dusk_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(blueprint_brainstorm_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(hack_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(seltzer_joker_effect)
+DECLARE_JOKER_EFFECT_FUNC(sock_and_buskin_joker_effect)
+
 /* The index of a joker in the registry matches its ID.
  *
  * The joker sprites are matched by ID so the position in the registry
@@ -649,17 +649,32 @@ static int dusk_joker_desc(Joker* joker, Rect dest_rect)
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
+#define COMPATIBLE_TEXT      TTE_GREEN_TAG "\n\n(Compatible)"
+#define INCOMPATIBLE_TEXT    TTE_RED_TAG "\n\n(Incompatible)"
+#define BRAINSTORM_BASE_DESC TTE_BLACK_TAG "Copies ability of the leftmost " TTE_YELLOW_TAG "Joker"
+#define BLUEPRINT_BASE_DESC \
+    TTE_BLACK_TAG "Copies ability of " TTE_YELLOW_TAG "Joker" TTE_BLACK_TAG " to the right"
+
 static int brainstorm_joker_desc(Joker* joker, Rect dest_rect)
 {
-    static const char desc[] =
-        TTE_BLACK_TAG "Copies ability of the leftmost " TTE_YELLOW_TAG "Joker";
+    bool owned = false;
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, &owned);
+    const char* desc = !owned       ? BRAINSTORM_BASE_DESC
+                     : copied_joker ? BRAINSTORM_BASE_DESC COMPATIBLE_TEXT
+                                    : BRAINSTORM_BASE_DESC INCOMPATIBLE_TEXT;
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
+// This function is basically the same as the brainstorm one, but it's been duplicated to avoid
+// doing any complicated shenanigans with the description strings.
+// I think it's way simpler and efficient that way.
 static int blueprint_joker_desc(Joker* joker, Rect dest_rect)
 {
-    static const char desc[] =
-        TTE_BLACK_TAG "Copies ability of " TTE_YELLOW_TAG "Joker" TTE_BLACK_TAG " to the right";
+    bool owned = false;
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, &owned);
+    const char* desc = !owned       ? BLUEPRINT_BASE_DESC
+                     : copied_joker ? BLUEPRINT_BASE_DESC COMPATIBLE_TEXT
+                                    : BLUEPRINT_BASE_DESC INCOMPATIBLE_TEXT;
     return tte_printf_justified_in_rect(desc, dest_rect, JUSTIFY_CENTER, SCREEN_LEFT, true);
 }
 
@@ -1090,7 +1105,7 @@ static u32 misprint_joker_effect(
 
     *joker_effect = &s_shared_joker_effect;
 
-    (*joker_effect)->mult = rng_get_u32() % (MISPRINT_MAX_MULT + 1);
+    (*joker_effect)->mult = rng_get_u32(RNG_SEQ_JOKER_MISPRINT) % (MISPRINT_MAX_MULT + 1);
 
     return JOKER_EFFECT_FLAG_MULT;
 }
@@ -1204,7 +1219,7 @@ static u32 blackboard_joker_effect(
 
     bool all_cards_are_spades_or_clubs = true;
     CardObject** hand = get_hand_array();
-    for (int i = 0; i < g_game_vars.hand_size; i++)
+    for (int i = 0; i < get_num_cards_in_hand(); i++)
     {
         u8 suit = hand[i]->card->suit;
         if (suit == HEARTS || suit == DIAMONDS)
@@ -1257,12 +1272,10 @@ static u32 raised_fist_joker_effect(
         // Use this event to compute the index of the lowest value card only once.
         // Aces are always considered high value, even in an ace-low straight
         case JOKER_EVENT_ON_HAND_PLAYED:
-            // index initialized at 0 but accessed only if
-            // hand_size > 0 so we're never out of bounds
             *p_lowest_value_index = 0;
             u8 lowest_value = IMPOSSIBLY_HIGH_CARD_VALUE;
             CardObject** hand = get_hand_array();
-            for (int i = 0; i < g_game_vars.hand_size; i++)
+            for (int i = 0; i < get_num_cards_in_hand(); i++)
             {
                 u8 value = card_get_value(hand[i]->card);
                 if (lowest_value > value)
@@ -1301,7 +1314,7 @@ static u32 reserved_parking_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
+    if (card_is_face(scored_card) && (rng_get_u32(RNG_SEQ_JOKER_RESERVED_PARKING) % 2 == 0))
     {
         *joker_effect = &s_shared_joker_effect;
 
@@ -1323,7 +1336,7 @@ static u32 business_card_joker_effect(
 
     u32 effect_flags_ret = JOKER_EFFECT_FLAG_NONE;
 
-    if ((rng_get_u32() % 2 == 0) && card_is_face(scored_card))
+    if (card_is_face(scored_card) && (rng_get_u32(RNG_SEQ_JOKER_BUSINESS_CARD) % 2 == 0))
     {
         *joker_effect = &s_shared_joker_effect;
 
@@ -1814,34 +1827,74 @@ static u32 blueprint_brainstorm_joker_effect(
         return effect_flags_ret;
     }
 
+    // Get copied Joker
+    Joker* copied_joker = blueprint_brainstorm_get_copied_joker(joker, NULL);
+
+    // Not an error to get NULL here, so don't use GBAL_RETURN_IF_NULL
+    if (copied_joker == NULL)
+        return effect_flags_ret;
+
+    u8 copied_joker_id = copied_joker->id;
+    const JokerInfo* copied_joker_info = get_joker_registry_entry(copied_joker_id);
+
+    // Copy the persistent data
+    joker->persistent_state = copied_joker->persistent_state;
+
+    // Apply the copied JokerEffect function to the local data
+    effect_flags_ret =
+        copied_joker_info->joker_effect_func(joker, scored_card, joker_event, joker_effect);
+
+    // make also sure we don't expire
+    effect_flags_ret &= ~JOKER_EFFECT_FLAG_EXPIRE;
+
+    return effect_flags_ret;
+}
+
+/**
+ * @brief Assuming @p base_joker is a copying joker (Blueprint/Brainstorm), finds the final copied
+ *         joker in the copy chain.
+ *
+ * @param[in]  base_joker pointer to the starting copy Joker
+ * @param[out] is_owned   pointer to a boolean, true if @p base_joker is owned, false otherwise.
+ *                        Will not be used if **NULL**.
+ *
+ * @return the copied Joker, will be **NULL** if the @p base_joker isn't copying any Joker or if
+ *          it's incompatible
+ */
+static Joker* blueprint_brainstorm_get_copied_joker(const Joker* base_joker, bool* is_owned)
+{
     // find ourselves in the Jokers list
     List* jokers = get_jokers_list();
     ListItr itr = list_itr_create(jokers);
     JokerObject* copied_joker_object;
     while ((copied_joker_object = list_itr_next(&itr)))
     {
-        if (copied_joker_object->joker == joker)
+        if (copied_joker_object->joker == base_joker)
         {
+            if (is_owned != NULL)
+                *is_owned = true;
             break;
         }
     }
 
-    // This shouldn't happen since if we are a scoring Joker, we should always
-    // be part of the Jokers list, but being extra careful doesn't cost much
+    // This will happen if we are not a scoring Joker, a.k.a. still a Shop Item
     if (copied_joker_object == NULL)
     {
-        return effect_flags_ret;
+        if (is_owned != NULL)
+            *is_owned = false;
+        return NULL;
     }
 
     // find the copied Joker, may need to bounce around Blueprints and a Brainstorm
     // If we encounter NULL, we have a Blueprint at the end of the list that can't copy anything.
     // If we go through a Brainstorms twice, we will be in a loop and need to exit
+    Joker* copied_joker = NULL;
     u8 brainstorm_counter = 0;
     do
     {
         switch (copied_joker_object->joker->id)
         {
-            // get the next Joker for Blueprint
+            // Get the next Joker for Blueprint
             case BLUEPRINT_JOKER_ID:
                 copied_joker_object = list_itr_next(&itr);
                 break;
@@ -1853,33 +1906,22 @@ static u32 blueprint_brainstorm_joker_effect(
                 copied_joker_object = list_itr_next(&itr);
                 break;
 
-            // We encountered a Joker that isn't a Copying Joker and copy it now
-            // but how we copy it depends on this Joker's ID because they don't
-            // all handle data the same way.
-            default:
-                u8 copied_joker_id = copied_joker_object->joker->id;
-                const JokerInfo* copied_joker_info = get_joker_registry_entry(copied_joker_id);
-
-                // Copy the persistent data
-                joker->persistent_state = copied_joker_object->joker->persistent_state;
-
-                // Then regardless of if we copied the data above, apply the
-                // copied JokerEffect function to the local data
-                effect_flags_ret =
-                    copied_joker_info
-                        ->joker_effect_func(joker, scored_card, joker_event, joker_effect);
-
-                // make also sure we don't expire
-                effect_flags_ret &= ~JOKER_EFFECT_FLAG_EXPIRE;
-
-                // exit the loop
+            // We encountered an incompatible Jokers, set `copied_joker` to NULL to signal so
+            case SHORTCUT_JOKER_ID:
+            case PAREIDOLIA_JOKER_ID:
+            case FOUR_FINGERS_JOKER_ID:
                 copied_joker_object = NULL;
+                break;
 
+            // We encountered a Joker that isn't a Copying Joker and copy it now
+            default:
+                copied_joker = copied_joker_object->joker;
+                copied_joker_object = NULL;
                 break;
         }
     } while (copied_joker_object != NULL && brainstorm_counter < 2);
 
-    return effect_flags_ret;
+    return copied_joker;
 }
 
 static u32 hack_joker_effect(

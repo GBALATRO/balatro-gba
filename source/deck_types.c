@@ -5,8 +5,6 @@
  */
 #include "deck_types.h"
 
-#include "game.h"
-
 #include <tonc.h>
 
 #define TTE_COLOR_TEXT_FORMAT "#{cx:0x%X000}%s"

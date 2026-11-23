@@ -9,10 +9,10 @@
 #include "graphic_utils.h"
 #include "hand.h"
 #include "joker.h"
-#include "layout.h"
 #include "list.h"
 #include "random.h"
 #include "selection_grid.h"
+#include "skip_tag.h"
 #include "soundbank.h"
 #include "timer.h"
 #include "util.h"
@@ -143,7 +143,7 @@ static void game_over_common_init(enum EndCondition init_condition)
     ListItr itr = list_itr_create(get_jokers_list());
     while ((joker_object = list_itr_next(&itr)))
     {
-        obj_hide(joker_object->sprite->obj);
+        sprite_object_hide((SpriteObject*)(joker_object));
     }
 
     // Destroy any preexisting cards in the deck, which will be present if we restart a run
@@ -153,6 +153,8 @@ static void game_over_common_init(enum EndCondition init_condition)
         card = deck_pop();
         card_destroy(&card);
     }
+
+    remove_all_skip_tags();
 
     // Clears the round end menu
     toggle_windows(false, false);
@@ -322,7 +324,7 @@ static Button* game_over_get_button_from_sel(const Selection* selection)
 
 static void game_over_on_key_transit(SelectionGrid* selection_grid, Selection* selection)
 {
-    if (key_hit(SELECT_CARD))
+    if (key_hit(KEY_CONFIRM))
         button_press(&game_over_buttons[selection->y][selection->x]);
 }
 

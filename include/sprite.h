@@ -13,7 +13,7 @@
  * @name Sprite system constants
  * @{
  */
-#define CARD_SPRITE_SIZE                  32
+#define CARD_SPRITE_SIZE_PX               32
 #define MAX_AFFINES                       32
 #define MAX_SPRITES                       128
 #define MAX_SPRITE_OBJECTS                16
@@ -21,6 +21,31 @@
 #define CARD_FOCUS_SFX_PITCH_OFFSET_RANGE 512
 
 /** @} */
+
+/**
+ * @name Sprite sizes in number of tiles
+ * @{
+ */
+#define CARD_SPRITE_TILES     16
+#define JOKER_SPRITE_TILES    16
+#define BLIND_SPRITE_TILES    16
+#define SKIP_TAG_SPRITE_TILES 4
+/** @} */
+
+/**
+ * @brief The different types of sprites in the game.
+ *
+ * Defining sprite types allows to easily rearrange, expand, and get the info about sprites
+ */
+enum SpriteType
+{
+    CARD_SPRITE,
+    BLIND_TOKEN_SPRITE,
+    SKIP_TAG_SPRITE,
+    JOKER_SPRITE,
+    DECK_SPRITE,
+    MAX_SPRITE_TYPE
+};
 
 /**
  * @brief Sprite struct for GBA hardware specifics
@@ -114,6 +139,23 @@ typedef struct
      */
     bool focused;
 } SpriteObject;
+
+/**
+ * @brief Get the tile index of a certain SpriteType at a certain layer
+ *
+ * @param sprite_type
+ * @param layer
+ * @return index in tiles memory where to put the sprite
+ */
+int sprite_get_tid(enum SpriteType sprite_type, s16 layer);
+
+/**
+ * @brief Get the starting layer of a certain type of sprite
+ *
+ * @param sprite_type
+ * @return int
+ */
+int sprite_get_starting_layer(enum SpriteType sprite_type);
 
 /**
  * @brief Allocate and retrieve a pointer to a valid Sprite
@@ -286,6 +328,30 @@ void sprite_object_update_all(void);
  *        no sound will play.
  */
 void sprite_object_shake(SpriteObject* sprite_object, mm_word sound_id);
+
+/**
+ * @brief Make SpriteObject bounce by slightly increasing its size in an elastic way
+ *
+ * @param strength how much does the sprite bounce, bigger values yield a bigger bounce.
+ * @param SpriteObject pointer to SpriteObject to make bounce. Cannot be **NULL**.
+ */
+void sprite_object_bounce(SpriteObject* sprite_object, FIXED strength);
+
+/**
+ * @brief Make SpriteObject sway by slightly rotating on screen
+ *
+ * @param SpriteObject pointer to SpriteObject to sway. Cannot be **NULL**.
+ */
+void sprite_object_sway(SpriteObject* sprite_object);
+
+/**
+ * @brief Set a SpriteObject's target position so that is slides across the screen between from the
+ *         current position to the new
+ *
+ * @param SpriteObject pointer to SpriteObject to move. Cannot be **NULL**.
+ * @param to screen coordinates of the target position. Cannot be **UNDEFINED**.
+ */
+void sprite_object_set_target(SpriteObject* sprite_object, BG_POINT to);
 
 /**
  * @brief Get a SpriteObject's registered Sprite

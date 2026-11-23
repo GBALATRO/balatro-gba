@@ -2,18 +2,14 @@
 #define CARD_H
 
 #include "deck_types.h"
+#include "game/common_ui.h"
 #include "item.h"
 
 #include <maxmod.h>
 #include <tonc.h>
 
-#define MAX_CARDS           128 // Arbitrary high value so we don't have issues
-#define MAX_CARDS_ON_SCREEN 16
-
-#define CARD_TID            0
-#define CARD_SPRITE_OFFSET  16
-#define CARD_PB             0
-#define CARD_STARTING_LAYER 0
+#define MAX_CARDS           128                 // Arbitrary high value so we don't have issues
+#define MAX_CARDS_ON_SCREEN (MAX_HAND_SIZE + 1) // Add room for the Deck sprite
 
 // Card suits
 #define DIAMONDS  0

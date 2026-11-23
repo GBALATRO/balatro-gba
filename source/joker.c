@@ -1,19 +1,15 @@
 #include "joker.h"
 
 #include "card.h"
-#include "game/round.h"
-#include "game_variables.h"
 #include "graphic_utils.h"
-#include "layout.h"
+#include "item.h"
 #include "mgba_logger.h"
 #include "pool.h"
 #include "random.h"
-#include "soundbank.h"
 #include "util.h"
 
 // Tiles and palettes
 #include "card_rarity_pal_gfx.h"
-#include "item.h"
 #include "joker_gfx.h"
 
 #include <maxmod.h>
@@ -21,9 +17,6 @@
 #include <string.h>
 #include <tonc.h>
 
-#define JOKER_SCORE_TEXT_Y     48
-#define HELD_CARD_SCORE_TEXT_Y 108
-#define MAX_CARD_SCORE_STR_LEN 2
 // what it was before (MAX_DEFINEABLE_JOKERS / JOKERS_PER_SPRITESHEET)
 #define MAX_NUM_JOKERS_SPRITESHEETS 75
 
@@ -36,15 +29,6 @@ static const unsigned short* joker_gfxPal[] = {
 #define DEF_JOKER_GFX(idx) joker_gfx##idx##Pal,
 #include "def_joker_gfx_table.h"
 #undef DEF_JOKER_GFX
-};
-
-// TODO: Removed unplanned editions...
-const static u8 EDITION_PRICE_LUT[MAX_EDITIONS] = {
-    0, // BASE_EDITION
-    2, // FOIL_EDITION
-    3, // HOLO_EDITION
-    5, // POLY_EDITION
-    5, // NEGATIVE_EDITION
 };
 
 /* So for the card objects, I needed them to be properly sorted
@@ -113,6 +97,7 @@ static void s_joker_pb_remove_sprite_user(int pb);
 static int s_joker_pb_get_num_sprite_users(int joker_pb);
 static int s_get_unused_joker_pb(void);
 static int s_allocate_pb_if_needed(u8 joker_id);
+static enum JokerRarity joker_get_random_rarity(enum RngSequence key);
 
 void joker_init()
 {
@@ -134,8 +119,7 @@ Joker* joker_new(u8 id)
     const JokerInfo* jinfo = get_joker_registry_entry(id);
 
     joker->id = id;
-    joker->modifier = BASE_EDITION; // TODO: Make this a parameter
-    joker->value = jinfo->base_value + EDITION_PRICE_LUT[joker->modifier];
+    joker->value = jinfo->base_value;
     joker->rarity = jinfo->rarity;
     joker->scoring_state = 0;
     joker->persistent_state = 0;
@@ -167,34 +151,59 @@ u32 joker_get_score_effect(
     return jinfo->joker_effect_func(joker, scored_card, joker_event, joker_effect);
 }
 
-const char* joker_get_rarity_string(u8 rarity)
+const char* joker_object_get_name(Item* joker_object)
 {
-    if (rarity >= MAX_RARITIES)
-        return NULL;
+    GBAL_RETURN_IF_NULL(joker_object, NULL);
+    Joker* joker = ((JokerObject*)joker_object)->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL(info, NULL);
 
-    return JOKER_RARITY_STRINGS_LUT[rarity];
+    return info->name;
 }
 
-u16 joker_get_rarity_color(u8 rarity, bool main_color)
+ItemDescSubtypeInfo joker_object_get_rarity_info(Item* joker_object)
 {
-    if (rarity >= MAX_RARITIES)
-        return 0x0;
+    ItemDescSubtypeInfo subtype_info = ITEM_SUBTYPE_INFO_DEFAULT;
 
-    // +1 to account for the transparency
-    // odd indices are the main colors, even ones are the shadows
-    return card_rarity_pal_gfxPal[1 + 2 * rarity + (main_color ? 0 : 1)];
+    GBAL_RETURN_IF_NULL(joker_object, subtype_info);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, subtype_info);
+
+    Joker* joker = ((JokerObject*)joker_object)->joker;
+    GBAL_RETURN_IF_NULL(joker, subtype_info);
+
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL(info, subtype_info);
+
+    u8 rarity = joker->rarity;
+    if (rarity >= MAX_RARITIES)
+    {
+        MGBA_FUNC_ERROR(
+            "Invalid Joker rarity value %d, should not exceed %d",
+            rarity,
+            MAX_RARITIES
+        );
+        return subtype_info;
+    }
+
+    // +1 to account for the mandatory transparency in Asperite color palettes
+    u32 pal_base = 1 + 2 * rarity;
+    subtype_info.main_color = card_rarity_pal_gfxPal[pal_base];       // even indices for shadows
+    subtype_info.shadow_color = card_rarity_pal_gfxPal[pal_base + 1]; // odd ones for main colors
+    subtype_info.name_str = JOKER_RARITY_STRINGS_LUT[rarity];
+
+    return subtype_info;
 }
 
 int joker_get_buy_price(const Joker* joker)
 {
-    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value;
 }
 
 int joker_get_sell_value(const Joker* joker)
 {
-    GBAL_RETURN_IF_NULL_RET(joker, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker, UNDEFINED);
 
     return joker->value / 2;
 }
@@ -202,12 +211,13 @@ int joker_get_sell_value(const Joker* joker)
 // JokerObject methods
 JokerObject* joker_object_new(Joker* joker)
 {
+    GBAL_RETURN_IF_NULL(joker, NULL);
     JokerObject* joker_object = POOL_GET(JokerObject);
 
     sprite_object_init((SpriteObject*)joker_object);
 
-    int layer = 0;
-    for (int i = 0; i < MAX_JOKER_OBJECTS; i++)
+    s16 layer = 0;
+    for (s16 i = 0; i < MAX_JOKER_OBJECTS; i++)
     {
         if (!s_used_layers[i])
         {
@@ -218,11 +228,10 @@ JokerObject* joker_object_new(Joker* joker)
     }
 
     joker_object->joker = joker;
-
     joker_object->type = ITEM_TYPE_JOKER;
+    joker_object->is_owned = false;
 
-    int tile_index = JOKER_TID + layer * JOKER_SPRITE_OFFSET;
-
+    int tile_index = sprite_get_tid(JOKER_SPRITE, layer);
     int joker_spritesheet_idx = s_joker_get_spritesheet_idx(joker->id);
     int joker_idx = s_joker_get_sprite_idx_in_sheet(joker->id, joker_spritesheet_idx);
     int joker_pb = s_allocate_pb_if_needed(joker->id);
@@ -230,8 +239,8 @@ JokerObject* joker_object_new(Joker* joker)
 
     memcpy32(
         &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
-        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_OFFSET],
-        TILE_SIZE * JOKER_SPRITE_OFFSET
+        &joker_gfxTiles[joker_spritesheet_idx][joker_idx * TILE_SIZE * JOKER_SPRITE_TILES],
+        TILE_SIZE * JOKER_SPRITE_TILES
     );
 
     sprite_object_set_sprite(
@@ -241,7 +250,7 @@ JokerObject* joker_object_new(Joker* joker)
             ATTR1_SIZE_32,
             tile_index,
             joker_pb,
-            JOKER_STARTING_LAYER + layer
+            sprite_get_starting_layer(JOKER_SPRITE) + layer
         )
     );
 
@@ -253,7 +262,8 @@ void joker_object_destroy(JokerObject** joker_object)
     if (joker_object == NULL || *joker_object == NULL)
         return;
 
-    s16 layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) - JOKER_STARTING_LAYER;
+    s16 layer = sprite_get_layer(joker_object_get_sprite(*joker_object)) -
+                sprite_get_starting_layer(JOKER_SPRITE);
     s_used_layers[layer] = false;
     s_joker_pb_remove_sprite_user(sprite_get_pb(joker_object_get_sprite(*joker_object)));
     if (s_joker_pb_get_num_sprite_users((sprite_get_pb(joker_object_get_sprite(*joker_object)))) ==
@@ -271,17 +281,32 @@ void joker_object_destroy(JokerObject** joker_object)
 
 void joker_object_dispose(Item** joker_object_item)
 {
-    GBAL_RETURN_IF_NULL_VOID(joker_object_item);
-    GBAL_RETURN_IF_NULL_VOID(*joker_object_item);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(*joker_object_item, ITEM_TYPE_JOKER);
+    GBAL_RETURN_IF_NULL(joker_object_item, RET_NONE);
+    GBAL_RETURN_IF_NULL(*joker_object_item, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS((*joker_object_item)->type == ITEM_TYPE_JOKER, RET_NONE);
 
     JokerObject* joker_object = (JokerObject*)(*joker_object_item);
-    GBAL_RETURN_IF_NULL_VOID(joker_object->joker);
+    GBAL_RETURN_IF_NULL(joker_object->joker, RET_NONE);
 
     joker_set_rollable(joker_object->joker->id, true);
 
     joker_object_destroy(&joker_object);
     *joker_object_item = NULL;
+}
+
+int joker_object_print_description(Item* joker_object_item, Rect dest_rect)
+{
+    GBAL_RETURN_IF_NULL(joker_object_item, 0);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object_item->type == ITEM_TYPE_JOKER, 0);
+
+    JokerObject* joker_object = (JokerObject*)(joker_object_item);
+    GBAL_RETURN_IF_NULL(joker_object->joker, 0);
+
+    Joker* joker = joker_object->joker;
+    const JokerInfo* info = get_joker_registry_entry(joker->id);
+    GBAL_RETURN_IF_NULL(info, 0);
+
+    return info->joker_print_desc(joker, dest_rect);
 }
 
 void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
@@ -291,18 +316,25 @@ void joker_object_shake(JokerObject* joker_object, mm_word sound_id)
 
 int joker_object_get_buy_price(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_RET(joker_object, UNDEFINED);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_RET(joker_object, ITEM_TYPE_JOKER, UNDEFINED);
+    GBAL_RETURN_IF_NULL(joker_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, UNDEFINED);
 
-    return ((JokerObject*)joker_object)->joker->value;
+    return joker_get_buy_price(((JokerObject*)joker_object)->joker);
+}
+
+int joker_object_get_sell_price(Item* joker_object)
+{
+    GBAL_RETURN_IF_NULL(joker_object, UNDEFINED);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, UNDEFINED);
+
+    return joker_get_sell_value(((JokerObject*)joker_object)->joker);
 }
 
 void joker_object_add_to_owned(Item* joker_object)
 {
-    GBAL_RETURN_IF_NULL_VOID(joker_object);
-    ITEM_RETURN_IF_UNEXPECTED_TYPE_VOID(joker_object, ITEM_TYPE_JOKER);
+    GBAL_RETURN_IF_NULL(joker_object, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS(joker_object->type == ITEM_TYPE_JOKER, RET_NONE);
 
-    joker_object->ty = int2fx(HELD_JOKERS_POS.y);
     add_joker((JokerObject*)joker_object);
 }
 
@@ -345,10 +377,7 @@ void joker_reset_rollable_jokers(void)
     }
 }
 
-/**
- * @brief Rolls a random Joker among the available ones
- */
-static int joker_roll_id(void)
+int joker_roll_id(enum JokerRarity joker_rarity, enum RngSequence key)
 {
     // Now determine how many jokers are available based on the rarity
     int jokers_avail_size = get_num_rollable_jokers();
@@ -356,11 +385,8 @@ static int joker_roll_id(void)
     if (jokers_avail_size == 0)
         return UNDEFINED;
 
-    // Roll for what rarity the joker will be
-    int joker_rarity = joker_get_random_rarity();
-
     int matching_joker_ids[jokers_avail_size];
-    int fallback_random_idx = rng_get_u32() % jokers_avail_size;
+    int fallback_random_idx = rng_get_u32(key) % jokers_avail_size;
     int fallback_random_joker_id = UNDEFINED;
     int match_count = 0;
 
@@ -379,13 +405,13 @@ static int joker_roll_id(void)
         }
     }
 
-    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32() % match_count]
+    int selected_joker_id = (match_count > 0) ? matching_joker_ids[rng_get_u32(key) % match_count]
                                               : fallback_random_joker_id;
 
     return selected_joker_id;
 }
 
-Item* joker_object_roll_new(void)
+Item* joker_object_roll_new(enum RngSequence key)
 {
     if (no_rollable_jokers())
         return NULL;
@@ -406,7 +432,7 @@ Item* joker_object_roll_new(void)
     else
 #endif
     {
-        joker_id = joker_roll_id();
+        joker_id = joker_roll_id(joker_get_random_rarity(key), key);
     }
 
     // If for some reason only no joker is left, don't make another
@@ -418,127 +444,16 @@ Item* joker_object_roll_new(void)
     return (Item*)joker_object_new(joker_new(joker_id));
 }
 
-static void set_and_shift_text(char* str, int* cursor_pos_x, int* cursor_pos_y, int color_pb)
+/**
+ * @brief Get a random rarity a Joker will be rolled from
+ *
+ * @param key to the RNG sequence used
+ * @return a random Joker rarity
+ */
+static inline enum JokerRarity joker_get_random_rarity(enum RngSequence key)
 {
-    tte_set_pos(*cursor_pos_x, *cursor_pos_y);
-    tte_set_special(color_pb * TTE_SPECIAL_PB_MULT_OFFSET);
-    tte_write(str);
-
-    // + 1 For space
-    const int joker_score_display_offset_px = (MAX_CARD_SCORE_STR_LEN + 1) * TTE_CHAR_SIZE;
-    *cursor_pos_x += joker_score_display_offset_px;
-}
-
-bool joker_object_score(
-    JokerObject* joker_object,
-    CardObject* card_object,
-    enum JokerEvent joker_event
-)
-{
-    if (joker_object == NULL)
-    {
-        return false;
-    }
-
-    JokerEffect* joker_effect = NULL;
-    u32 effect_flags_ret =
-        joker_get_score_effect(joker_object->joker, card_object->card, joker_event, &joker_effect);
-
-    if (effect_flags_ret == JOKER_EFFECT_FLAG_NONE)
-    {
-        return false;
-    }
-
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_RETRIGGER)
-    {
-        set_retrigger(joker_effect->retrigger);
-    }
-
-    // joker_effect.message will have been set if the Joker had anything custom to say
-
-    int cursorPosX = TILE_SIZE; // Offset of one tile to better center the text on the card
-    int cursorPosY = 0;
-    if (joker_event == JOKER_EVENT_ON_CARD_HELD)
-    {
-        // display the text on top of the card instead of below the Joker for Held Cards effects
-        // scored_card cannot be NULL here because of the joker event
-        cursorPosX += fx2int(card_object->x);
-        cursorPosY = HELD_CARD_SCORE_TEXT_Y;
-    }
-    else
-    {
-        cursorPosX += fx2int(joker_object->x);
-        cursorPosY = JOKER_SCORE_TEXT_Y;
-    }
-
-    mm_word sfx_id;
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_CHIPS)
-    {
-        g_game_vars.chips = u32_protected_add(g_game_vars.chips, joker_effect->chips);
-        char score_buffer[INT_MAX_DIGITS + 2]; // For '+' and null terminator
-        snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->chips);
-        set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_BLUE_PB);
-        sfx_id = SFX_CHIPS_GENERIC; // The joker chips effect is "generic"
-    }
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_MULT)
-    {
-        g_game_vars.mult = u32_protected_add(g_game_vars.mult, joker_effect->mult);
-        char score_buffer[INT_MAX_DIGITS + 2];
-        snprintf(score_buffer, sizeof(score_buffer), "+%lu", joker_effect->mult);
-        set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
-        sfx_id = SFX_MULT;
-    }
-    // if xmult is zero, DO NOT multiply by it
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_XMULT && joker_effect->xmult > 0)
-    {
-        g_game_vars.mult = u32_protected_mult(g_game_vars.mult, joker_effect->xmult);
-        char score_buffer[INT_MAX_DIGITS + 2];
-        snprintf(score_buffer, sizeof(score_buffer), "X%lu", joker_effect->xmult);
-        set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_RED_PB);
-        sfx_id = SFX_XMULT;
-    }
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_MONEY)
-    {
-        g_game_vars.money += joker_effect->money;
-        char score_buffer[INT_MAX_DIGITS + 2];
-        snprintf(score_buffer, sizeof(score_buffer), "%d$", joker_effect->money);
-        set_and_shift_text(score_buffer, &cursorPosX, &cursorPosY, TTE_YELLOW_PB);
-        // TODO: sfx_id = SFX_COIN3_ACCUM;
-    }
-    // custom message for Jokers (including retriggers where Jokers will say "Again!")
-    // joker_effect->message will have been set if the Joker had anything custom to say
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_MESSAGE)
-    {
-        set_and_shift_text(joker_effect->message, &cursorPosX, &cursorPosY, TTE_WHITE_PB);
-    }
-    // this will start the Joker expire animation
-    if (effect_flags_ret & JOKER_EFFECT_FLAG_EXPIRE && joker_effect->expire)
-    {
-        joker_object_shake(joker_object, UNDEFINED);
-        list_push_back(get_expired_jokers_list(), joker_object);
-    }
-
-    // Update displays
-    display_chips();
-    display_mult();
-    display_money();
-
-    joker_object_shake(joker_object, sfx_id);
-
-    return true;
-}
-
-Sprite* joker_object_get_sprite(JokerObject* joker_object)
-{
-    if (joker_object == NULL)
-        return NULL;
-    return sprite_object_get_sprite((SpriteObject*)joker_object);
-}
-
-int joker_get_random_rarity()
-{
-    int joker_rarity = 0;
-    int rarity_roll = rng_get_u32() % 100;
+    enum JokerRarity joker_rarity = 0;
+    int rarity_roll = rng_get_u32(key) % 100;
     if (rarity_roll < COMMON_JOKER_CHANCE)
     {
         joker_rarity = COMMON_JOKER;
@@ -558,6 +473,13 @@ int joker_get_random_rarity()
     }
 
     return joker_rarity;
+}
+
+Sprite* joker_object_get_sprite(JokerObject* joker_object)
+{
+    if (joker_object == NULL)
+        return NULL;
+    return sprite_object_get_sprite((SpriteObject*)joker_object);
 }
 
 static int s_get_num_spritesheets()

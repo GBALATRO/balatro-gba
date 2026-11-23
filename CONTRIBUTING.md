@@ -2,6 +2,15 @@
 
 Thank you for reading this. Below is a quick summary of expectations and tips to contribute.
 
+## Making Contributions
+First check the repo's [open issues](https://github.com/GBALATRO/balatro-gba/issues) to see if there is anything you want to take, the ["good first issue" label](https://github.com/GBALATRO/balatro-gba/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22) can be a good place to start but feel free to check others too.
+
+If an issue is assigned to someone it usually means it's already being worked on and it's probably best to avoid working on it but feel free to join the issue discussion if there's anything you have to add.
+
+If you see an unassigned issue you want to work on, add a comment there saying you want to work on it and we will assign it to you. It is recommended to discuss the planned implementation before opening a PR so it is approved before you fully commit to working on it.
+
+If there's something you want to add or fix and there's no open issue for it, open a new one, and as before, convey your intention to work on it and discuss the planned implementation.
+
 ## Scope
 We are limiting the scope of the project in order to not compete with the original Balatro and avoid a takedown by Playstack.
 We limited the scope to 52 jokers and reached that limit so currently there is no plan to add more jokers.
@@ -17,7 +26,7 @@ Backgrounds may use more colors but notice that their palette is encoded in thei
 On pull-requests, various checks will be performed:
 1. **Formatting**: `clang-format` will be ran on every `.c/.h` file with [this configuration](https://github.com/GBALATRO/balatro-gba/blob/main/.clang-format). Failures will cause the CI to fail.
 2. **Unit Tests**: Unit tests are required to pass and are located in the repo [here](https://github.com/GBALATRO/balatro-gba/tree/main/tests).
-3. **Rom Build**: The ROM must successfully build with the `make -j$(nproc)` command.
+3. **Rom Build**: The ROM must successfully build with the `make -j$(nproc)` command as well as with logging enabled with the `MGBA_LOGGING=1 make -j\$(nproc)` command.
 
 ## Code Style
 Besides the automatic formatting checks from `clang-format`, there is a looser set of code style rules. These are not strictly required, but is encouraged to be followed.  
@@ -139,12 +148,6 @@ In the repo we use custom scripts located in the [`scripts`](https://github.com/
 - **generate_font.py**: Generate a font manually.
 - **get_memory_map.sh**: Print the memory map of the pre-allocated pools.
 - **save_build.sh**: Save a timestamped copy of build outputs (`.elf`, `.gba`, `.map`).
-  # Minimal usage
-  ./scripts/save_build.sh build/balatro-gba.gba
-
-  # With optional build label
-  ./scripts/save_build.sh build/balatro-gba.gba my-feature
-  ```
 
 ## Debugging
 It's recommended to use [mGBA](https://mgba.io/) for ROM testing and debugging. As it provides a [`gdbserver`](https://en.wikipedia.org/wiki/Gdbserver) via the `-g` flag `mgba -g build/balatro-gba.gba`. You can connect via `gdb` or here is a [great guide for vscode](https://felixjones.co.uk/mgba_gdb/vscode.html).

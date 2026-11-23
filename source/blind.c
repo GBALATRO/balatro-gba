@@ -7,23 +7,16 @@
 
 #include "blind_gfx.h"
 #include "game.h"
+#include "game/common_ui.h"
 #include "graphic_utils.h"
-#include "hand.h"
 #include "list.h"
 #include "random.h"
-#include "stdbool.h"
 #include "util.h"
 
 #include <stdlib.h>
 #include <tonc.h>
 
-#define NORMAL_BLIND_PB 2
-#define BOSS_BLIND_PB   3
-
-#define BLIND_BASE_LAYER (MAX_HAND_SIZE + MAX_SELECTION_SIZE)
-
-#define BLIND_SPRITE_OFFSET    16
-#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_OFFSET * TILE_SIZE)
+#define BLIND_SPRITE_COPY_SIZE (BLIND_SPRITE_TILES * TILE_SIZE)
 
 #define BLIND_TOKENS_PER_SPRITESHEET 2
 #define BLIND_TOKEN_PALETTE_SIZE     8
@@ -171,7 +164,7 @@ enum BlindType roll_blind_type(bool showdown)
     }
 
     // roll a random blind among the unbeaten ones
-    int random_blind_idx = rng_get_u32() % list_get_len(p_unbeaten_blinds);
+    int random_blind_idx = rng_get_u32(RNG_SEQ_BLIND) % list_get_len(p_unbeaten_blinds);
     Blind* random_blind = list_get_at_idx(p_unbeaten_blinds, random_blind_idx);
 
     return random_blind->type;
@@ -251,26 +244,13 @@ void apply_blind_colors(enum BlindType type)
     );
 }
 
-/**
- * @brief Get the starting tile index in tiles memory for the given BlindToken sprite layer
- *
- * @param layer of the BlindToken, as an offset relative to `BLIND_BASE_LAYER`
- *
- * @return the starting tile index of the BlindToken sprite at requested layer
- * @sa BLIND_BASE_LAYER
- */
-static u32 get_layer_tile_index(enum BlindTokenLayers layer)
-{
-    // All Blind sprites are stored sequentially and correspond to their IDs
-    return (BLIND_BASE_LAYER + layer) * BLIND_SPRITE_OFFSET;
-}
-
 void apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer)
 {
+    int tile_index = sprite_get_tid(BLIND_TOKEN_SPRITE, layer);
     u32 spritesheet_idx = get_blind_spritesheet_idx(type);
     u32 sprite_idx = (type < BLIND_TYPE_MARK) ? type % BLIND_TOKENS_PER_SPRITESHEET : 0;
     memcpy32(
-        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][get_layer_tile_index(layer)],
+        &tile_mem[TILE_MEM_OBJ_CHARBLOCK0_IDX][tile_index],
         &blind_gfxTiles[spritesheet_idx][sprite_idx * BLIND_SPRITE_COPY_SIZE],
         BLIND_SPRITE_COPY_SIZE
     );
@@ -285,11 +265,37 @@ Sprite* blind_token_new(enum BlindType type, int x, int y, enum BlindTokenLayers
     Sprite* sprite = sprite_new(
         ATTR0_SQUARE | ATTR0_4BPP,
         ATTR1_SIZE_32x32,
-        get_layer_tile_index(layer),
+        sprite_get_tid(BLIND_TOKEN_SPRITE, layer),
         get_blind_pb(type),
-        BLIND_BASE_LAYER + layer
+        sprite_get_starting_layer(BLIND_TOKEN_SPRITE) + layer
     );
     sprite_position(sprite, x, y);
 
     return sprite;
+}
+
+void increment_blind(enum BlindState increment_reason)
+{
+    switch (g_game_vars.current_blind)
+    {
+        // defeated small blind: go to big and raise the big blind's skip tag sprite by one tile
+        case BLIND_TYPE_SMALL:
+            g_game_vars.current_blind = BLIND_TYPE_BIG;
+            g_game_vars.blinds_states[SMALL_BLIND] = increment_reason;
+            g_game_vars.blinds_states[BIG_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated big blind: go to next boss
+        case BLIND_TYPE_BIG:
+            g_game_vars.current_blind = g_game_vars.next_boss_blind;
+            g_game_vars.blinds_states[BIG_BLIND] = increment_reason;
+            g_game_vars.blinds_states[BOSS_BLIND] = BLIND_STATE_CURRENT;
+            break;
+        // defeated a boss: reset everything
+        default:
+            g_game_vars.current_blind = BLIND_TYPE_SMALL;
+            g_game_vars.blinds_states[SMALL_BLIND] = BLIND_STATE_CURRENT;
+            g_game_vars.blinds_states[BIG_BLIND] = BLIND_STATE_UPCOMING;
+            g_game_vars.blinds_states[BOSS_BLIND] = BLIND_STATE_UPCOMING;
+            break;
+    }
 }
