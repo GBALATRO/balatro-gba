@@ -19,6 +19,7 @@
 #include "random.h"
 #include "save.h"
 #include "skip_tag.h"
+#include "soundbank.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
@@ -607,7 +608,6 @@ static void next_round_on_pressed(void)
 
 static void reroll_on_pressed(void)
 {
-    // TODO: Add money sound effect
     shop_reroll();
 }
 

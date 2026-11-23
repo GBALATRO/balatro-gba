@@ -2,10 +2,12 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"
 #include "skip_tag.h"
+#include "soundbank.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
@@ -460,7 +462,7 @@ static inline void round_end_cashout(void)
 {
     // Reward the player
     g_game_vars.money += s_cashout;
-    // TODO: play_sfx(SFX_COIN6_CASHOUT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
 
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
