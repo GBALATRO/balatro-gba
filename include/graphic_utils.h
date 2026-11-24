@@ -48,6 +48,12 @@
  */
 #define TILE_MEM_OBJ_CHARBLOCK0_IDX 4
 
+/**
+ * @def TILE_MEM_OBJ_NUM_TILES
+ * @brief The number of tiles in the object memory in tonc's tile_mem
+ */
+#define TILE_MEM_OBJ_NUM_TILES (2 * (sizeof(CHARBLOCK) / sizeof(TILE)))
+
 /** @} */
 
 /**
