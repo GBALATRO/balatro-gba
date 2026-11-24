@@ -8,6 +8,7 @@ var list_8c =
     [ "list_insert", "list_8c.html#a57bd51e137dc1dc484916af563605f62", null ],
     [ "list_is_empty", "list_8c.html#a1269841dad103a70c861ef88e1bbf9e0", null ],
     [ "list_itr_create", "list_8c.html#af580fe52b40b3ee763b5fc145b7890b0", null ],
+    [ "list_itr_get_reversed", "list_8c.html#ad1acdc93afdb637220356a13709e1441", null ],
     [ "list_itr_next", "list_8c.html#adaa09cca2b970d67f0cd14076e1db988", null ],
     [ "list_itr_remove_current_node", "list_8c.html#aadae204b696ed083c90efeb417d786f9", null ],
     [ "list_push_back", "list_8c.html#aeecf07ac54a546ae3dc7e9f4d2b0d098", null ],

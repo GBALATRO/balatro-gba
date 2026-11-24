@@ -179,6 +179,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a74047e9a2e7b4652b675fa8be6086b13" id="r_a74047e9a2e7b4652b675fa8be6086b13"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74047e9a2e7b4652b675fa8be6086b13">list_get_len</a> (const <a class="el" href="structList.html">List</a> *list)</td></tr>
 <tr class="memitem:af580fe52b40b3ee763b5fc145b7890b0" id="r_af580fe52b40b3ee763b5fc145b7890b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structListItr.html">ListItr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af580fe52b40b3ee763b5fc145b7890b0">list_itr_create</a> (<a class="el" href="structList.html">List</a> *list)</td></tr>
 <tr class="memitem:a9dd6c8825c0862926490ab49ec008a63" id="r_a9dd6c8825c0862926490ab49ec008a63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structListItr.html">ListItr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dd6c8825c0862926490ab49ec008a63">rev_list_itr_create</a> (<a class="el" href="structList.html">List</a> *list)</td></tr>
+<tr class="memitem:ad1acdc93afdb637220356a13709e1441" id="r_ad1acdc93afdb637220356a13709e1441"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structListItr.html">ListItr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1acdc93afdb637220356a13709e1441">list_itr_get_reversed</a> (const <a class="el" href="structListItr.html">ListItr</a> *list_itr)</td></tr>
+<tr class="memdesc:ad1acdc93afdb637220356a13709e1441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a copy of a <a class="el" href="structListItr.html">ListItr</a> with its direction reversed.  <br /></td></tr>
 <tr class="memitem:adaa09cca2b970d67f0cd14076e1db988" id="r_adaa09cca2b970d67f0cd14076e1db988"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adaa09cca2b970d67f0cd14076e1db988">list_itr_next</a> (<a class="el" href="structListItr.html">ListItr</a> *itr)</td></tr>
 <tr class="memitem:aadae204b696ed083c90efeb417d786f9" id="r_aadae204b696ed083c90efeb417d786f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aadae204b696ed083c90efeb417d786f9">list_itr_remove_current_node</a> (<a class="el" href="structListItr.html">ListItr</a> *itr)</td></tr>
 </table>
@@ -518,6 +520,34 @@ List Implementation</h1>
 
 </div>
 </div>
+<a id="ad1acdc93afdb637220356a13709e1441" name="ad1acdc93afdb637220356a13709e1441"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1acdc93afdb637220356a13709e1441">&#9670;&#160;</a></span>list_itr_get_reversed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structListItr.html">ListItr</a> list_itr_get_reversed </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structListItr.html">ListItr</a> *</td>          <td class="paramname"><span class="paramname"><em>list_itr</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a copy of a <a class="el" href="structListItr.html">ListItr</a> with its direction reversed. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">list_itr</td><td>pointer to a <a class="el" href="structListItr.html">ListItr</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="structListItr.html">ListItr</a> going the other way compared to <code class="param">list_itr</code> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00300">300</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+
+</div>
+</div>
 <a id="adaa09cca2b970d67f0cd14076e1db988" name="adaa09cca2b970d67f0cd14076e1db988"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adaa09cca2b970d67f0cd14076e1db988">&#9670;&#160;</a></span>list_itr_next()</h2>
 
@@ -541,7 +571,7 @@ List Implementation</h1>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the data pointer at the next <a class="el" href="structListNode.html">ListNode</a> if valid, otherwise return NULL. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00300">300</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00325">325</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -569,7 +599,7 @@ List Implementation</h1>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>When working with <a class="el" href="structListItr.html">ListItr</a>, use this and not list_remove_at() as it will "break" the iterator. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00326">326</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00351">351</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>
@@ -696,7 +726,7 @@ List Implementation</h1>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> if successfully removed, <span class="tt">false</span> otherwise</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>When working with <a class="el" href="structListItr.html">ListItr</a>, use <a class="el" href="#aadae204b696ed083c90efeb417d786f9">list_itr_remove_current_node()</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00335">335</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="list_8c_source.html#l00360">360</a> of file <a class="el" href="list_8c_source.html">list.c</a>.</p>
 
 </div>
 </div>

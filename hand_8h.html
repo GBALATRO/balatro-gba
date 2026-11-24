@@ -213,8 +213,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae964ed1f7566571c174a23be50819080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deselect all cards in hand.  <br /></td></tr>
 <tr class="memitem:a62aab8570b58813e94d12b33124ccf6c" id="r_a62aab8570b58813e94d12b33124ccf6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62aab8570b58813e94d12b33124ccf6c">swap_cards_in_hand</a> (int idx_a, int idx_b)</td></tr>
 <tr class="memdesc:a62aab8570b58813e94d12b33124ccf6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swaps the order of two cards in hand.  <br /></td></tr>
-<tr class="memitem:acb2998d3f72cd139e7dbc9a2a0437c28" id="r_acb2998d3f72cd139e7dbc9a2a0437c28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb2998d3f72cd139e7dbc9a2a0437c28">reorder_card_sprites_layers</a> (void)</td></tr>
-<tr class="memdesc:acb2998d3f72cd139e7dbc9a2a0437c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the sprites of the Cards held in hand and recreate then in the same order as the Cards in the hand array. This allows Cards to render properly when help in hand during the round or a Tarot/Spectral booster pack.  <br /></td></tr>
+<tr class="memitem:a4c1e8f3688dc9a38316941008fce9001" id="r_a4c1e8f3688dc9a38316941008fce9001"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c1e8f3688dc9a38316941008fce9001">shift_null_card_to_end</a> (int null_card_idx)</td></tr>
+<tr class="memdesc:a4c1e8f3688dc9a38316941008fce9001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shift the given NULL card in the <a class="el" href="structHand.html">Hand</a> array towards the end until there are no more non-NULL cards after it.  <br /></td></tr>
+<tr class="memitem:a0dede85cec00a4873ad9c689abbf80ba" id="r_a0dede85cec00a4873ad9c689abbf80ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dede85cec00a4873ad9c689abbf80ba">shift_all_null_cards_to_end</a> (void)</td></tr>
+<tr class="memdesc:a0dede85cec00a4873ad9c689abbf80ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move all NULL Cards to the end of the <a class="el" href="structHand.html">Hand</a> array if they're not already. Gets rid of any gaps within the <a class="el" href="structHand.html">Hand</a> array, as all non-NULL Cards need to be contiguous.  <br /></td></tr>
 <tr class="memitem:ae939d94185e29e1bbf44072c5d37c273" id="r_ae939d94185e29e1bbf44072c5d37c273"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae939d94185e29e1bbf44072c5d37c273">sort_cards</a> (void)</td></tr>
 <tr class="memdesc:ae939d94185e29e1bbf44072c5d37c273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the hand array according to the selected method to do that.  <br /></td></tr>
 <tr class="memitem:a2e66e88d21fed9071b1c725d987e28ab" id="r_a2e66e88d21fed9071b1c725d987e28ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2e66e88d21fed9071b1c725d987e28ab">find_flush_in_played_cards</a> (<a class="el" href="structCardObject.html">CardObject</a> **played, int top, int min_len, bool *out_selection)</td></tr>
@@ -326,7 +328,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of cards in the best flush found, or 0 if no flush meets min_len. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00542">542</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00537">537</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -373,7 +375,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of cards in the best straight found, or 0 if no straight meets min_len. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00585">585</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00580">580</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -556,7 +558,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00292">292</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00287">287</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -577,7 +579,7 @@ Functions</h2></td></tr>
 
 <p>Deselect all cards in hand. </p>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00322">322</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00317">317</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -649,7 +651,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00301">301</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00296">296</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -678,27 +680,6 @@ Functions</h2></td></tr>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#aac8c352a03a71c29be4634442721a502" title="Get the current number of selected Cards.">hand_get_nb_selected_cards</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00129">129</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
-
-</div>
-</div>
-<a id="acb2998d3f72cd139e7dbc9a2a0437c28" name="acb2998d3f72cd139e7dbc9a2a0437c28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb2998d3f72cd139e7dbc9a2a0437c28">&#9670;&#160;</a></span>reorder_card_sprites_layers()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void reorder_card_sprites_layers </td>
-          <td>(</td>
-          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Destroy the sprites of the Cards held in hand and recreate then in the same order as the Cards in the hand array. This allows Cards to render properly when help in hand during the round or a Tarot/Spectral booster pack. </p>
-
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00248">248</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -736,7 +717,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00729">729</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00724">724</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -790,6 +771,55 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0dede85cec00a4873ad9c689abbf80ba" name="a0dede85cec00a4873ad9c689abbf80ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dede85cec00a4873ad9c689abbf80ba">&#9670;&#160;</a></span>shift_all_null_cards_to_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void shift_all_null_cards_to_end </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Move all NULL Cards to the end of the <a class="el" href="structHand.html">Hand</a> array if they're not already. Gets rid of any gaps within the <a class="el" href="structHand.html">Hand</a> array, as all non-NULL Cards need to be contiguous. </p>
+
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00257">257</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+
+</div>
+</div>
+<a id="a4c1e8f3688dc9a38316941008fce9001" name="a4c1e8f3688dc9a38316941008fce9001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1e8f3688dc9a38316941008fce9001">&#9670;&#160;</a></span>shift_null_card_to_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool shift_null_card_to_end </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>null_card_idx</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shift the given NULL card in the <a class="el" href="structHand.html">Hand</a> array towards the end until there are no more non-NULL cards after it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">null_card_idx</td><td>The index of the NULL card to move in the <a class="el" href="structHand.html">Hand</a> array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the card was actually moved, false if there was nothing to do </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00221">221</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+
+</div>
+</div>
 <a id="ae939d94185e29e1bbf44072c5d37c273" name="ae939d94185e29e1bbf44072c5d37c273"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae939d94185e29e1bbf44072c5d37c273">&#9670;&#160;</a></span>sort_cards()</h2>
 
@@ -808,7 +838,7 @@ Functions</h2></td></tr>
 <p>Sort the hand array according to the selected method to do that. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ae31189b3cd0a76afd9fea79b94ea017f" title="Switch to the given sort method. Can sort playing cards in two ways: by rank and suit....">hand_change_sort</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00278">278</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00273">273</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>
@@ -832,6 +862,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Swaps the order of two cards in hand. </p>
+<p>By using the indices here to swap the underlying <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> data directly, we do not need to dereference the Cards' SpriteObjects, and thus don't need them to have actual valid Sprites.</p>
+<p>The indices themselves are assumed to be valid (a.k.a. within the bounds of the <a class="el" href="structHand.html">Hand</a> array) and are not checked for the sake of performance.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">idx_a</td><td>index of the first card </td></tr>
@@ -840,7 +872,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00178">178</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="hand_8c_source.html#l00176">176</a> of file <a class="el" href="hand_8c_source.html">hand.c</a>.</p>
 
 </div>
 </div>

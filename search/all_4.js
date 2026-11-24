@@ -19,7 +19,7 @@ var searchData=
   ['affinebackgroundid_16',['AffineBackgroundID',['../affine__background_8h.html#a7be0cf280b30b6df358b84c785a35e64',1,'affine_background.h']]],
   ['and_20won_20t_20compile_17',['1. When I run &lt;span class=&quot;tt&quot;&gt;make&lt;/span&gt; it errors out and won&apos;t compile!',['../index.html#autotoc_md27',1,'']]],
   ['apply_5fblind_5fcolors_18',['apply_blind_colors',['../blind_8h.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c'],['../blind_8c.html#a33aca14af98233e87839aec461812517',1,'apply_blind_colors(enum BlindType type):&#160;blind.c']]],
-  ['apply_5fblind_5ftiles_19',['apply_blind_tiles',['../blind_8h.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c'],['../blind_8c.html#a186aee3247d5b47aaa84b4f6ee3a5947',1,'apply_blind_tiles(enum BlindType type, enum BlindTokenLayers layer):&#160;blind.c']]],
+  ['apply_5fblind_5ftiles_19',['apply_blind_tiles',['../blind_8h.html#aa5f8c65cb39db0e3b3896f8c63fa6931',1,'apply_blind_tiles(enum BlindType type, int tile_index):&#160;blind.c'],['../blind_8c.html#aa5f8c65cb39db0e3b3896f8c63fa6931',1,'apply_blind_tiles(enum BlindType type, int tile_index):&#160;blind.c']]],
   ['art_20',['Art',['../index.html#autotoc_md3',1,'']]],
   ['audio_5fparam_5fupdate_21',['audio_param_update',['../audio__utils_8c.html#af8f10383ee9bbeff6ed044e16c7374e9',1,'audio_utils.c']]],
   ['audio_5futils_2ec_22',['audio_utils.c',['../audio__utils_8c.html',1,'']]],

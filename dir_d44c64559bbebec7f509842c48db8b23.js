@@ -12,6 +12,7 @@ var dir_d44c64559bbebec7f509842c48db8b23 =
     [ "def_balatro_mempool.h", "def__balatro__mempool_8h_source.html", null ],
     [ "def_blind_gfx_table.h", "def__blind__gfx__table_8h_source.html", null ],
     [ "def_joker_gfx_table.h", "def__joker__gfx__table_8h_source.html", null ],
+    [ "def_sprite_type_table.h", "def__sprite__type__table_8h_source.html", null ],
     [ "def_state_info_table.h", "def__state__info__table_8h_source.html", null ],
     [ "font.h", "font_8h.html", "font_8h" ],
     [ "game.h", "game_8h_source.html", null ],

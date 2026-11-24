@@ -135,8 +135,10 @@ $(function(){initNavTree('blind_8c.html','',''); });
 <code>#include &quot;<a class="el" href="common__ui_8h_source.html">game/common_ui.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="graphic__utils_8h_source.html">graphic_utils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="list_8h_source.html">list.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mgba__logger_8h_source.html">mgba_logger.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="random_8h_source.html">random.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="util_8h_source.html">util.h</a>&quot;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;tonc.h&gt;</code><br />
 <code>#include &quot;../include/def_blind_gfx_table.h&quot;</code><br />
@@ -168,16 +170,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:aedfd9b6abb09b4255160fe02ae1d018b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize Boss and Showdown Blinds lists to roll from.  <br /></td></tr>
 <tr class="memitem:a2826e7fd956be78ad09013ef623c91e3" id="r_a2826e7fd956be78ad09013ef623c91e3"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2826e7fd956be78ad09013ef623c91e3">roll_blind_type</a> (bool showdown)</td></tr>
 <tr class="memdesc:a2826e7fd956be78ad09013ef623c91e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choose a random <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> among the ones that haven't been beaten yet.  <br /></td></tr>
-<tr class="memitem:ad5c80cb82487220cada4920ecf037f9e" id="r_ad5c80cb82487220cada4920ecf037f9e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad5c80cb82487220cada4920ecf037f9e">set_blind_beaten</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type)</td></tr>
-<tr class="memdesc:ad5c80cb82487220cada4920ecf037f9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> from the corresponding <a class="el" href="structList.html" title="A doubly-linked list.">List</a> so that we don't roll it again in the future.  <br /></td></tr>
+<tr class="memitem:adeb6675c73d7d53b3da46369a40301e1" id="r_adeb6675c73d7d53b3da46369a40301e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeb6675c73d7d53b3da46369a40301e1">set_blind_beaten</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, bool is_beaten)</td></tr>
+<tr class="memdesc:adeb6675c73d7d53b3da46369a40301e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove or add the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> from the corresponding <a class="el" href="structList.html" title="A doubly-linked list.">List</a> so that we can or cannot it again in the future.  <br /></td></tr>
 <tr class="memitem:abc6c48dcc46095b19b4087ed3beabb58" id="r_abc6c48dcc46095b19b4087ed3beabb58"><td class="memItemLeft" align="right" valign="top">static u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc6c48dcc46095b19b4087ed3beabb58">get_blind_pb</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type)</td></tr>
 <tr class="memitem:ab95c42201d3184123c8c0af1ee907bc1" id="r_ab95c42201d3184123c8c0af1ee907bc1"><td class="memItemLeft" align="right" valign="top">static u32&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab95c42201d3184123c8c0af1ee907bc1">get_blind_spritesheet_idx</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type)</td></tr>
 <tr class="memitem:a6d39b4ae4ca73f51bb2d3bc4b7687473" id="r_a6d39b4ae4ca73f51bb2d3bc4b7687473"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d39b4ae4ca73f51bb2d3bc4b7687473">blind_get_color</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, enum <a class="el" href="blind_8h.html#ab459b45520cab1b163439acc78635be8">BlindColorIndex</a> index)</td></tr>
 <tr class="memdesc:a6d39b4ae4ca73f51bb2d3bc4b7687473"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the color associated with a given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a>.  <br /></td></tr>
 <tr class="memitem:a33aca14af98233e87839aec461812517" id="r_a33aca14af98233e87839aec461812517"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33aca14af98233e87839aec461812517">apply_blind_colors</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type)</td></tr>
 <tr class="memdesc:a33aca14af98233e87839aec461812517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the palette associated with the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> and copy it in the right spot in the palette memory.  <br /></td></tr>
-<tr class="memitem:a186aee3247d5b47aaa84b4f6ee3a5947" id="r_a186aee3247d5b47aaa84b4f6ee3a5947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a186aee3247d5b47aaa84b4f6ee3a5947">apply_blind_tiles</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a> layer)</td></tr>
-<tr class="memdesc:a186aee3247d5b47aaa84b4f6ee3a5947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the tiles of the BlindToken <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> at a given layer to that of the given <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a>.  <br /></td></tr>
+<tr class="memitem:aa5f8c65cb39db0e3b3896f8c63fa6931" id="r_aa5f8c65cb39db0e3b3896f8c63fa6931"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa5f8c65cb39db0e3b3896f8c63fa6931">apply_blind_tiles</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, int tile_index)</td></tr>
+<tr class="memdesc:aa5f8c65cb39db0e3b3896f8c63fa6931"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the tiles of the BlindToken <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> to that of the given <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a>.  <br /></td></tr>
 <tr class="memitem:a5518e6cabc5bcfd4e0ac280abd9f199c" id="r_a5518e6cabc5bcfd4e0ac280abd9f199c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSprite.html">Sprite</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5518e6cabc5bcfd4e0ac280abd9f199c">blind_token_new</a> (enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a> type, int x, int y, enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a> layer)</td></tr>
 <tr class="memdesc:a5518e6cabc5bcfd4e0ac280abd9f199c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new BlindToken sprite.  <br /></td></tr>
 <tr class="memitem:aeca11c400d4afb3dd75216f77904ca2b" id="r_aeca11c400d4afb3dd75216f77904ca2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeca11c400d4afb3dd75216f77904ca2b">increment_blind</a> (enum <a class="el" href="blind_8h.html#a59b2b8e485d0ea561120ae8c6010de1d">BlindState</a> increment_reason)</td></tr>
@@ -210,7 +212,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00025">25</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00027">27</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -226,7 +228,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00019">19</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00021">21</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -242,7 +244,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00022">22</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00024">24</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -258,7 +260,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00021">21</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00023">23</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -274,7 +276,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00026">26</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00028">28</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -326,7 +328,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00027">27</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00029">29</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -342,7 +344,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00024">24</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00026">26</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -370,12 +372,12 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00225">225</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00239">239</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
-<a id="a186aee3247d5b47aaa84b4f6ee3a5947" name="a186aee3247d5b47aaa84b4f6ee3a5947"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a186aee3247d5b47aaa84b4f6ee3a5947">&#9670;&#160;</a></span>apply_blind_tiles()</h2>
+<a id="aa5f8c65cb39db0e3b3896f8c63fa6931" name="aa5f8c65cb39db0e3b3896f8c63fa6931"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5f8c65cb39db0e3b3896f8c63fa6931">&#9670;&#160;</a></span>apply_blind_tiles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -388,22 +390,21 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum <a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408">BlindTokenLayers</a></td>          <td class="paramname"><span class="paramname"><em>layer</em></span>&#160;)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>tile_index</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Change the tiles of the BlindToken <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> at a given layer to that of the given <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a>. </p>
+<p>Change the tiles of the BlindToken <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> to that of the given <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>of the <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> we want to apply the tiles of. </td></tr>
-    <tr><td class="paramname">layer</td><td>the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> will be located at.</td></tr>
+    <tr><td class="paramname">tile_index</td><td>the index in memory the Token's tiles are stored at </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00247">247</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00261">261</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -436,7 +437,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the BGR555 value of the requested color </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00211">211</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00225">225</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -469,7 +470,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the required score to beat the requested blind </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00099">99</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00101">101</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -497,7 +498,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>3 for the Small <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a>, 4 for the Big one, 5 for Bosses and 8 for Showdowns </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00108">108</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00110">110</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -516,7 +517,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00090">90</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00092">92</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -561,7 +562,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="blind_8h.html#a72f525224754ea5b65ce95410fa44408" title="Sprite IDs of the various Blind Tokens used in the game, expressed as an offset relative to the start...">BlindTokenLayers</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00261">261</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00274">274</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -588,7 +589,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00198">198</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00212">212</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -615,7 +616,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00203">203</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00217">217</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -642,7 +643,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00277">277</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00298">298</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -680,7 +681,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00133">133</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00135">135</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -701,7 +702,7 @@ Variables</h2></td></tr>
 
 <p>Initialize Boss and Showdown Blinds lists to roll from. </p>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00149">149</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00151">151</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -729,12 +730,12 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a> value chosen at random </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00155">155</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00157">157</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
-<a id="ad5c80cb82487220cada4920ecf037f9e" name="ad5c80cb82487220cada4920ecf037f9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5c80cb82487220cada4920ecf037f9e">&#9670;&#160;</a></span>set_blind_beaten()</h2>
+<a id="adeb6675c73d7d53b3da46369a40301e1" name="adeb6675c73d7d53b3da46369a40301e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeb6675c73d7d53b3da46369a40301e1">&#9670;&#160;</a></span>set_blind_beaten()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -742,21 +743,26 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void set_blind_beaten </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td class="paramtype">enum <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a">BlindType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_beaten</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Remove the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> from the corresponding <a class="el" href="structList.html" title="A doubly-linked list.">List</a> so that we don't roll it again in the future. </p>
+<p>Remove or add the given <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> from the corresponding <a class="el" href="structList.html" title="A doubly-linked list.">List</a> so that we can or cannot it again in the future. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td>the <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a> of the Boss/Showdown <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> we've just beaten. </td></tr>
+    <tr><td class="paramname">is_beaten</td><td>whether the <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> has to be set to beaten or not </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00173">173</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00175">175</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -781,7 +787,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00048">48</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00050">50</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -827,7 +833,7 @@ Variables</h2></td></tr>
 <div class="line"> </div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00035">35</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00037">37</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -873,7 +879,7 @@ Variables</h2></td></tr>
 <div class="line"> </div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00029">29</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00031">31</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -899,7 +905,7 @@ Variables</h2></td></tr>
 
 <p>Stores an instance of the <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> struct for each <a class="el" href="blind_8h.html#a360ce6465b5b6a404884c21d37759d4a" title="All Blind types in the game are listed here.">BlindType</a> value, ordered in the same way. Acts the same way the <a class="el" href="structJoker.html">Joker</a> registry does, and may need to go in its own file depending on how <a class="el" href="structBlind.html" title="Data structure containing data about a BlindType.">Blind</a> effects are implemented. </p>
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00056">56</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00058">58</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -923,7 +929,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00042">42</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00044">44</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>
@@ -947,7 +953,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00043">43</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="blind_8c_source.html#l00045">45</a> of file <a class="el" href="blind_8c_source.html">blind.c</a>.</p>
 
 </div>
 </div>

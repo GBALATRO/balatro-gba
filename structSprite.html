@@ -144,11 +144,15 @@ Data Fields</h2></td></tr>
 <tr class="memdesc:a321db6c1f5b889c202df5a3e312022f0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> index in memory managed by GBAlatro.  <br /></td></tr>
 <tr class="memitem:a956e7bd37e48f4198fbb8cc60d1a5a13" id="r_a956e7bd37e48f4198fbb8cc60d1a5a13"><td class="memItemLeft" align="right" valign="top">u16&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a956e7bd37e48f4198fbb8cc60d1a5a13">mode</a></td></tr>
 <tr class="memdesc:a956e7bd37e48f4198fbb8cc60d1a5a13"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mode of the sprite (regular, affine, etc.), set when the sprite is created corresponds to A0 &amp; ATTR0_MODE_MASK.  <br /></td></tr>
+<tr class="memitem:a1ef2c7d5cb76e0ae57e0d4f4da25dba3" id="r_a1ef2c7d5cb76e0ae57e0d4f4da25dba3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ef2c7d5cb76e0ae57e0d4f4da25dba3">tid_slot</a></td></tr>
+<tr class="memdesc:a1ef2c7d5cb76e0ae57e0d4f4da25dba3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index of the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>'s tile data in memory, relative to the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> type's starting tid.  <br /></td></tr>
+<tr class="memitem:a512f6f4e61eb39be0deccb3bb841048c" id="r_a512f6f4e61eb39be0deccb3bb841048c"><td class="memItemLeft" align="right" valign="top">enum <a class="el" href="sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31a">SpriteType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a512f6f4e61eb39be0deccb3bb841048c">type</a></td></tr>
+<tr class="memdesc:a512f6f4e61eb39be0deccb3bb841048c"><td class="mdescLeft">&#160;</td><td class="mdescRight">type of the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>, used to free the tid when destroyed  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> struct for GBA hardware specifics. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00053">53</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00064">64</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Field Documentation</h2>
 <a id="a2cb045818544027034fbf51906cbe47e" name="a2cb045818544027034fbf51906cbe47e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cb045818544027034fbf51906cbe47e">&#9670;&#160;</a></span>aff</h2>
@@ -164,7 +168,7 @@ Data Fields</h2></td></tr>
 
 <p>GBA sprite affine matrices registers info. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00063">63</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00074">74</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -182,7 +186,7 @@ Data Fields</h2></td></tr>
 
 <p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> index in memory managed by GBAlatro. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00073">73</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00084">84</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -200,7 +204,7 @@ Data Fields</h2></td></tr>
 
 <p>The mode of the sprite (regular, affine, etc.), set when the sprite is created corresponds to A0 &amp; ATTR0_MODE_MASK. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00079">79</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00090">90</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -218,7 +222,7 @@ Data Fields</h2></td></tr>
 
 <p>GBA sprite attribute registers info (A0-A2). </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00058">58</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00069">69</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
@@ -236,7 +240,43 @@ Data Fields</h2></td></tr>
 
 <p><a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> position on screen in pixels. </p>
 
-<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00068">68</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00079">79</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+
+</div>
+</div>
+<a id="a1ef2c7d5cb76e0ae57e0d4f4da25dba3" name="a1ef2c7d5cb76e0ae57e0d4f4da25dba3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef2c7d5cb76e0ae57e0d4f4da25dba3">&#9670;&#160;</a></span>tid_slot</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int tid_slot</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Index of the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>'s tile data in memory, relative to the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a> type's starting tid. </p>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00095">95</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
+
+</div>
+</div>
+<a id="a512f6f4e61eb39be0deccb3bb841048c" name="a512f6f4e61eb39be0deccb3bb841048c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a512f6f4e61eb39be0deccb3bb841048c">&#9670;&#160;</a></span>type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="sprite_8h.html#ac6fa10729dffeb6a192492f13c25e31a">SpriteType</a> type</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>type of the <a class="el" href="structSprite.html" title="Sprite struct for GBA hardware specifics.">Sprite</a>, used to free the tid when destroyed </p>
+
+<p class="definition">Definition at line <a class="el" href="sprite_8h_source.html#l00100">100</a> of file <a class="el" href="sprite_8h_source.html">sprite.h</a>.</p>
 
 </div>
 </div>
