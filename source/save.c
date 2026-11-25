@@ -116,7 +116,7 @@ static const SaveOptions SaveOptions_default = {
 /**
  * @brief Default value for the SaveGame struct, with tags already set.
  */
-static const SaveGame SaveGame_default = {
+EWRAM_DATA static const SaveGame SaveGame_default = {
     .tag_internal = "-INTERNAL DATA -",
 
     .game_state = GAME_STATE_BLIND_SELECT,
@@ -451,6 +451,8 @@ void load_game(SaveGame* game_data)
 
     // Jokers
 
+    remove_all_owned_jokers();
+
     int i = 0;
     for (; i < game_data->nb_jokers; i++)
     {
@@ -468,6 +470,8 @@ void load_game(SaveGame* game_data)
 
     // Skip Tags
 
+    remove_all_skip_tags();
+
     i = 0;
     for (; i < NB_SKIPPABLE_BLINDS; i++)
         set_blind_skip_tag(i, game_data->blind_skip_tags[i]);
@@ -483,9 +487,16 @@ void load_game(SaveGame* game_data)
 
     // Deck
 
+    // Get rid of any existing Cards in the Deck
+    while (deck_get_size() > 0)
+    {
+        Card* card = deck_pop();
+        card_destroy(&card);
+    }
+
     for (int i = 0; i < game_data->nb_playing_cards; i++)
     {
-        Card saved_card = game_data->playing_cards[i];
+        CardSaveData saved_card = game_data->playing_cards[i];
         Card* card = card_new(saved_card.suit, saved_card.rank);
         deck_push(card);
     }

@@ -74,6 +74,7 @@ bool joker_object_can_acquire(Item* item);
 bool card_is_face(Card* card);
 void add_joker(JokerObject* joker_object);
 void remove_owned_joker(int owned_joker_idx);
+void remove_all_owned_jokers(void);
 List* get_jokers_list(void);
 SpriteContainer* get_jokers_sprite_container(void);
 List* get_expired_jokers_list(void);

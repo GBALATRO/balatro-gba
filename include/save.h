@@ -37,9 +37,13 @@
 #define SAVE_LABEL_SIZE 16
 
 /**
- * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a Joker.
- *         The `id` is a u8 in the base Joker struct, but I made it a u32 here to keep
- *         a better aligment when looking at the save file in a hex viewer.
+ * @brief JokerObjectSaveData will hold the minimal amount of data necessary to reconstruct a
+ *        @ref Joker.
+ *
+ * The `id` is a u8 in the base Joker struct, but I made it a u32 here to keep
+ * a better aligment when looking at the save file in a hex viewer.
+ *
+ * @sa Joker
  */
 typedef struct JokerObjectSaveData
 {
@@ -47,9 +51,26 @@ typedef struct JokerObjectSaveData
     u32 persistent_state;
 } JokerObjectSaveData;
 
+/**
+ * @brief CardSaveData will hold the minimal amount of data necessary to reconstruct a @ref Card.
+ *
+ * It's the exact same struct as the Card struct, but I can't just create new Cards willy nilly
+ * since their number is limited by the memory pool.
+ *
+ * @sa Card
+ */
+typedef struct CardSaveData
+{
+    u8 suit;
+    u8 rank;
+} CardSaveData;
+
 // clang-format off
 /**
  * @brief SaveGame will contain the data about the current run to be saved to SRAM.
+ *
+ * @note Due to the sheer size of this struct, it is recommended that any static instance be kept
+ * in the EWRAM to avoid running out of memory and getting random crashes.
  *
  * GameVariables was used for this purpose at first, but some data needed to be shared but not
  * saved, so it couldn't be dumped "as is" anymore and this struct had to be created.
@@ -80,7 +101,7 @@ typedef struct JokerObjectSaveData
  * 'N'    | 'E'    | 'D'    | ' '    | -            | -
  * 'J'    | 'O'    | 'K'    | 'E'    | -            | -
  * 'R'    | 'S'    | ' '    | '-'    | -            | -
- * ID[0]  | ID[1]  | ID[2]  | ID[3]  | JOKER DATA 0 | Minimal necessary data to reconstruct a JokerObject
+ * ID[0]  | ID[1]  | ID[2]  | ID[3]  | JOKER DATA 0 | Minimal necessary data to reconstruct a Joker
  * STT[0] | STT[1] | STT[2] | STT[3] | -            | Contains the Joker's `id` and `persistent_state`
  * ...    | ...    | ...    | ...    | ...          | ...
  * ...    | ...    | ...    | ...    | ...          | ...
@@ -115,7 +136,7 @@ typedef struct SaveGame
 
     char tag_cards[SAVE_LABEL_SIZE];
     int nb_playing_cards;
-    Card playing_cards[MAX_DECK_SIZE];
+    CardSaveData playing_cards[MAX_DECK_SIZE];
 
     s32 padding1[1];
 

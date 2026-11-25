@@ -211,12 +211,7 @@ void game_init()
 
 void game_reset(void)
 {
-    while (list_get_len(&s_owned_jokers_container.contents_list) > 0)
-    {
-        JokerObject* joker_object = list_get_at_idx(&s_owned_jokers_container.contents_list, 0);
-        remove_owned_joker(0);
-        joker_object_destroy(&joker_object);
-    }
+    remove_all_owned_jokers();
 
     // Destroy any preexisting cards in the deck, which would be present if we restart a run
     Card* card = NULL;
@@ -432,6 +427,16 @@ void remove_owned_joker(int owned_joker_idx)
     // TODO: Move to site of joker_destroy()?
     joker_set_rollable(joker_object->joker->id, true);
     container_remove_at_idx(&s_owned_jokers_container, owned_joker_idx);
+}
+
+void remove_all_owned_jokers(void)
+{
+    while (list_get_len(&s_owned_jokers_container.contents_list) > 0)
+    {
+        JokerObject* joker_object = list_get_at_idx(&s_owned_jokers_container.contents_list, 0);
+        remove_owned_joker(0);
+        joker_object_destroy(&joker_object);
+    }
 }
 
 int get_deck_top(void)

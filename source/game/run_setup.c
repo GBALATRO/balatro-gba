@@ -618,7 +618,7 @@ static SelectionGrid resume_selection_grid = {
 static Button resume_button =
     {PLAY_BTN_OUTLINE_COLOR_PAL_IDX, BLUE_BTN_MAIN_COLOR_PAL_IDX, resume_on_pressed, NULL};
 
-SaveGame s_save_game = {};
+EWRAM_DATA SaveGame s_save_game = {};
 
 #pragma endregion
 
@@ -635,7 +635,7 @@ void run_setup_change_background(void)
     GRIT_CPY(&se_mem[MAIN_BG_SBB], background_run_setup_gfxMap);
 
     // Use grayed-out Resume Tab button if there is no save file
-    if (!is_game_data_valid())
+    if (!s_is_saved_game_valid)
     {
         main_bg_se_copy_rect(
             RUN_SETUP_RESUME_TAB_DISABLED_SRC,
@@ -646,11 +646,11 @@ void run_setup_change_background(void)
 
 void run_setup_on_init(void)
 {
-    state_machine_register(&run_setup_sm);
-    run_setup_change_background();
-
     s_is_saved_game_valid = is_game_data_valid();
     s_coming_from_seed_menu = false;
+
+    state_machine_register(&run_setup_sm);
+    run_setup_change_background();
 
     // Apply the current s_use_seed value if seed is UNDEFINED
     if (g_game_vars.rng_info.seed == UNDEFINED)
