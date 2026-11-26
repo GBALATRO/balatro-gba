@@ -587,7 +587,6 @@ static bool round_hand_row_on_selection_changed(
         {
             swap_cards_in_hand(prev_card_idx, next_card_idx);
             s_moving_card = true;
-            reorder_card_sprites_layers();
 
             /* Not calling sprite_object_set_focus() because focus is handled by
              * cards_in_hand_update_loop() based on the selection grid value...
@@ -760,7 +759,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
 
                 // Remove discarded card from hand and shift the ones after it
                 card_object_destroy(&hand[card_idx]);
-                reorder_card_sprites_layers();
+                shift_null_card_to_end(card_idx);
                 set_hand_top(get_hand_top() - 1);
 
                 s_cards_discarded++;
@@ -768,7 +767,7 @@ static inline void card_in_hand_loop_handle_discard_and_shuffling(
                 g_game_vars.timer = TM_ZERO;
 
                 // Protect against an edge case where `card_idx == hand_top` before discarding. In
-                // that case, calling `reorder_card_sprites_layers` cannot shift the discarded card,
+                // that case, calling `shift_all_null_cards_to_end` cannot shift the discarded card,
                 // and we end up with an element at `card_idx` that is still NULL.
                 if (hand[card_idx] != NULL)
                 {
@@ -1120,6 +1119,8 @@ static inline void card_draw(void)
     set_hand_top(get_hand_top() + 1);
     get_hand_array()[get_hand_top()] = card_object;
 
+    card_object_set_sprite(card_object, get_hand_top());
+
     // Sort the hand after drawing a card
     sort_cards();
 
@@ -1218,7 +1219,7 @@ static inline void round_discarded_cards_loop(void)
         {
             if (g_game_vars.current_blind > BLIND_TYPE_BIG)
             {
-                set_blind_beaten(g_game_vars.next_boss_blind);
+                set_blind_beaten(g_game_vars.next_boss_blind, true);
                 g_game_vars.ante++;
                 display_ante();
             }
@@ -1351,7 +1352,7 @@ static inline void cards_in_hand_update_loop(void)
                         played_push(hand[i]);
                         sprite_destroy(&hand[i]->sprite);
                         hand[i] = NULL;
-                        reorder_card_sprites_layers();
+                        shift_all_null_cards_to_end();
 
                         play_sfx(
                             SFX_CARD_DRAW,
