@@ -90,8 +90,6 @@ static inline void sell_joker(int joker_idx)
 
     sprite_object_list_sort_layers(owned_jokers_list, false);
 
-    // TODO: Move to item_sell()?
-    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     remove_owned_joker(joker_idx);
 }
 
