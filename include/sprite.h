@@ -343,6 +343,24 @@ void sprite_object_hide(SpriteObject* sprite_object);
 void sprite_object_unhide(SpriteObject* sprite_object);
 
 /**
+ * @brief Hides all SpriteObjects within a given List
+ *
+ * @param sprite_object_list The SpriteObject to hide
+ *
+ * @sa sprite_object_hide
+ */
+void sprite_object_hide_all_in_list(List* sprite_object_list);
+
+/**
+ * @brief Unhides all SpriteObjects within a given List
+ *
+ * @param sprite_object_list The SpriteObject to unhide
+ *
+ * @sa sprite_object_unhide
+ */
+void sprite_object_unhide_all_in_list(List* sprite_object_list);
+
+/**
  * @brief Reset SpriteObject's transform back to default values.
  *
  * @param sprite_object pointer to SpriteObject to reset transform.
