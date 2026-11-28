@@ -1,9 +1,11 @@
 #include "game/joker_row.h"
 
+#include "audio_utils.h"
 #include "game.h"
 #include "joker.h"
 #include "list.h"
 #include "mgba_logger.h"
+#include "soundbank.h"
 #include "sprite.h"
 
 int jokers_sel_row_get_size(void)

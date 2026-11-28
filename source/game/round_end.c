@@ -2,10 +2,12 @@
 
 #include "affine_background.h"
 #include "affine_background_gfx.h"
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "layout.h"
 #include "skip_tag.h"
+#include "soundbank.h"
 #include "state_machine.h"
 #include "timer.h"
 #include "util.h"
@@ -295,6 +297,13 @@ static void round_end_update_blind_reward(void)
             TTE_YELLOW_PB,
             blind_get_reward(g_game_vars.current_blind) - s_blind_reward
         );
+        /* TODO: SFX_COIN3_ACCUM
+        play_sfx(
+            SFX_COIN3_ACCUM,
+            MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
+            SFX_DEFAULT_VOLUME
+        );
+        */
     }
     else if (g_game_vars.timer > FRAMES(20))
     {
@@ -402,6 +411,13 @@ static inline void round_end_print_current_reward(void)
             reward_y * TILE_SIZE,
             TTE_YELLOW_PB,
             accumulated_reward * s_reward_data[s_current_reward].multiplier
+            /* TODO: coin3 sound effect
+            play_sfx(
+                SFX_COIN3_ACCUM,
+                MM_BASE_PITCH_RATE + rand() % REWARD_INCR_PITCH_RANGE - REWARD_INCR_PITCH_RANGE / 2,
+                SFX_DEFAULT_VOLUME
+            );
+            */
         );
 
         if (s_reward_data[s_current_reward].remaining <= 0)
@@ -446,6 +462,7 @@ static inline void round_end_cashout(void)
 {
     // Reward the player
     g_game_vars.money += s_cashout;
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     display_money();
 
     g_game_vars.hands = MAX_HANDS;       // Reset the hands to the maximum
@@ -474,6 +491,7 @@ static void round_end_display_cashout()
             omit_space ? "" : " ",
             s_cashout
         );
+        // TODO: play_sfx(SFX_COIN6_CASHOUT, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     }
 
     // Wait until the player presses A to cash out

@@ -1,9 +1,11 @@
 #include "item.h"
 
+#include "audio_utils.h"
 #include "game.h"
 #include "game_variables.h"
 #include "item_funcs.h"
 #include "mgba_logger.h"
+#include "soundbank.h"
 #include "util.h"
 
 #include <tonc.h>
@@ -196,6 +198,7 @@ void item_sell(Item* item)
 
     g_game_vars.money += sell_price;
     display_money();
+    play_sfx(SFX_COIN1_MONEY_CHNG, MM_BASE_PITCH_RATE, SFX_DEFAULT_VOLUME);
     sprite_object_erase_text_under((SpriteObject*)item);
     item_start_discard_animation(item);
 }
