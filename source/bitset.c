@@ -4,12 +4,16 @@
 
 void bitset_set_idx(Bitset* bitset, int idx, bool on)
 {
+    GBAL_RETURN_IF_NULL(bitset, RET_NONE);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx < bitset->cap && idx >= 0, RET_NONE);
+    printf("test: %lu, %d, %d, %d\n", (unsigned long)bitset, bitset->cap, idx, on);
+
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
 
     // Below are the "fast" forms of the above operations, respectively.
     // These are more efficient, but removed for readability
-    // See: https://github.com/cellos51/balatro-gba/pull/132#discussion_r2365966071
+    // See: https://github.com/GBALATRO/balatro-gba/pull/132#discussion_r2365966071
     // Divide by 32 to get the word index
     // uint32_t i = idx >> 5;
     // Get last 5-bits, same as a modulo (% 32) operation on positive numbers
@@ -26,6 +30,8 @@ void bitset_set_idx(Bitset* bitset, int idx, bool on)
 
 int bitset_set_next_free_idx(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, UNDEFINED);
+
     for (uint32_t i = 0; i < bitset->nwords; i++)
     {
         uint32_t inv = ~bitset->w[i];
@@ -42,9 +48,16 @@ int bitset_set_next_free_idx(Bitset* bitset)
         if (inv)
         {
             int bit = __builtin_ctz(inv);
-            bitset->w[i] |= ((uint32_t)1 << bit);
             int idx = i * BITSET_BITS_PER_WORD + bit;
-            return (idx < bitset->cap) ? idx : UNDEFINED;
+            if (idx < bitset->cap)
+            {
+                bitset->w[i] |= ((uint32_t)1 << bit);
+                return idx;
+            }
+            else
+            {
+                return UNDEFINED;
+            };
         }
     }
 
@@ -53,6 +66,8 @@ int bitset_set_next_free_idx(Bitset* bitset)
 
 void bitset_clear(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, RET_NONE);
+
     for (int i = 0; i < bitset->nwords; i++)
     {
         bitset->w[i] = 0;
@@ -61,6 +76,8 @@ void bitset_clear(Bitset* bitset)
 
 bool bitset_is_empty(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, false);
+
     for (int i = 0; i < bitset->nwords; i++)
     {
         if (bitset->w[i])
@@ -71,6 +88,9 @@ bool bitset_is_empty(Bitset* bitset)
 
 bool bitset_get_idx(Bitset* bitset, int idx)
 {
+    GBAL_RETURN_IF_NULL(bitset, false);
+    GBAL_RETURN_IF_ASSERT_FAILS(idx < bitset->cap && idx >= 0, false);
+
     uint32_t i = idx / BITSET_BITS_PER_WORD;
     uint32_t b = idx % BITSET_BITS_PER_WORD;
 
@@ -79,6 +99,8 @@ bool bitset_get_idx(Bitset* bitset, int idx)
 
 int bitset_num_set_bits(Bitset* bitset)
 {
+    GBAL_RETURN_IF_NULL(bitset, UNDEFINED);
+
     int sum = 0;
 
     for (int i = 0; i < bitset->nwords; i++)
@@ -87,42 +109,6 @@ int bitset_num_set_bits(Bitset* bitset)
     }
 
     return sum;
-}
-
-int bitset_find_idx_of_nth_set(const Bitset* bitset, int n)
-{
-    int tracker = 0;
-    int prev_tracker = 0;
-
-    for (int i = 0; i < bitset->nwords; i++)
-    {
-        tracker += __builtin_popcount(bitset->w[i]);
-
-        if (tracker > n)
-        {
-            // The index is here somewhere
-            // this one is to count the 1's not the offset, underflow to -1 is good for finding the
-            // 0 index
-            int base = prev_tracker - 1;
-            // this one is for the actual offset we want to map the id to
-            int offset = bitset->nbits * i;
-            for (int j = 0; j < bitset->nbits; j++)
-            {
-                if (base == n)
-                {
-                    return offset - 1;
-                }
-                base += (bitset->w[i] >> j) & 0x01;
-                offset++;
-            }
-
-            break;
-        }
-
-        prev_tracker = tracker;
-    }
-
-    return UNDEFINED;
 }
 
 BitsetItr bitset_itr_create(const Bitset* bitset)
@@ -139,6 +125,8 @@ BitsetItr bitset_itr_create(const Bitset* bitset)
 
 int bitset_itr_next(BitsetItr* itr)
 {
+    GBAL_RETURN_IF_NULL(itr, UNDEFINED);
+    GBAL_RETURN_IF_NULL(itr->bitset, UNDEFINED);
     // So, worst case scenario for this is one bit at the end of the last
     // word in the bitset. You would look (32 * 7) + 31 times!
     // This can be sped up with by checking if the word is empty first.
